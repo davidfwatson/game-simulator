@@ -191,8 +191,8 @@ class BaseballSimulator:
         print(f"\n{winner} win!")
 
 if __name__ == "__main__":
-    home_team_key = "SF_SEALS"
-    away_team_key = "OAK_OAKS"
+    home_team_key = "BAY_BOMBERS"
+    away_team_key = "PC_PILOTS"
     game = BaseballSimulator(TEAMS[home_team_key], TEAMS[away_team_key])
     game.play_game()
 
