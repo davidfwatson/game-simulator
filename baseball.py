@@ -90,15 +90,14 @@ class BaseballSimulator:
         
         return runs_scored
 
-    def _print_bases(self):
+    def _get_bases_str(self):
         """
-        Prints a visual representation of the runners on base.
+        Returns a string representation of the runners on base.
         """
-        base_str = "Bases: [{}]-[{}]-[{}]"
-        first = "1B" if self.bases[0] else " "
-        second = "2B" if self.bases[1] else " "
-        third = "3B" if self.bases[2] else " "
-        print(base_str.format(first, second, third))
+        first = "1B" if self.bases[0] else "_"
+        second = "2B" if self.bases[1] else "_"
+        third = "3B" if self.bases[2] else "_"
+        return f"[{first}]-[{second}]-[{third}]"
 
 
     def _simulate_half_inning(self):
@@ -115,25 +114,25 @@ class BaseballSimulator:
         print("-" * 30)
 
         while self.outs < 3:
-            time.sleep(0.5) # Pause for readability
             outcome = self._get_at_bat_outcome()
             
-            print(f"At bat... {outcome}!")
-
             if outcome in ["Strikeout", "Groundout", "Flyout"]:
                 self.outs += 1
             else:
                 runs = self._advance_runners(outcome)
                 if runs > 0:
-                    print(f"*** {runs} run(s) score! ***")
                     if self.top_of_inning:
                         self.team2_score += runs
                     else:
                         self.team1_score += runs
             
-            print(f"Outs: {self.outs}")
-            self._print_bases()
-            print(f"Score: {self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}\n")
+            bases_str = self._get_bases_str()
+            score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
+            outcome_str = f"{outcome}!".ljust(12)
+            
+            print(f"{outcome_str} | Outs: {self.outs} | Bases: {bases_str} | Score: {score_str}")
+        
+        print() # Add a newline after the half-inning for readability.
 
     def play_game(self):
         """
@@ -168,3 +167,4 @@ if __name__ == "__main__":
     # You can customize team names here
     game = BaseballSimulator(team1_name="Giants", team2_name="Dodgers")
     game.play_game()
+
