@@ -1,17 +1,22 @@
 import random
-import time
+from teams import TEAMS
 
 class BaseballSimulator:
     """
-    A CLI tool to simulate a realistic baseball game.
+    A CLI tool to simulate a realistic baseball game using player data.
     """
 
-    def __init__(self, team1_name="Home", team2_name="Away"):
+    def __init__(self, team1_data, team2_data):
         """
-        Initializes the game simulator with team names and game state.
+        Initializes the game simulator with team data and game state.
         """
-        self.team1_name = team1_name
-        self.team2_name = team2_name
+        self.team1_name = team1_data["name"]
+        self.team2_name = team2_data["name"]
+        self.team1_roster = team1_data["players"]
+        self.team2_roster = team2_data["players"]
+        self.team1_batter_idx = 0
+        self.team2_batter_idx = 0
+        
         self.team1_score = 0
         self.team2_score = 0
         self.inning = 1
@@ -19,24 +24,12 @@ class BaseballSimulator:
         self.outs = 0
         self.bases = [0, 0, 0]  # Represents first, second, third base
 
-        # Realistic probabilities for at-bat outcomes
-        self.outcomes = {
-            "Single": 0.150,
-            "Double": 0.050,
-            "Triple": 0.005,
-            "Home Run": 0.030,
-            "Walk": 0.080,
-            "Strikeout": 0.220,
-            "Groundout": 0.250,
-            "Flyout": 0.215,
-        }
-
-    def _get_at_bat_outcome(self):
+    def _get_at_bat_outcome(self, batter_stats):
         """
-        Determines the outcome of a single at-bat based on weighted probabilities.
+        Determines the outcome of a single at-bat based on the batter's stats.
         """
-        outcomes = list(self.outcomes.keys())
-        probabilities = list(self.outcomes.values())
+        outcomes = list(batter_stats.keys())
+        probabilities = list(batter_stats.values())
         return random.choices(outcomes, weights=probabilities, k=1)[0]
 
     def _advance_runners(self, hit_type):
@@ -46,7 +39,6 @@ class BaseballSimulator:
         runs_scored = 0
 
         if hit_type == "Single":
-            # Simple advancement: each runner moves up one base.
             if self.bases[2] == 1:
                 runs_scored += 1
                 self.bases[2] = 0
@@ -78,10 +70,8 @@ class BaseballSimulator:
             self.bases = [0, 0, 0]
 
         elif hit_type == "Walk":
-            # If bases are loaded, a walk scores a run.
             if self.bases == [1, 1, 1]:
                 runs_scored += 1
-            # Otherwise, advance runners only if forced.
             elif self.bases[0] == 1 and self.bases[1] == 1:
                 self.bases[2] = 1
             elif self.bases[0] == 1:
@@ -99,22 +89,26 @@ class BaseballSimulator:
         third = "3B" if self.bases[2] else "_"
         return f"[{first}]-[{second}]-[{third}]"
 
-
     def _simulate_half_inning(self):
         """
         Simulates one half of an inning.
         """
         self.outs = 0
         self.bases = [0, 0, 0]
-        current_team = self.team2_name if self.top_of_inning else self.team1_name
+        current_team_name = self.team2_name if self.top_of_inning else self.team1_name
         
-        print("-" * 30)
+        print("-" * 70)
         inning_half = "Top" if self.top_of_inning else "Bottom"
-        print(f"{inning_half} of Inning {self.inning} | {current_team} batting")
-        print("-" * 30)
+        print(f"{inning_half} of Inning {self.inning} | {current_team_name} batting")
+        print("-" * 70)
 
         while self.outs < 3:
-            outcome = self._get_at_bat_outcome()
+            if self.top_of_inning:
+                batter = self.team2_roster[self.team2_batter_idx]
+            else:
+                batter = self.team1_roster[self.team1_batter_idx]
+
+            outcome = self._get_at_bat_outcome(batter['stats'])
             
             if outcome in ["Strikeout", "Groundout", "Flyout"]:
                 self.outs += 1
@@ -126,24 +120,28 @@ class BaseballSimulator:
                     else:
                         self.team1_score += runs
             
-            bases_str = self._get_bases_str()
             score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
+            batter_str = f"At Bat: {batter['name']} ({batter['position']})".ljust(30)
             outcome_str = f"{outcome}!".ljust(12)
             
-            print(f"{outcome_str} | Outs: {self.outs} | Bases: {bases_str} | Score: {score_str}")
+            print(f"{batter_str} | {outcome_str} | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}")
+
+            if self.top_of_inning:
+                self.team2_batter_idx = (self.team2_batter_idx + 1) % 9
+            else:
+                self.team1_batter_idx = (self.team1_batter_idx + 1) % 9
         
-        print() # Add a newline after the half-inning for readability.
+        print()
 
     def play_game(self):
         """
         Simulates a full 9-inning (or more) baseball game.
         """
-        print("="*10, "PLAY BALL!", "="*10)
+        print("="*15, "PLAY BALL!", "="*15)
         while self.inning <= 9 or self.team1_score == self.team2_score:
             self.top_of_inning = True
             self._simulate_half_inning()
 
-            # The game can end after the top of the 9th if the home team is winning
             if self.inning >= 9 and self.team1_score > self.team2_score:
                 break
                 
@@ -152,7 +150,7 @@ class BaseballSimulator:
             
             self.inning += 1
 
-        print("="*10, "GAME OVER", "="*10)
+        print("="*15, "GAME OVER", "="*15)
         print("\nFinal Score:")
         print(f"{self.team1_name}: {self.team1_score}")
         print(f"{self.team2_name}: {self.team2_score}")
@@ -162,9 +160,14 @@ class BaseballSimulator:
         else:
             print(f"\n{self.team2_name} wins!")
 
-
 if __name__ == "__main__":
-    # You can customize team names here
-    game = BaseballSimulator(team1_name="Giants", team2_name="Dodgers")
+    # You can choose different teams by changing these keys
+    home_team_key = "SF_SEALS"
+    away_team_key = "OAK_OAKS"
+    
+    game = BaseballSimulator(
+        team1_data=TEAMS[home_team_key], 
+        team2_data=TEAMS[away_team_key]
+    )
     game.play_game()
 
