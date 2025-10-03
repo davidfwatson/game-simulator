@@ -1,0 +1,1 @@
+In this project, we'll attempt to simulate various real-world games in ways that are statistically plausible.
