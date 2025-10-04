@@ -545,10 +545,10 @@ class BaseballSimulator:
             # --- Result Formatting and Printing ---
             if self.commentary_style == 'statcast':
                 pitch_info = description
-                if pitch_info and outcome != 'Home Run':
+                if pitch_info:
                     in_play_result = "out(s)"
                     if was_error: in_play_result = "no out (error)"
-                    elif outcome in ["Single", "Double", "Triple"]: in_play_result = "run(s)" if runs > 0 else "no out"
+                    elif outcome in ["Single", "Double", "Triple", "Home Run"]: in_play_result = "run(s)" if runs > 0 else "no out"
                     print(f"  In play, {in_play_result}.")
 
                 result_line = display_outcome
