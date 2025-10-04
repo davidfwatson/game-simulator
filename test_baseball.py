@@ -80,7 +80,7 @@ class TestBaseballRealism(unittest.TestCase):
 
             log = output.getvalue()
 
-            if "Walk" in log: events["Walk"] += 1
+            if "a walk" in log: events["Walk"] += 1
             if "Error" in log: events["Error"] += 1
             if "Double Play" in log: events["Double Play"] += 1
 

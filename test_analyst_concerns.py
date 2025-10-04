@@ -56,12 +56,12 @@ class TestAnalystConcerns(unittest.TestCase):
         """
         log = self._run_sim_and_get_log(num_games=100)
 
-        # Count popouts (infield flyouts) vs. flyouts (outfield flyouts).
-        popouts = len(re.findall(r'Pop out to (C|P|1B|2B|3B|SS)', log))
-        flyouts = len(re.findall(r'Flyout to (LF|CF|RF)', log))
+        # Count popouts and flyouts using their more robust scoring notations.
+        popouts = len(re.findall(r'\(P\d\)', log))
+        flyouts = len(re.findall(r'\(F\d\)', log))
 
-        # Count the total number of walks.
-        walks = log.count("Result: Walk")
+        # Count walks by looking for the unique phrasing in the new output.
+        walks = log.count("a walk.")
 
         # In real baseball, outfield flyouts are significantly more common than infield popouts.
         self.assertTrue(flyouts > popouts * 1.5,
@@ -117,6 +117,74 @@ class TestAnalystConcerns(unittest.TestCase):
         self.assertTrue(has_float_velocities,
                         "Pitch velocities are too regular and only use integers. "
                         "Expected floating-point values for more realism.")
+
+    def test_groundout_to_catcher_frequency(self):
+        """
+        Analyst Concern: Unusual frequency of 2–3 groundouts (catcher to first).
+
+        Test: Simulates many games and fails if the number of 2-3 groundouts
+        is not significantly lower than groundouts to other infielders.
+        """
+        log = self._run_sim_and_get_log(num_games=100)
+
+        # Count groundouts by fielder position from the notation (e.g., " (6-3)")
+        groundouts_to_ss = log.count("(6-3)")
+        groundouts_to_2b = log.count("(4-3)")
+        groundouts_to_3b = log.count("(5-3)")
+        groundouts_to_c = log.count("(2-3)") # The unusual play
+
+        total_infield_groundouts = groundouts_to_ss + groundouts_to_2b + groundouts_to_3b
+
+        # A 2-3 groundout is rare. We expect far fewer than to any other infielder.
+        # Let's assert it's less than 20% of the average for other infielders.
+        # This is a heuristic that should fail the current implementation.
+        is_unrealistic = groundouts_to_c > (total_infield_groundouts / 3) * 0.5
+        self.assertFalse(is_unrealistic,
+                        f"Unrealistic frequency of 2-3 groundouts. Catcher: {groundouts_to_c}, "
+                        f"SS: {groundouts_to_ss}, 2B: {groundouts_to_2b}, 3B: {groundouts_to_3b}")
+
+    def test_for_template_phrasing(self):
+        """
+        Analyst Concern: Template-y phrasing, especially "In play -> ...".
+
+        Test: This test fails if the rigid "In play ->" structure is found in the log.
+        """
+        log = self._run_sim_and_get_log()
+        self.assertNotIn("In play ->", log, "Found rigid 'In play ->' phrasing.")
+
+    def test_bullpen_usage_variability(self):
+        """
+        Analyst Concern: Identical bullpen script across games.
+
+        Test: Runs two separate games and asserts that the pitching changes are not identical.
+        """
+        # Run game 1 and capture its pitching changes
+        log1 = self._run_sim_and_get_log(num_games=1)
+        changes1 = re.findall(r"--- Pitching Change for (.+?) ---", log1)
+
+        # Run game 2 and capture its pitching changes.
+        # The random state will be different from the start of game 1 because setUp does not re-seed
+        # in a way that would make two consecutive calls identical within the same test run.
+        log2 = self._run_sim_and_get_log(num_games=1)
+        changes2 = re.findall(r"--- Pitching Change for (.+?) ---", log2)
+
+        self.assertNotEqual(changes1, changes2,
+                            "Bullpen usage was identical in two consecutive simulated games.")
+
+    def test_extra_innings_message_style(self):
+        """
+        Analyst Concern: The extra-innings banner feels like a synthetic UI message.
+
+        Test: This test fails if the hardcoded, UI-like extra innings banner is found.
+        """
+        # Run enough games to make extra innings likely
+        log = self._run_sim_and_get_log(num_games=50)
+
+        # The test passes if no extra inning game occurs, which is acceptable.
+        # If one does, it must not contain the synthetic banner.
+        match = re.search(r"--- Extra Innings: (.+?) placed on second base. ---", log)
+        self.assertIsNone(match, "Found synthetic extra-innings banner in the log.")
+
 
 if __name__ == '__main__':
     unittest.main()

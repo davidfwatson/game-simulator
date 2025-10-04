@@ -133,16 +133,16 @@ class TestRealism(unittest.TestCase):
                 game.play_game()
             log = output.getvalue()
 
-            total_walks += log.count("Result: Walk")
-            total_hbps += log.count("Hit by Pitch")
+            total_walks += log.count("a walk.")
+            total_hbps += log.count("hit by pitch")
             total_dps += log.count("Double Play")
             total_triples += log.count("Result: Triple")
             groundout_2_3_count += len(re.findall(r'Groundout to Catcher \(2-3\)', log))
-            unassisted_3u_count += len(re.findall(r'Groundout to 1B \(3U\)', log))
+            unassisted_3u_count += log.count("(3U)")
 
             # Differentiate flyouts (outfield) from popouts (infield)
-            flyouts += len(re.findall(r'Flyout to (LF|CF|RF)', log))
-            popouts += len(re.findall(r'Pop out to (P|C|1B|2B|3B|SS)', log))
+            flyouts += len(re.findall(r'\(F\d\)', log))
+            popouts += len(re.findall(r'\(P\d\)', log))
 
         # Asserts are based on what would be expected over 100 games.
         # These will likely fail with the current simulation engine.

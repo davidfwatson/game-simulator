@@ -149,16 +149,17 @@ class BaseballSimulator:
                         strikes += 1
                         print(f"{pitch_desc} Foul. Count: {balls}-{strikes}")
                     else: # In Play
-                        hit_result = self._get_hit_outcome(batter['stats'])
-                        print(f"{pitch_desc} In play -> {hit_result}!")
-                        return hit_result
+                        print(f"{pitch_desc} Ball in play...")
+                        return self._get_hit_outcome(batter['stats'])
                 else: # Swing and miss
                     strikes += 1
-                    print(f"{pitch_desc} Swinging Strike{' (Whiff)' if strikes == 3 else ''}.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
+                    swing_miss_phrasing = random.choice(GAME_CONTEXT['play_by_play']['swing_and_miss'])
+                    print(f"{pitch_desc} {swing_miss_phrasing}{'!' if strikes == 3 else '.'}{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
             else: # Taken pitch
                 if is_strike_loc:
                     strikes += 1
-                    print(f"{pitch_desc} Called Strike.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
+                    called_strike_phrasing = random.choice(GAME_CONTEXT['play_by_play']['called_strike'])
+                    print(f"{pitch_desc} {called_strike_phrasing}.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
                 else:
                     # Check for Wild Pitch or Passed Ball on a ball that is not swung at, only if bases are occupied.
                     if any(self.bases):
@@ -180,8 +181,12 @@ class BaseballSimulator:
 
                     balls += 1
                     print(f"{pitch_desc} Ball.{' Count: ' + str(balls) + '-' + str(strikes) if balls < 4 else ''}")
-        
-        return "Walk" if balls == 4 else "Strikeout"
+
+        if balls == 4:
+            return "Walk"
+        else:
+            print(f"  ...{random.choice(GAME_CONTEXT['play_by_play']['out']['strikeout'])}")
+            return "Strikeout"
 
     def _advance_runners(self, hit_type, batter):
         runs = 0
@@ -243,9 +248,13 @@ class BaseballSimulator:
         current_pitcher = pitcher_stats[current_pitcher_name]
         fatigue_factor = max(0, self.pitch_counts[current_pitcher_name] - current_pitcher['stamina'])
 
-        if fatigue_factor > 0 and available_bullpen:
-            # Simplified reliever selection logic
-            next_pitcher_name = available_bullpen[0]
+        # The chance of being pulled increases with fatigue.
+        # A pitcher with a fatigue_factor of 10 has a 25% chance of being pulled.
+        pull_probability = (fatigue_factor / 20) ** 2
+
+        if random.random() < pull_probability and available_bullpen:
+            # Randomly select a reliever instead of the first one available.
+            next_pitcher_name = random.choice(available_bullpen)
 
             if is_home_team_pitching:
                 if self.team1_current_pitcher_name != next_pitcher_name:
@@ -269,7 +278,16 @@ class BaseballSimulator:
         is_error = False
         
         if out_type == 'Groundout':
-            fielder = random.choice(infielders + [pitcher, catcher])
+            # Weighted distribution for groundouts for realism.
+            # Catcher (2-3) and Pitcher (1-3) groundouts are now much rarer.
+            potential_fielders = infielders + [pitcher, catcher]
+            pos_weights = {'SS': 35, '2B': 30, '3B': 20, '1B': 10, 'P': 4, 'C': 1}
+            weights = [pos_weights.get(p['position'], 0) for p in potential_fielders]
+
+            if sum(weights) > 0:
+                fielder = random.choices(potential_fielders, weights=weights, k=1)[0]
+            else: # Fallback to original logic if weights are misconfigured
+                fielder = random.choice(infielders + [pitcher, catcher])
         elif out_type == 'Flyout':
             fielder = random.choices(
                 population=outfielders + infielders,
@@ -297,10 +315,10 @@ class BaseballSimulator:
             infield_positions = ['P', 'C', '1B', '2B', '3B', 'SS']
 
             if fielder_pos in infield_positions:
-                out_desc = "Pop out"
+                out_desc = random.choice(GAME_CONTEXT['play_by_play']['out']['popout']).format(fielder_pos=fielder_pos)
                 notation = f"P{pos_map[fielder_pos]}"
             else:
-                out_desc = "Flyout"
+                out_desc = random.choice(GAME_CONTEXT['play_by_play']['out']['flyout']).format(fielder_pos=fielder_pos)
                 notation = f"F{pos_map[fielder_pos]}"
 
             if self.outs < 3 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF']:
@@ -309,7 +327,7 @@ class BaseballSimulator:
                     print(f"  Sacrifice fly to {fielder_pos}, {self.bases[2]} scores!")
                     self.bases[2] = None
                     notation += " (SF)"
-            return f"{out_desc} to {fielder_pos} ({notation})", runs, False
+            return f"{out_desc} ({notation})", runs, False
 
         if out_type == 'Groundout':
             dp_opportunity = self.outs < 2 and self.bases[0] is not None
@@ -343,7 +361,9 @@ class BaseballSimulator:
                 notation = "3U"
             else:
                 notation = f"{pos_map[fielder['position']]}-3"
-            return f"Groundout to {fielder['position']} ({notation})", runs, False
+
+            out_desc = random.choice(GAME_CONTEXT['play_by_play']['out']['groundout']).format(fielder=fielder['position'])
+            return f"{out_desc} ({notation})", runs, False
 
         return "Error", 0, True # Should not be reached
 
@@ -353,16 +373,16 @@ class BaseballSimulator:
         is_home_team_batting = not self.top_of_inning
         batting_team_name, lineup, batter_idx_ref = (self.team1_name, self.team1_lineup, 'team1_batter_idx') if is_home_team_batting else (self.team2_name, self.team2_lineup, 'team2_batter_idx')
 
+        inning_half = "Bottom" if is_home_team_batting else "Top"
+        print("-" * 50)
+        print(f"{inning_half} of Inning {self.inning} | {batting_team_name} batting")
+
         if self.inning >= 10:
             last_batter_idx = (getattr(self, batter_idx_ref) - 1 + 9) % 9
             runner_name = lineup[last_batter_idx]['legal_name']
             self.bases[1] = runner_name
             if self.verbose_phrasing:
-                print(f"--- Extra Innings: {runner_name} placed on second base. ---")
-
-        inning_half = "Bottom" if is_home_team_batting else "Top"
-        print("-" * 50)
-        print(f"{inning_half} of Inning {self.inning} | {batting_team_name} batting")
+                print(f"  Note: Per extra-inning rules, {runner_name} begins the inning on second base.")
 
         while self.outs < 3:
             self._manage_pitching_change()
@@ -385,17 +405,29 @@ class BaseballSimulator:
                 runs += new_runs
                 if was_error:
                     runs += self._advance_runners("Single", batter)
-
             elif outcome == "Strikeout":
                 self.outs += 1
-            elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:
+                display_outcome = "Strikeout"
+            elif outcome in ["Single", "Double", "Triple", "Home Run"]:
+                display_outcome = random.choice(GAME_CONTEXT['play_by_play']['hit'][outcome])
                 runs += self._advance_runners(outcome, batter)
+            elif outcome == "Walk":
+                display_outcome = random.choice(GAME_CONTEXT['play_by_play']['misc']['walk'])
+                runs += self._advance_runners(outcome, batter)
+            elif outcome == "HBP":
+                display_outcome = random.choice(GAME_CONTEXT['play_by_play']['misc']['hbp'])
+                runs += self._advance_runners(outcome, batter)
+
 
             if is_home_team_batting: self.team1_score += runs
             else: self.team2_score += runs
             
             score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
-            print(f"Result: {display_outcome.ljust(12)} | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
+            print(f"  {display_outcome.ljust(12)}")
+            print(f"  Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
+
+            if random.random() < 0.15: # 15% chance of flavor text
+                print(random.choice(GAME_CONTEXT['play_by_play']['flavor']))
             
             setattr(self, batter_idx_ref, (batter_idx + 1) % 9)
             if self.outs >= 3: break

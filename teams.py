@@ -11,19 +11,74 @@ for a modern MLB-style simulation.
 
 GAME_CONTEXT = {
     "umpires": [
-        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman"
+        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
+        "Herb Washington", "Doug Harvey", "Nestor Chylak", "Al Barlick", "Bill Klem"
     ],
     "weather_conditions": [
-        "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R"
+        "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle",
+        "72°F, Partly Cloudy, Wind 10 mph L to R", "65°F, Calm", "88°F, Humid",
+        "78°F, Clear, Wind 5 mph out to CF", "92°F, Sweltering Sun", "60°F, Night, Clear"
     ],
     "pitch_locations": {
         "strike": [
             "paints the corner", "right down the middle", "catches the black",
-            "a perfect strike", "in the zone"
+            "a perfect strike", "in the zone", "buckles the batter's knees", "frozen with the pitch"
         ],
         "ball": [
             "just misses outside", "high and tight", "in the dirt", "way outside",
-            "low and away", "a bit inside"
+            "low and away", "a bit inside", "nearly took his head off", "the ump doesn't bite"
+        ]
+    },
+    "play_by_play": {
+        "swing_and_miss": [
+            "Swinging Strike", "Swing and a miss!", "He swung right through it", "Comes up empty"
+        ],
+        "called_strike": [
+            "Called Strike", "In there for a strike", "Caught him looking"
+        ],
+        "foul_ball": [
+            "Foul", "Fouled back", "Fouled straight back", "A piece of it, fouled away"
+        ],
+        "hit": {
+            "Single": [
+                "A sharp single into left field.", "A ground ball single up the middle.", "A bloop single drops in shallow right.", "Beats out an infield single."
+            ],
+            "Double": [
+                "A line drive double into the gap.", "A stand-up double down the line.", "One hops the wall for a double."
+            ],
+            "Triple": [
+                "A shot into the alley, and he's going for three!", "A long drive to center, it's a triple!", "He's racing around the bases for a triple!"
+            ],
+            "Home Run": [
+                "A towering home run to deep left!", "That ball is outta here! Home run!", "A solo shot to right field.", "Back, back, back... GONE! A home run!"
+            ]
+        },
+        "out": {
+            "strikeout": [
+                "and he's out on strikes!", "a swinging strikeout to end the at-bat.", "caught looking for strike three."
+            ],
+            "groundout": [
+                "Grounds out to {fielder}.", "Hit a weak grounder to {fielder}, thrown out at first.", "An easy ground ball to {fielder} for the out."
+            ],
+            "flyout": [
+                "A fly ball to {fielder_pos}, caught for the out.", "A lazy fly ball to {fielder_pos}.", "He got under it, a flyout to {fielder_pos}."
+            ],
+            "popout": [
+                "A pop fly to {fielder_pos}, who makes the catch for the out.", "Popped up to {fielder_pos}.", "An infield pop-up to {fielder_pos}."
+            ]
+        },
+        "misc": {
+            "walk": ["That's ball four, a walk.", "He loses him, it's a walk.", "The pitcher misses, and the batter draws a walk."],
+            "hbp": ["Oh, that one got him! That's a hit by pitch.", "He's hit by the pitch, and will take his base.", "The pitch sails inside and hits him. Ruled a hit by pitch."]
+        },
+        "flavor": [
+            "\nThe infield shifts to the right for this batter.",
+            "\nA murmur goes through the crowd.",
+            "\nThe pitcher checks the runner on first.",
+            "\nThe catcher gives the signs.",
+            "\nThe batter steps out, adjusts his gloves.",
+            "\nA visit to the mound to talk strategy.",
+            "\nThe batter takes a practice swing."
         ]
     }
 }
