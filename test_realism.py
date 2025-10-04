@@ -169,5 +169,33 @@ class TestRealism(unittest.TestCase):
         self.assertGreater(flyouts, 10, "Outfield fly balls are not being classified as 'Flyouts'.")
 
 
+    def test_no_wp_or_pb_with_bases_empty(self):
+        """
+        Test that a wild pitch or passed ball does not occur when the bases are empty.
+        This test runs the simulation multiple times to ensure the probabilistic check is robust.
+        """
+        for i in range(50):  # Run multiple games to increase the chance of encountering the event
+            random.seed(i)
+            output = io.StringIO()
+            with redirect_stdout(output):
+                game = BaseballSimulator(self.home_team, self.away_team)
+                game.play_game()
+            log = output.getvalue()
+
+            lines = log.split('\n')
+            last_bases_state = ""
+            for line in lines:
+                # Track the state of the bases from the end of each at-bat
+                if line.strip().startswith("Result:"):
+                    if "Bases: " in line:
+                        # Extract the base state string, e.g., "Bases empty" or "1B: Player"
+                        last_bases_state = line.split("Bases: ")[1].split(" | ")[0]
+
+                # If a WP or PB occurs, check the last known state of the bases
+                if "Wild Pitch!" in line or "Passed Ball!" in line:
+                    self.assertNotEqual(last_bases_state, "Bases empty",
+                                        f"Impossible event: A wild pitch or passed ball occurred with the bases empty.\nLog Line: {line}")
+
+
 if __name__ == '__main__':
     unittest.main()

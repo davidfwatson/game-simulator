@@ -141,22 +141,23 @@ class BaseballSimulator:
                     strikes += 1
                     print(f"{pitch_desc} Called Strike.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
                 else:
-                    # Check for Wild Pitch or Passed Ball on a ball that is not swung at.
-                    defensive_team = 'team1' if self.top_of_inning else 'team2'
-                    catcher = getattr(self, f"{defensive_team}_catcher")
-                    runs = 0
+                    # Check for Wild Pitch or Passed Ball on a ball that is not swung at, only if bases are occupied.
+                    if any(self.bases):
+                        defensive_team = 'team1' if self.top_of_inning else 'team2'
+                        catcher = getattr(self, f"{defensive_team}_catcher")
+                        runs = 0
 
-                    is_wp = random.random() < pitcher.get('wild_pitch_rate', 0)
-                    is_pb = not is_wp and random.random() < catcher.get('passed_ball_rate', 0)
+                        is_wp = random.random() < pitcher.get('wild_pitch_rate', 0)
+                        is_pb = not is_wp and random.random() < catcher.get('passed_ball_rate', 0)
 
-                    if is_wp:
-                        runs = self._advance_runners_on_wp_pb("Wild Pitch")
-                    elif is_pb:
-                        runs = self._advance_runners_on_wp_pb("Passed Ball")
+                        if is_wp:
+                            runs = self._advance_runners_on_wp_pb("Wild Pitch")
+                        elif is_pb:
+                            runs = self._advance_runners_on_wp_pb("Passed Ball")
 
-                    if runs > 0:
-                        if self.top_of_inning: self.team2_score += runs
-                        else: self.team1_score += runs
+                        if runs > 0:
+                            if self.top_of_inning: self.team2_score += runs
+                            else: self.team1_score += runs
 
                     balls += 1
                     print(f"{pitch_desc} Ball.{' Count: ' + str(balls) + '-' + str(strikes) if balls < 4 else ''}")
