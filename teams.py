@@ -11,7 +11,7 @@ for a modern MLB-style simulation.
 
 GAME_CONTEXT = {
     "umpires": [
-        "John Tumpane", "Angel Hernandez", "Pat Hoberg", "CB Bucknor", "Laz Diaz"
+        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman"
     ],
     "weather_conditions": [
         "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R"
