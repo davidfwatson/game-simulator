@@ -27,7 +27,7 @@ class ExampleGame:
     verbose_phrasing: bool = True
     use_bracketed_ui: bool = False
 
-    def render(self) -> str:
+    def render(self, commentary_style="narrative") -> str:
         """Render the play-by-play log for this example game."""
         random.seed(self.seed)
         simulator = BaseballSimulator(
@@ -35,6 +35,7 @@ class ExampleGame:
             copy.deepcopy(_BASE_TEAMS[self.away_team]),
             verbose_phrasing=self.verbose_phrasing,
             use_bracketed_ui=self.use_bracketed_ui,
+            commentary_style=commentary_style,
         )
         buffer = io.StringIO()
         with redirect_stdout(buffer):

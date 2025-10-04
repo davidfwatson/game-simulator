@@ -12,13 +12,14 @@ class BaseballSimulator:
     - Feature flag for verbose/terse play-by-play output.
     """
 
-    def __init__(self, team1_data, team2_data, verbose_phrasing=True, use_bracketed_ui=False):
+    def __init__(self, team1_data, team2_data, verbose_phrasing=True, use_bracketed_ui=False, commentary_style='narrative'):
         self.team1_data = team1_data
         self.team2_data = team2_data
         self.team1_name = self.team1_data["name"]
         self.team2_name = self.team2_data["name"]
         self.verbose_phrasing = verbose_phrasing
         self.use_bracketed_ui = use_bracketed_ui
+        self.commentary_style = commentary_style
 
         # Setup lineups and pitchers
         self.team1_lineup = [p for p in self.team1_data["players"] if p['position'] != 'P']
@@ -80,6 +81,9 @@ class BaseballSimulator:
         return random.choices(list(in_play.keys()), weights=list(in_play.values()), k=1)[0]
 
     def _describe_contact(self, outcome):
+        if self.commentary_style == 'statcast':
+            return f"Batted ball: {outcome}"
+
         contact_templates = {
             "Single": [
                 "shoots a single through the right side",
@@ -139,20 +143,21 @@ class BaseballSimulator:
         batter_display_name = self._get_player_display_name(batter)
         print(f"Now batting: {batter_display_name} ({batter['position']}, {batter['handedness']})")
 
-        if self.verbose_phrasing and random.random() < 0.03:
-            print("  Brief delay as the infield huddles on the mound.")
+        if self.commentary_style == 'narrative':
+            if self.verbose_phrasing and random.random() < 0.03:
+                print("  Brief delay as the infield huddles on the mound.")
 
-        if self.verbose_phrasing and self.bases[0] and random.random() < 0.05:
-            print(f"  Quick throw to first and {self.bases[0]} dives back safely.")
+            if self.verbose_phrasing and self.bases[0] and random.random() < 0.05:
+                print(f"  Quick throw to first and {self.bases[0]} dives back safely.")
 
-        if self.verbose_phrasing and random.random() < 0.04:
-            defensive_call = random.choice([
-                "Outfield shifts toward right-center.",
-                "Infield shades to pull on the left side.",
-                "Corners creep in expecting a bunt.",
-                "Middle infielders pinch the bag."
-            ])
-            print(f"  Defensive alignment: {defensive_call}")
+            if self.verbose_phrasing and random.random() < 0.04:
+                defensive_call = random.choice([
+                    "Outfield shifts toward right-center.",
+                    "Infield shades to pull on the left side.",
+                    "Corners creep in expecting a bunt.",
+                    "Middle infielders pinch the bag."
+                ])
+                print(f"  Defensive alignment: {defensive_call}")
 
         # Check for HBP at the start of the at-bat using batter-specific stats
         if random.random() < batter.get('stats', {}).get('HBP', 0):
@@ -188,7 +193,9 @@ class BaseballSimulator:
 
             is_strike_loc = random.random() < effective_control
             
-            if self.verbose_phrasing:
+            if self.commentary_style == 'statcast':
+                pitch_desc = f"  Pitch: {pitch_selection} ({pitch_velo} mph)."
+            elif self.verbose_phrasing:
                 if is_strike_loc:
                     location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike'])
                 else:
@@ -359,7 +366,8 @@ class BaseballSimulator:
         pos_map = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
         if is_error:
             notation = f"E{pos_map.get(fielder['position'], '')}"
-            print(f"  An error by {fielder['position']} {fielder['legal_name']} allows the batter to reach base.")
+            if self.commentary_style == 'narrative':
+                print(f"  An error by {fielder['position']} {fielder['legal_name']} allows the batter to reach base.")
             return f"Reached on Error ({notation})", 0, True
 
         runs = 0
@@ -379,7 +387,8 @@ class BaseballSimulator:
             if self.outs < 3 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF']:
                 if random.random() > 0.4:
                     runs += 1
-                    print(f"  Sacrifice fly to {fielder_pos}, {self.bases[2]} scores!")
+                    if self.commentary_style == 'narrative':
+                        print(f"  Sacrifice fly to {fielder_pos}, {self.bases[2]} scores!")
                     self.bases[2] = None
                     notation += " (SF)"
             return f"{out_desc} to {fielder_pos} ({notation})", runs, False
@@ -390,15 +399,19 @@ class BaseballSimulator:
 
             if dp_opportunity and random.random() < dp_rate:
                 self.outs += 2
+
                 if fielder['position'] == 'SS':
                     notation = "GDP (6-4-3)"
-                    print(f"  Ground ball to short... 6-4-3 double play!")
+                    play_desc = "Ground ball to short... 6-4-3 double play!"
                 elif fielder['position'] == '2B':
                     notation = "GDP (4-6-3)"
-                    print(f"  Ground ball to second... 4-6-3 double play!")
+                    play_desc = "Ground ball to second... 4-6-3 double play!"
                 else:
                     notation = f"GDP ({pos_map[fielder['position']]}-4-3)"
-                    print(f"  Ground ball to {fielder['position']}... double play!")
+                    play_desc = f"Ground ball to {fielder['position']}... double play!"
+
+                if self.commentary_style == 'narrative':
+                    print(f"  {play_desc}")
 
                 self.bases[0] = None
                 if self.bases[1]:
@@ -519,6 +532,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="A realistic baseball simulator.")
     parser.add_argument('--terse', action='store_true', help="Use terse, data-driven phrasing for play-by-play.")
     parser.add_argument('--bracketed-ui', action='store_true', help="Use the classic bracketed UI for base runners.")
+    parser.add_argument('--commentary', type=str, choices=['narrative', 'statcast'], default='narrative', help="Choose the commentary style: 'narrative' for descriptive play-by-play, 'statcast' for data-driven output.")
     args = parser.parse_args()
 
     home_team_key = "BAY_BOMBERS"
@@ -527,6 +541,7 @@ if __name__ == "__main__":
         TEAMS[home_team_key],
         TEAMS[away_team_key],
         verbose_phrasing=not args.terse,
-        use_bracketed_ui=args.bracketed_ui
+        use_bracketed_ui=args.bracketed_ui,
+        commentary_style=args.commentary
     )
     game.play_game()
