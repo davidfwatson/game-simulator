@@ -7,22 +7,23 @@ class BaseballSimulator:
     - DH rule is in effect.
     - Extra innings start with a "ghost runner" on second.
     - Realistic bullpen management with pitcher fatigue.
-    - Corrected play-by-play logging.
+    - Corrected play-by-play logging with more event variety.
     """
 
     def __init__(self, team1_data, team2_data):
-        self.team1_name = team1_data["name"]
-        self.team2_name = team2_data["name"]
+        self.team1_data = team1_data
+        self.team2_data = team2_data
+        self.team1_name = self.team1_data["name"]
+        self.team2_name = self.team2_data["name"]
         
-        self.team1_lineup = [p for p in team1_data["players"] if p['position'] != 'P']
-        self.team2_lineup = [p for p in team2_data["players"] if p['position'] != 'P']
+        self.team1_lineup = [p for p in self.team1_data["players"] if p['position'] != 'P']
+        self.team2_lineup = [p for p in self.team2_data["players"] if p['position'] != 'P']
         
-        # Setup pitching staffs
-        all_team1_pitchers = [p for p in team1_data["players"] if p['position'] == 'P']
+        all_team1_pitchers = [p for p in self.team1_data["players"] if p['position'] == 'P']
         self.team1_pitcher_stats = {p['name']: p.copy() for p in all_team1_pitchers}
         self.team1_available_bullpen = [p['name'] for p in all_team1_pitchers if p['type'] != 'Starter']
         
-        all_team2_pitchers = [p for p in team2_data["players"] if p['position'] == 'P']
+        all_team2_pitchers = [p for p in self.team2_data["players"] if p['position'] == 'P']
         self.team2_pitcher_stats = {p['name']: p.copy() for p in all_team2_pitchers}
         self.team2_available_bullpen = [p['name'] for p in all_team2_pitchers if p['type'] != 'Starter']
 
@@ -48,14 +49,23 @@ class BaseballSimulator:
 
         while balls < 4 and strikes < 3:
             self.pitch_counts[pitcher['name']] += 1
-            pitch_type = random.choices(list(pitcher['pitch_arsenal'].keys()), weights=list(pitcher['pitch_arsenal'].values()))[0]
             
-            is_strike_loc = random.random() < pitcher['control']
+            pitch_selection = random.choices(list(pitcher['pitch_arsenal'].keys()),
+                                             weights=[v['prob'] for v in pitcher['pitch_arsenal'].values()], k=1)[0]
+            pitch_details = pitcher['pitch_arsenal'][pitch_selection]
+            pitch_velo = pitch_details['velo']
+
+            # Final, more aggressive fatigue model
+            fatigue_factor = max(0, self.pitch_counts[pitcher['name']] - pitcher['stamina'])
+            fatigue_penalty = (fatigue_factor / 15) * 0.1 # Lose 10% control every 15 pitches over stamina
+            effective_control = pitcher['control'] - fatigue_penalty
+
+            is_strike_loc = random.random() < effective_control
             location = "in the zone" if is_strike_loc else random.choice(pitch_locations)
             
             swing = random.random() < (0.8 if is_strike_loc else 0.3)
             
-            pitch_desc = f"  Pitch: {pitch_type}, {location}."
+            pitch_desc = f"  Pitch: {pitch_selection} ({pitch_velo} mph), {location}."
 
             if swing:
                 if random.random() < 0.7: # Contact
@@ -68,7 +78,7 @@ class BaseballSimulator:
                         return hit_result
                 else: # Swing and miss
                     strikes += 1
-                    if strikes == 3: print(f"{pitch_desc} Swinging Strike.")
+                    if strikes == 3: print(f"{pitch_desc} Swinging Strike (Whiff).")
                     else: print(f"{pitch_desc} Swinging Strike. Count: {balls}-{strikes}")
             else: # Taken pitch
                 if is_strike_loc:
@@ -84,7 +94,6 @@ class BaseballSimulator:
 
     def _advance_runners(self, hit_type):
         runs = 0
-        # ... (This logic remains the same as before) ...
         if hit_type == "Single":
             if self.bases[2]: runs += 1; self.bases[2] = 0
             if self.bases[1]: self.bases[2] = 1; self.bases[1] = 0
@@ -110,40 +119,44 @@ class BaseballSimulator:
         return f"[{'1B' if self.bases[0] else '_'}]-[{'2B' if self.bases[1] else '_'}]-[{'3B' if self.bases[2] else '_'}]"
 
     def _manage_pitching_change(self):
-        is_home_team = not self.top_of_inning
-        current_pitcher_name = self.team1_current_pitcher_name if is_home_team else self.team2_current_pitcher_name
-        pitcher_stats = self.team1_pitcher_stats if is_home_team else self.team2_pitcher_stats
-        available_bullpen = self.team1_available_bullpen if is_home_team else self.team2_available_bullpen
+        is_home_team_pitching = self.top_of_inning
         
+        current_pitcher_name = self.team1_current_pitcher_name if is_home_team_pitching else self.team2_current_pitcher_name
+        pitcher_stats = self.team1_pitcher_stats if is_home_team_pitching else self.team2_pitcher_stats
+        available_bullpen = self.team1_available_bullpen if is_home_team_pitching else self.team2_available_bullpen
+        team_name = self.team1_name if is_home_team_pitching else self.team2_name
+
         current_pitcher = pitcher_stats[current_pitcher_name]
         
-        if self.pitch_counts[current_pitcher_name] >= current_pitcher['stamina'] and available_bullpen:
-            # Simple bullpen logic: find the best available reliever for the situation
+        fatigue_factor = max(0, self.pitch_counts[current_pitcher_name] - current_pitcher['stamina'])
+
+        if fatigue_factor > 0 and available_bullpen:
             next_pitcher_name = None
             if self.inning >= 9 and 'Closer' in [pitcher_stats[p]['type'] for p in available_bullpen]:
-                next_pitcher_name = next(p for p in available_bullpen if pitcher_stats[p]['type'] == 'Closer')
+                next_pitcher_name = next((p for p in available_bullpen if pitcher_stats[p]['type'] == 'Closer'), available_bullpen[0])
             elif self.inning >= 7 and 'Middle Reliever' in [pitcher_stats[p]['type'] for p in available_bullpen]:
-                next_pitcher_name = next(p for p in available_bullpen if pitcher_stats[p]['type'] == 'Middle Reliever')
+                next_pitcher_name = next((p for p in available_bullpen if pitcher_stats[p]['type'] == 'Middle Reliever'), available_bullpen[0])
             elif 'Long Reliever' in [pitcher_stats[p]['type'] for p in available_bullpen]:
-                 next_pitcher_name = next(p for p in available_bullpen if pitcher_stats[p]['type'] == 'Long Reliever')
+                 next_pitcher_name = next((p for p in available_bullpen if pitcher_stats[p]['type'] == 'Long Reliever'), available_bullpen[0])
             else:
                 next_pitcher_name = available_bullpen[0]
 
-            if is_home_team:
-                self.team1_current_pitcher_name = next_pitcher_name
-                self.team1_available_bullpen.remove(next_pitcher_name)
-                print(f"\n--- Pitching Change for {self.team1_name}: Now pitching, {next_pitcher_name} ---\n")
+            if is_home_team_pitching:
+                if self.team1_current_pitcher_name != next_pitcher_name:
+                    self.team1_current_pitcher_name = next_pitcher_name
+                    self.team1_available_bullpen.remove(next_pitcher_name)
+                    print(f"\n--- Pitching Change for {team_name}: Now pitching, {next_pitcher_name} ---\n")
             else:
-                self.team2_current_pitcher_name = next_pitcher_name
-                self.team2_available_bullpen.remove(next_pitcher_name)
-                print(f"\n--- Pitching Change for {self.team2_name}: Now pitching, {next_pitcher_name} ---\n")
+                if self.team2_current_pitcher_name != next_pitcher_name:
+                    self.team2_current_pitcher_name = next_pitcher_name
+                    self.team2_available_bullpen.remove(next_pitcher_name)
+                    print(f"\n--- Pitching Change for {team_name}: Now pitching, {next_pitcher_name} ---\n")
 
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [0, 0, 0]
         
-        # Implement the "ghost runner" rule for extra innings
         if self.inning >= 10:
-            self.bases = [0, 1, 0] # Runner on second
+            self.bases = [0, 1, 0]
             print("--- Extra Innings: Runner placed on second base ---")
 
         is_home_team_batting = not self.top_of_inning
@@ -155,32 +168,59 @@ class BaseballSimulator:
 
         while self.outs < 3:
             self._manage_pitching_change()
-            pitcher_name = self.team2_current_pitcher_name if self.top_of_inning else self.team1_current_pitcher_name
-            pitcher_stats_dict = self.team2_pitcher_stats if self.top_of_inning else self.team1_pitcher_stats
+            pitcher_name = self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name
+            pitcher_stats_dict = self.team1_pitcher_stats if self.top_of_inning else self.team2_pitcher_stats
             pitcher = pitcher_stats_dict[pitcher_name]
-
-            if self.outs == 0: # Print pitcher info once at the start of the inning/change
-                print(f"Pitching: {pitcher['name']} ({pitcher['handedness']}) - Pitch Count: {self.pitch_counts[pitcher['name']]}")
-                print("-" * 50)
 
             batter_idx = getattr(self, batter_idx_ref)
             batter = lineup[batter_idx]
 
             outcome = self._simulate_at_bat(batter, pitcher)
+            defensive_team_data = self.team1_data if self.top_of_inning else self.team2_data
+            runs = 0
+
+            if outcome in ["Groundout", "Flyout"]:
+                if random.random() > defensive_team_data["fielding_prowess"]:
+                    outcome = "Error"
+                    print("  An error by the defense!")
             
-            if outcome in ["Strikeout", "Groundout", "Flyout"]: self.outs += 1
+            if outcome == "Error":
+                runs = self._advance_runners("Single")
+            elif outcome == "Strikeout":
+                self.outs += 1
+            elif outcome == "Flyout":
+                self.outs += 1
+                if self.outs < 3 and self.bases[2] and random.random() > 0.5:
+                    runs += 1
+                    self.bases[2] = 0
+                    print("  Sacrifice fly, a run scores!")
+            elif outcome == "Groundout":
+                if self.outs < 2 and self.bases[0] == 1 and random.random() < defensive_team_data["double_play_rate"]:
+                    self.outs += 2
+                    outcome = "Double Play"
+                    if self.outs <= 3:
+                        if self.bases[2]: runs += 1
+                        self.bases[2] = self.bases[1]
+                        self.bases[1] = 0
+                        self.bases[0] = 0
+                else:
+                    self.outs += 1
+                    if self.outs < 3 and any(self.bases):
+                        # Advance runners on a groundout (fielder's choice)
+                        if self.bases[2]: runs += 1; self.bases[2] = 0
+                        if self.bases[1]: self.bases[2] = 1; self.bases[1] = 0
+                        if self.bases[0]: self.bases[1] = 1; self.bases[0] = 0
             else:
                 runs = self._advance_runners(outcome)
-                if is_home_team_batting: self.team1_score += runs
-                else: self.team2_score += runs
+
+            if is_home_team_batting: self.team1_score += runs
+            else: self.team2_score += runs
             
             score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
             print(f"Result: {outcome.ljust(12)} | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
             
-            # Check for walk-off win in the bottom of the 9th or extras
             if is_home_team_batting and self.team1_score > self.team2_score and self.inning >= 9:
-                return # End the half-inning immediately on a walk-off
-
+                return
             setattr(self, batter_idx_ref, (batter_idx + 1) % 9)
 
     def play_game(self):
@@ -188,15 +228,11 @@ class BaseballSimulator:
         while self.inning <= 9 or self.team1_score == self.team2_score:
             self.top_of_inning = True
             self._simulate_half_inning()
-
             if self.inning >= 9 and self.team1_score > self.team2_score: break
-                
             self.top_of_inning = False
             self._simulate_half_inning()
-            if self.team1_score > self.team2_score and self.inning >=9: break # End on walkoff
-            
+            if self.inning >=9 and self.team1_score > self.team2_score: break
             self.inning += 1
-
         print("="*20, "GAME OVER", "="*20)
         print(f"\nFinal Score: {self.team1_name} {self.team1_score} - {self.team2_name} {self.team2_score}")
         winner = self.team1_name if self.team1_score > self.team2_score else self.team2_name
@@ -207,4 +243,3 @@ if __name__ == "__main__":
     away_team_key = "PC_PILOTS"
     game = BaseballSimulator(TEAMS[home_team_key], TEAMS[away_team_key])
     game.play_game()
-
