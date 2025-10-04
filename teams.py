@@ -52,23 +52,23 @@ TEAMS = {
             {
                 'legal_name': 'Joe Gibson', 'nickname': 'Smokey', 'position': 'P', 'handedness': 'R', 'type': 'Starter', 'stamina': 75, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
-                    'Four-Seam Fastball': {'prob': 0.5, 'velo_range': (94, 97)}, 'Slider': {'prob': 0.25, 'velo_range': (87, 90)},
-                    'Changeup': {'prob': 0.15, 'velo_range': (81, 84)}, 'Curveball': {'prob': 0.10, 'velo_range': (78, 81)}
+                    'four-seam fastball': {'prob': 0.5, 'velo_range': (94, 97)}, 'slider': {'prob': 0.25, 'velo_range': (87, 90)},
+                    'changeup': {'prob': 0.15, 'velo_range': (81, 84)}, 'curveball': {'prob': 0.10, 'velo_range': (78, 81)}
                 }, 'control': 0.65, 'wild_pitch_rate': 0.003
             },
             {
                 'legal_name': 'Colin Miller', 'nickname': 'Cyclone', 'position': 'P', 'handedness': 'R', 'type': 'Long Reliever', 'stamina': 45, 'fielding_ability': 0.950,
-                'pitch_arsenal': {'Sinker': {'prob': 0.6, 'velo_range': (91, 94)}, 'Slider': {'prob': 0.4, 'velo_range': (86, 88)}}, 'control': 0.60, 'wild_pitch_rate': 0.005
+                'pitch_arsenal': {'sinker': {'prob': 0.6, 'velo_range': (91, 94)}, 'slider': {'prob': 0.4, 'velo_range': (86, 88)}}, 'control': 0.60, 'wild_pitch_rate': 0.005
             },
             {
                 'legal_name': 'Adam Adams', 'nickname': 'Ace', 'position': 'P', 'handedness': 'L', 'type': 'Middle Reliever', 'stamina': 25, 'fielding_ability': 0.945,
-                'pitch_arsenal': {'Four-Seam Fastball': {'prob': 0.5, 'velo_range': (92, 95)}, 'Knuckle-Curve': {'prob': 0.5, 'velo_range': (77, 80)}}, 'control': 0.70, 'wild_pitch_rate': 0.002
+                'pitch_arsenal': {'four-seam fastball': {'prob': 0.5, 'velo_range': (92, 95)}, 'knuckle curve': {'prob': 0.5, 'velo_range': (77, 80)}}, 'control': 0.70, 'wild_pitch_rate': 0.002
             },
             {
                 'legal_name': 'Victor Stone', 'nickname': 'The Vulture', 'position': 'P', 'handedness': 'R', 'type': 'Closer', 'stamina': 20, 'fielding_ability': 0.960,
                 'pitch_arsenal': {
-                    'Cutter': {'prob': 0.4, 'velo_range': (90, 93)}, 'Four-Seam Fastball': {'prob': 0.4, 'velo_range': (95, 98)},
-                    'Slider': {'prob': 0.2, 'velo_range': (88, 91)}
+                    'cutter': {'prob': 0.4, 'velo_range': (90, 93)}, 'four-seam fastball': {'prob': 0.4, 'velo_range': (95, 98)},
+                    'slider': {'prob': 0.2, 'velo_range': (88, 91)}
                 }, 'control': 0.75, 'wild_pitch_rate': 0.001
             },
         ]
@@ -94,21 +94,21 @@ TEAMS = {
             {
                 'legal_name': 'Miguel Garcia', 'nickname': 'Lefty', 'position': 'P', 'handedness': 'L', 'type': 'Starter', 'stamina': 70, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
-                    'Two-Seam Fastball': {'prob': 0.5, 'velo_range': (90, 93)}, 'Curveball': {'prob': 0.3, 'velo_range': (78, 81)},
-                    'Slider': {'prob': 0.2, 'velo_range': (84, 87)}
+                    'two-seam fastball': {'prob': 0.5, 'velo_range': (90, 93)}, 'curveball': {'prob': 0.3, 'velo_range': (78, 81)},
+                    'slider': {'prob': 0.2, 'velo_range': (84, 87)}
                 }, 'control': 0.60, 'wild_pitch_rate': 0.006
             },
             {
                 'legal_name': 'Ben Logan', 'nickname': 'Chief', 'position': 'P', 'handedness': 'R', 'type': 'Long Reliever', 'stamina': 50, 'fielding_ability': 0.955,
-                'pitch_arsenal': {'Four-Seam Fastball': {'prob': 0.7, 'velo_range': (93, 96)}, 'Curveball': {'prob': 0.3, 'velo_range': (79, 82)}}, 'control': 0.68, 'wild_pitch_rate': 0.004
+                'pitch_arsenal': {'four-seam fastball': {'prob': 0.7, 'velo_range': (93, 96)}, 'curveball': {'prob': 0.3, 'velo_range': (79, 82)}}, 'control': 0.68, 'wild_pitch_rate': 0.004
             },
             {
                 'legal_name': 'Rollie Malone', 'nickname': 'Fingers', 'position': 'P', 'handedness': 'R', 'type': 'Middle Reliever', 'stamina': 30, 'fielding_ability': 0.940,
-                'pitch_arsenal': {'Sinker': {'prob': 0.6, 'velo_range': (90, 93)}, 'Slider': {'prob': 0.4, 'velo_range': (85, 88)}}, 'control': 0.72, 'wild_pitch_rate': 0.002
+                'pitch_arsenal': {'sinker': {'prob': 0.6, 'velo_range': (90, 93)}, 'slider': {'prob': 0.4, 'velo_range': (85, 88)}}, 'control': 0.72, 'wild_pitch_rate': 0.002
             },
             {
                 'legal_name': 'Dennis Thompson', 'nickname': 'Eck', 'position': 'P', 'handedness': 'R', 'type': 'Closer', 'stamina': 22, 'fielding_ability': 0.965,
-                'pitch_arsenal': {'Four-Seam Fastball': {'prob': 0.6, 'velo_range': (97, 100)}, 'Slider': {'prob': 0.4, 'velo_range': (89, 92)}}, 'control': 0.80, 'wild_pitch_rate': 0.001
+                'pitch_arsenal': {'four-seam fastball': {'prob': 0.6, 'velo_range': (97, 100)}, 'slider': {'prob': 0.4, 'velo_range': (89, 92)}}, 'control': 0.80, 'wild_pitch_rate': 0.001
             },
         ]
     }
