@@ -228,12 +228,13 @@ class BaseballSimulator:
                     pitch_outcome_text = "ball"
 
             if self.commentary_style == 'statcast':
-                pitch_name_formatted = pitch_selection.replace('-', ' ').capitalize()
                 if is_in_play:
                     pitch_info = {'pitch_type': pitch_selection, 'pitch_velo': pitch_velo}
                     return (hit_result, pitch_info)
                 else:
-                    print(f"  {pitch_name_formatted} {pitch_velo} mph: {pitch_outcome_text}.")
+                    verdict = pitch_outcome_text.capitalize()
+                    pitch_name_formatted = pitch_selection.title()
+                    print(f"  {verdict} ({pitch_velo} mph {pitch_name_formatted}).")
             else: # narrative style
                 if self.verbose_phrasing:
                     location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike' if is_strike_loc else 'ball'])
@@ -258,7 +259,7 @@ class BaseballSimulator:
 
         return ("Walk", None) if balls == 4 else ("Strikeout", None)
 
-    def _advance_runners(self, hit_type, batter, was_error=False):
+    def _advance_runners(self, hit_type, batter, was_error=False, include_batter_advance=False):
         runs = 0
         rbis = 0
         advances = []
@@ -286,15 +287,18 @@ class BaseballSimulator:
             if old_bases[1]: new_bases[2] = old_bases[1]; advances.append(f"{old_bases[1]} to 3B")
             if old_bases[0]: new_bases[1] = old_bases[0]; advances.append(f"{old_bases[0]} to 2B")
             new_bases[0] = batter_name
+            if include_batter_advance: advances.append(f"{batter_name} to 1B")
         elif hit_type == 'Double':
             if old_bases[2]: runs += 1; rbis += (1 if batter_gets_rbi else 0); advances.append(f"{old_bases[2]} scores")
             if old_bases[1]: runs += 1; rbis += (1 if batter_gets_rbi else 0); advances.append(f"{old_bases[1]} scores")
             if old_bases[0]: new_bases[2] = old_bases[0]; advances.append(f"{old_bases[0]} to 3B")
             new_bases[1] = batter_name
+            if include_batter_advance: advances.append(f"{batter_name} to 2B")
         elif hit_type == 'Triple':
             for runner in old_bases:
                 if runner: runs += 1; rbis += (1 if batter_gets_rbi else 0); advances.append(f"{runner} scores")
             new_bases[2] = batter_name
+            if include_batter_advance: advances.append(f"{batter_name} to 3B")
         elif hit_type == 'Home Run':
             for runner in old_bases:
                 if runner: runs += 1; rbis += 1; advances.append(f"{runner} scores")
@@ -386,13 +390,14 @@ class BaseballSimulator:
             notation = f"E{pos_code}"
             if self.commentary_style == 'statcast':
                 error_desc = 'ground ball' if out_type == 'Groundout' else 'fly ball'
-                return f"{notation} on {error_desc} to {fielder['position']};", 0, True
+                return f"{notation} on {error_desc} to {fielder['position']};", 0, True, 0
 
             if self.commentary_style == 'narrative':
                 print(f"  An error by {fielder['position']} {fielder['legal_name']} allows the batter to reach base.")
-            return f"Reached on Error ({notation})", 0, True
+            return f"Reached on Error ({notation})", 0, True, 0
 
         runs = 0
+        rbis = 0
         notation = ""
         if out_type == 'Flyout':
             self.outs += 1
@@ -403,20 +408,21 @@ class BaseballSimulator:
             notation = f"{'P' if out_desc == 'pop out' else 'F'}{pos_map[fielder_pos]}"
 
             # Handle Sacrifice Fly
-            if self.outs <= 3 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF']:
+            if self.outs < 3 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF']:
                 if random.random() > 0.4: # Simplified sac fly condition
                     runner_on_third = self.bases[2]
                     runs += 1
+                    rbis += 1
                     self.bases[2] = None
                     if self.commentary_style == 'statcast':
-                        return f"Sac fly to {fielder_pos}. {runner_on_third} scores.", runs, False
+                        return f"Sac fly to {fielder_pos}. {runner_on_third} scores.", runs, False, rbis
                     else: # narrative
                         print(f"  Sacrifice fly to {fielder_pos}, {runner_on_third} scores!")
                         notation += " (SF)"
 
             if self.commentary_style == 'statcast':
-                return f"{out_desc.capitalize()} to {fielder['position']}.", runs, False
-            return f"{out_desc.capitalize()} to {fielder_pos} ({notation})", runs, False
+                return f"{out_desc.capitalize()} to {fielder['position']}.", runs, False, rbis
+            return f"{out_desc.capitalize()} to {fielder_pos} ({notation})", runs, False, rbis
 
         if out_type == 'Groundout':
             dp_opportunity = self.outs < 2 and self.bases[0] is not None
@@ -448,25 +454,28 @@ class BaseballSimulator:
                 if self.bases[1]:
                     self.bases[2] = self.bases[1]
                     self.bases[1] = None
-                return display_outcome, runs, False
+                return display_outcome, 0, False, 0
 
             self.outs += 1
             if self.outs < 3:
-                if self.bases[2]: runs += 1; self.bases[2] = None
+                if self.bases[2]:
+                    runs += 1
+                    rbis += 1
+                    self.bases[2] = None
                 if self.bases[1]: self.bases[2] = self.bases[1]; self.bases[1] = None
                 if self.bases[0]: self.bases[1] = self.bases[0]; self.bases[0] = None
 
             play_label = f"Groundout to {fielder['position']}"
             if self.commentary_style == 'statcast':
-                return f"{play_label}.", runs, False
+                return f"{play_label}.", runs, False, rbis
 
             if fielder['position'] == '1B': notation = "3U"
             elif fielder['position'] == 'C': notation = "2-3"
             elif fielder['position'] == 'P': notation = "1-3"
             else: notation = f"{pos_map[fielder['position']]}-3"
-            return f"{play_label} ({notation})", runs, False
+            return f"{play_label} ({notation})", runs, False, rbis
 
-        return "Error", 0, True # Should not be reached
+        return "Error", 0, True, 0 # Should not be reached
 
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
@@ -506,12 +515,12 @@ class BaseballSimulator:
 
             display_outcome = outcome
             if outcome in ["Groundout", "Flyout"]:
-                display_outcome, new_runs, was_error = self._handle_batted_ball_out(outcome, batter)
+                display_outcome, new_runs, was_error, new_rbis = self._handle_batted_ball_out(outcome, batter)
                 runs += new_runs
+                rbis += new_rbis
                 if was_error:
-                    advancement_info = self._advance_runners("Single", batter, was_error=True)
+                    advancement_info = self._advance_runners("Single", batter, was_error=True, include_batter_advance=True)
                     runs += advancement_info['runs']
-                    rbis += advancement_info['rbis']
                     advances.extend(advancement_info['advances'])
             elif outcome == "Strikeout":
                 self.outs += 1
@@ -529,21 +538,24 @@ class BaseballSimulator:
             # --- Result Formatting and Printing ---
             if self.commentary_style == 'statcast':
                 pitch_info = description
-                if pitch_info and outcome != 'Home Run': # Don't print "In play" for homers
+                if pitch_info and outcome != 'Home Run':
                     in_play_result = "out(s)"
                     if was_error: in_play_result = "no out (error)"
                     elif outcome in ["Single", "Double", "Triple"]: in_play_result = "run(s)" if runs > 0 else "no out"
                     print(f"  In play, {in_play_result}.")
 
                 result_line = display_outcome
-                if outcome in ["Single", "Double", "Triple", "Home Run"]:
+                if was_error:
+                    adv_str = "; ".join(adv for adv in advances)
+                    result_line = f"{display_outcome} {adv_str}."
+                elif outcome in ["Single", "Double", "Triple", "Home Run"]:
                     result_line = outcome.capitalize() + "."
                 elif outcome == "HBP":
                     result_line = "Hit by Pitch."
 
                 if rbis > 0: result_line += f" {batter['legal_name']} drives in {rbis}."
-                if advances:
-                    adv_str_parts = [adv for adv in advances if not (rbis > 0 and "scores" in adv)]
+                if not was_error and advances:
+                    adv_str_parts = [adv for adv in advances if "scores" not in adv]
                     adv_str = "; ".join(adv_str_parts)
                     if adv_str: result_line += f" ({adv_str})"
 
