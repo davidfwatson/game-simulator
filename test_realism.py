@@ -113,5 +113,89 @@ class TestRealism(unittest.TestCase):
         self.assertNotIn("[", log_named, "Bracketed UI found when flag is disabled.")
         self.assertNotIn("]-", log_named, "Bracketed UI found when flag is disabled.")
 
+    def test_simulation_realism_over_multiple_games(self):
+        """
+        Run the simulation multiple times to check for realism issues identified by the analyst.
+        This test aggregates data over 100 simulated games to ensure a reasonable distribution
+        of game events like walks, HBPs, DPs, and specific out types.
+        """
+        num_games = 100
+        total_walks, total_hbps, total_dps, total_triples = 0, 0, 0, 0
+        groundout_2_3_count, unassisted_3u_count = 0, 0
+        flyouts, popouts = 0, 0
+
+        for i in range(num_games):
+            random.seed(i)  # Use a different seed for each game to get varied outcomes
+            output = io.StringIO()
+            with redirect_stdout(output):
+                game = BaseballSimulator(self.home_team, self.away_team)
+                game.play_game()
+            log = output.getvalue()
+
+            total_walks += log.count("Result: Walk")
+            total_hbps += log.count("Hit by Pitch")
+            total_dps += log.count("Double Play")
+            total_triples += log.count("Result: Triple")
+            groundout_2_3_count += len(re.findall(r'Groundout to Catcher \(2-3\)', log))
+            unassisted_3u_count += len(re.findall(r'Groundout to 1B \(3U\)', log))
+
+            # Differentiate flyouts (outfield) from popouts (infield)
+            flyouts += len(re.findall(r'Flyout to (LF|CF|RF)', log))
+            popouts += len(re.findall(r'Pop out to (P|C|1B|2B|3B|SS)', log))
+
+        # Asserts are based on what would be expected over 100 games.
+        # These will likely fail with the current simulation engine.
+
+        # 1. Walks should be present, averaging at least a few per game.
+        self.assertGreater(total_walks, 50, "Very few walks over 100 games, indicates a problem with plate discipline logic.")
+
+        # 2. HBPs, while rare, should occur.
+        self.assertGreater(total_hbps, 2, "Hit by pitches are missing from the simulation.")
+
+        # 3. Double plays are a common feature of real games.
+        self.assertGreater(total_dps, 20, "Double plays are too rare or missing.")
+
+        # 4. Triples should not be overly common.
+        self.assertLess(total_triples, 30, "Too many triples, indicates an issue with hit outcome distribution.")
+
+        # 5. The 2-3 groundout should be very rare.
+        self.assertLess(groundout_2_3_count, 5, "Unrealistically high number of 2-3 groundouts.")
+
+        # 6. Unassisted 3U groundouts should be the standard for a 1B.
+        self.assertGreater(unassisted_3u_count, 10, "3U unassisted groundouts are not being logged correctly.")
+
+        # 7. Pop outs to infielders should be labeled correctly.
+        self.assertGreater(popouts, 10, "Infield fly balls are not being classified as 'Pop outs'.")
+        self.assertGreater(flyouts, 10, "Outfield fly balls are not being classified as 'Flyouts'.")
+
+
+    def test_no_wp_or_pb_with_bases_empty(self):
+        """
+        Test that a wild pitch or passed ball does not occur when the bases are empty.
+        This test runs the simulation multiple times to ensure the probabilistic check is robust.
+        """
+        for i in range(50):  # Run multiple games to increase the chance of encountering the event
+            random.seed(i)
+            output = io.StringIO()
+            with redirect_stdout(output):
+                game = BaseballSimulator(self.home_team, self.away_team)
+                game.play_game()
+            log = output.getvalue()
+
+            lines = log.split('\n')
+            last_bases_state = ""
+            for line in lines:
+                # Track the state of the bases from the end of each at-bat
+                if line.strip().startswith("Result:"):
+                    if "Bases: " in line:
+                        # Extract the base state string, e.g., "Bases empty" or "1B: Player"
+                        last_bases_state = line.split("Bases: ")[1].split(" | ")[0]
+
+                # If a WP or PB occurs, check the last known state of the bases
+                if "Wild Pitch!" in line or "Passed Ball!" in line:
+                    self.assertNotEqual(last_bases_state, "Bases empty",
+                                        f"Impossible event: A wild pitch or passed ball occurred with the bases empty.\nLog Line: {line}")
+
+
 if __name__ == '__main__':
     unittest.main()
