@@ -94,7 +94,7 @@ TEAMS = {
             {
                 'legal_name': 'Miguel Garcia', 'nickname': 'Lefty', 'position': 'P', 'handedness': 'L', 'type': 'Starter', 'stamina': 70, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
-                    'two-seam fastball': {'prob': 0.5, 'velo_range': (90, 93)}, 'curveball': {'prob': 0.3, 'velo_range': (78, 81)},
+                    'sinker': {'prob': 0.5, 'velo_range': (90, 93)}, 'curveball': {'prob': 0.3, 'velo_range': (78, 81)},
                     'slider': {'prob': 0.2, 'velo_range': (84, 87)}
                 }, 'control': 0.60, 'wild_pitch_rate': 0.006
             },

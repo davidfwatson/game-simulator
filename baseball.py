@@ -233,7 +233,7 @@ class BaseballSimulator:
                     return (hit_result, pitch_info)
                 else:
                     verdict = pitch_outcome_text.capitalize()
-                    pitch_name_formatted = pitch_selection.title()
+                    pitch_name_formatted = pitch_selection
                     print(f"  {verdict} ({pitch_velo} mph {pitch_name_formatted}).")
             else: # narrative style
                 if self.verbose_phrasing:
@@ -400,25 +400,28 @@ class BaseballSimulator:
         rbis = 0
         notation = ""
         if out_type == 'Flyout':
-            self.outs += 1
             fielder_pos = fielder['position']
             infield_positions = ['P', 'C', '1B', '2B', '3B', 'SS']
-
             out_desc = "pop out" if fielder_pos in infield_positions else "flyout"
             notation = f"{'P' if out_desc == 'pop out' else 'F'}{pos_map[fielder_pos]}"
 
-            # Handle Sacrifice Fly
-            if self.outs < 3 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF']:
-                if random.random() > 0.4: # Simplified sac fly condition
-                    runner_on_third = self.bases[2]
-                    runs += 1
-                    rbis += 1
-                    self.bases[2] = None
-                    if self.commentary_style == 'statcast':
-                        return f"Sac fly to {fielder_pos}. {runner_on_third} scores.", runs, False, rbis
-                    else: # narrative
-                        print(f"  Sacrifice fly to {fielder_pos}, {runner_on_third} scores!")
-                        notation += " (SF)"
+            # A sac fly cannot happen if there are 2 outs.
+            is_sac_fly_possible = self.outs < 2 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF']
+
+            if is_sac_fly_possible and random.random() > 0.4:
+                self.outs += 1
+                runner_on_third = self.bases[2]
+                runs += 1
+                rbis += 1
+                self.bases[2] = None
+                if self.commentary_style == 'statcast':
+                    return f"Sac fly to {fielder_pos}. {runner_on_third} scores.", runs, False, rbis
+                else: # narrative
+                    print(f"  Sacrifice fly to {fielder_pos}, {runner_on_third} scores!")
+                    notation += " (SF)"
+            else:
+                # Regular flyout, no run scores on the play itself.
+                self.outs += 1
 
             if self.commentary_style == 'statcast':
                 return f"{out_desc.capitalize()} to {fielder['position']}.", runs, False, rbis
@@ -464,6 +467,10 @@ class BaseballSimulator:
                     self.bases[2] = None
                 if self.bases[1]: self.bases[2] = self.bases[1]; self.bases[1] = None
                 if self.bases[0]: self.bases[1] = self.bases[0]; self.bases[0] = None
+            else:
+                # On the third out, no runners can advance or score.
+                runs = 0
+                rbis = 0
 
             play_label = f"Groundout to {fielder['position']}"
             if self.commentary_style == 'statcast':
@@ -555,8 +562,7 @@ class BaseballSimulator:
 
                 if rbis > 0: result_line += f" {batter['legal_name']} drives in {rbis}."
                 if not was_error and advances:
-                    adv_str_parts = [adv for adv in advances if "scores" not in adv]
-                    adv_str = "; ".join(adv_str_parts)
+                    adv_str = "; ".join(advances)
                     if adv_str: result_line += f" ({adv_str})"
 
                 print(f"Result: {result_line}")
