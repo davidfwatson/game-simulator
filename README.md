@@ -1,39 +1,54 @@
 # Realistic MLB Game Simulator
 
-## Project Goal
+This repository contains a command line play-by-play simulator that aims to produce logs that feel indistinguishable from a real Major League Baseball broadcast. The engine models pitch-by-pitch sequences, strategic bullpen usage, and situational events (mound visits, defensive alignments, challenges, weather, etc.) to generate rich narration while respecting modern MLB rules.
 
-This command-line tool simulates a complete, realistic Major League Baseball game. The primary goal is to create a simulation that is indistinguishable from a real-game play-by-play log, adhering closely to the rules, strategies, and nuances of modern professional baseball.
+## Getting Started
 
-The simulation moves beyond simple probability, incorporating a pitch-by-pitch at-bat sequence, dynamic pitcher fatigue, and strategic bullpen management to generate a plausible and engaging game narrative.
+### Requirements
 
-## Core Features for Realism
+* Python 3.9 or newer
 
-To achieve a high level of authenticity, the simulator implements the following key features:
+Install the Python dependencies (only the standard library is required) and run the simulator directly:
 
-* **Modern MLB Ruleset:** The simulation strictly follows current MLB rules, including:
-    * **The Designated Hitter (DH):** Pitchers do not bat; a DH is used in the lineup for both teams.
-    * **Extra-Innings "Ghost Runner":** Starting from the 10th inning, each half-inning automatically begins with a runner on second base to mirror modern pace-of-play rules.
-* **Pitch-by-Pitch Simulation:** Every at-bat unfolds one pitch at a time. The engine logs the pitch type, location (in or out of the strike zone), and the outcome (ball, called strike, swinging strike, foul, or in-play), providing a granular and realistic play-by-play.
-* **Dynamic Bullpen Management:** Starting pitchers operate on a stamina system based on pitch counts. Once fatigued, the simulation's logic makes a strategic pitching change, selecting an appropriate reliever (Long Reliever, Middle Reliever, or Closer) from the bullpen based on the game situation.
-* **Detailed Player Attributes:** All players are defined by specific attributes that influence their performance, including:
-    * **Batting statistics** for various hit types.
-    * **Batter handedness** (Left, Right, or Switch).
-    * **Pitcher handedness**, individual **pitch arsenals** (e.g., Fastball, Slider, Curveball), and a **control** rating.
-* **Fictional Rosters:** To ensure a unique experience, the simulator uses entirely fictional teams and players, allowing the focus to remain on the quality of the simulation itself.
+```bash
+python baseball.py
+```
 
-## How to Run
+Use the available CLI flags to tailor the narration style:
 
-1.  Ensure you have Python installed.
-2.  Save both `baseball_simulator.py` and `teams.py` in the same directory.
-3.  Open your terminal or command prompt, navigate to that directory, and run the following command:
-    ```
-    python baseball_simulator.py
-    ```
-The simulation will start immediately and print the full game log to the console.
+* `--terse` – switch to the more compact play-by-play phrasing that mirrors data feeds.
+* `--bracketed-ui` – render base runner state using legacy bracketed indicators instead of prose.
 
-## Technical Design
+### Running the Test Suite
 
-The project is split into two main files for modularity and ease of customization:
+The project ships with a growing collection of regression tests that encode previously observed realism issues. Run everything with:
 
-* **`baseball_simulator.py`**: The core simulation engine containing all the game logic, rules, and state management.
-* **`teams.py`**: A data file that defines the rosters, player names, positions, and statistical probabilities. You can easily edit this file to create your own custom teams and players without altering the simulation logic.
+```bash
+pytest -q
+```
+
+The tests cover items such as bullpen variability, pitch vocabulary diversity, realistic catcher groundout frequencies, and snapshot comparisons against curated example games.
+
+## Deterministic Example Games
+
+The `examples/` directory tracks ten seeded, deterministic game logs. These files are used both for documentation and for regression testing to ensure that engine changes produce intentional differences.
+
+* `example_games.py` defines the `ExampleGame` helper along with the catalog of seeds.
+* `test_examples_snapshot.py` renders each game with a fixed seed and asserts that the generated output matches the stored text files.
+* `update_examples.py` provides a convenient way to refresh the tracked examples after making a behavior change:
+
+  ```bash
+  python update_examples.py
+  ```
+
+  The script will re-render every example using the latest simulator behavior so the new output can be reviewed and committed alongside your code changes.
+
+## Project Structure
+
+* `baseball.py` – core simulation engine and CLI entry point.
+* `teams.py` – fictional rosters, player attributes, and ambient context (umpires, weather, venues).
+* `example_games.py` – deterministic example definitions used for snapshot testing and documentation.
+* `examples/` – checked-in play-by-play logs generated from fixed seeds.
+* `test_*.py` – pytest suites that enforce realism constraints and snapshot parity.
+
+Feel free to modify the team definitions or extend the rules engine. When adding new realism features, remember to regenerate the example logs and expand the regression tests where appropriate so we continue guarding against past issues resurfacing.
