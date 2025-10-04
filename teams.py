@@ -19,11 +19,13 @@ GAME_CONTEXT = {
     "pitch_locations": {
         "strike": [
             "paints the corner", "right down the middle", "catches the black",
-            "a perfect strike", "in the zone"
+            "a perfect strike", "in the zone", "freezes him on the inner edge",
+            "snaps over the backdoor", "drops onto the knees"
         ],
         "ball": [
             "just misses outside", "high and tight", "in the dirt", "way outside",
-            "low and away", "a bit inside"
+            "low and away", "a bit inside", "sails over the letters",
+            "spikes before the plate"
         ]
     }
 }

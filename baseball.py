@@ -45,7 +45,11 @@ class BaseballSimulator:
     def _setup_pitchers(self, team_data, team_prefix):
         all_pitchers = [p for p in team_data["players"] if p['position'] == 'P']
         pitcher_stats = {p['legal_name']: p.copy() for p in all_pitchers}
-        available_bullpen = [p['legal_name'] for p in all_pitchers if p['type'] != 'Starter']
+        bullpen_candidates = [p['legal_name'] for p in all_pitchers if p['type'] != 'Starter']
+        closers = [name for name in bullpen_candidates if pitcher_stats[name]['type'] == 'Closer']
+        non_closers = [name for name in bullpen_candidates if pitcher_stats[name]['type'] != 'Closer']
+        random.shuffle(non_closers)
+        available_bullpen = non_closers + closers
         current_pitcher_name = next(p['legal_name'] for p in all_pitchers if p['type'] == 'Starter')
 
         setattr(self, f"{team_prefix}_pitcher_stats", pitcher_stats)
@@ -75,6 +79,44 @@ class BaseballSimulator:
         in_play = {k: v for k, v in batter_stats.items() if k not in ["Walk", "Strikeout", "HBP"]}
         return random.choices(list(in_play.keys()), weights=list(in_play.values()), k=1)[0]
 
+    def _describe_contact(self, outcome):
+        contact_templates = {
+            "Single": [
+                "shoots a single through the right side",
+                "drops a blooper into shallow center for a single",
+                "stings a single back up the middle"
+            ],
+            "Double": [
+                "hammers a double into the gap",
+                "hooks a double down the line",
+                "laces a ringing double off the wall"
+            ],
+            "Triple": [
+                "splits the outfielders and motors for a triple",
+                "drives it into the corner for a stand-up triple"
+            ],
+            "Home Run": [
+                "launches it deep and out of here for a home run",
+                "crushes a towering homer into the seats"
+            ],
+            "Groundout": [
+                "rolls it over on the ground",
+                "chops a bouncer toward the infield"
+            ],
+            "Flyout": [
+                "lifts a routine fly ball",
+                "skies it to the outfield"
+            ],
+            "Strikeout": [
+                "goes down swinging",
+                "is rung up"
+            ]
+        }
+
+        if outcome in contact_templates:
+            return random.choice(contact_templates[outcome])
+        return "puts it in play"
+
     def _advance_runners_on_wp_pb(self, event_type):
         runs = 0
         print(f"  {event_type}! Runners advance.")
@@ -96,6 +138,21 @@ class BaseballSimulator:
         
         batter_display_name = self._get_player_display_name(batter)
         print(f"Now batting: {batter_display_name} ({batter['position']}, {batter['handedness']})")
+
+        if self.verbose_phrasing and random.random() < 0.03:
+            print("  Brief delay as the infield huddles on the mound.")
+
+        if self.verbose_phrasing and self.bases[0] and random.random() < 0.05:
+            print(f"  Quick throw to first and {self.bases[0]} dives back safely.")
+
+        if self.verbose_phrasing and random.random() < 0.04:
+            defensive_call = random.choice([
+                "Outfield shifts toward right-center.",
+                "Infield shades to pull on the left side.",
+                "Corners creep in expecting a bunt.",
+                "Middle infielders pinch the bag."
+            ])
+            print(f"  Defensive alignment: {defensive_call}")
 
         # Check for HBP at the start of the at-bat using batter-specific stats
         if random.random() < batter.get('stats', {}).get('HBP', 0):
@@ -150,7 +207,10 @@ class BaseballSimulator:
                         print(f"{pitch_desc} Foul. Count: {balls}-{strikes}")
                     else: # In Play
                         hit_result = self._get_hit_outcome(batter['stats'])
-                        print(f"{pitch_desc} In play -> {hit_result}!")
+                        contact_summary = self._describe_contact(hit_result)
+                        sentence = contact_summary[0].upper() + contact_summary[1:]
+                        punctuation = '!' if hit_result in ["Single", "Double", "Triple", "Home Run"] else '.'
+                        print(f"{pitch_desc} {sentence}{punctuation}")
                         return hit_result
                 else: # Swing and miss
                     strikes += 1
@@ -269,7 +329,20 @@ class BaseballSimulator:
         is_error = False
         
         if out_type == 'Groundout':
-            fielder = random.choice(infielders + [pitcher, catcher])
+            grounder_candidates = []
+            # Infielders handle the overwhelming majority of routine grounders.
+            for infielder in infielders:
+                grounder_candidates.append((infielder, 6))
+
+            # Pitchers occasionally field comebackers but not at a high clip.
+            grounder_candidates.append((pitcher, 1))
+
+            # Catcher grounders are almost always dribblers or bunt attempts.
+            if catcher:
+                grounder_candidates.append((catcher, 0.25))
+
+            choices, weights = zip(*grounder_candidates)
+            fielder = random.choices(choices, weights=weights, k=1)[0]
         elif out_type == 'Flyout':
             fielder = random.choices(
                 population=outfielders + infielders,
@@ -341,9 +414,17 @@ class BaseballSimulator:
 
             if fielder['position'] == '1B':
                 notation = "3U"
+                play_label = "Groundout to 1B"
+            elif fielder['position'] == 'C':
+                notation = "2-3"
+                play_label = "Dribbler in front, catcher fields"
+            elif fielder['position'] == 'P':
+                notation = "1-3"
+                play_label = "Comebacker handled by the pitcher"
             else:
                 notation = f"{pos_map[fielder['position']]}-3"
-            return f"Groundout to {fielder['position']} ({notation})", runs, False
+                play_label = f"Groundout to {fielder['position']}"
+            return f"{play_label} ({notation})", runs, False
 
         return "Error", 0, True # Should not be reached
 
@@ -358,7 +439,7 @@ class BaseballSimulator:
             runner_name = lineup[last_batter_idx]['legal_name']
             self.bases[1] = runner_name
             if self.verbose_phrasing:
-                print(f"--- Extra Innings: {runner_name} placed on second base. ---")
+                print(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
 
         inning_half = "Bottom" if is_home_team_batting else "Top"
         print("-" * 50)
