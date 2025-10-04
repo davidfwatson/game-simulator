@@ -72,14 +72,34 @@ class BaseballSimulator:
         return player['legal_name']
 
     def _get_hit_outcome(self, batter_stats):
-        in_play = {k: v for k, v in batter_stats.items() if k not in ["Walk", "Strikeout"]}
+        in_play = {k: v for k, v in batter_stats.items() if k not in ["Walk", "Strikeout", "HBP"]}
         return random.choices(list(in_play.keys()), weights=list(in_play.values()), k=1)[0]
+
+    def _advance_runners_on_wp_pb(self, event_type):
+        runs = 0
+        print(f"  {event_type}! Runners advance.")
+        # Simplified: runners advance one base.
+        if self.bases[2]:
+            runs += 1
+            print(f"  {self.bases[2]} scores!")
+            self.bases[2] = None
+        if self.bases[1]:
+            self.bases[2] = self.bases[1]
+            self.bases[1] = None
+        if self.bases[0]:
+            self.bases[1] = self.bases[0]
+            self.bases[0] = None
+        return runs
 
     def _simulate_at_bat(self, batter, pitcher):
         balls, strikes = 0, 0
         
         batter_display_name = self._get_player_display_name(batter)
         print(f"Now batting: {batter_display_name} ({batter['position']}, {batter['handedness']})")
+
+        # Check for HBP at the start of the at-bat using batter-specific stats
+        if random.random() < batter.get('stats', {}).get('HBP', 0):
+            return "HBP"
 
         while balls < 4 and strikes < 3:
             self.pitch_counts[pitcher['legal_name']] += 1
@@ -121,6 +141,23 @@ class BaseballSimulator:
                     strikes += 1
                     print(f"{pitch_desc} Called Strike.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
                 else:
+                    # Check for Wild Pitch or Passed Ball on a ball that is not swung at.
+                    defensive_team = 'team1' if self.top_of_inning else 'team2'
+                    catcher = getattr(self, f"{defensive_team}_catcher")
+                    runs = 0
+
+                    is_wp = random.random() < pitcher.get('wild_pitch_rate', 0)
+                    is_pb = not is_wp and random.random() < catcher.get('passed_ball_rate', 0)
+
+                    if is_wp:
+                        runs = self._advance_runners_on_wp_pb("Wild Pitch")
+                    elif is_pb:
+                        runs = self._advance_runners_on_wp_pb("Passed Ball")
+
+                    if runs > 0:
+                        if self.top_of_inning: self.team2_score += runs
+                        else: self.team1_score += runs
+
                     balls += 1
                     print(f"{pitch_desc} Ball.{' Count: ' + str(balls) + '-' + str(strikes) if balls < 4 else ''}")
         
@@ -129,7 +166,7 @@ class BaseballSimulator:
     def _advance_runners(self, hit_type, batter):
         runs = 0
 
-        if hit_type == "Walk":
+        if hit_type in ["Walk", "HBP"]:
             new_bases = self.bases[:] # Make a copy
             if new_bases[0]: # If 1B is occupied
                 if new_bases[1]: # If 1B and 2B are occupied
@@ -238,25 +275,47 @@ class BaseballSimulator:
 
         if out_type == 'Flyout':
             self.outs += 1
-            notation = f"F{pos_map[fielder['position']]}"
-            if self.outs < 3 and self.bases[2] and fielder['position'] in ['LF', 'CF', 'RF']:
-                if random.random() > 0.4:
+            fielder_pos = fielder['position']
+            infield_positions = ['P', 'C', '1B', '2B', '3B', 'SS']
+
+            if fielder_pos in infield_positions:
+                out_desc = "Pop out"
+                notation = f"P{pos_map[fielder_pos]}"
+            else:
+                out_desc = "Flyout"
+                notation = f"F{pos_map[fielder_pos]}"
+
+            if self.outs < 3 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF']:
+                if random.random() > 0.4: # Runner on 3rd tries to score
                     runs += 1
-                    print(f"  Sacrifice fly to {fielder['position']}, {self.bases[2]} scores!")
+                    print(f"  Sacrifice fly to {fielder_pos}, {self.bases[2]} scores!")
                     self.bases[2] = None
                     notation += " (SF)"
-            return f"Flyout to {fielder['position']} ({notation})", runs
+            return f"{out_desc} to {fielder_pos} ({notation})", runs
 
         if out_type == 'Groundout':
-            # Check for double play
-            if self.outs < 2 and self.bases[0] and random.random() < self.team1_data['double_play_rate']:
+            # Check for double play opportunity
+            dp_opportunity = self.outs < 2 and self.bases[0] is not None
+            dp_rate = self.team1_data['double_play_rate'] if self.top_of_inning else self.team2_data['double_play_rate']
+
+            if dp_opportunity and random.random() < dp_rate:
                 self.outs += 2
+                # Standard 6-4-3 double play on groundball to SS
+                if fielder['position'] == 'SS':
+                    notation = "GDP (6-4-3)"
+                    print(f"  Ground ball to short... 6-4-3 double play!")
+                # Standard 4-6-3 double play on groundball to 2B
+                elif fielder['position'] == '2B':
+                    notation = "GDP (4-6-3)"
+                    print(f"  Ground ball to second... 4-6-3 double play!")
+                else: # Other fielder, simplified DP
+                    notation = f"GDP ({pos_map[fielder['position']]}-4-3)"
+                    print(f"  Ground ball to {fielder['position']}... double play!")
+
                 self.bases[0] = None # Runner from first is out
-                # Simplistic DP: batter is out, one runner advanced.
-                if self.bases[2]: runs += 1; self.bases[2] = None
-                if self.bases[1]: self.bases[2] = self.bases[1]; self.bases[1] = None
-                # Simplified DP notation
-                notation = f"GDP ({pos_map[fielder['position']]}-4-3)"
+                if self.bases[1]: # Runner on second moves to third
+                    self.bases[2] = self.bases[1]
+                    self.bases[1] = None
                 return f"Groundout, Double Play ({notation})", runs
 
             self.outs += 1
@@ -264,7 +323,12 @@ class BaseballSimulator:
                 if self.bases[2]: runs += 1; self.bases[2] = None
                 if self.bases[1]: self.bases[2] = self.bases[1]; self.bases[1] = None
                 if self.bases[0]: self.bases[1] = self.bases[0]; self.bases[0] = None
-            notation = f"{pos_map[fielder['position']]}-3" # Assuming putout at first
+
+            # Unassisted groundout notation
+            if fielder['position'] == '1B':
+                notation = "3U"
+            else:
+                notation = f"{pos_map[fielder['position']]}-3"
             return f"Groundout to {fielder['position']} ({notation})", runs
 
         return "Error", 0 # Should not be reached
@@ -298,22 +362,27 @@ class BaseballSimulator:
             outcome = self._simulate_at_bat(batter, pitcher)
             runs = 0
 
+            display_outcome = outcome
+            if outcome == "HBP":
+                display_outcome = "Hit by Pitch"
+
             if outcome in ["Groundout", "Flyout"]:
-                outcome, new_runs = self._handle_batted_ball_out(outcome, batter)
+                display_outcome, new_runs = self._handle_batted_ball_out(outcome, batter)
                 runs += new_runs
             
             if outcome == "Error":
+                display_outcome = "Error"
                 runs += self._advance_runners("Single", batter)
             elif outcome == "Strikeout":
                 self.outs += 1
-            elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk"]:
+            elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:
                 runs += self._advance_runners(outcome, batter)
 
             if is_home_team_batting: self.team1_score += runs
             else: self.team2_score += runs
             
             score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
-            print(f"Result: {outcome.ljust(12)} | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
+            print(f"Result: {display_outcome.ljust(12)} | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
             
             setattr(self, batter_idx_ref, (batter_idx + 1) % 9)
             if self.outs >= 3: break
