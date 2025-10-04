@@ -101,6 +101,20 @@ class BaseballSimulator:
         if random.random() < batter.get('stats', {}).get('HBP', 0):
             return "HBP"
 
+        batter_stats = batter['stats']
+        batter_walk_rate = batter_stats.get('Walk', 0.09)
+        batter_k_rate = batter_stats.get('Strikeout', 0.17)
+
+        # Plate discipline affects swing decisions, especially on pitches outside the zone.
+        # A more disciplined batter (higher walk rate) is less likely to swing at a ball.
+        discipline_factor = max(0.1, batter_walk_rate / 0.08) # Lowered baseline for more discipline
+        swing_at_ball_prob = 0.30 / discipline_factor # Lowered base swing prob
+
+        # Contact ability is influenced by the batter's strikeout rate.
+        # A higher K-rate means a lower chance of making contact on a swing.
+        k_propensity = max(0.1, batter_k_rate / 0.17)
+        contact_prob = 0.75 / k_propensity
+
         while balls < 4 and strikes < 3:
             self.pitch_counts[pitcher['legal_name']] += 1
             
@@ -108,7 +122,8 @@ class BaseballSimulator:
                                              weights=[v['prob'] for v in pitcher['pitch_arsenal'].values()], k=1)[0]
             pitch_details = pitcher['pitch_arsenal'][pitch_selection]
             min_velo, max_velo = pitch_details['velo_range']
-            pitch_velo = random.randint(min_velo, max_velo)
+            # Use random.uniform for more realistic, non-integer velocities.
+            pitch_velo = round(random.uniform(min_velo, max_velo), 1)
 
             fatigue_factor = max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina'])
             fatigue_penalty = (fatigue_factor / 15) * 0.1
@@ -117,15 +132,19 @@ class BaseballSimulator:
             is_strike_loc = random.random() < effective_control
             
             if self.verbose_phrasing:
-                location_desc = "in the strike zone" if is_strike_loc else random.choice(["high", "low", "inside", "outside"])
+                if is_strike_loc:
+                    location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike'])
+                else:
+                    location_desc = random.choice(GAME_CONTEXT['pitch_locations']['ball'])
                 pitch_desc = f"  Pitch: {pitch_selection} ({pitch_velo} mph), {location_desc}."
             else:
                 pitch_desc = f"  Pitch: {pitch_selection} ({pitch_velo} mph)."
 
-            swing = random.random() < (0.8 if is_strike_loc else 0.3)
+            swing_prob = 0.85 if is_strike_loc else swing_at_ball_prob
+            swing = random.random() < swing_prob
             
             if swing:
-                if random.random() < 0.7: # Contact
+                if random.random() < contact_prob: # Contact
                     if strikes < 2 and random.random() < 0.5: # Foul
                         strikes += 1
                         print(f"{pitch_desc} Foul. Count: {balls}-{strikes}")
@@ -248,32 +267,30 @@ class BaseballSimulator:
 
         fielder = None
         is_error = False
-        notation = ""
         
-        # Determine fielder and check for error
         if out_type == 'Groundout':
             fielder = random.choice(infielders + [pitcher, catcher])
         elif out_type == 'Flyout':
-            fielder = random.choice(infielders + outfielders)
+            fielder = random.choices(
+                population=outfielders + infielders,
+                weights=[6] * len(outfielders) + [1] * len(infielders),
+                k=1
+            )[0]
 
-        # Check for error
         if fielder:
             team_prowess = self.team1_data['fielding_prowess'] if self.top_of_inning else self.team2_data['fielding_prowess']
-            # A more realistic error model based on combined success probability
             fielding_success_rate = fielder['fielding_ability'] * team_prowess
             if random.random() > fielding_success_rate:
                 is_error = True
 
-        if is_error:
-            print(f"  An error by {fielder['position']} {fielder['legal_name']}!")
-            # On an error, the batter reaches base, and runners advance as on a single.
-            # The function returns "Error" to be printed in the log.
-            return "Error", 0
-
-        # Handle outs and generate notation
-        runs = 0
         pos_map = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
+        if is_error:
+            notation = f"E{pos_map.get(fielder['position'], '')}"
+            print(f"  An error by {fielder['position']} {fielder['legal_name']} allows the batter to reach base.")
+            return f"Reached on Error ({notation})", 0, True
 
+        runs = 0
+        notation = ""
         if out_type == 'Flyout':
             self.outs += 1
             fielder_pos = fielder['position']
@@ -287,52 +304,48 @@ class BaseballSimulator:
                 notation = f"F{pos_map[fielder_pos]}"
 
             if self.outs < 3 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF']:
-                if random.random() > 0.4: # Runner on 3rd tries to score
+                if random.random() > 0.4:
                     runs += 1
                     print(f"  Sacrifice fly to {fielder_pos}, {self.bases[2]} scores!")
                     self.bases[2] = None
                     notation += " (SF)"
-            return f"{out_desc} to {fielder_pos} ({notation})", runs
+            return f"{out_desc} to {fielder_pos} ({notation})", runs, False
 
         if out_type == 'Groundout':
-            # Check for double play opportunity
             dp_opportunity = self.outs < 2 and self.bases[0] is not None
             dp_rate = self.team1_data['double_play_rate'] if self.top_of_inning else self.team2_data['double_play_rate']
 
             if dp_opportunity and random.random() < dp_rate:
                 self.outs += 2
-                # Standard 6-4-3 double play on groundball to SS
                 if fielder['position'] == 'SS':
                     notation = "GDP (6-4-3)"
                     print(f"  Ground ball to short... 6-4-3 double play!")
-                # Standard 4-6-3 double play on groundball to 2B
                 elif fielder['position'] == '2B':
                     notation = "GDP (4-6-3)"
                     print(f"  Ground ball to second... 4-6-3 double play!")
-                else: # Other fielder, simplified DP
+                else:
                     notation = f"GDP ({pos_map[fielder['position']]}-4-3)"
                     print(f"  Ground ball to {fielder['position']}... double play!")
 
-                self.bases[0] = None # Runner from first is out
-                if self.bases[1]: # Runner on second moves to third
+                self.bases[0] = None
+                if self.bases[1]:
                     self.bases[2] = self.bases[1]
                     self.bases[1] = None
-                return f"Groundout, Double Play ({notation})", runs
+                return f"Groundout, Double Play ({notation})", runs, False
 
             self.outs += 1
-            if self.outs < 3: # Runners advance on non-DP groundout
+            if self.outs < 3:
                 if self.bases[2]: runs += 1; self.bases[2] = None
                 if self.bases[1]: self.bases[2] = self.bases[1]; self.bases[1] = None
                 if self.bases[0]: self.bases[1] = self.bases[0]; self.bases[0] = None
 
-            # Unassisted groundout notation
             if fielder['position'] == '1B':
                 notation = "3U"
             else:
                 notation = f"{pos_map[fielder['position']]}-3"
-            return f"Groundout to {fielder['position']} ({notation})", runs
+            return f"Groundout to {fielder['position']} ({notation})", runs, False
 
-        return "Error", 0 # Should not be reached
+        return "Error", 0, True # Should not be reached
 
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
@@ -368,12 +381,11 @@ class BaseballSimulator:
                 display_outcome = "Hit by Pitch"
 
             if outcome in ["Groundout", "Flyout"]:
-                display_outcome, new_runs = self._handle_batted_ball_out(outcome, batter)
+                display_outcome, new_runs, was_error = self._handle_batted_ball_out(outcome, batter)
                 runs += new_runs
-            
-            if outcome == "Error":
-                display_outcome = "Error"
-                runs += self._advance_runners("Single", batter)
+                if was_error:
+                    runs += self._advance_runners("Single", batter)
+
             elif outcome == "Strikeout":
                 self.outs += 1
             elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:

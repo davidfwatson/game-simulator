@@ -22,9 +22,10 @@ class TestRealism(unittest.TestCase):
 
     def test_quantized_velocities(self):
         """Test if pitch velocities are too uniform or 'quantized'."""
-        velocities = re.findall(r'\((\d{2,3}) mph\)', self.log)
+        # This pattern now correctly captures integer and float velocities.
+        velocities = re.findall(r'\((\d{2,3}(?:\.\d)?) mph\)', self.log)
         self.assertGreater(len(velocities), 0, "No velocities found in game log.")
-        unique_velocities = set(map(int, velocities))
+        unique_velocities = set(map(float, velocities))
         # Expecting more than 10 unique velocities in a full game for realism.
         self.assertGreater(len(unique_velocities), 10, "Pitch velocities appear quantized and not varied enough.")
 
