@@ -59,7 +59,7 @@ GAME_CONTEXT = {
             "deep": ["flies out deep"]
         },
         "Strikeout": {
-            "swinging": ["strikes out swinging", "whiffs"],
+            "swinging": ["strikes out swinging"],
             "looking": ["strikes out looking"]
         }
     },

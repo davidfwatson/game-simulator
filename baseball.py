@@ -492,6 +492,11 @@ class BaseballSimulator:
 
             choices, weights = zip(*grounder_candidates)
             fielder = random.choices(choices, weights=weights, k=1)[0]
+
+            if fielder and fielder['position'] == 'C' and statcast_data and 'ev' in statcast_data:
+                # Force EV/LA to represent a soft dribbler/tapper
+                statcast_data['ev'] = round(random.uniform(50, 70), 1)
+                statcast_data['la'] = round(random.uniform(-45, -20), 1)
         elif out_type == 'Flyout':
             fielder = random.choices(
                 population=outfielders + infielders,
@@ -691,16 +696,10 @@ class BaseballSimulator:
             # --- Result Formatting and Printing ---
             if self.commentary_style == 'statcast':
                 pitch_info = description
-                # Only print "In play..." for batted balls, not strikeouts or walks.
+                batted_ball_str = ""
                 if outcome not in ["Strikeout", "Walk", "HBP"]:
-                    in_play_result = "out(s)"
-                    if was_error: in_play_result = "no out (error)"
-                    elif outcome in ["Single", "Double", "Triple", "Home Run"]: in_play_result = "run(s)" if runs > 0 else "no out"
-
-                    batted_ball_str = ""
                     if pitch_info and 'ev' in pitch_info and 'la' in pitch_info:
                         batted_ball_str = f" (EV: {pitch_info['ev']} mph, LA: {pitch_info['la']}°)"
-                    print(f"  In play, {in_play_result}.{batted_ball_str}")
 
                 result_line = display_outcome
                 if was_error:
@@ -733,6 +732,8 @@ class BaseballSimulator:
                 elif outcome == "HBP":
                     result_line = "Hit by Pitch."
 
+                if batted_ball_str:
+                    result_line += batted_ball_str
                 if rbis > 0 and not was_error: result_line += f" {batter['legal_name']} drives in {rbis}."
                 if not was_error and advances:
                     adv_str = "; ".join(advances)
