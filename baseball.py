@@ -109,7 +109,14 @@ class BaseballSimulator:
             la = round(random.uniform(18, 30), 1)
         elif hit_type == "Home Run":
             ev = round(random.uniform(100, 120), 1)
-            la = round(random.uniform(25, 45), 1)
+            # Correlate LA with EV. The harder it's hit, the lower the typical HR angle.
+            if ev >= 118:
+                # Max-effort swings that produce top-tier EV are almost never loopy.
+                la = round(random.uniform(20, 28), 1)
+            elif ev > 110:
+                la = round(random.uniform(22, 35), 1)
+            else:
+                la = round(random.uniform(25, 45), 1)
 
         return {'ev': ev, 'la': la}
 
@@ -171,8 +178,11 @@ class BaseballSimulator:
             if ev < 85: cat = 'soft'
             elif ev > 100: cat = 'hard'
         elif outcome == "Flyout":
-            if ev < 90 and la > 40: cat = 'popup'
-            elif ev > 100 and la > 30: cat = 'deep'
+            # Popups are very high-angle, often weakly hit balls.
+            if (ev < 95 and la > 50) or (ev < 90 and la > 40):
+                cat = 'popup'
+            elif ev > 100 and la > 30:
+                cat = 'deep'
 
         return random.choice(verb_cats.get(cat, verb_cats.get('default', ["describes"])))
 
@@ -536,6 +546,12 @@ class BaseballSimulator:
 
             if self.commentary_style == 'statcast':
                 verb = self._get_batted_ball_verb('Flyout', statcast_data['ev'], statcast_data['la']) if statcast_data and 'ev' in statcast_data else random.choice(GAME_CONTEXT['statcast_verbs']['Flyout']['default'])
+
+                # An outfielder cannot field an "infield fly". This logic corrects the verb if it's misused.
+                is_outfielder = fielder['position'] in ['LF', 'CF', 'RF']
+                if "infield fly" in verb and is_outfielder:
+                    verb = "skies a popup" # Default to a more generic popup term
+
                 context = {
                     'batter_name': batter['legal_name'],
                     'verb': verb,
@@ -675,13 +691,14 @@ class BaseballSimulator:
             # --- Result Formatting and Printing ---
             if self.commentary_style == 'statcast':
                 pitch_info = description
-                if pitch_info:
+                # Only print "In play..." for batted balls, not strikeouts or walks.
+                if outcome not in ["Strikeout", "Walk", "HBP"]:
                     in_play_result = "out(s)"
                     if was_error: in_play_result = "no out (error)"
                     elif outcome in ["Single", "Double", "Triple", "Home Run"]: in_play_result = "run(s)" if runs > 0 else "no out"
 
                     batted_ball_str = ""
-                    if 'ev' in pitch_info and 'la' in pitch_info:
+                    if pitch_info and 'ev' in pitch_info and 'la' in pitch_info:
                         batted_ball_str = f" (EV: {pitch_info['ev']} mph, LA: {pitch_info['la']}°)"
                     print(f"  In play, {in_play_result}.{batted_ball_str}")
 

@@ -30,64 +30,60 @@ GAME_CONTEXT = {
     },
     "statcast_verbs": {
         "Single": {
-            "default": ["gets a single"],
-            "bloop": ["bloops a single", "flares one for a single"],      # Low EV, Medium LA
-            "liner": ["lines a single", "rips a single"],                # High EV, Low LA
-            "grounder": ["grounds a single", "shoots a single through the hole"] # High EV, Negative LA
+            "default": ["singles"],
+            "bloop": ["singles on a bloop"],
+            "liner": ["lines a single"],
+            "grounder": ["grounds a single"]
         },
         "Double": {
-            "default": ["hustles for a double"],
-            "liner": ["laces a double into the gap", "drills a double"], # High EV, Low LA
-            "wall": ["bangs a double off the wall", "one-hops the wall"]   # High EV, Medium LA
+            "default": ["doubles"],
+            "liner": ["doubles on a line drive"],
+            "wall": ["doubles off the wall"]
         },
         "Triple": {
-            "default": ["legs out a triple", "drives one into the gap for three"]
+            "default": ["triples"]
         },
         "Home Run": {
-            "default": ["crushes a homer", "launches a no-doubter"],
-            "screamer": ["hits a frozen-rope homer", "lines a laser over the fence"], # Very High EV, Low LA
-            "moonshot": ["hits a towering home run", "sends a moonshot into the stands"] # High EV, High LA
+            "default": ["homers"],
+            "screamer": ["homers (liner)"],
+            "moonshot": ["homers (fly ball)"]
         },
         "Groundout": {
             "default": ["grounds out"],
-            "soft": ["rolls over on one", "bounces out weakly"],     # Low EV
-            "hard": ["smashes a groundout", "rips a one-hopper"]      # High EV
+            "soft": ["grounds out softly"],
+            "hard": ["grounds out sharply"]
         },
         "Flyout": {
             "default": ["flies out"],
-            "popup": ["skies a popup", "lifts an infield fly"],      # Low EV, High LA
-            "deep": ["drives a deep fly ball", "hits it to the warning track"] # High EV, High LA
+            "popup": ["pops out", "infield fly"],
+            "deep": ["flies out deep"]
         },
         "Strikeout": {
-            "swinging": ["strikes out swinging", "goes down swinging", "whiffs"],
-            "looking": ["is called out on strikes", "goes down looking", "is frozen for strike three"]
+            "swinging": ["strikes out swinging", "whiffs"],
+            "looking": ["strikes out looking"]
         }
     },
     "statcast_templates": {
-        "Home Run": [
-            "{batter_name} {verb}.",
-            "That ball is GONE! {batter_name} {verb}.",
-            "{verb_capitalized}! A {runs}-run homer for {batter_name}!"
+        "Single": [
+            "{batter_name} {verb}."
         ],
         "Double": [
-            "{batter_name} {verb}.",
-            "{verb_capitalized}, and that'll be a double for {batter_name}.",
-            "{batter_name} legs out a double."
+            "{batter_name} {verb}."
+        ],
+        "Triple": [
+            "{batter_name} {verb}."
+        ],
+        "Home Run": [
+            "{batter_name} {verb}."
         ],
         "Error": [
-            "{display_outcome} {adv_str}.",
-            "A fielding error by the defense allows {batter_name} to reach base. {adv_str}.",
-            "{batter_name} gets on base thanks to an error. {adv_str}."
+            "{display_outcome} {adv_str}."
         ],
         "Flyout": [
-            "{batter_name} {verb} to {fielder_pos}.",
-            "It's a fly ball to {fielder_pos}, and {fielder_name} makes the catch for the out.",
-            "{batter_name} gets under it and {verb} to {fielder_name} in {fielder_pos}."
+            "{batter_name} {verb} to {fielder_pos}."
         ],
         "Groundout": [
-            "{batter_name} {verb} to {fielder_pos}.",
-            "A grounder to {fielder_pos}, and {fielder_name} handles it for the out.",
-            "{batter_name} hits it on the ground to {fielder_name} at {fielder_pos} for the out."
+            "{batter_name} {verb} to {fielder_pos}."
         ]
     }
 }
