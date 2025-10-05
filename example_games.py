@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 import copy
-import io
 import random
-from contextlib import redirect_stdout
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List
@@ -38,15 +36,14 @@ class ExampleGame:
             commentary_style=commentary_style,
         )
 
+        simulator.play_game()
+
         if commentary_style == "gameday":
-            simulator.play_game()
             import json
             return json.dumps(simulator.play_events, indent=2)
-
-        buffer = io.StringIO()
-        with redirect_stdout(buffer):
-            simulator.play_game()
-        return buffer.getvalue()
+        else:
+            # Return buffered output for narrative/statcast
+            return "\n".join(simulator.output_lines) + "\n"
 
 
 EXAMPLE_GAMES: List[ExampleGame] = [

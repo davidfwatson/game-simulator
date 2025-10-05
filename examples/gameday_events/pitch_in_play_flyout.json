@@ -1,0 +1,43 @@
+{
+  "index": 1,
+  "playId": "test-uuid-1",
+  "atBatIndex": 1,
+  "pitchNumber": 2,
+  "isPitch": true,
+  "type": {
+    "code": "P",
+    "description": "Pitch"
+  },
+  "details": {
+    "code": "X",
+    "description": "In play, Flyout",
+    "isInPlay": true,
+    "type": {
+      "code": "FF",
+      "description": "Four-seam fastball"
+    }
+  },
+  "count": {
+    "balls": 0,
+    "strikes": 1
+  },
+  "pitchData": {
+    "startSpeed": 96.4,
+    "coordinates": {
+      "pX": -0.33,
+      "pZ": 1.72
+    },
+    "breaks": {
+      "spinRate": 2232
+    }
+  },
+  "hitData": {
+    "launchSpeed": 92.6,
+    "launchAngle": 35.6,
+    "trajectory": "fly_ball",
+    "coordinates": {
+      "coordX": 110.7,
+      "coordY": 150.3
+    }
+  }
+}

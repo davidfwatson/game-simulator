@@ -1,0 +1,24 @@
+{
+  "playId": "test-uuid-15",
+  "atBatIndex": 3,
+  "isPitch": false,
+  "type": {
+    "code": "A",
+    "description": "Action"
+  },
+  "details": {
+    "code": "SB",
+    "description": "Stolen Base 2B",
+    "eventType": "stolen_base"
+  },
+  "runners": [
+    {
+      "runnerId": 212,
+      "start": "1B",
+      "end": "2B",
+      "isOut": false,
+      "movementReason": "stolen_base"
+    }
+  ],
+  "index": 15
+}

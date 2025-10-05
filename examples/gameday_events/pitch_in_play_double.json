@@ -1,0 +1,43 @@
+{
+  "index": 94,
+  "playId": "test-uuid-94",
+  "atBatIndex": 15,
+  "pitchNumber": 1,
+  "isPitch": true,
+  "type": {
+    "code": "P",
+    "description": "Pitch"
+  },
+  "details": {
+    "code": "X",
+    "description": "In play, Double",
+    "isInPlay": true,
+    "type": {
+      "code": "CU",
+      "description": "Curveball"
+    }
+  },
+  "count": {
+    "balls": 0,
+    "strikes": 0
+  },
+  "pitchData": {
+    "startSpeed": 80.6,
+    "coordinates": {
+      "pX": 0.16,
+      "pZ": 1.75
+    },
+    "breaks": {
+      "spinRate": 2767
+    }
+  },
+  "hitData": {
+    "launchSpeed": 100.2,
+    "launchAngle": 16.5,
+    "trajectory": "line_drive",
+    "coordinates": {
+      "coordX": 96.9,
+      "coordY": 221.4
+    }
+  }
+}

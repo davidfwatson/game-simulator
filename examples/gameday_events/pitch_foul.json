@@ -1,0 +1,34 @@
+{
+  "index": 0,
+  "playId": "test-uuid-0",
+  "atBatIndex": 1,
+  "pitchNumber": 1,
+  "isPitch": true,
+  "type": {
+    "code": "P",
+    "description": "Pitch"
+  },
+  "details": {
+    "code": "D",
+    "description": "Foul",
+    "isStrike": true,
+    "type": {
+      "code": "FF",
+      "description": "Four-seam fastball"
+    }
+  },
+  "count": {
+    "balls": 0,
+    "strikes": 1
+  },
+  "pitchData": {
+    "startSpeed": 96.1,
+    "coordinates": {
+      "pX": -0.52,
+      "pZ": 1.68
+    },
+    "breaks": {
+      "spinRate": 2424
+    }
+  }
+}

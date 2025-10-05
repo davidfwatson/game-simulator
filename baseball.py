@@ -40,10 +40,21 @@ class BaseballSimulator:
         self.outs, self.bases = 0, [None, None, None] # Runners on base by name
         self.play_events = []
 
+        # Output buffer - always buffer output, print at end
+        self.output_lines = []
+
         # Game context
         self.umpires = random.sample(GAME_CONTEXT["umpires"], 4)
         self.weather = random.choice(GAME_CONTEXT["weather_conditions"])
         self.venue = self.team1_data["venue"]
+
+    def _print(self, text, end="\n"):
+        """Buffer all output to print at the end."""
+        if self.output_lines and end == "":
+            # Append to the last line without adding a new line
+            self.output_lines[-1] += text
+        else:
+            self.output_lines.append(text)
 
     def _setup_pitchers(self, team_data, team_prefix):
         all_pitchers = [p for p in team_data["players"] if p['position'] == 'P']
@@ -243,7 +254,7 @@ class BaseballSimulator:
                 })
             runs += 1
             if self.commentary_style == 'narrative':
-                print(f"  {runner_name} scores!")
+                self._print(f"  {runner_name} scores!")
             self.bases[2] = None
 
         if self.bases[1]:
@@ -275,7 +286,7 @@ class BaseballSimulator:
             self.bases[0] = None
 
         if self.commentary_style == 'narrative' and advances:
-            print(f"  {event_type}! Runners advance.")
+            self._print(f"  {event_type}! Runners advance.")
 
         # Sort advances by base for consistent output
         base_order = {'1B': 0, '2B': 1, '3B': 2}
@@ -475,14 +486,14 @@ class BaseballSimulator:
         at_bat_events = []
         
         batter_display_name = self._get_player_display_name(batter)
-        print(f"Now batting: {batter_display_name} ({batter['position']}, {batter['handedness']})")
+        self._print(f"Now batting: {batter_display_name} ({batter['position']}, {batter['handedness']})")
 
         if self.commentary_style == 'narrative':
             if self.verbose_phrasing and random.random() < 0.03:
-                print("  Brief delay as the infield huddles on the mound.")
+                self._print("  Brief delay as the infield huddles on the mound.")
 
             if self.verbose_phrasing and self.bases[0] and random.random() < 0.05:
-                print(f"  Quick throw to first and {self.bases[0]} dives back safely.")
+                self._print(f"  Quick throw to first and {self.bases[0]} dives back safely.")
 
             if self.verbose_phrasing and random.random() < 0.04:
                 defensive_call = random.choice([
@@ -491,7 +502,7 @@ class BaseballSimulator:
                     "Corners creep in expecting a bunt.",
                     "Middle infielders pinch the bag."
                 ])
-                print(f"  Defensive alignment: {defensive_call}")
+                self._print(f"  Defensive alignment: {defensive_call}")
 
         # Check for HBP at the start of the at-bat using batter-specific stats
         if random.random() < batter.get('stats', {}).get('HBP', 0):
@@ -653,7 +664,7 @@ class BaseballSimulator:
                     pitch_name_formatted = pitch_selection
                     location_str = f"px {px:.2f}, pz {pz:.2f}"
                     spin_str = f" ({pitch_spin} rpm)" if pitch_spin is not None else ""
-                    print(f"  {verdict}: {pitch_velo} mph {pitch_name_formatted}{spin_str}. Loc: ({location_str})")
+                    self._print(f"  {verdict}: {pitch_velo} mph {pitch_name_formatted}{spin_str}. Loc: ({location_str})")
             else: # narrative style
                 if self.verbose_phrasing:
                     location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike' if is_strike_loc else 'ball'])
@@ -669,13 +680,13 @@ class BaseballSimulator:
                     self.play_events.extend(at_bat_events)
                     return (hit_result, narrative_desc)
                 elif pitch_outcome_text == "foul":
-                    print(f"  {pitch_desc} Foul. Count: {balls}-{strikes}")
+                    self._print(f"  {pitch_desc} Foul. Count: {balls}-{strikes}")
                 elif pitch_outcome_text == "swinging strike":
-                    print(f"  {pitch_desc} Swinging Strike{' (Whiff)' if strikes == 3 else ''}.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
+                    self._print(f"  {pitch_desc} Swinging Strike{' (Whiff)' if strikes == 3 else ''}.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
                 elif pitch_outcome_text == "called strike":
-                    print(f"  {pitch_desc} Called Strike.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
+                    self._print(f"  {pitch_desc} Called Strike.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
                 elif pitch_outcome_text == "ball":
-                    print(f"  {pitch_desc} Ball.{' Count: ' + str(balls) + '-' + str(strikes) if balls < 4 else ''}")
+                    self._print(f"  {pitch_desc} Ball.{' Count: ' + str(balls) + '-' + str(strikes) if balls < 4 else ''}")
 
         self.play_events.extend(at_bat_events)
         if balls == 4:
@@ -766,12 +777,12 @@ class BaseballSimulator:
 
             if is_home_team_pitching:
                 if self.team1_current_pitcher_name != next_pitcher_name:
-                    print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team1_current_pitcher_name} ---\n")
+                    self._print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team1_current_pitcher_name} ---\n")
                     self.team1_current_pitcher_name = next_pitcher_name
                     self.team1_available_bullpen.remove(next_pitcher_name)
             else:
                 if self.team2_current_pitcher_name != next_pitcher_name:
-                    print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team2_current_pitcher_name} ---\n")
+                    self._print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team2_current_pitcher_name} ---\n")
                     self.team2_current_pitcher_name = next_pitcher_name
                     self.team2_available_bullpen.remove(next_pitcher_name)
 
@@ -827,7 +838,7 @@ class BaseballSimulator:
                 return f"{notation} on {error_desc} to {fielder['position']};", 0, True, 0
 
             if self.commentary_style == 'narrative':
-                print(f"  An error by {fielder['position']} {fielder['legal_name']} allows the batter to reach base.")
+                self._print(f"  An error by {fielder['position']} {fielder['legal_name']} allows the batter to reach base.")
             return f"Reached on Error ({notation})", 0, True, 0
 
         runs = 0
@@ -851,7 +862,7 @@ class BaseballSimulator:
                 if self.commentary_style == 'statcast':
                     return f"Sac fly to {fielder_pos}. {runner_on_third} scores.", runs, False, rbis
                 else: # narrative
-                    print(f"  Sacrifice fly to {fielder_pos}, {runner_on_third} scores!")
+                    self._print(f"  Sacrifice fly to {fielder_pos}, {runner_on_third} scores!")
                     notation += " (SF)"
             else:
                 # Regular flyout, no run scores on the play itself.
@@ -898,7 +909,7 @@ class BaseballSimulator:
                 if self.commentary_style == 'statcast':
                     display_outcome = f"Grounds into a double play, {route} ({notation}); {runner_on_first} out at 2B; {batter['legal_name']} out at 1B."
                 else: # narrative
-                    print(f"  Ground ball... it's a {notation} double play!")
+                    self._print(f"  Ground ball... it's a {notation} double play!")
                     display_outcome = f"Groundout, Double Play ({notation})"
 
                 self.bases[0] = None
@@ -951,11 +962,11 @@ class BaseballSimulator:
             runner_name = lineup[last_batter_idx]['legal_name']
             self.bases[1] = runner_name
             if self.verbose_phrasing and self.commentary_style == 'narrative':
-                print(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
+                self._print(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
 
         inning_half = "Bottom" if is_home_team_batting else "Top"
-        print("-" * 50)
-        print(f"{inning_half} of Inning {self.inning} | {batting_team_name} batting")
+        self._print("-" * 50)
+        self._print(f"{inning_half} of Inning {self.inning} | {batting_team_name} batting")
 
         at_bat_index = 0
         while self.outs < 3:
@@ -976,7 +987,7 @@ class BaseballSimulator:
             advances = []
 
             if self.commentary_style == 'narrative' and isinstance(description, str):
-                print(description)
+                self._print(description)
 
             display_outcome = outcome
             if outcome in ["Groundout", "Flyout"]:
@@ -1000,7 +1011,7 @@ class BaseballSimulator:
 
             if outcome == "AtBatInterrupted":
                 score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
-                print(f" | Outs: {self.outs} | Score: {score_str}\n")
+                self._print(f" | Outs: {self.outs} | Score: {score_str}\n")
                 break
 
             if is_home_team_batting: self.team1_score += runs
@@ -1054,11 +1065,11 @@ class BaseballSimulator:
                     adv_str = "; ".join(advances)
                     if adv_str: result_line += f" ({adv_str})"
 
-                print(f"Result: {result_line}")
+                self._print(f"Result: {result_line}")
 
             else: # Narrative style
                 if isinstance(description, str):
-                    print(description)
+                    self._print(description)
 
                 result_line = display_outcome
                 if outcome in ["Walk", "Strikeout"]:
@@ -1068,15 +1079,15 @@ class BaseballSimulator:
 
                 # For hits, the description already contains the full sentence.
                 if outcome not in ["Single", "Double", "Triple", "Home Run"]:
-                    print(f"Result: {result_line.ljust(30)}", end="")
+                    self._print(f"Result: {result_line.ljust(30)}", end="")
                 else:
-                    print(f"Result: {outcome.ljust(30)}", end="")
+                    self._print(f"Result: {outcome.ljust(30)}", end="")
 
             # Universal state printing
             if self.outs < 3:
-                print(f" | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
+                self._print(f" | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
             else:
-                print(f" | Outs: {self.outs} | Score: {score_str}\n")
+                self._print(f" | Outs: {self.outs} | Score: {score_str}\n")
             
             setattr(self, batter_idx_ref, (batter_idx + 1) % 9)
             if self.outs >= 3: break
@@ -1084,12 +1095,12 @@ class BaseballSimulator:
                 return
 
     def _print_pre_game_summary(self):
-        print("="*20, "GAME START", "="*20)
-        print(f"{self.team2_name} vs. {self.team1_name}")
-        print(f"Venue: {self.venue}")
-        print(f"Weather: {self.weather}")
-        print(f"Umpires: HP: {self.umpires[0]}, 1B: {self.umpires[1]}, 2B: {self.umpires[2]}, 3B: {self.umpires[3]}")
-        print("-" * 50)
+        self._print("=" * 20 + " GAME START " + "=" * 20)
+        self._print(f"{self.team2_name} vs. {self.team1_name}")
+        self._print(f"Venue: {self.venue}")
+        self._print(f"Weather: {self.weather}")
+        self._print(f"Umpires: HP: {self.umpires[0]}, 1B: {self.umpires[1]}, 2B: {self.umpires[2]}, 3B: {self.umpires[3]}")
+        self._print("-" * 50)
 
     def play_game(self):
         self._print_pre_game_summary()
@@ -1109,10 +1120,10 @@ class BaseballSimulator:
 
             self.inning += 1
 
-        print("="*20, "GAME OVER", "="*20)
-        print(f"\nFinal Score: {self.team1_name} {self.team1_score} - {self.team2_name} {self.team2_score}")
+        self._print("=" * 20 + " GAME OVER " + "=" * 20)
+        self._print(f"\nFinal Score: {self.team1_name} {self.team1_score} - {self.team2_name} {self.team2_score}")
         winner = self.team1_name if self.team1_score > self.team2_score else self.team2_name
-        print(f"\n{winner} win!")
+        self._print(f"\n{winner} win!")
 
 if __name__ == "__main__":
     import argparse
@@ -1134,6 +1145,11 @@ if __name__ == "__main__":
 
     game.play_game()
 
+    # Print output based on commentary style
     if args.commentary == 'gameday':
         import json
         print(json.dumps(game.play_events, indent=2))
+    else:
+        # Print buffered narrative/statcast output
+        for line in game.output_lines:
+            print(line)

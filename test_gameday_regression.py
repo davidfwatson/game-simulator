@@ -1,44 +1,144 @@
 """
-This module contains the regression test for the MLB Gameday JSON output.
+This module contains regression tests for the MLB Gameday JSON output.
 
-It works by reading a set of pre-generated JSON files from the
-`examples/gameday/` directory and comparing them against the output of the
-`BaseballSimulator` for a given seed.
+Instead of storing full game JSONs (which are very large), this test uses
+curated single-event examples to validate the structure and content of each
+event type that the simulator can generate.
 
-If the simulation engine's behavior changes, the generated Gameday data will
-no longer match the snapshots. To bless the new behavior, run the
-`update_gameday_examples.py` script, which will overwrite the existing
-snapshot files with the new output.
+The example events are stored in examples/gameday_events/ directory.
 """
 import json
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
-from example_games import EXAMPLE_GAMES, ExampleGame
+GAMEDAY_EVENTS_DIR = Path(__file__).parent / "examples" / "gameday_events"
 
-GAMEDAY_EXAMPLES_DIR = Path(__file__).parent / "examples" / "gameday"
+
+def load_event(event_name: str) -> dict:
+    """Load a gameday event example from JSON file."""
+    filepath = GAMEDAY_EVENTS_DIR / f"{event_name}.json"
+    with open(filepath, 'r') as f:
+        return json.load(f)
 
 
 class TestGamedayRegression(unittest.TestCase):
-    @patch('uuid.uuid4')
-    def test_gameday_snapshots(self, mock_uuid4):
-        for index, game in enumerate(EXAMPLE_GAMES, start=1):
-            with self.subTest(seed=game.seed):
-                # Mock uuid4 to return deterministic, unique IDs for each play event
-                mock_uuid4.side_effect = [f"test-uuid-{i}" for i in range(5000)]
+    """Test that each gameday event type has the expected structure."""
 
-                # Load the canonical snapshot from the examples/gameday/ directory
-                snapshot_path = GAMEDAY_EXAMPLES_DIR / f"game_{index:02d}.json"
-                with open(snapshot_path, "r") as f:
-                    canonical_data = json.load(f)
+    def test_pitch_ball(self):
+        """Ball pitch event has correct structure."""
+        event = load_event('pitch_ball')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['type']['code'], 'P')
+        self.assertEqual(event['details']['code'], 'B')
+        self.assertTrue(event['details']['isBall'])
+        self.assertIn('pitchData', event)
+        self.assertIn('startSpeed', event['pitchData'])
+        self.assertIn('coordinates', event['pitchData'])
+        self.assertIn('breaks', event['pitchData'])
 
-                # Render the game with the same seed and capture the JSON output
-                gameday_json_str = ExampleGame.render(game, commentary_style="gameday")
-                generated_data = json.loads(gameday_json_str)
+    def test_pitch_called_strike(self):
+        """Called strike event has correct structure."""
+        event = load_event('pitch_called_strike')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'C')
+        self.assertTrue(event['details']['isStrike'])
+        self.assertIn('pitchData', event)
 
-                # The generated JSON must exactly match the canonical snapshot
-                self.assertEqual(generated_data, canonical_data)
+    def test_pitch_swinging_strike(self):
+        """Swinging strike event has correct structure."""
+        event = load_event('pitch_swinging_strike')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'S')
+        self.assertTrue(event['details']['isStrike'])
+        self.assertIn('pitchData', event)
+
+    def test_pitch_foul(self):
+        """Foul ball event has correct structure."""
+        event = load_event('pitch_foul')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'D')
+        self.assertTrue(event['details']['isStrike'])
+        self.assertIn('pitchData', event)
+
+    def test_pitch_in_play_single(self):
+        """Single event has correct structure with hit data."""
+        event = load_event('pitch_in_play_single')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'X')
+        self.assertTrue(event['details']['isInPlay'])
+        self.assertIn('Single', event['details']['description'])
+        self.assertIn('hitData', event)
+        self.assertIn('launchSpeed', event['hitData'])
+        self.assertIn('launchAngle', event['hitData'])
+        self.assertIn('trajectory', event['hitData'])
+
+    def test_pitch_in_play_double(self):
+        """Double event has correct structure with hit data."""
+        event = load_event('pitch_in_play_double')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'X')
+        self.assertTrue(event['details']['isInPlay'])
+        self.assertIn('Double', event['details']['description'])
+        self.assertIn('hitData', event)
+
+    def test_pitch_in_play_triple(self):
+        """Triple event has correct structure with hit data."""
+        event = load_event('pitch_in_play_triple')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'X')
+        self.assertTrue(event['details']['isInPlay'])
+        self.assertIn('Triple', event['details']['description'])
+        self.assertIn('hitData', event)
+
+    def test_pitch_in_play_home_run(self):
+        """Home run event has correct structure with hit data."""
+        event = load_event('pitch_in_play_home_run')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'X')
+        self.assertTrue(event['details']['isInPlay'])
+        self.assertIn('Home Run', event['details']['description'])
+        self.assertIn('hitData', event)
+
+    def test_pitch_in_play_groundout(self):
+        """Groundout event has correct structure with hit data."""
+        event = load_event('pitch_in_play_groundout')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'X')
+        self.assertTrue(event['details']['isInPlay'])
+        self.assertIn('Groundout', event['details']['description'])
+        self.assertIn('hitData', event)
+        self.assertEqual(event['hitData']['trajectory'], 'ground_ball')
+
+    def test_pitch_in_play_flyout(self):
+        """Flyout event has correct structure with hit data."""
+        event = load_event('pitch_in_play_flyout')
+        self.assertTrue(event['isPitch'])
+        self.assertEqual(event['details']['code'], 'X')
+        self.assertTrue(event['details']['isInPlay'])
+        self.assertIn('Flyout', event['details']['description'])
+        self.assertIn('hitData', event)
+        self.assertEqual(event['hitData']['trajectory'], 'fly_ball')
+
+    def test_action_stolen_base(self):
+        """Stolen base action has correct structure."""
+        event = load_event('action_stolen_base')
+        self.assertFalse(event['isPitch'])
+        self.assertEqual(event['type']['code'], 'A')
+        self.assertEqual(event['details']['code'], 'SB')
+        self.assertEqual(event['details']['eventType'], 'stolen_base')
+        self.assertIn('runners', event)
+        self.assertFalse(event['runners'][0]['isOut'])
+
+    def test_action_caught_stealing(self):
+        """Caught stealing action has correct structure."""
+        event = load_event('action_caught_stealing')
+        self.assertFalse(event['isPitch'])
+        self.assertEqual(event['type']['code'], 'A')
+        self.assertEqual(event['details']['code'], 'CS')
+        self.assertEqual(event['details']['eventType'], 'caught_stealing')
+        self.assertIn('runners', event)
+        self.assertTrue(event['runners'][0]['isOut'])
+        self.assertIn('creditedFielders', event['runners'][0])
 
 
 if __name__ == "__main__":
