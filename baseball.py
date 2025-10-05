@@ -80,6 +80,35 @@ class BaseballSimulator:
         in_play = {k: v for k, v in batter_stats.items() if k not in ["Walk", "Strikeout", "HBP"]}
         return random.choices(list(in_play.keys()), weights=list(in_play.values()), k=1)[0]
 
+    def _generate_batted_ball_data(self, hit_type):
+        """Generates realistic exit velocity (EV) and launch angle (LA) for a given hit type."""
+        ev, la = 0, 0
+        if hit_type == "Groundout":
+            ev = round(random.uniform(70, 95), 1)
+            la = round(random.uniform(-20, 5), 1)
+        elif hit_type == "Flyout":
+            ev = round(random.uniform(85, 105), 1)
+            la = round(random.uniform(25, 50), 1)
+        elif hit_type == "Single":
+            # Can be a grounder or a liner
+            if random.random() < 0.6: # 60% are grounders
+                ev = round(random.uniform(80, 100), 1)
+                la = round(random.uniform(-10, 8), 1)
+            else: # 40% are liners
+                ev = round(random.uniform(90, 110), 1)
+                la = round(random.uniform(8, 20), 1)
+        elif hit_type == "Double":
+            ev = round(random.uniform(100, 115), 1)
+            la = round(random.uniform(15, 35), 1)
+        elif hit_type == "Triple":
+            ev = round(random.uniform(100, 115), 1)
+            la = round(random.uniform(18, 30), 1)
+        elif hit_type == "Home Run":
+            ev = round(random.uniform(100, 120), 1)
+            la = round(random.uniform(25, 45), 1)
+
+        return {'ev': ev, 'la': la}
+
     def _describe_contact(self, outcome):
         contact_templates = {
             "Single": [
@@ -182,6 +211,8 @@ class BaseballSimulator:
             pitch_details = pitcher['pitch_arsenal'][pitch_selection]
             min_velo, max_velo = pitch_details['velo_range']
             pitch_velo = round(random.uniform(min_velo, max_velo), 1)
+            min_spin, max_spin = pitch_details.get('spin_range', (2000, 2500))
+            pitch_spin = random.randint(min_spin, max_spin)
 
             fatigue_factor = max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina'])
             fatigue_penalty = (fatigue_factor / 15) * 0.1
@@ -189,6 +220,20 @@ class BaseballSimulator:
 
             is_strike_loc = random.random() < effective_control
             
+            # Simulate pitch location (px, pz) based on whether it's a strike or ball
+            # Strike zone is roughly px: -0.85 to 0.85, pz: 1.5 to 3.5
+            if is_strike_loc:
+                px = round(random.uniform(-0.85, 0.85), 2)
+                pz = round(random.uniform(1.5, 3.5), 2)
+            else:
+                # 50/50 chance of being horizontally or vertically outside the zone
+                if random.random() < 0.5:
+                    px = round(random.uniform(-1.5, 1.5), 2)
+                    pz = round(random.uniform(0.5, 1.49) if random.random() < 0.5 else random.uniform(3.51, 4.5), 2)
+                else:
+                    px = round(random.uniform(-1.5, -0.86) if random.random() < 0.5 else random.uniform(0.86, 1.5), 2)
+                    pz = round(random.uniform(1.5, 3.5), 2)
+
             swing_prob = 0.85 if is_strike_loc else swing_at_ball_prob
             swing = random.random() < swing_prob
             
@@ -228,13 +273,22 @@ class BaseballSimulator:
                     pitch_outcome_text = "ball"
 
             if self.commentary_style == 'statcast':
+                pitch_info = {
+                    'pitch_type': pitch_selection,
+                    'pitch_velo': pitch_velo,
+                    'spin_rate': pitch_spin,
+                    'px': px,
+                    'pz': pz
+                }
                 if is_in_play:
-                    pitch_info = {'pitch_type': pitch_selection, 'pitch_velo': pitch_velo}
+                    batted_ball_data = self._generate_batted_ball_data(hit_result)
+                    pitch_info.update(batted_ball_data)
                     return (hit_result, pitch_info)
                 else:
                     verdict = pitch_outcome_text.capitalize()
                     pitch_name_formatted = pitch_selection
-                    print(f"  {verdict} ({pitch_velo} mph {pitch_name_formatted}).")
+                    location_str = f"px {px:.2f}, pz {pz:.2f}"
+                    print(f"  {verdict}: {pitch_velo} mph {pitch_name_formatted} ({pitch_spin} rpm). Loc: ({location_str})")
             else: # narrative style
                 if self.verbose_phrasing:
                     location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike' if is_strike_loc else 'ball'])
@@ -424,7 +478,8 @@ class BaseballSimulator:
                 self.outs += 1
 
             if self.commentary_style == 'statcast':
-                return f"{out_desc.capitalize()} to {fielder['position']}.", runs, False, rbis
+                verb = random.choice(GAME_CONTEXT['statcast_verbs']['Flyout'])
+                return f"{batter['legal_name']} {verb} to {fielder['position']}.", runs, False, rbis
             return f"{out_desc.capitalize()} to {fielder_pos} ({notation})", runs, False, rbis
 
         if out_type == 'Groundout':
@@ -474,7 +529,8 @@ class BaseballSimulator:
 
             play_label = f"Groundout to {fielder['position']}"
             if self.commentary_style == 'statcast':
-                return f"{play_label}.", runs, False, rbis
+                verb = random.choice(GAME_CONTEXT['statcast_verbs']['Groundout'])
+                return f"{batter['legal_name']} {verb} to {fielder['position']}.", runs, False, rbis
 
             if fielder['position'] == '1B': notation = "3U"
             elif fielder['position'] == 'C': notation = "2-3"
@@ -549,18 +605,23 @@ class BaseballSimulator:
                     in_play_result = "out(s)"
                     if was_error: in_play_result = "no out (error)"
                     elif outcome in ["Single", "Double", "Triple", "Home Run"]: in_play_result = "run(s)" if runs > 0 else "no out"
-                    print(f"  In play, {in_play_result}.")
+
+                    batted_ball_str = ""
+                    if 'ev' in pitch_info and 'la' in pitch_info:
+                        batted_ball_str = f" (EV: {pitch_info['ev']} mph, LA: {pitch_info['la']}°)"
+                    print(f"  In play, {in_play_result}.{batted_ball_str}")
 
                 result_line = display_outcome
                 if was_error:
                     adv_str = "; ".join(adv for adv in advances)
                     result_line = f"{display_outcome} {adv_str}."
-                elif outcome in ["Single", "Double", "Triple", "Home Run"]:
-                    result_line = outcome.capitalize() + "."
+                elif outcome in GAME_CONTEXT['statcast_verbs']:
+                    verb = random.choice(GAME_CONTEXT['statcast_verbs'][outcome])
+                    result_line = f"{batter['legal_name']} {verb}."
                 elif outcome == "HBP":
                     result_line = "Hit by Pitch."
 
-                if rbis > 0: result_line += f" {batter['legal_name']} drives in {rbis}."
+                if rbis > 0 and not was_error: result_line += f" {batter['legal_name']} drives in {rbis}."
                 if not was_error and advances:
                     adv_str = "; ".join(advances)
                     if adv_str: result_line += f" ({adv_str})"
