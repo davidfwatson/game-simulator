@@ -222,19 +222,252 @@ class BaseballSimulator:
 
     def _advance_runners_on_wp_pb(self, event_type):
         runs = 0
-        print(f"  {event_type}! Runners advance.")
+        advances = []
+        movement_reason = event_type.lower().replace(' ', '_')
+
+        is_home_team_batting = not self.top_of_inning
+        lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
+
         # Simplified: runners advance one base.
+        # The order of operations is important: 3B, then 2B, then 1B.
         if self.bases[2]:
+            runner_name = self.bases[2]
+            runner_data = next((p for p in lineup if p['legal_name'] == runner_name), None)
+            if runner_data:
+                advances.append({
+                    'runnerId': runner_data['id'],
+                    'start': '3B',
+                    'end': 'Home',
+                    'isOut': False,
+                    'movementReason': movement_reason
+                })
             runs += 1
-            print(f"  {self.bases[2]} scores!")
+            if self.commentary_style == 'narrative':
+                print(f"  {runner_name} scores!")
             self.bases[2] = None
+
         if self.bases[1]:
+            runner_name = self.bases[1]
+            runner_data = next((p for p in lineup if p['legal_name'] == runner_name), None)
+            if runner_data:
+                advances.append({
+                    'runnerId': runner_data['id'],
+                    'start': '2B',
+                    'end': '3B',
+                    'isOut': False,
+                    'movementReason': movement_reason
+                })
             self.bases[2] = self.bases[1]
             self.bases[1] = None
+
         if self.bases[0]:
+            runner_name = self.bases[0]
+            runner_data = next((p for p in lineup if p['legal_name'] == runner_name), None)
+            if runner_data:
+                advances.append({
+                    'runnerId': runner_data['id'],
+                    'start': '1B',
+                    'end': '2B',
+                    'isOut': False,
+                    'movementReason': movement_reason
+                })
             self.bases[1] = self.bases[0]
             self.bases[0] = None
-        return runs
+
+        if self.commentary_style == 'narrative' and advances:
+            print(f"  {event_type}! Runners advance.")
+
+        # Sort advances by base for consistent output
+        base_order = {'1B': 0, '2B': 1, '3B': 2}
+        advances.sort(key=lambda x: base_order.get(x['start'], -1))
+
+        return {'runs': runs, 'advances': advances}
+
+    def _simulate_base_running_action(self, pitcher, at_bat_index):
+        """Simulates non-pitch actions like steals and pickoffs."""
+        events = []
+        # Less action with 2 outs.
+        if self.outs >= 2 or not any(self.bases):
+            return events
+
+        is_home_team_batting = not self.top_of_inning
+        batting_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
+        defensive_team_prefix = 'team1' if self.top_of_inning else 'team2'
+
+        # Probabilities for actions
+        STEAL_ATTEMPT_PROB = 0.02
+        STEAL_SUCCESS_RATE = 0.75
+        PICKOFF_ATTEMPT_PROB = 0.015
+        PICKOFF_SUCCESS_RATE = 0.05
+        BALK_PROB = 0.001
+
+        # Balk check
+        if any(self.bases) and random.random() < BALK_PROB:
+            balk_runners = []
+            new_bases = self.bases[:]
+            # Runners advance one base. Order matters.
+            if self.bases[2]:
+                runner_name = self.bases[2]
+                runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
+                if runner_data:
+                    balk_runners.append({
+                        'runnerId': runner_data['id'], 'start': '3B', 'end': 'Home', 'isOut': False, 'movementReason': 'balk'
+                    })
+                if is_home_team_batting: self.team1_score += 1
+                else: self.team2_score += 1
+            if self.bases[1]:
+                runner_name = self.bases[1]
+                runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
+                if runner_data:
+                    balk_runners.append({
+                        'runnerId': runner_data['id'], 'start': '2B', 'end': '3B', 'isOut': False, 'movementReason': 'balk'
+                    })
+                new_bases[2] = self.bases[1]
+            if self.bases[0]:
+                runner_name = self.bases[0]
+                runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
+                if runner_data:
+                    balk_runners.append({
+                        'runnerId': runner_data['id'], 'start': '1B', 'end': '2B', 'isOut': False, 'movementReason': 'balk'
+                    })
+                new_bases[1] = self.bases[0]
+                new_bases[0] = None
+
+            self.bases = new_bases
+            base_order = {'1B': 0, '2B': 1, '3B': 2}
+            balk_runners.sort(key=lambda x: base_order.get(x['start'], -1), reverse=True)
+
+            event = {
+                "playId": str(uuid.uuid4()), "atBatIndex": at_bat_index, "isPitch": False,
+                "type": {"code": "A", "description": "Action"},
+                "details": {"code": "BK", "description": "Balk", "eventType": "balk"},
+                "runners": balk_runners
+            }
+            events.append(event)
+
+            for i, event in enumerate(events):
+                event['index'] = len(self.play_events) + i
+            return events
+
+        # Steal of 3rd
+        if self.bases[1] and not self.bases[2] and random.random() < STEAL_ATTEMPT_PROB:
+            runner_name = self.bases[1]
+            runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
+            catcher = getattr(self, f"{defensive_team_prefix}_catcher")
+            third_baseman = getattr(self, f"{defensive_team_prefix}_defense").get('3B')
+
+            # Ensure players exist before creating event
+            if not all([runner_data, catcher, third_baseman]): return []
+
+            if random.random() < STEAL_SUCCESS_RATE * 0.8: # Harder to steal 3rd
+                self.bases[2] = self.bases[1]
+                self.bases[1] = None
+                event = {
+                    "playId": str(uuid.uuid4()), "atBatIndex": at_bat_index, "isPitch": False,
+                    "type": {"code": "A", "description": "Action"},
+                    "details": {"code": "SB", "description": "Stolen Base 3B", "eventType": "stolen_base"},
+                    "runners": [{
+                        "runnerId": runner_data['id'], "start": "2B", "end": "3B", "isOut": False,
+                        "movementReason": "stolen_base", "responsiblePitcherId": pitcher['id'], "responsibleCatcherId": catcher['id']
+                    }]
+                }
+                events.append(event)
+            else:
+                self.outs += 1
+                self.bases[1] = None
+                event = {
+                    "playId": str(uuid.uuid4()), "atBatIndex": at_bat_index, "isPitch": False,
+                    "type": {"code": "A", "description": "Action"},
+                    "details": {"code": "CS", "description": "Caught Stealing 3B", "eventType": "caught_stealing"},
+                    "runners": [{
+                        "runnerId": runner_data['id'], "start": "2B", "end": "3B", "isOut": True, "outBase": "3B",
+                        "creditedFielders": [
+                            {"playerId": catcher['id'], "position": "C", "credit": "assist"},
+                            {"playerId": third_baseman['id'], "position": "3B", "credit": "putout"}
+                        ],
+                        "movementReason": "caught_stealing"
+                    }]
+                }
+                events.append(event)
+
+            for i, event in enumerate(events):
+                event['index'] = len(self.play_events) + i
+            return events
+
+        # Action from 1B: Steal or Pickoff.
+        if self.bases[0] and not self.bases[1]: # Runner on 1st, 2nd is open
+            action_roll = random.random()
+            if action_roll < STEAL_ATTEMPT_PROB: # Attempted Steal of 2nd
+                runner_name = self.bases[0]
+                runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
+                catcher = getattr(self, f"{defensive_team_prefix}_catcher")
+                second_baseman = getattr(self, f"{defensive_team_prefix}_defense").get('2B')
+                shortstop = getattr(self, f"{defensive_team_prefix}_defense").get('SS')
+                covering_player = random.choice([p for p in [second_baseman, shortstop] if p])
+
+                if not all([runner_data, catcher, covering_player]): return []
+
+                if random.random() < STEAL_SUCCESS_RATE: # Successful Steal
+                    self.bases[1] = self.bases[0]
+                    self.bases[0] = None
+                    event = {
+                        "playId": str(uuid.uuid4()), "atBatIndex": at_bat_index, "isPitch": False,
+                        "type": {"code": "A", "description": "Action"},
+                        "details": {"code": "SB", "description": "Stolen Base 2B", "eventType": "stolen_base"},
+                        "runners": [{
+                            "runnerId": runner_data['id'], "start": "1B", "end": "2B", "isOut": False,
+                            "movementReason": "stolen_base", "responsiblePitcherId": pitcher['id'], "responsibleCatcherId": catcher['id']
+                        }]
+                    }
+                    events.append(event)
+                else: # Caught Stealing
+                    self.outs += 1
+                    self.bases[0] = None
+                    event = {
+                        "playId": str(uuid.uuid4()), "atBatIndex": at_bat_index, "isPitch": False,
+                        "type": {"code": "A", "description": "Action"},
+                        "details": {"code": "CS", "description": "Caught Stealing 2B", "eventType": "caught_stealing"},
+                        "runners": [{
+                            "runnerId": runner_data['id'], "start": "1B", "end": "2B", "isOut": True, "outBase": "2B",
+                            "creditedFielders": [
+                                {"playerId": catcher['id'], "position": "C", "credit": "assist"},
+                                {"playerId": covering_player['id'], "position": covering_player['position'], "credit": "putout"}
+                            ],
+                            "movementReason": "caught_stealing"
+                        }]
+                    }
+                    events.append(event)
+
+            elif action_roll < STEAL_ATTEMPT_PROB + PICKOFF_ATTEMPT_PROB: # Attempted Pickoff at 1st
+                runner_name = self.bases[0]
+                runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
+                first_baseman = getattr(self, f"{defensive_team_prefix}_defense").get('1B')
+
+                if not all([runner_data, first_baseman]): return []
+
+                if random.random() < PICKOFF_SUCCESS_RATE: # Successful Pickoff
+                    self.outs += 1
+                    self.bases[0] = None
+                    event = {
+                        "playId": str(uuid.uuid4()), "atBatIndex": at_bat_index, "isPitch": False,
+                        "type": {"code": "A", "description": "Action"},
+                        "details": {"code": "PO", "description": "Pickoff at 1B", "eventType": "pickoff"},
+                        "runners": [{
+                            "runnerId": runner_data['id'], "start": "1B", "end": "1B", "isOut": True, "outBase": "1B",
+                            "creditedFielders": [
+                                {"playerId": pitcher['id'], "position": "P", "credit": "pickoff"},
+                                {"playerId": first_baseman['id'], "position": "1B", "credit": "putout"}
+                            ],
+                            "pickedOff": True
+                        }]
+                    }
+                    events.append(event)
+
+        # Add index to all generated events
+        for i, event in enumerate(events):
+            event['index'] = len(self.play_events) + len(events) - 1 + i
+
+        return events
 
     def _simulate_at_bat(self, batter, pitcher, at_bat_index):
         balls, strikes = 0, 0
@@ -279,6 +512,13 @@ class BaseballSimulator:
         contact_prob = 0.75 / k_propensity
 
         while balls < 4 and strikes < 3:
+            base_running_events = self._simulate_base_running_action(pitcher, at_bat_index)
+            if base_running_events:
+                at_bat_events.extend(base_running_events)
+                if self.outs >= 3:
+                    self.play_events.extend(at_bat_events)
+                    return ("AtBatInterrupted", None)
+
             pitch_number += 1
             self.pitch_counts[pitcher['legal_name']] += 1
             
@@ -317,6 +557,7 @@ class BaseballSimulator:
             is_in_play = False
             hit_result = None
             event_details = {}
+            wp_pb_advances = []
 
             if swing:
                 if random.random() < contact_prob: # Contact
@@ -339,20 +580,29 @@ class BaseballSimulator:
                     pitch_outcome_text = "called strike"
                     event_details = {'code': 'C', 'description': 'Called Strike', 'isStrike': True}
                 else:
-                    if any(self.bases):
-                        defensive_team = 'team1' if self.top_of_inning else 'team2'
-                        catcher = getattr(self, f"{defensive_team}_catcher")
-                        runs = 0
-                        is_wp = random.random() < pitcher.get('wild_pitch_rate', 0)
-                        is_pb = not is_wp and random.random() < catcher.get('passed_ball_rate', 0)
-                        if is_wp: runs = self._advance_runners_on_wp_pb("Wild Pitch")
-                        elif is_pb: runs = self._advance_runners_on_wp_pb("Passed Ball")
-                        if runs > 0:
-                            if self.top_of_inning: self.team2_score += runs
-                            else: self.team1_score += runs
                     balls += 1
                     pitch_outcome_text = "ball"
                     event_details = {'code': 'B', 'description': 'Ball', 'isBall': True}
+
+                    if any(self.bases):
+                        defensive_team = 'team1' if self.top_of_inning else 'team2'
+                        catcher = getattr(self, f"{defensive_team}_catcher")
+
+                        is_wp = random.random() < pitcher.get('wild_pitch_rate', 0)
+                        is_pb = not is_wp and random.random() < catcher.get('passed_ball_rate', 0)
+
+                        if is_wp or is_pb:
+                            event_type = "Wild Pitch" if is_wp else "Passed Ball"
+                            advancement_info = self._advance_runners_on_wp_pb(event_type)
+                            runs = advancement_info['runs']
+                            wp_pb_advances = advancement_info['advances']
+
+                            if runs > 0:
+                                if self.top_of_inning: self.team2_score += runs
+                                else: self.team1_score += runs
+
+                            event_details['code'] = "WP" if is_wp else "PB"
+                            event_details['description'] = event_type
 
             event_details['type'] = {
                 'code': GAME_CONTEXT['PITCH_TYPE_MAP'].get(pitch_selection, 'UN'),
@@ -368,6 +618,9 @@ class BaseballSimulator:
             }
             if pitch_spin:
                 play_event['pitchData']['breaks'] = {'spinRate': pitch_spin}
+
+            if wp_pb_advances:
+                play_event['runners'] = wp_pb_advances
 
             if is_in_play:
                 batted_ball_data = self._generate_batted_ball_data(hit_result)
@@ -744,6 +997,11 @@ class BaseballSimulator:
                 runs += advancement_info['runs']
                 rbis += advancement_info['rbis']
                 advances.extend(advancement_info['advances'])
+
+            if outcome == "AtBatInterrupted":
+                score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
+                print(f" | Outs: {self.outs} | Score: {score_str}\n")
+                break
 
             if is_home_team_batting: self.team1_score += runs
             else: self.team2_score += runs
