@@ -12,7 +12,9 @@ To run it from the root of the repository:
     python update_gameday_examples.py
 """
 import json
+import uuid
 from pathlib import Path
+from unittest.mock import patch
 
 from example_games import EXAMPLE_GAMES, ExampleGame
 
@@ -23,17 +25,21 @@ def main():
     """Render each example game and write the Gameday JSON to a file."""
     print(f"Updating {len(EXAMPLE_GAMES)} Gameday example logs...")
     for index, game in enumerate(EXAMPLE_GAMES, start=1):
-        path = GAMEDAY_EXAMPLES_DIR / f"game_{index:02d}.json"
-        print(f"  - {path} (seed={game.seed})")
+        with patch('uuid.uuid4') as mock_uuid4:
+            # Mock uuid4 to return deterministic, unique IDs for each play event
+            mock_uuid4.side_effect = [f"test-uuid-{i}" for i in range(5000)]
 
-        # The render method now returns a string, which for gameday is a JSON string.
-        gameday_json_str = ExampleGame.render(game, commentary_style="gameday")
+            path = GAMEDAY_EXAMPLES_DIR / f"game_{index:02d}.json"
+            print(f"  - {path} (seed={game.seed})")
 
-        # Parse the JSON string to a Python object to format it nicely.
-        gameday_data = json.loads(gameday_json_str)
+            # The render method now returns a string, which for gameday is a JSON string.
+            gameday_json_str = ExampleGame.render(game, commentary_style="gameday")
 
-        with open(path, "w") as f:
-            json.dump(gameday_data, f, indent=2)
+            # Parse the JSON string to a Python object to format it nicely.
+            gameday_data = json.loads(gameday_json_str)
+
+            with open(path, "w") as f:
+                json.dump(gameday_data, f, indent=2)
 
     print("Done.")
 

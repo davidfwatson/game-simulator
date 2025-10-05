@@ -77,7 +77,7 @@ class TestRegressionRealism(unittest.TestCase):
 
         buffer = io.StringIO()
         with redirect_stdout(buffer):
-            sim._simulate_at_bat(batter, pitcher, play_id=None, at_bat_index=0)
+            sim._simulate_at_bat(batter, pitcher, at_bat_index=0)
         log = buffer.getvalue()
 
         self.assertNotIn("In play ->", log)
