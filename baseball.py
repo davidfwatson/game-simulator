@@ -37,6 +37,7 @@ class BaseballSimulator:
         self.team1_score, self.team2_score = 0, 0
         self.inning, self.top_of_inning = 1, True
         self.outs, self.bases = 0, [None, None, None] # Runners on base by name
+        self.play_events = []
 
         # Game context
         self.umpires = random.sample(GAME_CONTEXT["umpires"], 4)
@@ -118,7 +119,9 @@ class BaseballSimulator:
             else:
                 la = round(random.uniform(25, 45), 1)
 
-        return {'ev': ev, 'la': la}
+        coordX = round(random.uniform(50, 200), 1)
+        coordY = round(random.uniform(50, 200), 1)
+        return {'ev': ev, 'la': la, 'coordX': coordX, 'coordY': coordY}
 
     def _describe_contact(self, outcome):
         contact_templates = {
@@ -157,6 +160,22 @@ class BaseballSimulator:
         if outcome in contact_templates:
             return random.choice(contact_templates[outcome])
         return "puts it in play"
+
+    def _get_trajectory(self, outcome, la):
+        """Maps a batted ball outcome and launch angle to a trajectory type."""
+        if "Groundout" in outcome:
+            return "ground_ball"
+
+        # Simple LA-based heuristic for other outcomes
+        if la is not None:
+            if la < 10:
+                return "ground_ball"
+            elif 10 <= la <= 25:
+                return "line_drive"
+            elif la > 50:
+                return "popup"
+
+        return "fly_ball"
 
     def _get_batted_ball_verb(self, outcome, ev, la):
         """Selects a descriptive verb based on batted ball data."""
@@ -216,8 +235,10 @@ class BaseballSimulator:
             self.bases[0] = None
         return runs
 
-    def _simulate_at_bat(self, batter, pitcher):
+    def _simulate_at_bat(self, batter, pitcher, play_id, at_bat_index):
         balls, strikes = 0, 0
+        pitch_number = 0
+        at_bat_events = []
         
         batter_display_name = self._get_player_display_name(batter)
         print(f"Now batting: {batter_display_name} ({batter['position']}, {batter['handedness']})")
@@ -257,6 +278,7 @@ class BaseballSimulator:
         contact_prob = 0.75 / k_propensity
 
         while balls < 4 and strikes < 3:
+            pitch_number += 1
             self.pitch_counts[pitcher['legal_name']] += 1
             
             pitch_selection = random.choices(list(pitcher['pitch_arsenal'].keys()),
@@ -276,13 +298,10 @@ class BaseballSimulator:
 
             is_strike_loc = random.random() < effective_control
             
-            # Simulate pitch location (px, pz) based on whether it's a strike or ball
-            # Strike zone is roughly px: -0.85 to 0.85, pz: 1.5 to 3.5
             if is_strike_loc:
                 px = round(random.uniform(-0.85, 0.85), 2)
                 pz = round(random.uniform(1.5, 3.5), 2)
             else:
-                # 50/50 chance of being horizontally or vertically outside the zone
                 if random.random() < 0.5:
                     px = round(random.uniform(-1.5, 1.5), 2)
                     pz = round(random.uniform(0.5, 1.49) if random.random() < 0.5 else random.uniform(3.51, 4.5), 2)
@@ -296,23 +315,28 @@ class BaseballSimulator:
             pitch_outcome_text = ""
             is_in_play = False
             hit_result = None
+            event_details = {}
 
             if swing:
                 if random.random() < contact_prob: # Contact
                     if strikes < 2 and random.random() < 0.5: # Foul
                         strikes += 1
                         pitch_outcome_text = "foul"
+                        event_details = {'code': 'D', 'description': 'Foul', 'isStrike': True}
                     else: # In Play
                         is_in_play = True
                         hit_result = self._get_hit_outcome(batter['stats'])
-                        pitch_outcome_text = "in play" # Placeholder, will be refined
+                        pitch_outcome_text = "in play"
+                        event_details = {'code': 'X', 'description': f'In play, {hit_result}', 'isInPlay': True}
                 else: # Swing and miss
                     strikes += 1
                     pitch_outcome_text = "swinging strike"
+                    event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
             else: # Taken pitch
                 if is_strike_loc:
                     strikes += 1
                     pitch_outcome_text = "called strike"
+                    event_details = {'code': 'C', 'description': 'Called Strike', 'isStrike': True}
                 else:
                     if any(self.bases):
                         defensive_team = 'team1' if self.top_of_inning else 'team2'
@@ -327,6 +351,33 @@ class BaseballSimulator:
                             else: self.team1_score += runs
                     balls += 1
                     pitch_outcome_text = "ball"
+                    event_details = {'code': 'B', 'description': 'Ball', 'isBall': True}
+
+            event_details['type'] = {
+                'code': GAME_CONTEXT['PITCH_TYPE_MAP'].get(pitch_selection, 'UN'),
+                'description': pitch_selection.capitalize()
+            }
+
+            play_event = {
+                'index': len(self.play_events) + len(at_bat_events), 'playId': play_id, 'atBatIndex': at_bat_index,
+                'pitchNumber': pitch_number, 'isPitch': True,
+                'type': {'code': 'P', 'description': 'Pitch'}, 'details': event_details,
+                'count': {'balls': balls, 'strikes': strikes},
+                'pitchData': {'startSpeed': pitch_velo, 'coordinates': {'pX': px, 'pZ': pz}}
+            }
+            if pitch_spin:
+                play_event['pitchData']['breaks'] = {'spinRate': pitch_spin}
+
+            if is_in_play:
+                batted_ball_data = self._generate_batted_ball_data(hit_result)
+                play_event['hitData'] = {
+                    'launchSpeed': batted_ball_data.get('ev'),
+                    'launchAngle': batted_ball_data.get('la'),
+                    'trajectory': self._get_trajectory(hit_result, batted_ball_data.get('la')),
+                    'coordinates': {'coordX': batted_ball_data.get('coordX'), 'coordY': batted_ball_data.get('coordY')}
+                }
+
+            at_bat_events.append(play_event)
 
             if self.commentary_style == 'statcast':
                 pitch_info = {
@@ -341,6 +392,7 @@ class BaseballSimulator:
                 if is_in_play:
                     batted_ball_data = self._generate_batted_ball_data(hit_result)
                     pitch_info.update(batted_ball_data)
+                    self.play_events.extend(at_bat_events)
                     return (hit_result, pitch_info)
                 else:
                     verdict = pitch_outcome_text.capitalize()
@@ -360,6 +412,7 @@ class BaseballSimulator:
                     sentence = contact_summary[0].upper() + contact_summary[1:]
                     punctuation = '!' if hit_result in ["Single", "Double", "Triple", "Home Run"] else '.'
                     narrative_desc = f"  {pitch_desc} {sentence}{punctuation}"
+                    self.play_events.extend(at_bat_events)
                     return (hit_result, narrative_desc)
                 elif pitch_outcome_text == "foul":
                     print(f"  {pitch_desc} Foul. Count: {balls}-{strikes}")
@@ -370,6 +423,7 @@ class BaseballSimulator:
                 elif pitch_outcome_text == "ball":
                     print(f"  {pitch_desc} Ball.{' Count: ' + str(balls) + '-' + str(strikes) if balls < 4 else ''}")
 
+        self.play_events.extend(at_bat_events)
         if balls == 4:
             return ("Walk", None)
 
@@ -649,6 +703,7 @@ class BaseballSimulator:
         print("-" * 50)
         print(f"{inning_half} of Inning {self.inning} | {batting_team_name} batting")
 
+        at_bat_index = 0
         while self.outs < 3:
             self._manage_pitching_change()
             pitcher_name = self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name
@@ -658,7 +713,10 @@ class BaseballSimulator:
             batter_idx = getattr(self, batter_idx_ref)
             batter = lineup[batter_idx]
 
-            outcome, description = self._simulate_at_bat(batter, pitcher)
+            at_bat_index += 1
+            play_id = f"{self.inning}_{self.top_of_inning}_{batter['id']}"
+
+            outcome, description = self._simulate_at_bat(batter, pitcher, play_id, at_bat_index)
 
             runs = 0
             was_error = False
@@ -804,7 +862,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="A realistic baseball simulator.")
     parser.add_argument('--terse', action='store_true', help="Use terse, data-driven phrasing for play-by-play.")
     parser.add_argument('--bracketed-ui', action='store_true', help="Use the classic bracketed UI for base runners.")
-    parser.add_argument('--commentary', type=str, choices=['narrative', 'statcast'], default='narrative', help="Choose the commentary style: 'narrative' for descriptive play-by-play, 'statcast' for data-driven output.")
+    parser.add_argument('--commentary', type=str, choices=['narrative', 'statcast', 'gameday'], default='narrative', help="Choose the commentary style: 'narrative' for descriptive play-by-play, 'statcast' for data-driven output, or 'gameday' for structured JSON.")
     args = parser.parse_args()
 
     home_team_key = "BAY_BOMBERS"
@@ -816,4 +874,9 @@ if __name__ == "__main__":
         use_bracketed_ui=args.bracketed_ui,
         commentary_style=args.commentary
     )
+
     game.play_game()
+
+    if args.commentary == 'gameday':
+        import json
+        print(json.dumps(game.play_events, indent=2))

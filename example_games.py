@@ -37,6 +37,12 @@ class ExampleGame:
             use_bracketed_ui=self.use_bracketed_ui,
             commentary_style=commentary_style,
         )
+
+        if commentary_style == "gameday":
+            simulator.play_game()
+            import json
+            return json.dumps(simulator.play_events, indent=2)
+
         buffer = io.StringIO()
         with redirect_stdout(buffer):
             simulator.play_game()
