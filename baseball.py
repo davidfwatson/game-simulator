@@ -1,4 +1,5 @@
 import random
+import uuid
 from teams import TEAMS, GAME_CONTEXT
 
 class BaseballSimulator:
@@ -235,7 +236,7 @@ class BaseballSimulator:
             self.bases[0] = None
         return runs
 
-    def _simulate_at_bat(self, batter, pitcher, play_id, at_bat_index):
+    def _simulate_at_bat(self, batter, pitcher, at_bat_index):
         balls, strikes = 0, 0
         pitch_number = 0
         at_bat_events = []
@@ -359,7 +360,7 @@ class BaseballSimulator:
             }
 
             play_event = {
-                'index': len(self.play_events) + len(at_bat_events), 'playId': play_id, 'atBatIndex': at_bat_index,
+                'index': len(self.play_events) + len(at_bat_events), 'playId': str(uuid.uuid4()), 'atBatIndex': at_bat_index,
                 'pitchNumber': pitch_number, 'isPitch': True,
                 'type': {'code': 'P', 'description': 'Pitch'}, 'details': event_details,
                 'count': {'balls': balls, 'strikes': strikes},
@@ -714,9 +715,7 @@ class BaseballSimulator:
             batter = lineup[batter_idx]
 
             at_bat_index += 1
-            play_id = f"{self.inning}_{self.top_of_inning}_{batter['id']}"
-
-            outcome, description = self._simulate_at_bat(batter, pitcher, play_id, at_bat_index)
+            outcome, description = self._simulate_at_bat(batter, pitcher, at_bat_index)
 
             runs = 0
             was_error = False

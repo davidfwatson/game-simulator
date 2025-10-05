@@ -13,6 +13,7 @@ snapshot files with the new output.
 import json
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from example_games import EXAMPLE_GAMES, ExampleGame
 
@@ -20,9 +21,13 @@ GAMEDAY_EXAMPLES_DIR = Path(__file__).parent / "examples" / "gameday"
 
 
 class TestGamedayRegression(unittest.TestCase):
-    def test_gameday_snapshots(self):
+    @patch('uuid.uuid4')
+    def test_gameday_snapshots(self, mock_uuid4):
         for index, game in enumerate(EXAMPLE_GAMES, start=1):
             with self.subTest(seed=game.seed):
+                # Mock uuid4 to return deterministic, unique IDs for each play event
+                mock_uuid4.side_effect = [f"test-uuid-{i}" for i in range(5000)]
+
                 # Load the canonical snapshot from the examples/gameday/ directory
                 snapshot_path = GAMEDAY_EXAMPLES_DIR / f"game_{index:02d}.json"
                 with open(snapshot_path, "r") as f:
