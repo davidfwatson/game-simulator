@@ -90,12 +90,12 @@ class TestStatcastRealism(unittest.TestCase):
                 # Search backwards for the last pitch event
                 last_pitch_event = ""
                 for j in range(i - 1, -1, -1):
-                    if lines[j].strip().startswith("Called strike:") or lines[j].strip().startswith("Swinging strike:"):
+                    if lines[j].strip().startswith("Called Strike:") or lines[j].strip().startswith("Swinging Strike:"):
                         last_pitch_event = lines[j]
                         break
 
                 self.assertTrue(
-                    last_pitch_event.strip().startswith("Called strike:"),
+                    last_pitch_event.strip().startswith("Called Strike:"),
                     f"Strikeout looking was not preceded by a called strike.\nLine: {line}\nPrevious pitch: {last_pitch_event}"
                 )
 

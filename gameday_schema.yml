@@ -1,0 +1,247 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+#placeholder id
+$id: "urn:uuid:2e5f5e7b-1a7e-4b60-9d11-4a8b7a0b4e60"
+title: MLB StatsAPI playEvents array
+type: array
+items:
+  $ref: "#/$defs/playEvent"
+additionalItems: true
+
+$defs:
+  # ---------------------------
+  # Core Play Event
+  # ---------------------------
+  playEvent:
+    type: object
+    additionalProperties: false
+    properties:
+      index:
+        type: integer
+        minimum: 0
+      pfxId:
+        type: string
+      playId:
+        type: string
+      atBatIndex:
+        type: integer
+        minimum: 0
+      pitchNumber:
+        type: integer
+        minimum: 1
+      startTime:
+        type: string
+        format: date-time
+      endTime:
+        type: string
+        format: date-time
+      playEndTime:
+        type: string
+        format: date-time
+      isPitch:
+        type: boolean
+      type:
+        type: object
+        additionalProperties: false
+        properties:
+          code:
+            type: string
+            description: One of Pitch, Pickoff, Action (values vary by feed; not strictly enumerated)
+          description:
+            type: string
+        required: [code]
+      details:
+        $ref: "#/$defs/details"
+      count:
+        $ref: "#/$defs/count"
+      pitchData:
+        $ref: "#/$defs/pitchData"
+      hitData:
+        $ref: "#/$defs/hitData"
+      flags:
+        type: array
+        items:
+          $ref: "#/$defs/flag"
+      defense:
+        $ref: "#/$defs/alignmentDefense"
+      offense:
+        $ref: "#/$defs/alignmentOffense"
+    required:
+      - index
+      - details
+      - count
+      - isPitch
+      - type
+    allOf:
+      # If isPitch = true, pitchData is required
+      - if:
+          properties: { isPitch: { const: true } }
+        then:
+          required: [pitchData]
+      # If the ball is in play, hitData is required
+      - if:
+          properties:
+            details:
+              properties: { isInPlay: { const: true } }
+              required: [isInPlay]
+        then:
+          required: [hitData]
+
+  # ---------------------------
+  # Details
+  # ---------------------------
+  details:
+    type: object
+    additionalProperties: true
+    properties:
+      description: { type: string }
+      code:        { type: string }
+      event:       { type: string }
+      isInPlay:    { type: boolean }
+      isStrike:    { type: boolean }
+      isBall:      { type: boolean }
+      hasReview:   { type: boolean }
+      ballColor:   { type: string }
+      trailColor:  { type: string }
+      call:
+        type: object
+        additionalProperties: false
+        properties:
+          code:        { type: string }
+          description: { type: string }
+      type:
+        type: object
+        additionalProperties: false
+        properties:
+          code:        { type: string }   # e.g., FF, SL, CU, SI, KC, CH, etc.
+          description: { type: string }   # e.g., Four-Seam Fastball
+    # no required fields beyond presence of object itself
+
+  # ---------------------------
+  # Count (balls/strikes after the event)
+  # ---------------------------
+  count:
+    type: object
+    additionalProperties: false
+    properties:
+      balls:   { type: integer, minimum: 0, maximum: 4 }
+      strikes: { type: integer, minimum: 0, maximum: 3 }
+    required: [balls, strikes]
+
+  # ---------------------------
+  # Pitch Data (present when isPitch = true)
+  # ---------------------------
+  pitchData:
+    type: object
+    additionalProperties: true
+    properties:
+      startSpeed:        { type: number }
+      endSpeed:          { type: number }
+      strikeZoneTop:     { type: number }
+      strikeZoneBottom:  { type: number }
+      nastyFactor:       { type: number }
+      coordinates:
+        $ref: "#/$defs/pitchCoordinates"
+      breaks:
+        $ref: "#/$defs/pitchBreaks"
+
+  pitchCoordinates:
+    type: object
+    additionalProperties: true
+    properties:
+      aX:  { type: number }
+      aY:  { type: number }
+      aZ:  { type: number }
+      pfxX:{ type: number }
+      pfxZ:{ type: number }
+      pX:  { type: number }  # plate crossing X (ft)
+      pZ:  { type: number }  # plate crossing Z (ft)
+      vX:  { type: number }
+      vY:  { type: number }
+      vZ:  { type: number }
+      x:   { type: number }  # UI pixel coords (legacy Gameday)
+      y:   { type: number }
+      x0:  { type: number }  # release point X
+      y0:  { type: number }  # release point Y
+      z0:  { type: number }  # release point Z
+
+  pitchBreaks:
+    type: object
+    additionalProperties: true
+    properties:
+      breakAngle:     { type: number }  # degrees
+      breakLength:    { type: number }  # inches
+      breakY:         { type: number }  # feet
+      spinRate:       { type: number }  # rpm
+      spinDirection:  { type: number }  # degrees
+      zone:           { type: integer }
+      typeConfidence: { type: number }
+
+  # ---------------------------
+  # Hit Data (present when isInPlay = true)
+  # ---------------------------
+  hitData:
+    type: object
+    additionalProperties: true
+    properties:
+      launchSpeed:   { type: number }  # mph
+      launchAngle:   { type: number }  # degrees
+      totalDistance: { type: number }  # feet
+      trajectory:    { type: string }  # e.g., ground_ball, line_drive, fly_ball, popup
+      hardness:      { type: string }  # e.g., soft, medium, hard
+      location:      { type: integer } # batted-ball location bucket (legacy)
+      coordinates:
+        type: object
+        additionalProperties: false
+        properties:
+          coordX: { type: number }
+          coordY: { type: number }
+        required: [coordX, coordY]
+
+  # ---------------------------
+  # Flags (aux batted-ball indicators)
+  # ---------------------------
+  flag:
+    type: object
+    additionalProperties: false
+    properties:
+      flag: { type: string }   # e.g., b_sac_fly, b_sac_bunt, b_foul_out, etc.
+      value:
+        oneOf:
+          - { type: boolean }
+          - { type: string }
+          - { type: number }
+    required: [flag, value]
+
+  # ---------------------------
+  # Alignment snapshots (when provided)
+  # ---------------------------
+  alignmentDefense:
+    type: object
+    additionalProperties: false
+    properties:
+      pitcher:   { $ref: "#/$defs/playerRef" }
+      catcher:   { $ref: "#/$defs/playerRef" }
+      first:     { $ref: "#/$defs/playerRef" }
+      second:    { $ref: "#/$defs/playerRef" }
+      third:     { $ref: "#/$defs/playerRef" }
+      shortstop: { $ref: "#/$defs/playerRef" }
+      left:      { $ref: "#/$defs/playerRef" }
+      center:    { $ref: "#/$defs/playerRef" }
+      right:     { $ref: "#/$defs/playerRef" }
+
+  alignmentOffense:
+    type: object
+    additionalProperties: false
+    properties:
+      batter: { $ref: "#/$defs/playerRef" }
+      first:  { $ref: "#/$defs/playerRef" }
+      second: { $ref: "#/$defs/playerRef" }
+      third:  { $ref: "#/$defs/playerRef" }
+
+  playerRef:
+    type: object
+    additionalProperties: false
+    properties:
+      id:   { type: integer }
+      link: { type: string }
+    required: [id]

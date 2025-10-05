@@ -1,5 +1,24 @@
+import json
 import random
+import uuid
+from datetime import datetime, timezone
+from typing import List
+
+from gameday import (
+    GamedayPlayEvents,
+    PlayEvent,
+    Count,
+    Details,
+    PitchData,
+    PitchCoordinates,
+    PitchBreaks,
+    HitData,
+    HitCoordinates,
+    PlayEventType,
+    DetailsType,
+)
 from teams import TEAMS, GAME_CONTEXT
+
 
 class BaseballSimulator:
     """
@@ -37,6 +56,11 @@ class BaseballSimulator:
         self.team1_score, self.team2_score = 0, 0
         self.inning, self.top_of_inning = 1, True
         self.outs, self.bases = 0, [None, None, None] # Runners on base by name
+
+        # Gameday event tracking
+        self.play_events: GamedayPlayEvents = []
+        self.at_bat_index = 0
+        self.play_event_index = 0
 
         # Game context
         self.umpires = random.sample(GAME_CONTEXT["umpires"], 4)
@@ -162,6 +186,10 @@ class BaseballSimulator:
         """Selects a descriptive verb based on batted ball data."""
         verb_cats = GAME_CONTEXT['statcast_verbs'].get(outcome, {})
 
+        # If EV or LA data is missing, return a default verb immediately.
+        if ev is None or la is None:
+            return random.choice(verb_cats.get('default', ["describes"]))
+
         # Determine category based on EV and LA thresholds
         cat = 'default'
         if outcome == "Single":
@@ -216,169 +244,237 @@ class BaseballSimulator:
             self.bases[0] = None
         return runs
 
-    def _simulate_at_bat(self, batter, pitcher):
-        balls, strikes = 0, 0
-        
-        batter_display_name = self._get_player_display_name(batter)
-        print(f"Now batting: {batter_display_name} ({batter['position']}, {batter['handedness']})")
-
-        if self.commentary_style == 'narrative':
-            if self.verbose_phrasing and random.random() < 0.03:
-                print("  Brief delay as the infield huddles on the mound.")
-
-            if self.verbose_phrasing and self.bases[0] and random.random() < 0.05:
-                print(f"  Quick throw to first and {self.bases[0]} dives back safely.")
-
-            if self.verbose_phrasing and random.random() < 0.04:
-                defensive_call = random.choice([
-                    "Outfield shifts toward right-center.",
-                    "Infield shades to pull on the left side.",
-                    "Corners creep in expecting a bunt.",
-                    "Middle infielders pinch the bag."
-                ])
-                print(f"  Defensive alignment: {defensive_call}")
-
-        # Check for HBP at the start of the at-bat using batter-specific stats
-        if random.random() < batter.get('stats', {}).get('HBP', 0):
-            return ("HBP", None)
+    def _simulate_at_bat(self, batter, pitcher) -> GamedayPlayEvents:
+        """
+        Simulates a single at-bat, generating a detailed list of Gameday play events.
+        This is the new "source of truth" for what happens in a game.
+        """
+        balls, strikes, pitch_num = 0, 0, 0
+        at_bat_events: GamedayPlayEvents = []
+        is_at_bat_over = False
 
         batter_stats = batter['stats']
         batter_walk_rate = batter_stats.get('Walk', 0.09)
         batter_k_rate = batter_stats.get('Strikeout', 0.17)
-
-        # Plate discipline affects swing decisions, especially on pitches outside the zone.
-        # A more disciplined batter (higher walk rate) is less likely to swing at a ball.
-        discipline_factor = max(0.1, batter_walk_rate / 0.08) # Lowered baseline for more discipline
-        swing_at_ball_prob = 0.30 / discipline_factor # Lowered base swing prob
-
-        # Contact ability is influenced by the batter's strikeout rate.
-        # A higher K-rate means a lower chance of making contact on a swing.
+        discipline_factor = max(0.1, batter_walk_rate / 0.08)
+        swing_at_ball_prob = 0.30 / discipline_factor
         k_propensity = max(0.1, batter_k_rate / 0.17)
         contact_prob = 0.75 / k_propensity
 
-        while balls < 4 and strikes < 3:
+        # Pre-at-bat event (e.g., HBP on first pitch)
+        if random.random() < batter.get('stats', {}).get('HBP', 0):
+            # This is a simplification; a HBP can happen on any pitch.
+            # For now, we model it as a pre-at-bat check.
+            details = Details(description="Hit by Pitch", event="Hit by Pitch", isStrike=False, isBall=False)
+            event = self._create_play_event(pitch_num=1, balls=0, strikes=0, details=details, is_pitch=False)
+            event['type']['code'] = 'action'
+            at_bat_events.append(event)
+            return at_bat_events
+
+        while not is_at_bat_over:
+            pitch_num += 1
             self.pitch_counts[pitcher['legal_name']] += 1
-            
+
             pitch_selection = random.choices(list(pitcher['pitch_arsenal'].keys()),
                                              weights=[v['prob'] for v in pitcher['pitch_arsenal'].values()], k=1)[0]
             pitch_details = pitcher['pitch_arsenal'][pitch_selection]
-            min_velo, max_velo = pitch_details['velo_range']
-            pitch_velo = round(random.uniform(min_velo, max_velo), 1)
-
-            pitch_spin = None
-            if random.random() > 0.08: # 8% chance of missing spin data
-                min_spin, max_spin = pitch_details.get('spin_range', (2000, 2500))
-                pitch_spin = random.randint(min_spin, max_spin)
+            pitch_velo = round(random.uniform(*pitch_details['velo_range']), 1)
+            pitch_spin = random.randint(*pitch_details.get('spin_range', (2000, 2500))) if random.random() > 0.08 else None
 
             fatigue_factor = max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina'])
             fatigue_penalty = (fatigue_factor / 15) * 0.1
-            effective_control = pitcher['control'] - fatigue_penalty
+            is_strike_loc = random.random() < (pitcher['control'] - fatigue_penalty)
 
-            is_strike_loc = random.random() < effective_control
-            
-            # Simulate pitch location (px, pz) based on whether it's a strike or ball
-            # Strike zone is roughly px: -0.85 to 0.85, pz: 1.5 to 3.5
             if is_strike_loc:
-                px = round(random.uniform(-0.85, 0.85), 2)
-                pz = round(random.uniform(1.5, 3.5), 2)
+                px, pz = round(random.uniform(-0.85, 0.85), 2), round(random.uniform(1.5, 3.5), 2)
             else:
-                # 50/50 chance of being horizontally or vertically outside the zone
-                if random.random() < 0.5:
-                    px = round(random.uniform(-1.5, 1.5), 2)
-                    pz = round(random.uniform(0.5, 1.49) if random.random() < 0.5 else random.uniform(3.51, 4.5), 2)
-                else:
-                    px = round(random.uniform(-1.5, -0.86) if random.random() < 0.5 else random.uniform(0.86, 1.5), 2)
-                    pz = round(random.uniform(1.5, 3.5), 2)
+                px = round(random.uniform(-1.5, 1.5), 2)
+                pz = round(random.uniform(0.5, 4.5), 2)
 
-            swing_prob = 0.85 if is_strike_loc else swing_at_ball_prob
-            swing = random.random() < swing_prob
+            swing = random.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
             
-            pitch_outcome_text = ""
-            is_in_play = False
+            details = Details(isStrike=False, isBall=False, isInPlay=False)
+            details['type'] = DetailsType(code=pitch_details.get('code', 'FF'), description=pitch_selection)
             hit_result = None
 
             if swing:
-                if random.random() < contact_prob: # Contact
-                    if strikes < 2 and random.random() < 0.5: # Foul
-                        strikes += 1
-                        pitch_outcome_text = "foul"
-                    else: # In Play
-                        is_in_play = True
+                contact = random.random() < contact_prob
+                if contact:
+                    is_foul = random.random() < 0.4 # More realistic foul rate
+                    if is_foul:
+                        details.update(description="Foul", isStrike=True)
+                        if strikes < 2:
+                            strikes += 1
+                        # At-bat continues on a 2-strike foul
+                    else: # Fair ball
+                        is_at_bat_over = True
+                        details.update(isInPlay=True, isStrike=True)
                         hit_result = self._get_hit_outcome(batter['stats'])
-                        pitch_outcome_text = "in play" # Placeholder, will be refined
+                        details.update(description=f"In play, {hit_result.lower()}", event=hit_result)
                 else: # Swing and miss
                     strikes += 1
-                    pitch_outcome_text = "swinging strike"
-            else: # Taken pitch
+                    details.update(description="Swinging Strike", isStrike=True)
+            else: # No swing (taken pitch)
                 if is_strike_loc:
                     strikes += 1
-                    pitch_outcome_text = "called strike"
+                    details.update(description="Called Strike", isStrike=True)
                 else:
-                    if any(self.bases):
-                        defensive_team = 'team1' if self.top_of_inning else 'team2'
-                        catcher = getattr(self, f"{defensive_team}_catcher")
-                        runs = 0
-                        is_wp = random.random() < pitcher.get('wild_pitch_rate', 0)
-                        is_pb = not is_wp and random.random() < catcher.get('passed_ball_rate', 0)
-                        if is_wp: runs = self._advance_runners_on_wp_pb("Wild Pitch")
-                        elif is_pb: runs = self._advance_runners_on_wp_pb("Passed Ball")
-                        if runs > 0:
-                            if self.top_of_inning: self.team2_score += runs
-                            else: self.team1_score += runs
                     balls += 1
-                    pitch_outcome_text = "ball"
+                    details.update(description="Ball", isBall=True)
 
-            if self.commentary_style == 'statcast':
-                pitch_info = {
-                    'pitch_type': pitch_selection,
-                    'pitch_velo': pitch_velo,
-                    'px': px,
-                    'pz': pz
-                }
-                if pitch_spin is not None:
-                    pitch_info['spin_rate'] = pitch_spin
+            event = self._create_play_event(pitch_num, balls, strikes, details)
 
-                if is_in_play:
-                    batted_ball_data = self._generate_batted_ball_data(hit_result)
-                    pitch_info.update(batted_ball_data)
-                    return (hit_result, pitch_info)
-                else:
-                    verdict = pitch_outcome_text.capitalize()
-                    pitch_name_formatted = pitch_selection
-                    location_str = f"px {px:.2f}, pz {pz:.2f}"
-                    spin_str = f" ({pitch_spin} rpm)" if pitch_spin is not None else ""
-                    print(f"  {verdict}: {pitch_velo} mph {pitch_name_formatted}{spin_str}. Loc: ({location_str})")
-            else: # narrative style
-                if self.verbose_phrasing:
-                    location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike' if is_strike_loc else 'ball'])
-                    pitch_desc = f"Pitch: {pitch_selection} ({pitch_velo} mph), {location_desc}."
-                else:
-                    pitch_desc = f"Pitch: {pitch_selection} ({pitch_velo} mph)."
+            # Add pitch data
+            event['pitchData'] = self._create_pitch_data(pitch_velo, pitch_spin, px, pz)
 
-                if is_in_play:
-                    contact_summary = self._describe_contact(hit_result)
-                    sentence = contact_summary[0].upper() + contact_summary[1:]
-                    punctuation = '!' if hit_result in ["Single", "Double", "Triple", "Home Run"] else '.'
-                    narrative_desc = f"  {pitch_desc} {sentence}{punctuation}"
-                    return (hit_result, narrative_desc)
-                elif pitch_outcome_text == "foul":
-                    print(f"  {pitch_desc} Foul. Count: {balls}-{strikes}")
-                elif pitch_outcome_text == "swinging strike":
-                    print(f"  {pitch_desc} Swinging Strike{' (Whiff)' if strikes == 3 else ''}.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
-                elif pitch_outcome_text == "called strike":
-                    print(f"  {pitch_desc} Called Strike.{' Count: ' + str(balls) + '-' + str(strikes) if strikes < 3 else ''}")
-                elif pitch_outcome_text == "ball":
-                    print(f"  {pitch_desc} Ball.{' Count: ' + str(balls) + '-' + str(strikes) if balls < 4 else ''}")
+            # Add hit data if in play
+            if details.get('isInPlay'):
+                batted_ball_data = self._generate_batted_ball_data(hit_result)
+                event['hitData'] = HitData(
+                    launchSpeed=batted_ball_data.get('ev'),
+                    launchAngle=batted_ball_data.get('la'),
+                    trajectory=self._get_trajectory(batted_ball_data.get('la')),
+                    hardness=self._get_hardness(batted_ball_data.get('ev')),
+                )
 
+            at_bat_events.append(event)
+
+            if balls == 4 or strikes == 3:
+                is_at_bat_over = True
+
+        # Create a final event for the at-bat outcome (Walk, Strikeout)
+        final_event_details = Details(isPitch=False)
         if balls == 4:
-            return ("Walk", None)
+            final_event_details.update(event="Walk", description="Walk")
+        elif strikes == 3:
+            k_type = "Swinging" if at_bat_events[-1]['details']['description'] == "Swinging Strike" else "Looking"
+            final_event_details.update(event="Strikeout", description=f"Strikeout ({k_type})")
 
-        k_type = "looking" if pitch_outcome_text == "called strike" else "swinging"
+        if 'event' in final_event_details:
+             final_event = self._create_play_event(pitch_num, balls, strikes, final_event_details, is_pitch=False)
+             final_event['type']['code'] = 'action'
+             at_bat_events.append(final_event)
 
-        if self.commentary_style == 'statcast':
-            return ("Strikeout", {'k_type': k_type})
+        return at_bat_events
 
-        return ("Strikeout", None)
+    def _create_play_event(self, pitch_num: int, balls: int, strikes: int, details: Details, is_pitch: bool = True) -> PlayEvent:
+        """Helper to create a new PlayEvent dictionary."""
+        return PlayEvent(
+            index=self.play_event_index,
+            playId=str(uuid.uuid4()),
+            atBatIndex=self.at_bat_index,
+            pitchNumber=pitch_num,
+            isPitch=is_pitch,
+            type=PlayEventType(code='pitch'),
+            details=details,
+            count=Count(balls=balls, strikes=strikes if strikes < 3 else 2), # Count can't be 3
+        )
+
+    def _create_pitch_data(self, velo: float, spin: int, px: float, pz: float) -> PitchData:
+        """Helper to create a PitchData dictionary."""
+        data = PitchData(startSpeed=velo)
+        if spin:
+            data['breaks'] = PitchBreaks(spinRate=spin)
+        data['coordinates'] = PitchCoordinates(pX=px, pZ=pz)
+        return data
+
+    def _get_trajectory(self, launch_angle: float) -> str:
+        if launch_angle is None: return "unknown"
+        if launch_angle < 10: return "ground_ball"
+        if launch_angle < 25: return "line_drive"
+        if launch_angle < 50: return "fly_ball"
+        return "popup"
+
+    def _get_hardness(self, exit_velocity: float) -> str:
+        if exit_velocity is None: return "unknown"
+        if exit_velocity < 90: return "soft"
+        if exit_velocity < 105: return "medium"
+        return "hard"
+
+    def _generate_narrative_commentary(self, events: GamedayPlayEvents, batter, outcome_summary) -> List[str]:
+        lines = []
+        for event in events:
+            if not event['isPitch']:
+                continue # Skip non-pitch action events for now
+
+            details = event['details']
+            pitch_data = event.get('pitchData', {})
+            velo = pitch_data.get('startSpeed', '??')
+            pitch_type = details.get('type', {}).get('description', 'pitch')
+
+            if self.verbose_phrasing:
+                location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike' if details['isStrike'] else 'ball'])
+                pitch_desc = f"Pitch: {pitch_type} ({velo} mph), {location_desc}."
+            else:
+                pitch_desc = f"Pitch: {pitch_type} ({velo} mph)."
+
+            if details.get('isInPlay'):
+                contact_summary = self._describe_contact(details['event'])
+                sentence = contact_summary[0].upper() + contact_summary[1:]
+                punctuation = '!' if details['event'] in ["Single", "Double", "Triple", "Home Run"] else '.'
+                lines.append(f"  {pitch_desc} {sentence}{punctuation}")
+            else:
+                balls, strikes = event['count']['balls'], event['count']['strikes']
+                desc = details['description']
+                if "Strike" in desc and strikes == 3:
+                     lines.append(f"  {pitch_desc} {desc}{' (Whiff)' if 'Swinging' in desc else ''}.")
+                elif "Ball" in desc and balls == 4:
+                     lines.append(f"  {pitch_desc} {desc}.")
+                else:
+                     lines.append(f"  {pitch_desc} {desc}. Count: {balls}-{strikes}")
+
+        lines.append(f"Result: {outcome_summary}")
+        return lines
+
+    def _generate_statcast_commentary(self, events: GamedayPlayEvents, batter, outcome_summary, advances, rbis, was_error) -> List[str]:
+        lines = []
+        # Print pitch-by-pitch info
+        for event in events:
+            if not event['isPitch'] or event['details'].get('isInPlay'):
+                continue
+
+            details = event['details']
+            pitch_data = event.get('pitchData', {})
+            velo = pitch_data.get('startSpeed', '??')
+            spin = pitch_data.get('breaks', {}).get('spinRate')
+            px = pitch_data.get('coordinates', {}).get('pX', 0)
+            pz = pitch_data.get('coordinates', {}).get('pZ', 0)
+            pitch_type = details.get('type', {}).get('description', 'pitch')
+
+            verdict = details['description']
+            location_str = f"px {px:.2f}, pz {pz:.2f}"
+            spin_str = f" ({spin} rpm)" if spin is not None else ""
+            lines.append(f"  {verdict}: {velo} mph {pitch_type}{spin_str}. Loc: ({location_str})")
+
+        # The final result line
+        final_event = events[-1]
+        outcome = final_event['details']['event']
+        hit_data = final_event.get('hitData')
+
+        result_line = outcome_summary
+        if was_error:
+            adv_str = "; ".join(adv for adv in advances)
+            context = {'display_outcome': outcome_summary, 'adv_str': adv_str, 'batter_name': batter['legal_name']}
+            result_line = self._format_statcast_template('Error', context)
+        elif outcome == 'Strikeout':
+            k_type = 'swinging' if 'Swinging' in final_event['details']['description'] else 'looking'
+            k_verb = random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
+            result_line = f"{batter['legal_name']} {k_verb}."
+        elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
+             verb = self._get_batted_ball_verb(outcome, hit_data.get('launchSpeed'), hit_data.get('launchAngle')) if hit_data else 'hits'
+             template_context = {'batter_name': batter['legal_name'], 'verb': verb, 'runs': sum(1 for adv in advances if 'scores' in adv)}
+             result_line = self._format_statcast_template(outcome, template_context) or f"{batter['legal_name']} {verb}."
+
+        if hit_data and hit_data.get('launchSpeed') is not None:
+            result_line += f" (EV: {hit_data['launchSpeed']} mph, LA: {hit_data['launchAngle']}°)"
+
+        if rbis > 0 and not was_error: result_line += f" {batter['legal_name']} drives in {rbis}."
+        if not was_error and advances:
+            adv_str = "; ".join(advances)
+            if adv_str: result_line += f" ({adv_str})"
+
+        lines.append(f"Result: {result_line}")
+        return lines
 
     def _advance_runners(self, hit_type, batter, was_error=False, include_batter_advance=False):
         runs = 0
@@ -458,12 +554,14 @@ class BaseballSimulator:
 
             if is_home_team_pitching:
                 if self.team1_current_pitcher_name != next_pitcher_name:
-                    print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team1_current_pitcher_name} ---\n")
+                    if self.commentary_style != 'gameday':
+                        print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team1_current_pitcher_name} ---\n")
                     self.team1_current_pitcher_name = next_pitcher_name
                     self.team1_available_bullpen.remove(next_pitcher_name)
             else:
                 if self.team2_current_pitcher_name != next_pitcher_name:
-                    print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team2_current_pitcher_name} ---\n")
+                    if self.commentary_style != 'gameday':
+                        print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team2_current_pitcher_name} ---\n")
                     self.team2_current_pitcher_name = next_pitcher_name
                     self.team2_available_bullpen.remove(next_pitcher_name)
 
@@ -493,10 +591,10 @@ class BaseballSimulator:
             choices, weights = zip(*grounder_candidates)
             fielder = random.choices(choices, weights=weights, k=1)[0]
 
-            if fielder and fielder['position'] == 'C' and statcast_data and 'ev' in statcast_data:
+        if fielder and fielder['position'] == 'C' and statcast_data and statcast_data.get('launchSpeed'):
                 # Force EV/LA to represent a soft dribbler/tapper
-                statcast_data['ev'] = round(random.uniform(50, 70), 1)
-                statcast_data['la'] = round(random.uniform(-45, -20), 1)
+            statcast_data['launchSpeed'] = round(random.uniform(50, 70), 1)
+            statcast_data['launchAngle'] = round(random.uniform(-45, -20), 1)
         elif out_type == 'Flyout':
             fielder = random.choices(
                 population=outfielders + infielders,
@@ -542,7 +640,7 @@ class BaseballSimulator:
                 self.bases[2] = None
                 if self.commentary_style == 'statcast':
                     return f"Sac fly to {fielder_pos}. {runner_on_third} scores.", runs, False, rbis
-                else: # narrative
+                elif self.commentary_style == 'narrative':
                     print(f"  Sacrifice fly to {fielder_pos}, {runner_on_third} scores!")
                     notation += " (SF)"
             else:
@@ -589,8 +687,10 @@ class BaseballSimulator:
 
                 if self.commentary_style == 'statcast':
                     display_outcome = f"Grounds into a double play, {route} ({notation}); {runner_on_first} out at 2B; {batter['legal_name']} out at 1B."
-                else: # narrative
+                elif self.commentary_style == 'narrative':
                     print(f"  Ground ball... it's a {notation} double play!")
+                    display_outcome = f"Groundout, Double Play ({notation})"
+                else:
                     display_outcome = f"Groundout, Double Play ({notation})"
 
                 self.bases[0] = None
@@ -642,12 +742,14 @@ class BaseballSimulator:
             last_batter_idx = (getattr(self, batter_idx_ref) - 1 + 9) % 9
             runner_name = lineup[last_batter_idx]['legal_name']
             self.bases[1] = runner_name
+            # Gameday doesn't have a formal "ghost runner" event, so we'll just print for narrative.
             if self.verbose_phrasing and self.commentary_style == 'narrative':
                 print(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
 
-        inning_half = "Bottom" if is_home_team_batting else "Top"
-        print("-" * 50)
-        print(f"{inning_half} of Inning {self.inning} | {batting_team_name} batting")
+        if self.commentary_style != 'gameday':
+            inning_half = "Bottom" if is_home_team_batting else "Top"
+            print("-" * 50)
+            print(f"{inning_half} of Inning {self.inning} | {batting_team_name} batting")
 
         while self.outs < 3:
             self._manage_pitching_change()
@@ -657,20 +759,27 @@ class BaseballSimulator:
 
             batter_idx = getattr(self, batter_idx_ref)
             batter = lineup[batter_idx]
+            if self.commentary_style != 'gameday':
+                batter_display_name = self._get_player_display_name(batter)
+                print(f"Now batting: {batter_display_name} ({batter['position']}, {batter['handedness']})")
 
-            outcome, description = self._simulate_at_bat(batter, pitcher)
+            at_bat_events = self._simulate_at_bat(batter, pitcher)
+            self.play_events.extend(at_bat_events)
+            self.play_event_index += len(at_bat_events)
+            self.at_bat_index += 1
 
-            runs = 0
-            was_error = False
-            rbis = 0
-            advances = []
+            # The final event in the list determines the outcome of the at-bat.
+            final_event = at_bat_events[-1]
+            outcome = final_event['details']['event']
+            description = final_event['details']['description']
+            statcast_data = final_event.get('hitData')
 
-            if self.commentary_style == 'narrative' and isinstance(description, str):
-                print(description)
+            runs, was_error, rbis, advances = 0, False, 0, []
 
             display_outcome = outcome
             if outcome in ["Groundout", "Flyout"]:
-                display_outcome, new_runs, was_error, new_rbis = self._handle_batted_ball_out(outcome, batter, description)
+                # The 'statcast_data' here is now the Gameday hitData, not the old ad-hoc dict
+                display_outcome, new_runs, was_error, new_rbis = self._handle_batted_ball_out(outcome, batter, statcast_data)
                 runs += new_runs
                 rbis += new_rbis
                 if was_error:
@@ -679,14 +788,13 @@ class BaseballSimulator:
                     advances.extend(advancement_info['advances'])
             elif outcome == "Strikeout":
                 self.outs += 1
-                if self.commentary_style == 'statcast' and description and 'k_type' in description:
-                    k_verb = random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][description['k_type']])
-                    display_outcome = f"{batter['legal_name']} {k_verb}."
             elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:
                 advancement_info = self._advance_runners(outcome, batter)
                 runs += advancement_info['runs']
                 rbis += advancement_info['rbis']
                 advances.extend(advancement_info['advances'])
+
+            # TODO: Handle WP/PB from Gameday events if they exist in the stream
 
             if is_home_team_batting: self.team1_score += runs
             else: self.team2_score += runs
@@ -694,74 +802,23 @@ class BaseballSimulator:
             score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
 
             # --- Result Formatting and Printing ---
-            if self.commentary_style == 'statcast':
-                pitch_info = description
-                batted_ball_str = ""
-                if outcome not in ["Strikeout", "Walk", "HBP"]:
-                    if pitch_info and 'ev' in pitch_info and 'la' in pitch_info:
-                        batted_ball_str = f" (EV: {pitch_info['ev']} mph, LA: {pitch_info['la']}°)"
-
-                result_line = display_outcome
-                if was_error:
-                    adv_str = "; ".join(adv for adv in advances)
-                    context = {
-                        'display_outcome': display_outcome,
-                        'adv_str': adv_str,
-                        'batter_name': batter['legal_name']
-                    }
-                    result_line = self._format_statcast_template('Error', context)
-                elif outcome == 'Strikeout':
-                    # This was handled before, but this makes it explicit for the result_line
-                    if description and 'k_type' in description:
-                        k_verb = random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][description['k_type']])
-                        result_line = f"{batter['legal_name']} {k_verb}."
-                elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
-                    verb = self._get_batted_ball_verb(outcome, pitch_info['ev'], pitch_info['la']) if pitch_info and 'ev' in pitch_info else random.choice(GAME_CONTEXT['statcast_verbs'][outcome]['default'])
-
-                    template_context = {
-                        'batter_name': batter['legal_name'],
-                        'verb': verb,
-                        'runs': runs
-                    }
-                    templated_result = self._format_statcast_template(outcome, template_context)
-
-                    if templated_result:
-                        result_line = templated_result
-                    else:
-                        result_line = f"{batter['legal_name']} {verb}."
-                elif outcome == "HBP":
-                    result_line = "Hit by Pitch."
-
-                if batted_ball_str:
-                    result_line += batted_ball_str
-                if rbis > 0 and not was_error: result_line += f" {batter['legal_name']} drives in {rbis}."
-                if not was_error and advances:
-                    adv_str = "; ".join(advances)
-                    if adv_str: result_line += f" ({adv_str})"
-
-                print(f"Result: {result_line}")
-
-            else: # Narrative style
-                if isinstance(description, str):
-                    print(description)
-
-                result_line = display_outcome
-                if outcome in ["Walk", "Strikeout"]:
-                    result_line = outcome
-                elif outcome == "HBP":
-                    result_line = "Hit by Pitch"
-
-                # For hits, the description already contains the full sentence.
-                if outcome not in ["Single", "Double", "Triple", "Home Run"]:
-                    print(f"Result: {result_line.ljust(30)}", end="")
-                else:
-                    print(f"Result: {outcome.ljust(30)}", end="")
+            outcome_summary = display_outcome
+            if self.commentary_style == 'narrative':
+                lines = self._generate_narrative_commentary(at_bat_events, batter, outcome_summary)
+                for line in lines:
+                    print(line)
+            elif self.commentary_style == 'statcast':
+                lines = self._generate_statcast_commentary(at_bat_events, batter, outcome_summary, advances, rbis, was_error)
+                for line in lines:
+                    print(line)
+            # Gameday style is handled separately at the end of the game
 
             # Universal state printing
-            if self.outs < 3:
-                print(f" | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
-            else:
-                print(f" | Outs: {self.outs} | Score: {score_str}\n")
+            if self.commentary_style != 'gameday':
+                if self.outs < 3:
+                    print(f" | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
+                else:
+                    print(f" | Outs: {self.outs} | Score: {score_str}\n")
             
             setattr(self, batter_idx_ref, (batter_idx + 1) % 9)
             if self.outs >= 3: break
@@ -769,6 +826,8 @@ class BaseballSimulator:
                 return
 
     def _print_pre_game_summary(self):
+        if self.commentary_style == 'gameday':
+            return
         print("="*20, "GAME START", "="*20)
         print(f"{self.team2_name} vs. {self.team1_name}")
         print(f"Venue: {self.venue}")
@@ -794,17 +853,20 @@ class BaseballSimulator:
 
             self.inning += 1
 
-        print("="*20, "GAME OVER", "="*20)
-        print(f"\nFinal Score: {self.team1_name} {self.team1_score} - {self.team2_name} {self.team2_score}")
-        winner = self.team1_name if self.team1_score > self.team2_score else self.team2_name
-        print(f"\n{winner} win!")
+        if self.commentary_style == 'gameday':
+            print(json.dumps(self.play_events, indent=2))
+        else:
+            print("="*20, "GAME OVER", "="*20)
+            print(f"\nFinal Score: {self.team1_name} {self.team1_score} - {self.team2_name} {self.team2_score}")
+            winner = self.team1_name if self.team1_score > self.team2_score else self.team2_name
+            print(f"\n{winner} win!")
 
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="A realistic baseball simulator.")
     parser.add_argument('--terse', action='store_true', help="Use terse, data-driven phrasing for play-by-play.")
     parser.add_argument('--bracketed-ui', action='store_true', help="Use the classic bracketed UI for base runners.")
-    parser.add_argument('--commentary', type=str, choices=['narrative', 'statcast'], default='narrative', help="Choose the commentary style: 'narrative' for descriptive play-by-play, 'statcast' for data-driven output.")
+    parser.add_argument('--commentary', type=str, choices=['narrative', 'statcast', 'gameday'], default='narrative', help="Choose the commentary style: 'narrative' for descriptive play-by-play, 'statcast' for data-driven output, or 'gameday' for raw JSON events.")
     args = parser.parse_args()
 
     home_team_key = "BAY_BOMBERS"
