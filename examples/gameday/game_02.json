@@ -1,0 +1,7276 @@
+[
+  {
+    "index": 0,
+    "playId": "1_True_201",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 81.1,
+      "coordinates": {
+        "pX": 0.22,
+        "pZ": 3.01
+      },
+      "breaks": {
+        "spinRate": 1703
+      }
+    }
+  },
+  {
+    "index": 1,
+    "playId": "1_True_201",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 95.4,
+      "coordinates": {
+        "pX": -0.43,
+        "pZ": 2.01
+      },
+      "breaks": {
+        "spinRate": 2536
+      }
+    }
+  },
+  {
+    "index": 2,
+    "playId": "1_True_201",
+    "atBatIndex": 1,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 80.8,
+      "coordinates": {
+        "pX": -0.41,
+        "pZ": 1.85
+      },
+      "breaks": {
+        "spinRate": 2651
+      }
+    }
+  },
+  {
+    "index": 3,
+    "playId": "1_True_202",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 83.1,
+      "coordinates": {
+        "pX": 0.45,
+        "pZ": 0.79
+      },
+      "breaks": {
+        "spinRate": 1823
+      }
+    }
+  },
+  {
+    "index": 4,
+    "playId": "1_True_202",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 80.3,
+      "coordinates": {
+        "pX": 0.45,
+        "pZ": 2.19
+      },
+      "breaks": {
+        "spinRate": 2796
+      }
+    },
+    "hitData": {
+      "launchSpeed": 89.0,
+      "launchAngle": 33.1,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 62.1,
+        "coordY": 149.9
+      }
+    }
+  },
+  {
+    "index": 5,
+    "playId": "1_True_203",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 83.0,
+      "coordinates": {
+        "pX": 1.22,
+        "pZ": 2.83
+      },
+      "breaks": {
+        "spinRate": 1754
+      }
+    }
+  },
+  {
+    "index": 6,
+    "playId": "1_True_203",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.0,
+      "coordinates": {
+        "pX": 0.42,
+        "pZ": 1.77
+      },
+      "breaks": {
+        "spinRate": 2532
+      }
+    },
+    "hitData": {
+      "launchSpeed": 90.1,
+      "launchAngle": 1.6,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 63.1,
+        "coordY": 107.6
+      }
+    }
+  },
+  {
+    "index": 7,
+    "playId": "1_False_101",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 92.9,
+      "coordinates": {
+        "pX": 0.86,
+        "pZ": 1.16
+      },
+      "breaks": {
+        "spinRate": 2015
+      }
+    }
+  },
+  {
+    "index": 8,
+    "playId": "1_False_101",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.4,
+      "coordinates": {
+        "pX": -0.5,
+        "pZ": 1.58
+      },
+      "breaks": {
+        "spinRate": 2009
+      }
+    }
+  },
+  {
+    "index": 9,
+    "playId": "1_False_101",
+    "atBatIndex": 1,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 79.5,
+      "coordinates": {
+        "pX": -0.95,
+        "pZ": 3.38
+      },
+      "breaks": {
+        "spinRate": 2960
+      }
+    }
+  },
+  {
+    "index": 10,
+    "playId": "1_False_101",
+    "atBatIndex": 1,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 91.8,
+      "coordinates": {
+        "pX": -0.01,
+        "pZ": 2.58
+      },
+      "breaks": {
+        "spinRate": 2148
+      }
+    }
+  },
+  {
+    "index": 11,
+    "playId": "1_False_101",
+    "atBatIndex": 1,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 79.6,
+      "coordinates": {
+        "pX": -0.25,
+        "pZ": 0.55
+      },
+      "breaks": {
+        "spinRate": 2842
+      }
+    }
+  },
+  {
+    "index": 12,
+    "playId": "1_False_101",
+    "atBatIndex": 1,
+    "pitchNumber": 6,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 79.0,
+      "coordinates": {
+        "pX": -0.71,
+        "pZ": 2.24
+      },
+      "breaks": {
+        "spinRate": 2996
+      }
+    }
+  },
+  {
+    "index": 13,
+    "playId": "1_False_102",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 92.8,
+      "coordinates": {
+        "pX": -0.27,
+        "pZ": 3.27
+      }
+    },
+    "hitData": {
+      "launchSpeed": 85.3,
+      "launchAngle": 26.0,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 179.6,
+        "coordY": 154.3
+      }
+    }
+  },
+  {
+    "index": 14,
+    "playId": "1_False_103",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 92.9,
+      "coordinates": {
+        "pX": 0.09,
+        "pZ": 2.15
+      },
+      "breaks": {
+        "spinRate": 2191
+      }
+    },
+    "hitData": {
+      "launchSpeed": 87.6,
+      "launchAngle": -11.3,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 188.1,
+        "coordY": 161.2
+      }
+    }
+  },
+  {
+    "index": 15,
+    "playId": "2_True_204",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 89.7,
+      "coordinates": {
+        "pX": -0.48,
+        "pZ": 1.63
+      },
+      "breaks": {
+        "spinRate": 2576
+      }
+    }
+  },
+  {
+    "index": 16,
+    "playId": "2_True_204",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 94.6,
+      "coordinates": {
+        "pX": 1.09,
+        "pZ": 3.16
+      },
+      "breaks": {
+        "spinRate": 2285
+      }
+    }
+  },
+  {
+    "index": 17,
+    "playId": "2_True_204",
+    "atBatIndex": 1,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 87.6,
+      "coordinates": {
+        "pX": 0.51,
+        "pZ": 2.91
+      },
+      "breaks": {
+        "spinRate": 2588
+      }
+    }
+  },
+  {
+    "index": 18,
+    "playId": "2_True_204",
+    "atBatIndex": 1,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 89.2,
+      "coordinates": {
+        "pX": -0.84,
+        "pZ": 3.4
+      },
+      "breaks": {
+        "spinRate": 2532
+      }
+    }
+  },
+  {
+    "index": 19,
+    "playId": "2_True_205",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 96.3,
+      "coordinates": {
+        "pX": -0.5,
+        "pZ": 2.03
+      },
+      "breaks": {
+        "spinRate": 2375
+      }
+    },
+    "hitData": {
+      "launchSpeed": 91.8,
+      "launchAngle": 35.9,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 128.4,
+        "coordY": 126.5
+      }
+    }
+  },
+  {
+    "index": 20,
+    "playId": "2_True_206",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 87.0,
+      "coordinates": {
+        "pX": 1.26,
+        "pZ": 2.83
+      },
+      "breaks": {
+        "spinRate": 2520
+      }
+    }
+  },
+  {
+    "index": 21,
+    "playId": "2_True_206",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.1,
+      "coordinates": {
+        "pX": -0.02,
+        "pZ": 1.62
+      },
+      "breaks": {
+        "spinRate": 2495
+      }
+    },
+    "hitData": {
+      "launchSpeed": 81.9,
+      "launchAngle": -4.4,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 181.4,
+        "coordY": 69.3
+      }
+    }
+  },
+  {
+    "index": 22,
+    "playId": "2_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 92.8,
+      "coordinates": {
+        "pX": -0.74,
+        "pZ": 3.32
+      },
+      "breaks": {
+        "spinRate": 2021
+      }
+    },
+    "hitData": {
+      "launchSpeed": 90.7,
+      "launchAngle": 5.1,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 60.9,
+        "coordY": 88.2
+      }
+    }
+  },
+  {
+    "index": 23,
+    "playId": "2_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 85.5,
+      "coordinates": {
+        "pX": 0.25,
+        "pZ": 1.51
+      },
+      "breaks": {
+        "spinRate": 2383
+      }
+    }
+  },
+  {
+    "index": 24,
+    "playId": "2_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 90.2,
+      "coordinates": {
+        "pX": -0.15,
+        "pZ": 1.84
+      },
+      "breaks": {
+        "spinRate": 1951
+      }
+    }
+  },
+  {
+    "index": 25,
+    "playId": "2_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 85.1,
+      "coordinates": {
+        "pX": -0.72,
+        "pZ": 1.07
+      },
+      "breaks": {
+        "spinRate": 2540
+      }
+    }
+  },
+  {
+    "index": 26,
+    "playId": "2_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 90.8,
+      "coordinates": {
+        "pX": 0.59,
+        "pZ": 2.27
+      },
+      "breaks": {
+        "spinRate": 2189
+      }
+    }
+  },
+  {
+    "index": 27,
+    "playId": "2_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 90.7,
+      "coordinates": {
+        "pX": 0.33,
+        "pZ": 0.65
+      },
+      "breaks": {
+        "spinRate": 2041
+      }
+    }
+  },
+  {
+    "index": 28,
+    "playId": "2_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 78.2,
+      "coordinates": {
+        "pX": -0.41,
+        "pZ": 0.82
+      },
+      "breaks": {
+        "spinRate": 2771
+      }
+    }
+  },
+  {
+    "index": 29,
+    "playId": "2_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 85.0,
+      "coordinates": {
+        "pX": 0.2,
+        "pZ": 1.08
+      },
+      "breaks": {
+        "spinRate": 2571
+      }
+    },
+    "hitData": {
+      "launchSpeed": 92.0,
+      "launchAngle": 35.1,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 135.0,
+        "coordY": 83.7
+      }
+    }
+  },
+  {
+    "index": 30,
+    "playId": "2_False_107",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 84.5,
+      "coordinates": {
+        "pX": 0.63,
+        "pZ": 2.56
+      },
+      "breaks": {
+        "spinRate": 2592
+      }
+    },
+    "hitData": {
+      "launchSpeed": 110.0,
+      "launchAngle": 18.2,
+      "trajectory": "line_drive",
+      "coordinates": {
+        "coordX": 126.9,
+        "coordY": 153.3
+      }
+    }
+  },
+  {
+    "index": 31,
+    "playId": "2_False_108",
+    "atBatIndex": 5,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 80.5,
+      "coordinates": {
+        "pX": 0.07,
+        "pZ": 2.74
+      },
+      "breaks": {
+        "spinRate": 2748
+      }
+    }
+  },
+  {
+    "index": 32,
+    "playId": "2_False_108",
+    "atBatIndex": 5,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 85.3,
+      "coordinates": {
+        "pX": 0.8,
+        "pZ": 2.33
+      },
+      "breaks": {
+        "spinRate": 2598
+      }
+    }
+  },
+  {
+    "index": 33,
+    "playId": "2_False_108",
+    "atBatIndex": 5,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 91.8,
+      "coordinates": {
+        "pX": 0.17,
+        "pZ": 2.02
+      },
+      "breaks": {
+        "spinRate": 2131
+      }
+    },
+    "hitData": {
+      "launchSpeed": 71.8,
+      "launchAngle": -4.7,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 140.6,
+        "coordY": 60.7
+      }
+    }
+  },
+  {
+    "index": 34,
+    "playId": "3_True_207",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 81.3,
+      "coordinates": {
+        "pX": 0.02,
+        "pZ": 3.06
+      },
+      "breaks": {
+        "spinRate": 1770
+      }
+    }
+  },
+  {
+    "index": 35,
+    "playId": "3_True_207",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 87.7,
+      "coordinates": {
+        "pX": 1.48,
+        "pZ": 2.61
+      },
+      "breaks": {
+        "spinRate": 2418
+      }
+    }
+  },
+  {
+    "index": 36,
+    "playId": "3_True_207",
+    "atBatIndex": 1,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 96.2,
+      "coordinates": {
+        "pX": 0.51,
+        "pZ": 3.3
+      },
+      "breaks": {
+        "spinRate": 2416
+      }
+    },
+    "hitData": {
+      "launchSpeed": 81.4,
+      "launchAngle": -11.4,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 58.3,
+        "coordY": 159.2
+      }
+    }
+  },
+  {
+    "index": 37,
+    "playId": "3_True_208",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 89.8,
+      "coordinates": {
+        "pX": 0.22,
+        "pZ": 1.71
+      }
+    },
+    "hitData": {
+      "launchSpeed": 102.8,
+      "launchAngle": 26.9,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 183.1,
+        "coordY": 83.9
+      }
+    }
+  },
+  {
+    "index": 38,
+    "playId": "3_True_209",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 80.4,
+      "coordinates": {
+        "pX": -0.52,
+        "pZ": 3.19
+      },
+      "breaks": {
+        "spinRate": 2780
+      }
+    }
+  },
+  {
+    "index": 39,
+    "playId": "3_True_209",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 87.2,
+      "coordinates": {
+        "pX": 1.1,
+        "pZ": 1.8
+      },
+      "breaks": {
+        "spinRate": 2683
+      }
+    }
+  },
+  {
+    "index": 40,
+    "playId": "3_True_209",
+    "atBatIndex": 3,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.5,
+      "coordinates": {
+        "pX": 0.0,
+        "pZ": 3.26
+      },
+      "breaks": {
+        "spinRate": 2211
+      }
+    },
+    "hitData": {
+      "launchSpeed": 89.5,
+      "launchAngle": 3.6,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 187.5,
+        "coordY": 178.3
+      }
+    }
+  },
+  {
+    "index": 41,
+    "playId": "3_True_201",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 94.1,
+      "coordinates": {
+        "pX": 0.75,
+        "pZ": 2.48
+      },
+      "breaks": {
+        "spinRate": 2418
+      }
+    }
+  },
+  {
+    "index": 42,
+    "playId": "3_True_201",
+    "atBatIndex": 4,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.6,
+      "coordinates": {
+        "pX": -0.95,
+        "pZ": 3.16
+      },
+      "breaks": {
+        "spinRate": 2444
+      }
+    }
+  },
+  {
+    "index": 43,
+    "playId": "3_True_201",
+    "atBatIndex": 4,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 89.7,
+      "coordinates": {
+        "pX": -1.15,
+        "pZ": 0.83
+      },
+      "breaks": {
+        "spinRate": 2697
+      }
+    }
+  },
+  {
+    "index": 44,
+    "playId": "3_True_201",
+    "atBatIndex": 4,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 94.8,
+      "coordinates": {
+        "pX": 0.78,
+        "pZ": 3.23
+      },
+      "breaks": {
+        "spinRate": 2356
+      }
+    },
+    "hitData": {
+      "launchSpeed": 97.4,
+      "launchAngle": 0.3,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 147.3,
+        "coordY": 172.6
+      }
+    }
+  },
+  {
+    "index": 45,
+    "playId": "3_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 95.4,
+      "coordinates": {
+        "pX": -1.38,
+        "pZ": 3.04
+      },
+      "breaks": {
+        "spinRate": 2546
+      }
+    }
+  },
+  {
+    "index": 46,
+    "playId": "3_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 80.8,
+      "coordinates": {
+        "pX": -0.1,
+        "pZ": 1.15
+      },
+      "breaks": {
+        "spinRate": 2764
+      }
+    }
+  },
+  {
+    "index": 47,
+    "playId": "3_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 88.4,
+      "coordinates": {
+        "pX": 0.32,
+        "pZ": 0.86
+      },
+      "breaks": {
+        "spinRate": 2606
+      }
+    }
+  },
+  {
+    "index": 48,
+    "playId": "3_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.6,
+      "coordinates": {
+        "pX": -0.64,
+        "pZ": 1.59
+      },
+      "breaks": {
+        "spinRate": 2429
+      }
+    }
+  },
+  {
+    "index": 49,
+    "playId": "3_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 94.5,
+      "coordinates": {
+        "pX": -0.01,
+        "pZ": 2.92
+      },
+      "breaks": {
+        "spinRate": 2464
+      }
+    }
+  },
+  {
+    "index": 50,
+    "playId": "3_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 6,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 4,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 82.1,
+      "coordinates": {
+        "pX": 0.57,
+        "pZ": 1.31
+      },
+      "breaks": {
+        "spinRate": 1892
+      }
+    }
+  },
+  {
+    "index": 51,
+    "playId": "3_True_203",
+    "atBatIndex": 6,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.7,
+      "coordinates": {
+        "pX": -1.3,
+        "pZ": 2.82
+      },
+      "breaks": {
+        "spinRate": 2229
+      }
+    }
+  },
+  {
+    "index": 52,
+    "playId": "3_True_203",
+    "atBatIndex": 6,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 83.5,
+      "coordinates": {
+        "pX": -0.4,
+        "pZ": 1.63
+      },
+      "breaks": {
+        "spinRate": 1750
+      }
+    }
+  },
+  {
+    "index": 53,
+    "playId": "3_True_203",
+    "atBatIndex": 6,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.0,
+      "coordinates": {
+        "pX": 1.38,
+        "pZ": 3.48
+      },
+      "breaks": {
+        "spinRate": 2242
+      }
+    }
+  },
+  {
+    "index": 54,
+    "playId": "3_True_203",
+    "atBatIndex": 6,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 79.0,
+      "coordinates": {
+        "pX": -0.92,
+        "pZ": 2.05
+      },
+      "breaks": {
+        "spinRate": 2884
+      }
+    }
+  },
+  {
+    "index": 55,
+    "playId": "3_True_203",
+    "atBatIndex": 6,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 97.0,
+      "coordinates": {
+        "pX": -1.48,
+        "pZ": 1.51
+      },
+      "breaks": {
+        "spinRate": 2539
+      }
+    },
+    "hitData": {
+      "launchSpeed": 89.8,
+      "launchAngle": 4.2,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 154.4,
+        "coordY": 180.5
+      }
+    }
+  },
+  {
+    "index": 56,
+    "playId": "3_False_109",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 90.3,
+      "coordinates": {
+        "pX": -0.44,
+        "pZ": 1.92
+      },
+      "breaks": {
+        "spinRate": 1991
+      }
+    }
+  },
+  {
+    "index": 57,
+    "playId": "3_False_109",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 86.2,
+      "coordinates": {
+        "pX": 1.05,
+        "pZ": 2.83
+      },
+      "breaks": {
+        "spinRate": 2529
+      }
+    },
+    "hitData": {
+      "launchSpeed": 76.8,
+      "launchAngle": -10.4,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 75.0,
+        "coordY": 148.7
+      }
+    }
+  },
+  {
+    "index": 58,
+    "playId": "3_False_101",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.6,
+      "coordinates": {
+        "pX": 1.4,
+        "pZ": 3.31
+      },
+      "breaks": {
+        "spinRate": 2079
+      }
+    }
+  },
+  {
+    "index": 59,
+    "playId": "3_False_101",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.0,
+      "coordinates": {
+        "pX": 0.24,
+        "pZ": 1.57
+      },
+      "breaks": {
+        "spinRate": 2036
+      }
+    },
+    "hitData": {
+      "launchSpeed": 88.0,
+      "launchAngle": -6.1,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 144.9,
+        "coordY": 52.7
+      }
+    }
+  },
+  {
+    "index": 60,
+    "playId": "3_False_102",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 86.2,
+      "coordinates": {
+        "pX": 0.01,
+        "pZ": 1.86
+      },
+      "breaks": {
+        "spinRate": 2357
+      }
+    }
+  },
+  {
+    "index": 61,
+    "playId": "3_False_102",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 78.5,
+      "coordinates": {
+        "pX": -0.17,
+        "pZ": 1.72
+      },
+      "breaks": {
+        "spinRate": 2977
+      }
+    },
+    "hitData": {
+      "launchSpeed": 92.6,
+      "launchAngle": 0.9,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 64.0,
+        "coordY": 191.9
+      }
+    }
+  },
+  {
+    "index": 62,
+    "playId": "3_False_103",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.5,
+      "coordinates": {
+        "pX": 0.05,
+        "pZ": 1.85
+      },
+      "breaks": {
+        "spinRate": 2017
+      }
+    }
+  },
+  {
+    "index": 63,
+    "playId": "3_False_103",
+    "atBatIndex": 4,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 84.9,
+      "coordinates": {
+        "pX": 0.68,
+        "pZ": 0.65
+      },
+      "breaks": {
+        "spinRate": 2451
+      }
+    }
+  },
+  {
+    "index": 64,
+    "playId": "3_False_103",
+    "atBatIndex": 4,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 92.9,
+      "coordinates": {
+        "pX": -0.6,
+        "pZ": 1.57
+      },
+      "breaks": {
+        "spinRate": 2061
+      }
+    }
+  },
+  {
+    "index": 65,
+    "playId": "4_True_204",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.8,
+      "coordinates": {
+        "pX": -0.4,
+        "pZ": 1.54
+      },
+      "breaks": {
+        "spinRate": 2319
+      }
+    }
+  },
+  {
+    "index": 66,
+    "playId": "4_True_204",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 88.6,
+      "coordinates": {
+        "pX": 0.23,
+        "pZ": 1.52
+      },
+      "breaks": {
+        "spinRate": 2511
+      }
+    },
+    "hitData": {
+      "launchSpeed": 94.2,
+      "launchAngle": 34.8,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 185.8,
+        "coordY": 168.8
+      }
+    }
+  },
+  {
+    "index": 67,
+    "playId": "4_True_205",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 95.7,
+      "coordinates": {
+        "pX": -0.93,
+        "pZ": 1.65
+      },
+      "breaks": {
+        "spinRate": 2271
+      }
+    }
+  },
+  {
+    "index": 68,
+    "playId": "4_True_205",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.2,
+      "coordinates": {
+        "pX": 1.35,
+        "pZ": 3.23
+      },
+      "breaks": {
+        "spinRate": 2473
+      }
+    }
+  },
+  {
+    "index": 69,
+    "playId": "4_True_205",
+    "atBatIndex": 2,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 81.2,
+      "coordinates": {
+        "pX": -0.01,
+        "pZ": 3.22
+      },
+      "breaks": {
+        "spinRate": 1847
+      }
+    },
+    "hitData": {
+      "launchSpeed": 84.5,
+      "launchAngle": -6.0,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 80.2,
+        "coordY": 187.5
+      }
+    }
+  },
+  {
+    "index": 70,
+    "playId": "4_True_206",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 96.6,
+      "coordinates": {
+        "pX": -0.29,
+        "pZ": 3.3
+      },
+      "breaks": {
+        "spinRate": 2367
+      }
+    }
+  },
+  {
+    "index": 71,
+    "playId": "4_True_206",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 95.3,
+      "coordinates": {
+        "pX": 1.2,
+        "pZ": 2.59
+      },
+      "breaks": {
+        "spinRate": 2490
+      }
+    }
+  },
+  {
+    "index": 72,
+    "playId": "4_True_206",
+    "atBatIndex": 3,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 80.4,
+      "coordinates": {
+        "pX": 0.4,
+        "pZ": 1.59
+      },
+      "breaks": {
+        "spinRate": 2836
+      }
+    },
+    "hitData": {
+      "launchSpeed": 99.6,
+      "launchAngle": 19.1,
+      "trajectory": "line_drive",
+      "coordinates": {
+        "coordX": 148.3,
+        "coordY": 120.6
+      }
+    }
+  },
+  {
+    "index": 73,
+    "playId": "4_True_207",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 83.1,
+      "coordinates": {
+        "pX": 0.49,
+        "pZ": 1.94
+      },
+      "breaks": {
+        "spinRate": 1776
+      }
+    },
+    "hitData": {
+      "launchSpeed": 76.3,
+      "launchAngle": -4.1,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 80.6,
+        "coordY": 153.3
+      }
+    }
+  },
+  {
+    "index": 74,
+    "playId": "4_True_208",
+    "atBatIndex": 5,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 96.7,
+      "coordinates": {
+        "pX": -0.12,
+        "pZ": 2.61
+      },
+      "breaks": {
+        "spinRate": 2315
+      }
+    }
+  },
+  {
+    "index": 75,
+    "playId": "4_True_208",
+    "atBatIndex": 5,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 96.0,
+      "coordinates": {
+        "pX": -0.39,
+        "pZ": 1.92
+      },
+      "breaks": {
+        "spinRate": 2522
+      }
+    }
+  },
+  {
+    "index": 76,
+    "playId": "4_True_208",
+    "atBatIndex": 5,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 96.1,
+      "coordinates": {
+        "pX": -0.74,
+        "pZ": 0.84
+      },
+      "breaks": {
+        "spinRate": 2391
+      }
+    }
+  },
+  {
+    "index": 77,
+    "playId": "4_True_208",
+    "atBatIndex": 5,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 95.6,
+      "coordinates": {
+        "pX": 0.06,
+        "pZ": 2.59
+      }
+    },
+    "hitData": {
+      "launchSpeed": 90.8,
+      "launchAngle": 38.9,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 78.8,
+        "coordY": 52.8
+      }
+    }
+  },
+  {
+    "index": 78,
+    "playId": "4_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.8,
+      "coordinates": {
+        "pX": 0.49,
+        "pZ": 3.21
+      },
+      "breaks": {
+        "spinRate": 2163
+      }
+    }
+  },
+  {
+    "index": 79,
+    "playId": "4_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 78.5,
+      "coordinates": {
+        "pX": -0.6,
+        "pZ": 1.42
+      },
+      "breaks": {
+        "spinRate": 2719
+      }
+    }
+  },
+  {
+    "index": 80,
+    "playId": "4_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 84.6,
+      "coordinates": {
+        "pX": 1.01,
+        "pZ": 2.05
+      },
+      "breaks": {
+        "spinRate": 2518
+      }
+    }
+  },
+  {
+    "index": 81,
+    "playId": "4_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 86.9,
+      "coordinates": {
+        "pX": 0.64,
+        "pZ": 2.17
+      },
+      "breaks": {
+        "spinRate": 2475
+      }
+    }
+  },
+  {
+    "index": 82,
+    "playId": "4_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 86.9,
+      "coordinates": {
+        "pX": -0.63,
+        "pZ": 2.82
+      },
+      "breaks": {
+        "spinRate": 2501
+      }
+    }
+  },
+  {
+    "index": 83,
+    "playId": "4_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Double",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 91.6,
+      "coordinates": {
+        "pX": 0.02,
+        "pZ": 2.24
+      },
+      "breaks": {
+        "spinRate": 1986
+      }
+    },
+    "hitData": {
+      "launchSpeed": 105.3,
+      "launchAngle": 20.5,
+      "trajectory": "line_drive",
+      "coordinates": {
+        "coordX": 103.9,
+        "coordY": 112.3
+      }
+    }
+  },
+  {
+    "index": 84,
+    "playId": "4_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 79.4,
+      "coordinates": {
+        "pX": -0.23,
+        "pZ": 1.94
+      },
+      "breaks": {
+        "spinRate": 2942
+      }
+    },
+    "hitData": {
+      "launchSpeed": 85.6,
+      "launchAngle": 29.1,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 111.5,
+        "coordY": 163.8
+      }
+    }
+  },
+  {
+    "index": 85,
+    "playId": "4_False_107",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.2,
+      "coordinates": {
+        "pX": 0.34,
+        "pZ": 4.16
+      },
+      "breaks": {
+        "spinRate": 2174
+      }
+    }
+  },
+  {
+    "index": 86,
+    "playId": "4_False_107",
+    "atBatIndex": 4,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Home Run",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.0,
+      "coordinates": {
+        "pX": 0.23,
+        "pZ": 1.76
+      },
+      "breaks": {
+        "spinRate": 2174
+      }
+    },
+    "hitData": {
+      "launchSpeed": 109.5,
+      "launchAngle": 34.6,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 63.6,
+        "coordY": 159.9
+      }
+    }
+  },
+  {
+    "index": 87,
+    "playId": "4_False_108",
+    "atBatIndex": 5,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 79.4,
+      "coordinates": {
+        "pX": -0.09,
+        "pZ": 3.25
+      },
+      "breaks": {
+        "spinRate": 2799
+      }
+    }
+  },
+  {
+    "index": 88,
+    "playId": "4_False_108",
+    "atBatIndex": 5,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.0,
+      "coordinates": {
+        "pX": 0.48,
+        "pZ": 3.41
+      },
+      "breaks": {
+        "spinRate": 2089
+      }
+    },
+    "hitData": {
+      "launchSpeed": 76.5,
+      "launchAngle": -11.1,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 53.1,
+        "coordY": 74.1
+      }
+    }
+  },
+  {
+    "index": 89,
+    "playId": "5_True_209",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 87.5,
+      "coordinates": {
+        "pX": 1.05,
+        "pZ": 0.56
+      },
+      "breaks": {
+        "spinRate": 2633
+      }
+    }
+  },
+  {
+    "index": 90,
+    "playId": "5_True_209",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 83.8,
+      "coordinates": {
+        "pX": -1.39,
+        "pZ": 3.82
+      },
+      "breaks": {
+        "spinRate": 1883
+      }
+    },
+    "hitData": {
+      "launchSpeed": 92.9,
+      "launchAngle": 25.7,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 84.9,
+        "coordY": 195.6
+      }
+    }
+  },
+  {
+    "index": 91,
+    "playId": "5_True_201",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.4,
+      "coordinates": {
+        "pX": 0.08,
+        "pZ": 2.96
+      },
+      "breaks": {
+        "spinRate": 2421
+      }
+    }
+  },
+  {
+    "index": 92,
+    "playId": "5_True_201",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 96.8,
+      "coordinates": {
+        "pX": 1.44,
+        "pZ": 2.23
+      },
+      "breaks": {
+        "spinRate": 2391
+      }
+    },
+    "hitData": {
+      "launchSpeed": 94.6,
+      "launchAngle": -11.6,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 106.3,
+        "coordY": 68.1
+      }
+    }
+  },
+  {
+    "index": 93,
+    "playId": "5_True_202",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 96.9,
+      "coordinates": {
+        "pX": -0.35,
+        "pZ": 0.96
+      },
+      "breaks": {
+        "spinRate": 2447
+      }
+    }
+  },
+  {
+    "index": 94,
+    "playId": "5_True_202",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 80.8,
+      "coordinates": {
+        "pX": -0.37,
+        "pZ": 4.32
+      },
+      "breaks": {
+        "spinRate": 2663
+      }
+    }
+  },
+  {
+    "index": 95,
+    "playId": "5_True_202",
+    "atBatIndex": 3,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 87.3,
+      "coordinates": {
+        "pX": -0.88,
+        "pZ": 2.14
+      },
+      "breaks": {
+        "spinRate": 2562
+      }
+    }
+  },
+  {
+    "index": 96,
+    "playId": "5_True_202",
+    "atBatIndex": 3,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 96.5,
+      "coordinates": {
+        "pX": -0.42,
+        "pZ": 2.06
+      },
+      "breaks": {
+        "spinRate": 2243
+      }
+    }
+  },
+  {
+    "index": 97,
+    "playId": "5_True_202",
+    "atBatIndex": 3,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 95.2,
+      "coordinates": {
+        "pX": -0.62,
+        "pZ": 2.88
+      },
+      "breaks": {
+        "spinRate": 2318
+      }
+    }
+  },
+  {
+    "index": 98,
+    "playId": "5_True_202",
+    "atBatIndex": 3,
+    "pitchNumber": 6,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 94.4,
+      "coordinates": {
+        "pX": -0.8,
+        "pZ": 1.15
+      },
+      "breaks": {
+        "spinRate": 2344
+      }
+    }
+  },
+  {
+    "index": 99,
+    "playId": "5_False_109",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 85.5,
+      "coordinates": {
+        "pX": 1.25,
+        "pZ": 2.75
+      },
+      "breaks": {
+        "spinRate": 2518
+      }
+    }
+  },
+  {
+    "index": 100,
+    "playId": "5_False_109",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 90.8,
+      "coordinates": {
+        "pX": 1.4,
+        "pZ": 2.86
+      },
+      "breaks": {
+        "spinRate": 2144
+      }
+    }
+  },
+  {
+    "index": 101,
+    "playId": "5_False_109",
+    "atBatIndex": 1,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 84.9,
+      "coordinates": {
+        "pX": 0.96,
+        "pZ": 1.71
+      },
+      "breaks": {
+        "spinRate": 2470
+      }
+    }
+  },
+  {
+    "index": 102,
+    "playId": "5_False_109",
+    "atBatIndex": 1,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 4,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 86.4,
+      "coordinates": {
+        "pX": -0.86,
+        "pZ": 4.46
+      },
+      "breaks": {
+        "spinRate": 2466
+      }
+    }
+  },
+  {
+    "index": 103,
+    "playId": "5_False_101",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 92.1,
+      "coordinates": {
+        "pX": 0.78,
+        "pZ": 4.33
+      },
+      "breaks": {
+        "spinRate": 2047
+      }
+    }
+  },
+  {
+    "index": 104,
+    "playId": "5_False_101",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.4,
+      "coordinates": {
+        "pX": -0.53,
+        "pZ": 2.7
+      },
+      "breaks": {
+        "spinRate": 2186
+      }
+    }
+  },
+  {
+    "index": 105,
+    "playId": "5_False_101",
+    "atBatIndex": 2,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 90.1,
+      "coordinates": {
+        "pX": -0.6,
+        "pZ": 1.87
+      },
+      "breaks": {
+        "spinRate": 2050
+      }
+    }
+  },
+  {
+    "index": 106,
+    "playId": "5_False_101",
+    "atBatIndex": 2,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 91.9,
+      "coordinates": {
+        "pX": -1.33,
+        "pZ": 3.04
+      },
+      "breaks": {
+        "spinRate": 2189
+      }
+    }
+  },
+  {
+    "index": 107,
+    "playId": "5_False_101",
+    "atBatIndex": 2,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 85.5,
+      "coordinates": {
+        "pX": 0.8,
+        "pZ": 1.91
+      },
+      "breaks": {
+        "spinRate": 2451
+      }
+    },
+    "hitData": {
+      "launchSpeed": null,
+      "launchAngle": null,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": null,
+        "coordY": null
+      }
+    }
+  },
+  {
+    "index": 108,
+    "playId": "5_False_102",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 85.2,
+      "coordinates": {
+        "pX": 0.08,
+        "pZ": 2.33
+      },
+      "breaks": {
+        "spinRate": 2478
+      }
+    },
+    "hitData": {
+      "launchSpeed": 78.7,
+      "launchAngle": 3.2,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 179.3,
+        "coordY": 119.9
+      }
+    }
+  },
+  {
+    "index": 109,
+    "playId": "5_False_103",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.9,
+      "coordinates": {
+        "pX": 0.04,
+        "pZ": 1.89
+      },
+      "breaks": {
+        "spinRate": 2119
+      }
+    }
+  },
+  {
+    "index": 110,
+    "playId": "5_False_103",
+    "atBatIndex": 4,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 90.8,
+      "coordinates": {
+        "pX": 0.35,
+        "pZ": 3.27
+      },
+      "breaks": {
+        "spinRate": 2198
+      }
+    },
+    "hitData": {
+      "launchSpeed": 74.0,
+      "launchAngle": -6.6,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 107.2,
+        "coordY": 63.3
+      }
+    }
+  },
+  {
+    "index": 111,
+    "playId": "6_True_203",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 96.2,
+      "coordinates": {
+        "pX": -0.16,
+        "pZ": 1.32
+      },
+      "breaks": {
+        "spinRate": 2277
+      }
+    }
+  },
+  {
+    "index": 112,
+    "playId": "6_True_203",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 89.8,
+      "coordinates": {
+        "pX": 1.06,
+        "pZ": 2.08
+      },
+      "breaks": {
+        "spinRate": 2502
+      }
+    }
+  },
+  {
+    "index": 113,
+    "playId": "6_True_203",
+    "atBatIndex": 1,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 87.2,
+      "coordinates": {
+        "pX": -0.47,
+        "pZ": 2.85
+      },
+      "breaks": {
+        "spinRate": 2502
+      }
+    }
+  },
+  {
+    "index": 114,
+    "playId": "6_True_203",
+    "atBatIndex": 1,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 89.9,
+      "coordinates": {
+        "pX": -0.92,
+        "pZ": 3.15
+      },
+      "breaks": {
+        "spinRate": 2694
+      }
+    }
+  },
+  {
+    "index": 115,
+    "playId": "6_True_203",
+    "atBatIndex": 1,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 96.3,
+      "coordinates": {
+        "pX": -0.14,
+        "pZ": 2.72
+      }
+    }
+  },
+  {
+    "index": 116,
+    "playId": "6_True_203",
+    "atBatIndex": 1,
+    "pitchNumber": 6,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 96.3,
+      "coordinates": {
+        "pX": -0.1,
+        "pZ": 2.75
+      },
+      "breaks": {
+        "spinRate": 2494
+      }
+    },
+    "hitData": {
+      "launchSpeed": 85.0,
+      "launchAngle": 35.1,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 60.3,
+        "coordY": 161.8
+      }
+    }
+  },
+  {
+    "index": 117,
+    "playId": "6_True_204",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 96.5,
+      "coordinates": {
+        "pX": 0.61,
+        "pZ": 1.99
+      },
+      "breaks": {
+        "spinRate": 2400
+      }
+    }
+  },
+  {
+    "index": 118,
+    "playId": "6_True_204",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 94.2,
+      "coordinates": {
+        "pX": -0.55,
+        "pZ": 3.0
+      },
+      "breaks": {
+        "spinRate": 2396
+      }
+    },
+    "hitData": {
+      "launchSpeed": 73.6,
+      "launchAngle": -8.8,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 159.9,
+        "coordY": 167.6
+      }
+    }
+  },
+  {
+    "index": 119,
+    "playId": "6_True_205",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 78.5,
+      "coordinates": {
+        "pX": -0.06,
+        "pZ": 2.31
+      },
+      "breaks": {
+        "spinRate": 2635
+      }
+    },
+    "hitData": {
+      "launchSpeed": 92.8,
+      "launchAngle": 6.4,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 74.0,
+        "coordY": 113.1
+      }
+    }
+  },
+  {
+    "index": 120,
+    "playId": "6_True_206",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.0,
+      "coordinates": {
+        "pX": -0.67,
+        "pZ": 3.53
+      },
+      "breaks": {
+        "spinRate": 2398
+      }
+    }
+  },
+  {
+    "index": 121,
+    "playId": "6_True_206",
+    "atBatIndex": 4,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.4,
+      "coordinates": {
+        "pX": -0.1,
+        "pZ": 2.28
+      },
+      "breaks": {
+        "spinRate": 2307
+      }
+    }
+  },
+  {
+    "index": 122,
+    "playId": "6_True_206",
+    "atBatIndex": 4,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 80.0,
+      "coordinates": {
+        "pX": 0.71,
+        "pZ": 1.55
+      },
+      "breaks": {
+        "spinRate": 2881
+      }
+    }
+  },
+  {
+    "index": 123,
+    "playId": "6_True_206",
+    "atBatIndex": 4,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 94.5,
+      "coordinates": {
+        "pX": -0.77,
+        "pZ": 1.55
+      },
+      "breaks": {
+        "spinRate": 2494
+      }
+    }
+  },
+  {
+    "index": 124,
+    "playId": "6_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.3,
+      "coordinates": {
+        "pX": 0.32,
+        "pZ": 2.9
+      },
+      "breaks": {
+        "spinRate": 2171
+      }
+    }
+  },
+  {
+    "index": 125,
+    "playId": "6_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Double",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 90.6,
+      "coordinates": {
+        "pX": -1.11,
+        "pZ": 1.71
+      },
+      "breaks": {
+        "spinRate": 2023
+      }
+    },
+    "hitData": {
+      "launchSpeed": 108.4,
+      "launchAngle": 34.5,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 96.3,
+        "coordY": 168.8
+      }
+    }
+  },
+  {
+    "index": 126,
+    "playId": "6_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 91.3,
+      "coordinates": {
+        "pX": -1.17,
+        "pZ": 2.74
+      },
+      "breaks": {
+        "spinRate": 2170
+      }
+    }
+  },
+  {
+    "index": 127,
+    "playId": "6_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 90.7,
+      "coordinates": {
+        "pX": -0.83,
+        "pZ": 1.7
+      },
+      "breaks": {
+        "spinRate": 2197
+      }
+    }
+  },
+  {
+    "index": 128,
+    "playId": "6_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 80.0,
+      "coordinates": {
+        "pX": 0.6,
+        "pZ": 2.81
+      },
+      "breaks": {
+        "spinRate": 2987
+      }
+    }
+  },
+  {
+    "index": 129,
+    "playId": "6_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 92.8,
+      "coordinates": {
+        "pX": -0.13,
+        "pZ": 2.79
+      },
+      "breaks": {
+        "spinRate": 2176
+      }
+    },
+    "hitData": {
+      "launchSpeed": 89.8,
+      "launchAngle": 38.0,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 62.1,
+        "coordY": 185.8
+      }
+    }
+  },
+  {
+    "index": 130,
+    "playId": "6_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.6,
+      "coordinates": {
+        "pX": 0.44,
+        "pZ": 2.01
+      },
+      "breaks": {
+        "spinRate": 2000
+      }
+    }
+  },
+  {
+    "index": 131,
+    "playId": "6_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 84.3,
+      "coordinates": {
+        "pX": 1.1,
+        "pZ": 1.86
+      },
+      "breaks": {
+        "spinRate": 2435
+      }
+    }
+  },
+  {
+    "index": 132,
+    "playId": "6_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 85.9,
+      "coordinates": {
+        "pX": 0.43,
+        "pZ": 2.05
+      },
+      "breaks": {
+        "spinRate": 2597
+      }
+    },
+    "hitData": {
+      "launchSpeed": 99.2,
+      "launchAngle": 37.7,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 180.5,
+        "coordY": 89.2
+      }
+    }
+  },
+  {
+    "index": 133,
+    "playId": "6_False_107",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 80.6,
+      "coordinates": {
+        "pX": -0.7,
+        "pZ": 2.36
+      },
+      "breaks": {
+        "spinRate": 2944
+      }
+    }
+  },
+  {
+    "index": 134,
+    "playId": "6_False_107",
+    "atBatIndex": 4,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 85.9,
+      "coordinates": {
+        "pX": 0.54,
+        "pZ": 3.25
+      }
+    },
+    "hitData": {
+      "launchSpeed": 90.8,
+      "launchAngle": 42.7,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 122.8,
+        "coordY": 53.8
+      }
+    }
+  },
+  {
+    "index": 135,
+    "playId": "7_True_207",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.2,
+      "coordinates": {
+        "pX": -0.88,
+        "pZ": 1.49
+      },
+      "breaks": {
+        "spinRate": 2541
+      }
+    }
+  },
+  {
+    "index": 136,
+    "playId": "7_True_207",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Double",
+      "isInPlay": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 79.0,
+      "coordinates": {
+        "pX": 0.04,
+        "pZ": 2.72
+      },
+      "breaks": {
+        "spinRate": 2690
+      }
+    },
+    "hitData": {
+      "launchSpeed": 112.6,
+      "launchAngle": 28.2,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 100.5,
+        "coordY": 125.6
+      }
+    }
+  },
+  {
+    "index": 137,
+    "playId": "7_True_208",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 96.4,
+      "coordinates": {
+        "pX": 0.35,
+        "pZ": 3.16
+      },
+      "breaks": {
+        "spinRate": 2474
+      }
+    },
+    "hitData": {
+      "launchSpeed": 87.0,
+      "launchAngle": 47.7,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 170.6,
+        "coordY": 161.3
+      }
+    }
+  },
+  {
+    "index": 138,
+    "playId": "7_True_209",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "CH",
+        "description": "Changeup"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 83.2,
+      "coordinates": {
+        "pX": 0.54,
+        "pZ": 1.93
+      },
+      "breaks": {
+        "spinRate": 1621
+      }
+    },
+    "hitData": {
+      "launchSpeed": 93.1,
+      "launchAngle": 39.7,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 131.0,
+        "coordY": 155.7
+      }
+    }
+  },
+  {
+    "index": 139,
+    "playId": "7_True_201",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Home Run",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 91.2,
+      "coordinates": {
+        "pX": 0.03,
+        "pZ": 2.27
+      },
+      "breaks": {
+        "spinRate": 2220
+      }
+    },
+    "hitData": {
+      "launchSpeed": 103.9,
+      "launchAngle": 28.6,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 147.3,
+        "coordY": 153.2
+      }
+    }
+  },
+  {
+    "index": 140,
+    "playId": "7_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 92.7,
+      "coordinates": {
+        "pX": -1.42,
+        "pZ": 4.17
+      },
+      "breaks": {
+        "spinRate": 2109
+      }
+    }
+  },
+  {
+    "index": 141,
+    "playId": "7_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.2,
+      "coordinates": {
+        "pX": -0.88,
+        "pZ": 0.85
+      },
+      "breaks": {
+        "spinRate": 2247
+      }
+    }
+  },
+  {
+    "index": 142,
+    "playId": "7_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 87.3,
+      "coordinates": {
+        "pX": -0.0,
+        "pZ": 2.01
+      },
+      "breaks": {
+        "spinRate": 2782
+      }
+    }
+  },
+  {
+    "index": 143,
+    "playId": "7_True_202",
+    "atBatIndex": 5,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 86.2,
+      "coordinates": {
+        "pX": 0.08,
+        "pZ": 1.53
+      }
+    },
+    "hitData": {
+      "launchSpeed": 102.7,
+      "launchAngle": 26.3,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 81.3,
+        "coordY": 179.8
+      }
+    }
+  },
+  {
+    "index": 144,
+    "playId": "7_False_108",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 79.7,
+      "coordinates": {
+        "pX": -0.34,
+        "pZ": 3.66
+      },
+      "breaks": {
+        "spinRate": 2707
+      }
+    }
+  },
+  {
+    "index": 145,
+    "playId": "7_False_108",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 86.3,
+      "coordinates": {
+        "pX": -0.82,
+        "pZ": 2.88
+      },
+      "breaks": {
+        "spinRate": 2623
+      }
+    },
+    "hitData": {
+      "launchSpeed": 104.9,
+      "launchAngle": 30.9,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 57.5,
+        "coordY": 120.4
+      }
+    }
+  },
+  {
+    "index": 146,
+    "playId": "7_False_109",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 84.7,
+      "coordinates": {
+        "pX": -1.34,
+        "pZ": 3.03
+      },
+      "breaks": {
+        "spinRate": 2364
+      }
+    }
+  },
+  {
+    "index": 147,
+    "playId": "7_False_109",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 78.7,
+      "coordinates": {
+        "pX": 1.27,
+        "pZ": 2.94
+      },
+      "breaks": {
+        "spinRate": 2914
+      }
+    }
+  },
+  {
+    "index": 148,
+    "playId": "7_False_109",
+    "atBatIndex": 2,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 91.0,
+      "coordinates": {
+        "pX": -0.06,
+        "pZ": 1.33
+      },
+      "breaks": {
+        "spinRate": 2028
+      }
+    }
+  },
+  {
+    "index": 149,
+    "playId": "7_False_109",
+    "atBatIndex": 2,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 84.5,
+      "coordinates": {
+        "pX": 0.55,
+        "pZ": 3.26
+      },
+      "breaks": {
+        "spinRate": 2385
+      }
+    }
+  },
+  {
+    "index": 150,
+    "playId": "7_False_109",
+    "atBatIndex": 2,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 80.5,
+      "coordinates": {
+        "pX": -0.07,
+        "pZ": 1.72
+      },
+      "breaks": {
+        "spinRate": 2802
+      }
+    }
+  },
+  {
+    "index": 151,
+    "playId": "7_False_109",
+    "atBatIndex": 2,
+    "pitchNumber": 6,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 4,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 79.7,
+      "coordinates": {
+        "pX": -1.35,
+        "pZ": 2.19
+      },
+      "breaks": {
+        "spinRate": 2783
+      }
+    }
+  },
+  {
+    "index": 152,
+    "playId": "7_False_101",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.0,
+      "coordinates": {
+        "pX": -0.19,
+        "pZ": 2.98
+      },
+      "breaks": {
+        "spinRate": 2191
+      }
+    }
+  },
+  {
+    "index": 153,
+    "playId": "7_False_101",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 95.0,
+      "coordinates": {
+        "pX": 1.21,
+        "pZ": 1.28
+      },
+      "breaks": {
+        "spinRate": 2312
+      }
+    }
+  },
+  {
+    "index": 154,
+    "playId": "7_False_101",
+    "atBatIndex": 3,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 95.5,
+      "coordinates": {
+        "pX": 0.91,
+        "pZ": 0.92
+      },
+      "breaks": {
+        "spinRate": 2364
+      }
+    },
+    "hitData": {
+      "launchSpeed": 92.6,
+      "launchAngle": -1.9,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 117.5,
+        "coordY": 154.4
+      }
+    }
+  },
+  {
+    "index": 155,
+    "playId": "7_False_102",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 94.4,
+      "coordinates": {
+        "pX": -0.2,
+        "pZ": 3.07
+      }
+    }
+  },
+  {
+    "index": 156,
+    "playId": "7_False_102",
+    "atBatIndex": 4,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 95.6,
+      "coordinates": {
+        "pX": 0.48,
+        "pZ": 3.44
+      },
+      "breaks": {
+        "spinRate": 2260
+      }
+    }
+  },
+  {
+    "index": 157,
+    "playId": "7_False_102",
+    "atBatIndex": 4,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 94.0,
+      "coordinates": {
+        "pX": 0.31,
+        "pZ": 2.15
+      }
+    }
+  },
+  {
+    "index": 158,
+    "playId": "7_False_103",
+    "atBatIndex": 5,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.1,
+      "coordinates": {
+        "pX": -0.27,
+        "pZ": 2.33
+      },
+      "breaks": {
+        "spinRate": 2330
+      }
+    },
+    "hitData": {
+      "launchSpeed": 97.8,
+      "launchAngle": 48.2,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 148.0,
+        "coordY": 62.5
+      }
+    }
+  },
+  {
+    "index": 159,
+    "playId": "8_True_203",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 87.2,
+      "coordinates": {
+        "pX": 0.16,
+        "pZ": 1.73
+      },
+      "breaks": {
+        "spinRate": 2771
+      }
+    },
+    "hitData": {
+      "launchSpeed": 83.0,
+      "launchAngle": -7.5,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 134.7,
+        "coordY": 106.6
+      }
+    }
+  },
+  {
+    "index": 160,
+    "playId": "8_True_204",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 86.6,
+      "coordinates": {
+        "pX": -0.2,
+        "pZ": 3.36
+      },
+      "breaks": {
+        "spinRate": 2570
+      }
+    }
+  },
+  {
+    "index": 161,
+    "playId": "8_True_204",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 87.3,
+      "coordinates": {
+        "pX": -0.9,
+        "pZ": 2.76
+      },
+      "breaks": {
+        "spinRate": 2576
+      }
+    }
+  },
+  {
+    "index": 162,
+    "playId": "8_True_204",
+    "atBatIndex": 2,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 93.6,
+      "coordinates": {
+        "pX": 0.44,
+        "pZ": 2.81
+      }
+    }
+  },
+  {
+    "index": 163,
+    "playId": "8_True_204",
+    "atBatIndex": 2,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 92.8,
+      "coordinates": {
+        "pX": -0.45,
+        "pZ": 3.58
+      },
+      "breaks": {
+        "spinRate": 2246
+      }
+    }
+  },
+  {
+    "index": 164,
+    "playId": "8_True_204",
+    "atBatIndex": 2,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 86.2,
+      "coordinates": {
+        "pX": -0.56,
+        "pZ": 3.02
+      },
+      "breaks": {
+        "spinRate": 2712
+      }
+    }
+  },
+  {
+    "index": 165,
+    "playId": "8_True_205",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 86.7,
+      "coordinates": {
+        "pX": -0.19,
+        "pZ": 1.89
+      },
+      "breaks": {
+        "spinRate": 2679
+      }
+    }
+  },
+  {
+    "index": 166,
+    "playId": "8_True_205",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 86.0,
+      "coordinates": {
+        "pX": -1.46,
+        "pZ": 2.15
+      },
+      "breaks": {
+        "spinRate": 2788
+      }
+    }
+  },
+  {
+    "index": 167,
+    "playId": "8_True_205",
+    "atBatIndex": 3,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 87.2,
+      "coordinates": {
+        "pX": 0.67,
+        "pZ": 2.5
+      },
+      "breaks": {
+        "spinRate": 2769
+      }
+    }
+  },
+  {
+    "index": 168,
+    "playId": "8_True_205",
+    "atBatIndex": 3,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 93.9,
+      "coordinates": {
+        "pX": 0.58,
+        "pZ": 2.75
+      },
+      "breaks": {
+        "spinRate": 2066
+      }
+    },
+    "hitData": {
+      "launchSpeed": 101.9,
+      "launchAngle": 36.2,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 139.5,
+        "coordY": 109.5
+      }
+    }
+  },
+  {
+    "index": 169,
+    "playId": "8_True_206",
+    "atBatIndex": 4,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 91.2,
+      "coordinates": {
+        "pX": -1.46,
+        "pZ": 0.81
+      },
+      "breaks": {
+        "spinRate": 2222
+      }
+    }
+  },
+  {
+    "index": 170,
+    "playId": "8_True_206",
+    "atBatIndex": 4,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.4,
+      "coordinates": {
+        "pX": 0.65,
+        "pZ": 2.17
+      },
+      "breaks": {
+        "spinRate": 2048
+      }
+    }
+  },
+  {
+    "index": 171,
+    "playId": "8_True_206",
+    "atBatIndex": 4,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 93.4,
+      "coordinates": {
+        "pX": 0.42,
+        "pZ": 3.25
+      },
+      "breaks": {
+        "spinRate": 2136
+      }
+    }
+  },
+  {
+    "index": 172,
+    "playId": "8_True_206",
+    "atBatIndex": 4,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Single",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 87.8,
+      "coordinates": {
+        "pX": 0.25,
+        "pZ": 3.06
+      }
+    },
+    "hitData": {
+      "launchSpeed": 86.8,
+      "launchAngle": 5.7,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 155.8,
+        "coordY": 197.4
+      }
+    }
+  },
+  {
+    "index": 173,
+    "playId": "8_True_207",
+    "atBatIndex": 5,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 91.8,
+      "coordinates": {
+        "pX": 1.32,
+        "pZ": 2.27
+      },
+      "breaks": {
+        "spinRate": 2178
+      }
+    }
+  },
+  {
+    "index": 174,
+    "playId": "8_True_207",
+    "atBatIndex": 5,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 86.6,
+      "coordinates": {
+        "pX": 0.84,
+        "pZ": 1.56
+      },
+      "breaks": {
+        "spinRate": 2727
+      }
+    }
+  },
+  {
+    "index": 175,
+    "playId": "8_True_207",
+    "atBatIndex": 5,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 86.0,
+      "coordinates": {
+        "pX": -0.56,
+        "pZ": 1.26
+      },
+      "breaks": {
+        "spinRate": 2666
+      }
+    }
+  },
+  {
+    "index": 176,
+    "playId": "8_True_207",
+    "atBatIndex": 5,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.4,
+      "coordinates": {
+        "pX": -0.01,
+        "pZ": 2.17
+      },
+      "breaks": {
+        "spinRate": 2112
+      }
+    },
+    "hitData": {
+      "launchSpeed": 104.1,
+      "launchAngle": 32.9,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 86.1,
+        "coordY": 174.1
+      }
+    }
+  },
+  {
+    "index": 177,
+    "playId": "8_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 95.5,
+      "coordinates": {
+        "pX": -0.25,
+        "pZ": 1.55
+      },
+      "breaks": {
+        "spinRate": 2224
+      }
+    }
+  },
+  {
+    "index": 178,
+    "playId": "8_False_104",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 93.5,
+      "coordinates": {
+        "pX": 0.63,
+        "pZ": 2.71
+      },
+      "breaks": {
+        "spinRate": 2274
+      }
+    },
+    "hitData": {
+      "launchSpeed": 88.5,
+      "launchAngle": -11.0,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 156.9,
+        "coordY": 74.8
+      }
+    }
+  },
+  {
+    "index": 179,
+    "playId": "8_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.5,
+      "coordinates": {
+        "pX": -1.24,
+        "pZ": 2.9
+      },
+      "breaks": {
+        "spinRate": 2332
+      }
+    }
+  },
+  {
+    "index": 180,
+    "playId": "8_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 94.0,
+      "coordinates": {
+        "pX": 1.02,
+        "pZ": 2.24
+      },
+      "breaks": {
+        "spinRate": 2378
+      }
+    }
+  },
+  {
+    "index": 181,
+    "playId": "8_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 94.0,
+      "coordinates": {
+        "pX": 0.27,
+        "pZ": 1.85
+      },
+      "breaks": {
+        "spinRate": 2142
+      }
+    }
+  },
+  {
+    "index": 182,
+    "playId": "8_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "S",
+      "description": "Swinging Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 95.2,
+      "coordinates": {
+        "pX": -0.71,
+        "pZ": 2.94
+      },
+      "breaks": {
+        "spinRate": 2448
+      }
+    }
+  },
+  {
+    "index": 183,
+    "playId": "8_False_105",
+    "atBatIndex": 2,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 95.7,
+      "coordinates": {
+        "pX": -0.21,
+        "pZ": 3.35
+      },
+      "breaks": {
+        "spinRate": 2232
+      }
+    }
+  },
+  {
+    "index": 184,
+    "playId": "8_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "CU",
+        "description": "Curveball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 79.9,
+      "coordinates": {
+        "pX": 1.15,
+        "pZ": 2.46
+      },
+      "breaks": {
+        "spinRate": 2551
+      }
+    }
+  },
+  {
+    "index": 185,
+    "playId": "8_False_106",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 95.8,
+      "coordinates": {
+        "pX": 0.2,
+        "pZ": 1.95
+      },
+      "breaks": {
+        "spinRate": 2377
+      }
+    },
+    "hitData": {
+      "launchSpeed": 89.9,
+      "launchAngle": -16.4,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 197.6,
+        "coordY": 147.3
+      }
+    }
+  },
+  {
+    "index": 186,
+    "playId": "9_True_208",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 86.9,
+      "coordinates": {
+        "pX": 0.3,
+        "pZ": 0.99
+      },
+      "breaks": {
+        "spinRate": 2792
+      }
+    }
+  },
+  {
+    "index": 187,
+    "playId": "9_True_208",
+    "atBatIndex": 1,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.0,
+      "coordinates": {
+        "pX": -0.22,
+        "pZ": 1.53
+      },
+      "breaks": {
+        "spinRate": 2170
+      }
+    }
+  },
+  {
+    "index": 188,
+    "playId": "9_True_208",
+    "atBatIndex": 1,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 91.3,
+      "coordinates": {
+        "pX": -0.51,
+        "pZ": 4.46
+      },
+      "breaks": {
+        "spinRate": 2138
+      }
+    }
+  },
+  {
+    "index": 189,
+    "playId": "9_True_208",
+    "atBatIndex": 1,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 2,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 93.5,
+      "coordinates": {
+        "pX": -1.32,
+        "pZ": 2.5
+      },
+      "breaks": {
+        "spinRate": 2000
+      }
+    }
+  },
+  {
+    "index": 190,
+    "playId": "9_True_208",
+    "atBatIndex": 1,
+    "pitchNumber": 5,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 91.3,
+      "coordinates": {
+        "pX": -0.28,
+        "pZ": 0.7
+      },
+      "breaks": {
+        "spinRate": 2051
+      }
+    }
+  },
+  {
+    "index": 191,
+    "playId": "9_True_208",
+    "atBatIndex": 1,
+    "pitchNumber": 6,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Flyout",
+      "isInPlay": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 3,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 91.5,
+      "coordinates": {
+        "pX": 0.45,
+        "pZ": 2.57
+      },
+      "breaks": {
+        "spinRate": 2163
+      }
+    },
+    "hitData": {
+      "launchSpeed": 87.0,
+      "launchAngle": 30.4,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 54.8,
+        "coordY": 53.4
+      }
+    }
+  },
+  {
+    "index": 192,
+    "playId": "9_True_209",
+    "atBatIndex": 2,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 92.7,
+      "coordinates": {
+        "pX": 0.82,
+        "pZ": 2.28
+      },
+      "breaks": {
+        "spinRate": 2193
+      }
+    }
+  },
+  {
+    "index": 193,
+    "playId": "9_True_209",
+    "atBatIndex": 2,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 93.2,
+      "coordinates": {
+        "pX": -1.19,
+        "pZ": 3.34
+      },
+      "breaks": {
+        "spinRate": 2244
+      }
+    }
+  },
+  {
+    "index": 194,
+    "playId": "9_True_209",
+    "atBatIndex": 2,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "B",
+      "description": "Ball",
+      "isBall": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 91.5,
+      "coordinates": {
+        "pX": 1.49,
+        "pZ": 1.99
+      },
+      "breaks": {
+        "spinRate": 2249
+      }
+    }
+  },
+  {
+    "index": 195,
+    "playId": "9_True_209",
+    "atBatIndex": 2,
+    "pitchNumber": 4,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Groundout",
+      "isInPlay": true,
+      "type": {
+        "code": "SL",
+        "description": "Slider"
+      }
+    },
+    "count": {
+      "balls": 1,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 86.6,
+      "coordinates": {
+        "pX": 0.53,
+        "pZ": 2.79
+      },
+      "breaks": {
+        "spinRate": 2748
+      }
+    },
+    "hitData": {
+      "launchSpeed": 85.7,
+      "launchAngle": 0.3,
+      "trajectory": "ground_ball",
+      "coordinates": {
+        "coordX": 178.0,
+        "coordY": 92.4
+      }
+    }
+  },
+  {
+    "index": 196,
+    "playId": "9_True_201",
+    "atBatIndex": 3,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 1
+    },
+    "pitchData": {
+      "startSpeed": 91.7,
+      "coordinates": {
+        "pX": -0.47,
+        "pZ": 2.76
+      },
+      "breaks": {
+        "spinRate": 2044
+      }
+    }
+  },
+  {
+    "index": 197,
+    "playId": "9_True_201",
+    "atBatIndex": 3,
+    "pitchNumber": 2,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "D",
+      "description": "Foul",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 2
+    },
+    "pitchData": {
+      "startSpeed": 93.5,
+      "coordinates": {
+        "pX": 0.17,
+        "pZ": 2.89
+      },
+      "breaks": {
+        "spinRate": 2173
+      }
+    }
+  },
+  {
+    "index": 198,
+    "playId": "9_True_201",
+    "atBatIndex": 3,
+    "pitchNumber": 3,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "C",
+      "description": "Called Strike",
+      "isStrike": true,
+      "type": {
+        "code": "SI",
+        "description": "Sinker"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 3
+    },
+    "pitchData": {
+      "startSpeed": 92.4,
+      "coordinates": {
+        "pX": -0.81,
+        "pZ": 2.64
+      },
+      "breaks": {
+        "spinRate": 2134
+      }
+    }
+  },
+  {
+    "index": 199,
+    "playId": "9_False_107",
+    "atBatIndex": 1,
+    "pitchNumber": 1,
+    "isPitch": true,
+    "type": {
+      "code": "P",
+      "description": "Pitch"
+    },
+    "details": {
+      "code": "X",
+      "description": "In play, Home Run",
+      "isInPlay": true,
+      "type": {
+        "code": "FF",
+        "description": "Four-seam fastball"
+      }
+    },
+    "count": {
+      "balls": 0,
+      "strikes": 0
+    },
+    "pitchData": {
+      "startSpeed": 95.5,
+      "coordinates": {
+        "pX": 0.53,
+        "pZ": 2.41
+      },
+      "breaks": {
+        "spinRate": 2265
+      }
+    },
+    "hitData": {
+      "launchSpeed": 108.8,
+      "launchAngle": 41.6,
+      "trajectory": "fly_ball",
+      "coordinates": {
+        "coordX": 81.4,
+        "coordY": 96.8
+      }
+    }
+  }
+]
