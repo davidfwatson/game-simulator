@@ -1,0 +1,43 @@
+{
+  "playId": "b3c4d5e6-f7a8-b9c0-d1e2-f3a4b5c6d7e8",
+  "atBatIndex": 3,
+  "pitchNumber": 1,
+  "isPitch": true,
+  "type": {
+    "code": "P",
+    "description": "Pitch"
+  },
+  "details": {
+    "code": "X",
+    "description": "In play, Home Run",
+    "isInPlay": true,
+    "type": {
+      "code": "FF",
+      "description": "Four-seam fastball"
+    }
+  },
+  "count": {
+    "balls": 0,
+    "strikes": 0
+  },
+  "pitchData": {
+    "startSpeed": 98.0,
+    "coordinates": {
+      "pX": 0.0,
+      "pZ": 3.1
+    },
+    "breaks": {
+      "spinRate": 2400
+    }
+  },
+  "hitData": {
+    "launchSpeed": 112.5,
+    "launchAngle": 30.0,
+    "trajectory": "fly_ball",
+    "coordinates": {
+      "coordX": 250.0,
+      "coordY": 50.0
+    }
+  },
+  "index": 7
+}

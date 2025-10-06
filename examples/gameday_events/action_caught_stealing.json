@@ -1,0 +1,37 @@
+{
+  "playId": "d1a2b3c4-e5f6-a7b8-c9d0-e1f2a3b4c5d6",
+  "atBatIndex": 1,
+  "isPitch": false,
+  "type": {
+    "code": "A",
+    "description": "Action"
+  },
+  "details": {
+    "code": "CS",
+    "description": "Caught Stealing 2B",
+    "eventType": "caught_stealing"
+  },
+  "runners": [
+    {
+      "runnerId": 545101,
+      "start": "1B",
+      "end": "2B",
+      "isOut": true,
+      "outBase": "2B",
+      "creditedFielders": [
+        {
+          "playerId": 625207,
+          "position": "C",
+          "credit": "assist"
+        },
+        {
+          "playerId": 625201,
+          "position": "2B",
+          "credit": "putout"
+        }
+      ],
+      "movementReason": "caught_stealing"
+    }
+  ],
+  "index": 1
+}

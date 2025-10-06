@@ -1,0 +1,43 @@
+{
+  "playId": "f1a2b3c4-d5e6-f7a8-b9c0-d1e2f3a4b5c6",
+  "atBatIndex": 1,
+  "pitchNumber": 1,
+  "isPitch": true,
+  "type": {
+    "code": "P",
+    "description": "Pitch"
+  },
+  "details": {
+    "code": "X",
+    "description": "In play, Double",
+    "isInPlay": true,
+    "type": {
+      "code": "SL",
+      "description": "Slider"
+    }
+  },
+  "count": {
+    "balls": 0,
+    "strikes": 0
+  },
+  "pitchData": {
+    "startSpeed": 89.0,
+    "coordinates": {
+      "pX": -0.7,
+      "pZ": 2.1
+    },
+    "breaks": {
+      "spinRate": 2600
+    }
+  },
+  "hitData": {
+    "launchSpeed": 108.1,
+    "launchAngle": 25.5,
+    "trajectory": "fly_ball",
+    "coordinates": {
+      "coordX": 180.2,
+      "coordY": 150.8
+    }
+  },
+  "index": 4
+}
