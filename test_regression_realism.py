@@ -23,7 +23,7 @@ class TestRegressionRealism(unittest.TestCase):
         for _ in range(5000):
             sim.outs = 0
             sim.bases = [None, None, None]
-            desc, _, was_error, _ = sim._handle_batted_ball_out("Groundout", sim.team2_lineup[0])
+            desc, _, was_error, _, _ = sim._handle_batted_ball_out("Groundout", sim.team2_lineup[0])
             if was_error:
                 continue
             total_groundouts += 1
@@ -77,7 +77,7 @@ class TestRegressionRealism(unittest.TestCase):
 
         buffer = io.StringIO()
         with redirect_stdout(buffer):
-            sim._simulate_at_bat(batter, pitcher, at_bat_index=0)
+            sim._simulate_at_bat(batter, pitcher)
         log = buffer.getvalue()
 
         self.assertNotIn("In play ->", log)
