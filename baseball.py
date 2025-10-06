@@ -1,6 +1,7 @@
 import random
 import uuid
 from teams import TEAMS, GAME_CONTEXT
+from gameday import Gameday, Play
 
 class BaseballSimulator:
     """
@@ -38,7 +39,9 @@ class BaseballSimulator:
         self.team1_score, self.team2_score = 0, 0
         self.inning, self.top_of_inning = 1, True
         self.outs, self.bases = 0, [None, None, None] # Runners on base by name
-        self.play_events = []
+        self.plays: list[Play] = []
+        self.play_events = [] # For backwards compatibility with tests
+        self.at_bat_index = 0
 
         # Output buffer - always buffer output, print at end
         self.output_lines = []
@@ -480,7 +483,7 @@ class BaseballSimulator:
 
         return events
 
-    def _simulate_at_bat(self, batter, pitcher, at_bat_index):
+    def _simulate_at_bat(self, batter, pitcher):
         balls, strikes = 0, 0
         pitch_number = 0
         at_bat_events = []
@@ -506,7 +509,7 @@ class BaseballSimulator:
 
         # Check for HBP at the start of the at-bat using batter-specific stats
         if random.random() < batter.get('stats', {}).get('HBP', 0):
-            return ("HBP", None)
+            return "HBP", at_bat_events, {"balls": balls, "strikes": strikes}
 
         batter_stats = batter['stats']
         batter_walk_rate = batter_stats.get('Walk', 0.09)
@@ -523,12 +526,12 @@ class BaseballSimulator:
         contact_prob = 0.75 / k_propensity
 
         while balls < 4 and strikes < 3:
-            base_running_events = self._simulate_base_running_action(pitcher, at_bat_index)
+            pre_pitch_balls, pre_pitch_strikes = balls, strikes
+            base_running_events = self._simulate_base_running_action(pitcher, self.at_bat_index)
             if base_running_events:
                 at_bat_events.extend(base_running_events)
                 if self.outs >= 3:
-                    self.play_events.extend(at_bat_events)
-                    return ("AtBatInterrupted", None)
+                    return "AtBatInterrupted", at_bat_events, {"balls": balls, "strikes": strikes}
 
             pitch_number += 1
             self.pitch_counts[pitcher['legal_name']] += 1
@@ -621,10 +624,10 @@ class BaseballSimulator:
             }
 
             play_event = {
-                'index': len(self.play_events) + len(at_bat_events), 'playId': str(uuid.uuid4()), 'atBatIndex': at_bat_index,
+                'index': len(self.play_events) + len(at_bat_events), 'playId': str(uuid.uuid4()),
                 'pitchNumber': pitch_number, 'isPitch': True,
                 'type': {'code': 'P', 'description': 'Pitch'}, 'details': event_details,
-                'count': {'balls': balls, 'strikes': strikes},
+                'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes},
                 'pitchData': {'startSpeed': pitch_velo, 'coordinates': {'pX': px, 'pZ': pz}}
             }
             if pitch_spin:
@@ -657,7 +660,6 @@ class BaseballSimulator:
                 if is_in_play:
                     batted_ball_data = self._generate_batted_ball_data(hit_result)
                     pitch_info.update(batted_ball_data)
-                    self.play_events.extend(at_bat_events)
                     return (hit_result, pitch_info)
                 else:
                     verdict = pitch_outcome_text.capitalize()
@@ -665,7 +667,7 @@ class BaseballSimulator:
                     location_str = f"px {px:.2f}, pz {pz:.2f}"
                     spin_str = f" ({pitch_spin} rpm)" if pitch_spin is not None else ""
                     self._print(f"  {verdict}: {pitch_velo} mph {pitch_name_formatted}{spin_str}. Loc: ({location_str})")
-            else: # narrative style
+            elif self.commentary_style == 'narrative':
                 if self.verbose_phrasing:
                     location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike' if is_strike_loc else 'ball'])
                     pitch_desc = f"Pitch: {pitch_selection} ({pitch_velo} mph), {location_desc}."
@@ -677,7 +679,6 @@ class BaseballSimulator:
                     sentence = contact_summary[0].upper() + contact_summary[1:]
                     punctuation = '!' if hit_result in ["Single", "Double", "Triple", "Home Run"] else '.'
                     narrative_desc = f"  {pitch_desc} {sentence}{punctuation}"
-                    self.play_events.extend(at_bat_events)
                     return (hit_result, narrative_desc)
                 elif pitch_outcome_text == "foul":
                     self._print(f"  {pitch_desc} Foul. Count: {balls}-{strikes}")
@@ -688,16 +689,14 @@ class BaseballSimulator:
                 elif pitch_outcome_text == "ball":
                     self._print(f"  {pitch_desc} Ball.{' Count: ' + str(balls) + '-' + str(strikes) if balls < 4 else ''}")
 
-        self.play_events.extend(at_bat_events)
+            if is_in_play:
+                return hit_result, at_bat_events, {"balls": balls, "strikes": strikes}
+
         if balls == 4:
-            return ("Walk", None)
+            return "Walk", at_bat_events, {"balls": balls, "strikes": strikes}
 
         k_type = "looking" if pitch_outcome_text == "called strike" else "swinging"
-
-        if self.commentary_style == 'statcast':
-            return ("Strikeout", {'k_type': k_type})
-
-        return ("Strikeout", None)
+        return "Strikeout", at_bat_events, {"balls": balls, "strikes": strikes, "k_type": k_type}
 
     def _advance_runners(self, hit_type, batter, was_error=False, include_batter_advance=False):
         runs = 0
