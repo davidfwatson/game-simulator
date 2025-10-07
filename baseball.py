@@ -376,11 +376,15 @@ class BaseballSimulator:
             next_pitcher_name = available_bullpen[0]
             if is_home_team_pitching:
                 if self.team1_current_pitcher_name != next_pitcher_name:
-                    self._print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team1_current_pitcher_name} ---\n")
+                    self._print("")
+                    self._print(f"--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team1_current_pitcher_name} ---")
+                    self._print("")
                     self.team1_current_pitcher_name, self.team1_available_bullpen = next_pitcher_name, available_bullpen[1:]
             else:
                 if self.team2_current_pitcher_name != next_pitcher_name:
-                    self._print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team2_current_pitcher_name} ---\n")
+                    self._print("")
+                    self._print(f"--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team2_current_pitcher_name} ---")
+                    self._print("")
                     self.team2_current_pitcher_name, self.team2_available_bullpen = next_pitcher_name, available_bullpen[1:]
 
     def _handle_batted_ball_out(self, out_type, batter, statcast_data=None):
@@ -560,8 +564,12 @@ class BaseballSimulator:
 
             if self.base_commentary_style != 'none':
                 score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
-                if self.outs < 3: self._print(f" | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}\n")
-                else: self._print(f" | Outs: {self.outs} | Score: {score_str}\n")
+                if self.outs < 3:
+                    self._print(f" | Outs: {self.outs} | Bases: {self._get_bases_str()} | Score: {score_str}")
+                    self._print("")
+                else:
+                    self._print(f" | Outs: {self.outs} | Score: {score_str}")
+                    self._print("")
             
             setattr(self, batter_idx_ref, (getattr(self, batter_idx_ref) + 1) % 9)
             if self.outs >= 3: break
@@ -577,8 +585,8 @@ class BaseballSimulator:
         result_line = display_outcome
         if outcome in ["Walk", "Strikeout"]: result_line = outcome
         elif outcome == "HBP": result_line = "Hit by Pitch"
-        if outcome not in ["Single", "Double", "Triple", "Home Run"]: self._print(f" Result: {result_line.ljust(30)}", end="")
-        else: self._print(f" Result: {outcome.ljust(30)}", end="")
+        if outcome not in ["Single", "Double", "Triple", "Home Run"]: self._print(f" Result: {result_line}", end="")
+        else: self._print(f" Result: {outcome}", end="")
 
     def _print_statcast_result(self, display_outcome, outcome, description, was_error, advances, rbis, batter):
         pitch_info = description
