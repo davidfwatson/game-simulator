@@ -508,6 +508,14 @@ class BaseballSimulator:
             else: self.team2_score += runs
 
             if self.commentary_style == 'gameday':
+                # Update per-inning run totals in linescore
+                if runs > 0:
+                    current_inning_idx = self.inning - 1
+                    if is_home_team_batting:
+                        self.gameday_data['liveData']['linescore']['innings'][current_inning_idx]['home']['runs'] += runs
+                    else:
+                        self.gameday_data['liveData']['linescore']['innings'][current_inning_idx]['away']['runs'] += runs
+
                 at_bat_index = len(self.gameday_data['liveData']['plays']['allPlays'])
                 play_result = PlayResult(type="atBat", event=outcome, eventType=outcome.lower(), description="", rbi=rbis, awayScore=self.team2_score, homeScore=self.team1_score)
                 play_about = PlayAbout(atBatIndex=at_bat_index, halfInning="bottom" if is_home_team_batting else "top", isTopInning=not is_home_team_batting, inning=self.inning, isScoringPlay=runs > 0)
