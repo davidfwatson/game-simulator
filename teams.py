@@ -26,6 +26,10 @@ GAME_CONTEXT = {
             "just misses outside", "high and tight", "in the dirt", "way outside",
             "low and away", "a bit inside", "sails over the letters",
             "spikes before the plate"
+        ],
+        "foul": [
+            "fights it off", "jams him inside", "gets a piece of it",
+            "back to the screen", "down the line, foul", "spoils a good pitch"
         ]
     },
     "PITCH_TYPE_MAP": {

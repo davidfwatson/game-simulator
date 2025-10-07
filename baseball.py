@@ -289,10 +289,18 @@ class BaseballSimulator:
 
             if self.base_commentary_style == 'narrative':
                 if self.verbose_phrasing:
-                    location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike' if is_strike_loc else 'ball'])
-                    self._print(f"  Pitch: {pitch_selection} ({pitch_velo} mph), {location_desc}. {pitch_outcome_text.capitalize()}. Count: {balls}-{strikes}")
+                    if pitch_outcome_text == "foul":
+                        location_desc = random.choice(GAME_CONTEXT['pitch_locations']['foul'])
+                    else:
+                        location_desc = random.choice(GAME_CONTEXT['pitch_locations']['strike' if is_strike_loc else 'ball'])
+                    pbp_line = f"  Pitch: {pitch_selection} ({pitch_velo} mph), {location_desc}. {pitch_outcome_text.capitalize()}."
                 else:
-                    self._print(f"  {pitch_outcome_text.capitalize()}. Count: {balls}-{strikes}")
+                    pbp_line = f"  {pitch_outcome_text.capitalize()}."
+
+                if balls < 4 and strikes < 3:
+                    pbp_line += f" Count: {balls}-{strikes}"
+
+                self._print(pbp_line)
             elif self.base_commentary_style == 'statcast':
                 self._print(f"  {pitch_outcome_text.capitalize()}: {pitch_velo} mph {pitch_selection}")
 
@@ -561,12 +569,16 @@ class BaseballSimulator:
                 return
 
     def _print_narrative_result(self, display_outcome, outcome, description):
-        if isinstance(description, str): self._print(description)
+        # On an error, the specific error line is already printed.
+        # Printing the generic description ("Grounds out.") would be contradictory.
+        if isinstance(description, str) and outcome != "Field Error":
+            self._print(description)
+
         result_line = display_outcome
         if outcome in ["Walk", "Strikeout"]: result_line = outcome
         elif outcome == "HBP": result_line = "Hit by Pitch"
-        if outcome not in ["Single", "Double", "Triple", "Home Run"]: self._print(f"Result: {result_line.ljust(30)}", end="")
-        else: self._print(f"Result: {outcome.ljust(30)}", end="")
+        if outcome not in ["Single", "Double", "Triple", "Home Run"]: self._print(f" Result: {result_line.ljust(30)}", end="")
+        else: self._print(f" Result: {outcome.ljust(30)}", end="")
 
     def _print_statcast_result(self, display_outcome, outcome, description, was_error, advances, rbis, batter):
         pitch_info = description
@@ -605,24 +617,32 @@ class BaseballSimulator:
         while should_continue():
             self.top_of_inning = True
             self._simulate_half_inning()
+
+            if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score:
+                break # Home team wins in the bottom of the 9th or later
+
             if self.max_innings and self.inning >= self.max_innings:
                 break
-            if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score: break
+
             self.top_of_inning = False
             self._simulate_half_inning()
+
+            if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score:
+                break
+
             if self.max_innings and self.inning >= self.max_innings:
                 break
-            if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score: break
+
             self.inning += 1
             if self.generate_gameday:
                 self.gameday_data['liveData']['linescore']['currentInning'] = self.inning
                 self.gameday_data['liveData']['linescore']['innings'].append({'num': self.inning, 'home': {'runs': 0}, 'away': {'runs': 0}})
-        if self.base_commentary_style != 'none':
+
+        if self.base_commentary_style != 'none' and self.max_innings is None:
             self._print("=" * 20 + " GAME OVER " + "=" * 20)
             self._print(f"\nFinal Score: {self.team1_name} {self.team1_score} - {self.team2_name} {self.team2_score}")
-            if self.max_innings is None:
-                winner = self.team1_name if self.team1_score > self.team2_score else self.team2_name
-                self._print(f"\n{winner} win!")
+            winner = self.team1_name if self.team1_score > self.team2_score else self.team2_name
+            self._print(f"\n{winner} win!")
 
 if __name__ == "__main__":
     import argparse
