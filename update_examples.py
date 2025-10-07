@@ -5,15 +5,12 @@ example logs in the ``examples`` directory.
 """
 from __future__ import annotations
 
-import random
 from pathlib import Path
 
 from example_games import EXAMPLE_GAMES, EXAMPLES_DIR
 
 
 def main() -> None:
-    # Set a seed to make the output deterministic
-    random.seed(0)
     EXAMPLES_DIR.mkdir(parents=True, exist_ok=True)
     for index, game in enumerate(EXAMPLE_GAMES, start=1):
         output = game.render()
