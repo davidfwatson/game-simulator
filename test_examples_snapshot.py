@@ -3,7 +3,6 @@ from pathlib import Path
 import subprocess
 
 class TestExampleSnapshots(unittest.TestCase):
-    @unittest.skip("Skipping due to non-deterministic failures in CI environment.")
     def test_examples_match_rendered_output(self):
         # Path to the directory containing example game logs
         examples_dir = Path(__file__).parent / "examples"
