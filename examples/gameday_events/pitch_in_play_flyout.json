@@ -1,8 +1,7 @@
 {
-  "index": 1,
-  "playId": "test-uuid-1",
-  "atBatIndex": 1,
-  "pitchNumber": 2,
+  "playId": "d5e6f7a8-b9c0-d1e2-f3a4-b5c6d7e8f9a0",
+  "atBatIndex": 5,
+  "pitchNumber": 1,
   "isPitch": true,
   "type": {
     "code": "P",
@@ -13,31 +12,32 @@
     "description": "In play, Flyout",
     "isInPlay": true,
     "type": {
-      "code": "FF",
-      "description": "Four-seam fastball"
+      "code": "FC",
+      "description": "Cutter"
     }
   },
   "count": {
     "balls": 0,
-    "strikes": 1
+    "strikes": 0
   },
   "pitchData": {
-    "startSpeed": 96.4,
+    "startSpeed": 91.1,
     "coordinates": {
-      "pX": -0.33,
-      "pZ": 1.72
+      "pX": 0.6,
+      "pZ": 2.9
     },
     "breaks": {
-      "spinRate": 2232
+      "spinRate": 2450
     }
   },
   "hitData": {
-    "launchSpeed": 92.6,
-    "launchAngle": 35.6,
+    "launchSpeed": 99.8,
+    "launchAngle": 45.1,
     "trajectory": "fly_ball",
     "coordinates": {
-      "coordX": 110.7,
-      "coordY": 150.3
+      "coordX": 125.0,
+      "coordY": 175.0
     }
-  }
+  },
+  "index": 9
 }

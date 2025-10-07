@@ -1,8 +1,7 @@
 {
-  "index": 5,
-  "playId": "test-uuid-5",
-  "atBatIndex": 2,
-  "pitchNumber": 4,
+  "playId": "b1c2d3e4-f5a6-b7c8-d9e0-f1a2b3c4d5e6",
+  "atBatIndex": 0,
+  "pitchNumber": 2,
   "isPitch": true,
   "type": {
     "code": "P",
@@ -18,17 +17,18 @@
     }
   },
   "count": {
-    "balls": 2,
-    "strikes": 2
+    "balls": 1,
+    "strikes": 1
   },
   "pitchData": {
-    "startSpeed": 89.8,
+    "startSpeed": 88.1,
     "coordinates": {
-      "pX": 0.66,
-      "pZ": 1.78
+      "pX": 0.2,
+      "pZ": 2.2
     },
     "breaks": {
-      "spinRate": 2680
+      "spinRate": 2550
     }
-  }
+  },
+  "index": 1
 }

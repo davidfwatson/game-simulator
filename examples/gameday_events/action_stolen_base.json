@@ -1,6 +1,6 @@
 {
-  "playId": "test-uuid-15",
-  "atBatIndex": 3,
+  "playId": "f1e2d3c4-b5a6-f7e8-d9c0-b1a2f3e4d5c6",
+  "atBatIndex": 2,
   "isPitch": false,
   "type": {
     "code": "A",
@@ -13,12 +13,14 @@
   },
   "runners": [
     {
-      "runnerId": 212,
+      "runnerId": 545102,
       "start": "1B",
       "end": "2B",
       "isOut": false,
-      "movementReason": "stolen_base"
+      "movementReason": "stolen_base",
+      "responsiblePitcherId": 645210,
+      "responsibleCatcherId": 545103
     }
   ],
-  "index": 15
+  "index": 5
 }

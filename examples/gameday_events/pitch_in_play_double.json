@@ -1,7 +1,6 @@
 {
-  "index": 94,
-  "playId": "test-uuid-94",
-  "atBatIndex": 15,
+  "playId": "f1a2b3c4-d5e6-f7a8-b9c0-d1e2f3a4b5c6",
+  "atBatIndex": 1,
   "pitchNumber": 1,
   "isPitch": true,
   "type": {
@@ -13,8 +12,8 @@
     "description": "In play, Double",
     "isInPlay": true,
     "type": {
-      "code": "CU",
-      "description": "Curveball"
+      "code": "SL",
+      "description": "Slider"
     }
   },
   "count": {
@@ -22,22 +21,23 @@
     "strikes": 0
   },
   "pitchData": {
-    "startSpeed": 80.6,
+    "startSpeed": 89.0,
     "coordinates": {
-      "pX": 0.16,
-      "pZ": 1.75
+      "pX": -0.7,
+      "pZ": 2.1
     },
     "breaks": {
-      "spinRate": 2767
+      "spinRate": 2600
     }
   },
   "hitData": {
-    "launchSpeed": 100.2,
-    "launchAngle": 16.5,
-    "trajectory": "line_drive",
+    "launchSpeed": 108.1,
+    "launchAngle": 25.5,
+    "trajectory": "fly_ball",
     "coordinates": {
-      "coordX": 96.9,
-      "coordY": 221.4
+      "coordX": 180.2,
+      "coordY": 150.8
     }
-  }
+  },
+  "index": 4
 }

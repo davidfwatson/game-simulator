@@ -68,3 +68,21 @@ def iter_example_paths(games: Iterable[ExampleGame] | None = None):
 
 
 __all__ = ["ExampleGame", "EXAMPLE_GAMES", "EXAMPLES_DIR", "iter_example_paths"]
+
+
+if __name__ == "__main__":
+    import sys
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Render a specific example game.")
+    parser.add_argument("game_number", type=int, help="Game number (1-10)")
+    parser.add_argument("--commentary", type=str, choices=["narrative", "statcast", "gameday"], default="narrative", help="Commentary style")
+    args = parser.parse_args()
+
+    if args.game_number < 1 or args.game_number > len(EXAMPLE_GAMES):
+        print(f"Error: game_number must be between 1 and {len(EXAMPLE_GAMES)}", file=sys.stderr)
+        sys.exit(1)
+
+    example = EXAMPLE_GAMES[args.game_number - 1]
+    output = example.render(commentary_style=args.commentary)
+    print(output, end="")

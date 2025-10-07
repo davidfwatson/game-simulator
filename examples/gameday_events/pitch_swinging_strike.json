@@ -1,8 +1,7 @@
 {
-  "index": 23,
-  "playId": "test-uuid-23",
-  "atBatIndex": 4,
-  "pitchNumber": 2,
+  "playId": "d1e2f3a4-b5c6-d7e8-f9a0-b1c2d3e4f5a6",
+  "atBatIndex": 0,
+  "pitchNumber": 4,
   "isPitch": true,
   "type": {
     "code": "P",
@@ -13,22 +12,23 @@
     "description": "Swinging Strike",
     "isStrike": true,
     "type": {
-      "code": "CU",
-      "description": "Curveball"
+      "code": "CH",
+      "description": "Changeup"
     }
   },
   "count": {
     "balls": 1,
-    "strikes": 1
+    "strikes": 3
   },
   "pitchData": {
-    "startSpeed": 80.3,
+    "startSpeed": 84.2,
     "coordinates": {
-      "pX": 0.57,
-      "pZ": 1.71
+      "pX": -0.9,
+      "pZ": 1.5
     },
     "breaks": {
-      "spinRate": 2727
+      "spinRate": 1700
     }
-  }
+  },
+  "index": 3
 }

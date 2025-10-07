@@ -2,6 +2,7 @@ import unittest
 import random
 import io
 import re
+import copy
 from contextlib import redirect_stdout
 from baseball import BaseballSimulator
 from teams import TEAMS
@@ -12,15 +13,20 @@ class TestAnalystConcerns(unittest.TestCase):
         # A fixed seed ensures that the tests are deterministic.
         random.seed(42)
 
-    def _run_sim_and_get_log(self, num_games=1):
+    def _run_sim_and_get_log(self, num_games=1, commentary_style='narrative'):
         """A helper method to run the simulation and capture its output."""
-        log_capture = io.StringIO()
-        with redirect_stdout(log_capture):
-            for _ in range(num_games):
-                # We re-initialize the game each time to reset the state
-                game = BaseballSimulator(TEAMS["BAY_BOMBERS"], TEAMS["PC_PILOTS"])
-                game.play_game()
-        return log_capture.getvalue()
+        full_log = []
+        for i in range(num_games):
+            random.seed(i)
+            # We re-initialize the game each time to reset the state
+            game = BaseballSimulator(
+                copy.deepcopy(TEAMS["BAY_BOMBERS"]),
+                copy.deepcopy(TEAMS["PC_PILOTS"]),
+                commentary_style=commentary_style
+            )
+            game.play_game()
+            full_log.extend(game.output_lines)
+        return "\n".join(full_log)
 
     def test_mechanical_phrasing_of_pitches(self):
         """
