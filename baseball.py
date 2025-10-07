@@ -577,8 +577,8 @@ class BaseballSimulator:
         result_line = display_outcome
         if outcome in ["Walk", "Strikeout"]: result_line = outcome
         elif outcome == "HBP": result_line = "Hit by Pitch"
-        if outcome not in ["Single", "Double", "Triple", "Home Run"]: self._print(f" Result: {result_line.ljust(30)}", end="")
-        else: self._print(f" Result: {outcome.ljust(30)}", end="")
+        if outcome not in ["Single", "Double", "Triple", "Home Run"]: self._print(f" Result: {result_line}", end="")
+        else: self._print(f" Result: {outcome}", end="")
 
     def _print_statcast_result(self, display_outcome, outcome, description, was_error, advances, rbis, batter):
         pitch_info = description
