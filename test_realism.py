@@ -3,7 +3,6 @@ import random
 import io
 import re
 import copy
-from contextlib import redirect_stdout
 from baseball import BaseballSimulator
 from teams import TEAMS
 
@@ -14,12 +13,10 @@ class TestRealism(unittest.TestCase):
         self.home_team = copy.deepcopy(TEAMS["BAY_BOMBERS"])
         self.away_team = copy.deepcopy(TEAMS["PC_PILOTS"])
 
-        # Capture the game output for a standard game
-        output = io.StringIO()
-        with redirect_stdout(output):
-            game = BaseballSimulator(self.home_team, self.away_team, commentary_style='narrative')
-            game.play_game()
-        self.log = output.getvalue()
+        # Run the simulation and get the output from the simulator instance
+        game = BaseballSimulator(self.home_team, self.away_team, commentary_style='narrative')
+        game.play_game()
+        self.log = "\n".join(game.output_lines)
 
     def test_quantized_velocities(self):
         """Test if pitch velocities are too uniform or 'quantized'."""
@@ -53,11 +50,9 @@ class TestRealism(unittest.TestCase):
         extra_inning_log = ""
         for i in range(10):
             random.seed(i)
-            output = io.StringIO()
-            with redirect_stdout(output):
-                game = BaseballSimulator(copy.deepcopy(TEAMS["BAY_BOMBERS"]), copy.deepcopy(TEAMS["PC_PILOTS"]), commentary_style='narrative')
-                game.play_game()
-            log = output.getvalue()
+            game = BaseballSimulator(copy.deepcopy(TEAMS["BAY_BOMBERS"]), copy.deepcopy(TEAMS["PC_PILOTS"]), commentary_style='narrative')
+            game.play_game()
+            log = "\n".join(game.output_lines)
             if "Extra Innings" in log:
                 extra_inning_log = log
                 break
@@ -82,18 +77,15 @@ class TestRealism(unittest.TestCase):
 
     def test_bracketed_ui_flag(self):
         """Test that the bracketed UI flag correctly changes the base runner display."""
-        output = io.StringIO()
-        with redirect_stdout(output):
-            game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), use_bracketed_ui=True, commentary_style='narrative')
-            game.play_game()
-        log_bracketed = output.getvalue()
+        game_bracketed = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), use_bracketed_ui=True, commentary_style='narrative')
+        game_bracketed.play_game()
+        log_bracketed = "\n".join(game_bracketed.output_lines)
         self.assertIn("[", log_bracketed, "Bracketed UI not found when flag is enabled.")
         self.assertIn("]-", log_bracketed, "Bracketed UI not found when flag is enabled.")
-        output = io.StringIO()
-        with redirect_stdout(output):
-            game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), use_bracketed_ui=False, commentary_style='narrative')
-            game.play_game()
-        log_named = output.getvalue()
+
+        game_named = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), use_bracketed_ui=False, commentary_style='narrative')
+        game_named.play_game()
+        log_named = "\n".join(game_named.output_lines)
         self.assertNotIn("[", log_named, "Bracketed UI found when flag is disabled.")
         self.assertNotIn("]-", log_named, "Bracketed UI found when flag is disabled.")
 
@@ -107,11 +99,9 @@ class TestRealism(unittest.TestCase):
         flyouts, popouts = 0, 0
         for i in range(num_games):
             random.seed(i)
-            output = io.StringIO()
-            with redirect_stdout(output):
-                game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), commentary_style='narrative')
-                game.play_game()
-            log = output.getvalue()
+            game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), commentary_style='narrative')
+            game.play_game()
+            log = "\n".join(game.output_lines)
             total_walks += log.count("Result: Walk")
             total_hbps += log.count("Hit by Pitch")
             total_dps += log.count("Double Play")
@@ -135,11 +125,9 @@ class TestRealism(unittest.TestCase):
         """
         for i in range(50):
             random.seed(i)
-            output = io.StringIO()
-            with redirect_stdout(output):
-                game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), commentary_style='narrative')
-                game.play_game()
-            log = output.getvalue()
+            game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), commentary_style='narrative')
+            game.play_game()
+            log = "\n".join(game.output_lines)
             lines = log.split('\n')
             last_bases_state = ""
             for line in lines:
