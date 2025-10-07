@@ -2,7 +2,6 @@ import unittest
 from pathlib import Path
 import subprocess
 
-@unittest.skip("These tests are for the statcast commentary style and are failing due to the refactoring for the gameday format. They will be fixed in a future task.")
 class TestStatcastRegression(unittest.TestCase):
     def test_statcast_examples_match_rendered_output(self):
         # Path to the directory containing example game logs

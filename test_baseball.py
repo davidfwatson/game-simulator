@@ -1,12 +1,11 @@
 import unittest
 import random
 import io
-import copy
+from copy import deepcopy
 from contextlib import redirect_stdout
 from baseball import BaseballSimulator
 from teams import TEAMS
 
-@unittest.skip("These tests are for the narrative commentary style and are failing due to the refactoring for the gameday format. They will be fixed in a future task.")
 class TestBaseballRealism(unittest.TestCase):
     def setUp(self):
         """Set up a new game for each test with a fixed random seed."""
@@ -71,6 +70,9 @@ class TestBaseballRealism(unittest.TestCase):
             output = io.StringIO()
             with redirect_stdout(output):
                 game.play_game()
+                # Print output_lines to capture them in stdout
+                for line in game.output_lines:
+                    print(line)
             log = output.getvalue()
 
             if "Walk" in log: events["Walk"] += 1
