@@ -16,7 +16,7 @@ class BaseballSimulator:
     - Feature flag for verbose/terse play-by-play output.
     """
 
-    def __init__(self, team1_data, team2_data, verbose_phrasing=True, use_bracketed_ui=False, commentary_style='narrative'):
+    def __init__(self, team1_data, team2_data, verbose_phrasing=True, use_bracketed_ui=False, commentary_style='narrative', max_innings=None):
         self.team1_data = team1_data
         self.team2_data = team2_data
         self.team1_name = self.team1_data["name"]
@@ -24,6 +24,7 @@ class BaseballSimulator:
         self.verbose_phrasing = verbose_phrasing
         self.use_bracketed_ui = use_bracketed_ui
         self.commentary_style = commentary_style
+        self.max_innings = max_innings
 
         # Setup lineups and pitchers
         self.team1_lineup = [p for p in self.team1_data["players"] if p['position']['abbreviation'] != 'P']
@@ -591,12 +592,20 @@ class BaseballSimulator:
 
     def play_game(self):
         if self.commentary_style != 'gameday': self._print_pre_game_summary()
-        while self.inning <= 9 or self.team1_score == self.team2_score:
+
+        # Determine when to stop: max_innings takes precedence if set
+        should_continue = lambda: (self.inning <= 9 or self.team1_score == self.team2_score) if self.max_innings is None else self.inning <= self.max_innings
+
+        while should_continue():
             self.top_of_inning = True
             self._simulate_half_inning()
+            if self.max_innings and self.inning >= self.max_innings:
+                break
             if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score: break
             self.top_of_inning = False
             self._simulate_half_inning()
+            if self.max_innings and self.inning >= self.max_innings:
+                break
             if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score: break
             self.inning += 1
             if self.commentary_style == 'gameday':
@@ -605,8 +614,9 @@ class BaseballSimulator:
         if self.commentary_style != 'gameday':
             self._print("=" * 20 + " GAME OVER " + "=" * 20)
             self._print(f"\nFinal Score: {self.team1_name} {self.team1_score} - {self.team2_name} {self.team2_score}")
-            winner = self.team1_name if self.team1_score > self.team2_score else self.team2_name
-            self._print(f"\n{winner} win!")
+            if self.max_innings is None:
+                winner = self.team1_name if self.team1_score > self.team2_score else self.team2_name
+                self._print(f"\n{winner} win!")
 
 if __name__ == "__main__":
     import argparse
@@ -614,8 +624,9 @@ if __name__ == "__main__":
     parser.add_argument('--terse', action='store_true', help="Use terse, data-driven phrasing for play-by-play.")
     parser.add_argument('--bracketed-ui', action='store_true', help="Use the classic bracketed UI for base runners.")
     parser.add_argument('--commentary', type=str, choices=['narrative', 'statcast', 'gameday'], default='narrative', help="Choose the commentary style.")
+    parser.add_argument('--max-innings', type=int, help="Stop simulation after specified number of innings (e.g., 2 for partial game).")
     args = parser.parse_args()
-    game = BaseballSimulator(TEAMS["BAY_BOMBERS"], TEAMS["PC_PILOTS"], verbose_phrasing=not args.terse, use_bracketed_ui=args.bracketed_ui, commentary_style=args.commentary)
+    game = BaseballSimulator(TEAMS["BAY_BOMBERS"], TEAMS["PC_PILOTS"], verbose_phrasing=not args.terse, use_bracketed_ui=args.bracketed_ui, commentary_style=args.commentary, max_innings=args.max_innings)
     game.play_game()
     if args.commentary == 'gameday':
         class DateTimeEncoder(json.JSONEncoder):
