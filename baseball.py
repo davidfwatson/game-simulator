@@ -631,17 +631,29 @@ if __name__ == "__main__":
     parser.add_argument('--bracketed-ui', action='store_true', help="Use the classic bracketed UI for base runners.")
     parser.add_argument('--commentary', type=str, choices=['narrative', 'statcast', 'gameday', 'combo'], default='narrative', help="Choose the commentary style.")
     parser.add_argument('--max-innings', type=int, help="Stop simulation after specified number of innings (e.g., 2 for partial game).")
+    parser.add_argument('--pbp-outfile', type=str, help="File to write play-by-play output to (stdout by default).")
+    parser.add_argument('--gameday-outfile', type=str, help="File to write Gameday JSON output to (stdout by default).")
     args = parser.parse_args()
     game = BaseballSimulator(TEAMS["BAY_BOMBERS"], TEAMS["PC_PILOTS"], verbose_phrasing=not args.terse, use_bracketed_ui=args.bracketed_ui, commentary_style=args.commentary, max_innings=args.max_innings)
     game.play_game()
 
     if game.base_commentary_style != 'none':
-        for line in game.output_lines:
-            print(line)
+        pbp_output = "\n".join(game.output_lines)
+        if args.pbp_outfile:
+            with open(args.pbp_outfile, 'w') as f:
+                f.write(pbp_output)
+        else:
+            print(pbp_output)
 
     if game.generate_gameday:
         class DateTimeEncoder(json.JSONEncoder):
             def default(self, obj):
                 if isinstance(obj, datetime): return obj.isoformat()
                 return super().default(obj)
-        print(json.dumps(game.gameday_data, indent=2, cls=DateTimeEncoder))
+
+        gameday_json = json.dumps(game.gameday_data, indent=2, cls=DateTimeEncoder)
+        if args.gameday_outfile:
+            with open(args.gameday_outfile, 'w') as f:
+                f.write(gameday_json)
+        else:
+            print(gameday_json)
