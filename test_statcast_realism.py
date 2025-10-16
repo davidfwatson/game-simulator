@@ -6,7 +6,8 @@ from contextlib import redirect_stdout
 
 
 from baseball import BaseballSimulator
-from teams import TEAMS, GAME_CONTEXT
+from teams import TEAMS
+from commentary import GAME_CONTEXT
 
 class TestStatcastRealism(unittest.TestCase):
     def setUp(self):

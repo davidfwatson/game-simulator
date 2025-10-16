@@ -3,7 +3,8 @@ import uuid
 import json
 from datetime import datetime, timezone
 from gameday import GamedayData, GameData, LiveData, Linescore, InningLinescore, Play, PlayResult, PlayAbout, PlayCount, PlayEvent, Runner, FielderCredit
-from teams import TEAMS, GAME_CONTEXT
+from teams import TEAMS
+from commentary import GAME_CONTEXT
 
 class BaseballSimulator:
     """
