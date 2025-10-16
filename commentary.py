@@ -24,7 +24,7 @@ GAME_CONTEXT = {
             "back to the screen", "down the line, foul", "spoils a good pitch",
             "fouled back and out of play", "fouled back and into the stands",
             "hammered foul and into the stands", "dribbled foul on the first base line",
-            "chopped foul on the first base line", "bunted foul on the first base line",
+            "chopped foul on the first base line",
             "tapped down the first base line", "flied foul and out of play"
         ]
     },
@@ -36,6 +36,17 @@ GAME_CONTEXT = {
         "changeup": "CH",
         "curveball": "CU",
         "knuckle curve": "KC"
+    },
+    "hit_directions": {
+        "P": "back to the mound",
+        "C": "in front of the plate",
+        "1B": "to first",
+        "2B": "to second",
+        "3B": "to third",
+        "SS": "to short",
+        "LF": "to left",
+        "CF": "to center",
+        "RF": "to right"
     },
     "narrative_strings": {
         "strike_called": [
@@ -55,32 +66,32 @@ GAME_CONTEXT = {
     "statcast_verbs": {
         "Single": {
             "default": ["singles", "lines a clean single", "a base hit"],
-            "bloop": ["singles on a bloop", "a bloop single", "bloops one into shallow center"],
-            "liner": ["lines a single", "a sharp single", "lined into shallow right", "lined into shallow left", "lined sharply into right field"],
-            "grounder": ["grounds a single", "a ground ball single", "hard grounder up the middle"]
+            "bloop": ["singles on a bloop", "a bloop single", "bloops one"],
+            "liner": ["lines a single", "a sharp single", "lined sharply"],
+            "grounder": ["grounds a single", "a ground ball single", "hard grounder"]
         },
         "Double": {
-            "default": ["doubles", "a stand-up double", "a stand-up double to lead off the inning"],
-            "liner": ["doubles on a line drive", "a ringing double", "hammered to left field!"],
-            "wall": ["doubles off the wall", "a double high off the wall", "lined down the third base line! that one is fair and that one will get all the way to the wall"]
+            "default": ["doubles", "a stand-up double"],
+            "liner": ["doubles on a line drive", "a ringing double", "hammered"],
+            "wall": ["doubles off the wall", "a double high off the wall", "lined"]
         },
         "Triple": {
-            "default": ["triples", "a triple into the gap"]
+            "default": ["triples", "a triple"]
         },
         "Home Run": {
-            "default": ["homers", "a long home run", "sails over the wall for a long, lazy home run"],
-            "screamer": ["homers (liner)", "a line drive home run"],
-            "moonshot": ["homers (fly ball)", "a towering home run", "hit in the air to deep right field!"]
+            "default": ["homers", "a long home run", "sails one over the wall"],
+            "screamer": ["homers on a liner", "a line drive home run"],
+            "moonshot": ["homers on a fly ball", "a towering home run", "hits one in the air"]
         },
         "Groundout": {
-            "default": ["grounds out", "a routine grounder", "grounder to third", "grounder to second", "grounder to short", "roller back to the mound", "bouncer to short", "dribbler to third", "chopper to third", "slow roller to second", "a rounder to second", "low roller up the middle"],
+            "default": ["grounds out", "a routine grounder", "a grounder", "a roller", "a bouncer", "a dribbler", "a chopper", "a slow roller"],
             "soft": ["grounds out softly", "a soft grounder"],
-            "hard": ["grounds out sharply", "a hard-hit grounder", "hard grounder to second"]
+            "hard": ["grounds out sharply", "a hard-hit grounder"]
         },
         "Flyout": {
-            "default": ["flies out", "a routine fly ball", "fly ball to center", "fly ball to left", "fly ball to right", "fly ball, straightaway center", "hit in the air to right field", "fly ball, left-center", "hit in the air to right-center", "high fly ball, right field"],
-            "popup": ["pops out", "infield fly", "a high pop up", "popped up, right side", "popped up on the infield", "popped up, shallow right", "pop fly, shallow right", "popped up to short"],
-            "deep": ["flies out deep", "a long fly ball", "fly ball, deep left-center"]
+            "default": ["flies out", "a routine fly ball", "a fly ball", "hit in the air"],
+            "popup": ["pops out", "an infield fly", "a high pop up", "popped up"],
+            "deep": ["flies out deep", "a long fly ball"]
         },
         "Strikeout": {
             "swinging": ["strikes out swinging", "down on strikes", "swing and a miss on a curveball in the dirt", "takes an awkward hack at a slider in the dirt", "swing and a miss on a low curve", "swing and a miss on a high heater"],
@@ -89,25 +100,25 @@ GAME_CONTEXT = {
     },
     "statcast_templates": {
         "Single": [
-            "{batter_name} {verb}."
+            "{batter_name} {verb} {direction}."
         ],
         "Double": [
-            "{batter_name} {verb}."
+            "{batter_name} {verb} {direction}."
         ],
         "Triple": [
-            "{batter_name} {verb}."
+            "{batter_name} {verb} {direction}."
         ],
         "Home Run": [
-            "{batter_name} {verb}."
+            "{batter_name} {verb} {direction}."
         ],
         "Error": [
             "{display_outcome} {adv_str}."
         ],
         "Flyout": [
-            "{batter_name} {verb} to {fielder_pos}."
+            "{batter_name} {verb} {direction}."
         ],
         "Groundout": [
-            "{batter_name} {verb} to {fielder_pos}."
+            "{batter_name} {verb} {direction}."
         ]
     }
 }

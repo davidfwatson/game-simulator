@@ -9,22 +9,17 @@ class TestGamedayRegression(unittest.TestCase):
     """
     Test that the full Gameday JSON output contains events with the expected structure.
     """
-    gameday_data = None
-
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
         """
-        Run the simulation once to generate the full Gameday JSON output.
-        This is more efficient than running the simulation for each test.
+        Run a simulation before each test to generate fresh Gameday JSON output.
         """
-        if cls.gameday_data is None:
-            sim = BaseballSimulator(
-                copy.deepcopy(TEAMS["BAY_BOMBERS"]),
-                copy.deepcopy(TEAMS["PC_PILOTS"]),
-                commentary_style='gameday'
-            )
-            sim.play_game()
-            cls.gameday_data = sim.gameday_data
+        sim = BaseballSimulator(
+            copy.deepcopy(TEAMS["BAY_BOMBERS"]),
+            copy.deepcopy(TEAMS["PC_PILOTS"]),
+            commentary_style='gameday'
+        )
+        sim.play_game()
+        self.gameday_data = sim.gameday_data
 
     def _find_event(self, event_type, details_code=None):
         """Helper to find the first occurrence of a specific event in the game data."""
