@@ -532,7 +532,7 @@ class BaseballSimulator:
                 self.outs += 1
 
             if self.base_commentary_style == 'statcast':
-                verb = self._get_batted_ball_verb('Flyout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else "flies out"
+                verb, _ = self._get_batted_ball_verb('Flyout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else ("flies out", "verbs")
                 direction = GAME_CONTEXT['hit_directions'].get(fielder_pos, f"to {fielder_pos}")
                 result_line = self._format_statcast_template('Flyout', {'batter_name': batter['legal_name'], 'verb': verb, 'direction': direction, 'fielder_name': fielder['legal_name']})
                 return result_line, runs, False, rbis, credits
@@ -571,7 +571,7 @@ class BaseballSimulator:
                 notation = f"{fielder['position']['code']}-3"
                 credits = [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]
             if self.base_commentary_style == 'statcast':
-                verb = self._get_batted_ball_verb('Groundout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else "grounds out"
+                verb, _ = self._get_batted_ball_verb('Groundout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else ("grounds out", "verbs")
                 direction = GAME_CONTEXT['hit_directions'].get(fielder['position']['abbreviation'], f"to {fielder['position']['abbreviation']}")
                 result_line = self._format_statcast_template('Groundout', {'batter_name': batter['legal_name'], 'verb': verb, 'direction': direction, 'fielder_name': fielder['legal_name']})
                 return result_line, runs, False, rbis, credits
