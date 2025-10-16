@@ -15,7 +15,7 @@ GAME_CONTEXT = {
         "ball": [
             "just misses outside", "high and tight", "in the dirt", "way outside",
             "low and away", "a bit inside", "sails over the letters",
-            "spikes before the plate", "misses high and the", "misses low and inside",
+            "spikes before the plate", "misses high and wide", "misses low and inside",
             "misses low", "misses outside", "runs high", "runs inside",
             "misses just a bit outside", "down and in"
         ],
@@ -105,44 +105,89 @@ GAME_CONTEXT = {
         "play_by_play_templates": [
             "{batter_name} {verb} {direction} on a {pitch_velo} mph {pitch_type}.",
             "A {pitch_velo} mph {pitch_type}, and {batter_name} {verb} {direction}.",
-            "And the pitch... a {pitch_type} at {pitch_velo} mph, {verb} {direction} by {batter_name}.",
-            "{batter_name} takes the {pitch_type} and {verb} {direction}.",
-            "It's a {pitch_type} and {batter_name} {verb} {direction}."
+            "And the pitch... a {pitch_type} at {pitch_velo} mph, {batter_name} {verb} {direction}.",
+            "{batter_name} gets a {pitch_type} and {verb} {direction}.",
+        ],
+        "play_by_play_noun_templates": [
+             "It's a {pitch_type} and {batter_name} hits {noun} {direction}.",
+             "It's a {pitch_type} and {batter_name} gets {noun} {direction}."
         ]
     },
     "statcast_verbs": {
         "Single": {
-            "default": ["singles", "lines a clean single", "a base hit", "gets one to drop in", "a base knock"],
-            "bloop": ["singles on a bloop", "a bloop single", "bloops one in", "a little flare"],
-            "liner": ["lines a single", "a sharp single", "lined sharply into the outfield", "a rope to the outfield"],
-            "grounder": ["grounds a single through the infield", "a ground ball single", "a hard grounder that gets through"]
+            "verbs": {
+                "default": ["singles", "lines a clean single", "gets one to drop in"],
+                "bloop": ["singles on a bloop", "bloops one in"],
+                "liner": ["lines a single", "a sharp single", "lined sharply into the outfield"],
+                "grounder": ["grounds a single through the infield"]
+            },
+            "nouns": {
+                "default": ["a base hit", "a base knock"],
+                "bloop": ["a bloop single", "a little flare"],
+                "liner": ["a rope to the outfield"],
+                "grounder": ["a ground ball single", "a hard grounder that gets through"]
+            }
         },
         "Double": {
-            "default": ["doubles", "a stand-up double", "hustles into second with a double"],
-            "liner": ["doubles on a line drive", "a ringing double into the gap", "hammers one for two bases"],
-            "wall": ["doubles off the wall", "a double high off the wall", "one-hops the wall for a double"]
+             "verbs": {
+                "default": ["doubles", "hustles into second with a double"],
+                "liner": ["doubles on a line drive", "hammers one for two bases"],
+                "wall": ["doubles off the wall", "one-hops the wall for a double"]
+            },
+            "nouns": {
+                "default": ["a stand-up double"],
+                "liner": ["a ringing double into the gap"],
+                "wall": ["a double high off the wall"]
+            }
         },
         "Triple": {
-            "default": ["triples", "a triple", "races around to third with a triple"],
-            "gapper": ["hits one in the gap and cruises into third", "a triple into the alley"]
+            "verbs": {
+                "default": ["triples", "races around to third with a triple"],
+                "gapper": ["hits one in the gap and cruises into third"]
+            },
+            "nouns": {
+                "default": ["a triple"],
+                "gapper": ["a triple into the alley"]
+            }
         },
         "Home Run": {
-            "default": ["homers", "a long home run", "sails one over the wall", "a solo shot"],
-            "screamer": ["homers on a liner", "a line drive home run", "a laser over the fence"],
-            "moonshot": ["homers on a fly ball", "a towering home run", "hits one a mile in the air", "a high, majestic blast"]
+            "verbs": {
+                "default": ["homers", "sails one over the wall"],
+                "screamer": ["homers on a liner", "a laser over the fence"],
+                "moonshot": ["homers on a fly ball", "hits one a mile in the air", "a high, majestic blast"]
+            },
+            "nouns": {
+                "default": ["a long home run", "a solo shot"],
+                "screamer": ["a line drive home run"],
+                "moonshot": ["a towering home run"]
+            }
         },
         "Groundout": {
-            "default": ["grounds out", "a routine grounder", "a grounder", "a roller", "a bouncer", "a chopper", "a slow roller"],
-            "soft": ["grounds out softly", "a soft grounder", "a dribbler", "a weak tapper"],
-            "hard": ["grounds out sharply", "a hard-hit grounder", "a one-hopper right at him", "smokes one on the ground"]
+            "verbs": {
+                "default": ["grounds out"],
+                "soft": ["grounds out softly"],
+                "hard": ["grounds out sharply", "smokes one on the ground"]
+            },
+            "nouns": {
+                "default": ["a routine grounder", "a grounder", "a roller", "a bouncer", "a chopper", "a slow roller"],
+                "soft": ["a soft grounder", "a dribbler", "a weak tapper"],
+                "hard": ["a hard-hit grounder", "a one-hopper right at him"]
+            }
         },
         "Flyout": {
-            "default": ["flies out", "a routine fly ball", "a fly ball", "hit in the air", "a can of corn", "lines out"],
-            "popup": ["pops out", "an infield fly", "a high pop up", "popped up on the infield"],
-            "deep": ["flies out deep", "a long fly ball to the warning track", "drives him to the track, but he makes the catch"]
+            "verbs": {
+                "default": ["flies out", "lines out"],
+                "popup": ["pops out"],
+                "deep": ["flies out deep", "drives him to the track, but he makes the catch"]
+            },
+            "nouns": {
+                "default": ["a routine fly ball", "a fly ball", "hit in the air", "a can of corn"],
+                "popup": ["an infield fly", "a high pop up", "popped up on the infield"],
+                "deep": ["a long fly ball", "a drive to the warning track"]
+            }
         },
         "Strikeout": {
-            "swinging": ["strikes out swinging", "down on strikes", "swing and a miss", "a big cut and a miss for strike three"],
+            "swinging": ["strikes out swinging", "down on strikes", "goes down swinging", "a big cut and a miss for strike three"],
             "looking": ["strikes out looking", "caught looking", "frozen on a pitch right down the middle", "watches strike three go by"]
         }
     },

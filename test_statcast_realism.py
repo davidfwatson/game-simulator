@@ -27,49 +27,36 @@ class TestStatcastRealism(unittest.TestCase):
         # so we will approximate it by checking if, over a number of simulations,
         # we see varied and plausible output.
 
-        # Override the random choice to control the verb selection for testing purposes
-        def mock_choice(options):
-            # Deterministically return the first option to make tests predictable
-            return options[0]
+        simulator = BaseballSimulator(self.team1_data, self.team2_data, commentary_style='statcast')
 
-        original_random_choice = random.choice
-        random.choice = mock_choice
+        # We will manually trigger batted ball descriptions with specific data
+        # and check the output. This requires a new helper method in the simulator
+        # or significant refactoring. As a proxy, we'll check the new verb categories.
 
-        try:
-            simulator = BaseballSimulator(self.team1_data, self.team2_data, commentary_style='statcast')
+        # Test Case 1: High EV, low LA single -> "liner"
+        # EV > 100, LA < 10
+        phrase, _ = simulator._get_batted_ball_verb("Single", 105.0, 5.0)
+        self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['liner'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['liner'])
 
-            # We will manually trigger batted ball descriptions with specific data
-            # and check the output. This requires a new helper method in the simulator
-            # or significant refactoring. As a proxy, we'll check the new verb categories.
+        # Test Case 2: Low EV, medium LA single -> "bloop"
+        # EV < 90, 10 < LA < 30
+        phrase, _ = simulator._get_batted_ball_verb("Single", 85.0, 20.0)
+        self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['bloop'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['bloop'])
 
-            # Test Case 1: High EV, low LA single -> "liner"
-            # EV > 100, LA < 10
-            verb = simulator._get_batted_ball_verb("Single", 105.0, 5.0)
-            self.assertIn(verb, GAME_CONTEXT['statcast_verbs']['Single']['liner'])
+        # Test Case 3: High EV, negative LA single -> "grounder"
+        # EV > 95, LA < 0
+        phrase, _ = simulator._get_batted_ball_verb("Single", 98.0, -5.0)
+        self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['grounder'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['grounder'])
 
-            # Test Case 2: Low EV, medium LA single -> "bloop"
-            # EV < 90, 10 < LA < 30
-            verb = simulator._get_batted_ball_verb("Single", 85.0, 20.0)
-            self.assertIn(verb, GAME_CONTEXT['statcast_verbs']['Single']['bloop'])
+        # Test Case 4: High EV flyout -> "deep"
+        # EV > 100, LA > 30
+        phrase, _ = simulator._get_batted_ball_verb("Flyout", 102.0, 35.0)
+        self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Flyout']['verbs']['deep'] + GAME_CONTEXT['statcast_verbs']['Flyout']['nouns'].get('deep',[]))
 
-            # Test Case 3: High EV, negative LA single -> "grounder"
-            # EV > 95, LA < 0
-            verb = simulator._get_batted_ball_verb("Single", 98.0, -5.0)
-            self.assertIn(verb, GAME_CONTEXT['statcast_verbs']['Single']['grounder'])
-
-            # Test Case 4: High EV flyout -> "deep"
-            # EV > 100, LA > 30
-            verb = simulator._get_batted_ball_verb("Flyout", 102.0, 35.0)
-            self.assertIn(verb, GAME_CONTEXT['statcast_verbs']['Flyout']['deep'])
-
-            # Test Case 5: Low EV flyout -> "popup"
-            # EV < 90, LA > 40
-            verb = simulator._get_batted_ball_verb("Flyout", 88.0, 45.0)
-            self.assertIn(verb, GAME_CONTEXT['statcast_verbs']['Flyout']['popup'])
-
-        finally:
-            # Restore the original random.choice function
-            random.choice = original_random_choice
+        # Test Case 5: Low EV flyout -> "popup"
+        # EV < 90, LA > 40
+        phrase, _ = simulator._get_batted_ball_verb("Flyout", 88.0, 45.0)
+        self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Flyout']['verbs']['popup'] + GAME_CONTEXT['statcast_verbs']['Flyout']['nouns']['popup'])
 
     def test_strikeout_looking_consistency(self):
         """
@@ -237,18 +224,18 @@ class TestStatcastRealism(unittest.TestCase):
         simulator = BaseballSimulator(self.team1_data, self.team2_data)
 
         # A ball at 45 degrees with decent EV should be a fly ball, not a popup.
-        verb = simulator._get_batted_ball_verb("Flyout", 95.0, 45.0)
-        self.assertNotIn("popup", verb)
-        self.assertNotIn("infield fly", verb)
+        phrase, _ = simulator._get_batted_ball_verb("Flyout", 95.0, 45.0)
+        self.assertNotIn("popup", phrase)
+        self.assertNotIn("infield fly", phrase)
 
         # A ball at 60 degrees, even with decent EV, is almost certainly a popup.
-        verb = simulator._get_batted_ball_verb("Flyout", 92.0, 60.0)
-        popup_verbs = GAME_CONTEXT['statcast_verbs']['Flyout']['popup']
-        self.assertIn(verb, popup_verbs)
+        phrase, _ = simulator._get_batted_ball_verb("Flyout", 92.0, 60.0)
+        popup_phrases = GAME_CONTEXT['statcast_verbs']['Flyout']['verbs']['popup'] + GAME_CONTEXT['statcast_verbs']['Flyout']['nouns']['popup']
+        self.assertIn(phrase, popup_phrases)
 
         # A weakly hit ball at a high angle is a classic popup.
-        verb = simulator._get_batted_ball_verb("Flyout", 85.0, 55.0)
-        self.assertIn(verb, popup_verbs)
+        phrase, _ = simulator._get_batted_ball_verb("Flyout", 85.0, 55.0)
+        self.assertIn(phrase, popup_phrases)
 
 
 if __name__ == "__main__":
