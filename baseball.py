@@ -161,8 +161,24 @@ class BaseballSimulator:
         if outcome in templates:
             # Flatten the dictionary to just a list of verbs
             verbs = [v for cat in templates[outcome].values() for v in cat]
-            return random.choice(verbs)
-        return "puts it in play"
+    def _get_hit_location(self, hit_type, ev, la):
+        """Determine hit location based on EV and LA."""
+        if la is None or ev is None:
+            return "fair" # Default if no batted ball data
+        if hit_type in ["Single", "Double"]:
+            if -10 < la < 10: # Ground ball/liner
+                return random.choice(["up the middle", "through the right side", "through the left side"])
+            elif 10 < la < 25: # Line drive
+                return random.choice(["to left field", "to center field", "to right field"])
+            else: # Blooper/fly ball
+                return random.choice(["into shallow left", "into shallow center", "into shallow right"])
+        elif hit_type == "Triple":
+            return random.choice(["into the right-center gap", "into the left-center gap"])
+        elif hit_type == "Home Run":
+            if abs(la - 28) < 5 and ev > 105: # Line drive HR
+                return "down the line"
+            return random.choice(["to deep left field", "to deep center field", "to deep right field"])
+        return "fair"
 
     def _get_trajectory(self, outcome, la):
         if "Groundout" in outcome: return "ground_ball"
@@ -175,22 +191,23 @@ class BaseballSimulator:
     def _get_batted_ball_verb(self, outcome, ev, la):
         verb_cats = GAME_CONTEXT['statcast_verbs'].get(outcome, {})
         cat = 'default'
-        if outcome == "Single":
-            if ev < 90 and 10 < la < 30: cat = 'bloop'
-            elif ev > 100 and la < 10: cat = 'liner'
-            elif ev > 95 and la < 0: cat = 'grounder'
-        elif outcome == "Double":
-            if ev > 100 and la < 15: cat = 'liner'
-            elif ev > 100 and la >= 15: cat = 'wall'
-        elif outcome == "Home Run":
-            if ev > 105 and la < 22: cat = 'screamer'
-            elif ev > 100 and la > 35: cat = 'moonshot'
-        elif outcome == "Groundout":
-            if ev < 85: cat = 'soft'
-            elif ev > 100: cat = 'hard'
-        elif outcome == "Flyout":
-            if (ev < 95 and la > 50) or (ev < 90 and la > 40): cat = 'popup'
-            elif ev > 100 and la > 30: cat = 'deep'
+        if ev is not None and la is not None:
+            if outcome == "Single":
+                if ev < 90 and 10 < la < 30: cat = 'bloop'
+                elif ev > 100 and la < 10: cat = 'liner'
+                elif ev > 95 and la < 0: cat = 'grounder'
+            elif outcome == "Double":
+                if ev > 100 and la < 15: cat = 'liner'
+                elif ev > 100 and la >= 15: cat = 'wall'
+            elif outcome == "Home Run":
+                if ev > 105 and la < 22: cat = 'screamer'
+                elif ev > 100 and la > 35: cat = 'moonshot'
+            elif outcome == "Groundout":
+                if ev < 85: cat = 'soft'
+                elif ev > 100: cat = 'hard'
+            elif outcome == "Flyout":
+                if (ev < 95 and la > 50) or (ev < 90 and la > 40): cat = 'popup'
+                elif ev > 100 and la > 30: cat = 'deep'
         return random.choice(verb_cats.get(cat, verb_cats.get('default', ["describes"])))
 
     def _format_statcast_template(self, outcome, context):
@@ -200,6 +217,36 @@ class BaseballSimulator:
         if '{verb_capitalized}' in template:
             context['verb_capitalized'] = context.get('verb', '').capitalize()
         return template.format(**context)
+
+    def _generate_play_description(self, outcome, batted_ball_data, pitch_details, fielder=None):
+        """Generates a narrative description for an in-play event."""
+        pitch_desc = f"Pitch: {pitch_details['type']} ({pitch_details['velo']} mph)."
+
+        # For hits, we combine a verb with a direction.
+        if outcome in ["Single", "Double", "Triple", "Home Run"]:
+            verb = self._get_batted_ball_verb(outcome, batted_ball_data.get('ev'), batted_ball_data.get('la'))
+            direction = self._get_hit_location(outcome, batted_ball_data.get('ev'), batted_ball_data.get('la'))
+            return f"  {pitch_desc} {verb.capitalize()} {direction}{'!' if outcome in ['Single', 'Double', 'Triple', 'Home Run'] else '.'}"
+
+        # For outs, we also combine a verb with a direction.
+        if outcome == "Groundout":
+            cat = 'soft' if batted_ball_data.get('ev', 90) < 85 else 'hard' if batted_ball_data.get('ev', 90) > 100 else 'default'
+            verb = random.choice(GAME_CONTEXT['statcast_verbs']['Groundout'][cat])
+            direction = GAME_CONTEXT['hit_directions'].get(fielder['position']['abbreviation'], "") if fielder else ""
+            return f"  {pitch_desc} {verb.capitalize()} {direction}."
+        elif outcome == "Flyout":
+            la, ev = batted_ball_data.get('la'), batted_ball_data.get('ev')
+            cat = 'default'
+            if la is not None and ev is not None:
+                if (ev < 95 and la > 50) or (ev < 90 and la > 40): cat = 'popup'
+                elif ev > 100 and la > 30: cat = 'deep'
+            verb = random.choice(GAME_CONTEXT['statcast_verbs']['Flyout'][cat])
+            direction = GAME_CONTEXT['hit_directions'].get(fielder['position']['abbreviation'], "") if fielder else ""
+            return f"  {pitch_desc} {verb.capitalize()} {direction}."
+
+        # Default fallback
+        verb = self._get_batted_ball_verb(outcome, batted_ball_data.get('ev'), batted_ball_data.get('la'))
+        return f"  {pitch_desc} {verb.capitalize()}."
 
     def _simulate_at_bat(self, batter, pitcher):
         balls, strikes = 0, 0
@@ -272,21 +319,17 @@ class BaseballSimulator:
                 play_events.append({'index': len(play_events), 'details': event_details, 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}, 'pitchData': pitch_data})
 
             if is_in_play:
-                description = None
                 batted_ball_data = self._generate_batted_ball_data(hit_result)
-                if self.base_commentary_style == 'statcast':
-                    description = {**batted_ball_data, 'pitch_velo': pitch_velo, 'pitch_spin': pitch_spin}
-                elif self.base_commentary_style == 'narrative':
-                    pitch_desc = f"Pitch: {pitch_selection} ({pitch_velo} mph)."
-                    contact_summary = self._describe_contact(hit_result)
-                    description = f"  {pitch_desc} {contact_summary[0].upper() + contact_summary[1:]}{'!' if hit_result in ['Single', 'Double', 'Triple', 'Home Run'] else '.'}"
-
+                description_context = {
+                    'batted_ball_data': batted_ball_data,
+                    'pitch_details': {'type': pitch_selection, 'velo': pitch_velo, 'spin': pitch_spin}
+                }
                 if self.generate_gameday and 'ev' in batted_ball_data:
                     play_events[-1]['hitData'] = {
                         'launchSpeed': batted_ball_data['ev'], 'launchAngle': batted_ball_data['la'],
                         'trajectory': self._get_trajectory(hit_result, batted_ball_data['la'])
                     }
-                return hit_result, description, play_events
+                return hit_result, description_context, play_events
 
             if self.base_commentary_style == 'narrative':
                 if self.verbose_phrasing:
@@ -384,7 +427,7 @@ class BaseballSimulator:
                     self._print(f"\n--- Pitching Change for {team_name}: {next_pitcher_name} replaces {self.team2_current_pitcher_name} ---\n")
                     self.team2_current_pitcher_name, self.team2_available_bullpen = next_pitcher_name, available_bullpen[1:]
 
-    def _handle_batted_ball_out(self, out_type, batter, statcast_data=None):
+    def _handle_batted_ball_out(self, out_type, batter, context=None):
         defensive_team_prefix = 'team1' if self.top_of_inning else 'team2'
         infielders = getattr(self, f"{defensive_team_prefix}_infielders")
         outfielders = getattr(self, f"{defensive_team_prefix}_outfielders")
@@ -393,17 +436,21 @@ class BaseballSimulator:
         first_baseman = getattr(self, f"{defensive_team_prefix}_defense").get('1B')
 
         fielder, is_error, credits = None, False, []
+        batted_ball_data = context.get('batted_ball_data', {}) if context else {}
         
         if out_type == 'Groundout':
             grounder_candidates = [(p, 6) for p in infielders] + [(pitcher, 1)] + ([(catcher, 0.25)] if catcher else [])
             fielder = random.choices([c[0] for c in grounder_candidates], weights=[c[1] for c in grounder_candidates], k=1)[0]
-            if fielder['position']['abbreviation'] == 'C' and statcast_data and 'ev' in statcast_data:
-                statcast_data['ev'], statcast_data['la'] = round(random.uniform(50, 70), 1), round(random.uniform(-45, -20), 1)
+            if fielder['position']['abbreviation'] == 'C' and 'ev' in batted_ball_data:
+                batted_ball_data['ev'], batted_ball_data['la'] = round(random.uniform(50, 70), 1), round(random.uniform(-45, -20), 1)
         elif out_type == 'Flyout':
             fielder = random.choices(outfielders + infielders, weights=[6] * len(outfielders) + [1] * len(infielders), k=1)[0]
 
         if fielder and random.random() > fielder['fielding_ability'] * (self.team1_data if self.top_of_inning else self.team2_data)['fielding_prowess']:
             is_error = True
+
+        if self.base_commentary_style == 'narrative' and context:
+            self._print(self._generate_play_description(out_type, batted_ball_data, context.get('pitch_details', {}), fielder))
 
         pos_map = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
         if is_error:
@@ -433,8 +480,9 @@ class BaseballSimulator:
                 self.outs += 1
 
             if self.base_commentary_style == 'statcast':
-                verb = self._get_batted_ball_verb('Flyout', statcast_data['ev'], statcast_data['la']) if statcast_data and 'ev' in statcast_data else "flies out"
-                result_line = self._format_statcast_template('Flyout', {'batter_name': batter['legal_name'], 'verb': verb, 'fielder_pos': fielder_pos, 'fielder_name': fielder['legal_name']})
+                verb = self._get_batted_ball_verb('Flyout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else "flies out"
+                direction = GAME_CONTEXT['hit_directions'].get(fielder_pos, f"to {fielder_pos}")
+                result_line = self._format_statcast_template('Flyout', {'batter_name': batter['legal_name'], 'verb': verb, 'direction': direction, 'fielder_name': fielder['legal_name']})
                 return result_line, runs, False, rbis, credits
             return f"{out_desc.capitalize()} to {fielder_pos} ({notation})", runs, False, rbis, credits
 
@@ -469,8 +517,9 @@ class BaseballSimulator:
                 notation = f"{fielder['position']['code']}-3"
                 credits = [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]
             if self.base_commentary_style == 'statcast':
-                verb = self._get_batted_ball_verb('Groundout', statcast_data['ev'], statcast_data['la']) if statcast_data and 'ev' in statcast_data else "grounds out"
-                result_line = self._format_statcast_template('Groundout', {'batter_name': batter['legal_name'], 'verb': verb, 'fielder_pos': fielder['position']['abbreviation'], 'fielder_name': fielder['legal_name']})
+                verb = self._get_batted_ball_verb('Groundout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else "grounds out"
+                direction = GAME_CONTEXT['hit_directions'].get(fielder['position']['abbreviation'], f"to {fielder['position']['abbreviation']}")
+                result_line = self._format_statcast_template('Groundout', {'batter_name': batter['legal_name'], 'verb': verb, 'direction': direction, 'fielder_name': fielder['legal_name']})
                 return result_line, runs, False, rbis, credits
             return f"{play_label} ({notation})", runs, False, rbis, credits
         return "Error", 0, True, 0, []
@@ -514,9 +563,12 @@ class BaseballSimulator:
                     runs += adv_info['runs']; advances.extend(adv_info['advances'])
             elif outcome == "Strikeout":
                 self.outs += 1
-                if self.base_commentary_style == 'statcast' and description and 'k_type' in description:
-                    display_outcome = f"{batter['legal_name']} {random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][description['k_type']])}."
+                statcast_data = description.get('batted_ball_data', {}) if description else {}
+                if self.base_commentary_style == 'statcast' and statcast_data and 'k_type' in statcast_data:
+                    display_outcome = f"{batter['legal_name']} {random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][statcast_data.get('k_type')])}."
             elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:
+                if self.base_commentary_style == 'narrative' and description:
+                    self._print(self._generate_play_description(outcome, description.get('batted_ball_data', {}), description.get('pitch_details', {})))
                 adv_info = self._advance_runners(outcome, batter)
                 runs += adv_info['runs']; rbis += adv_info['rbis']; advances.extend(adv_info['advances'])
 
@@ -557,7 +609,7 @@ class BaseballSimulator:
             if self.base_commentary_style == 'statcast':
                 self._print_statcast_result(display_outcome, outcome, description, was_error, advances, rbis, batter)
             elif self.base_commentary_style == 'narrative': # narrative
-                self._print_narrative_result(display_outcome, outcome, description)
+                self._print_narrative_result(display_outcome, outcome)
 
             if self.base_commentary_style != 'none':
                 score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
@@ -569,12 +621,7 @@ class BaseballSimulator:
             if is_home_team_batting and self.team1_score > self.team2_score and self.inning >= 9:
                 return
 
-    def _print_narrative_result(self, display_outcome, outcome, description):
-        # On an error, the specific error line is already printed.
-        # Printing the generic description ("Grounds out.") would be contradictory.
-        if isinstance(description, str) and outcome != "Field Error":
-            self._print(description)
-
+    def _print_narrative_result(self, display_outcome, outcome):
         result_line = display_outcome
         if outcome in ["Walk", "Strikeout"]: result_line = outcome
         elif outcome == "HBP": result_line = "Hit by Pitch"
@@ -582,7 +629,7 @@ class BaseballSimulator:
         else: self._print(f" Result: {outcome}", end="")
 
     def _print_statcast_result(self, display_outcome, outcome, description, was_error, advances, rbis, batter):
-        pitch_info = description
+        pitch_info = description.get('batted_ball_data', {}) if description else {}
         batted_ball_str = ""
         if outcome not in ["Strikeout", "Walk", "HBP"] and pitch_info and 'ev' in pitch_info and 'la' in pitch_info:
             batted_ball_str = f" (EV: {pitch_info['ev']} mph, LA: {pitch_info['la']}°)"
@@ -590,10 +637,11 @@ class BaseballSimulator:
         if was_error:
             result_line = self._format_statcast_template('Error', {'display_outcome': display_outcome, 'adv_str': "; ".join(adv for adv in advances), 'batter_name': batter['legal_name']})
         elif outcome == 'Strikeout' and description and 'k_type' in description:
-            result_line = f"{batter['legal_name']} {random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][description['k_type']])}."
+            result_line = f"{batter['legal_name']} {random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][description.get('k_type')])}."
         elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
-            verb = self._get_batted_ball_verb(outcome, pitch_info['ev'], pitch_info['la']) if pitch_info and 'ev' in pitch_info else random.choice(GAME_CONTEXT['statcast_verbs'][outcome]['default'])
-            result_line = self._format_statcast_template(outcome, {'batter_name': batter['legal_name'], 'verb': verb, 'runs': rbis}) or f"{batter['legal_name']} {verb}."
+            verb = self._get_batted_ball_verb(outcome, pitch_info.get('ev'), pitch_info.get('la')) if pitch_info else random.choice(GAME_CONTEXT['statcast_verbs'][outcome]['default'])
+            direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la')) if pitch_info else ""
+            result_line = self._format_statcast_template(outcome, {'batter_name': batter['legal_name'], 'verb': verb, 'runs': rbis, 'direction': direction}) or f"{batter['legal_name']} {verb}."
         elif outcome == "HBP": result_line = "Hit by Pitch."
         if batted_ball_str: result_line += batted_ball_str
         if rbis > 0 and not was_error: result_line += f" {batter['legal_name']} drives in {rbis}."
