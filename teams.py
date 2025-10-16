@@ -20,16 +20,17 @@ GAME_CONTEXT = {
         "strike": [
             "paints the corner", "right down the middle", "catches the black",
             "a perfect strike", "in the zone", "freezes him on the inner edge",
-            "snaps over the backdoor", "drops onto the knees"
+            "snaps over the backdoor", "drops onto the knees", "called strike one"
         ],
         "ball": [
             "just misses outside", "high and tight", "in the dirt", "way outside",
             "low and away", "a bit inside", "sails over the letters",
-            "spikes before the plate"
+            "spikes before the plate", "misses high and the", "misses low and inside"
         ],
         "foul": [
             "fights it off", "jams him inside", "gets a piece of it",
-            "back to the screen", "down the line, foul", "spoils a good pitch"
+            "back to the screen", "down the line, foul", "spoils a good pitch",
+            "fouled back and out of play"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -43,37 +44,37 @@ GAME_CONTEXT = {
     },
     "statcast_verbs": {
         "Single": {
-            "default": ["singles"],
-            "bloop": ["singles on a bloop"],
-            "liner": ["lines a single"],
-            "grounder": ["grounds a single"]
+            "default": ["singles", "lines a clean single", "a base hit"],
+            "bloop": ["singles on a bloop", "a bloop single"],
+            "liner": ["lines a single", "a sharp single"],
+            "grounder": ["grounds a single", "a ground ball single"]
         },
         "Double": {
-            "default": ["doubles"],
-            "liner": ["doubles on a line drive"],
-            "wall": ["doubles off the wall"]
+            "default": ["doubles", "a stand-up double"],
+            "liner": ["doubles on a line drive", "a ringing double"],
+            "wall": ["doubles off the wall", "a double high off the wall"]
         },
         "Triple": {
-            "default": ["triples"]
+            "default": ["triples", "a triple into the gap"]
         },
         "Home Run": {
-            "default": ["homers"],
-            "screamer": ["homers (liner)"],
-            "moonshot": ["homers (fly ball)"]
+            "default": ["homers", "a long home run", "sails over the wall for a long, lazy home run"],
+            "screamer": ["homers (liner)", "a line drive home run"],
+            "moonshot": ["homers (fly ball)", "a towering home run"]
         },
         "Groundout": {
-            "default": ["grounds out"],
-            "soft": ["grounds out softly"],
-            "hard": ["grounds out sharply"]
+            "default": ["grounds out", "a routine grounder", "grounder to third", "grounder to second", "grounder to short"],
+            "soft": ["grounds out softly", "a soft grounder"],
+            "hard": ["grounds out sharply", "a hard-hit grounder"]
         },
         "Flyout": {
-            "default": ["flies out"],
-            "popup": ["pops out", "infield fly"],
-            "deep": ["flies out deep"]
+            "default": ["flies out", "a routine fly ball", "fly ball to center", "fly ball to left", "fly ball to right"],
+            "popup": ["pops out", "infield fly", "a high pop up"],
+            "deep": ["flies out deep", "a long fly ball"]
         },
         "Strikeout": {
-            "swinging": ["strikes out swinging"],
-            "looking": ["strikes out looking"]
+            "swinging": ["strikes out swinging", "down on strikes"],
+            "looking": ["strikes out looking", "caught looking"]
         }
     },
     "statcast_templates": {
