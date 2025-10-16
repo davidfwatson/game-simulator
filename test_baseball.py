@@ -75,9 +75,9 @@ class TestBaseballRealism(unittest.TestCase):
                     print(line)
             log = output.getvalue()
 
-            if "Walk" in log: events["Walk"] += 1
-            if "Error" in log: events["Error"] += 1
-            if "Double Play" in log: events["Double Play"] += 1
+            if "draws a walk" in log: events["Walk"] += 1
+            if "An error by" in log: events["Error"] += 1
+            if "double play" in log.lower() or "Double Play" in log: events["Double Play"] += 1
 
         self.assertGreater(events["Walk"], 0, "No walks were recorded in the simulations.")
         self.assertGreater(events["Error"], 0, "No errors were recorded in the simulations.")
