@@ -104,8 +104,13 @@ class TestRealism(unittest.TestCase):
         groundout_2_3_count, unassisted_3u_count = 0, 0
         flyouts, popouts = 0, 0
         for i in range(num_games):
-            random.seed(i)
-            game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), commentary_style='narrative')
+            game = BaseballSimulator(
+                copy.deepcopy(self.home_team),
+                copy.deepcopy(self.away_team),
+                commentary_style='narrative',
+                game_seed=i,
+                commentary_seed=i+1
+            )
             game.play_game()
             log = "\n".join(game.output_lines)
             total_walks += log.count("draws a walk")

@@ -101,6 +101,13 @@ GAME_CONTEXT = {
         "stolen_base": [
             "{runner_name} takes off for second... and he's in there with a stolen base!",
             "A good jump and a stolen base for {runner_name}."
+        ],
+        "play_by_play_templates": [
+            "{batter_name} {verb} {direction} on a {pitch_velo} mph {pitch_type}.",
+            "A {pitch_velo} mph {pitch_type}, and {batter_name} {verb} {direction}.",
+            "And the pitch... a {pitch_type} at {pitch_velo} mph, {verb} {direction} by {batter_name}.",
+            "{batter_name} takes the {pitch_type} and {verb} {direction}.",
+            "It's a {pitch_type} and {batter_name} {verb} {direction}."
         ]
     },
     "statcast_verbs": {

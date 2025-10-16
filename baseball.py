@@ -17,7 +17,7 @@ class BaseballSimulator:
     - Feature flag for verbose/terse play-by-play output.
     """
 
-    def __init__(self, team1_data, team2_data, verbose_phrasing=True, use_bracketed_ui=False, commentary_style='narrative', max_innings=None):
+    def __init__(self, team1_data, team2_data, verbose_phrasing=True, use_bracketed_ui=False, commentary_style='narrative', max_innings=None, game_seed=None, commentary_seed=None):
         self.team1_data = team1_data
         self.team2_data = team2_data
         self.team1_name = self.team1_data["name"]
@@ -25,6 +25,8 @@ class BaseballSimulator:
         self.verbose_phrasing = verbose_phrasing
         self.use_bracketed_ui = use_bracketed_ui
         self.max_innings = max_innings
+        self.game_rng = random.Random(game_seed)
+        self.commentary_rng = random.Random(commentary_seed)
 
         self.generate_gameday = commentary_style in ['gameday', 'combo']
         self.base_commentary_style = commentary_style
@@ -57,8 +59,8 @@ class BaseballSimulator:
             self._initialize_gameday_data()
 
         # Game context
-        self.umpires = random.sample(GAME_CONTEXT["umpires"], 4)
-        self.weather = random.choice(GAME_CONTEXT["weather_conditions"])
+        self.umpires = self.commentary_rng.sample(GAME_CONTEXT["umpires"], 4)
+        self.weather = self.commentary_rng.choice(GAME_CONTEXT["weather_conditions"])
         self.venue = self.team1_data["venue"]
 
     def _initialize_gameday_data(self):
@@ -107,7 +109,7 @@ class BaseballSimulator:
         bullpen_candidates = [p['legal_name'] for p in all_pitchers if p['type'] != 'Starter']
         closers = [name for name in bullpen_candidates if pitcher_stats[name]['type'] == 'Closer']
         non_closers = [name for name in bullpen_candidates if pitcher_stats[name]['type'] != 'Closer']
-        random.shuffle(non_closers)
+        self.game_rng.shuffle(non_closers)
         available_bullpen = non_closers + closers
         current_pitcher_name = next(p['legal_name'] for p in all_pitchers if p['type'] == 'Starter')
 
@@ -136,24 +138,24 @@ class BaseballSimulator:
 
     def _get_hit_outcome(self, batter_stats):
         in_play = {k: v for k, v in batter_stats.items() if k not in ["Walk", "Strikeout", "HBP"]}
-        return random.choices(list(in_play.keys()), weights=list(in_play.values()), k=1)[0]
+        return self.game_rng.choices(list(in_play.keys()), weights=list(in_play.values()), k=1)[0]
 
     def _generate_batted_ball_data(self, hit_type):
-        if random.random() < 0.05:
+        if self.game_rng.random() < 0.05:
             return {}
         ev, la = 0, 0
-        if hit_type == "Groundout": ev, la = round(random.uniform(70, 95), 1), round(random.uniform(-20, 5), 1)
-        elif hit_type == "Flyout": ev, la = round(random.uniform(85, 105), 1), round(random.uniform(25, 50), 1)
+        if hit_type == "Groundout": ev, la = round(self.game_rng.uniform(70, 95), 1), round(self.game_rng.uniform(-20, 5), 1)
+        elif hit_type == "Flyout": ev, la = round(self.game_rng.uniform(85, 105), 1), round(self.game_rng.uniform(25, 50), 1)
         elif hit_type == "Single":
-            if random.random() < 0.6: ev, la = round(random.uniform(80, 100), 1), round(random.uniform(-10, 8), 1)
-            else: ev, la = round(random.uniform(90, 110), 1), round(random.uniform(8, 20), 1)
-        elif hit_type == "Double": ev, la = round(random.uniform(100, 115), 1), round(random.uniform(15, 35), 1)
-        elif hit_type == "Triple": ev, la = round(random.uniform(100, 115), 1), round(random.uniform(18, 30), 1)
+            if self.game_rng.random() < 0.6: ev, la = round(self.game_rng.uniform(80, 100), 1), round(self.game_rng.uniform(-10, 8), 1)
+            else: ev, la = round(self.game_rng.uniform(90, 110), 1), round(self.game_rng.uniform(8, 20), 1)
+        elif hit_type == "Double": ev, la = round(self.game_rng.uniform(100, 115), 1), round(self.game_rng.uniform(15, 35), 1)
+        elif hit_type == "Triple": ev, la = round(self.game_rng.uniform(100, 115), 1), round(self.game_rng.uniform(18, 30), 1)
         elif hit_type == "Home Run":
-            ev = round(random.uniform(100, 120), 1)
-            if ev >= 118: la = round(random.uniform(20, 28), 1)
-            elif ev > 110: la = round(random.uniform(22, 35), 1)
-            else: la = round(random.uniform(25, 45), 1)
+            ev = round(self.game_rng.uniform(100, 120), 1)
+            if ev >= 118: la = round(self.game_rng.uniform(20, 28), 1)
+            elif ev > 110: la = round(self.game_rng.uniform(22, 35), 1)
+            else: la = round(self.game_rng.uniform(25, 45), 1)
         return {'ev': ev, 'la': la}
 
     def _describe_contact(self, outcome):
@@ -167,17 +169,17 @@ class BaseballSimulator:
             return "fair" # Default if no batted ball data
         if hit_type in ["Single", "Double"]:
             if -10 < la < 10: # Ground ball/liner
-                return random.choice(["up the middle", "through the right side", "through the left side"])
+                return self.commentary_rng.choice(["up the middle", "through the right side", "through the left side"])
             elif 10 < la < 25: # Line drive
-                return random.choice(["to left field", "to center field", "to right field"])
+                return self.commentary_rng.choice(["to left field", "to center field", "to right field"])
             else: # Blooper/fly ball
-                return random.choice(["into shallow left", "into shallow center", "into shallow right"])
+                return self.commentary_rng.choice(["into shallow left", "into shallow center", "into shallow right"])
         elif hit_type == "Triple":
-            return random.choice(["into the right-center gap", "into the left-center gap"])
+            return self.commentary_rng.choice(["into the right-center gap", "into the left-center gap"])
         elif hit_type == "Home Run":
             if abs(la - 28) < 5 and ev > 105: # Line drive HR
                 return "down the line"
-            return random.choice(["to deep left field", "to deep center field", "to deep right field"])
+            return self.commentary_rng.choice(["to deep left field", "to deep center field", "to deep right field"])
         return "fair"
 
     def _get_trajectory(self, outcome, la):
@@ -208,12 +210,12 @@ class BaseballSimulator:
             elif outcome == "Flyout":
                 if (ev < 95 and la > 50) or (ev < 90 and la > 40): cat = 'popup'
                 elif ev > 100 and la > 30: cat = 'deep'
-        return random.choice(verb_cats.get(cat, verb_cats.get('default', ["describes"])))
+        return self.commentary_rng.choice(verb_cats.get(cat, verb_cats.get('default', ["describes"])))
 
     def _format_statcast_template(self, outcome, context):
         templates = GAME_CONTEXT.get('statcast_templates', {}).get(outcome)
         if not templates: return None
-        template = random.choice(templates)
+        template = self.commentary_rng.choice(templates)
         if '{verb_capitalized}' in template:
             context['verb_capitalized'] = context.get('verb', '').capitalize()
         return template.format(**context)
@@ -232,7 +234,7 @@ class BaseballSimulator:
         if 'runner_name' not in context and self.bases[0]:
              context['runner_name'] = self.bases[0]
 
-        return random.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
+        return self.commentary_rng.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
 
     def _generate_play_description(self, outcome, batted_ball_data, pitch_details, batter=None, fielder=None):
         """Generates a narrative description for an in-play event."""
@@ -250,7 +252,14 @@ class BaseballSimulator:
         # e.g., "Nakamura lines a single to left field."
         # e.g., "Moon grounds out to second."
         if batter and direction:
-            return f"  {batter['legal_name']} {verb} {direction} on a {pitch_details['type']} ({pitch_details['velo']} mph)."
+            template = self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
+            return "  " + template.format(
+                batter_name=batter['legal_name'],
+                verb=verb,
+                direction=direction,
+                pitch_type=pitch_details.get('type', 'pitch'),
+                pitch_velo=pitch_details.get('velo', 'N/A')
+            )
 
         # Fallback for simpler descriptions
         return f"  {verb.capitalize()} {direction}."
@@ -268,13 +277,13 @@ class BaseballSimulator:
 
         if self.base_commentary_style == 'narrative' and self.verbose_phrasing:
             if any(self.bases):
-                if (self.bases[1] or self.bases[2]) and random.random() < 0.2:
+                if (self.bases[1] or self.bases[2]) and self.commentary_rng.random() < 0.2:
                     self._print(f"  {self._get_narrative_string('runners_in_scoring_position')}")
-                if self.inning > 6 and self.team1_score == self.team2_score and random.random() < 0.25:
+                if self.inning > 6 and self.team1_score == self.team2_score and self.commentary_rng.random() < 0.25:
                     self._print(f"  A crucial at-bat here in a tie game.")
-            if random.random() < 0.04: self._print(f"  {self._get_narrative_string('infield_in')}")
+            if self.commentary_rng.random() < 0.04: self._print(f"  {self._get_narrative_string('infield_in')}")
 
-        if random.random() < batter.get('stats', {}).get('HBP', 0):
+        if self.game_rng.random() < batter.get('stats', {}).get('HBP', 0):
             return "HBP", None, play_events
 
         batter_stats = batter['stats']
@@ -285,13 +294,13 @@ class BaseballSimulator:
         while balls < 4 and strikes < 3:
             self.pitch_counts[pitcher['legal_name']] += 1
             
-            pitch_selection = random.choices(list(pitcher['pitch_arsenal'].keys()), weights=[v['prob'] for v in pitcher['pitch_arsenal'].values()], k=1)[0]
+            pitch_selection = self.game_rng.choices(list(pitcher['pitch_arsenal'].keys()), weights=[v['prob'] for v in pitcher['pitch_arsenal'].values()], k=1)[0]
             pitch_details_team = pitcher['pitch_arsenal'][pitch_selection]
-            pitch_velo = round(random.uniform(*pitch_details_team['velo_range']), 1)
-            pitch_spin = random.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if random.random() > 0.08 else None
+            pitch_velo = round(self.game_rng.uniform(*pitch_details_team['velo_range']), 1)
+            pitch_spin = self.game_rng.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if self.game_rng.random() > 0.08 else None
             
             fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina']) / 15) * 0.1
-            is_strike_loc = random.random() < (pitcher['control'] - fatigue_penalty)
+            is_strike_loc = self.game_rng.random() < (pitcher['control'] - fatigue_penalty)
             
             pre_pitch_balls, pre_pitch_strikes = balls, strikes
             pitch_outcome_text = ""
@@ -299,8 +308,8 @@ class BaseballSimulator:
             is_in_play = False
             hit_result = None
 
-            swing = random.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
-            contact = random.random() < contact_prob
+            swing = self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
+            contact = self.game_rng.random() < contact_prob
 
             if not swing:
                 if is_strike_loc:
@@ -314,7 +323,7 @@ class BaseballSimulator:
                     strikes += 1; pitch_outcome_text = "swinging strike"
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
                 else: # Contact
-                    is_foul = random.random() < 0.6
+                    is_foul = self.game_rng.random() < 0.6
                     if is_foul:
                         if strikes < 2: strikes += 1
                         pitch_outcome_text = "foul"
@@ -348,13 +357,13 @@ class BaseballSimulator:
                 if self.verbose_phrasing:
                     pbp_line = ""
                     if pitch_outcome_text == "foul":
-                        pbp_line = f"  Foul, {random.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_selection} ({pitch_velo} mph)."
+                        pbp_line = f"  Foul, {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_selection} ({pitch_velo} mph)."
                     elif pitch_outcome_text == "called strike":
-                        pbp_line = f"  {random.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_selection} ({pitch_velo} mph)."
+                        pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_selection} ({pitch_velo} mph)."
                     elif pitch_outcome_text == "swinging strike":
                         pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection} ({pitch_velo} mph)."
                     else: # Ball
-                        pbp_line = f"  {random.choice(GAME_CONTEXT['pitch_locations']['ball'])} with the {pitch_selection} ({pitch_velo} mph)."
+                        pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['ball'])} with the {pitch_selection} ({pitch_velo} mph)."
                 else:
                     pbp_line = f"  {pitch_outcome_text.capitalize()}."
 
@@ -368,7 +377,7 @@ class BaseballSimulator:
             return "Walk", None, play_events
 
         k_type = "looking" if pitch_outcome_text == "called strike" else "swinging"
-        verb = random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
+        verb = self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
         description = {'k_type': k_type, 'verb': verb} if self.base_commentary_style != 'narrative' else {}
         if self.base_commentary_style == 'narrative' and self.verbose_phrasing:
             self._print(f"  {batter['legal_name']} {verb}.")
@@ -459,13 +468,13 @@ class BaseballSimulator:
         
         if out_type == 'Groundout':
             grounder_candidates = [(p, 6) for p in infielders] + [(pitcher, 1)] + ([(catcher, 0.25)] if catcher else [])
-            fielder = random.choices([c[0] for c in grounder_candidates], weights=[c[1] for c in grounder_candidates], k=1)[0]
+            fielder = self.game_rng.choices([c[0] for c in grounder_candidates], weights=[c[1] for c in grounder_candidates], k=1)[0]
             if fielder['position']['abbreviation'] == 'C' and 'ev' in batted_ball_data:
-                batted_ball_data['ev'], batted_ball_data['la'] = round(random.uniform(50, 70), 1), round(random.uniform(-45, -20), 1)
+                batted_ball_data['ev'], batted_ball_data['la'] = round(self.game_rng.uniform(50, 70), 1), round(self.game_rng.uniform(-45, -20), 1)
         elif out_type == 'Flyout':
-            fielder = random.choices(outfielders + infielders, weights=[6] * len(outfielders) + [1] * len(infielders), k=1)[0]
+            fielder = self.game_rng.choices(outfielders + infielders, weights=[6] * len(outfielders) + [1] * len(infielders), k=1)[0]
 
-        if fielder and random.random() > fielder['fielding_ability'] * (self.team1_data if self.top_of_inning else self.team2_data)['fielding_prowess']:
+        if fielder and self.game_rng.random() > fielder['fielding_ability'] * (self.team1_data if self.top_of_inning else self.team2_data)['fielding_prowess']:
             is_error = True
 
         pos_map = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
@@ -490,7 +499,7 @@ class BaseballSimulator:
             notation = f"{'P' if out_desc == 'pop out' else 'F'}{fielder['position']['code']}"
             credits.append({'player': {'id': fielder['id']}, 'position': fielder['position'], 'credit': 'putout'})
 
-            if self.outs < 2 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF'] and random.random() > 0.4:
+            if self.outs < 2 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF'] and self.game_rng.random() > 0.4:
                 self.outs += 1; runs, rbis = 1, 1
                 runner_on_third, self.bases[2] = self.bases[2], None
                 if self.base_commentary_style == 'statcast':
@@ -508,7 +517,7 @@ class BaseballSimulator:
             return f"{out_desc.capitalize()} to {fielder_pos} ({notation})", runs, False, rbis, credits
 
         if out_type == 'Groundout':
-            if self.outs < 2 and self.bases[0] and random.random() < self.team1_data['double_play_rate']:
+            if self.outs < 2 and self.bases[0] and self.game_rng.random() < self.team1_data['double_play_rate']:
                 self.outs += 2
                 self.bases[0] = None
                 if self.bases[1]: self.bases[2], self.bases[1] = self.bases[1], None
@@ -588,7 +597,7 @@ class BaseballSimulator:
                 self.outs += 1
                 statcast_data = description.get('batted_ball_data', {}) if description else {}
                 if self.base_commentary_style == 'statcast' and statcast_data and 'k_type' in statcast_data:
-                    display_outcome = f"{batter['legal_name']} {random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][statcast_data.get('k_type')])}."
+                    display_outcome = f"{batter['legal_name']} {self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][statcast_data.get('k_type')])}."
             elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:
                 if self.base_commentary_style == 'narrative' and self.verbose_phrasing:
                     # Use situational narrative strings
@@ -677,9 +686,9 @@ class BaseballSimulator:
         if was_error:
             result_line = self._format_statcast_template('Error', {'display_outcome': display_outcome, 'adv_str': "; ".join(adv for adv in advances), 'batter_name': batter['legal_name']})
         elif outcome == 'Strikeout' and description and 'k_type' in description:
-            result_line = f"{batter['legal_name']} {random.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][description.get('k_type')])}."
+            result_line = f"{batter['legal_name']} {self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][description.get('k_type')])}."
         elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
-            verb = self._get_batted_ball_verb(outcome, pitch_info.get('ev'), pitch_info.get('la')) if pitch_info else random.choice(GAME_CONTEXT['statcast_verbs'][outcome]['default'])
+            verb = self._get_batted_ball_verb(outcome, pitch_info.get('ev'), pitch_info.get('la')) if pitch_info else self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs'][outcome]['default'])
             direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la')) if pitch_info else ""
             result_line = self._format_statcast_template(outcome, {'batter_name': batter['legal_name'], 'verb': verb, 'runs': rbis, 'direction': direction}) or f"{batter['legal_name']} {verb}."
         elif outcome == "HBP": result_line = "Hit by Pitch."
@@ -742,8 +751,19 @@ if __name__ == "__main__":
     parser.add_argument('--max-innings', type=int, help="Stop simulation after specified number of innings (e.g., 2 for partial game).")
     parser.add_argument('--pbp-outfile', type=str, help="File to write play-by-play output to (stdout by default).")
     parser.add_argument('--gameday-outfile', type=str, help="File to write Gameday JSON output to (stdout by default).")
+    parser.add_argument('--game-seed', type=int, help="Seed for the game's random number generator.")
+    parser.add_argument('--commentary-seed', type=int, help="Seed for the commentary's random number generator.")
     args = parser.parse_args()
-    game = BaseballSimulator(TEAMS["BAY_BOMBERS"], TEAMS["PC_PILOTS"], verbose_phrasing=not args.terse, use_bracketed_ui=args.bracketed_ui, commentary_style=args.commentary, max_innings=args.max_innings)
+    game = BaseballSimulator(
+        TEAMS["BAY_BOMBERS"],
+        TEAMS["PC_PILOTS"],
+        verbose_phrasing=not args.terse,
+        use_bracketed_ui=args.bracketed_ui,
+        commentary_style=args.commentary,
+        max_innings=args.max_innings,
+        game_seed=args.game_seed,
+        commentary_seed=args.commentary_seed
+    )
     game.play_game()
 
     if game.base_commentary_style != 'none':
