@@ -56,8 +56,7 @@ class TestRegressionRealism(unittest.TestCase):
     def test_first_relief_usage_varies_by_game(self):
         relievers_used = []
         for seed in range(5):
-            random.seed(seed)
-            sim = BaseballSimulator(self.home, self.away)
+            sim = BaseballSimulator(self.home, self.away, game_seed=seed, commentary_seed=seed)
             starter = sim.team1_current_pitcher_name
             sim.pitch_counts[starter] = sim.team1_pitcher_stats[starter]['stamina'] + 40
             sim.top_of_inning = True

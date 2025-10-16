@@ -191,7 +191,7 @@ class BaseballSimulator:
         return "fly_ball"
 
     def _get_batted_ball_verb(self, outcome, ev, la):
-        verb_cats = GAME_CONTEXT['statcast_verbs'].get(outcome, {})
+        outcome_data = GAME_CONTEXT['statcast_verbs'].get(outcome, {})
         cat = 'default'
         if ev is not None and la is not None:
             if outcome == "Single":
@@ -210,7 +210,19 @@ class BaseballSimulator:
             elif outcome == "Flyout":
                 if (ev < 95 and la > 50) or (ev < 90 and la > 40): cat = 'popup'
                 elif ev > 100 and la > 30: cat = 'deep'
-        return self.commentary_rng.choice(verb_cats.get(cat, verb_cats.get('default', ["describes"])))
+
+        # Decide whether to use a verb or a noun phrase
+        use_verb = self.commentary_rng.random() < 0.6
+        phrase_type = 'verbs' if use_verb else 'nouns'
+
+        # Get the list of phrases, defaulting to verbs if the chosen type is missing
+        phrases = outcome_data.get(phrase_type, outcome_data.get('verbs', {}))
+
+        # Get the specific phrase, falling back to default category
+        phrase = self.commentary_rng.choice(phrases.get(cat, phrases.get('default', ["describes"])))
+
+        return phrase, phrase_type
+
 
     def _format_statcast_template(self, outcome, context):
         templates = GAME_CONTEXT.get('statcast_templates', {}).get(outcome)
@@ -238,7 +250,7 @@ class BaseballSimulator:
 
     def _generate_play_description(self, outcome, batted_ball_data, pitch_details, batter=None, fielder=None):
         """Generates a narrative description for an in-play event."""
-        verb = self._get_batted_ball_verb(outcome, batted_ball_data.get('ev'), batted_ball_data.get('la'))
+        phrase, phrase_type = self._get_batted_ball_verb(outcome, batted_ball_data.get('ev'), batted_ball_data.get('la'))
         direction = ""
 
         # For hits, get a direction
@@ -249,24 +261,33 @@ class BaseballSimulator:
             direction = GAME_CONTEXT['hit_directions'].get(fielder['position']['abbreviation'], "")
 
         # Construct a more natural sentence.
-        # e.g., "Nakamura lines a single to left field."
-        # e.g., "Moon grounds out to second."
         if batter and direction:
-            template = self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-            return "  " + template.format(
-                batter_name=batter['legal_name'],
-                verb=verb,
-                direction=direction,
-                pitch_type=pitch_details.get('type', 'pitch'),
-                pitch_velo=pitch_details.get('velo', 'N/A')
-            )
+            if phrase_type == 'verbs':
+                template = self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
+                return "  " + template.format(
+                    batter_name=batter['legal_name'],
+                    verb=phrase,
+                    direction=direction,
+                    pitch_type=pitch_details.get('type', 'pitch'),
+                    pitch_velo=pitch_details.get('velo', 'N/A')
+                )
+            else: # Nouns
+                template = self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
+                return "  " + template.format(
+                    batter_name=batter['legal_name'],
+                    noun=phrase,
+                    direction=direction,
+                    pitch_type=pitch_details.get('type', 'pitch'),
+                    pitch_velo=pitch_details.get('velo', 'N/A')
+                )
 
         # Fallback for simpler descriptions
-        return f"  {verb.capitalize()} {direction}."
+        return f"  {phrase.capitalize()} {direction}."
 
     def _simulate_at_bat(self, batter, pitcher):
         balls, strikes = 0, 0
         play_events: list[PlayEvent] = []
+        narrative_k = False
         
         if self.base_commentary_style != 'none':
             batter_display_name = self._get_player_display_name(batter)
@@ -284,7 +305,7 @@ class BaseballSimulator:
             if self.commentary_rng.random() < 0.04: self._print(f"  {self._get_narrative_string('infield_in')}")
 
         if self.game_rng.random() < batter.get('stats', {}).get('HBP', 0):
-            return "HBP", None, play_events
+            return "HBP", None, play_events, narrative_k
 
         batter_stats = batter['stats']
         discipline_factor = max(0.1, batter_stats.get('Walk', 0.09) / 0.08)
@@ -351,7 +372,7 @@ class BaseballSimulator:
                         'launchSpeed': batted_ball_data['ev'], 'launchAngle': batted_ball_data['la'],
                         'trajectory': self._get_trajectory(hit_result, batted_ball_data['la'])
                     }
-                return hit_result, description_context, play_events
+                return hit_result, description_context, play_events, narrative_k
 
             if self.base_commentary_style == 'narrative':
                 if self.verbose_phrasing:
@@ -374,14 +395,15 @@ class BaseballSimulator:
                 self._print(f"  {pitch_outcome_text.capitalize()}: {pitch_velo} mph {pitch_selection}")
 
         if balls == 4:
-            return "Walk", None, play_events
+            return "Walk", None, play_events, narrative_k
 
         k_type = "looking" if pitch_outcome_text == "called strike" else "swinging"
         verb = self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
         description = {'k_type': k_type, 'verb': verb} if self.base_commentary_style != 'narrative' else {}
         if self.base_commentary_style == 'narrative' and self.verbose_phrasing:
             self._print(f"  {batter['legal_name']} {verb}.")
-        return "Strikeout", description, play_events
+            narrative_k = True
+        return "Strikeout", description, play_events, narrative_k
 
     def _advance_runners(self, hit_type, batter, was_error=False, include_batter_advance=False):
         runs, rbis = 0, 0
@@ -510,7 +532,7 @@ class BaseballSimulator:
                 self.outs += 1
 
             if self.base_commentary_style == 'statcast':
-                verb = self._get_batted_ball_verb('Flyout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else "flies out"
+                verb, _ = self._get_batted_ball_verb('Flyout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else ("flies out", "verbs")
                 direction = GAME_CONTEXT['hit_directions'].get(fielder_pos, f"to {fielder_pos}")
                 result_line = self._format_statcast_template('Flyout', {'batter_name': batter['legal_name'], 'verb': verb, 'direction': direction, 'fielder_name': fielder['legal_name']})
                 return result_line, runs, False, rbis, credits
@@ -549,7 +571,7 @@ class BaseballSimulator:
                 notation = f"{fielder['position']['code']}-3"
                 credits = [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]
             if self.base_commentary_style == 'statcast':
-                verb = self._get_batted_ball_verb('Groundout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else "grounds out"
+                verb, _ = self._get_batted_ball_verb('Groundout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else ("grounds out", "verbs")
                 direction = GAME_CONTEXT['hit_directions'].get(fielder['position']['abbreviation'], f"to {fielder['position']['abbreviation']}")
                 result_line = self._format_statcast_template('Groundout', {'batter_name': batter['legal_name'], 'verb': verb, 'direction': direction, 'fielder_name': fielder['legal_name']})
                 return result_line, runs, False, rbis, credits
@@ -579,7 +601,7 @@ class BaseballSimulator:
             pitcher = (self.team1_pitcher_stats if self.top_of_inning else self.team2_pitcher_stats)[pitcher_name]
             batter = lineup[getattr(self, batter_idx_ref)]
 
-            outcome, description, play_events = self._simulate_at_bat(batter, pitcher)
+            outcome, description, play_events, narrative_k = self._simulate_at_bat(batter, pitcher)
 
             runs, rbis, was_error = 0, 0, False
             advances, credits = [], []
@@ -651,7 +673,10 @@ class BaseballSimulator:
             if self.base_commentary_style == 'statcast':
                 self._print_statcast_result(display_outcome, outcome, description, was_error, advances, rbis, batter)
             elif self.base_commentary_style == 'narrative': # narrative
-                self._print_narrative_result(display_outcome, outcome, description)
+                if narrative_k:
+                    pass
+                else:
+                    self._print_narrative_result(display_outcome, outcome, description)
 
             if self.base_commentary_style != 'none':
                 score_str = f"{self.team1_name}: {self.team1_score}, {self.team2_name}: {self.team2_score}"
@@ -688,9 +713,9 @@ class BaseballSimulator:
         elif outcome == 'Strikeout' and description and 'k_type' in description:
             result_line = f"{batter['legal_name']} {self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][description.get('k_type')])}."
         elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
-            verb = self._get_batted_ball_verb(outcome, pitch_info.get('ev'), pitch_info.get('la')) if pitch_info else self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs'][outcome]['default'])
+            phrase, _ = self._get_batted_ball_verb(outcome, pitch_info.get('ev'), pitch_info.get('la')) if pitch_info else (self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs'][outcome]['verbs']['default']), 'verbs')
             direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la')) if pitch_info else ""
-            result_line = self._format_statcast_template(outcome, {'batter_name': batter['legal_name'], 'verb': verb, 'runs': rbis, 'direction': direction}) or f"{batter['legal_name']} {verb}."
+            result_line = self._format_statcast_template(outcome, {'batter_name': batter['legal_name'], 'verb': phrase, 'runs': rbis, 'direction': direction}) or f"{batter['legal_name']} {phrase}."
         elif outcome == "HBP": result_line = "Hit by Pitch."
         if batted_ball_str: result_line += batted_ball_str
         if rbis > 0 and not was_error: result_line += f" {batter['legal_name']} drives in {rbis}."
