@@ -182,6 +182,21 @@ class BaseballSimulator:
             return self.commentary_rng.choice(["to deep left field", "to deep center field", "to deep right field"])
         return "fair"
 
+    def _get_velocity_commentary(self, velo, velo_range):
+        """Returns a formatted velocity string only for outlier speeds."""
+        if not velo or not velo_range:
+            return ""
+
+        lower_bound, upper_bound = velo_range
+        # Define outliers as the top or bottom 5% of the range
+        outlier_threshold = (upper_bound - lower_bound) * 0.05
+
+        is_outlier = (velo > upper_bound - outlier_threshold) or (velo < lower_bound + outlier_threshold)
+
+        if is_outlier:
+            return f" ({velo} mph)"
+        return ""
+
     def _get_trajectory(self, outcome, la):
         if "Groundout" in outcome: return "ground_ball"
         if la is not None:
@@ -376,15 +391,16 @@ class BaseballSimulator:
 
             if self.base_commentary_style == 'narrative':
                 if self.verbose_phrasing:
+                    velo_commentary = self._get_velocity_commentary(pitch_velo, pitch_details_team.get('velo_range'))
                     pbp_line = ""
                     if pitch_outcome_text == "foul":
-                        pbp_line = f"  Foul, {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_selection} ({pitch_velo} mph)."
+                        pbp_line = f"  Foul, {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_selection}{velo_commentary}."
                     elif pitch_outcome_text == "called strike":
-                        pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_selection} ({pitch_velo} mph)."
+                        pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_selection}{velo_commentary}."
                     elif pitch_outcome_text == "swinging strike":
-                        pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection} ({pitch_velo} mph)."
+                        pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection}{velo_commentary}."
                     else: # Ball
-                        pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['ball'])} with the {pitch_selection} ({pitch_velo} mph)."
+                        pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['ball'])} with the {pitch_selection}{velo_commentary}."
                 else:
                     pbp_line = f"  {pitch_outcome_text.capitalize()}."
 
