@@ -202,15 +202,33 @@ GAME_CONTEXT = {
         },
         "Flyout": {
             "verbs": {
-                "default": ["flies out", "lines out"],
-                "popup": ["pops out"],
+                "default": ["flies out"],
                 "deep": ["flies out deep", "drives him to the track, but he makes the catch"]
             },
             "nouns": {
                 "default": ["a routine fly ball", "a fly ball", "hit in the air", "a can of corn"],
-                "popup": ["an infield fly", "a high pop up", "popped up on the infield"],
                 "deep": ["a long fly ball", "a drive to the warning track"]
             }
+        },
+        "Pop Out": {
+            "verbs": { "default": ["pops out"] },
+            "nouns": { "default": ["an infield fly", "a high pop up"] }
+        },
+        "Lineout": {
+            "verbs": { "default": ["lines out"] },
+            "nouns": { "default": ["a hard line drive", "a screaming liner"] }
+        },
+        "Grounded Into DP": {
+            "verbs": { "default": ["grounds into a double play"] },
+            "nouns": { "default": ["a double play ball"] }
+        },
+        "Forceout": {
+            "verbs": { "default": ["reaches on a forceout"] },
+            "nouns": { "default": ["a fielder's choice"] }
+        },
+        "Sac Fly": {
+            "verbs": { "default": ["hits a sacrifice fly"] },
+            "nouns": { "default": ["a sacrifice fly"] }
         },
         "Strikeout": {
             "swinging": ["strikes out swinging", "down on strikes", "goes down swinging", "a big cut and a miss for strike three"],
@@ -218,26 +236,18 @@ GAME_CONTEXT = {
         }
     },
     "statcast_templates": {
-        "Single": [
-            "{batter_name} {verb} {direction}."
-        ],
-        "Double": [
-            "{batter_name} {verb} {direction}."
-        ],
-        "Triple": [
-            "{batter_name} {verb} {direction}."
-        ],
-        "Home Run": [
-            "{batter_name} {verb} {direction}."
-        ],
-        "Error": [
-            "{display_outcome} {adv_str}."
-        ],
-        "Flyout": [
-            "{batter_name} {verb} {direction}."
-        ],
-        "Groundout": [
-            "{batter_name} {verb} {direction}."
-        ]
+        "Single": [ "{batter_name} {verb} {direction}." ],
+        "Double": [ "{batter_name} {verb} {direction}." ],
+        "Triple": [ "{batter_name} {verb} {direction}." ],
+        "Home Run": [ "{batter_name} {verb} {direction}." ],
+        "Error": [ "{display_outcome} {adv_str}." ],
+        "Flyout": [ "{batter_name} {verb} {direction}." ],
+        "Pop Out": [ "{batter_name} {verb} {direction}." ],
+        "Lineout": [ "{batter_name} {verb} {direction}." ],
+        "Groundout": [ "{batter_name} {verb} {direction}." ],
+        "Grounded Into DP": [ "{batter_name} {verb}." ],
+        "Forceout": [ "{batter_name} {verb}." ],
+        "Sac Fly": [ "{batter_name} {verb} {direction}." ],
+        "Sac Bunt": [ "{batter_name} {verb}." ]
     }
 }

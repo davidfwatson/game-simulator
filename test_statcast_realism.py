@@ -55,8 +55,8 @@ class TestStatcastRealism(unittest.TestCase):
 
         # Test Case 5: Low EV flyout -> "popup"
         # EV < 90, LA > 40
-        phrase, _ = simulator._get_batted_ball_verb("Flyout", 88.0, 45.0)
-        self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Flyout']['verbs']['popup'] + GAME_CONTEXT['statcast_verbs']['Flyout']['nouns']['popup'])
+        phrase, _ = simulator._get_batted_ball_verb("Pop Out", 88.0, 45.0)
+        self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Pop Out']['verbs']['default'] + GAME_CONTEXT['statcast_verbs']['Pop Out']['nouns']['default'])
 
     def test_strikeout_looking_consistency(self):
         """
@@ -229,12 +229,12 @@ class TestStatcastRealism(unittest.TestCase):
         self.assertNotIn("infield fly", phrase)
 
         # A ball at 60 degrees, even with decent EV, is almost certainly a popup.
-        phrase, _ = simulator._get_batted_ball_verb("Flyout", 92.0, 60.0)
-        popup_phrases = GAME_CONTEXT['statcast_verbs']['Flyout']['verbs']['popup'] + GAME_CONTEXT['statcast_verbs']['Flyout']['nouns']['popup']
+        phrase, _ = simulator._get_batted_ball_verb("Pop Out", 92.0, 60.0)
+        popup_phrases = GAME_CONTEXT['statcast_verbs']['Pop Out']['verbs']['default'] + GAME_CONTEXT['statcast_verbs']['Pop Out']['nouns']['default']
         self.assertIn(phrase, popup_phrases)
 
         # A weakly hit ball at a high angle is a classic popup.
-        phrase, _ = simulator._get_batted_ball_verb("Flyout", 85.0, 55.0)
+        phrase, _ = simulator._get_batted_ball_verb("Pop Out", 85.0, 55.0)
         self.assertIn(phrase, popup_phrases)
 
 
