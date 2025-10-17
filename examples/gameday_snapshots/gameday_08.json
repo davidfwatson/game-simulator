@@ -161,7 +161,7 @@
       "result": {
         "type": "atBat",
         "event": "Home Run",
-        "eventType": "home run",
+        "eventType": "home_run",
         "description": "",
         "rbi": 1,
         "awayScore": 1,
@@ -240,8 +240,8 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Flyout",
-        "eventType": "flyout",
+        "event": "Pop Out",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
@@ -405,7 +405,7 @@
           },
           "details": {
             "code": "X",
-            "description": "In play, Flyout",
+            "description": "In play, Pop Out",
             "isStrike": true,
             "type": {
               "code": "SL",
@@ -420,7 +420,7 @@
           },
           "hitData": {
             "launchSpeed": 88.5,
-            "launchAngle": 43.6,
+            "launchAngle": 47.3,
             "trajectory": "fly_ball"
           }
         }
@@ -432,12 +432,12 @@
           "credits": [
             {
               "player": {
-                "id": 625203
+                "id": 625208
               },
               "position": {
-                "code": "5",
-                "name": "Third Base",
-                "abbreviation": "3B"
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
               },
               "credit": "putout"
             }
@@ -449,7 +449,7 @@
       "result": {
         "type": "atBat",
         "event": "Groundout",
-        "eventType": "groundout",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
@@ -742,34 +742,34 @@
     {
       "result": {
         "type": "atBat",
-        "event": "HBP",
-        "eventType": "hbp",
+        "event": "Flyout",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
-        "awayScore": 1,
+        "awayScore": 0,
         "homeScore": 0
       },
       "about": {
-        "atBatIndex": 14,
+        "atBatIndex": 6,
         "halfInning": "bottom",
         "isTopInning": false,
-        "inning": 2,
+        "inning": 1,
         "isScoringPlay": false
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 2
+        "outs": 3
       },
       "matchup": {
         "batter": {
-          "id": 545107,
-          "fullName": "Owen Chen",
-          "link": "/api/v1/people/545107"
+          "id": 545104,
+          "fullName": "Jackson Riley",
+          "link": "/api/v1/people/545104"
         },
         "batSide": {
-          "code": "L",
-          "description": "Left"
+          "code": "R",
+          "description": "Right"
         },
         "pitcher": {
           "id": 645210,
@@ -784,23 +784,135 @@
         "pitcherHotColdZones": [],
         "splits": {
           "batter": "vs_LHP",
-          "pitcher": "vs_LHB",
-          "menOnBase": "Empty"
+          "pitcher": "vs_RHB",
+          "menOnBase": "Men_On"
         },
         "postOnFirst": {
-          "id": 545107,
-          "fullName": "Owen Chen",
-          "link": "/api/v1/people/545107"
+          "id": 545103,
+          "fullName": "Sam Decker",
+          "link": "/api/v1/people/545103"
         }
       },
-      "playEvents": [],
-      "runners": []
+      "playEvents": [
+        {
+          "index": 0,
+          "count": {
+            "balls": 0,
+            "strikes": 0
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 92.0,
+            "breaks": {
+              "spinRate": 2010
+            }
+          }
+        },
+        {
+          "index": 1,
+          "count": {
+            "balls": 0,
+            "strikes": 1
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "CU",
+              "description": "Curveball"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 78.9,
+            "breaks": {
+              "spinRate": 2867
+            }
+          }
+        },
+        {
+          "index": 2,
+          "count": {
+            "balls": 1,
+            "strikes": 1
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 91.5,
+            "breaks": {
+              "spinRate": 2077
+            }
+          }
+        },
+        {
+          "index": 3,
+          "count": {
+            "balls": 1,
+            "strikes": 2
+          },
+          "details": {
+            "code": "X",
+            "description": "In play, Flyout",
+            "isStrike": true,
+            "type": {
+              "code": "CU",
+              "description": "Curveball"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 79.5,
+            "breaks": {
+              "spinRate": 2933
+            }
+          },
+          "hitData": {
+            "launchSpeed": 99.3,
+            "launchAngle": 34.9,
+            "trajectory": "fly_ball"
+          }
+        }
+      ],
+      "runners": [
+        {
+          "movement": {},
+          "details": {},
+          "credits": [
+            {
+              "player": {
+                "id": 625209
+              },
+              "position": {
+                "code": "9",
+                "name": "Right Field",
+                "abbreviation": "RF"
+              },
+              "credit": "putout"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "playCount": 82,
+  "playCount": 76,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 82,
+    "totalPlaysInGame": 76,
     "snapshotPlayCount": 6
   }
 }

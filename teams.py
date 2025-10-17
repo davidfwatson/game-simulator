@@ -17,7 +17,7 @@ TEAMS = {
         "teamName": "Bombers",
         "venue": "Waterfront Park",
         "fielding_prowess": 0.982,
-        "double_play_rate": 0.14,
+        "double_play_rate": 0.16,
         "hbp_rate": 0.004,  # Likelihood of a HBP per at-bat
         "players": [
             # Batting Order
@@ -71,7 +71,7 @@ TEAMS = {
         "teamName": "Pilots",
         "venue": "Aero Field",
         "fielding_prowess": 0.975,
-        "double_play_rate": 0.13,
+        "double_play_rate": 0.16,
         "hbp_rate": 0.0035,
         "players": [
             # Batting Order

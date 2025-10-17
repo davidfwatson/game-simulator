@@ -20,7 +20,7 @@
       "result": {
         "type": "atBat",
         "event": "Groundout",
-        "eventType": "groundout",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
@@ -394,7 +394,7 @@
       "result": {
         "type": "atBat",
         "event": "Flyout",
-        "eventType": "flyout",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
@@ -482,7 +482,7 @@
           },
           "hitData": {
             "launchSpeed": 96.3,
-            "launchAngle": 34.6,
+            "launchAngle": 36.5,
             "trajectory": "fly_ball"
           }
         }
@@ -903,10 +903,10 @@
       "runners": []
     }
   ],
-  "playCount": 85,
+  "playCount": 83,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 85,
+    "totalPlaysInGame": 83,
     "snapshotPlayCount": 6
   }
 }
