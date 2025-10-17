@@ -75,18 +75,25 @@ class FielderCredit(TypedDict):
 
 
 class RunnerMovement(TypedDict):
-    originBase: Optional[str]  # e.g., "1B", or None for batter
-    start: Optional[str]  # e.g., "1B", or None for batter
-    end: Optional[str]
-    outBase: Optional[str]
+    originBase: Optional[str]  # "1B", "2B", "3B", or None for batter
+    start: Optional[str]       # "1B", "2B", "3B", or None for batter
+    end: Optional[str]         # "1B", "2B", "3B", "score", or None if out
+    outBase: Optional[str]     # "1B", "2B", "3B", or None
+    isOut: bool
+    outNumber: Optional[int]   # 1, 2, or 3
 
 
 class RunnerDetails(TypedDict):
-    event: str
-    eventType: str
-    isOut: bool
-    rbi: int
-    playIndex: int
+    event: str                 # "Single", "Groundout", etc.
+    eventType: str             # "single", "field_out", etc.
+    movementReason: Optional[str]  # "r_adv_play", "r_force_out", "r_adv_force", etc.
+    runner: "PlayerInfo"         # Full player info with id, fullName, link
+    responsiblePitcher: NotRequired["PlayerInfo"]  # Only when runner scores
+    isScoringEvent: bool
+    rbi: bool
+    earned: bool
+    teamUnearned: bool
+    playIndex: int             # Index of the pitch/event that caused movement
 
 
 class Runner(TypedDict):

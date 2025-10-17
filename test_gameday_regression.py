@@ -88,8 +88,10 @@ class TestGamedayRegression(unittest.TestCase):
         self.assertEqual(play['result']['event'], 'Groundout')
         self.assertGreaterEqual(play['count']['outs'], 1)
         if play.get('runners'):
-            self.assertGreater(len(play['runners'][0]['credits']), 0)
-            self.assertIn(play['runners'][0]['credits'][0]['credit'], ['assist', 'putout'])
+            out_runner = next((r for r in play['runners'] if r['movement']['isOut']), None)
+            self.assertIsNotNone(out_runner, "Could not find the runner who was out on a Groundout.")
+            self.assertGreater(len(out_runner['credits']), 0)
+            self.assertIn(out_runner['credits'][0]['credit'], ['assist', 'putout'])
 
     def test_pitch_event_swinging_strike(self):
         """Find a 'Swinging Strike' event and validate its structure."""
@@ -139,8 +141,10 @@ class TestGamedayRegression(unittest.TestCase):
         self.assertEqual(play['result']['event'], 'Flyout')
         self.assertGreaterEqual(play['count']['outs'], 1)
         if play.get('runners'):
-            self.assertGreater(len(play['runners'][0]['credits']), 0)
-            self.assertEqual(play['runners'][0]['credits'][0]['credit'], 'putout')
+            out_runner = next((r for r in play['runners'] if r['movement']['isOut']), None)
+            self.assertIsNotNone(out_runner, "Could not find the runner who was out on a Flyout.")
+            self.assertGreater(len(out_runner['credits']), 0)
+            self.assertEqual(out_runner['credits'][0]['credit'], 'putout')
 
 if __name__ == "__main__":
     unittest.main()

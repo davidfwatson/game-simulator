@@ -23,7 +23,7 @@ class TestRegressionRealism(unittest.TestCase):
         for _ in range(5000):
             sim.outs = 0
             sim.bases = [None, None, None]
-            desc, _, was_error, _, _, _, _ = sim._handle_batted_ball_out("Groundout", sim.team2_lineup[0])
+            desc, _, was_error, _, _, _, _, _ = sim._handle_batted_ball_out("Groundout", sim.team2_lineup[0])
             if was_error:
                 continue
             total_groundouts += 1

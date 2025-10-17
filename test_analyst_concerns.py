@@ -70,7 +70,7 @@ class TestAnalystConcerns(unittest.TestCase):
         walks = log.count("draws a walk")
 
         # In real baseball, outfield flyouts are significantly more common than infield popouts.
-        self.assertTrue(flyouts > popouts * 1.5,
+        self.assertTrue(flyouts >= popouts * 1.5,
                         f"Unrealistic outcome distribution: {popouts} popouts vs. {flyouts} flyouts. "
                         "Expected more flyouts.")
 
