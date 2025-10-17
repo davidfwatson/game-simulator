@@ -111,9 +111,35 @@ GAME_CONTEXT = {
         "play_by_play_noun_templates": [
              "It's a {pitch_type} and {batter_name} hits {noun} {direction}.",
              "It's a {pitch_type} and {batter_name} gets {noun} {direction}."
+        ],
+        "bunt_foul": [
+            "  He squares to bunt, but fouls it off.",
+            "  Showing bunt, he pushes it foul.",
+            "  He tries to lay one down, but it rolls foul."
+        ],
+        "bunt_sac": [
+            "  He gets the bunt down, a perfect sacrifice.",
+            "  A successful sacrifice bunt moves the runners.",
+            "  He lays down the bunt, doing his job."
         ]
     },
     "statcast_verbs": {
+        "Sacrifice Bunt": {
+            "verbs": {
+                "default": ["lays down a sacrifice bunt", "sacrifices"]
+            },
+            "nouns": {
+                "default": ["a sacrifice bunt"]
+            }
+        },
+        "Bunt Ground Out": {
+             "verbs": {
+                "default": ["bunts into a groundout", "grounds out on a bunt"]
+            },
+            "nouns": {
+                "default": ["a bunt, but it's an out"]
+            }
+        },
         "Single": {
             "verbs": {
                 "default": ["singles", "lines a clean single", "gets one to drop in"],
