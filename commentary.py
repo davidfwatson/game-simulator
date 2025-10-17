@@ -21,11 +21,11 @@ GAME_CONTEXT = {
         ],
         "foul": [
             "fights it off", "jams him inside", "gets a piece of it",
-            "back to the screen", "down the line, foul", "spoils a good pitch",
-            "fouled back and out of play", "fouled back and into the stands",
-            "hammered foul and into the stands", "dribbled foul on the first base line",
-            "chopped foul on the first base line",
-            "tapped down the first base line", "flied foul and out of play"
+            "back to the screen", "down the line, but wide of the bag", "spoils a good pitch",
+            "back and out of play", "back and into the stands",
+            "hammered into the stands", "dribbled along the first base line",
+            "chopped on the first base line",
+            "tapped down the first base line", "flied out of play"
         ]
     },
     "PITCH_TYPE_MAP": {
