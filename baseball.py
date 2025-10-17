@@ -137,14 +137,16 @@ class BaseballSimulator:
         return player['legal_name']
 
     def _get_hit_outcome(self, batter_stats):
-        in_play = {k: v for k, v in batter_stats.items() if k not in ["Walk", "Strikeout", "HBP"]}
+        in_play = {k: v for k, v in batter_stats.items() if k not in ["Walk", "Strikeout", "HBP", "bunt_propensity"]}
         return self.game_rng.choices(list(in_play.keys()), weights=list(in_play.values()), k=1)[0]
 
     def _generate_batted_ball_data(self, hit_type):
-        if self.game_rng.random() < 0.05:
+        if hit_type not in ["Single", "Double", "Triple", "Home Run", "Sacrifice Bunt"] and self.game_rng.random() < 0.05:
             return {}
         ev, la = 0, 0
-        if hit_type == "Groundout": ev, la = round(self.game_rng.uniform(70, 95), 1), round(self.game_rng.uniform(-20, 5), 1)
+        if hit_type == "Sacrifice Bunt":
+            ev, la = round(self.game_rng.uniform(60, 75), 1), round(self.game_rng.uniform(-50, -20), 1)
+        elif hit_type == "Groundout": ev, la = round(self.game_rng.uniform(70, 95), 1), round(self.game_rng.uniform(-20, 5), 1)
         elif hit_type == "Flyout": ev, la = round(self.game_rng.uniform(85, 105), 1), round(self.game_rng.uniform(25, 50), 1)
         elif hit_type == "Single":
             if self.game_rng.random() < 0.6: ev, la = round(self.game_rng.uniform(80, 100), 1), round(self.game_rng.uniform(-10, 8), 1)
@@ -326,6 +328,11 @@ class BaseballSimulator:
         discipline_factor = max(0.1, batter_stats.get('Walk', 0.09) / 0.08)
         swing_at_ball_prob = 0.30 / discipline_factor
         contact_prob = 0.75 / max(0.1, batter_stats.get('Strikeout', 0.17) / 0.17)
+        bunt_propensity = batter_stats.get('bunt_propensity', 0.0)
+
+        # Decide to bunt based on situation and propensity
+        bunt_situation = self.outs < 2 and any(self.bases) and not self.bases[2] # Runners on, but not on 3rd
+        is_bunting = bunt_situation and self.game_rng.random() < bunt_propensity
 
         while balls < 4 and strikes < 3:
             self.pitch_counts[pitcher['legal_name']] += 1
@@ -344,8 +351,12 @@ class BaseballSimulator:
             is_in_play = False
             hit_result = None
 
-            swing = self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
-            contact = self.game_rng.random() < contact_prob
+            swing = self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob) or is_bunting
+            contact = self.game_rng.random() < contact_prob or (is_bunting and is_strike_loc)
+
+            play_event: PlayEvent = {'index': len(play_events), 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}}
+            if is_bunting:
+                play_event['isBunt'] = True
 
             if not swing:
                 if is_strike_loc:
@@ -354,27 +365,39 @@ class BaseballSimulator:
                 else:
                     balls += 1; pitch_outcome_text = "ball"
                     event_details = {'code': 'B', 'description': 'Ball', 'isStrike': False}
-            else: # Swung
+            else: # Swung or Bunting
                 if not contact:
                     strikes += 1; pitch_outcome_text = "swinging strike"
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
                 else: # Contact
-                    is_foul = self.game_rng.random() < 0.6
-                    if is_foul:
-                        if strikes < 2: strikes += 1
-                        pitch_outcome_text = "foul"
-                        event_details = {'code': 'D', 'description': 'Foul', 'isStrike': True}
-                    else: # In Play
-                        is_in_play = True
-                        hit_result = self._get_hit_outcome(batter['stats'])
-                        pitch_outcome_text = "in play"
-                        event_details = {'code': 'X', 'description': f'In play, {hit_result}', 'isStrike': True}
+                    if is_bunting and not is_strike_loc: # Missed bunt attempt on a ball
+                        strikes += 1; pitch_outcome_text = "swinging strike"
+                        event_details = {'code': 'S', 'description': 'Missed Bunt', 'isStrike': True, 'eventType': 'missed_bunt'}
+                    else:
+                        is_foul = self.game_rng.random() < (0.85 if is_bunting else 0.6)
+                        if is_foul:
+                            if strikes < 2: strikes += 1
+                            pitch_outcome_text = "foul"
+                            event_details = {'code': 'D', 'description': 'Foul', 'isStrike': True}
+                            if is_bunting:
+                                event_details['description'] = 'Foul Bunt'
+                                event_details['eventType'] = 'foul_bunt'
+                                if strikes == 3: # Foul bunt with 2 strikes is a strikeout
+                                    pitch_outcome_text = "strikeout"
+                        else: # In Play
+                            is_in_play = True
+                            hit_result = "Sacrifice Bunt" if is_bunting else self._get_hit_outcome(batter['stats'])
+                            pitch_outcome_text = "in play"
+                            event_details = {'code': 'X', 'description': f'In play, {hit_result}', 'isStrike': True}
 
             if self.generate_gameday:
                 event_details['type'] = {'code': GAME_CONTEXT['PITCH_TYPE_MAP'].get(pitch_selection, 'UN'), 'description': pitch_selection.capitalize()}
                 pitch_data: PitchData = {'startSpeed': pitch_velo}
                 if pitch_spin: pitch_data['breaks'] = {'spinRate': pitch_spin}
-                play_events.append({'index': len(play_events), 'details': event_details, 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}, 'pitchData': pitch_data})
+
+                play_event['details'] = event_details
+                play_event['pitchData'] = pitch_data
+                play_events.append(play_event)
 
             if is_in_play:
                 batted_ball_data = self._generate_batted_ball_data(hit_result)
@@ -383,10 +406,11 @@ class BaseballSimulator:
                     'pitch_details': {'type': pitch_selection, 'velo': pitch_velo, 'spin': pitch_spin}
                 }
                 if self.generate_gameday and 'ev' in batted_ball_data:
-                    play_events[-1]['hitData'] = {
+                    hit_data: HitData = {
                         'launchSpeed': batted_ball_data['ev'], 'launchAngle': batted_ball_data['la'],
                         'trajectory': self._get_trajectory(hit_result, batted_ball_data['la'])
                     }
+                    play_events[-1]['hitData'] = hit_data
                 return hit_result, description_context, play_events, narrative_k
 
             if self.base_commentary_style == 'narrative':
@@ -394,7 +418,10 @@ class BaseballSimulator:
                     velo_commentary = self._get_velocity_commentary(pitch_velo, pitch_details_team.get('velo_range'))
                     pbp_line = ""
                     if pitch_outcome_text == "foul":
-                        pbp_line = f"  Foul, {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_selection}{velo_commentary}."
+                        if is_bunting:
+                            pbp_line = self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['bunt_foul'])
+                        else:
+                            pbp_line = f"  Foul, {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_selection}{velo_commentary}."
                     elif pitch_outcome_text == "called strike":
                         pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_selection}{velo_commentary}."
                     elif pitch_outcome_text == "swinging strike":
@@ -504,7 +531,7 @@ class BaseballSimulator:
         fielder, is_error, credits = None, False, []
         batted_ball_data = context.get('batted_ball_data', {}) if context else {}
         
-        if out_type == 'Groundout':
+        if out_type == 'Groundout' or out_type == 'Sacrifice Bunt':
             grounder_candidates = [(p, 6) for p in infielders] + [(pitcher, 1)] + ([(catcher, 0.25)] if catcher else [])
             fielder = self.game_rng.choices([c[0] for c in grounder_candidates], weights=[c[1] for c in grounder_candidates], k=1)[0]
             if fielder['position']['abbreviation'] == 'C' and 'ev' in batted_ball_data:
@@ -556,20 +583,14 @@ class BaseballSimulator:
 
         if out_type == 'Groundout':
             if self.outs < 2 and self.bases[0] and self.game_rng.random() < self.team1_data['double_play_rate']:
-                self.outs += 2
-                self.bases[0] = None
+                self.outs += 2; self.bases[0] = None
                 if self.bases[1]: self.bases[2], self.bases[1] = self.bases[1], None
                 ss, sb = getattr(self, f"{defensive_team_prefix}_defense").get('SS'), getattr(self, f"{defensive_team_prefix}_defense").get('2B')
-                if fielder['position']['abbreviation'] == 'SS' and sb and first_baseman:
-                    notation, credits = "6-4-3", [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': sb['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]
-                elif fielder['position']['abbreviation'] == '3B' and sb and first_baseman:
-                     notation, credits = "5-4-3", [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': sb['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]
-                else:
-                    notation, credits = f"{fielder['position']['code']}U", [{'player': {'id': fielder['id']}, 'credit': 'putout'}, {'player': {'id': fielder['id']}, 'credit': 'putout'}]
-                if self.base_commentary_style == 'statcast':
-                    return f"Grounds into a {notation} double play.", 0, False, 0, credits
-                elif self.base_commentary_style == 'narrative' and self.verbose_phrasing:
-                    self._print(f"  {self._get_narrative_string('double_play')}")
+                notation, credits = (("6-4-3", [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': sb['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]) if fielder['position']['abbreviation'] == 'SS' and sb and first_baseman else
+                                     ("5-4-3", [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': sb['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]) if fielder['position']['abbreviation'] == '3B' and sb and first_baseman else
+                                     (f"{fielder['position']['code']}U", [{'player': {'id': fielder['id']}, 'credit': 'putout'}, {'player': {'id': fielder['id']}, 'credit': 'putout'}]))
+                if self.base_commentary_style == 'statcast': return f"Grounds into a {notation} double play.", 0, False, 0, credits
+                elif self.base_commentary_style == 'narrative' and self.verbose_phrasing: self._print(f"  {self._get_narrative_string('double_play')}")
                 return f"Groundout, Double Play ({notation})", 0, False, 0, credits
 
             self.outs += 1
@@ -577,20 +598,37 @@ class BaseballSimulator:
                 if self.bases[2]: runs, rbis, self.bases[2] = 1, 1, None
                 if self.bases[1]: self.bases[2], self.bases[1] = self.bases[1], None
                 if self.bases[0]: self.bases[1], self.bases[0] = self.bases[0], None
-            else:
-                runs, rbis = 0, 0
-
+            else: runs, rbis = 0, 0
             play_label = f"Groundout to {fielder['position']['abbreviation']}"
+
+        elif out_type == 'Sacrifice Bunt':
+            runners_advanced = False; self.outs += 1
+            if self.outs < 3 and any(self.bases):
+                new_bases = self.bases[:]
+                if new_bases[1]: new_bases[2], new_bases[1] = new_bases[1], None; runners_advanced = True
+                if new_bases[0]: new_bases[1], new_bases[0] = new_bases[0], None; runners_advanced = True
+                self.bases = new_bases
+
+            final_out_type = "Sacrifice Bunt" if runners_advanced else "Bunt Ground Out"
+            if final_out_type == "Sacrifice Bunt":
+                rbis = 0 # No RBI on a sacrifice
+                if self.base_commentary_style == 'narrative' and self.verbose_phrasing:
+                    self._print(self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['bunt_sac']))
+            play_label = f"{final_out_type} to {fielder['position']['abbreviation']}"
+
+        if 'play_label' in locals():
             if fielder['position']['abbreviation'] == '1B' and first_baseman:
                 notation, credits = "3U", [{'player': {'id': first_baseman['id']}, 'credit': 'putout'}]
             elif first_baseman:
                 notation = f"{fielder['position']['code']}-3"
                 credits = [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]
+
             if self.base_commentary_style == 'statcast':
-                verb, _ = self._get_batted_ball_verb('Groundout', batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else ("grounds out", "verbs")
+                verb, _ = self._get_batted_ball_verb(out_type, batted_ball_data.get('ev'), batted_ball_data.get('la')) if batted_ball_data else ("grounds out", "verbs")
                 direction = GAME_CONTEXT['hit_directions'].get(fielder['position']['abbreviation'], f"to {fielder['position']['abbreviation']}")
-                result_line = self._format_statcast_template('Groundout', {'batter_name': batter['legal_name'], 'verb': verb, 'direction': direction, 'fielder_name': fielder['legal_name']})
+                result_line = self._format_statcast_template(out_type, {'batter_name': batter['legal_name'], 'verb': verb, 'direction': direction, 'fielder_name': fielder['legal_name']})
                 return result_line, runs, False, rbis, credits
+
             return f"{play_label} ({notation})", runs, False, rbis, credits
         return "Error", 0, True, 0, []
 
@@ -623,7 +661,7 @@ class BaseballSimulator:
             advances, credits = [], []
 
             display_outcome = outcome
-            if outcome in ["Groundout", "Flyout"]:
+            if outcome in ["Groundout", "Flyout", "Sacrifice Bunt"]:
                 display_outcome, new_runs, was_error, new_rbis, credits_from_out = self._handle_batted_ball_out(outcome, batter, description)
                 runs += new_runs; rbis += new_rbis
                 credits.extend(credits_from_out)

@@ -110,6 +110,7 @@ class PitchDetails(TypedDict):
     code: str
     isStrike: bool
     type: PitchType
+    eventType: NotRequired[str]
 
 
 class PitchBreaks(TypedDict):
@@ -121,11 +122,19 @@ class PitchData(TypedDict):
     breaks: PitchBreaks
 
 
+class HitData(TypedDict):
+    launchSpeed: float
+    launchAngle: float
+    trajectory: str
+
+
 class PlayEvent(TypedDict):
     index: int
     details: PitchDetails
     count: PitchEventCount
     pitchData: NotRequired[PitchData]
+    hitData: NotRequired[HitData]
+    isBunt: NotRequired[bool]
 
 
 class PlayResult(TypedDict):
