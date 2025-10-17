@@ -56,6 +56,10 @@ The `examples/` directory tracks ten seeded, deterministic game logs in multiple
 
 **Note:** Gameday JSON examples are tested via `test_gameday_regression.py` using curated single-event examples rather than full game snapshots.
 
+## Play-by-Play Style Guide
+
+The file `pbp_example_1.txt` is a manually-written example of the target announcing style for the `narrative` commentary mode. It is not a direct output from the simulator. It serves as a stylistic reference for the tone, pacing, and descriptive detail that the simulation aims to emulate. This file should not be updated or regenerated, as it is a fixed benchmark for the desired "old-timey radio broadcast" feel.
+
 ## Project Structure
 
 * `baseball.py` – core simulation engine and CLI entry point
