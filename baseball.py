@@ -206,7 +206,7 @@ class BaseballSimulator:
             "Flyout": "field_out",
             "Groundout": "field_out",
             "Forceout": "force_out",
-            "Grounded Into DP": "grounded_into_double_play",
+            "Double Play": "grounded_into_double_play",
             "Sac Fly": "sac_fly",
             "Sac Bunt": "sac_bunt",
             "Sacrifice Bunt": "sac_bunt",
@@ -794,10 +794,10 @@ class BaseballSimulator:
                                      ("5-4-3", [{'player': {'id': fielder['id']}, 'credit': 'assist'}, {'player': {'id': sb['id']}, 'credit': 'assist'}, {'player': {'id': first_baseman['id']}, 'credit': 'putout'}]) if fielder['position']['abbreviation'] == '3B' and sb and first_baseman else
                                      (f"{fielder['position']['code']}U", [{'player': {'id': fielder['id']}, 'credit': 'putout'}, {'player': {'id': fielder['id']}, 'credit': 'putout'}]))
                 if self.base_commentary_style == 'statcast':
-                    return f"Grounds into a {notation} double play.", 0, False, 0, credits, True, "Grounded Into DP", runner_out
+                    return f"Grounds into a {notation} double play.", 0, False, 0, credits, True, "Double Play", runner_out
                 elif self.base_commentary_style == 'narrative' and self.verbose_phrasing:
                     self._print(f"  {self._get_narrative_string('double_play')}")
-                return f"Grounded Into DP ({notation})", 0, False, 0, credits, True, "Grounded Into DP", runner_out
+                return f"Double Play ({notation})", 0, False, 0, credits, True, "Double Play", runner_out
 
             # Check for force play situation (not a double play)
             is_force_play = False
@@ -916,7 +916,7 @@ class BaseballSimulator:
                     runs += adv_info['runs']
                     advances.extend(adv_info['advances'])
                 elif is_dp:
-                    outcome = "Grounded Into DP"
+                    outcome = "Double Play"
                 else:
                     outcome = specific_event
             elif outcome == "Strikeout":
