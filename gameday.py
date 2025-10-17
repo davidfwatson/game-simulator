@@ -161,10 +161,41 @@ class PlayCount(TypedDict):
     outs: int
 
 
+class PlayerInfo(TypedDict):
+    id: int
+    fullName: str
+    link: str
+
+
+class HandInfo(TypedDict):
+    code: str
+    description: str
+
+
+class Splits(TypedDict):
+    batter: str
+    pitcher: str
+    menOnBase: str
+
+
+class Matchup(TypedDict):
+    batter: PlayerInfo
+    batSide: HandInfo
+    pitcher: PlayerInfo
+    pitchHand: HandInfo
+    batterHotColdZones: List
+    pitcherHotColdZones: List
+    splits: Splits
+    postOnFirst: NotRequired[PlayerInfo]
+    postOnSecond: NotRequired[PlayerInfo]
+    postOnThird: NotRequired[PlayerInfo]
+
+
 class Play(TypedDict):
     result: PlayResult
     about: PlayAbout
     count: PlayCount  # Post-play count
+    matchup: Matchup
     playEvents: List[PlayEvent]
     runners: List[Runner]
 

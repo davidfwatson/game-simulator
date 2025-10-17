@@ -21,18 +21,18 @@ TEAMS = {
         "hbp_rate": 0.004,  # Likelihood of a HBP per at-bat
         "players": [
             # Batting Order
-            {'id': 545101, 'legal_name': 'Leo Vance', 'nickname': None, 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'handedness': 'L', 'fielding_ability': 0.988, 'stats': {'Single': 0.155, 'Double': 0.06, 'Triple': 0.002, 'Home Run': 0.02, 'Walk': 0.10, 'Strikeout': 0.15, 'HBP': 0.005, 'Groundout': 0.25, 'Flyout': 0.258, 'bunt_propensity': 0.4}},
-            {'id': 545102, 'legal_name': 'Marcus Thorne', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'handedness': 'L', 'fielding_ability': 0.981, 'stats': {'Single': 0.175, 'Double': 0.07, 'Triple': 0.002, 'Home Run': 0.04, 'Walk': 0.11, 'Strikeout': 0.14, 'HBP': 0.004, 'Groundout': 0.23, 'Flyout': 0.229, 'bunt_propensity': 0.1}},
-            {'id': 545103, 'legal_name': 'Sam Decker', 'nickname': None, 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'handedness': 'R', 'fielding_ability': 0.995, 'passed_ball_rate': 0.002, 'stats': {'Single': 0.16, 'Double': 0.08, 'Triple': 0.00, 'Home Run': 0.05, 'Walk': 0.13, 'Strikeout': 0.12, 'HBP': 0.003, 'Groundout': 0.22, 'Flyout': 0.237, 'bunt_propensity': 0.05}},
-            {'id': 545104, 'legal_name': 'Jackson Riley', 'nickname': 'Jax', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'handedness': 'R', 'fielding_ability': 0.950, 'stats': {'Single': 0.145, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.08, 'Walk': 0.12, 'Strikeout': 0.18, 'HBP': 0.006, 'Groundout': 0.20, 'Flyout': 0.217, 'bunt_propensity': 0.02}},
-            {'id': 545105, 'legal_name': 'Caleb Jones', 'nickname': None, 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'handedness': 'R', 'fielding_ability': 0.975, 'stats': {'Single': 0.135, 'Double': 0.04, 'Triple': 0.002, 'Home Run': 0.01, 'Walk': 0.08, 'Strikeout': 0.19, 'HBP': 0.002, 'Groundout': 0.27, 'Flyout': 0.271, 'bunt_propensity': 0.3}},
-            {'id': 545106, 'legal_name': 'Nate Diaz', 'nickname': 'Kid', 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'handedness': 'R', 'fielding_ability': 0.983, 'stats': {'Single': 0.185, 'Double': 0.04, 'Triple': 0.002, 'Home Run': 0.01, 'Walk': 0.07, 'Strikeout': 0.10, 'HBP': 0.001, 'Groundout': 0.30, 'Flyout': 0.292, 'bunt_propensity': 0.5}},
-            {'id': 545107, 'legal_name': 'Owen Chen', 'nickname': 'Big Duck', 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'handedness': 'L', 'fielding_ability': 0.991, 'stats': {'Single': 0.12, 'Double': 0.06, 'Triple': 0.00, 'Home Run': 0.06, 'Walk': 0.09, 'Strikeout': 0.22, 'HBP': 0.005, 'Groundout': 0.22, 'Flyout': 0.225, 'bunt_propensity': 0.05}},
-            {'id': 545108, 'legal_name': 'Miles Corbin', 'nickname': None, 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'handedness': 'S', 'fielding_ability': 0.965, 'stats': {'Single': 0.145, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.03, 'Walk': 0.10, 'Strikeout': 0.17, 'HBP': 0.003, 'Groundout': 0.25, 'Flyout': 0.25, 'bunt_propensity': 0.15}},
-            {'id': 545109, 'legal_name': 'Grant Fisher', 'nickname': None, 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'handedness': 'R', 'fielding_ability': 0.980, 'stats': {'Single': 0.155, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.05, 'Walk': 0.09, 'Strikeout': 0.19, 'HBP': 0.004, 'Groundout': 0.23, 'Flyout': 0.229, 'bunt_propensity': 0.1}},
+            {'id': 545101, 'legal_name': 'Leo Vance', 'nickname': None, 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.988, 'stats': {'Single': 0.155, 'Double': 0.06, 'Triple': 0.002, 'Home Run': 0.02, 'Walk': 0.10, 'Strikeout': 0.15, 'HBP': 0.005, 'Groundout': 0.25, 'Flyout': 0.258, 'bunt_propensity': 0.4}},
+            {'id': 545102, 'legal_name': 'Marcus Thorne', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.981, 'stats': {'Single': 0.175, 'Double': 0.07, 'Triple': 0.002, 'Home Run': 0.04, 'Walk': 0.11, 'Strikeout': 0.14, 'HBP': 0.004, 'Groundout': 0.23, 'Flyout': 0.229, 'bunt_propensity': 0.1}},
+            {'id': 545103, 'legal_name': 'Sam Decker', 'nickname': None, 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.995, 'passed_ball_rate': 0.002, 'stats': {'Single': 0.16, 'Double': 0.08, 'Triple': 0.00, 'Home Run': 0.05, 'Walk': 0.13, 'Strikeout': 0.12, 'HBP': 0.003, 'Groundout': 0.22, 'Flyout': 0.237, 'bunt_propensity': 0.05}},
+            {'id': 545104, 'legal_name': 'Jackson Riley', 'nickname': 'Jax', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.950, 'stats': {'Single': 0.145, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.08, 'Walk': 0.12, 'Strikeout': 0.18, 'HBP': 0.006, 'Groundout': 0.20, 'Flyout': 0.217, 'bunt_propensity': 0.02}},
+            {'id': 545105, 'legal_name': 'Caleb Jones', 'nickname': None, 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.975, 'stats': {'Single': 0.135, 'Double': 0.04, 'Triple': 0.002, 'Home Run': 0.01, 'Walk': 0.08, 'Strikeout': 0.19, 'HBP': 0.002, 'Groundout': 0.27, 'Flyout': 0.271, 'bunt_propensity': 0.3}},
+            {'id': 545106, 'legal_name': 'Nate Diaz', 'nickname': 'Kid', 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.983, 'stats': {'Single': 0.185, 'Double': 0.04, 'Triple': 0.002, 'Home Run': 0.01, 'Walk': 0.07, 'Strikeout': 0.10, 'HBP': 0.001, 'Groundout': 0.30, 'Flyout': 0.292, 'bunt_propensity': 0.5}},
+            {'id': 545107, 'legal_name': 'Owen Chen', 'nickname': 'Big Duck', 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.991, 'stats': {'Single': 0.12, 'Double': 0.06, 'Triple': 0.00, 'Home Run': 0.06, 'Walk': 0.09, 'Strikeout': 0.22, 'HBP': 0.005, 'Groundout': 0.22, 'Flyout': 0.225, 'bunt_propensity': 0.05}},
+            {'id': 545108, 'legal_name': 'Miles Corbin', 'nickname': None, 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.965, 'stats': {'Single': 0.145, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.03, 'Walk': 0.10, 'Strikeout': 0.17, 'HBP': 0.003, 'Groundout': 0.25, 'Flyout': 0.25, 'bunt_propensity': 0.15}},
+            {'id': 545109, 'legal_name': 'Grant Fisher', 'nickname': None, 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.980, 'stats': {'Single': 0.155, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.05, 'Walk': 0.09, 'Strikeout': 0.19, 'HBP': 0.004, 'Groundout': 0.23, 'Flyout': 0.229, 'bunt_propensity': 0.1}},
             # Pitchers
             {
-                'id': 605110, 'legal_name': 'Joe Gibson', 'nickname': 'Smokey', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'handedness': 'R', 'type': 'Starter', 'stamina': 75, 'fielding_ability': 0.955,
+                'id': 605110, 'legal_name': 'Joe Gibson', 'nickname': 'Smokey', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Starter', 'stamina': 75, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.5, 'velo_range': (94, 97), 'spin_range': (2200, 2550)},
                     'slider': {'prob': 0.25, 'velo_range': (87, 90), 'spin_range': (2400, 2700)},
@@ -41,21 +41,21 @@ TEAMS = {
                 }, 'control': 0.65, 'wild_pitch_rate': 0.003
             },
             {
-                'id': 605111, 'legal_name': 'Colin Miller', 'nickname': 'Cyclone', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'handedness': 'R', 'type': 'Long Reliever', 'stamina': 45, 'fielding_ability': 0.950,
+                'id': 605111, 'legal_name': 'Colin Miller', 'nickname': 'Cyclone', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Long Reliever', 'stamina': 45, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
                     'sinker': {'prob': 0.6, 'velo_range': (91, 94), 'spin_range': (2000, 2250)},
                     'slider': {'prob': 0.4, 'velo_range': (86, 88), 'spin_range': (2500, 2800)}
                 }, 'control': 0.60, 'wild_pitch_rate': 0.005
             },
             {
-                'id': 605112, 'legal_name': 'Adam Adams', 'nickname': 'Ace', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'handedness': 'L', 'type': 'Middle Reliever', 'stamina': 25, 'fielding_ability': 0.945,
+                'id': 605112, 'legal_name': 'Adam Adams', 'nickname': 'Ace', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Middle Reliever', 'stamina': 25, 'fielding_ability': 0.945,
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.5, 'velo_range': (92, 95), 'spin_range': (2250, 2600)},
                     'knuckle curve': {'prob': 0.5, 'velo_range': (77, 80), 'spin_range': (2800, 3100)}
                 }, 'control': 0.70, 'wild_pitch_rate': 0.002
             },
             {
-                'id': 605113, 'legal_name': 'Victor Stone', 'nickname': 'The Vulture', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'handedness': 'R', 'type': 'Closer', 'stamina': 20, 'fielding_ability': 0.960,
+                'id': 605113, 'legal_name': 'Victor Stone', 'nickname': 'The Vulture', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Closer', 'stamina': 20, 'fielding_ability': 0.960,
                 'pitch_arsenal': {
                     'cutter': {'prob': 0.4, 'velo_range': (90, 93), 'spin_range': (2300, 2650)},
                     'four-seam fastball': {'prob': 0.4, 'velo_range': (95, 98), 'spin_range': (2400, 2700)},
@@ -75,18 +75,18 @@ TEAMS = {
         "hbp_rate": 0.0035,
         "players": [
             # Batting Order
-            {'id': 625201, 'legal_name': 'Alex Chase', 'nickname': None, 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'handedness': 'R', 'fielding_ability': 0.985, 'stats': {'Single': 0.165, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.02, 'Walk': 0.08, 'Strikeout': 0.16, 'HBP': 0.003, 'Groundout': 0.26, 'Flyout': 0.26, 'bunt_propensity': 0.4}},
-            {'id': 625202, 'legal_name': 'Kevin Webb', 'nickname': 'Spider', 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'handedness': 'L', 'fielding_ability': 0.990, 'stats': {'Single': 0.15, 'Double': 0.04, 'Triple': 0.002, 'Home Run': 0.01, 'Walk': 0.09, 'Strikeout': 0.18, 'HBP': 0.005, 'Groundout': 0.25, 'Flyout': 0.273, 'bunt_propensity': 0.5}},
-            {'id': 625203, 'legal_name': 'Omar Ramirez', 'nickname': 'Cookie', 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'handedness': 'R', 'fielding_ability': 0.960, 'stats': {'Single': 0.155, 'Double': 0.06, 'Triple': 0.002, 'Home Run': 0.04, 'Walk': 0.12, 'Strikeout': 0.15, 'HBP': 0.002, 'Groundout': 0.23, 'Flyout': 0.241, 'bunt_propensity': 0.1}},
-            {'id': 625204, 'legal_name': 'Rex Power', 'nickname': 'Buzz', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'handedness': 'R', 'fielding_ability': 0.940, 'stats': {'Single': 0.135, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.09, 'Walk': 0.13, 'Strikeout': 0.21, 'HBP': 0.008, 'Groundout': 0.19, 'Flyout': 0.185, 'bunt_propensity': 0.01}},
-            {'id': 625205, 'legal_name': 'Evan Reed', 'nickname': None, 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'handedness': 'L', 'fielding_ability': 0.978, 'stats': {'Single': 0.175, 'Double': 0.07, 'Triple': 0.002, 'Home Run': 0.03, 'Walk': 0.09, 'Strikeout': 0.13, 'HBP': 0.004, 'Groundout': 0.24, 'Flyout': 0.249, 'bunt_propensity': 0.1}},
-            {'id': 625206, 'legal_name': 'Felix Washington', 'nickname': 'Nine', 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'handedness': 'L', 'fielding_ability': 0.992, 'stats': {'Single': 0.14, 'Double': 0.07, 'Triple': 0.00, 'Home Run': 0.07, 'Walk': 0.10, 'Strikeout': 0.20, 'HBP': 0.006, 'Groundout': 0.21, 'Flyout': 0.204, 'bunt_propensity': 0.05}},
-            {'id': 625207, 'legal_name': 'Hank Barrett', 'nickname': None, 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'handedness': 'R', 'fielding_ability': 0.994, 'passed_ball_rate': 0.003, 'stats': {'Single': 0.15, 'Double': 0.04, 'Triple': 0.00, 'Home Run': 0.03, 'Walk': 0.08, 'Strikeout': 0.15, 'HBP': 0.001, 'Groundout': 0.27, 'Flyout': 0.276, 'bunt_propensity': 0.25}},
-            {'id': 625208, 'legal_name': 'Wes Griffin', 'nickname': None, 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'handedness': 'S', 'fielding_ability': 0.972, 'stats': {'Single': 0.195, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.01, 'Walk': 0.06, 'Strikeout': 0.08, 'HBP': 0.002, 'Groundout': 0.29, 'Flyout': 0.301, 'bunt_propensity': 0.6}},
-            {'id': 625209, 'legal_name': 'TJ Hawkins', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'handedness': 'R', 'fielding_ability': 0.982, 'stats': {'Single': 0.185, 'Double': 0.06, 'Triple': 0.002, 'Home Run': 0.04, 'Walk': 0.10, 'Strikeout': 0.12, 'HBP': 0.003, 'Groundout': 0.25, 'Flyout': 0.24, 'bunt_propensity': 0.15}},
+            {'id': 625201, 'legal_name': 'Alex Chase', 'nickname': None, 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.985, 'stats': {'Single': 0.165, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.02, 'Walk': 0.08, 'Strikeout': 0.16, 'HBP': 0.003, 'Groundout': 0.26, 'Flyout': 0.26, 'bunt_propensity': 0.4}},
+            {'id': 625202, 'legal_name': 'Kevin Webb', 'nickname': 'Spider', 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.990, 'stats': {'Single': 0.15, 'Double': 0.04, 'Triple': 0.002, 'Home Run': 0.01, 'Walk': 0.09, 'Strikeout': 0.18, 'HBP': 0.005, 'Groundout': 0.25, 'Flyout': 0.273, 'bunt_propensity': 0.5}},
+            {'id': 625203, 'legal_name': 'Omar Ramirez', 'nickname': 'Cookie', 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.960, 'stats': {'Single': 0.155, 'Double': 0.06, 'Triple': 0.002, 'Home Run': 0.04, 'Walk': 0.12, 'Strikeout': 0.15, 'HBP': 0.002, 'Groundout': 0.23, 'Flyout': 0.241, 'bunt_propensity': 0.1}},
+            {'id': 625204, 'legal_name': 'Rex Power', 'nickname': 'Buzz', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.940, 'stats': {'Single': 0.135, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.09, 'Walk': 0.13, 'Strikeout': 0.21, 'HBP': 0.008, 'Groundout': 0.19, 'Flyout': 0.185, 'bunt_propensity': 0.01}},
+            {'id': 625205, 'legal_name': 'Evan Reed', 'nickname': None, 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.978, 'stats': {'Single': 0.175, 'Double': 0.07, 'Triple': 0.002, 'Home Run': 0.03, 'Walk': 0.09, 'Strikeout': 0.13, 'HBP': 0.004, 'Groundout': 0.24, 'Flyout': 0.249, 'bunt_propensity': 0.1}},
+            {'id': 625206, 'legal_name': 'Felix Washington', 'nickname': 'Nine', 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.992, 'stats': {'Single': 0.14, 'Double': 0.07, 'Triple': 0.00, 'Home Run': 0.07, 'Walk': 0.10, 'Strikeout': 0.20, 'HBP': 0.006, 'Groundout': 0.21, 'Flyout': 0.204, 'bunt_propensity': 0.05}},
+            {'id': 625207, 'legal_name': 'Hank Barrett', 'nickname': None, 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.994, 'passed_ball_rate': 0.003, 'stats': {'Single': 0.15, 'Double': 0.04, 'Triple': 0.00, 'Home Run': 0.03, 'Walk': 0.08, 'Strikeout': 0.15, 'HBP': 0.001, 'Groundout': 0.27, 'Flyout': 0.276, 'bunt_propensity': 0.25}},
+            {'id': 625208, 'legal_name': 'Wes Griffin', 'nickname': None, 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.972, 'stats': {'Single': 0.195, 'Double': 0.05, 'Triple': 0.002, 'Home Run': 0.01, 'Walk': 0.06, 'Strikeout': 0.08, 'HBP': 0.002, 'Groundout': 0.29, 'Flyout': 0.301, 'bunt_propensity': 0.6}},
+            {'id': 625209, 'legal_name': 'TJ Hawkins', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.982, 'stats': {'Single': 0.185, 'Double': 0.06, 'Triple': 0.002, 'Home Run': 0.04, 'Walk': 0.10, 'Strikeout': 0.12, 'HBP': 0.003, 'Groundout': 0.25, 'Flyout': 0.24, 'bunt_propensity': 0.15}},
             # Pitchers
             {
-                'id': 645210, 'legal_name': 'Miguel Garcia', 'nickname': 'Lefty', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'handedness': 'L', 'type': 'Starter', 'stamina': 70, 'fielding_ability': 0.950,
+                'id': 645210, 'legal_name': 'Miguel Garcia', 'nickname': 'Lefty', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Starter', 'stamina': 70, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
                     'sinker': {'prob': 0.5, 'velo_range': (90, 93), 'spin_range': (1950, 2200)},
                     'curveball': {'prob': 0.3, 'velo_range': (78, 81), 'spin_range': (2700, 3000)},
@@ -94,21 +94,21 @@ TEAMS = {
                 }, 'control': 0.60, 'wild_pitch_rate': 0.006
             },
             {
-                'id': 645211, 'legal_name': 'Ben Logan', 'nickname': 'Chief', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'handedness': 'R', 'type': 'Long Reliever', 'stamina': 50, 'fielding_ability': 0.955,
+                'id': 645211, 'legal_name': 'Ben Logan', 'nickname': 'Chief', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Long Reliever', 'stamina': 50, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.7, 'velo_range': (93, 96), 'spin_range': (2100, 2450)},
                     'curveball': {'prob': 0.3, 'velo_range': (79, 82), 'spin_range': (2500, 2800)}
                 }, 'control': 0.68, 'wild_pitch_rate': 0.004
             },
             {
-                'id': 645212, 'legal_name': 'Rollie Malone', 'nickname': 'Fingers', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'handedness': 'R', 'type': 'Middle Reliever', 'stamina': 30, 'fielding_ability': 0.940,
+                'id': 645212, 'legal_name': 'Rollie Malone', 'nickname': 'Fingers', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Middle Reliever', 'stamina': 30, 'fielding_ability': 0.940,
                 'pitch_arsenal': {
                     'sinker': {'prob': 0.6, 'velo_range': (90, 93), 'spin_range': (2050, 2300)},
                     'slider': {'prob': 0.4, 'velo_range': (85, 88), 'spin_range': (2450, 2750)}
                 }, 'control': 0.72, 'wild_pitch_rate': 0.002
             },
             {
-                'id': 645213, 'legal_name': 'Dennis Thompson', 'nickname': 'Eck', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'handedness': 'R', 'type': 'Closer', 'stamina': 22, 'fielding_ability': 0.965,
+                'id': 645213, 'legal_name': 'Dennis Thompson', 'nickname': 'Eck', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Closer', 'stamina': 22, 'fielding_ability': 0.965,
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.6, 'velo_range': (97, 100), 'spin_range': (2300, 2600)},
                     'slider': {'prob': 0.4, 'velo_range': (89, 92), 'spin_range': (2550, 2850)}
