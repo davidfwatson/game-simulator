@@ -14,6 +14,9 @@ Usage examples:
 
   # Search for all home runs in the game
   python gameday_parser.py real_gameday.json search "Home Run"
+
+  # List all unique event types in the game
+  python gameday_parser.py real_gameday.json list-event-types
 """
 
 import json
@@ -102,6 +105,9 @@ def main():
     search_parser.add_argument('event_type', help="The event type to search for (e.g., 'Home Run', 'Walk').")
     search_parser.add_argument('--max', type=int, help="Maximum number of results to return.")
 
+    # List-event-types command
+    list_events_parser = subparsers.add_parser('list-event-types', help="Lists all unique event types found in the game data.")
+
     args = parser.parse_args()
 
     parser_instance = GamedayParser(args.filepath)
@@ -131,6 +137,20 @@ def main():
                 print(f"- {batter_name}: {description}")
         else:
             print(f"No plays found with event type '{args.event_type}'")
+
+    elif args.command == 'list-event-types':
+        event_types = set()
+        for play in parser_instance.get_all_plays():
+            event_type = play.get('result', {}).get('event')
+            if event_type:
+                event_types.add(event_type)
+
+        if event_types:
+            print("Found the following event types:")
+            for event_type in sorted(list(event_types)):
+                print(f"- {event_type}")
+        else:
+            print("No event types found.")
 
 if __name__ == '__main__':
     main()
