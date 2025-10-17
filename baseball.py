@@ -265,6 +265,70 @@ class BaseballSimulator:
 
         return self.commentary_rng.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
 
+    def _get_men_on_base_split(self, bases):
+        """Determine the men on base split category."""
+        if not any(bases):
+            return "Empty"
+        elif all(bases):
+            return "Loaded"
+        elif bases[1] or bases[2]:  # Runner in scoring position
+            return "RISP"
+        else:
+            return "Men_On"
+
+    def _build_matchup(self, batter, pitcher, pre_play_bases=None):
+        """Build the matchup object for gameday JSON."""
+
+        # Batter info
+        batter_info = {
+            "id": batter['id'],
+            "fullName": batter['legal_name'],
+            "link": f"/api/v1/people/{batter['id']}"
+        }
+
+        # Pitcher info
+        pitcher_info = {
+            "id": pitcher['id'],
+            "fullName": pitcher['legal_name'],
+            "link": f"/api/v1/people/{pitcher['id']}"
+        }
+
+        # Determine splits
+        pitcher_hand = pitcher.get('pitchHand', {}).get('code', 'R')
+
+        # Handle switch hitters
+        batter_hand_code = batter.get('batSide', {}).get('code', 'R')
+        if batter_hand_code == 'S':
+            batter_hand_code = 'L' if pitcher_hand == 'R' else 'R'
+
+        batter_bat_side = {
+            'code': batter_hand_code,
+            'description': 'Left' if batter_hand_code == 'L' else 'Right'
+        }
+
+        batter_split = f"vs_{'RHP' if pitcher_hand == 'R' else 'LHP'}"
+        pitcher_split = f"vs_{'RHB' if batter_hand_code == 'R' else 'LHB'}"
+
+        # Determine men on base situation (use pre-play bases if provided)
+        bases_to_check = pre_play_bases if pre_play_bases is not None else self.bases
+        men_on = self._get_men_on_base_split(bases_to_check)
+
+        matchup = {
+            "batter": batter_info,
+            "batSide": batter_bat_side,
+            "pitcher": pitcher_info,
+            "pitchHand": pitcher.get('pitchHand', {'code': 'R', 'description': 'Right'}),
+            "batterHotColdZones": [],
+            "pitcherHotColdZones": [],
+            "splits": {
+                "batter": batter_split,
+                "pitcher": pitcher_split,
+                "menOnBase": men_on
+            }
+        }
+
+        return matchup
+
     def _generate_play_description(self, outcome, batted_ball_data, pitch_details, batter=None, fielder=None):
         """Generates a narrative description for an in-play event."""
         phrase, phrase_type = self._get_batted_ball_verb(outcome, batted_ball_data.get('ev'), batted_ball_data.get('la'))
@@ -655,6 +719,9 @@ class BaseballSimulator:
             pitcher = (self.team1_pitcher_stats if self.top_of_inning else self.team2_pitcher_stats)[pitcher_name]
             batter = lineup[getattr(self, batter_idx_ref)]
 
+            # Store pre-play base state for matchup
+            pre_play_bases = self.bases[:]
+
             outcome, description, play_events, narrative_k = self._simulate_at_bat(batter, pitcher)
 
             runs, rbis, was_error = 0, 0, False
@@ -707,10 +774,31 @@ class BaseballSimulator:
                 play_about = PlayAbout(atBatIndex=at_bat_index, halfInning="bottom" if is_home_team_batting else "top", isTopInning=not is_home_team_batting, inning=self.inning, isScoringPlay=runs > 0)
                 final_count = PlayCount(balls=0, strikes=0, outs=self.outs)
 
+                # Build matchup with pre-play bases for splits
+                matchup = self._build_matchup(batter, pitcher, pre_play_bases)
+
+                # Add post-play base runners (after advancement is complete)
+                current_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
+
+                if self.bases[0]:  # Someone on first
+                    runner = next((p for p in current_lineup if p['legal_name'] == self.bases[0]), None)
+                    if runner:
+                        matchup['postOnFirst'] = { "id": runner['id'], "fullName": runner['legal_name'], "link": f"/api/v1/people/{runner['id']}" }
+
+                if self.bases[1]:  # Someone on second
+                    runner = next((p for p in current_lineup if p['legal_name'] == self.bases[1]), None)
+                    if runner:
+                        matchup['postOnSecond'] = { "id": runner['id'], "fullName": runner['legal_name'], "link": f"/api/v1/people/{runner['id']}" }
+
+                if self.bases[2]:  # Someone on third
+                    runner = next((p for p in current_lineup if p['legal_name'] == self.bases[2]), None)
+                    if runner:
+                        matchup['postOnThird'] = { "id": runner['id'], "fullName": runner['legal_name'], "link": f"/api/v1/people/{runner['id']}" }
+
                 runner_list: list[Runner] = []
                 if credits: runner_list.append({"movement": {}, "details": {}, "credits": credits})
 
-                play_data: Play = {"result": play_result, "about": play_about, "count": final_count, "playEvents": play_events, "runners": runner_list}
+                play_data: Play = {"result": play_result, "about": play_about, "count": final_count, "matchup": matchup, "playEvents": play_events, "runners": runner_list}
                 self.gameday_data['liveData']['plays']['allPlays'].append(play_data)
 
                 ls = self.gameday_data['liveData']['linescore']
