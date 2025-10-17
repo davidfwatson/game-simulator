@@ -46,7 +46,7 @@ class ExampleGame:
 
         if commentary_style == "gameday":
             import json
-            return json.dumps(simulator.play_events, indent=2)
+            return json.dumps(simulator.gameday_data, indent=2)
         else:
             # Return buffered output for narrative/statcast
             return "\n".join(simulator.output_lines) + "\n"

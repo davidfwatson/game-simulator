@@ -43,6 +43,7 @@ After making behavior changes, regenerate the deterministic example logs:
 ```bash
 python update_examples.py          # Regenerates examples/game_*.txt
 python update_statcast_examples.py # Regenerates examples/statcast_game_*.txt
+python update_gameday_examples.py  # Regenerates examples/gameday_snapshots/gameday_*.json
 ```
 
 These scripts are critical for snapshot testing. When you modify the simulation logic, you must regenerate examples and commit them alongside code changes.
@@ -84,7 +85,7 @@ The simulator produces three distinct output formats:
 
 1. **Narrative** (`.txt` files): Human-readable play-by-play with descriptive prose
 2. **Statcast** (`.txt` files): Similar to narrative but includes exit velocity, launch angle, and pitch data
-3. **Gameday** (JSON): Structured event data stored in `simulator.play_events` list (tested via `test_gameday_regression.py` with curated event examples)
+3. **Gameday** (JSON): Structured event data stored in `simulator.gameday_data` dictionary
 
 ### Deterministic Examples (`example_games.py`)
 
@@ -100,8 +101,9 @@ The test suite uses multiple approaches:
 
 1. **Snapshot Testing**: Ensures engine changes don't unexpectedly alter output
    - `test_examples_snapshot.py`: Compares rendered games against `examples/game_*.txt`
-   - `test_gameday_regression.py`: Validates gameday JSON event structure using curated single-event examples
    - `test_statcast_regression.py`: Validates statcast output against `examples/statcast_game_*.txt`
+   - `test_gameday_examples.py`: Compares gameday JSON snapshots against `examples/gameday_snapshots/gameday_*.json` (compact snapshots with 6 representative plays per game to keep file sizes manageable)
+   - `test_gameday_regression.py`: Validates gameday JSON event structure (not snapshot-based)
 
 2. **Realism Testing**: Validates statistical properties over many simulated games
    - `test_realism.py`: Checks bullpen diversity, pitch vocabulary, catcher groundout rates, etc.
@@ -118,9 +120,9 @@ The test suite uses multiple approaches:
 3. If behavior intentionally changed, regenerate examples:
    - `python update_examples.py`
    - `python update_statcast_examples.py`
-4. If gameday JSON structure changed, update the curated examples in `test_gameday_regression.py`
-5. Review the git diff of example files to ensure changes are intentional
-6. Commit both code changes and updated example files together
+   - `python update_gameday_examples.py`
+4. Review the git diff of example files to ensure changes are intentional
+5. Commit both code changes and updated example files together
 
 ## Key Implementation Details
 
