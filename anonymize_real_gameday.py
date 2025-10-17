@@ -14,9 +14,33 @@ Usage:
 import json
 import argparse
 import random
+import re
 import unicodedata
 from pathlib import Path
 from teams import TEAMS
+
+
+# Top-level constants (module scope)
+IGNORED_EVENT_TYPES = {
+    'game_advisory', 'mound_visit', 'batter_timeout', 'manager_challenge',
+    'pitching_substitution', 'defensive_switch', 'umpire_review',
+    'pickoff_attempt', 'stolen_base', 'caught_stealing', 'wild_pitch',
+    'passed_ball', 'defensive_indiff', 'game_delayed', 'game_resumed'
+}
+
+# Keep a conservative pitch code list (adjust to match your generator’s behavior)
+PITCH_CODE_WHITELIST = {'B', 'C', 'S', 'X', 'F', 'D'}
+
+def is_pitch_like(ev: dict) -> bool:
+    d = (ev.get('details') or {})
+    if d.get('eventType') in IGNORED_EVENT_TYPES:
+        return False
+    # Require pitchData present (non-pitch events rarely have it)
+    if not ev.get('pitchData'):
+        return False
+    # If a code exists, clamp to a small set your generator would produce
+    code = d.get('code')
+    return code in PITCH_CODE_WHITELIST if code else True
 
 
 def normalize_unicode(text):
@@ -184,37 +208,61 @@ def filter_dict(data, allowed_fields):
 
 
 def anonymize_player_reference(player_ref, id_mapping):
-    """Replace a player reference with our fictional player."""
     if not player_ref or 'id' not in player_ref:
         return player_ref
-
     real_id = player_ref['id']
-    if real_id not in id_mapping:
-        return player_ref
-
-    our_player = id_mapping[real_id]
-    return {
-        'id': our_player['id'],
-        'fullName': our_player['legal_name'],
-        'link': f"/api/v1/people/{our_player['id']}"
-    }
+    mapped = id_mapping.get(real_id)
+    return {'id': (mapped['id'] if mapped else real_id)}
 
 
-def anonymize_description(description, name_mapping):
-    """Replace real player names in description text with fictional names."""
-    if not description:
-        return description
+def _case_like(src: str, repl: str) -> str:
+    if src.isupper(): return repl.upper()
+    if src.istitle(): return repl.title()
+    if src.islower(): return repl.lower()
+    return repl
 
-    # Sort by length descending to replace longer names first
-    # (e.g., "Rafael Devers" before "Rafael" to avoid partial replacements)
-    sorted_names = sorted(name_mapping.keys(), key=len, reverse=True)
+def _compile_name_pattern(name: str):
+    # Boundaries that handle apostrophes; avoid replacing inside other words
+    return re.compile(rf"(?<!\w){re.escape(name)}(?!\w)(?:['’]s)?", re.IGNORECASE)
 
-    anonymized = description
-    for real_name in sorted_names:
-        our_name = name_mapping[real_name]
-        anonymized = anonymized.replace(real_name, our_name)
+def anonymize_description(text: str, name_mapping: dict) -> str:
+    if not text:
+        return text
+    items = sorted(name_mapping.items(), key=lambda kv: len(kv[0]), reverse=True)
+    for real, fake in items:
+        pat = _compile_name_pattern(real)
+        def sub(m):
+            s = m.group(0)
+            poss = ''
+            if s.lower().endswith(("'s","’s")):
+                poss, s = s[-2:], s[:-2]
+            return _case_like(s, fake) + poss
+        text = pat.sub(sub, text)
+    return text
 
-    return anonymized
+
+def simplify_runner_movement(mov):
+    if not isinstance(mov, dict):
+        return mov
+    # Keep only coarse info; remove outBase/outNumber/isOut etc.
+    return {'start': mov.get('start'), 'end': mov.get('end')}
+
+def simplify_runner(r, id_mapping):
+    out = {}
+    if 'movement' in r:
+        out['movement'] = simplify_runner_movement(r['movement'])
+    if 'details' in r:
+        d = dict(r['details'])
+        if 'runner' in d:
+            d['runner'] = anonymize_player_reference(d['runner'], id_mapping)
+        if 'responsiblePitcher' in d:
+            d['responsiblePitcher'] = anonymize_player_reference(d['responsiblePitcher'], id_mapping)
+        # Remove MLB-ish extras you don’t generate
+        for k in ['event', 'isScoringEvent', 'rbi', 'earned', 'teamUnearned', 'playIndex']:
+            d.pop(k, None)
+        out['details'] = d
+    # Drop fielding credits entirely
+    return out
 
 
 def anonymize_gameday_data(real_data, our_teams):
@@ -318,10 +366,12 @@ def anonymize_gameday_data(real_data, our_teams):
 
                 # Filter playEvents
                 if 'playEvents' in play:
+                    events = [e for e in play['playEvents'] if is_pitch_like(e)]
+                    # Optional: keep only terminal pitch to look even more generated:
+                    # events = events[-1:]
                     anonymized_play['playEvents'] = []
-                    for event in play['playEvents']:
+                    for event in events:
                         filtered_event = {}
-
                         if 'index' in event:
                             filtered_event['index'] = event['index']
                         if 'count' in event:
@@ -330,33 +380,30 @@ def anonymize_gameday_data(real_data, our_teams):
                             details = {}
                             for field in ['code', 'description', 'isStrike']:
                                 if field in event['details']:
-                                    value = event['details'][field]
-                                    # Anonymize description text
+                                    val = event['details'][field]
                                     if field == 'description':
-                                        value = anonymize_description(value, name_mapping)
-                                    details[field] = value
+                                        val = anonymize_description(val, name_mapping)
+                                    details[field] = val
+                            # Remove MLB taxonomy fields that can leak lifecycle/type details
+                            details.pop('eventType', None)
                             if 'type' in event['details']:
                                 details['type'] = event['details']['type']
-                            if 'eventType' in event['details']:
-                                details['eventType'] = event['details']['eventType']
                             filtered_event['details'] = details
 
                         if 'pitchData' in event:
-                            pitch_data = {}
+                            pd = {}
                             if 'startSpeed' in event['pitchData']:
-                                pitch_data['startSpeed'] = event['pitchData']['startSpeed']
-                            if 'breaks' in event['pitchData']:
-                                pitch_data['breaks'] = {}
-                                if 'spinRate' in event['pitchData']['breaks']:
-                                    pitch_data['breaks']['spinRate'] = event['pitchData']['breaks']['spinRate']
-                            filtered_event['pitchData'] = pitch_data
+                                pd['startSpeed'] = event['pitchData']['startSpeed']
+                            if 'breaks' in event['pitchData'] and 'spinRate' in event['pitchData']['breaks']:
+                                pd['breaks'] = {'spinRate': event['pitchData']['breaks']['spinRate']}
+                            filtered_event['pitchData'] = pd
 
                         if 'hitData' in event:
-                            hit_data = {}
-                            for field in ['launchSpeed', 'launchAngle', 'trajectory']:
-                                if field in event['hitData']:
-                                    hit_data[field] = event['hitData'][field]
-                            filtered_event['hitData'] = hit_data
+                            hd = {}
+                            for fld in ['launchSpeed', 'launchAngle', 'trajectory']:
+                                if fld in event['hitData']:
+                                    hd[fld] = event['hitData'][fld]
+                            filtered_event['hitData'] = hd
 
                         if 'isBunt' in event:
                             filtered_event['isBunt'] = event['isBunt']
@@ -365,36 +412,22 @@ def anonymize_gameday_data(real_data, our_teams):
 
                 # Handle runners
                 if 'runners' in play:
-                    anonymized_play['runners'] = []
-                    for runner in play['runners']:
-                        anon_runner = {}
+                    anonymized_play['runners'] = [simplify_runner(r, id_mapping) for r in play['runners']]
 
-                        if 'movement' in runner:
-                            anon_runner['movement'] = runner['movement']
-                        if 'details' in runner:
-                            details = runner['details'].copy()
-                            # Anonymize runner reference
-                            if 'runner' in details:
-                                details['runner'] = anonymize_player_reference(details['runner'], id_mapping)
-                            # Anonymize responsible pitcher
-                            if 'responsiblePitcher' in details:
-                                details['responsiblePitcher'] = anonymize_player_reference(details['responsiblePitcher'], id_mapping)
-                            anon_runner['details'] = details
+                # Result taxonomy
+                if 'result' in anonymized_play:
+                    anonymized_play['result'].pop('eventType', None)  # keep 'event' if you need it; otherwise consider removing too
 
-                        if 'credits' in runner:
-                            anon_runner['credits'] = []
-                            for credit in runner['credits']:
-                                anon_credit = {}
-                                if 'player' in credit:
-                                    player_id = credit['player']['id']
-                                    anon_credit['player'] = {'id': id_mapping.get(player_id, {'id': player_id})['id']}
-                                if 'position' in credit:
-                                    anon_credit['position'] = filter_dict(credit['position'], ['code', 'name', 'abbreviation'])
-                                if 'credit' in credit:
-                                    anon_credit['credit'] = credit['credit']
-                                anon_runner['credits'].append(anon_credit)
-
-                        anonymized_play['runners'].append(anon_runner)
+                # Matchup: ensure only IDs and basic handedness/splits
+                if 'matchup' in anonymized_play:
+                    m = anonymized_play['matchup']
+                    # Make sure postOn* are IDs only; you already anonymize them with anonymize_player_reference
+                    for base in ['postOnFirst', 'postOnSecond', 'postOnThird']:
+                        if base in m and isinstance(m[base], dict):
+                            m[base] = anonymize_player_reference(m[base], id_mapping)
+                    # Drop hot/cold zones if present (you set them to [])
+                    m.pop('batterHotColdZones', None)
+                    m.pop('pitcherHotColdZones', None)
 
                 result['liveData']['plays']['allPlays'].append(anonymized_play)
 
@@ -407,6 +440,17 @@ def anonymize_gameday_data(real_data, our_teams):
                     result['liveData']['linescore'][field] = ls[field]
 
     return result
+
+
+def lifecycle_smoke_test(data):
+    plays = data.get('liveData', {}).get('plays', {}).get('allPlays', [])
+    bad = 0
+    for p in plays:
+        for ev in p.get('playEvents', []):
+            et = (ev.get('details') or {}).get('eventType')
+            if et in IGNORED_EVENT_TYPES:
+                bad += 1
+    print(f"Non-pitch/lifecycle events in playEvents: {bad}")
 
 
 def main():
@@ -447,6 +491,9 @@ def main():
     print(f"\n✓ Anonymization complete!")
     print(f"  Plays: {anon_plays}/{real_plays}")
     print(f"  Output: {args.output}")
+
+    # After writing output:
+    lifecycle_smoke_test(anonymized)
 
 
 if __name__ == '__main__':
