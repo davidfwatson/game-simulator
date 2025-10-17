@@ -205,7 +205,7 @@
       "result": {
         "type": "atBat",
         "event": "Groundout",
-        "eventType": "groundout",
+        "eventType": "field_out",
         "description": "",
         "rbi": 1,
         "awayScore": 0,
@@ -374,8 +374,8 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Flyout",
-        "eventType": "flyout",
+        "event": "Pop Out",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
@@ -451,7 +451,7 @@
           },
           "details": {
             "code": "X",
-            "description": "In play, Flyout",
+            "description": "In play, Pop Out",
             "isStrike": true,
             "type": {
               "code": "CH",
@@ -466,8 +466,8 @@
           },
           "hitData": {
             "launchSpeed": 91.0,
-            "launchAngle": 46.7,
-            "trajectory": "fly_ball"
+            "launchAngle": 51.0,
+            "trajectory": "popup"
           }
         }
       ],
@@ -478,12 +478,12 @@
           "credits": [
             {
               "player": {
-                "id": 545101
+                "id": 545106
               },
               "position": {
-                "code": "8",
-                "name": "Center Field",
-                "abbreviation": "CF"
+                "code": "4",
+                "name": "Second Base",
+                "abbreviation": "2B"
               },
               "credit": "putout"
             }
@@ -710,50 +710,55 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Home Run",
-        "eventType": "home run",
+        "event": "Flyout",
+        "eventType": "field_out",
         "description": "",
-        "rbi": 1,
-        "awayScore": 1,
+        "rbi": 0,
+        "awayScore": 0,
         "homeScore": 1
       },
       "about": {
-        "atBatIndex": 8,
-        "halfInning": "top",
-        "isTopInning": true,
-        "inning": 2,
-        "isScoringPlay": true
+        "atBatIndex": 6,
+        "halfInning": "bottom",
+        "isTopInning": false,
+        "inning": 1,
+        "isScoringPlay": false
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 0
+        "outs": 2
       },
       "matchup": {
         "batter": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
+          "id": 545104,
+          "fullName": "Jackson Riley",
+          "link": "/api/v1/people/545104"
         },
         "batSide": {
           "code": "R",
           "description": "Right"
         },
         "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
         },
         "pitchHand": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "batterHotColdZones": [],
         "pitcherHotColdZones": [],
         "splits": {
-          "batter": "vs_RHP",
+          "batter": "vs_LHP",
           "pitcher": "vs_RHB",
-          "menOnBase": "Empty"
+          "menOnBase": "RISP"
+        },
+        "postOnThird": {
+          "id": 545102,
+          "fullName": "Marcus Thorne",
+          "link": "/api/v1/people/545102"
         }
       },
       "playEvents": [
@@ -764,40 +769,40 @@
             "strikes": 0
           },
           "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
+            "code": "D",
+            "description": "Foul",
+            "isStrike": true,
             "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 95.5,
+            "startSpeed": 92.2,
             "breaks": {
-              "spinRate": 2252
+              "spinRate": 1996
             }
           }
         },
         {
           "index": 1,
           "count": {
-            "balls": 1,
-            "strikes": 0
+            "balls": 0,
+            "strikes": 1
           },
           "details": {
-            "code": "D",
-            "description": "Foul",
-            "isStrike": true,
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "SL",
+              "description": "Slider"
             }
           },
           "pitchData": {
-            "startSpeed": 82.8,
+            "startSpeed": 86.2,
             "breaks": {
-              "spinRate": 1610
+              "spinRate": 2413
             }
           }
         },
@@ -809,33 +814,51 @@
           },
           "details": {
             "code": "X",
-            "description": "In play, Home Run",
+            "description": "In play, Flyout",
             "isStrike": true,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "SL",
+              "description": "Slider"
             }
           },
           "pitchData": {
-            "startSpeed": 81.6,
+            "startSpeed": 86.5,
             "breaks": {
-              "spinRate": 1825
+              "spinRate": 2583
             }
           },
           "hitData": {
-            "launchSpeed": 117.0,
-            "launchAngle": 27.4,
+            "launchSpeed": 86.3,
+            "launchAngle": 38.4,
             "trajectory": "fly_ball"
           }
         }
       ],
-      "runners": []
+      "runners": [
+        {
+          "movement": {},
+          "details": {},
+          "credits": [
+            {
+              "player": {
+                "id": 625201
+              },
+              "position": {
+                "code": "4",
+                "name": "Second Base",
+                "abbreviation": "2B"
+              },
+              "credit": "putout"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "playCount": 73,
+  "playCount": 84,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 73,
+    "totalPlaysInGame": 84,
     "snapshotPlayCount": 6
   }
 }

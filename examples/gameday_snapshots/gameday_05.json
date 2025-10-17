@@ -19,8 +19,8 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Flyout",
-        "eventType": "flyout",
+        "event": "Pop Out",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
@@ -118,7 +118,7 @@
           },
           "details": {
             "code": "X",
-            "description": "In play, Flyout",
+            "description": "In play, Pop Out",
             "isStrike": true,
             "type": {
               "code": "CU",
@@ -130,8 +130,8 @@
           },
           "hitData": {
             "launchSpeed": 100.5,
-            "launchAngle": 49.8,
-            "trajectory": "fly_ball"
+            "launchAngle": 54.7,
+            "trajectory": "popup"
           }
         }
       ],
@@ -142,12 +142,12 @@
           "credits": [
             {
               "player": {
-                "id": 545102
+                "id": 545105
               },
               "position": {
-                "code": "9",
-                "name": "Right Field",
-                "abbreviation": "RF"
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
               },
               "credit": "putout"
             }
@@ -475,7 +475,7 @@
       "result": {
         "type": "atBat",
         "event": "Groundout",
-        "eventType": "groundout",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
