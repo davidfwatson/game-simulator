@@ -67,7 +67,7 @@ def get_our_schema_fields():
         'liveData': {
             'plays': {
                 'allPlays': {
-                    'result': ['type', 'event', 'eventType', 'description', 'rbi', 'awayScore', 'homeScore'],
+                    'result': ['type', 'event', 'rbi', 'awayScore', 'homeScore'],
                     'about': ['atBatIndex', 'halfInning', 'isTopInning', 'inning', 'isScoringPlay'],
                     'count': ['balls', 'strikes', 'outs'],
                     'matchup': ['batter', 'batSide', 'pitcher', 'pitchHand', 'batterHotColdZones', 'pitcherHotColdZones', 'splits', 'postOnFirst', 'postOnSecond', 'postOnThird'],
@@ -316,12 +316,6 @@ def anonymize_gameday_data(real_data, our_teams):
                 # Filter result
                 if 'result' in play:
                     anonymized_play['result'] = filter_dict(play['result'], schema['liveData']['plays']['allPlays']['result'])
-                    # Anonymize description text
-                    if 'description' in anonymized_play['result']:
-                        anonymized_play['result']['description'] = anonymize_description(
-                            anonymized_play['result']['description'],
-                            name_mapping
-                        )
 
                 # Filter about
                 if 'about' in play:
