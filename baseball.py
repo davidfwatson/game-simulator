@@ -55,6 +55,7 @@ class BaseballSimulator:
         # Output buffer for narrative/statcast, gameday has its own structure
         self.output_lines = []
         self.gameday_data: GamedayData | None = None
+        self._pitch_event_seq = 0
         if self.generate_gameday:
             self._initialize_gameday_data()
 
@@ -379,8 +380,6 @@ class BaseballSimulator:
             "batSide": batter_bat_side,
             "pitcher": pitcher_info,
             "pitchHand": pitcher.get('pitchHand', {'code': 'R', 'description': 'Right'}),
-            "batterHotColdZones": [],
-            "pitcherHotColdZones": [],
             "splits": {
                 "batter": batter_split,
                 "pitcher": pitcher_split,
@@ -540,7 +539,7 @@ class BaseballSimulator:
             swing = self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob) or is_bunting
             contact = self.game_rng.random() < contact_prob or (is_bunting and is_strike_loc)
 
-            play_event: PlayEvent = {'index': len(play_events), 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}}
+            play_event: PlayEvent = {'index': self._pitch_event_seq, 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}}
             if is_bunting:
                 play_event['isBunt'] = True
 
@@ -564,7 +563,7 @@ class BaseballSimulator:
                         if is_foul:
                             if strikes < 2: strikes += 1
                             pitch_outcome_text = "foul"
-                            event_details = {'code': 'D', 'description': 'Foul', 'isStrike': True}
+                            event_details = {'code': 'F', 'description': 'Foul', 'isStrike': True}
                             if is_bunting:
                                 event_details['description'] = 'Foul Bunt'
                                 event_details['eventType'] = 'foul_bunt'
@@ -596,6 +595,7 @@ class BaseballSimulator:
                 play_event['details'] = event_details
                 play_event['pitchData'] = pitch_data
                 play_events.append(play_event)
+                self._pitch_event_seq += 1                   # <- bump once per event
 
             if is_in_play:
                 description_context = {
@@ -1107,7 +1107,7 @@ class BaseballSimulator:
                 ls['outs'] = self.outs
                 ls['teams']['home']['runs'] = self.team1_score
                 ls['teams']['away']['runs'] = self.team2_score
-                if outcome not in ["Walk", "Strikeout", "HBP", "Groundout", "Flyout"]:
+                if outcome in ["Single", "Double", "Triple", "Home Run"]:
                     if is_home_team_batting: ls['teams']['home']['hits'] += 1
                     else: ls['teams']['away']['hits'] += 1
                 if was_error:
