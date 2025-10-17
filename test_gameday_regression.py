@@ -102,9 +102,9 @@ class TestGamedayRegression(unittest.TestCase):
 
     def test_pitch_event_foul(self):
         """Find a 'Foul' event and validate its structure."""
-        event = self._find_event(None, details_code='D')
+        event = self._find_event(None, details_code='F')
         self.assertIsNotNone(event, "Could not find a 'Foul' event in the game data.")
-        self.assertEqual(event['details']['code'], 'D')
+        self.assertEqual(event['details']['code'], 'F')
         self.assertTrue(event['details']['isStrike'])
 
     def test_play_event_single(self):
