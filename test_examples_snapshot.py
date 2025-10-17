@@ -79,6 +79,14 @@ class TestExampleSnapshots(unittest.TestCase):
                     if any(phrase in line for phrase in narrative_strikeout_phrases):
                         self.assertNotIn("Result: Strikeout", line, f"Clunky strikeout result found: {line}")
 
+    def test_no_double_foul_in_commentary(self):
+        example_logs = self._get_example_logs()
+        for filename, content in example_logs.items():
+            with self.subTest(file=filename):
+                for line in content.splitlines():
+                    foul_mentions = re.findall(r'foul', line, re.IGNORECASE)
+                    self.assertLessEqual(len(foul_mentions), 1, f"Double 'foul' mention found: {line}")
+
 
 if __name__ == "__main__":
     unittest.main()
