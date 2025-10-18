@@ -81,10 +81,9 @@ def get_our_schema_fields():
                     },
                     'runners': {
                         'movement': None,
-                        'details': None,
+                        'details': ['event', 'eventType', 'movementReason', 'runner', 'responsiblePitcher', 'isScoringEvent', 'rbi', 'earned', 'teamUnearned', 'playIndex'],
                         'credits': {
                             'player': ['id'],
-                            'position': ['code', 'name', 'abbreviation'],
                             'credit': None
                         }
                     }
@@ -261,27 +260,38 @@ def anonymize_description(text: str, name_mapping: dict) -> str:
     return text
 
 
-def simplify_runner_movement(mov):
-    if not isinstance(mov, dict):
-        return mov
-    # Keep only coarse info; remove outBase/outNumber/isOut etc.
-    return {'start': mov.get('start'), 'end': mov.get('end')}
-
-def simplify_runner(r, id_mapping):
+def simplify_runner(r, id_mapping, schema):
+    """Process a runner entry, anonymizing player references and filtering to schema."""
     out = {}
+
     if 'movement' in r:
-        out['movement'] = simplify_runner_movement(r['movement'])
+        out['movement'] = r['movement']
+
     if 'details' in r:
-        d = dict(r['details'])
-        if 'runner' in d:
-            d['runner'] = anonymize_player_reference(d['runner'], id_mapping)
-        if 'responsiblePitcher' in d:
-            d['responsiblePitcher'] = anonymize_player_reference(d['responsiblePitcher'], id_mapping)
-        # Remove MLB-ish extras you don’t generate
-        for k in ['event', 'isScoringEvent', 'rbi', 'earned', 'teamUnearned', 'playIndex']:
-            d.pop(k, None)
+        # Filter to allowed fields from schema
+        allowed_detail_fields = schema['liveData']['plays']['allPlays']['runners']['details']
+        d = {}
+        for field in allowed_detail_fields:
+            if field in r['details']:
+                value = r['details'][field]
+                # Anonymize player references
+                if field == 'runner':
+                    value = anonymize_player_reference(value, id_mapping)
+                elif field == 'responsiblePitcher':
+                    value = anonymize_player_reference(value, id_mapping)
+                d[field] = value
         out['details'] = d
-    # Drop fielding credits entirely
+
+    if 'credits' in r:
+        out['credits'] = []
+        for credit in r['credits']:
+            anon_credit = {}
+            if 'player' in credit:
+                anon_credit['player'] = anonymize_player_reference(credit['player'], id_mapping)
+            if 'credit' in credit:
+                anon_credit['credit'] = credit['credit']
+            out['credits'].append(anon_credit)
+
     return out
 
 
@@ -426,7 +436,7 @@ def anonymize_gameday_data(real_data, our_teams):
 
                 # Handle runners
                 if 'runners' in play:
-                    anonymized_play['runners'] = [simplify_runner(r, id_mapping) for r in play['runners']]
+                    anonymized_play['runners'] = [simplify_runner(r, id_mapping, schema) for r in play['runners']]
 
                 # Result taxonomy
                 if 'result' in anonymized_play:
