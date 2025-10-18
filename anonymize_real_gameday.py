@@ -116,6 +116,9 @@ def create_player_mapping(real_data, our_teams):
     # Shuffle to randomize assignment
     random.shuffle(our_players)
 
+    # Keep track of original count for generating synthetic IDs if needed
+    original_player_count = len(our_players)
+
     # Extract all unique player IDs and names from real data
     real_players = {}  # id -> full name
 
@@ -141,11 +144,28 @@ def create_player_mapping(real_data, our_teams):
                     if runner_ref['id'] not in real_players:
                         real_players[runner_ref['id']] = runner_ref.get('fullName', '')
 
-    # Create ID mapping
+    # Create ID mapping - extend our_players list if we have more real players than fictional ones
+    total_real_players = len(real_players)
+    if total_real_players > len(our_players):
+        # Generate synthetic players to ensure 1-to-1 mapping
+        first_names = ['Alex', 'Sam', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Jamie',
+                       'Quinn', 'Drew', 'Avery', 'Reese', 'Dakota', 'Skyler', 'Parker']
+        last_names = ['Smith', 'Johnson', 'Williams', 'Brown', 'Davis', 'Miller', 'Wilson',
+                      'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin']
+
+        base_id = 700000  # Start synthetic IDs at 700000 to avoid conflicts
+        for i in range(total_real_players - original_player_count):
+            synthetic_player = {
+                'id': base_id + i,
+                'legal_name': f"{first_names[i % len(first_names)]} {last_names[i % len(last_names)]}"
+            }
+            our_players.append(synthetic_player)
+
+    # Now create 1-to-1 mapping
     id_mapping = {}
     name_mapping = {}
     for i, (real_id, real_name) in enumerate(sorted(real_players.items())):
-        our_player = our_players[i % len(our_players)]
+        our_player = our_players[i]  # Direct indexing, no modulo
         id_mapping[real_id] = our_player
         if real_name:
             # Add original name (with accents if present)
