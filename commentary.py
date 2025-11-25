@@ -115,7 +115,9 @@ GAME_CONTEXT = {
         "bunt_foul": [
             "  He squares to bunt, but fouls it off.",
             "  Showing bunt, he pushes it foul.",
-            "  He tries to lay one down, but it rolls foul."
+            "  He tries to lay one down, but it rolls foul.",
+            "  He attempts to bunt, but it goes foul.",
+            "  He pulls back the bunt at the last second, but it's a foul."
         ],
         "bunt_sac": [
             "  He gets the bunt down, a perfect sacrifice.",
@@ -124,6 +126,15 @@ GAME_CONTEXT = {
         ],
         "bunt_missed": [
             "  He offers at the bunt, but misses"
+            "  He lays down the bunt, doing his job.",
+            "  He bunts the runner over.",
+            "  A well-placed bunt advances the runner."
+        ],
+        "fielding_error": [
+            "  An error by {fielder_pos} {fielder_name} allows the batter to reach base.",
+            "  {fielder_name} boots it at {fielder_pos}, and the batter is safe.",
+            "  A misplay by {fielder_name} at {fielder_pos} leads to an error.",
+            "  {fielder_name} can't handle it, and that'll be scored an error."
         ]
     },
     "statcast_verbs": {
@@ -234,8 +245,8 @@ GAME_CONTEXT = {
             "nouns": { "default": ["a sacrifice fly"] }
         },
         "Strikeout": {
-            "swinging": ["strikes out swinging", "down on strikes", "goes down swinging", "a big cut and a miss for strike three"],
-            "looking": ["strikes out looking", "caught looking", "frozen on a pitch right down the middle", "watches strike three go by"]
+            "swinging": ["strikes out swinging", "goes down on strikes", "goes down swinging", "takes a big cut and misses for strike three"],
+            "looking": ["strikes out looking", "gets caught looking", "is frozen by a pitch right down the middle", "watches strike three go by"]
         }
     },
     "statcast_templates": {
