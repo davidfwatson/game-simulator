@@ -121,6 +121,9 @@ GAME_CONTEXT = {
             "  He gets the bunt down, a perfect sacrifice.",
             "  A successful sacrifice bunt moves the runners.",
             "  He lays down the bunt, doing his job."
+        ],
+        "bunt_missed": [
+            "  He offers at the bunt, but misses"
         ]
     },
     "statcast_verbs": {

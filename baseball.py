@@ -622,7 +622,10 @@ class BaseballSimulator:
                     elif pitch_outcome_text == "called strike":
                         pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_selection}{velo_commentary}."
                     elif pitch_outcome_text == "swinging strike":
-                        pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection}{velo_commentary}."
+                        if event_details.get('eventType') == 'missed_bunt':
+                            pbp_line = f"{self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['bunt_missed'])} on a {pitch_selection}{velo_commentary}."
+                        else:
+                            pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection}{velo_commentary}."
                     else: # Ball
                         pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['ball'])} with the {pitch_selection}{velo_commentary}."
                 else:
