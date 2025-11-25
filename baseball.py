@@ -137,29 +137,66 @@ class BaseballSimulator:
             return f"{player['legal_name']} '{player['nickname']}'"
         return player['legal_name']
 
-    def _get_hit_outcome(self, batter_stats):
-        in_play = {k: v for k, v in batter_stats.items() if k not in ["Walk", "Strikeout", "HBP", "bunt_propensity"]}
-        return self.game_rng.choices(list(in_play.keys()), weights=list(in_play.values()), k=1)[0]
+    def _simulate_pitch_trajectory(self, pitcher):
+        """Simulates the pitch's path and determines if it's in the strike zone."""
+        fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina']) / 15) * 0.1
+        return self.game_rng.random() < (pitcher['control'] - fatigue_penalty)
 
-    def _generate_batted_ball_data(self, hit_type):
-        if hit_type not in ["Single", "Double", "Triple", "Home Run", "Sacrifice Bunt"] and self.game_rng.random() < 0.05:
-            return {}
-        ev, la = 0, 0
-        if hit_type == "Sacrifice Bunt":
-            ev, la = round(self.game_rng.uniform(60, 75), 1), round(self.game_rng.uniform(-50, -20), 1)
-        elif hit_type == "Groundout": ev, la = round(self.game_rng.uniform(70, 95), 1), round(self.game_rng.uniform(-20, 5), 1)
-        elif hit_type == "Flyout": ev, la = round(self.game_rng.uniform(85, 105), 1), round(self.game_rng.uniform(25, 55), 1)
-        elif hit_type == "Single":
-            if self.game_rng.random() < 0.6: ev, la = round(self.game_rng.uniform(80, 100), 1), round(self.game_rng.uniform(-10, 8), 1)
-            else: ev, la = round(self.game_rng.uniform(90, 110), 1), round(self.game_rng.uniform(8, 20), 1)
-        elif hit_type == "Double": ev, la = round(self.game_rng.uniform(100, 115), 1), round(self.game_rng.uniform(15, 35), 1)
-        elif hit_type == "Triple": ev, la = round(self.game_rng.uniform(100, 115), 1), round(self.game_rng.uniform(18, 30), 1)
-        elif hit_type == "Home Run":
-            ev = round(self.game_rng.uniform(100, 120), 1)
-            if ev >= 118: la = round(self.game_rng.uniform(20, 28), 1)
-            elif ev > 110: la = round(self.game_rng.uniform(22, 35), 1)
-            else: la = round(self.game_rng.uniform(25, 45), 1)
+    def _simulate_bat_swing(self, batter, is_strike_loc):
+        """Determines if the batter swings at the pitch."""
+        discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
+        swing_at_ball_prob = 0.30 / discipline_factor
+        return self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
+
+    def _simulate_batted_ball_physics(self, batter):
+        """Calculates the exit velocity and launch angle of a batted ball."""
+        batting_profile = batter['batting_profile']
+        # Power influences exit velocity, with some randomness
+        ev = round(self.game_rng.normalvariate(80 + batting_profile['power'] * 25, 8), 1)
+        # Angle influences launch angle, with some randomness
+        la = round(self.game_rng.normalvariate(batting_profile['angle'], 10), 1)
         return {'ev': ev, 'la': la}
+
+    def _simulate_bunt_physics(self):
+        """Calculates the exit velocity and launch angle for a bunt."""
+        ev = round(self.game_rng.uniform(60, 75), 1)
+        la = round(self.game_rng.uniform(-50, -20), 1)
+        return {'ev': ev, 'la': la}
+
+    def _determine_outcome_from_trajectory(self, ev, la):
+        """Determines the outcome of a batted ball from its physics."""
+        # Weak contact leading to outs
+        if ev < 80:
+            if la > 40: return "Pop Out"
+            return "Groundout" if la < 10 else "Flyout"
+
+        # Ground balls
+        if la < 5:
+            if ev > 110: return "Double Play" # Hard grounder
+            if ev > 100: return "Single"
+            return "Groundout"
+
+        # Line drives
+        if la < 20:
+            if ev > 115: return "Home Run"
+            if ev > 105: return "Double"
+            if ev > 90: return "Single"
+            return "Lineout"
+
+        # Fly balls
+        if la < 35:
+            if ev > 110: return "Home Run"
+            if ev > 100: return "Double"
+            if ev > 90: return "Flyout"
+            return "Flyout"
+
+        # Deep fly balls and pop ups
+        if la < 50:
+            if ev < 90: return "Pop Out" # Weakly hit fly ball
+            if ev > 105: return "Triple"
+            return "Flyout"
+
+        return "Pop Out" # Very high flyball
 
     def _classify_out_trajectory(self, la):
         """Classify the trajectory of a batted ball that results in an out."""
@@ -506,17 +543,11 @@ class BaseballSimulator:
                     self._print(f"  A crucial at-bat here in a tie game.")
             if self.commentary_rng.random() < 0.04: self._print(f"  {self._get_narrative_string('infield_in')}")
 
-        if self.game_rng.random() < batter.get('stats', {}).get('HBP', 0):
+        if self.game_rng.random() < batter['plate_discipline'].get('HBP', 0):
             return "HBP", None, play_events, narrative_k
 
-        batter_stats = batter['stats']
-        discipline_factor = max(0.1, batter_stats.get('Walk', 0.09) / 0.08)
-        swing_at_ball_prob = 0.30 / discipline_factor
-        contact_prob = 0.75 / max(0.1, batter_stats.get('Strikeout', 0.17) / 0.17)
-        bunt_propensity = batter_stats.get('bunt_propensity', 0.0)
-
-        # Decide to bunt based on situation and propensity
-        bunt_situation = self.outs < 2 and any(self.bases) and not self.bases[2] # Runners on, but not on 3rd
+        bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
+        bunt_situation = self.outs < 2 and any(self.bases) and not self.bases[2]
         is_bunting = bunt_situation and self.game_rng.random() < bunt_propensity
 
         while balls < 4 and strikes < 3:
@@ -527,8 +558,7 @@ class BaseballSimulator:
             pitch_velo = round(self.game_rng.uniform(*pitch_details_team['velo_range']), 1)
             pitch_spin = self.game_rng.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if self.game_rng.random() > 0.08 else None
             
-            fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina']) / 15) * 0.1
-            is_strike_loc = self.game_rng.random() < (pitcher['control'] - fatigue_penalty)
+            is_strike_loc = self._simulate_pitch_trajectory(pitcher)
             
             pre_pitch_balls, pre_pitch_strikes = balls, strikes
             pitch_outcome_text = ""
@@ -536,8 +566,8 @@ class BaseballSimulator:
             is_in_play = False
             hit_result = None
 
-            swing = self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob) or is_bunting
-            contact = self.game_rng.random() < contact_prob or (is_bunting and is_strike_loc)
+            swing = self._simulate_bat_swing(batter, is_strike_loc) or is_bunting
+            contact = self.game_rng.random() < batter['batting_profile']['contact'] or (is_bunting and is_strike_loc)
 
             play_event: PlayEvent = {'index': self._pitch_event_seq, 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}}
             if is_bunting:
@@ -555,37 +585,25 @@ class BaseballSimulator:
                     strikes += 1; pitch_outcome_text = "swinging strike"
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
                 else: # Contact
-                    if is_bunting and not is_strike_loc: # Missed bunt attempt on a ball
-                        strikes += 1; pitch_outcome_text = "swinging strike"
-                        event_details = {'code': 'S', 'description': 'Missed Bunt', 'isStrike': True, 'eventType': 'missed_bunt'}
-                    else:
-                        is_foul = self.game_rng.random() < (0.85 if is_bunting else 0.6)
-                        if is_foul:
-                            if strikes < 2: strikes += 1
-                            pitch_outcome_text = "foul"
-                            event_details = {'code': 'F', 'description': 'Foul', 'isStrike': True}
-                            if is_bunting:
-                                event_details['description'] = 'Foul Bunt'
-                                event_details['eventType'] = 'foul_bunt'
-                                if strikes == 3: # Foul bunt with 2 strikes is a strikeout
-                                    pitch_outcome_text = "strikeout"
-                        else: # In Play
-                            is_in_play = True
-                            base_hit_result = "Sacrifice Bunt" if is_bunting else self._get_hit_outcome(batter['stats'])
-
-                            # Generate batted ball data first
-                            batted_ball_data = self._generate_batted_ball_data(base_hit_result)
-
-                            # Determine specific trajectory type
-                            if base_hit_result not in ["Single", "Double", "Triple", "Home Run", "Sacrifice Bunt"]:
-                                trajectory = self._classify_out_trajectory(batted_ball_data.get('la'))
-                                # Map to specific out type
-                                hit_result = self._get_specific_out_type(base_hit_result, trajectory, batted_ball_data)
-                            else:
-                                hit_result = base_hit_result
-
-                            pitch_outcome_text = "in play"
-                            event_details = {'code': 'X', 'description': f'In play, {hit_result}', 'isStrike': True}
+                    is_foul = self.game_rng.random() < 0.6
+                    if is_foul:
+                        if strikes < 2: strikes += 1
+                        pitch_outcome_text = "foul"
+                        event_details = {'code': 'F', 'description': 'Foul', 'isStrike': True}
+                        if is_bunting:
+                            event_details['description'] = 'Foul Bunt'
+                            if strikes == 3: # Foul bunt with 2 strikes is a strikeout
+                                pitch_outcome_text = "strikeout"
+                    else: # In Play
+                        is_in_play = True
+                        if is_bunting:
+                            batted_ball_data = self._simulate_bunt_physics()
+                            hit_result = "Sacrifice Bunt"
+                        else:
+                            batted_ball_data = self._simulate_batted_ball_physics(batter)
+                            hit_result = self._determine_outcome_from_trajectory(batted_ball_data['ev'], batted_ball_data['la'])
+                        pitch_outcome_text = "in play"
+                        event_details = {'code': 'X', 'description': f'In play, {hit_result}', 'isStrike': True}
 
             if self.generate_gameday:
                 event_details['type'] = {'code': GAME_CONTEXT['PITCH_TYPE_MAP'].get(pitch_selection, 'UN'), 'description': pitch_selection.capitalize()}
@@ -595,7 +613,7 @@ class BaseballSimulator:
                 play_event['details'] = event_details
                 play_event['pitchData'] = pitch_data
                 play_events.append(play_event)
-                self._pitch_event_seq += 1                   # <- bump once per event
+                self._pitch_event_seq += 1
 
             if is_in_play:
                 description_context = {
@@ -622,10 +640,7 @@ class BaseballSimulator:
                     elif pitch_outcome_text == "called strike":
                         pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_selection}{velo_commentary}."
                     elif pitch_outcome_text == "swinging strike":
-                        if event_details.get('eventType') == 'missed_bunt':
-                            pbp_line = f"{self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['bunt_missed'])} on a {pitch_selection}{velo_commentary}."
-                        else:
-                            pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection}{velo_commentary}."
+                        pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection}{velo_commentary}."
                     else: # Ball
                         pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['ball'])} with the {pitch_selection}{velo_commentary}."
                 else:
@@ -640,6 +655,7 @@ class BaseballSimulator:
         if balls == 4:
             return "Walk", None, play_events, narrative_k
 
+        # This part of the function should only be reached if strikes == 3
         k_type = "looking" if pitch_outcome_text == "called strike" else "swinging"
         verb = self.commentary_rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
         description = {'k_type': k_type, 'verb': verb} if self.base_commentary_style != 'narrative' else {}
@@ -647,6 +663,7 @@ class BaseballSimulator:
             self._print(f"  {batter['legal_name']} {verb}.")
             narrative_k = True
         return "Strikeout", description, play_events, narrative_k
+
 
     def _advance_runners(self, hit_type, batter, was_error=False, include_batter_advance=False):
         runs, rbis = 0, 0
@@ -905,7 +922,7 @@ class BaseballSimulator:
             old_bases = self.bases[:]
 
             display_outcome = outcome
-            if outcome in ["Groundout", "Flyout", "Sacrifice Bunt", "Lineout", "Pop Out", "Forceout", "Grounded Into DP"]:
+            if outcome in ["Groundout", "Flyout", "Sacrifice Bunt", "Lineout", "Pop Out", "Forceout", "Grounded Into DP", "Bunt Ground Out"]:
                 result = self._handle_batted_ball_out(outcome, batter, description)
                 display_outcome, new_runs, was_error, new_rbis, credits_from_out, is_dp, specific_event, runner_out_dp = result
 
