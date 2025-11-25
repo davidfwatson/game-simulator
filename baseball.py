@@ -172,9 +172,9 @@ class BaseballSimulator:
             return "ground_ball"
         elif 10 <= la <= 25:
             return "line_drive"
-        elif 25 < la <= 48:
+        elif 25 < la <= 45:
             return "fly_ball"
-        else:  # la > 48
+        else:  # la > 45
             return "popup"
 
     def _get_specific_out_type(self, base_type, trajectory, batted_ball_data):
@@ -452,8 +452,7 @@ class BaseballSimulator:
 
     def _generate_play_description(self, outcome, batted_ball_data, pitch_details, batter=None, fielder=None):
         """Generates a narrative description for an in-play event."""
-        event_type_for_verb = "Pop Out" if "Pop Out" in outcome else outcome
-        phrase, phrase_type = self._get_batted_ball_verb(event_type_for_verb, batted_ball_data.get('ev'), batted_ball_data.get('la'))
+        phrase, phrase_type = self._get_batted_ball_verb(outcome, batted_ball_data.get('ev'), batted_ball_data.get('la'))
         direction = ""
 
         # For hits, get a direction
@@ -623,7 +622,10 @@ class BaseballSimulator:
                     elif pitch_outcome_text == "called strike":
                         pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_selection}{velo_commentary}."
                     elif pitch_outcome_text == "swinging strike":
-                        pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection}{velo_commentary}."
+                        if event_details.get('eventType') == 'missed_bunt':
+                            pbp_line = f"{self.commentary_rng.choice(GAME_CONTEXT['narrative_strings']['bunt_missed'])} on a {pitch_selection}{velo_commentary}."
+                        else:
+                            pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_selection}{velo_commentary}."
                     else: # Ball
                         pbp_line = f"  {self.commentary_rng.choice(GAME_CONTEXT['pitch_locations']['ball'])} with the {pitch_selection}{velo_commentary}."
                 else:
@@ -746,7 +748,7 @@ class BaseballSimulator:
             fielder_pos_abbr = fielder['position']['abbreviation']
             notation = f"E{pos_map.get(fielder_pos_abbr, '')}"
             if self.base_commentary_style == 'narrative' and self.verbose_phrasing:
-                self._print(self._get_narrative_string('fielding_error', {'fielder_pos': fielder_pos_abbr, 'fielder_name': fielder['legal_name']}))
+                self._print(f"  An error by {fielder_pos_abbr} {fielder['legal_name']} allows the batter to reach base.")
             elif self.base_commentary_style == 'statcast':
                 return f"{notation} on a {'ground ball' if out_type == 'Groundout' else 'fly ball'} to {fielder_pos_abbr};", 0, True, 0, [], False, "Field Error", None
             return f"Reached on Error ({notation})", 0, True, 0, [], False, "Field Error", None
@@ -903,7 +905,6 @@ class BaseballSimulator:
             old_bases = self.bases[:]
 
             display_outcome = outcome
-            suppress_result_line = False
             if outcome in ["Groundout", "Flyout", "Sacrifice Bunt", "Lineout", "Pop Out", "Forceout", "Grounded Into DP"]:
                 result = self._handle_batted_ball_out(outcome, batter, description)
                 display_outcome, new_runs, was_error, new_rbis, credits_from_out, is_dp, specific_event, runner_out_dp = result
@@ -914,7 +915,6 @@ class BaseballSimulator:
 
                 if was_error:
                     outcome = "Field Error"
-                    suppress_result_line = True
                     adv_info = self._advance_runners("Single", batter, was_error=True, include_batter_advance=True)
                     runs += adv_info['runs']
                     advances.extend(adv_info['advances'])
@@ -931,13 +931,10 @@ class BaseballSimulator:
                 if self.base_commentary_style == 'narrative' and self.verbose_phrasing:
                     if self.outs == 0 and outcome in ["Single", "Double", "Walk"]:
                         self._print(f"  {self._get_narrative_string(f'leadoff_{outcome.lower()}', {'batter_name': batter['legal_name']})}")
-                        suppress_result_line = True
                     elif self.outs == 2 and outcome in ["Single", "Double", "Walk"]:
                          self._print(f"  {self._get_narrative_string(f'two_out_{outcome.lower()}', {'batter_name': batter['legal_name']})}")
-                         suppress_result_line = True
                     elif outcome == "Walk":
                         self._print(f"  {batter['legal_name']} draws a walk.")
-                        suppress_result_line = True
                     elif description:
                         self._print(self._generate_play_description(outcome, description.get('batted_ball_data', {}), description.get('pitch_details', {}), batter))
 
@@ -1125,7 +1122,7 @@ class BaseballSimulator:
             elif self.base_commentary_style == 'narrative': # narrative
                 if narrative_k:
                     pass
-                elif not suppress_result_line:
+                else:
                     self._print_narrative_result(display_outcome, outcome, description)
 
             if self.base_commentary_style != 'none':
