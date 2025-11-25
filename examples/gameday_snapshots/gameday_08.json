@@ -294,7 +294,7 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Pop Out",
+        "event": "Flyout",
         "eventType": "field_out",
         "description": "",
         "rbi": 0,
@@ -457,7 +457,7 @@
           },
           "details": {
             "code": "X",
-            "description": "In play, Pop Out",
+            "description": "In play, Flyout",
             "isStrike": true,
             "type": {
               "code": "SL",
@@ -488,7 +488,7 @@
             "outNumber": 1
           },
           "details": {
-            "event": "Pop Out",
+            "event": "Flyout",
             "eventType": "field_out",
             "movementReason": null,
             "runner": {
@@ -505,12 +505,12 @@
           "credits": [
             {
               "player": {
-                "id": 625208
+                "id": 625203
               },
               "position": {
-                "code": "6",
-                "name": "Shortstop",
-                "abbreviation": "SS"
+                "code": "5",
+                "name": "Third Base",
+                "abbreviation": "3B"
               },
               "credit": "putout"
             }
@@ -859,34 +859,34 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Flyout",
-        "eventType": "field_out",
+        "event": "HBP",
+        "eventType": "hbp",
         "description": "",
         "rbi": 0,
-        "awayScore": 0,
+        "awayScore": 1,
         "homeScore": 0
       },
       "about": {
-        "atBatIndex": 6,
+        "atBatIndex": 14,
         "halfInning": "bottom",
         "isTopInning": false,
-        "inning": 1,
+        "inning": 2,
         "isScoringPlay": false
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 3
+        "outs": 2
       },
       "matchup": {
         "batter": {
-          "id": 545104,
-          "fullName": "Jackson Riley",
-          "link": "/api/v1/people/545104"
+          "id": 545107,
+          "fullName": "Owen Chen",
+          "link": "/api/v1/people/545107"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
           "id": 645210,
@@ -899,174 +899,42 @@
         },
         "splits": {
           "batter": "vs_LHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "Men_On"
+          "pitcher": "vs_LHB",
+          "menOnBase": "Empty"
         },
         "postOnFirst": {
-          "id": 545103,
-          "fullName": "Sam Decker",
-          "link": "/api/v1/people/545103"
+          "id": 545107,
+          "fullName": "Owen Chen",
+          "link": "/api/v1/people/545107"
         }
       },
-      "playEvents": [
-        {
-          "index": 28,
-          "count": {
-            "balls": 0,
-            "strikes": 0
-          },
-          "details": {
-            "code": "C",
-            "description": "Called Strike",
-            "isStrike": true,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 92.0,
-            "breaks": {
-              "spinRate": 2010
-            }
-          }
-        },
-        {
-          "index": 29,
-          "count": {
-            "balls": 0,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 78.9,
-            "breaks": {
-              "spinRate": 2867
-            }
-          }
-        },
-        {
-          "index": 30,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
-            "code": "C",
-            "description": "Called Strike",
-            "isStrike": true,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 91.5,
-            "breaks": {
-              "spinRate": 2077
-            }
-          }
-        },
-        {
-          "index": 31,
-          "count": {
-            "balls": 1,
-            "strikes": 2
-          },
-          "details": {
-            "code": "X",
-            "description": "In play, Flyout",
-            "isStrike": true,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 79.5,
-            "breaks": {
-              "spinRate": 2933
-            }
-          },
-          "hitData": {
-            "launchSpeed": 99.3,
-            "launchAngle": 34.9,
-            "trajectory": "fly_ball"
-          }
-        }
-      ],
+      "playEvents": [],
       "runners": [
         {
           "movement": {
-            "originBase": "1B",
-            "start": "1B",
+            "originBase": null,
+            "start": null,
             "end": "1B",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Flyout",
-            "eventType": "field_out",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 545103,
-              "fullName": "Sam Decker",
-              "link": "/api/v1/people/545103"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 3
-          },
-          "credits": []
-        },
-        {
-          "movement": {
-            "originBase": null,
-            "start": null,
-            "end": null,
-            "outBase": "1B",
-            "isOut": true,
-            "outNumber": 3
-          },
-          "details": {
-            "event": "Flyout",
-            "eventType": "field_out",
+            "event": "HBP",
+            "eventType": "hbp",
             "movementReason": null,
             "runner": {
-              "id": 545104,
-              "fullName": "Jackson Riley",
-              "link": "/api/v1/people/545104"
+              "id": 545107,
+              "fullName": "Owen Chen",
+              "link": "/api/v1/people/545107"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 3
+            "playIndex": 0
           },
-          "credits": [
-            {
-              "player": {
-                "id": 625209
-              },
-              "position": {
-                "code": "9",
-                "name": "Right Field",
-                "abbreviation": "RF"
-              },
-              "credit": "putout"
-            }
-          ]
+          "credits": []
         }
       ]
     }
