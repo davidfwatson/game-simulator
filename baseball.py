@@ -145,7 +145,7 @@ class BaseballSimulator:
     def _simulate_bat_swing(self, batter, is_strike_loc):
         """Determines if the batter swings at the pitch."""
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
-        swing_at_ball_prob = 0.28 / discipline_factor
+        swing_at_ball_prob = 0.32 / discipline_factor
         return self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
 
     def _simulate_batted_ball_physics(self, batter):
@@ -171,7 +171,7 @@ class BaseballSimulator:
             return "Groundout" if la < 10 else "Flyout"
 
         # Ground balls
-        if la < 5:
+        if la < 8: # Increased threshold to generate more groundouts
             if ev > 110: return "Double Play" # Hard grounder
             if ev > 100: return "Single"
             return "Groundout"
@@ -642,7 +642,7 @@ class BaseballSimulator:
                     strikes += 1; pitch_outcome_text = "swinging strike"
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
                 else: # Contact
-                    is_foul = self.game_rng.random() < 0.6
+                    is_foul = self.game_rng.random() < 0.5
                     if is_foul:
                         if strikes < 2: strikes += 1
                         pitch_outcome_text = "foul"
