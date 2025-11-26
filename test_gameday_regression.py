@@ -24,7 +24,7 @@ class TestGamedayRegression(unittest.TestCase):
     def _find_event(self, event_type, details_code=None):
         """Helper to find the first occurrence of a specific event in the game data."""
         for play in self.gameday_data['liveData']['plays']['allPlays']:
-            if play['result']['event'] == event_type:
+            if 'result' in play and play['result']['event'] == event_type:
                 return play
             for event in play.get('playEvents', []):
                 if event['details'].get('code') == details_code:
@@ -33,7 +33,7 @@ class TestGamedayRegression(unittest.TestCase):
 
     def _find_all_events(self, event_type):
         """Helper to find all occurrences of a specific event type."""
-        return [p for p in self.gameday_data['liveData']['plays']['allPlays'] if p['result']['event'] == event_type]
+        return [p for p in self.gameday_data['liveData']['plays']['allPlays'] if 'result' in p and p['result']['event'] == event_type]
 
     def test_game_data_structure(self):
         """Test the basic structure of the top-level gameData object."""

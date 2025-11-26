@@ -12,7 +12,7 @@ def main():
     # We pipe to a file, so we don't have to deal with capturing large stdout.
     with open(snapshot_path, 'w') as f:
         subprocess.run(
-            ['python3', 'baseball.py', '--commentary', 'gameday'],
+            ['python3', 'baseball.py', '--commentary', 'gameday', '--game-seed', '1'],
             stdout=f,
             check=True
         )

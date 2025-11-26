@@ -51,6 +51,7 @@ class BaseballSimulator:
         self.team1_score, self.team2_score = 0, 0
         self.inning, self.top_of_inning = 1, True
         self.outs, self.bases = 0, [None, None, None] # Runners on base by name
+        self.player_stats = {p['id']: {'SB': 0} for p in self.team1_data['players'] + self.team2_data['players']}
 
         # Output buffer for narrative/statcast, gameday has its own structure
         self.output_lines = []
@@ -557,6 +558,7 @@ class BaseballSimulator:
     def _resolve_steal_attempt(self, base_to_steal):
         is_home_team_batting = not self.top_of_inning
         batting_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
+        defensive_team = self.team2_data if is_home_team_batting else self.team1_data
         defensive_catcher = self.team2_catcher if is_home_team_batting else self.team1_catcher
 
         base_from_idx = base_to_steal - 2
@@ -564,23 +566,40 @@ class BaseballSimulator:
         runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
 
         if not runner_data:
-            return False # Should not happen
+            return None
 
         success_chance = runner_data['batting_profile']['stealing_success_rate'] - (defensive_catcher['catchers_arm'] * 0.1)
-        if self.game_rng.random() < success_chance:
+        is_successful = self.game_rng.random() < success_chance
+
+        result = {
+            "runner": runner_data,
+            "catcher": defensive_catcher,
+            "base_from": "1B" if base_to_steal == 2 else "2B",
+            "base_to": "2B" if base_to_steal == 2 else "3B",
+            "is_successful": is_successful,
+            "credits": []
+        }
+
+        if is_successful:
             self.bases[base_to_steal - 1] = runner_name
             self.bases[base_from_idx] = None
+            self.player_stats[runner_data['id']]['SB'] += 1
             self._print(f"  {self._get_narrative_string('stolen_base' if base_to_steal == 2 else 'stolen_base_third', {'runner_name': runner_name})}")
-            return False # Not caught
         else:
             self.outs += 1
             self.bases[base_from_idx] = None
             self._print(f"  {runner_name} is caught stealing {'second' if base_to_steal == 2 else 'third'}!")
-            return True # Caught stealing
+            throw_recipient = self.game_rng.choice([p for p in defensive_team['players'] if p['position']['abbreviation'] in ['SS', '2B']])
+            result["credits"] = [
+                {"player": {"id": defensive_catcher['id']}, "position": defensive_catcher['position'], "credit": "assist"},
+                {"player": {"id": throw_recipient['id']}, "position": throw_recipient['position'], "credit": "putout"}
+            ]
+        return result
 
     def _simulate_at_bat(self, batter, pitcher):
         balls, strikes = 0, 0
         play_events: list[PlayEvent] = []
+        runners: list[Runner] = []
         narrative_k = False
         pitch_outcome_text = ""
         
@@ -600,7 +619,7 @@ class BaseballSimulator:
             if self.commentary_rng.random() < 0.04: self._print(f"  {self._get_narrative_string('infield_in')}")
 
         if self.game_rng.random() < batter['plate_discipline'].get('HBP', 0):
-            return "HBP", None, play_events, narrative_k
+            return "HBP", None, play_events, narrative_k, runners
 
         bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
         bunt_situation = self.outs < 2 and any(self.bases) and not self.bases[2]
@@ -688,7 +707,7 @@ class BaseballSimulator:
                         'trajectory': self._get_trajectory(hit_result, batted_ball_data.get('la'))
                     }
                     play_events[-1]['hitData'] = hit_data
-                return hit_result, description_context, play_events, narrative_k
+                return hit_result, description_context, play_events, narrative_k, runners
 
             # If the ball is not in play, now we resolve the steal attempt.
             if steal_attempt_base:
@@ -696,13 +715,54 @@ class BaseballSimulator:
                     # Foul ball negates the steal attempt, runner returns.
                     pass
                 else:
-                    caught_stealing = self._resolve_steal_attempt(steal_attempt_base)
-                    if caught_stealing and self.outs >= 3:
-                        return "Caught Stealing", None, play_events, narrative_k
-                    elif caught_stealing and strikes == 3:
-                        # "Strike 'em out, throw 'em out" double play
-                        self.outs += 1 # The batter strikes out, runner is the second out
-                        return "Strikeout Double Play", None, play_events, narrative_k
+                    steal_result = self._resolve_steal_attempt(steal_attempt_base)
+                    if steal_result:
+                        if self.generate_gameday:
+                            event_type = "stolen_base_2b" if steal_result['base_to'] == "2B" else "stolen_base_3b"
+                            sb_count = self.player_stats[steal_result['runner']['id']]['SB']
+                            event_description = f"{steal_result['runner']['legal_name']} steals ({sb_count}) {steal_result['base_to']} base."
+                            if not steal_result['is_successful']:
+                                event_type = "caught_stealing_2b" if steal_result['base_to'] == "2B" else "caught_stealing_3b"
+                                event_description = f"{steal_result['runner']['legal_name']} caught stealing {steal_result['base_to']} base."
+
+                            action_event: PlayEvent = {
+                                'index': self._pitch_event_seq,
+                                'type': 'action',
+                                'isPitch': False,
+                                'isBaseRunningPlay': True,
+                                'count': {'balls': balls, 'strikes': strikes},
+                                'details': {
+                                    'description': event_description,
+                                    'event': "Stolen Base" if steal_result['is_successful'] else "Caught Stealing",
+                                    'eventType': event_type,
+                                    'isOut': not steal_result['is_successful']
+                                }
+                            }
+                            play_events.append(action_event)
+                            self._pitch_event_seq += 1
+
+                            runner_entry = self._build_runner_entry(
+                                runner_name=steal_result['runner']['legal_name'],
+                                origin_base=steal_result['base_from'],
+                                end_base=steal_result['base_to'] if steal_result['is_successful'] else None,
+                                is_out=not steal_result['is_successful'],
+                                out_number=self.outs if not steal_result['is_successful'] else None,
+                                event="Stolen Base" if steal_result['is_successful'] else "Caught Stealing",
+                                event_type=event_type,
+                                movement_reason="stolen_base" if steal_result['is_successful'] else "caught_stealing",
+                                play_index=len(play_events) - 1,
+                                is_scoring=False, is_rbi=False,
+                                credits=steal_result['credits']
+                            )
+                            if runner_entry:
+                                runners.append(runner_entry)
+
+                        if not steal_result['is_successful']:
+                            if self.outs >= 3:
+                                return "Caught Stealing", None, play_events, narrative_k, runners
+                            if strikes == 3:
+                                self.outs += 1
+                                return "Strikeout Double Play", None, play_events, narrative_k, runners
 
 
             if self.base_commentary_style == 'narrative':
@@ -730,7 +790,7 @@ class BaseballSimulator:
                 self._print(f"  {pitch_outcome_text.capitalize()}: {pitch_velo} mph {pitch_selection}")
 
         if balls == 4:
-            return "Walk", None, play_events, narrative_k
+            return "Walk", None, play_events, narrative_k, runners
 
         # This part of the function should only be reached if strikes == 3
         k_type = "looking" if pitch_outcome_text == "called strike" else "swinging"
@@ -739,7 +799,7 @@ class BaseballSimulator:
         if self.base_commentary_style == 'narrative' and self.verbose_phrasing:
             self._print(f"  {batter['legal_name']} {verb}.")
             narrative_k = True
-        return "Strikeout", description, play_events, narrative_k
+        return "Strikeout", description, play_events, narrative_k, runners
 
 
     def _advance_runners(self, hit_type, batter, was_error=False, include_batter_advance=False):
@@ -987,11 +1047,11 @@ class BaseballSimulator:
             # Store pre-play base state for matchup
             pre_play_bases = self.bases[:]
 
-            outcome, description, play_events, narrative_k = self._simulate_at_bat(batter, pitcher)
+            outcome, description, play_events, narrative_k, runners_from_at_bat = self._simulate_at_bat(batter, pitcher)
 
             runs, rbis, was_error = 0, 0, False
             advances, credits = [], []
-            runner_list: list[Runner] = []
+            runner_list: list[Runner] = runners_from_at_bat
             is_dp = False
             runner_out_dp = None
 
