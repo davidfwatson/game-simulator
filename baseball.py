@@ -145,7 +145,7 @@ class BaseballSimulator:
     def _simulate_bat_swing(self, batter, is_strike_loc):
         """Determines if the batter swings at the pitch."""
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
-        swing_at_ball_prob = 0.30 / discipline_factor
+        swing_at_ball_prob = 0.28 / discipline_factor
         return self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
 
     def _simulate_batted_ball_physics(self, batter):
@@ -607,6 +607,7 @@ class BaseballSimulator:
         is_bunting = bunt_situation and self.game_rng.random() < bunt_propensity
 
         while balls < 4 and strikes < 3:
+            pitch_outcome_text = ""
             steal_attempt_base = self._decide_steal_attempt(balls, strikes)
             
             self.pitch_counts[pitcher['legal_name']] += 1
