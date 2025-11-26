@@ -295,26 +295,26 @@
         "homeScore": 1
       },
       "about": {
-        "atBatIndex": 52,
+        "atBatIndex": 44,
         "halfInning": "bottom",
         "isTopInning": false,
-        "inning": 6,
+        "inning": 5,
         "isScoringPlay": true
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 1
+        "outs": 2
       },
       "matchup": {
         "batter": {
-          "id": 545101,
-          "fullName": "Leo Vance",
-          "link": "/api/v1/people/545101"
+          "id": 545105,
+          "fullName": "Caleb Jones",
+          "link": "/api/v1/people/545105"
         },
         "batSide": {
-          "code": "L",
-          "description": "Left"
+          "code": "R",
+          "description": "Right"
         },
         "pitcher": {
           "id": 645211,
@@ -327,23 +327,23 @@
         },
         "splits": {
           "batter": "vs_RHP",
-          "pitcher": "vs_LHB",
+          "pitcher": "vs_RHB",
           "menOnBase": "RISP"
         },
         "postOnFirst": {
-          "id": 545101,
-          "fullName": "Leo Vance",
-          "link": "/api/v1/people/545101"
+          "id": 545105,
+          "fullName": "Caleb Jones",
+          "link": "/api/v1/people/545105"
         },
         "postOnSecond": {
-          "id": 545108,
-          "fullName": "Miles Corbin",
-          "link": "/api/v1/people/545108"
+          "id": 545103,
+          "fullName": "Sam Decker",
+          "link": "/api/v1/people/545103"
         }
       },
       "playEvents": [
         {
-          "index": 192,
+          "index": 173,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -358,17 +358,39 @@
             }
           },
           "pitchData": {
-            "startSpeed": 93.7,
+            "startSpeed": 94.2,
             "breaks": {
-              "spinRate": 2246
+              "spinRate": 2204
             }
           }
         },
         {
-          "index": 193,
+          "index": 174,
           "count": {
             "balls": 0,
             "strikes": 1
+          },
+          "details": {
+            "code": "S",
+            "description": "Swinging Strike",
+            "isStrike": true,
+            "type": {
+              "code": "FF",
+              "description": "Four-seam fastball"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 94.6,
+            "breaks": {
+              "spinRate": 2229
+            }
+          }
+        },
+        {
+          "index": 175,
+          "count": {
+            "balls": 0,
+            "strikes": 2
           },
           "details": {
             "code": "X",
@@ -380,14 +402,14 @@
             }
           },
           "pitchData": {
-            "startSpeed": 93.2,
+            "startSpeed": 93.6,
             "breaks": {
               "spinRate": 2365
             }
           },
           "hitData": {
-            "launchSpeed": 98.8,
-            "launchAngle": 8.9,
+            "launchSpeed": 102.4,
+            "launchAngle": 4.8,
             "trajectory": "ground_ball"
           }
         }
@@ -407,15 +429,15 @@
             "eventType": "single",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 545108,
-              "fullName": "Miles Corbin",
-              "link": "/api/v1/people/545108"
+              "id": 545103,
+              "fullName": "Sam Decker",
+              "link": "/api/v1/people/545103"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 1
+            "playIndex": 2
           },
           "credits": []
         },
@@ -433,15 +455,15 @@
             "eventType": "single",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 545107,
-              "fullName": "Owen Chen",
-              "link": "/api/v1/people/545107"
+              "id": 545102,
+              "fullName": "Marcus Thorne",
+              "link": "/api/v1/people/545102"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 1,
+            "playIndex": 2,
             "responsiblePitcher": {
               "id": 645211,
               "link": "/api/v1/people/645211"
@@ -463,15 +485,15 @@
             "eventType": "single",
             "movementReason": null,
             "runner": {
-              "id": 545101,
-              "fullName": "Leo Vance",
-              "link": "/api/v1/people/545101"
+              "id": 545105,
+              "fullName": "Caleb Jones",
+              "link": "/api/v1/people/545105"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 1
+            "playIndex": 2
           },
           "credits": []
         }
@@ -1108,14 +1130,14 @@
           "link": "/api/v1/people/545101"
         },
         "postOnThird": {
-          "id": 545108,
-          "fullName": "Miles Corbin",
-          "link": "/api/v1/people/545108"
+          "id": 545109,
+          "fullName": "Grant Fisher",
+          "link": "/api/v1/people/545109"
         }
       },
       "playEvents": [
         {
-          "index": 93,
+          "index": 90,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -1183,9 +1205,9 @@
             "eventType": "field_error",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 545108,
-              "fullName": "Miles Corbin",
-              "link": "/api/v1/people/545108"
+              "id": 545109,
+              "fullName": "Grant Fisher",
+              "link": "/api/v1/people/545109"
             },
             "isScoringEvent": false,
             "rbi": false,
@@ -1224,10 +1246,10 @@
       ]
     }
   ],
-  "playCount": 94,
+  "playCount": 77,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 94,
+    "totalPlaysInGame": 77,
     "snapshotPlayCount": 6
   }
 }

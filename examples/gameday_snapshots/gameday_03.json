@@ -163,15 +163,15 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Home Run",
-        "eventType": "home_run",
+        "event": "Single",
+        "eventType": "single",
         "description": "",
-        "rbi": 3,
+        "rbi": 1,
         "awayScore": 0,
-        "homeScore": 3
+        "homeScore": 1
       },
       "about": {
-        "atBatIndex": 12,
+        "atBatIndex": 11,
         "halfInning": "bottom",
         "isTopInning": false,
         "inning": 2,
@@ -184,13 +184,13 @@
       },
       "matchup": {
         "batter": {
-          "id": 545107,
-          "fullName": "Owen Chen",
-          "link": "/api/v1/people/545107"
+          "id": 545106,
+          "fullName": "Nate Diaz",
+          "link": "/api/v1/people/545106"
         },
         "batSide": {
-          "code": "L",
-          "description": "Left"
+          "code": "R",
+          "description": "Right"
         },
         "pitcher": {
           "id": 645210,
@@ -203,82 +203,57 @@
         },
         "splits": {
           "batter": "vs_LHP",
-          "pitcher": "vs_LHB",
+          "pitcher": "vs_RHB",
           "menOnBase": "RISP"
+        },
+        "postOnFirst": {
+          "id": 545106,
+          "fullName": "Nate Diaz",
+          "link": "/api/v1/people/545106"
         }
       },
       "playEvents": [
         {
-          "index": 47,
+          "index": 45,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
             "code": "X",
-            "description": "In play, Home Run",
+            "description": "In play, Single",
             "isStrike": true,
             "type": {
-              "code": "CU",
-              "description": "Curveball"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 79.9,
+            "startSpeed": 92.7,
             "breaks": {
-              "spinRate": 2871
+              "spinRate": 2058
             }
           },
           "hitData": {
-            "launchSpeed": 115.8,
-            "launchAngle": 9.0,
-            "trajectory": "ground_ball"
+            "launchSpeed": 98.2,
+            "launchAngle": 14.6,
+            "trajectory": "line_drive"
           }
         }
       ],
       "runners": [
         {
           "movement": {
-            "originBase": "1B",
-            "start": "1B",
+            "originBase": "3B",
+            "start": "3B",
             "end": "score",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Home Run",
-            "eventType": "home_run",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 545106,
-              "fullName": "Nate Diaz",
-              "link": "/api/v1/people/545106"
-            },
-            "isScoringEvent": true,
-            "rbi": true,
-            "earned": true,
-            "teamUnearned": false,
-            "playIndex": 0,
-            "responsiblePitcher": {
-              "id": 645210,
-              "link": "/api/v1/people/645210"
-            }
-          },
-          "credits": []
-        },
-        {
-          "movement": {
-            "originBase": "2B",
-            "start": "2B",
-            "end": "score",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Home Run",
-            "eventType": "home_run",
+            "event": "Single",
+            "eventType": "single",
             "movementReason": "r_adv_play",
             "runner": {
               "id": 545104,
@@ -301,29 +276,25 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": "score",
+            "end": "1B",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Home Run",
-            "eventType": "home_run",
+            "event": "Single",
+            "eventType": "single",
             "movementReason": null,
             "runner": {
-              "id": 545107,
-              "fullName": "Owen Chen",
-              "link": "/api/v1/people/545107"
+              "id": 545106,
+              "fullName": "Nate Diaz",
+              "link": "/api/v1/people/545106"
             },
-            "isScoringEvent": true,
-            "rbi": true,
-            "earned": true,
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
             "teamUnearned": false,
-            "playIndex": 0,
-            "responsiblePitcher": {
-              "id": 645210,
-              "link": "/api/v1/people/645210"
-            }
+            "playIndex": 0
           },
           "credits": []
         }
@@ -810,228 +781,158 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Single",
-        "eventType": "single",
+        "event": "Sacrifice Bunt",
+        "eventType": "sac_bunt",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
-        "homeScore": 0
+        "homeScore": 1
       },
       "about": {
-        "atBatIndex": 9,
-        "halfInning": "bottom",
-        "isTopInning": false,
-        "inning": 2,
+        "atBatIndex": 14,
+        "halfInning": "top",
+        "isTopInning": true,
+        "inning": 3,
         "isScoringPlay": false
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 0
+        "outs": 1
       },
       "matchup": {
         "batter": {
-          "id": 545104,
-          "fullName": "Jackson Riley",
-          "link": "/api/v1/people/545104"
+          "id": 625208,
+          "fullName": "Wes Griffin",
+          "link": "/api/v1/people/625208"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitcher": {
-          "id": 645210,
-          "fullName": "Miguel Garcia",
-          "link": "/api/v1/people/645210"
-        },
-        "pitchHand": {
           "code": "L",
           "description": "Left"
         },
-        "splits": {
-          "batter": "vs_LHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "Empty"
+        "pitcher": {
+          "id": 605110,
+          "fullName": "Joe Gibson",
+          "link": "/api/v1/people/605110"
         },
-        "postOnFirst": {
-          "id": 545104,
-          "fullName": "Jackson Riley",
-          "link": "/api/v1/people/545104"
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "splits": {
+          "batter": "vs_RHP",
+          "pitcher": "vs_LHB",
+          "menOnBase": "Men_On"
+        },
+        "postOnSecond": {
+          "id": 625207,
+          "fullName": "Hank Barrett",
+          "link": "/api/v1/people/625207"
         }
       },
       "playEvents": [
         {
-          "index": 34,
+          "index": 55,
           "count": {
             "balls": 0,
             "strikes": 0
           },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 85.7,
-            "breaks": {
-              "spinRate": 2611
-            }
-          }
-        },
-        {
-          "index": 35,
-          "count": {
-            "balls": 0,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 90.2,
-            "breaks": {
-              "spinRate": 2175
-            }
-          }
-        },
-        {
-          "index": 36,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 90.6,
-            "breaks": {
-              "spinRate": 2158
-            }
-          }
-        },
-        {
-          "index": 37,
-          "count": {
-            "balls": 2,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 78.6,
-            "breaks": {
-              "spinRate": 2809
-            }
-          }
-        },
-        {
-          "index": 38,
-          "count": {
-            "balls": 3,
-            "strikes": 1
-          },
-          "details": {
-            "code": "C",
-            "description": "Called Strike",
-            "isStrike": true,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 80.0,
-            "breaks": {
-              "spinRate": 2871
-            }
-          }
-        },
-        {
-          "index": 39,
-          "count": {
-            "balls": 3,
-            "strikes": 2
-          },
+          "isBunt": true,
           "details": {
             "code": "X",
-            "description": "In play, Single",
+            "description": "In play, Sacrifice Bunt",
             "isStrike": true,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "CH",
+              "description": "Changeup"
             }
           },
           "pitchData": {
-            "startSpeed": 86.2,
+            "startSpeed": 81.9,
             "breaks": {
-              "spinRate": 2379
+              "spinRate": 1889
             }
           },
           "hitData": {
-            "launchSpeed": 102.8,
-            "launchAngle": 19.8,
-            "trajectory": "line_drive"
+            "launchSpeed": 62.4,
+            "launchAngle": -40.0,
+            "trajectory": "ground_ball"
           }
         }
       ],
       "runners": [
         {
           "movement": {
-            "originBase": null,
-            "start": null,
-            "end": "1B",
+            "originBase": "1B",
+            "start": "1B",
+            "end": "2B",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Single",
-            "eventType": "single",
-            "movementReason": null,
+            "event": "Sacrifice Bunt",
+            "eventType": "sac_bunt",
+            "movementReason": "r_adv_play",
             "runner": {
-              "id": 545104,
-              "fullName": "Jackson Riley",
-              "link": "/api/v1/people/545104"
+              "id": 625207,
+              "fullName": "Hank Barrett",
+              "link": "/api/v1/people/625207"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 5
+            "playIndex": 0
           },
           "credits": []
+        },
+        {
+          "movement": {
+            "originBase": null,
+            "start": null,
+            "end": null,
+            "outBase": "1B",
+            "isOut": true,
+            "outNumber": 1
+          },
+          "details": {
+            "event": "Sacrifice Bunt",
+            "eventType": "sac_bunt",
+            "movementReason": null,
+            "runner": {
+              "id": 625208,
+              "fullName": "Wes Griffin",
+              "link": "/api/v1/people/625208"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 0
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 545105
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 545107
+              },
+              "credit": "putout"
+            }
+          ]
         }
       ]
     }
   ],
-  "playCount": 80,
+  "playCount": 68,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 80,
+    "totalPlaysInGame": 68,
     "snapshotPlayCount": 6
   }
 }

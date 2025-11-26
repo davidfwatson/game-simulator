@@ -102,6 +102,10 @@ GAME_CONTEXT = {
             "{runner_name} takes off for second... and he's in there with a stolen base!",
             "A good jump and a stolen base for {runner_name}."
         ],
+        "stolen_base_third": [
+            "{runner_name} takes off for third... and he makes it! A stolen base!",
+            "He's going for third! And he's safe! {runner_name} with a great jump."
+        ],
         "play_by_play_templates": [
             "{batter_name} {verb} {direction} on a {pitch_velo} mph {pitch_type}.",
             "A {pitch_velo} mph {pitch_type}, and {batter_name} {verb} {direction}.",

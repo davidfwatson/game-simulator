@@ -229,39 +229,39 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Home Run",
-        "eventType": "home_run",
+        "event": "Groundout",
+        "eventType": "field_out",
         "description": "",
-        "rbi": 3,
-        "awayScore": 3,
+        "rbi": 1,
+        "awayScore": 1,
         "homeScore": 0
       },
       "about": {
-        "atBatIndex": 77,
+        "atBatIndex": 19,
         "halfInning": "top",
         "isTopInning": true,
-        "inning": 10,
+        "inning": 3,
         "isScoringPlay": true
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 1
+        "outs": 2
       },
       "matchup": {
         "batter": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
+          "id": 625202,
+          "fullName": "Kevin Webb",
+          "link": "/api/v1/people/625202"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
-          "id": 605111,
-          "fullName": "Colin Miller",
-          "link": "/api/v1/people/605111"
+          "id": 605110,
+          "fullName": "Joe Gibson",
+          "link": "/api/v1/people/605110"
         },
         "pitchHand": {
           "code": "R",
@@ -269,42 +269,25 @@
         },
         "splits": {
           "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
+          "pitcher": "vs_LHB",
           "menOnBase": "RISP"
+        },
+        "postOnThird": {
+          "id": 625209,
+          "fullName": "TJ Hawkins",
+          "link": "/api/v1/people/625209"
         }
       },
       "playEvents": [
         {
-          "index": 245,
+          "index": 65,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "S",
-            "description": "Swinging Strike",
-            "isStrike": true,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 91.9,
-            "breaks": {
-              "spinRate": 2221
-            }
-          }
-        },
-        {
-          "index": 246,
-          "count": {
-            "balls": 0,
-            "strikes": 1
-          },
-          "details": {
             "code": "X",
-            "description": "In play, Home Run",
+            "description": "In play, Groundout",
             "isStrike": true,
             "type": {
               "code": "SL",
@@ -312,46 +295,42 @@
             }
           },
           "pitchData": {
-            "startSpeed": 87.0,
+            "startSpeed": 89.1,
             "breaks": {
-              "spinRate": 2601
+              "spinRate": 2654
             }
           },
           "hitData": {
-            "launchSpeed": 115.4,
-            "launchAngle": 23.8,
-            "trajectory": "line_drive"
+            "launchSpeed": 90.0,
+            "launchAngle": -7.4,
+            "trajectory": "ground_ball"
           }
         }
       ],
       "runners": [
         {
           "movement": {
-            "originBase": "1B",
-            "start": "1B",
-            "end": "score",
+            "originBase": "2B",
+            "start": "2B",
+            "end": "3B",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Home Run",
-            "eventType": "home_run",
+            "event": "Groundout",
+            "eventType": "field_out",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 625203,
-              "fullName": "Omar Ramirez",
-              "link": "/api/v1/people/625203"
+              "id": 625209,
+              "fullName": "TJ Hawkins",
+              "link": "/api/v1/people/625209"
             },
-            "isScoringEvent": true,
-            "rbi": true,
-            "earned": true,
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
             "teamUnearned": false,
-            "playIndex": 1,
-            "responsiblePitcher": {
-              "id": 605111,
-              "link": "/api/v1/people/605111"
-            }
+            "playIndex": 0
           },
           "credits": []
         },
@@ -365,22 +344,22 @@
             "outNumber": null
           },
           "details": {
-            "event": "Home Run",
-            "eventType": "home_run",
+            "event": "Groundout",
+            "eventType": "field_out",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 625201,
-              "fullName": "Alex Chase",
-              "link": "/api/v1/people/625201"
+              "id": 625208,
+              "fullName": "Wes Griffin",
+              "link": "/api/v1/people/625208"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 1,
+            "playIndex": 0,
             "responsiblePitcher": {
-              "id": 605111,
-              "link": "/api/v1/people/605111"
+              "id": 605110,
+              "link": "/api/v1/people/605110"
             }
           },
           "credits": []
@@ -389,31 +368,40 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": "score",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
+            "end": null,
+            "outBase": "1B",
+            "isOut": true,
+            "outNumber": 2
           },
           "details": {
-            "event": "Home Run",
-            "eventType": "home_run",
+            "event": "Groundout",
+            "eventType": "field_out",
             "movementReason": null,
             "runner": {
-              "id": 625204,
-              "fullName": "Rex Power",
-              "link": "/api/v1/people/625204"
+              "id": 625202,
+              "fullName": "Kevin Webb",
+              "link": "/api/v1/people/625202"
             },
-            "isScoringEvent": true,
-            "rbi": true,
-            "earned": true,
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
             "teamUnearned": false,
-            "playIndex": 1,
-            "responsiblePitcher": {
-              "id": 605111,
-              "link": "/api/v1/people/605111"
-            }
+            "playIndex": 0
           },
-          "credits": []
+          "credits": [
+            {
+              "player": {
+                "id": 545105
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 545107
+              },
+              "credit": "putout"
+            }
+          ]
         }
       ]
     },
@@ -805,100 +793,105 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Groundout",
-        "eventType": "field_out",
+        "event": "Walk",
+        "eventType": "walk",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
         "homeScore": 0
       },
       "about": {
-        "atBatIndex": 13,
-        "halfInning": "bottom",
-        "isTopInning": false,
-        "inning": 2,
+        "atBatIndex": 16,
+        "halfInning": "top",
+        "isTopInning": true,
+        "inning": 3,
         "isScoringPlay": false
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 1
+        "outs": 0
       },
       "matchup": {
         "batter": {
-          "id": 545107,
-          "fullName": "Owen Chen",
-          "link": "/api/v1/people/545107"
+          "id": 625208,
+          "fullName": "Wes Griffin",
+          "link": "/api/v1/people/625208"
         },
         "batSide": {
           "code": "L",
           "description": "Left"
         },
         "pitcher": {
-          "id": 645210,
-          "fullName": "Miguel Garcia",
-          "link": "/api/v1/people/645210"
+          "id": 605110,
+          "fullName": "Joe Gibson",
+          "link": "/api/v1/people/605110"
         },
         "pitchHand": {
-          "code": "L",
-          "description": "Left"
+          "code": "R",
+          "description": "Right"
         },
         "splits": {
-          "batter": "vs_LHP",
+          "batter": "vs_RHP",
           "pitcher": "vs_LHB",
           "menOnBase": "Empty"
+        },
+        "postOnFirst": {
+          "id": 625208,
+          "fullName": "Wes Griffin",
+          "link": "/api/v1/people/625208"
         }
       },
       "playEvents": [
         {
-          "index": 44,
+          "index": 52,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "C",
-            "description": "Called Strike",
-            "isStrike": true,
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
             "type": {
-              "code": "SI",
-              "description": "Sinker"
+              "code": "FF",
+              "description": "Four-seam fastball"
             }
           },
           "pitchData": {
-            "startSpeed": 90.5,
+            "startSpeed": 96.2,
             "breaks": {
-              "spinRate": 1966
+              "spinRate": 2488
             }
           }
         },
         {
-          "index": 45,
+          "index": 53,
           "count": {
-            "balls": 0,
-            "strikes": 1
+            "balls": 1,
+            "strikes": 0
           },
           "details": {
-            "code": "S",
-            "description": "Swinging Strike",
-            "isStrike": true,
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
             "type": {
-              "code": "CU",
-              "description": "Curveball"
+              "code": "FF",
+              "description": "Four-seam fastball"
             }
           },
           "pitchData": {
-            "startSpeed": 80.1,
+            "startSpeed": 96.0,
             "breaks": {
-              "spinRate": 2792
+              "spinRate": 2534
             }
           }
         },
         {
-          "index": 46,
+          "index": 54,
           "count": {
-            "balls": 0,
-            "strikes": 2
+            "balls": 2,
+            "strikes": 0
           },
           "details": {
             "code": "F",
@@ -910,16 +903,60 @@
             }
           },
           "pitchData": {
-            "startSpeed": 79.9,
+            "startSpeed": 79.8,
             "breaks": {
-              "spinRate": 2744
+              "spinRate": 2787
             }
           }
         },
         {
-          "index": 47,
+          "index": 55,
           "count": {
-            "balls": 0,
+            "balls": 2,
+            "strikes": 1
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "FF",
+              "description": "Four-seam fastball"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 96.6,
+            "breaks": {
+              "spinRate": 2268
+            }
+          }
+        },
+        {
+          "index": 56,
+          "count": {
+            "balls": 3,
+            "strikes": 1
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "SL",
+              "description": "Slider"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 89.2,
+            "breaks": {
+              "spinRate": 2493
+            }
+          }
+        },
+        {
+          "index": 57,
+          "count": {
+            "balls": 3,
             "strikes": 2
           },
           "details": {
@@ -927,42 +964,15 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SI",
-              "description": "Sinker"
+              "code": "FF",
+              "description": "Four-seam fastball"
             }
           },
           "pitchData": {
-            "startSpeed": 92.7,
+            "startSpeed": 96.1,
             "breaks": {
-              "spinRate": 1980
+              "spinRate": 2439
             }
-          }
-        },
-        {
-          "index": 48,
-          "count": {
-            "balls": 1,
-            "strikes": 2
-          },
-          "details": {
-            "code": "X",
-            "description": "In play, Groundout",
-            "isStrike": true,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 90.5,
-            "breaks": {
-              "spinRate": 2063
-            }
-          },
-          "hitData": {
-            "launchSpeed": 98.0,
-            "launchAngle": -5.2,
-            "trajectory": "ground_ball"
           }
         }
       ],
@@ -971,48 +981,35 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": null,
-            "outBase": "1B",
-            "isOut": true,
-            "outNumber": 1
+            "end": "1B",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
           },
           "details": {
-            "event": "Groundout",
-            "eventType": "field_out",
+            "event": "Walk",
+            "eventType": "walk",
             "movementReason": null,
             "runner": {
-              "id": 545107,
-              "fullName": "Owen Chen",
-              "link": "/api/v1/people/545107"
+              "id": 625208,
+              "fullName": "Wes Griffin",
+              "link": "/api/v1/people/625208"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 4
+            "playIndex": 5
           },
-          "credits": [
-            {
-              "player": {
-                "id": 625201
-              },
-              "credit": "assist"
-            },
-            {
-              "player": {
-                "id": 625206
-              },
-              "credit": "putout"
-            }
-          ]
+          "credits": []
         }
       ]
     }
   ],
-  "playCount": 87,
+  "playCount": 73,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 87,
+    "totalPlaysInGame": 73,
     "snapshotPlayCount": 6
   }
 }
