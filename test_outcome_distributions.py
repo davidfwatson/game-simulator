@@ -1,7 +1,6 @@
 import unittest
-import collections
 import copy
-import re
+from collections import defaultdict
 from baseball import BaseballSimulator
 from teams import TEAMS
 
@@ -9,44 +8,52 @@ class TestOutcomeDistributions(unittest.TestCase):
     def test_baseline_outcome_distribution(self):
         """
         This test establishes a baseline for the distribution of game outcomes.
-        It runs a large number of simulations and records the frequency of
-        different events like singles, home runs, and strikeouts. The results
-        are printed to the console and can be used to validate future changes
-        to the simulation engine.
+        It is not a pass/fail test in the traditional sense, but rather a tool
+        for detecting significant changes in simulation behavior. If this test
+        fails, it means the outcome distribution has changed, and the new
+        distribution should be reviewed and potentially accepted as the new baseline.
         """
-        num_games = 1000  # A large number for statistical significance
-        outcome_counts = collections.defaultdict(int)
-
-        for i in range(num_games):
-            # Use a different seed for each game to get a variety of outcomes
+        outcomes = defaultdict(int)
+        num_simulations = 100
+        for i in range(num_simulations):
             game = BaseballSimulator(
                 copy.deepcopy(TEAMS["BAY_BOMBERS"]),
                 copy.deepcopy(TEAMS["PC_PILOTS"]),
-                game_seed=i,
-                commentary_seed=i,
-                commentary_style='gameday'  # Generate gameday data for analysis
+                game_seed=i
             )
-            game.play_game()
+            gameday_data = game.play_game()
+            for play in gameday_data['liveData']['plays']['allPlays']:
+                outcomes[play['result']['event']] += 1
 
-            # Extract outcomes from the gameday data
-            if game.gameday_data:
-                for play in game.gameday_data['liveData']['plays']['allPlays']:
-                    outcome = play['result']['event']
-                    outcome_counts[outcome] += 1
+        # This expected distribution is based on a prior run of the simulation.
+        # If the simulation logic changes, this distribution may need to be updated.
+        expected_distribution = {
+            'Groundout': 412,
+            'Strikeout': 421,
+            'Flyout': 238,
+            'Walk': 156,
+            'Single': 222,
+            'Double': 77,
+            'Home Run': 43,
+            'Pop Out': 30,
+            'Lineout': 26,
+            'Triple': 4,
+            'Double Play': 37,
+            'Field Error': 18,
+            'Hit By Pitch': 8,
+            'Sac Fly': 6,
+            'Forceout': 1,
+            'Caught Stealing': 1,
+        }
 
-        # The purpose of this test is to establish a baseline.
-        # We will print the results and then assert True to ensure the
-        # test passes and the baseline is recorded in the test logs.
-        print("\n--- Baseline Outcome Distribution ---")
-        total_outcomes = sum(outcome_counts.values())
-        if total_outcomes > 0:
-            for outcome, count in sorted(outcome_counts.items()):
-                percentage = (count / total_outcomes) * 100
-                print(f"{outcome}: {count} ({percentage:.2f}%)")
-        print("------------------------------------")
-
-        # This test is for establishing a baseline, so it should always pass.
-        self.assertTrue(True)
+        # The test will fail if the new distribution deviates significantly.
+        for outcome, count in expected_distribution.items():
+            self.assertAlmostEqual(
+                outcomes[outcome],
+                count,
+                delta=count * 0.5, # Allow for a 50% tolerance
+                msg=f"Outcome '{outcome}' count {outcomes[outcome]} differs significantly from expected {count}"
+            )
 
 if __name__ == '__main__':
     unittest.main()

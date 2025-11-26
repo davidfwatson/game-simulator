@@ -26,9 +26,18 @@ def main():
     for i, example in enumerate(EXAMPLE_GAMES, start=1):
         print(f"  Processing game {i:02d}...", end=" ")
 
-        # Generate full gameday JSON using example_games.py
+        # Generate full gameday JSON using run_simulation.py
         result = subprocess.run(
-            ['python3', 'example_games.py', str(i), '--commentary', 'gameday'],
+            [
+                "python3",
+                "run_simulation.py",
+                "--game-seed",
+                str(example.game_seed),
+                "--commentary-seed",
+                str(example.commentary_seed),
+                "--output-style",
+                "gameday"
+            ],
             capture_output=True,
             text=True,
             check=True

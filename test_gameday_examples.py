@@ -6,9 +6,10 @@ comparing against curated snapshots of representative plays from each game.
 """
 
 import json
-import subprocess
 import unittest
 from pathlib import Path
+
+from example_games import EXAMPLE_GAMES
 from gameday_snapshot_extractor import create_snapshot_data
 
 
@@ -26,7 +27,7 @@ class TestGamedayExamples(unittest.TestCase):
         snapshots_dir = Path(__file__).parent / "examples" / "gameday_snapshots"
 
         # Iterate over each example game
-        for i in range(1, 11):
+        for i, example in enumerate(EXAMPLE_GAMES, start=1):
             snapshot_file = snapshots_dir / f"gameday_{i:02d}.json"
 
             with self.subTest(game=i):
@@ -35,13 +36,8 @@ class TestGamedayExamples(unittest.TestCase):
                     stored_snapshot = json.load(f)
 
                 # Regenerate gameday output with same seed
-                result = subprocess.run(
-                    ['python3', 'example_games.py', str(i), '--commentary', 'gameday'],
-                    capture_output=True,
-                    text=True,
-                    check=True
-                )
-                regenerated_gameday = json.loads(result.stdout)
+                regenerated_gameday_json = example.render(commentary_style="gameday")
+                regenerated_gameday = json.loads(regenerated_gameday_json)
 
                 # Extract snapshot from regenerated data
                 regenerated_snapshot = create_snapshot_data(regenerated_gameday, max_plays=6)

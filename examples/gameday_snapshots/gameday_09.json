@@ -21,7 +21,7 @@
         "type": "atBat",
         "event": "Lineout",
         "eventType": "field_out",
-        "description": "",
+        "description": "Lineout to P",
         "rbi": 0,
         "awayScore": 0,
         "homeScore": 0
@@ -329,21 +329,6 @@
           "batter": "vs_RHP",
           "pitcher": "vs_LHB",
           "menOnBase": "Loaded"
-        },
-        "postOnFirst": {
-          "id": 625206,
-          "fullName": "Felix Washington",
-          "link": "/api/v1/people/625206"
-        },
-        "postOnSecond": {
-          "id": 625205,
-          "fullName": "Evan Reed",
-          "link": "/api/v1/people/625205"
-        },
-        "postOnThird": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
         }
       },
       "playEvents": [
@@ -454,7 +439,7 @@
           "details": {
             "event": "Single",
             "eventType": "single",
-            "movementReason": "r_adv_play",
+            "movementReason": null,
             "runner": {
               "id": 625205,
               "fullName": "Evan Reed",
@@ -480,7 +465,7 @@
           "details": {
             "event": "Single",
             "eventType": "single",
-            "movementReason": "r_adv_play",
+            "movementReason": null,
             "runner": {
               "id": 625204,
               "fullName": "Rex Power",
@@ -498,29 +483,25 @@
           "movement": {
             "originBase": "3B",
             "start": "3B",
-            "end": "score",
+            "end": null,
             "outBase": null,
-            "isOut": false,
+            "isOut": true,
             "outNumber": null
           },
           "details": {
             "event": "Single",
             "eventType": "single",
-            "movementReason": "r_adv_play",
+            "movementReason": null,
             "runner": {
               "id": 625203,
               "fullName": "Omar Ramirez",
               "link": "/api/v1/people/625203"
             },
-            "isScoringEvent": true,
-            "rbi": true,
-            "earned": true,
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
             "teamUnearned": false,
-            "playIndex": 3,
-            "responsiblePitcher": {
-              "id": 605110,
-              "link": "/api/v1/people/605110"
-            }
+            "playIndex": 3
           },
           "credits": []
         },
@@ -543,7 +524,7 @@
               "link": "/api/v1/people/625206"
             },
             "isScoringEvent": false,
-            "rbi": false,
+            "rbi": true,
             "earned": false,
             "teamUnearned": false,
             "playIndex": 3
@@ -557,7 +538,7 @@
         "type": "atBat",
         "event": "Groundout",
         "eventType": "field_out",
-        "description": "",
+        "description": "Groundout to 2B",
         "rbi": 0,
         "awayScore": 0,
         "homeScore": 0
@@ -778,16 +759,6 @@
           "batter": "vs_RHP",
           "pitcher": "vs_RHB",
           "menOnBase": "Men_On"
-        },
-        "postOnFirst": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
-        },
-        "postOnSecond": {
-          "id": 625203,
-          "fullName": "Omar Ramirez",
-          "link": "/api/v1/people/625203"
         }
       },
       "playEvents": [
@@ -915,7 +886,7 @@
           "details": {
             "event": "Walk",
             "eventType": "walk",
-            "movementReason": "r_adv_force",
+            "movementReason": null,
             "runner": {
               "id": 625203,
               "fullName": "Omar Ramirez",
@@ -962,7 +933,7 @@
         "type": "atBat",
         "event": "Flyout",
         "eventType": "field_out",
-        "description": "",
+        "description": "Flyout to LF",
         "rbi": 0,
         "awayScore": 3,
         "homeScore": 0
@@ -1138,11 +1109,6 @@
           "batter": "vs_LHP",
           "pitcher": "vs_LHB",
           "menOnBase": "Empty"
-        },
-        "postOnSecond": {
-          "id": 545102,
-          "fullName": "Marcus Thorne",
-          "link": "/api/v1/people/545102"
         }
       },
       "playEvents": [
@@ -1179,7 +1145,7 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": "2B",
+            "end": "1B",
             "outBase": null,
             "isOut": false,
             "outNumber": null
@@ -1204,10 +1170,10 @@
       ]
     }
   ],
-  "playCount": 92,
+  "playCount": 151,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 92,
+    "totalPlaysInGame": 151,
     "snapshotPlayCount": 6
   }
 }

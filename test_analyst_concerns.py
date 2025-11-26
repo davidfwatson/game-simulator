@@ -1,10 +1,9 @@
 import unittest
 import random
-import io
 import re
 import copy
-from contextlib import redirect_stdout
 from baseball import BaseballSimulator
+from gameday_converter import GamedayConverter
 from teams import TEAMS
 
 class TestAnalystConcerns(unittest.TestCase):
@@ -19,13 +18,13 @@ class TestAnalystConcerns(unittest.TestCase):
         for i in range(num_games):
             random.seed(i)
             # We re-initialize the game each time to reset the state
-            game = BaseballSimulator(
+            simulator = BaseballSimulator(
                 copy.deepcopy(TEAMS["BAY_BOMBERS"]),
                 copy.deepcopy(TEAMS["PC_PILOTS"]),
-                commentary_style=commentary_style
             )
-            game.play_game()
-            full_log.extend(game.output_lines)
+            gameday_data = simulator.play_game()
+            converter = GamedayConverter(gameday_data, commentary_style=commentary_style)
+            full_log.append(converter.convert())
         return "\n".join(full_log)
 
     def test_mechanical_phrasing_of_pitches(self):
@@ -39,8 +38,8 @@ class TestAnalystConcerns(unittest.TestCase):
         log = self._run_sim_and_get_log()
 
         # This pattern finds pitch descriptions (e.g., "called a strike", "misses low").
-        # It's broader to accommodate the new, more varied phrasing.
-        location_phrases = re.findall(r'  (?:Foul, )?(.*?)\. \d+-\d+\.', log)
+        location_phrases = re.findall(r'  (?:Foul, )?(.*?)\.', log)
+
 
         # Basic phrases that indicate mechanical, less descriptive commentary.
         basic_phrases = {"Ball", "Called Strike", "Swinging Strike"}

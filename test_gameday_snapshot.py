@@ -10,7 +10,7 @@ class TestGamedaySnapshot(unittest.TestCase):
         """
         # Generate the output from the simulator
         process = subprocess.run(
-            ['python3', 'baseball.py', '--commentary', 'gameday'],
+            ['python3', 'run_simulation.py', '--output-style', 'gameday'],
             capture_output=True,
             text=True,
             check=True

@@ -4,6 +4,7 @@ import unittest
 from contextlib import redirect_stdout
 
 from baseball import BaseballSimulator
+from gameday_converter import GamedayConverter
 from teams import TEAMS
 
 
@@ -14,7 +15,7 @@ class TestRegressionRealism(unittest.TestCase):
 
     def test_catcher_groundouts_are_rare(self):
         random.seed(123)
-        sim = BaseballSimulator(self.home, self.away, verbose_phrasing=False)
+        sim = BaseballSimulator(self.home, self.away)
         sim.top_of_inning = True
 
         catcher_groundouts = 0
@@ -23,11 +24,11 @@ class TestRegressionRealism(unittest.TestCase):
         for _ in range(5000):
             sim.outs = 0
             sim.bases = [None, None, None]
-            desc, _, was_error, _, _, _, _, _ = sim._handle_batted_ball_out("Groundout", sim.team2_lineup[0])
+            _, _, was_error, _, _, _, _, desc = sim._handle_batted_ball_out("Groundout", sim.team2_lineup[0])
             if was_error:
                 continue
             total_groundouts += 1
-            if "2-3" in desc:
+            if "Groundout to Catcher" in desc:
                 catcher_groundouts += 1
 
         self.assertGreater(total_groundouts, 0)
@@ -45,10 +46,9 @@ class TestRegressionRealism(unittest.TestCase):
         sim.top_of_inning = False
         sim.team1_batter_idx = 3
 
-        buffer = io.StringIO()
-        with redirect_stdout(buffer):
-            sim._simulate_half_inning()
-        log = buffer.getvalue()
+        gameday_data = sim.play_game()
+        converter = GamedayConverter(gameday_data)
+        log = converter.convert()
 
         self.assertNotIn("--- Extra Innings", log)
         self.assertNotIn("placed on second base.", log)
@@ -71,13 +71,9 @@ class TestRegressionRealism(unittest.TestCase):
     def test_play_by_play_avoids_engine_tells(self):
         random.seed(2024)
         sim = BaseballSimulator(self.home, self.away)
-        pitcher = sim.team2_pitcher_stats[sim.team2_current_pitcher_name]
-        batter = sim.team1_lineup[0]
-
-        buffer = io.StringIO()
-        with redirect_stdout(buffer):
-            sim._simulate_at_bat(batter, pitcher)
-        log = buffer.getvalue()
+        gameday_data = sim.play_game()
+        converter = GamedayConverter(gameday_data)
+        log = converter.convert()
 
         self.assertNotIn("In play ->", log)
 

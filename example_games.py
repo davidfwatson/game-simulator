@@ -2,12 +2,13 @@
 from __future__ import annotations
 
 import copy
-import random
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List
 
 from baseball import BaseballSimulator
+from gameday_converter import GamedayConverter
 from teams import TEAMS
 
 
@@ -35,21 +36,23 @@ class ExampleGame:
         simulator = BaseballSimulator(
             copy.deepcopy(_BASE_TEAMS[self.home_team]),
             copy.deepcopy(_BASE_TEAMS[self.away_team]),
-            verbose_phrasing=self.verbose_phrasing,
-            use_bracketed_ui=self.use_bracketed_ui,
-            commentary_style=commentary_style,
             game_seed=game_seed,
             commentary_seed=commentary_seed,
         )
 
-        simulator.play_game()
+        gameday_data = simulator.play_game()
 
         if commentary_style == "gameday":
-            import json
-            return json.dumps(simulator.gameday_data, indent=2)
+            return json.dumps(gameday_data, indent=2)
         else:
-            # Return buffered output for narrative/statcast
-            return "\n".join(simulator.output_lines) + "\n"
+            converter = GamedayConverter(
+                gameday_data,
+                commentary_style=commentary_style,
+                verbose_phrasing=self.verbose_phrasing,
+                use_bracketed_ui=self.use_bracketed_ui,
+                commentary_seed=commentary_seed
+            )
+            return converter.convert() + "\n"
 
 
 EXAMPLE_GAMES: List[ExampleGame] = [
@@ -74,21 +77,3 @@ def iter_example_paths(games: Iterable[ExampleGame] | None = None):
 
 
 __all__ = ["ExampleGame", "EXAMPLE_GAMES", "EXAMPLES_DIR", "iter_example_paths"]
-
-
-if __name__ == "__main__":
-    import sys
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Render a specific example game.")
-    parser.add_argument("game_number", type=int, help="Game number (1-10)")
-    parser.add_argument("--commentary", type=str, choices=["narrative", "statcast", "gameday"], default="narrative", help="Commentary style")
-    args = parser.parse_args()
-
-    if args.game_number < 1 or args.game_number > len(EXAMPLE_GAMES):
-        print(f"Error: game_number must be between 1 and {len(EXAMPLE_GAMES)}", file=sys.stderr)
-        sys.exit(1)
-
-    example = EXAMPLE_GAMES[args.game_number - 1]
-    output = example.render(commentary_style=args.commentary)
-    print(output, end="")
