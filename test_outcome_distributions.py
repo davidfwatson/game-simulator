@@ -38,9 +38,7 @@ class TestOutcomeDistributions(unittest.TestCase):
                                 outcomes['Stolen Base'] += 1
                             # Caught stealing is often the result of the play, but check events just in case?
                             # Usually CS ends the inning or is an out, recorded in result.
-                            # But if it's not the last out?
-                            # The simulator returns "Caught Stealing" as main outcome if it's the 3rd out.
-                            # If it's not the 3rd out, it might just be an event.
+                            # But if it's not the 3rd out.
                             elif etype == 'caught_stealing' and play['result']['event'] != 'Caught Stealing':
                                 outcomes['Caught Stealing'] += 1
 
@@ -66,20 +64,11 @@ class TestOutcomeDistributions(unittest.TestCase):
         }
 
         # Overrides for current simulation inaccuracies
-        # Tighter overrides now that simulation is improved
+        # We have removed most overrides as the simulation has improved to match MLB bounds.
+        # Lineout and Pop Out are still slightly outside the 4-sigma range.
         delta_overrides = {
-            'Strikeout': 100,
-            'Groundout': 100,
-            'Flyout': 150,
-            'Single': 200,
             'Lineout': 150,
-            'Double': 50,
-            'Home Run': 50,
             'Pop Out': 80,
-            'Stolen Base': 50,
-            'Double Play': 50,
-            'Hit By Pitch': 30,
-            'Caught Stealing': 30,
         }
 
         print("\n--- Simulation Outcome Report ---")
