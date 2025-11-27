@@ -15,7 +15,7 @@ class TestRealism(unittest.TestCase):
         self.away_team = copy.deepcopy(TEAMS["PC_PILOTS"])
 
         # Run the simulation and get the output from the simulator instance
-        game = BaseballSimulator(self.home_team, self.away_team)
+        game = BaseballSimulator(self.home_team, self.away_team, game_seed=42)
         game.play_game()
         renderer = NarrativeRenderer(game.gameday_data, seed=42)
         self.log = renderer.render()

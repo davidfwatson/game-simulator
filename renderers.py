@@ -230,7 +230,7 @@ class NarrativeRenderer(GameRenderer):
             elif outcome == "Walk":
                 if self.verbose: lines.append(f"  {batter_name} draws a walk.")
                 lines.append("Result: Walk")
-            elif outcome == "HBP":
+            elif outcome == "HBP" or outcome == "Hit By Pitch":
                 lines.append("Result: Hit by Pitch")
             elif outcome == "Strikeout Double Play":
                 lines.append("Result: Strike 'em out, throw 'em out double play.")
