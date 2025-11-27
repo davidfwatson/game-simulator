@@ -235,6 +235,7 @@ class BaseballSimulator:
             "Home Run": "home_run",
             "Walk": "walk",
             "Hit By Pitch": "hit_by_pitch",
+            "HBP": "hit_by_pitch",
             "Strikeout": "strikeout",
             "Field Error": "field_error"
         }
@@ -384,11 +385,14 @@ class BaseballSimulator:
             count_modifier = 0.8
         outs_modifier = 1.5 if self.outs == 2 else 1.0
 
+        # Global multiplier to increase steal attempts to realistic levels
+        steal_attempt_multiplier = 2.4
+
         if self.bases[1] and not self.bases[2]:
             runner_name = self.bases[1]
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 0.2 * count_modifier * outs_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * steal_attempt_multiplier * 0.2 * count_modifier * outs_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 3
 
@@ -396,7 +400,7 @@ class BaseballSimulator:
             runner_name = self.bases[0]
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * count_modifier * outs_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * steal_attempt_multiplier * count_modifier * outs_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 2
 
@@ -458,8 +462,10 @@ class BaseballSimulator:
         balls, strikes = 0, 0
         play_events: list[PlayEvent] = []
         
-        if self.game_rng.random() < batter['plate_discipline'].get('HBP', 0):
-            return "HBP", None, play_events
+        # Boost HBP probability to match MLB averages
+        hbp_prob = batter['plate_discipline'].get('HBP', 0.0) * 2.5
+        if self.game_rng.random() < hbp_prob:
+            return "Hit By Pitch", None, play_events
 
         bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
         bunt_situation = self.outs < 2 and any(self.bases) and not self.bases[2]
@@ -810,7 +816,7 @@ class BaseballSimulator:
                 self.outs += 1
             elif outcome == "Strikeout Double Play":
                 pass # Outs handled
-            elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:
+            elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "Hit By Pitch", "HBP"]:
                 adv_info = self._advance_runners(outcome, batter)
                 runs += adv_info['runs']; rbis += adv_info['rbis']; advances.extend(adv_info['advances'])
 
@@ -850,7 +856,7 @@ class BaseballSimulator:
                 )
                 if batter_entry: runner_list.append(batter_entry)
 
-            elif outcome in ["Walk", "HBP"]:
+            elif outcome in ["Walk", "Hit By Pitch", "HBP"]:
                 for base_idx, runner_name in enumerate(old_bases):
                     if runner_name:
                         origin = base_map[base_idx]
