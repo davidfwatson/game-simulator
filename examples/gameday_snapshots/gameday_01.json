@@ -264,14 +264,14 @@
         "event": "Double",
         "eventType": "double",
         "description": "",
-        "rbi": 1,
-        "awayScore": 1,
-        "homeScore": 0
+        "rbi": 2,
+        "awayScore": 0,
+        "homeScore": 2
       },
       "about": {
-        "atBatIndex": 3,
-        "halfInning": "top",
-        "isTopInning": true,
+        "atBatIndex": 9,
+        "halfInning": "bottom",
+        "isTopInning": false,
         "inning": 1,
         "isScoringPlay": true
       },
@@ -282,232 +282,191 @@
       },
       "matchup": {
         "batter": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
+          "id": 545106,
+          "fullName": "Nate Diaz",
+          "link": "/api/v1/people/545106"
         },
         "batSide": {
           "code": "R",
           "description": "Right"
         },
         "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
         },
         "pitchHand": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "splits": {
-          "batter": "vs_RHP",
+          "batter": "vs_LHP",
           "pitcher": "vs_RHB",
-          "menOnBase": "RISP"
+          "menOnBase": "Loaded"
         },
         "postOnSecond": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
+          "id": 545106,
+          "fullName": "Nate Diaz",
+          "link": "/api/v1/people/545106"
+        },
+        "postOnThird": {
+          "id": 545105,
+          "fullName": "Caleb Jones",
+          "link": "/api/v1/people/545105"
         }
       },
       "playEvents": [
         {
-          "index": 19,
+          "index": 45,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 94.2,
-            "breaks": {
-              "spinRate": 2352
-            }
-          }
-        },
-        {
-          "index": 20,
-          "count": {
-            "balls": 1,
-            "strikes": 0
-          },
-          "details": {
-            "code": "S",
-            "description": "Swinging Strike",
-            "isStrike": true,
-            "type": {
-              "code": "CH",
-              "description": "Changeup"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 81.1,
-            "breaks": {
-              "spinRate": 1891
-            }
-          }
-        },
-        {
-          "index": 21,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
-            "description": "Caught Stealing 2B",
-            "code": "X",
-            "isStrike": false,
-            "type": {
-              "code": "AS",
-              "description": "Action"
-            },
-            "eventType": "caught_stealing"
-          }
-        },
-        {
-          "index": 22,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
             "code": "F",
             "description": "Foul",
             "isStrike": true,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "CU",
+              "description": "Curveball"
             }
           },
           "pitchData": {
-            "startSpeed": 87.1,
+            "startSpeed": 80.6,
             "breaks": {
-              "spinRate": 2450
+              "spinRate": 2804
             }
           }
         },
         {
-          "index": 23,
+          "index": 46,
           "count": {
-            "balls": 1,
-            "strikes": 2
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 96.0,
-            "breaks": {
-              "spinRate": 2455
-            }
-          }
-        },
-        {
-          "index": 24,
-          "count": {
-            "balls": 1,
-            "strikes": 2
+            "balls": 0,
+            "strikes": 1
           },
           "details": {
             "code": "B",
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
+              "code": "CU",
+              "description": "Curveball"
             }
           },
           "pitchData": {
-            "startSpeed": 96.6,
+            "startSpeed": 80.2,
             "breaks": {
-              "spinRate": 2488
+              "spinRate": 2763
             }
           }
         },
         {
-          "index": 25,
+          "index": 47,
+          "count": {
+            "balls": 1,
+            "strikes": 1
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 90.8,
+            "breaks": {
+              "spinRate": 2095
+            }
+          }
+        },
+        {
+          "index": 48,
           "count": {
             "balls": 2,
-            "strikes": 2
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 89.5,
-            "breaks": {
-              "spinRate": 2576
-            }
-          }
-        },
-        {
-          "index": 26,
-          "count": {
-            "balls": 3,
-            "strikes": 2
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "CH",
-              "description": "Changeup"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 82.6
-          }
-        },
-        {
-          "index": 27,
-          "count": {
-            "balls": 3,
-            "strikes": 2
+            "strikes": 1
           },
           "details": {
             "code": "X",
             "description": "In play, Double",
             "isStrike": true,
             "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 95.0,
+            "startSpeed": 91.9,
             "breaks": {
-              "spinRate": 2330
+              "spinRate": 2166
             }
           },
           "hitData": {
-            "launchSpeed": 102.0,
-            "launchAngle": 26.6,
-            "trajectory": "fly_ball"
+            "launchSpeed": 100.1,
+            "launchAngle": 23.8,
+            "trajectory": "line_drive"
           }
         }
       ],
       "runners": [
+        {
+          "movement": {
+            "originBase": "1B",
+            "start": "1B",
+            "end": "3B",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
+          },
+          "details": {
+            "event": "Double",
+            "eventType": "double",
+            "movementReason": "r_adv_play",
+            "runner": {
+              "id": 545105,
+              "fullName": "Caleb Jones",
+              "link": "/api/v1/people/545105"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 3
+          },
+          "credits": []
+        },
+        {
+          "movement": {
+            "originBase": "2B",
+            "start": "2B",
+            "end": "score",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
+          },
+          "details": {
+            "event": "Double",
+            "eventType": "double",
+            "movementReason": "r_adv_play",
+            "runner": {
+              "id": 545103,
+              "fullName": "Sam Decker",
+              "link": "/api/v1/people/545103"
+            },
+            "isScoringEvent": true,
+            "rbi": true,
+            "earned": true,
+            "teamUnearned": false,
+            "playIndex": 3,
+            "responsiblePitcher": {
+              "id": 645210,
+              "link": "/api/v1/people/645210"
+            }
+          },
+          "credits": []
+        },
         {
           "movement": {
             "originBase": "3B",
@@ -522,18 +481,18 @@
             "eventType": "double",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 625201,
-              "fullName": "Alex Chase",
-              "link": "/api/v1/people/625201"
+              "id": 545101,
+              "fullName": "Leo Vance",
+              "link": "/api/v1/people/545101"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 8,
+            "playIndex": 3,
             "responsiblePitcher": {
-              "id": 605110,
-              "link": "/api/v1/people/605110"
+              "id": 645210,
+              "link": "/api/v1/people/645210"
             }
           },
           "credits": []
@@ -552,15 +511,15 @@
             "eventType": "double",
             "movementReason": null,
             "runner": {
-              "id": 625204,
-              "fullName": "Rex Power",
-              "link": "/api/v1/people/625204"
+              "id": 545106,
+              "fullName": "Nate Diaz",
+              "link": "/api/v1/people/545106"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 8
+            "playIndex": 3
           },
           "credits": []
         }
@@ -802,8 +761,8 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Single",
-        "eventType": "single",
+        "event": "Flyout",
+        "eventType": "field_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
@@ -819,7 +778,7 @@
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 1
+        "outs": 2
       },
       "matchup": {
         "batter": {
@@ -845,12 +804,7 @@
           "pitcher": "vs_RHB",
           "menOnBase": "RISP"
         },
-        "postOnFirst": {
-          "id": 625203,
-          "fullName": "Omar Ramirez",
-          "link": "/api/v1/people/625203"
-        },
-        "postOnThird": {
+        "postOnSecond": {
           "id": 625201,
           "fullName": "Alex Chase",
           "link": "/api/v1/people/625201"
@@ -1016,7 +970,7 @@
           },
           "details": {
             "code": "X",
-            "description": "In play, Single",
+            "description": "In play, Flyout",
             "isStrike": true,
             "type": {
               "code": "CU",
@@ -1031,7 +985,7 @@
           },
           "hitData": {
             "launchSpeed": 98.3,
-            "launchAngle": 17.7,
+            "launchAngle": 22.8,
             "trajectory": "line_drive"
           }
         }
@@ -1041,14 +995,14 @@
           "movement": {
             "originBase": "2B",
             "start": "2B",
-            "end": "3B",
+            "end": "2B",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Single",
-            "eventType": "single",
+            "event": "Flyout",
+            "eventType": "field_out",
             "movementReason": "r_adv_play",
             "runner": {
               "id": 625201,
@@ -1067,14 +1021,14 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": "1B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
+            "end": null,
+            "outBase": "1B",
+            "isOut": true,
+            "outNumber": 2
           },
           "details": {
-            "event": "Single",
-            "eventType": "single",
+            "event": "Flyout",
+            "eventType": "field_out",
             "movementReason": null,
             "runner": {
               "id": 625203,
@@ -1087,7 +1041,21 @@
             "teamUnearned": false,
             "playIndex": 7
           },
-          "credits": []
+          "credits": [
+            {
+              "player": {
+                "id": 545109,
+                "fullName": "Grant Fisher",
+                "link": "/api/v1/people/545109"
+              },
+              "position": {
+                "code": "7",
+                "name": "Left Field",
+                "abbreviation": "LF"
+              },
+              "credit": "putout"
+            }
+          ]
         }
       ]
     },
@@ -1098,11 +1066,11 @@
         "eventType": "strikeout",
         "description": "",
         "rbi": 0,
-        "awayScore": 1,
+        "awayScore": 0,
         "homeScore": 0
       },
       "about": {
-        "atBatIndex": 4,
+        "atBatIndex": 3,
         "halfInning": "top",
         "isTopInning": true,
         "inning": 1,
@@ -1115,13 +1083,13 @@
       },
       "matchup": {
         "batter": {
-          "id": 625205,
-          "fullName": "Evan Reed",
-          "link": "/api/v1/people/625205"
+          "id": 625204,
+          "fullName": "Rex Power",
+          "link": "/api/v1/people/625204"
         },
         "batSide": {
-          "code": "L",
-          "description": "Left"
+          "code": "R",
+          "description": "Right"
         },
         "pitcher": {
           "id": 605110,
@@ -1134,21 +1102,65 @@
         },
         "splits": {
           "batter": "vs_RHP",
-          "pitcher": "vs_LHB",
+          "pitcher": "vs_RHB",
           "menOnBase": "RISP"
         },
         "postOnSecond": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
+          "id": 625201,
+          "fullName": "Alex Chase",
+          "link": "/api/v1/people/625201"
         }
       },
       "playEvents": [
         {
-          "index": 28,
+          "index": 19,
           "count": {
             "balls": 0,
             "strikes": 0
+          },
+          "details": {
+            "code": "S",
+            "description": "Swinging Strike",
+            "isStrike": true,
+            "type": {
+              "code": "CU",
+              "description": "Curveball"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 78.9,
+            "breaks": {
+              "spinRate": 2889
+            }
+          }
+        },
+        {
+          "index": 20,
+          "count": {
+            "balls": 0,
+            "strikes": 1
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "CH",
+              "description": "Changeup"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 83.9,
+            "breaks": {
+              "spinRate": 1687
+            }
+          }
+        },
+        {
+          "index": 21,
+          "count": {
+            "balls": 1,
+            "strikes": 1
           },
           "details": {
             "code": "B",
@@ -1160,38 +1172,16 @@
             }
           },
           "pitchData": {
-            "startSpeed": 95.7,
+            "startSpeed": 94.6,
             "breaks": {
-              "spinRate": 2241
+              "spinRate": 2493
             }
           }
         },
         {
-          "index": 29,
+          "index": 22,
           "count": {
-            "balls": 1,
-            "strikes": 0
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 96.7,
-            "breaks": {
-              "spinRate": 2223
-            }
-          }
-        },
-        {
-          "index": 30,
-          "count": {
-            "balls": 1,
+            "balls": 2,
             "strikes": 1
           },
           "details": {
@@ -1199,56 +1189,37 @@
             "description": "Foul",
             "isStrike": true,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "SL",
+              "description": "Slider"
             }
           },
           "pitchData": {
-            "startSpeed": 81.1,
+            "startSpeed": 87.9,
             "breaks": {
-              "spinRate": 1900
+              "spinRate": 2566
             }
           }
         },
         {
-          "index": 31,
-          "count": {
-            "balls": 1,
-            "strikes": 2
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 96.7,
-            "breaks": {
-              "spinRate": 2477
-            }
-          }
-        },
-        {
-          "index": 32,
+          "index": 23,
           "count": {
             "balls": 2,
             "strikes": 2
           },
           "details": {
-            "code": "C",
-            "description": "Called Strike",
+            "code": "S",
+            "description": "Swinging Strike",
             "isStrike": true,
             "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
+              "code": "CH",
+              "description": "Changeup"
             }
           },
           "pitchData": {
-            "startSpeed": 96.0
+            "startSpeed": 82.7,
+            "breaks": {
+              "spinRate": 1819
+            }
           }
         }
       ],
@@ -1267,9 +1238,9 @@
             "eventType": "strikeout",
             "movementReason": null,
             "runner": {
-              "id": 625205,
-              "fullName": "Evan Reed",
-              "link": "/api/v1/people/625205"
+              "id": 625204,
+              "fullName": "Rex Power",
+              "link": "/api/v1/people/625204"
             },
             "isScoringEvent": false,
             "rbi": false,
@@ -1284,15 +1255,15 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Lineout",
-        "eventType": "field_out",
+        "event": "Field Error",
+        "eventType": "field_error",
         "description": "",
         "rbi": 0,
-        "awayScore": 1,
+        "awayScore": 0,
         "homeScore": 0
       },
       "about": {
-        "atBatIndex": 5,
+        "atBatIndex": 4,
         "halfInning": "bottom",
         "isTopInning": false,
         "inning": 1,
@@ -1301,7 +1272,7 @@
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 1
+        "outs": 0
       },
       "matchup": {
         "batter": {
@@ -1326,11 +1297,16 @@
           "batter": "vs_LHP",
           "pitcher": "vs_LHB",
           "menOnBase": "Empty"
+        },
+        "postOnFirst": {
+          "id": 545101,
+          "fullName": "Leo Vance",
+          "link": "/api/v1/people/545101"
         }
       },
       "playEvents": [
         {
-          "index": 33,
+          "index": 24,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -1345,40 +1321,21 @@
             }
           },
           "pitchData": {
-            "startSpeed": 90.9
+            "startSpeed": 92.6,
+            "breaks": {
+              "spinRate": 2074
+            }
           }
         },
         {
-          "index": 34,
+          "index": 25,
           "count": {
             "balls": 1,
             "strikes": 0
           },
           "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 90.6,
-            "breaks": {
-              "spinRate": 2200
-            }
-          }
-        },
-        {
-          "index": 35,
-          "count": {
-            "balls": 2,
-            "strikes": 0
-          },
-          "details": {
             "code": "X",
-            "description": "In play, Lineout",
+            "description": "In play, Groundout",
             "isStrike": true,
             "type": {
               "code": "SI",
@@ -1386,14 +1343,14 @@
             }
           },
           "pitchData": {
-            "startSpeed": 90.5,
+            "startSpeed": 90.4,
             "breaks": {
-              "spinRate": 2000
+              "spinRate": 2087
             }
           },
           "hitData": {
-            "launchSpeed": 87.9,
-            "launchAngle": 9.3,
+            "launchSpeed": 87.3,
+            "launchAngle": -21.0,
             "trajectory": "ground_ball"
           }
         }
@@ -1403,14 +1360,14 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": null,
-            "outBase": "1B",
-            "isOut": true,
-            "outNumber": 1
+            "end": "1B",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
           },
           "details": {
-            "event": "Lineout",
-            "eventType": "field_out",
+            "event": "Field Error",
+            "eventType": "field_error",
             "movementReason": null,
             "runner": {
               "id": 545101,
@@ -1421,31 +1378,31 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 2
+            "playIndex": 1
           },
           "credits": [
             {
               "player": {
-                "id": 625201,
-                "fullName": "Alex Chase",
-                "link": "/api/v1/people/625201"
+                "id": 625203,
+                "fullName": "Omar Ramirez",
+                "link": "/api/v1/people/625203"
               },
               "position": {
-                "code": "4",
-                "name": "Second Base",
-                "abbreviation": "2B"
+                "code": "5",
+                "name": "Third Base",
+                "abbreviation": "3B"
               },
-              "credit": "putout"
+              "credit": "fielding_error"
             }
           ]
         }
       ]
     }
   ],
-  "playCount": 74,
+  "playCount": 84,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 74,
+    "totalPlaysInGame": 84,
     "snapshotPlayCount": 6
   }
 }

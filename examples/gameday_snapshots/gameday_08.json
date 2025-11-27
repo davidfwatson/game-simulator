@@ -215,18 +215,18 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Groundout",
-        "eventType": "field_out",
+        "event": "Home Run",
+        "eventType": "home_run",
         "description": "",
         "rbi": 1,
         "awayScore": 0,
         "homeScore": 1
       },
       "about": {
-        "atBatIndex": 8,
+        "atBatIndex": 29,
         "halfInning": "bottom",
         "isTopInning": false,
-        "inning": 1,
+        "inning": 4,
         "isScoringPlay": true
       },
       "count": {
@@ -236,13 +236,13 @@
       },
       "matchup": {
         "batter": {
-          "id": 545105,
-          "fullName": "Caleb Jones",
-          "link": "/api/v1/people/545105"
+          "id": 545107,
+          "fullName": "Owen Chen",
+          "link": "/api/v1/people/545107"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
           "id": 645210,
@@ -255,23 +255,13 @@
         },
         "splits": {
           "batter": "vs_LHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "Loaded"
-        },
-        "postOnSecond": {
-          "id": 545103,
-          "fullName": "Sam Decker",
-          "link": "/api/v1/people/545103"
-        },
-        "postOnThird": {
-          "id": 545102,
-          "fullName": "Marcus Thorne",
-          "link": "/api/v1/people/545102"
+          "pitcher": "vs_LHB",
+          "menOnBase": "Empty"
         }
       },
       "playEvents": [
         {
-          "index": 32,
+          "index": 108,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -281,115 +271,60 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 84.2,
-            "breaks": {
-              "spinRate": 2440
-            }
+            "startSpeed": 90.9
           }
         },
         {
-          "index": 33,
+          "index": 109,
           "count": {
             "balls": 1,
             "strikes": 0
           },
           "details": {
             "code": "X",
-            "description": "In play, Groundout",
+            "description": "In play, Home Run",
             "isStrike": true,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 86.2,
+            "startSpeed": 90.1,
             "breaks": {
-              "spinRate": 2638
+              "spinRate": 2099
             }
           },
           "hitData": {
-            "launchSpeed": 82.7,
-            "launchAngle": 3.5,
-            "trajectory": "ground_ball"
+            "launchSpeed": 112.6,
+            "launchAngle": 30.5,
+            "trajectory": "fly_ball"
           }
         }
       ],
       "runners": [
         {
           "movement": {
-            "originBase": "1B",
-            "start": "1B",
-            "end": "2B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Groundout",
-            "eventType": "field_out",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 545103,
-              "fullName": "Sam Decker",
-              "link": "/api/v1/people/545103"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 1
-          },
-          "credits": []
-        },
-        {
-          "movement": {
-            "originBase": "2B",
-            "start": "2B",
-            "end": "3B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Groundout",
-            "eventType": "field_out",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 545102,
-              "fullName": "Marcus Thorne",
-              "link": "/api/v1/people/545102"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 1
-          },
-          "credits": []
-        },
-        {
-          "movement": {
-            "originBase": "3B",
-            "start": "3B",
+            "originBase": null,
+            "start": null,
             "end": "score",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Groundout",
-            "eventType": "field_out",
-            "movementReason": "r_adv_play",
+            "event": "Home Run",
+            "eventType": "home_run",
+            "movementReason": null,
             "runner": {
-              "id": 545101,
-              "fullName": "Leo Vance",
-              "link": "/api/v1/people/545101"
+              "id": 545107,
+              "fullName": "Owen Chen",
+              "link": "/api/v1/people/545107"
             },
             "isScoringEvent": true,
             "rbi": true,
@@ -402,59 +337,6 @@
             }
           },
           "credits": []
-        },
-        {
-          "movement": {
-            "originBase": null,
-            "start": null,
-            "end": null,
-            "outBase": "1B",
-            "isOut": true,
-            "outNumber": 2
-          },
-          "details": {
-            "event": "Groundout",
-            "eventType": "field_out",
-            "movementReason": null,
-            "runner": {
-              "id": 545105,
-              "fullName": "Caleb Jones",
-              "link": "/api/v1/people/545105"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 1
-          },
-          "credits": [
-            {
-              "player": {
-                "id": 625201,
-                "fullName": "Alex Chase",
-                "link": "/api/v1/people/625201"
-              },
-              "position": {
-                "code": "4",
-                "name": "Second Base",
-                "abbreviation": "2B"
-              },
-              "credit": "assist"
-            },
-            {
-              "player": {
-                "id": 625206,
-                "fullName": "Felix Washington",
-                "link": "/api/v1/people/625206"
-              },
-              "position": {
-                "code": "3",
-                "name": "First Base",
-                "abbreviation": "1B"
-              },
-              "credit": "putout"
-            }
-          ]
         }
       ]
     },
@@ -617,7 +499,7 @@
           },
           "hitData": {
             "launchSpeed": 71.2,
-            "launchAngle": 15.9,
+            "launchAngle": 21.8,
             "trajectory": "line_drive"
           }
         }
@@ -741,7 +623,7 @@
           },
           "hitData": {
             "launchSpeed": 102.2,
-            "launchAngle": 12.8,
+            "launchAngle": 16.2,
             "trajectory": "line_drive"
           }
         }
@@ -1081,10 +963,10 @@
       ]
     }
   ],
-  "playCount": 91,
+  "playCount": 71,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 91,
+    "totalPlaysInGame": 71,
     "snapshotPlayCount": 6
   }
 }

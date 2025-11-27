@@ -124,7 +124,7 @@ class BaseballSimulator:
     def _simulate_bat_swing(self, batter, is_strike_loc):
         """Determines if the batter swings at the pitch."""
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
-        swing_at_ball_prob = 0.16 / discipline_factor
+        swing_at_ball_prob = 0.14 / discipline_factor
         return self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
 
     def _simulate_batted_ball_physics(self, batter):
@@ -132,8 +132,9 @@ class BaseballSimulator:
         batting_profile = batter['batting_profile']
         # Power influences exit velocity, with some randomness
         ev = round(self.game_rng.normalvariate(80 + batting_profile['power'] * 25, 8), 1)
-        # Angle influences launch angle, with some randomness
-        la = round(self.game_rng.normalvariate(batting_profile['angle'], 10), 1)
+        # Angle influences launch angle, with some randomness. Increased SD to create more variety.
+        # Slightly shifted up (+3.5 degrees) to reduce groundball dominance.
+        la = round(self.game_rng.normalvariate(batting_profile['angle'] + 3.5, 13.5), 1)
         return {'ev': ev, 'la': la}
 
     def _simulate_bunt_physics(self):
@@ -146,38 +147,40 @@ class BaseballSimulator:
         """Determines the outcome of a batted ball from its physics."""
         # Weak contact leading to outs
         if ev < 80:
-            if la > 40: return "Pop Out"
+            if la > 45: return "Pop Out"
+            if 25 <= la <= 45:
+                 # Bloop single chance - tightened
+                if ev > 70: return "Single"
             return "Groundout" if la < 10 else "Flyout"
 
+        # Pop Outs (High Angle) - Force this early to catch high fly balls
+        if la > 45:
+            # Chance for a Triple on very hard hit high fly balls (e.g. weird bounces)
+            if ev > 100: return "Triple"
+            return "Pop Out"
+
         # Ground balls
-        if la < 5:
-            if ev > 110: return "Double Play" # Hard grounder
-            if ev > 100: return "Single"
+        if la < 9:
+            if ev > 115: return "Double" # Rare
+            if ev > 100: return "Single" # Hard hit grounder (Lowered to allow more singles)
             return "Groundout"
 
-        # Line drives
+        # Line drives (9 to 20 degrees)
         if la < 20:
-            if ev > 115: return "Home Run"
-            if ev > 105: return "Double"
-            if ev > 90: return "Single"
-            # Reduce Lineouts by converting weaker ones to Groundouts
-            if ev < 85: return "Groundout"
+            if ev > 115: return "Home Run" # Laser
+            if ev > 110: return "Double" # Relaxed threshold
+            if ev > 93: return "Single"
+            if ev < 88: return "Groundout" # Soft liner caught
             return "Lineout"
 
-        # Fly balls
-        if la < 35:
-            if ev > 110: return "Home Run"
-            if ev > 100: return "Double"
-            if ev > 90: return "Flyout"
+        # Fly balls (20 to 45 degrees)
+        if la <= 45:
+            if ev > 105: return "Home Run"
+            if ev > 100: return "Double" # Relaxed threshold
+            if ev > 80: return "Flyout"
             return "Flyout"
 
-        # Deep fly balls and pop ups
-        if la < 50:
-            if ev < 90: return "Pop Out" # Weakly hit fly ball
-            if ev > 105: return "Triple"
-            return "Flyout"
-
-        return "Pop Out" # Very high flyball
+        return "Pop Out"
 
     def _classify_out_trajectory(self, la):
         """Classify the trajectory of a batted ball that results in an out."""
@@ -484,7 +487,7 @@ class BaseballSimulator:
 
             swing = self._simulate_bat_swing(batter, is_strike_loc) or is_bunting
             # Boost contact rate slightly to reduce strikeouts
-            contact = self.game_rng.random() < (batter['batting_profile']['contact'] + 0.05) or (is_bunting and is_strike_loc)
+            contact = self.game_rng.random() < (batter['batting_profile']['contact'] + 0.07) or (is_bunting and is_strike_loc)
 
             play_event: PlayEvent = {'index': self._pitch_event_seq, 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}}
             if is_bunting:
@@ -662,7 +665,8 @@ class BaseballSimulator:
         elif out_type == 'Flyout' or out_type == 'Sac Fly':
             fielder = self.game_rng.choices(outfielders + infielders, weights=[6] * len(outfielders) + [1] * len(infielders), k=1)[0]
 
-        if fielder and self.game_rng.random() > fielder['fielding_ability'] * (self.team1_data if self.top_of_inning else self.team2_data)['fielding_prowess']:
+        # Slight boost to fielding to reduce error rate
+        if fielder and self.game_rng.random() > (fielder['fielding_ability'] * (self.team1_data if self.top_of_inning else self.team2_data)['fielding_prowess']) + 0.005:
             is_error = True
 
         if is_error:
@@ -687,7 +691,8 @@ class BaseballSimulator:
                 return runs, False, rbis, credits, False, specific_event, None
 
         if out_type == 'Groundout':
-            if self.outs < 2 and self.bases[0] and self.game_rng.random() < self.team1_data['double_play_rate']:
+            # Boost Double Play rate to match MLB averages better given fewer groundballs
+            if self.outs < 2 and self.bases[0] and self.game_rng.random() < (self.team1_data['double_play_rate'] * 3.0):
                 runner_out = self.bases[0]
                 self.outs += 2
                 self.bases[0] = None
