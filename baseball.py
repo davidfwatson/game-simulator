@@ -124,7 +124,7 @@ class BaseballSimulator:
     def _simulate_bat_swing(self, batter, is_strike_loc):
         """Determines if the batter swings at the pitch."""
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
-        swing_at_ball_prob = 0.28 / discipline_factor
+        swing_at_ball_prob = 0.16 / discipline_factor
         return self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
 
     def _simulate_batted_ball_physics(self, batter):
@@ -160,6 +160,8 @@ class BaseballSimulator:
             if ev > 115: return "Home Run"
             if ev > 105: return "Double"
             if ev > 90: return "Single"
+            # Reduce Lineouts by converting weaker ones to Groundouts
+            if ev < 85: return "Groundout"
             return "Lineout"
 
         # Fly balls
@@ -481,7 +483,8 @@ class BaseballSimulator:
             hit_result = None
 
             swing = self._simulate_bat_swing(batter, is_strike_loc) or is_bunting
-            contact = self.game_rng.random() < batter['batting_profile']['contact'] or (is_bunting and is_strike_loc)
+            # Boost contact rate slightly to reduce strikeouts
+            contact = self.game_rng.random() < (batter['batting_profile']['contact'] + 0.05) or (is_bunting and is_strike_loc)
 
             play_event: PlayEvent = {'index': self._pitch_event_seq, 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}}
             if is_bunting:
