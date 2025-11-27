@@ -54,6 +54,76 @@ class BaseballSimulator:
         self.gameday_data['gameData']['umpires'] = self.umpires
         self.gameday_data['gameData']['weather'] = self.weather
         self.gameday_data['gameData']['venue'] = self.venue
+        self.gameday_data['gameData']['players'] = self._initialize_game_data_players()
+
+    def _initialize_game_data_players(self):
+        players = {}
+        for team_data in [self.team1_data, self.team2_data]:
+            for p in team_data['players']:
+                pid = f"ID{p['id']}"
+
+                # Split name for details
+                full_name = p['legal_name']
+                name_parts = full_name.split(' ')
+                first_name = name_parts[0]
+                last_name = name_parts[-1] if len(name_parts) > 1 else ""
+                middle_name = " ".join(name_parts[1:-1]) if len(name_parts) > 2 else ""
+
+                # Mock realistic bio data
+                # Use player ID as seed component for consistency across games if desired,
+                # but here we use game_rng for game-specific flavor or just stick to static mocks if prefered.
+                # To be safe and realistic, let's generate some consistent-ish data based on ID.
+                rng = random.Random(p['id'])
+
+                birth_year = rng.randint(1995, 2003)
+                birth_month = rng.randint(1, 12)
+                birth_day = rng.randint(1, 28)
+                birth_date = f"{birth_year}-{birth_month:02d}-{birth_day:02d}"
+                current_age = 2025 - birth_year # Assuming current year 2025
+
+                height_feet = rng.randint(5, 6)
+                height_inches = rng.randint(0, 11)
+                if height_feet == 6: height_inches = rng.randint(0, 8)
+                height = f"{height_feet}' {height_inches}\""
+
+                weight = rng.randint(170, 240)
+
+                draft_year = birth_year + 18 + rng.randint(0, 3)
+                debut_year = draft_year + rng.randint(2, 5)
+                debut_date = f"{debut_year}-04-01"
+
+                player_detail = {
+                    "id": p['id'],
+                    "fullName": full_name,
+                    "link": f"/api/v1/people/{p['id']}",
+                    "firstName": first_name,
+                    "lastName": last_name,
+                    "primaryNumber": str(p['id'] % 100),
+                    "birthDate": birth_date,
+                    "currentAge": current_age,
+                    "birthCity": "Sim City",
+                    "birthStateProvince": "CA",
+                    "birthCountry": "USA",
+                    "height": height,
+                    "weight": weight,
+                    "active": True,
+                    "primaryPosition": p['position'],
+                    "useName": p.get('nickname', first_name) or first_name,
+                    "useLastName": last_name,
+                    "middleName": middle_name,
+                    "boxscoreName": last_name,
+                    "gender": "M",
+                    "isPlayer": True,
+                    "isVerified": False,
+                    "draftYear": draft_year,
+                    "mlbDebutDate": debut_date,
+                    "batSide": p.get('batSide', {'code': 'R', 'description': 'Right'}),
+                    "pitchHand": p.get('pitchHand', {'code': 'R', 'description': 'Right'}),
+                    "strikeZoneTop": 3.5, # Default
+                    "strikeZoneBottom": 1.5 # Default
+                }
+                players[pid] = player_detail
+        return players
 
     def _initialize_gameday_data(self):
         """Sets up the initial structure for Gameday JSON output."""

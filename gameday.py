@@ -30,8 +30,45 @@ class GameTeams(TypedDict):
     home: TeamInfo
 
 
+class HandInfo(TypedDict):
+    code: str
+    description: str
+
+
+class PlayerDetail(TypedDict):
+    id: int
+    fullName: str
+    link: str
+    firstName: str
+    lastName: str
+    primaryNumber: str
+    birthDate: str
+    currentAge: int
+    birthCity: str
+    birthStateProvince: str
+    birthCountry: str
+    height: str
+    weight: int
+    active: bool
+    primaryPosition: Position
+    useName: str
+    useLastName: str
+    middleName: str
+    boxscoreName: str
+    gender: str
+    isPlayer: bool
+    isVerified: bool
+    draftYear: int
+    mlbDebutDate: str
+    batSide: HandInfo
+    pitchHand: HandInfo
+    strikeZoneTop: float
+    strikeZoneBottom: float
+
+
 class GameData(TypedDict):
     teams: GameTeams
+    players: Dict[str, PlayerDetail]
     venue: str
     weather: str
     umpires: List[str]
