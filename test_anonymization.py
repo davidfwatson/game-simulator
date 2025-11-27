@@ -5,6 +5,7 @@ Test that anonymized gameday files contain no real MLB team or player data.
 import json
 import unittest
 from pathlib import Path
+from teams import TEAMS
 
 
 class TestAnonymization(unittest.TestCase):
@@ -41,6 +42,32 @@ class TestAnonymization(unittest.TestCase):
                     if len(parts) >= 2:
                         names.add(parts[0])  # First name
                         names.add(parts[-1])  # Last name
+
+        return names
+
+    def _extract_fictional_player_names(self):
+        """Extract all fictional player names from TEAMS data and synthetic lists."""
+        names = set()
+
+        # From TEAMS
+        for team in TEAMS.values():
+            for player in team['players']:
+                full_name = player['legal_name']
+                names.add(full_name)
+                parts = full_name.split()
+                if len(parts) >= 2:
+                    names.add(parts[0])
+                    names.add(parts[-1])
+
+        # From synthetic lists in anonymize_real_gameday.py
+        # Duplicating here to avoid importing and potentially running the script or dealing with import issues
+        synthetic_first_names = ['Alex', 'Sam', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Jamie',
+                       'Quinn', 'Drew', 'Avery', 'Reese', 'Dakota', 'Skyler', 'Parker']
+        synthetic_last_names = ['Smith', 'Johnson', 'Williams', 'Brown', 'Davis', 'Miller', 'Wilson',
+                      'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin']
+
+        names.update(synthetic_first_names)
+        names.update(synthetic_last_names)
 
         return names
 
@@ -90,6 +117,7 @@ class TestAnonymization(unittest.TestCase):
         import re
 
         real_names = self._extract_real_player_names()
+        fictional_names = self._extract_fictional_player_names()
 
         # Convert anonymized data to string for searching
         anon_str = json.dumps(self.anon_data)
@@ -102,6 +130,10 @@ class TestAnonymization(unittest.TestCase):
 
         found_names = []
         for name in real_names:
+            # Skip names that are also in our fictional universe
+            if name in fictional_names:
+                continue
+
             # Skip overly common first names
             if name in common_names:
                 continue
