@@ -9,6 +9,7 @@ from typing import Iterable, List
 
 from baseball import BaseballSimulator
 from teams import TEAMS
+from renderers import NarrativeRenderer, StatcastRenderer
 
 
 _BASE_TEAMS = {key: copy.deepcopy(value) for key, value in TEAMS.items()}
@@ -46,10 +47,20 @@ class ExampleGame:
 
         if commentary_style == "gameday":
             import json
-            return json.dumps(simulator.gameday_data, indent=2)
-        else:
-            # Return buffered output for narrative/statcast
-            return "\n".join(simulator.output_lines) + "\n"
+            class DateTimeEncoder(json.JSONEncoder):
+                 def default(self, obj):
+                     from datetime import datetime
+                     if isinstance(obj, datetime): return obj.isoformat()
+                     return super().default(obj)
+            return json.dumps(simulator.gameday_data, indent=2, cls=DateTimeEncoder)
+        elif commentary_style == "narrative":
+             renderer = NarrativeRenderer(simulator.gameday_data, verbose_phrasing=self.verbose_phrasing, use_bracketed_ui=self.use_bracketed_ui, commentary_seed=commentary_seed)
+             return renderer.render() + "\n"
+        elif commentary_style == "statcast":
+             renderer = StatcastRenderer(simulator.gameday_data, verbose_phrasing=self.verbose_phrasing, use_bracketed_ui=self.use_bracketed_ui, commentary_seed=commentary_seed)
+             return renderer.render() + "\n"
+
+        return ""
 
 
 EXAMPLE_GAMES: List[ExampleGame] = [
