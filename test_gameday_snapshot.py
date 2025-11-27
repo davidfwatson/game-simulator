@@ -32,6 +32,7 @@ class TestGamedaySnapshot(unittest.TestCase):
         self.assertIn("plays", generated_output["liveData"])
         self.assertIn("allPlays", generated_output["liveData"]["plays"])
         self.assertIn("linescore", generated_output["liveData"])
+        self.assertIn("boxscore", generated_output["liveData"])
         self.assertGreater(len(generated_output["liveData"]["plays"]["allPlays"]), 0)
 
 if __name__ == "__main__":
