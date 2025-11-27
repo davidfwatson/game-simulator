@@ -29,6 +29,21 @@ class TestOutcomeDistributions(unittest.TestCase):
                 if 'event' in play['result']:
                     outcomes[play['result']['event']] += 1
 
+                # Count events within the play (like Stolen Bases)
+                if 'playEvents' in play:
+                    for event in play['playEvents']:
+                        if 'details' in event and 'eventType' in event['details']:
+                            etype = event['details']['eventType']
+                            if etype == 'stolen_base':
+                                outcomes['Stolen Base'] += 1
+                            # Caught stealing is often the result of the play, but check events just in case?
+                            # Usually CS ends the inning or is an out, recorded in result.
+                            # But if it's not the last out?
+                            # The simulator returns "Caught Stealing" as main outcome if it's the 3rd out.
+                            # If it's not the 3rd out, it might just be an event.
+                            elif etype == 'caught_stealing' and play['result']['event'] != 'Caught Stealing':
+                                outcomes['Caught Stealing'] += 1
+
         # Baseline: 2024 MLB Stats scaled to 100 games (approx 7,500 Plate Appearances)
         expected_distribution = {
             'Strikeout': 1690,
@@ -51,21 +66,20 @@ class TestOutcomeDistributions(unittest.TestCase):
         }
 
         # Overrides for current simulation inaccuracies
-        # TODO: Improve simulation realism to match MLB stats closer and remove these overrides
+        # Tighter overrides now that simulation is improved
         delta_overrides = {
-            'Strikeout': 350,       # Actual ~2009 vs 1690
-            'Groundout': 200,       # Actual ~1302 vs 1450
-            'Flyout': 300,          # Actual ~980 vs 1150
-            'Single': 800,          # Actual ~1855 vs 1060
-            'Walk': 50,             # Actual ~602 vs 630
-            'Lineout': 200,         # Actual ~510 vs 350
-            'Double': 250,          # Actual ~523 vs 320
-            'Home Run': 200,        # Actual ~75 vs 230
-            'Pop Out': 170,         # Actual ~21 vs 180
-            'Stolen Base': 160,     # Actual ~0 vs 150
-            'Double Play': 100,     # Actual ~70 vs 145
-            'Hit By Pitch': 90,     # Actual ~0 vs 85
-            'Caught Stealing': 40,  # Actual ~17 vs 40
+            'Strikeout': 100,
+            'Groundout': 100,
+            'Flyout': 150,
+            'Single': 200,
+            'Lineout': 150,
+            'Double': 50,
+            'Home Run': 50,
+            'Pop Out': 80,
+            'Stolen Base': 50,
+            'Double Play': 50,
+            'Hit By Pitch': 30,
+            'Caught Stealing': 30,
         }
 
         print("\n--- Simulation Outcome Report ---")

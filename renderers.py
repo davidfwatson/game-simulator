@@ -230,7 +230,7 @@ class NarrativeRenderer(GameRenderer):
             elif outcome == "Walk":
                 if self.verbose: lines.append(f"  {batter_name} draws a walk.")
                 lines.append("Result: Walk")
-            elif outcome == "HBP":
+            elif outcome in ["HBP", "Hit By Pitch"]:
                 lines.append("Result: Hit by Pitch")
             elif outcome == "Strikeout Double Play":
                 lines.append("Result: Strike 'em out, throw 'em out double play.")
@@ -414,7 +414,7 @@ class StatcastRenderer(GameRenderer):
                 # Template
                 tmpl = self._format_statcast_template(outcome, {'batter_name': batter_name, 'verb': phrase, 'runs': rbis, 'direction': direction})
                 result_line = tmpl if tmpl else f"{batter_name} {phrase}."
-            elif outcome == "HBP": result_line = "Hit by Pitch."
+            elif outcome in ["HBP", "Hit By Pitch"]: result_line = "Hit by Pitch."
 
             if batted_ball_str: result_line += batted_ball_str
             if rbis > 0 and not was_error: result_line += f" {batter_name} drives in {rbis}."
