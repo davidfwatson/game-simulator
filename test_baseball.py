@@ -4,6 +4,7 @@ import io
 from copy import deepcopy
 from contextlib import redirect_stdout
 from baseball import BaseballSimulator
+from renderers import NarrativeRenderer
 from teams import TEAMS
 
 class TestBaseballRealism(unittest.TestCase):
@@ -20,12 +21,11 @@ class TestBaseballRealism(unittest.TestCase):
         home_team['players'][9]['stamina'] = 1
         away_team['players'][9]['stamina'] = 1
 
-        game = BaseballSimulator(home_team, away_team, commentary_style='narrative')
+        game = BaseballSimulator(home_team, away_team)
+        game.play_game()
 
-        output = io.StringIO()
-        with redirect_stdout(output):
-            game.play_game()
-        log = output.getvalue()
+        renderer = NarrativeRenderer(game.gameday_data, seed=42)
+        log = renderer.render()
 
         # Check for illegal pitching change for the away team (Pacific City)
         if "Top of Inning 9" in log and "Bottom of Inning 9" in log:
@@ -44,11 +44,8 @@ class TestBaseballRealism(unittest.TestCase):
         num_simulations = 20
 
         for i in range(num_simulations):
-            random.seed(i)
-            game = BaseballSimulator(deepcopy(TEAMS["BAY_BOMBERS"]), deepcopy(TEAMS["PC_PILOTS"]), commentary_style='narrative')
-
-            with redirect_stdout(io.StringIO()):
-                game.play_game()
+            game = BaseballSimulator(deepcopy(TEAMS["BAY_BOMBERS"]), deepcopy(TEAMS["PC_PILOTS"]), game_seed=i)
+            game.play_game()
 
             team1_pitchers_used = len([p for p, count in game.pitch_counts.items() if count > 0 and p in game.team1_pitcher_stats])
             team2_pitchers_used = len([p for p, count in game.pitch_counts.items() if count > 0 and p in game.team2_pitcher_stats])
@@ -64,19 +61,14 @@ class TestBaseballRealism(unittest.TestCase):
         num_simulations = 20
 
         for i in range(num_simulations):
-            random.seed(i)
-            game = BaseballSimulator(deepcopy(TEAMS["BAY_BOMBERS"]), deepcopy(TEAMS["PC_PILOTS"]), commentary_style='narrative')
+            game = BaseballSimulator(deepcopy(TEAMS["BAY_BOMBERS"]), deepcopy(TEAMS["PC_PILOTS"]), game_seed=i)
+            game.play_game()
 
-            output = io.StringIO()
-            with redirect_stdout(output):
-                game.play_game()
-                # Print output_lines to capture them in stdout
-                for line in game.output_lines:
-                    print(line)
-            log = output.getvalue()
+            renderer = NarrativeRenderer(game.gameday_data, seed=i)
+            log = renderer.render()
 
             if "draws a walk" in log: events["Walk"] += 1
-            if "An error by" in log: events["Error"] += 1
+            if "An error by" in log or "Field Error" in log: events["Error"] += 1 # Adjusted for flexible checking
             if "double play" in log.lower() or "Double Play" in log: events["Double Play"] += 1
 
         self.assertGreater(events["Walk"], 0, "No walks were recorded in the simulations.")
