@@ -30,8 +30,14 @@ class GameTeams(TypedDict):
     home: TeamInfo
 
 
+class GameInfo(TypedDict):
+    venue: str
+    weather: str
+    umpires: List[str]
+
 class GameData(TypedDict):
     teams: GameTeams
+    gameInfo: GameInfo
 
 
 # Linescore Structures

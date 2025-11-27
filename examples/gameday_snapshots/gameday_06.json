@@ -13,6 +13,16 @@
         "abbreviation": "BAY",
         "teamName": "Bombers"
       }
+    },
+    "gameInfo": {
+      "venue": "Waterfront Park",
+      "weather": "75\u00b0F, Clear",
+      "umpires": [
+        "Chuck Thompson",
+        "Frank Rizzo",
+        "Gus Morales",
+        "Larry Phillips"
+      ]
     }
   },
   "plays": [
@@ -1116,11 +1126,21 @@
               "player": {
                 "id": 625208
               },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
               "credit": "assist"
             },
             {
               "player": {
                 "id": 625206
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
               },
               "credit": "putout"
             }

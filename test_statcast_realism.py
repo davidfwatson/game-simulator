@@ -8,6 +8,7 @@ from contextlib import redirect_stdout
 from baseball import BaseballSimulator
 from teams import TEAMS
 from commentary import GAME_CONTEXT
+from pbp_converter import GamedayConverter
 
 class TestStatcastRealism(unittest.TestCase):
     def setUp(self):
@@ -27,7 +28,7 @@ class TestStatcastRealism(unittest.TestCase):
         # so we will approximate it by checking if, over a number of simulations,
         # we see varied and plausible output.
 
-        simulator = BaseballSimulator(self.team1_data, self.team2_data, commentary_style='statcast')
+        converter = GamedayConverter(gameday_data={})
 
         # We will manually trigger batted ball descriptions with specific data
         # and check the output. This requires a new helper method in the simulator
@@ -35,27 +36,27 @@ class TestStatcastRealism(unittest.TestCase):
 
         # Test Case 1: High EV, low LA single -> "liner"
         # EV > 100, LA < 10
-        phrase, _ = simulator._get_batted_ball_verb("Single", 105.0, 5.0)
+        phrase, _ = converter._get_batted_ball_verb("Single", 105.0, 5.0)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['liner'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['liner'])
 
         # Test Case 2: Low EV, medium LA single -> "bloop"
         # EV < 90, 10 < LA < 30
-        phrase, _ = simulator._get_batted_ball_verb("Single", 85.0, 20.0)
+        phrase, _ = converter._get_batted_ball_verb("Single", 85.0, 20.0)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['bloop'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['bloop'])
 
         # Test Case 3: High EV, negative LA single -> "grounder"
         # EV > 95, LA < 0
-        phrase, _ = simulator._get_batted_ball_verb("Single", 98.0, -5.0)
+        phrase, _ = converter._get_batted_ball_verb("Single", 98.0, -5.0)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['grounder'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['grounder'])
 
         # Test Case 4: High EV flyout -> "deep"
         # EV > 100, LA > 30
-        phrase, _ = simulator._get_batted_ball_verb("Flyout", 102.0, 35.0)
+        phrase, _ = converter._get_batted_ball_verb("Flyout", 102.0, 35.0)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Flyout']['verbs']['deep'] + GAME_CONTEXT['statcast_verbs']['Flyout']['nouns'].get('deep',[]))
 
         # Test Case 5: Low EV flyout -> "popup"
         # EV < 90, LA > 40
-        phrase, _ = simulator._get_batted_ball_verb("Pop Out", 88.0, 45.0)
+        phrase, _ = converter._get_batted_ball_verb("Pop Out", 88.0, 45.0)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Pop Out']['verbs']['default'] + GAME_CONTEXT['statcast_verbs']['Pop Out']['nouns']['default'])
 
     def test_strikeout_looking_consistency(self):
@@ -221,20 +222,20 @@ class TestStatcastRealism(unittest.TestCase):
         """
         Ensures that 'popup' or 'infield fly' verbs are reserved for high-angle, typically low-EV flyouts.
         """
-        simulator = BaseballSimulator(self.team1_data, self.team2_data)
+        converter = GamedayConverter(gameday_data={})
 
         # A ball at 45 degrees with decent EV should be a fly ball, not a popup.
-        phrase, _ = simulator._get_batted_ball_verb("Flyout", 95.0, 45.0)
+        phrase, _ = converter._get_batted_ball_verb("Flyout", 95.0, 45.0)
         self.assertNotIn("popup", phrase)
         self.assertNotIn("infield fly", phrase)
 
         # A ball at 60 degrees, even with decent EV, is almost certainly a popup.
-        phrase, _ = simulator._get_batted_ball_verb("Pop Out", 92.0, 60.0)
+        phrase, _ = converter._get_batted_ball_verb("Pop Out", 92.0, 60.0)
         popup_phrases = GAME_CONTEXT['statcast_verbs']['Pop Out']['verbs']['default'] + GAME_CONTEXT['statcast_verbs']['Pop Out']['nouns']['default']
         self.assertIn(phrase, popup_phrases)
 
         # A weakly hit ball at a high angle is a classic popup.
-        phrase, _ = simulator._get_batted_ball_verb("Pop Out", 85.0, 55.0)
+        phrase, _ = converter._get_batted_ball_verb("Pop Out", 85.0, 55.0)
         self.assertIn(phrase, popup_phrases)
 
 

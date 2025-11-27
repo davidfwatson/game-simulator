@@ -20,12 +20,11 @@ class TestBaseballRealism(unittest.TestCase):
         home_team['players'][9]['stamina'] = 1
         away_team['players'][9]['stamina'] = 1
 
-        game = BaseballSimulator(home_team, away_team, commentary_style='narrative')
+        game = BaseballSimulator(home_team, away_team, commentary_style='gameday')
 
-        output = io.StringIO()
-        with redirect_stdout(output):
-            game.play_game()
-        log = output.getvalue()
+        from pbp_converter import GamedayConverter
+        converter = GamedayConverter(game.gameday_data, style='narrative')
+        log = converter.convert()
 
         # Check for illegal pitching change for the away team (Pacific City)
         if "Top of Inning 9" in log and "Bottom of Inning 9" in log:
@@ -60,27 +59,21 @@ class TestBaseballRealism(unittest.TestCase):
 
     def test_event_variety(self):
         """Check for a variety of game events like walks, errors, and double plays."""
-        events = {"Walk": 0, "Error": 0, "Double Play": 0}
+        events = {"Walk": 0, "Field Error": 0, "Double Play": 0}
         num_simulations = 20
 
         for i in range(num_simulations):
             random.seed(i)
-            game = BaseballSimulator(deepcopy(TEAMS["BAY_BOMBERS"]), deepcopy(TEAMS["PC_PILOTS"]), commentary_style='narrative')
+            game = BaseballSimulator(deepcopy(TEAMS["BAY_BOMBERS"]), deepcopy(TEAMS["PC_PILOTS"]), commentary_style='gameday')
+            game.play_game()
 
-            output = io.StringIO()
-            with redirect_stdout(output):
-                game.play_game()
-                # Print output_lines to capture them in stdout
-                for line in game.output_lines:
-                    print(line)
-            log = output.getvalue()
-
-            if "draws a walk" in log: events["Walk"] += 1
-            if "An error by" in log: events["Error"] += 1
-            if "double play" in log.lower() or "Double Play" in log: events["Double Play"] += 1
+            for play in game.gameday_data['liveData']['plays']['allPlays']:
+                event = play['result']['event']
+                if event in events:
+                    events[event] += 1
 
         self.assertGreater(events["Walk"], 0, "No walks were recorded in the simulations.")
-        self.assertGreater(events["Error"], 0, "No errors were recorded in the simulations.")
+        self.assertGreater(events["Field Error"], 0, "No errors were recorded in the simulations.")
         self.assertGreater(events["Double Play"], 0, "No double plays were recorded in the simulations.")
 
 if __name__ == '__main__':

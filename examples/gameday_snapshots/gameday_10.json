@@ -13,6 +13,16 @@
         "abbreviation": "BAY",
         "teamName": "Bombers"
       }
+    },
+    "gameInfo": {
+      "venue": "Waterfront Park",
+      "weather": "55\u00b0F, Drizzle",
+      "umpires": [
+        "Frank Rizzo",
+        "Larry Phillips",
+        "Stan Friedman",
+        "Gus Morales"
+      ]
     }
   },
   "plays": [
@@ -710,11 +720,21 @@
               "player": {
                 "id": 625203
               },
+              "position": {
+                "code": "5",
+                "name": "Third Base",
+                "abbreviation": "3B"
+              },
               "credit": "assist"
             },
             {
               "player": {
                 "id": 625206
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
               },
               "credit": "putout"
             }

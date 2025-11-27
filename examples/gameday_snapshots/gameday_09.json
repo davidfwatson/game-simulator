@@ -13,6 +13,16 @@
         "abbreviation": "BAY",
         "teamName": "Bombers"
       }
+    },
+    "gameInfo": {
+      "venue": "Waterfront Park",
+      "weather": "82\u00b0F, Sunny",
+      "umpires": [
+        "Chuck Thompson",
+        "Larry Phillips",
+        "Stan Friedman",
+        "Gus Morales"
+      ]
     }
   },
   "plays": [
@@ -271,12 +281,12 @@
           "credits": [
             {
               "player": {
-                "id": 605110
+                "id": 545105
               },
               "position": {
-                "code": "1",
-                "name": "Pitcher",
-                "abbreviation": "P"
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
               },
               "credit": "putout"
             }
@@ -721,11 +731,21 @@
               "player": {
                 "id": 545106
               },
+              "position": {
+                "code": "4",
+                "name": "Second Base",
+                "abbreviation": "2B"
+              },
               "credit": "assist"
             },
             {
               "player": {
                 "id": 545107
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
               },
               "credit": "putout"
             }

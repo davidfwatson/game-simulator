@@ -13,6 +13,16 @@
         "abbreviation": "BAY",
         "teamName": "Bombers"
       }
+    },
+    "gameInfo": {
+      "venue": "Waterfront Park",
+      "weather": "75\u00b0F, Clear",
+      "umpires": [
+        "Chuck Thompson",
+        "Larry Phillips",
+        "Frank Rizzo",
+        "Stan Friedman"
+      ]
     }
   },
   "plays": [
@@ -487,7 +497,23 @@
           "credits": [
             {
               "player": {
+                "id": 545106
+              },
+              "position": {
+                "code": "4",
+                "name": "Second Base",
+                "abbreviation": "2B"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
                 "id": 545107
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
               },
               "credit": "putout"
             }
@@ -1098,10 +1124,10 @@
       ]
     }
   ],
-  "playCount": 92,
+  "playCount": 88,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 92,
+    "totalPlaysInGame": 88,
     "snapshotPlayCount": 6
   }
 }

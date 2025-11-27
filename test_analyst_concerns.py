@@ -6,6 +6,7 @@ import copy
 from contextlib import redirect_stdout
 from baseball import BaseballSimulator
 from teams import TEAMS
+from pbp_converter import GamedayConverter
 
 class TestAnalystConcerns(unittest.TestCase):
     def setUp(self):
@@ -22,10 +23,16 @@ class TestAnalystConcerns(unittest.TestCase):
             game = BaseballSimulator(
                 copy.deepcopy(TEAMS["BAY_BOMBERS"]),
                 copy.deepcopy(TEAMS["PC_PILOTS"]),
-                commentary_style=commentary_style
+                commentary_style='gameday' # Internal sim always runs gameday
             )
             game.play_game()
-            full_log.extend(game.output_lines)
+
+            converter = GamedayConverter(
+                game.gameday_data,
+                style=commentary_style
+            )
+            pbp_output = converter.convert()
+            full_log.append(pbp_output)
         return "\n".join(full_log)
 
     def test_mechanical_phrasing_of_pitches(self):
@@ -46,7 +53,7 @@ class TestAnalystConcerns(unittest.TestCase):
         basic_phrases = {"Ball", "Called Strike", "Swinging Strike"}
 
         # We expect to find new, more descriptive phrases beyond the basic set.
-        found_phrases = set(location_phrases)
+        found_phrases = set(p.split(' on a')[0].split(' with the')[0] for p in location_phrases)
 
         self.assertTrue(len(found_phrases) > len(basic_phrases),
                         f"Pitch phrasing is too mechanical. Found only: {found_phrases}")
@@ -98,7 +105,7 @@ class TestAnalystConcerns(unittest.TestCase):
             # The new commentary correctly suppresses the 'out' description on an error.
             # So, we check if an out verb (like "grounds out") appears alongside an error message.
             has_out_verb = re.search(r'(grounds out|flies out|pops out)', at_bat_log, re.IGNORECASE)
-            has_error_message = "error on" in at_bat_log.lower()
+            has_error_message = "error on" in at_bat_log.lower() or "an error by the defense" in at_bat_log.lower()
 
             if has_out_verb and has_error_message:
                 self.fail("Logged an out verb and an error in the same at-bat, which is contradictory."
