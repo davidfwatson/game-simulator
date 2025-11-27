@@ -13,7 +13,15 @@
         "abbreviation": "BAY",
         "teamName": "Bombers"
       }
-    }
+    },
+    "umpires": [
+      "Chuck Thompson",
+      "Gus Morales",
+      "Stan Friedman",
+      "Larry Phillips"
+    ],
+    "weather": "68\u00b0F, Overcast",
+    "venue": "Waterfront Park"
   },
   "plays": [
     {
@@ -71,6 +79,28 @@
             "strikes": 0
           },
           "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "CH",
+              "description": "Changeup"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 83.3,
+            "breaks": {
+              "spinRate": 1625
+            }
+          }
+        },
+        {
+          "index": 1,
+          "count": {
+            "balls": 0,
+            "strikes": 1
+          },
+          "details": {
             "code": "B",
             "description": "Ball",
             "isStrike": false,
@@ -80,61 +110,17 @@
             }
           },
           "pitchData": {
-            "startSpeed": 96.7,
+            "startSpeed": 96.1,
             "breaks": {
-              "spinRate": 2408
-            }
-          }
-        },
-        {
-          "index": 1,
-          "count": {
-            "balls": 1,
-            "strikes": 0
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "CH",
-              "description": "Changeup"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 81.6,
-            "breaks": {
-              "spinRate": 1615
+              "spinRate": 2296
             }
           }
         },
         {
           "index": 2,
           "count": {
-            "balls": 2,
-            "strikes": 0
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 89.0,
-            "breaks": {
-              "spinRate": 2496
-            }
-          }
-        },
-        {
-          "index": 3,
-          "count": {
-            "balls": 3,
-            "strikes": 0
+            "balls": 1,
+            "strikes": 1
           },
           "details": {
             "code": "S",
@@ -153,10 +139,10 @@
           }
         },
         {
-          "index": 4,
+          "index": 3,
           "count": {
-            "balls": 3,
-            "strikes": 1
+            "balls": 1,
+            "strikes": 2
           },
           "details": {
             "code": "F",
@@ -175,9 +161,9 @@
           }
         },
         {
-          "index": 5,
+          "index": 4,
           "count": {
-            "balls": 3,
+            "balls": 1,
             "strikes": 2
           },
           "details": {
@@ -220,7 +206,7 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 5
+            "playIndex": 4
           },
           "credits": []
         }
@@ -275,7 +261,7 @@
       },
       "playEvents": [
         {
-          "index": 11,
+          "index": 10,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -297,7 +283,7 @@
           }
         },
         {
-          "index": 12,
+          "index": 11,
           "count": {
             "balls": 1,
             "strikes": 0
@@ -319,7 +305,7 @@
           }
         },
         {
-          "index": 13,
+          "index": 12,
           "count": {
             "balls": 1,
             "strikes": 1
@@ -341,7 +327,7 @@
           }
         },
         {
-          "index": 14,
+          "index": 13,
           "count": {
             "balls": 2,
             "strikes": 1
@@ -363,7 +349,7 @@
           }
         },
         {
-          "index": 15,
+          "index": 14,
           "count": {
             "balls": 2,
             "strikes": 2
@@ -504,7 +490,7 @@
       },
       "playEvents": [
         {
-          "index": 9,
+          "index": 8,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -526,7 +512,7 @@
           }
         },
         {
-          "index": 10,
+          "index": 9,
           "count": {
             "balls": 0,
             "strikes": 1
@@ -631,7 +617,7 @@
       },
       "playEvents": [
         {
-          "index": 22,
+          "index": 21,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -653,7 +639,7 @@
           }
         },
         {
-          "index": 23,
+          "index": 22,
           "count": {
             "balls": 0,
             "strikes": 1
@@ -710,11 +696,21 @@
               "player": {
                 "id": 625203
               },
+              "position": {
+                "code": "5",
+                "name": "Third Base",
+                "abbreviation": "3B"
+              },
               "credit": "assist"
             },
             {
               "player": {
                 "id": 625206
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
               },
               "credit": "putout"
             }
@@ -776,7 +772,7 @@
       },
       "playEvents": [
         {
-          "index": 24,
+          "index": 23,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -891,7 +887,7 @@
       },
       "playEvents": [
         {
-          "index": 29,
+          "index": 28,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -913,7 +909,7 @@
           }
         },
         {
-          "index": 30,
+          "index": 29,
           "count": {
             "balls": 0,
             "strikes": 1
@@ -935,7 +931,7 @@
           }
         },
         {
-          "index": 31,
+          "index": 30,
           "count": {
             "balls": 1,
             "strikes": 1

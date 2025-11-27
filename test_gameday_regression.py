@@ -15,8 +15,7 @@ class TestGamedayRegression(unittest.TestCase):
         """
         sim = BaseballSimulator(
             copy.deepcopy(TEAMS["BAY_BOMBERS"]),
-            copy.deepcopy(TEAMS["PC_PILOTS"]),
-            commentary_style='gameday'
+            copy.deepcopy(TEAMS["PC_PILOTS"])
         )
         sim.play_game()
         self.gameday_data = sim.gameday_data

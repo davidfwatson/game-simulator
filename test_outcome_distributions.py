@@ -20,9 +20,7 @@ class TestOutcomeDistributions(unittest.TestCase):
             game = BaseballSimulator(
                 copy.deepcopy(TEAMS["BAY_BOMBERS"]),
                 copy.deepcopy(TEAMS["PC_PILOTS"]),
-                game_seed=i,
-                commentary_seed=i,
-                commentary_style='gameday'
+                game_seed=i
             )
             game.play_game()
             gameday_data = game.gameday_data

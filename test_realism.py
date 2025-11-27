@@ -4,6 +4,7 @@ import io
 import re
 import copy
 from baseball import BaseballSimulator
+from renderers import NarrativeRenderer, StatcastRenderer
 from teams import TEAMS
 
 class TestRealism(unittest.TestCase):
@@ -14,16 +15,18 @@ class TestRealism(unittest.TestCase):
         self.away_team = copy.deepcopy(TEAMS["PC_PILOTS"])
 
         # Run the simulation and get the output from the simulator instance
-        game = BaseballSimulator(self.home_team, self.away_team, commentary_style='narrative')
+        game = BaseballSimulator(self.home_team, self.away_team)
         game.play_game()
-        self.log = "\n".join(game.output_lines)
+        renderer = NarrativeRenderer(game.gameday_data, seed=42)
+        self.log = renderer.render()
 
     def test_quantized_velocities(self):
         """Test if pitch velocities are too uniform or 'quantized'."""
         # This test now runs on the statcast output, which reliably contains velocity data.
-        game = BaseballSimulator(self.home_team, self.away_team, commentary_style='statcast')
+        game = BaseballSimulator(self.home_team, self.away_team)
         game.play_game()
-        log = "\n".join(game.output_lines)
+        renderer = StatcastRenderer(game.gameday_data, seed=42)
+        log = renderer.render()
 
         velocities = re.findall(r'(\d{2,3}\.\d) mph', log)
         self.assertGreater(len(velocities), 0, "No velocities found in game log.")
@@ -55,11 +58,11 @@ class TestRealism(unittest.TestCase):
         """Test for unrealistic extra-innings banner text."""
         extra_inning_log = ""
         for i in range(10):
-            random.seed(i)
-            game = BaseballSimulator(copy.deepcopy(TEAMS["BAY_BOMBERS"]), copy.deepcopy(TEAMS["PC_PILOTS"]), commentary_style='narrative')
+            game = BaseballSimulator(copy.deepcopy(TEAMS["BAY_BOMBERS"]), copy.deepcopy(TEAMS["PC_PILOTS"]), game_seed=i)
             game.play_game()
-            log = "\n".join(game.output_lines)
-            if "Extra Innings" in log:
+            renderer = NarrativeRenderer(game.gameday_data, seed=i)
+            log = renderer.render()
+            if "Extra Innings" in log or "inning 10" in log.lower(): # Adjusted check
                 extra_inning_log = log
                 break
         if extra_inning_log:
@@ -83,15 +86,17 @@ class TestRealism(unittest.TestCase):
 
     def test_bracketed_ui_flag(self):
         """Test that the bracketed UI flag correctly changes the base runner display."""
-        game_bracketed = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), use_bracketed_ui=True, commentary_style='narrative')
+        game_bracketed = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team))
         game_bracketed.play_game()
-        log_bracketed = "\n".join(game_bracketed.output_lines)
+        renderer_bracketed = NarrativeRenderer(game_bracketed.gameday_data, use_bracketed_ui=True)
+        log_bracketed = renderer_bracketed.render()
         self.assertIn("[", log_bracketed, "Bracketed UI not found when flag is enabled.")
         self.assertIn("]-", log_bracketed, "Bracketed UI not found when flag is enabled.")
 
-        game_named = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), use_bracketed_ui=False, commentary_style='narrative')
+        game_named = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team))
         game_named.play_game()
-        log_named = "\n".join(game_named.output_lines)
+        renderer_named = NarrativeRenderer(game_named.gameday_data, use_bracketed_ui=False)
+        log_named = renderer_named.render()
         self.assertNotIn("[", log_named, "Bracketed UI found when flag is disabled.")
         self.assertNotIn("]-", log_named, "Bracketed UI found when flag is disabled.")
 
@@ -107,12 +112,12 @@ class TestRealism(unittest.TestCase):
             game = BaseballSimulator(
                 copy.deepcopy(self.home_team),
                 copy.deepcopy(self.away_team),
-                commentary_style='narrative',
-                game_seed=i,
-                commentary_seed=i+1
+                game_seed=i
             )
             game.play_game()
-            log = "\n".join(game.output_lines)
+            renderer = NarrativeRenderer(game.gameday_data, seed=i+1)
+            log = renderer.render()
+
             total_walks += log.count("draws a walk")
             total_hbps += log.count("Hit by Pitch")
             total_dps += log.lower().count("double play")
@@ -135,17 +140,28 @@ class TestRealism(unittest.TestCase):
         Test that a wild pitch or passed ball does not occur when the bases are empty.
         """
         for i in range(50):
-            random.seed(i)
-            game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), commentary_style='narrative')
+            game = BaseballSimulator(copy.deepcopy(self.home_team), copy.deepcopy(self.away_team), game_seed=i)
             game.play_game()
-            log = "\n".join(game.output_lines)
+            renderer = NarrativeRenderer(game.gameday_data, seed=i)
+            log = renderer.render()
             lines = log.split('\n')
             last_bases_state = ""
             for line in lines:
                 if line.strip().startswith("Result:"):
-                    if "Bases: " in line:
-                        last_bases_state = line.split("Bases: ")[1].split(" | ")[0]
+                    # Need to check score line which is AFTER result line usually in my new renderer?
+                    # In new renderer, score line is separate.
+                    pass
+                if "Bases: " in line:
+                    last_bases_state = line.split("Bases: ")[1].split(" | ")[0]
+
                 if "Wild Pitch!" in line or "Passed Ball!" in line:
+                    # This test logic depends on order of lines.
+                    # If Wild Pitch happens in "play events", bases state might not be updated yet in previous score line?
+                    # This test logic seems fragile if line order changes.
+                    # But Wild Pitch is part of the play event description.
+                    # So it appears BEFORE the score line of that play.
+                    # So `last_bases_state` refers to the PREVIOUS play's end state.
+                    # Which is correct (bases before current play).
                     self.assertNotEqual(last_bases_state, "Bases empty",
                                         f"Impossible event: A wild pitch or passed ball occurred with the bases empty.\nLog Line: {line}")
 
