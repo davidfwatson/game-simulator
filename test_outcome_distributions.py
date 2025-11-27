@@ -66,21 +66,8 @@ class TestOutcomeDistributions(unittest.TestCase):
         }
 
         # Overrides for current simulation inaccuracies
-        # Tighter overrides now that simulation is improved
-        delta_overrides = {
-            'Strikeout': 100,
-            'Groundout': 100,
-            'Flyout': 150,
-            'Single': 200,
-            'Lineout': 150,
-            'Double': 50,
-            'Home Run': 50,
-            'Pop Out': 80,
-            'Stolen Base': 50,
-            'Double Play': 50,
-            'Hit By Pitch': 30,
-            'Caught Stealing': 30,
-        }
+        # All overrides removed as simulation now matches MLB distributions well!
+        delta_overrides = {}
 
         print("\n--- Simulation Outcome Report ---")
         print(f"{'Outcome':<20} | {'Actual':<10} | {'Expected':<10} | {'Delta Limit'}")

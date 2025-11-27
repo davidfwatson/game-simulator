@@ -135,7 +135,7 @@ class BaseballSimulator:
         ev = round(self.game_rng.normalvariate(80 + batting_profile['power'] * 25, 8), 1)
         # Angle influences launch angle, with some randomness
         # Increase SD to 15.0 to get more popups and grounders
-        la = round(self.game_rng.normalvariate(batting_profile['angle'] + 4.5, 15.0), 1)
+        la = round(self.game_rng.normalvariate(batting_profile['angle'] + 4.5, 16.5), 1)
         return {'ev': ev, 'la': la}
 
     def _simulate_bunt_physics(self):
@@ -156,7 +156,7 @@ class BaseballSimulator:
         if la < 12:
             if ev > 108: return "Double Play" # Hard grounder at infielder
             if ev > 102: return "Single" # Hard grounder through the hole
-            if ev > 92 and self.game_rng.random() < 0.25: return "Single" # Lucky finder
+            if ev > 92 and self.game_rng.random() < 0.35: return "Single" # Lucky finder
             return "Groundout"
 
         # Line drives
@@ -173,7 +173,7 @@ class BaseballSimulator:
             if ev > 104: return "Home Run" # Reduced threshold
             if ev > 103: return "Double" # Gap shot
             if ev > 94 and self.game_rng.random() < 0.3: return "Double"
-            if ev > 90 and self.game_rng.random() < 0.2: return "Single" # Bloop
+            if ev > 90 and self.game_rng.random() < 0.3: return "Single" # Bloop
             if ev > 99 and la > 40: return "Triple"
             return "Flyout"
 
