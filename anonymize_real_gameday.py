@@ -18,6 +18,7 @@ import re
 import unicodedata
 from pathlib import Path
 from teams import TEAMS
+from commentary import GAME_CONTEXT
 
 
 # Top-level constants (module scope)
@@ -62,7 +63,11 @@ def get_our_schema_fields():
             'teams': {
                 'away': ['id', 'name', 'abbreviation', 'teamName'],
                 'home': ['id', 'name', 'abbreviation', 'teamName']
-            }
+            },
+            'players': None,  # Full dict of player details
+            'venue': None,
+            'weather': None,
+            'umpires': None
         },
         'liveData': {
             'plays': {
@@ -190,6 +195,73 @@ def create_player_mapping(real_data, our_teams):
     return id_mapping, name_mapping
 
 
+def generate_player_detail(player):
+    """
+    Generate a full player details object for a given fictional player.
+    Matches the logic in baseball.py _initialize_game_data_players.
+    """
+    pid = player['id']
+    full_name = player['legal_name']
+    name_parts = full_name.split(' ')
+    first_name = name_parts[0]
+    last_name = name_parts[-1] if len(name_parts) > 1 else ""
+    middle_name = " ".join(name_parts[1:-1]) if len(name_parts) > 2 else ""
+
+    # Mock realistic bio data deterministically based on ID
+    rng = random.Random(pid)
+
+    birth_year = rng.randint(1995, 2003)
+    birth_month = rng.randint(1, 12)
+    birth_day = rng.randint(1, 28)
+    birth_date = f"{birth_year}-{birth_month:02d}-{birth_day:02d}"
+    current_age = 2025 - birth_year
+
+    height_feet = rng.randint(5, 6)
+    height_inches = rng.randint(0, 11)
+    if height_feet == 6: height_inches = rng.randint(0, 8)
+    height = f"{height_feet}' {height_inches}\""
+
+    weight = rng.randint(170, 240)
+
+    draft_year = birth_year + 18 + rng.randint(0, 3)
+    debut_year = draft_year + rng.randint(2, 5)
+    debut_date = f"{debut_year}-04-01"
+
+    # Handle position if missing (synthetic players)
+    position = player.get('position', {'code': 'U', 'name': 'Utility', 'abbreviation': 'UT'})
+
+    return {
+        "id": pid,
+        "fullName": full_name,
+        "link": f"/api/v1/people/{pid}",
+        "firstName": first_name,
+        "lastName": last_name,
+        "primaryNumber": str(pid % 100),
+        "birthDate": birth_date,
+        "currentAge": current_age,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": height,
+        "weight": weight,
+        "active": True,
+        "primaryPosition": position,
+        "useName": player.get('nickname', first_name) or first_name,
+        "useLastName": last_name,
+        "middleName": middle_name,
+        "boxscoreName": last_name,
+        "gender": "M",
+        "isPlayer": True,
+        "isVerified": False,
+        "draftYear": draft_year,
+        "mlbDebutDate": debut_date,
+        "batSide": player.get('batSide', {'code': 'R', 'description': 'Right'}),
+        "pitchHand": player.get('pitchHand', {'code': 'R', 'description': 'Right'}),
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+    }
+
+
 def filter_dict(data, allowed_fields):
     """
     Recursively filter a dictionary to only include allowed fields.
@@ -295,17 +367,20 @@ def simplify_runner(r, id_mapping, schema):
     return out
 
 
-def anonymize_gameday_data(real_data, our_teams):
+def anonymize_gameday_data(real_data, our_teams, seed=42):
     """
     Anonymize real gameday data by replacing players and filtering fields.
 
     Args:
         real_data: Real MLB gameday JSON
         our_teams: Our TEAMS dictionary
+        seed: Random seed for context generation
 
     Returns:
         Anonymized gameday JSON
     """
+    rng = random.Random(seed)
+
     # Create player mappings
     id_mapping, name_mapping = create_player_mapping(real_data, our_teams)
 
@@ -318,6 +393,8 @@ def anonymize_gameday_data(real_data, our_teams):
     # Handle gameData
     if 'gameData' in real_data and 'gameData' in schema:
         result['gameData'] = {}
+
+        # Teams
         if 'teams' in real_data['gameData']:
             result['gameData']['teams'] = {}
             for side in ['home', 'away']:
@@ -331,6 +408,32 @@ def anonymize_gameday_data(real_data, our_teams):
                         'abbreviation': our_team['abbreviation'],
                         'teamName': our_team['teamName']
                     }
+
+        # Context: Venue, Weather, Umpires
+        result['gameData']['venue'] = our_teams['BAY_BOMBERS']['venue']
+        result['gameData']['weather'] = rng.choice(GAME_CONTEXT["weather_conditions"])
+        result['gameData']['umpires'] = rng.sample(GAME_CONTEXT["umpires"], 4)
+
+        # Players
+        result['gameData']['players'] = {}
+        # Iterate over all mapped players to populate the players dictionary
+        # We use id_mapping.values() which contains the fictional player objects
+        # To avoid duplicates, we track IDs we've added
+        added_ids = set()
+
+        # But wait, id_mapping keys are REAL IDs. Values are FICTIONAL players.
+        # We need to make sure we include all players referenced in the game.
+        # The id_mapping covers all players found in real_gameday.
+
+        for fictional_player in id_mapping.values():
+            if fictional_player['id'] in added_ids:
+                continue
+
+            player_detail = generate_player_detail(fictional_player)
+            pid_key = f"ID{fictional_player['id']}"
+            result['gameData']['players'][pid_key] = player_detail
+            added_ids.add(fictional_player['id'])
+
 
     # Handle liveData
     if 'liveData' in real_data and 'liveData' in schema:
@@ -501,7 +604,7 @@ def main():
 
     # Anonymize
     print("Anonymizing players and filtering fields...")
-    anonymized = anonymize_gameday_data(real_data, TEAMS)
+    anonymized = anonymize_gameday_data(real_data, TEAMS, seed=args.seed)
 
     # Write output
     print(f"Writing to {args.output}...")
