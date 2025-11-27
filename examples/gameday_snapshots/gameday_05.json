@@ -13,7 +13,31 @@
         "abbreviation": "BAY",
         "teamName": "Bombers"
       }
-    }
+    },
+    "venue": {
+      "name": "Waterfront Park"
+    },
+    "weather": {
+      "condition": "68\u00b0F, Overcast"
+    },
+    "umpires": [
+      {
+        "position": "HP",
+        "name": "Chuck Thompson"
+      },
+      {
+        "position": "1B",
+        "name": "Frank Rizzo"
+      },
+      {
+        "position": "2B",
+        "name": "Gus Morales"
+      },
+      {
+        "position": "3B",
+        "name": "Larry Phillips"
+      }
+    ]
   },
   "plays": [
     {
@@ -82,7 +106,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 96.1,
+            "spin": 2473
           },
           "pitchData": {
             "startSpeed": 96.1,
@@ -104,7 +130,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 82.2,
+            "spin": 1650
           },
           "pitchData": {
             "startSpeed": 82.2,
@@ -126,7 +154,8 @@
             "type": {
               "code": "CU",
               "description": "Curveball"
-            }
+            },
+            "velo": 78.7
           },
           "pitchData": {
             "startSpeed": 78.7
@@ -134,7 +163,8 @@
           "hitData": {
             "launchSpeed": 95.9,
             "launchAngle": 6.7,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "up the middle"
           }
         }
       ],
@@ -165,7 +195,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 0,
+        "runners": [
+          null,
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -243,7 +285,9 @@
             "type": {
               "code": "CU",
               "description": "Curveball"
-            }
+            },
+            "velo": 79.4,
+            "spin": 2799
           },
           "pitchData": {
             "startSpeed": 79.4,
@@ -265,7 +309,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 92.8,
+            "spin": 1955
           },
           "pitchData": {
             "startSpeed": 92.8,
@@ -276,7 +322,8 @@
           "hitData": {
             "launchSpeed": 98.1,
             "launchAngle": 0.6,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "fair"
           }
         }
       ],
@@ -387,9 +434,33 @@
             "teamUnearned": false,
             "playIndex": 1
           },
-          "credits": []
+          "credits": [
+            {
+              "player": {
+                "id": 625203
+              },
+              "position": {
+                "code": "5",
+                "name": "Third Base",
+                "abbreviation": "3B"
+              },
+              "credit": "fielding_error"
+            }
+          ]
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 0,
+        "runners": [
+          "Sam Decker",
+          "Marcus Thorne",
+          "Leo Vance"
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -458,7 +529,9 @@
             "type": {
               "code": "CU",
               "description": "Curveball"
-            }
+            },
+            "velo": 80.4,
+            "spin": 2819
           },
           "pitchData": {
             "startSpeed": 80.4,
@@ -481,7 +554,8 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 96.9
           },
           "pitchData": {
             "startSpeed": 96.9
@@ -489,7 +563,8 @@
           "hitData": {
             "launchSpeed": 69.6,
             "launchAngle": -47.9,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "fair"
           }
         }
       ],
@@ -549,17 +624,39 @@
               "player": {
                 "id": 545106
               },
+              "position": {
+                "code": "4",
+                "name": "Second Base",
+                "abbreviation": "2B"
+              },
               "credit": "assist"
             },
             {
               "player": {
                 "id": 545107
               },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
               "credit": "putout"
             }
           ]
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 0,
+        "runners": [
+          "Alex Chase",
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -627,7 +724,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 96.0,
+            "spin": 2447
           },
           "pitchData": {
             "startSpeed": 96.0,
@@ -649,7 +748,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 81.4,
+            "spin": 1795
           },
           "pitchData": {
             "startSpeed": 81.4,
@@ -671,7 +772,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 94.3,
+            "spin": 2433
           },
           "pitchData": {
             "startSpeed": 94.3,
@@ -693,7 +796,9 @@
             "type": {
               "code": "CU",
               "description": "Curveball"
-            }
+            },
+            "velo": 80.2,
+            "spin": 2628
           },
           "pitchData": {
             "startSpeed": 80.2,
@@ -715,7 +820,9 @@
             "type": {
               "code": "SL",
               "description": "Slider"
-            }
+            },
+            "velo": 87.2,
+            "spin": 2405
           },
           "pitchData": {
             "startSpeed": 87.2,
@@ -737,7 +844,9 @@
             "type": {
               "code": "SL",
               "description": "Slider"
-            }
+            },
+            "velo": 88.3,
+            "spin": 2495
           },
           "pitchData": {
             "startSpeed": 88.3,
@@ -774,7 +883,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 1,
+        "runners": [
+          null,
+          "Alex Chase",
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -842,7 +963,9 @@
             "type": {
               "code": "SL",
               "description": "Slider"
-            }
+            },
+            "velo": 87.5,
+            "spin": 2492
           },
           "pitchData": {
             "startSpeed": 87.5,
@@ -864,7 +987,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 83.8,
+            "spin": 1745
           },
           "pitchData": {
             "startSpeed": 83.8,
@@ -875,7 +1000,8 @@
           "hitData": {
             "launchSpeed": 94.2,
             "launchAngle": 26.2,
-            "trajectory": "fly_ball"
+            "trajectory": "fly_ball",
+            "location": "fair"
           }
         }
       ],
@@ -944,7 +1070,19 @@
             }
           ]
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 2,
+        "runners": [
+          null,
+          "Alex Chase",
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -1017,7 +1155,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 92.6,
+            "spin": 2176
           },
           "pitchData": {
             "startSpeed": 92.6,
@@ -1039,7 +1179,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 92.8,
+            "spin": 1984
           },
           "pitchData": {
             "startSpeed": 92.8,
@@ -1061,7 +1203,9 @@
             "type": {
               "code": "CU",
               "description": "Curveball"
-            }
+            },
+            "velo": 79.8,
+            "spin": 2999
           },
           "pitchData": {
             "startSpeed": 79.8,
@@ -1083,7 +1227,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 91.9,
+            "spin": 2174
           },
           "pitchData": {
             "startSpeed": 91.9,
@@ -1105,7 +1251,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 90.2,
+            "spin": 2172
           },
           "pitchData": {
             "startSpeed": 90.2,
@@ -1116,7 +1264,8 @@
           "hitData": {
             "launchSpeed": 95.9,
             "launchAngle": -13.6,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "fair"
           }
         }
       ],
@@ -1232,17 +1381,39 @@
               "player": {
                 "id": 625208
               },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
               "credit": "assist"
             },
             {
               "player": {
                 "id": 625206
               },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
               "credit": "putout"
             }
           ]
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 1,
+        "runners": [
+          "Jackson Riley",
+          "Sam Decker",
+          "Marcus Thorne"
+        ],
+        "score": {
+          "home": 1,
+          "away": 0
+        }
+      }
     }
   ],
   "playCount": 72,

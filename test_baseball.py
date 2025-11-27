@@ -5,6 +5,7 @@ from copy import deepcopy
 from contextlib import redirect_stdout
 from baseball import BaseballSimulator
 from teams import TEAMS
+from renderers import NarrativeRenderer
 
 class TestBaseballRealism(unittest.TestCase):
     def setUp(self):
@@ -21,11 +22,10 @@ class TestBaseballRealism(unittest.TestCase):
         away_team['players'][9]['stamina'] = 1
 
         game = BaseballSimulator(home_team, away_team, commentary_style='narrative')
+        game.play_game()
 
-        output = io.StringIO()
-        with redirect_stdout(output):
-            game.play_game()
-        log = output.getvalue()
+        renderer = NarrativeRenderer(game.gameday_data)
+        log = renderer.render()
 
         # Check for illegal pitching change for the away team (Pacific City)
         if "Top of Inning 9" in log and "Bottom of Inning 9" in log:
@@ -46,9 +46,7 @@ class TestBaseballRealism(unittest.TestCase):
         for i in range(num_simulations):
             random.seed(i)
             game = BaseballSimulator(deepcopy(TEAMS["BAY_BOMBERS"]), deepcopy(TEAMS["PC_PILOTS"]), commentary_style='narrative')
-
-            with redirect_stdout(io.StringIO()):
-                game.play_game()
+            game.play_game()
 
             team1_pitchers_used = len([p for p, count in game.pitch_counts.items() if count > 0 and p in game.team1_pitcher_stats])
             team2_pitchers_used = len([p for p, count in game.pitch_counts.items() if count > 0 and p in game.team2_pitcher_stats])
@@ -66,14 +64,10 @@ class TestBaseballRealism(unittest.TestCase):
         for i in range(num_simulations):
             random.seed(i)
             game = BaseballSimulator(deepcopy(TEAMS["BAY_BOMBERS"]), deepcopy(TEAMS["PC_PILOTS"]), commentary_style='narrative')
+            game.play_game()
 
-            output = io.StringIO()
-            with redirect_stdout(output):
-                game.play_game()
-                # Print output_lines to capture them in stdout
-                for line in game.output_lines:
-                    print(line)
-            log = output.getvalue()
+            renderer = NarrativeRenderer(game.gameday_data)
+            log = renderer.render()
 
             if "draws a walk" in log: events["Walk"] += 1
             if "An error by" in log: events["Error"] += 1

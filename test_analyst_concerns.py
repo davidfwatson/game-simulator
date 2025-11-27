@@ -6,6 +6,7 @@ import copy
 from contextlib import redirect_stdout
 from baseball import BaseballSimulator
 from teams import TEAMS
+from renderers import NarrativeRenderer, StatcastRenderer
 
 class TestAnalystConcerns(unittest.TestCase):
     def setUp(self):
@@ -25,7 +26,13 @@ class TestAnalystConcerns(unittest.TestCase):
                 commentary_style=commentary_style
             )
             game.play_game()
-            full_log.extend(game.output_lines)
+
+            if commentary_style == 'statcast':
+                renderer = StatcastRenderer(game.gameday_data)
+            else:
+                renderer = NarrativeRenderer(game.gameday_data)
+
+            full_log.append(renderer.render())
         return "\n".join(full_log)
 
     def test_mechanical_phrasing_of_pitches(self):

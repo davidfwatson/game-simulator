@@ -29,9 +29,24 @@ class GameTeams(TypedDict):
     away: TeamInfo
     home: TeamInfo
 
+class Venue(TypedDict):
+    id: NotRequired[int]
+    name: str
+
+class Weather(TypedDict):
+    condition: str
+    temp: NotRequired[str]
+    wind: NotRequired[str]
+
+class Umpire(TypedDict):
+    position: str
+    name: str
 
 class GameData(TypedDict):
     teams: GameTeams
+    venue: Venue
+    weather: Weather
+    umpires: List[Umpire]
 
 
 # Linescore Structures
@@ -44,7 +59,7 @@ class TeamLinescore(TypedDict):
 
 class InningLinescore(TypedDict):
     num: int
-    ordinalNum: str
+    ordinalNum: NotRequired[str]
     away: TeamLinescore
     home: TeamLinescore
 
@@ -118,6 +133,8 @@ class PitchDetails(TypedDict):
     isStrike: bool
     type: PitchType
     eventType: NotRequired[str]
+    velo: NotRequired[float] # Added to help renderer
+    spin: NotRequired[int]   # Added to help renderer
 
 
 class PitchBreaks(TypedDict):
@@ -133,6 +150,7 @@ class HitData(TypedDict):
     launchSpeed: float
     launchAngle: float
     trajectory: str
+    location: NotRequired[str] # Added to pass 'fair', 'to left field', etc.
 
 
 class PlayEvent(TypedDict):
@@ -152,6 +170,7 @@ class PlayResult(TypedDict):
     rbi: int
     awayScore: int
     homeScore: int
+    isOut: NotRequired[bool] # Helper for renderer
 
 
 class PlayAbout(TypedDict):
@@ -197,6 +216,10 @@ class Matchup(TypedDict):
     postOnSecond: NotRequired[PlayerInfo]
     postOnThird: NotRequired[PlayerInfo]
 
+class PrePlayState(TypedDict):
+    outs: int
+    runners: List[Optional[str]] # List of names [1B, 2B, 3B]
+    score: dict # {away: int, home: int}
 
 class Play(TypedDict):
     result: PlayResult
@@ -205,6 +228,7 @@ class Play(TypedDict):
     matchup: Matchup
     playEvents: List[PlayEvent]
     runners: List[Runner]
+    preCount: NotRequired[PrePlayState] # Added for renderer context
 
 
 class Plays(TypedDict):

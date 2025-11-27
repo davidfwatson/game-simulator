@@ -13,7 +13,31 @@
         "abbreviation": "BAY",
         "teamName": "Bombers"
       }
-    }
+    },
+    "venue": {
+      "name": "Waterfront Park"
+    },
+    "weather": {
+      "condition": "55\u00b0F, Drizzle"
+    },
+    "umpires": [
+      {
+        "position": "HP",
+        "name": "Frank Rizzo"
+      },
+      {
+        "position": "1B",
+        "name": "Larry Phillips"
+      },
+      {
+        "position": "2B",
+        "name": "Stan Friedman"
+      },
+      {
+        "position": "3B",
+        "name": "Gus Morales"
+      }
+    ]
   },
   "plays": [
     {
@@ -77,7 +101,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 96.7,
+            "spin": 2408
           },
           "pitchData": {
             "startSpeed": 96.7,
@@ -99,7 +125,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 81.6,
+            "spin": 1615
           },
           "pitchData": {
             "startSpeed": 81.6,
@@ -121,7 +149,9 @@
             "type": {
               "code": "SL",
               "description": "Slider"
-            }
+            },
+            "velo": 89.0,
+            "spin": 2496
           },
           "pitchData": {
             "startSpeed": 89.0,
@@ -143,7 +173,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 95.7,
+            "spin": 2408
           },
           "pitchData": {
             "startSpeed": 95.7,
@@ -165,7 +197,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 96.7,
+            "spin": 2400
           },
           "pitchData": {
             "startSpeed": 96.7,
@@ -187,7 +221,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 94.6,
+            "spin": 2372
           },
           "pitchData": {
             "startSpeed": 94.6,
@@ -224,7 +260,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 0,
+        "runners": [
+          null,
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -287,7 +335,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 94.9,
+            "spin": 2237
           },
           "pitchData": {
             "startSpeed": 94.9,
@@ -309,7 +359,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 81.2,
+            "spin": 1648
           },
           "pitchData": {
             "startSpeed": 81.2,
@@ -331,7 +383,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 95.5,
+            "spin": 2494
           },
           "pitchData": {
             "startSpeed": 95.5,
@@ -353,7 +407,9 @@
             "type": {
               "code": "SL",
               "description": "Slider"
-            }
+            },
+            "velo": 87.1,
+            "spin": 2433
           },
           "pitchData": {
             "startSpeed": 87.1,
@@ -375,7 +431,8 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 94.4
           },
           "pitchData": {
             "startSpeed": 94.4
@@ -383,7 +440,8 @@
           "hitData": {
             "launchSpeed": 112.6,
             "launchAngle": 32.9,
-            "trajectory": "fly_ball"
+            "trajectory": "fly_ball",
+            "location": "down the line"
           }
         }
       ],
@@ -448,7 +506,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 2,
+        "runners": [
+          "Omar Ramirez",
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -516,7 +586,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 97.0,
+            "spin": 2215
           },
           "pitchData": {
             "startSpeed": 97.0,
@@ -538,7 +610,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 81.3,
+            "spin": 1870
           },
           "pitchData": {
             "startSpeed": 81.3,
@@ -549,7 +623,8 @@
           "hitData": {
             "launchSpeed": 102.7,
             "launchAngle": -12.5,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "into shallow left"
           }
         }
       ],
@@ -580,7 +655,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 2,
+        "runners": [
+          null,
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -643,7 +730,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 91.4,
+            "spin": 2012
           },
           "pitchData": {
             "startSpeed": 91.4,
@@ -665,7 +754,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 90.2,
+            "spin": 2178
           },
           "pitchData": {
             "startSpeed": 90.2,
@@ -676,7 +767,8 @@
           "hitData": {
             "launchSpeed": 85.8,
             "launchAngle": -12.5,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "fair"
           }
         }
       ],
@@ -710,17 +802,39 @@
               "player": {
                 "id": 625203
               },
+              "position": {
+                "code": "5",
+                "name": "Third Base",
+                "abbreviation": "3B"
+              },
               "credit": "assist"
             },
             {
               "player": {
                 "id": 625206
               },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
               "credit": "putout"
             }
           ]
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 0,
+        "runners": [
+          null,
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 2
+        }
+      }
     },
     {
       "result": {
@@ -788,7 +902,9 @@
             "type": {
               "code": "CU",
               "description": "Curveball"
-            }
+            },
+            "velo": 78.5,
+            "spin": 2948
           },
           "pitchData": {
             "startSpeed": 78.5,
@@ -799,7 +915,8 @@
           "hitData": {
             "launchSpeed": 110.4,
             "launchAngle": 12.7,
-            "trajectory": "line_drive"
+            "trajectory": "line_drive",
+            "location": "to left field"
           }
         }
       ],
@@ -830,7 +947,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 1,
+        "runners": [
+          null,
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 2
+        }
+      }
     },
     {
       "result": {
@@ -903,7 +1032,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 92.5,
+            "spin": 1995
           },
           "pitchData": {
             "startSpeed": 92.5,
@@ -925,7 +1056,9 @@
             "type": {
               "code": "SI",
               "description": "Sinker"
-            }
+            },
+            "velo": 90.6,
+            "spin": 2071
           },
           "pitchData": {
             "startSpeed": 90.6,
@@ -947,7 +1080,9 @@
             "type": {
               "code": "CU",
               "description": "Curveball"
-            }
+            },
+            "velo": 80.2,
+            "spin": 2927
           },
           "pitchData": {
             "startSpeed": 80.2,
@@ -958,7 +1093,8 @@
           "hitData": {
             "launchSpeed": 86.4,
             "launchAngle": 7.4,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "fair"
           }
         }
       ],
@@ -1053,7 +1189,19 @@
             }
           ]
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 1,
+        "runners": [
+          "Jackson Riley",
+          null,
+          "Sam Decker"
+        ],
+        "score": {
+          "home": 1,
+          "away": 2
+        }
+      }
     }
   ],
   "playCount": 77,

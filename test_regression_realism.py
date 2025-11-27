@@ -42,13 +42,19 @@ class TestRegressionRealism(unittest.TestCase):
         random.seed(99)
         sim = BaseballSimulator(self.home, self.away)
         sim.inning = 10
+        # Ensure gameday data structure matches the inning override
+        while len(sim.gameday_data['liveData']['linescore']['innings']) < 10:
+             sim.gameday_data['liveData']['linescore']['innings'].append({'num': len(sim.gameday_data['liveData']['linescore']['innings']) + 1, 'home': {'runs': 0}, 'away': {'runs': 0}})
+
         sim.top_of_inning = False
         sim.team1_batter_idx = 3
 
-        buffer = io.StringIO()
-        with redirect_stdout(buffer):
-            sim._simulate_half_inning()
-        log = buffer.getvalue()
+        # Simulator no longer prints, so we must render the data
+        sim._simulate_half_inning()
+
+        from renderers import NarrativeRenderer
+        renderer = NarrativeRenderer(sim.gameday_data)
+        log = renderer.render()
 
         self.assertNotIn("--- Extra Innings", log)
         self.assertNotIn("placed on second base.", log)

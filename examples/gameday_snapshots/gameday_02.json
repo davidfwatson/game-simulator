@@ -13,7 +13,31 @@
         "abbreviation": "BAY",
         "teamName": "Bombers"
       }
-    }
+    },
+    "venue": {
+      "name": "Waterfront Park"
+    },
+    "weather": {
+      "condition": "75\u00b0F, Clear"
+    },
+    "umpires": [
+      {
+        "position": "HP",
+        "name": "Chuck Thompson"
+      },
+      {
+        "position": "1B",
+        "name": "Larry Phillips"
+      },
+      {
+        "position": "2B",
+        "name": "Frank Rizzo"
+      },
+      {
+        "position": "3B",
+        "name": "Stan Friedman"
+      }
+    ]
   },
   "plays": [
     {
@@ -82,7 +106,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 96.0,
+            "spin": 2419
           },
           "pitchData": {
             "startSpeed": 96.0,
@@ -104,7 +130,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 94.7,
+            "spin": 2529
           },
           "pitchData": {
             "startSpeed": 94.7,
@@ -126,7 +154,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 95.4,
+            "spin": 2536
           },
           "pitchData": {
             "startSpeed": 95.4,
@@ -148,7 +178,8 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 81.8
           },
           "pitchData": {
             "startSpeed": 81.8
@@ -167,7 +198,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 94.8,
+            "spin": 2303
           },
           "pitchData": {
             "startSpeed": 94.8,
@@ -178,7 +211,8 @@
           "hitData": {
             "launchSpeed": 83.0,
             "launchAngle": 3.5,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "fair"
           }
         }
       ],
@@ -207,9 +241,33 @@
             "teamUnearned": false,
             "playIndex": 4
           },
-          "credits": []
+          "credits": [
+            {
+              "player": {
+                "id": 545105
+              },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
+              "credit": "fielding_error"
+            }
+          ]
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 0,
+        "runners": [
+          null,
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -277,7 +335,9 @@
             "type": {
               "code": "SL",
               "description": "Slider"
-            }
+            },
+            "velo": 88.0,
+            "spin": 2486
           },
           "pitchData": {
             "startSpeed": 88.0,
@@ -288,7 +348,8 @@
           "hitData": {
             "launchSpeed": 106.6,
             "launchAngle": 18.3,
-            "trajectory": "line_drive"
+            "trajectory": "line_drive",
+            "location": "to right field"
           }
         }
       ],
@@ -349,7 +410,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 1,
+        "runners": [
+          null,
+          "Alex Chase",
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -418,7 +491,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 95.2,
+            "spin": 2493
           },
           "pitchData": {
             "startSpeed": 95.2,
@@ -429,7 +504,8 @@
           "hitData": {
             "launchSpeed": 73.3,
             "launchAngle": -46.7,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "fair"
           }
         }
       ],
@@ -489,11 +565,28 @@
               "player": {
                 "id": 545107
               },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
               "credit": "putout"
             }
           ]
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 0,
+        "runners": [
+          "Alex Chase",
+          null,
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 0
+        }
+      }
     },
     {
       "result": {
@@ -566,7 +659,9 @@
             "type": {
               "code": "SL",
               "description": "Slider"
-            }
+            },
+            "velo": 88.3,
+            "spin": 2469
           },
           "pitchData": {
             "startSpeed": 88.3,
@@ -588,7 +683,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 96.0,
+            "spin": 2454
           },
           "pitchData": {
             "startSpeed": 96.0,
@@ -599,7 +696,8 @@
           "hitData": {
             "launchSpeed": 91.6,
             "launchAngle": 10.6,
-            "trajectory": "line_drive"
+            "trajectory": "line_drive",
+            "location": "to right field"
           }
         }
       ],
@@ -656,7 +754,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 1,
+        "runners": [
+          null,
+          "Omar Ramirez",
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 1
+        }
+      }
     },
     {
       "result": {
@@ -729,7 +839,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 82.1,
+            "spin": 1838
           },
           "pitchData": {
             "startSpeed": 82.1,
@@ -751,7 +863,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 95.0,
+            "spin": 2519
           },
           "pitchData": {
             "startSpeed": 95.0,
@@ -773,7 +887,9 @@
             "type": {
               "code": "SL",
               "description": "Slider"
-            }
+            },
+            "velo": 87.6,
+            "spin": 2500
           },
           "pitchData": {
             "startSpeed": 87.6,
@@ -810,7 +926,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 1,
+        "runners": [
+          "Evan Reed",
+          "Rex Power",
+          null
+        ],
+        "score": {
+          "home": 0,
+          "away": 2
+        }
+      }
     },
     {
       "result": {
@@ -888,7 +1016,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 94.4,
+            "spin": 2387
           },
           "pitchData": {
             "startSpeed": 94.4,
@@ -910,7 +1040,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 82.3,
+            "spin": 1868
           },
           "pitchData": {
             "startSpeed": 82.3,
@@ -932,7 +1064,9 @@
             "type": {
               "code": "CU",
               "description": "Curveball"
-            }
+            },
+            "velo": 79.2,
+            "spin": 2869
           },
           "pitchData": {
             "startSpeed": 79.2,
@@ -954,7 +1088,9 @@
             "type": {
               "code": "CH",
               "description": "Changeup"
-            }
+            },
+            "velo": 81.1,
+            "spin": 1814
           },
           "pitchData": {
             "startSpeed": 81.1,
@@ -976,7 +1112,9 @@
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
-            }
+            },
+            "velo": 95.6,
+            "spin": 2232
           },
           "pitchData": {
             "startSpeed": 95.6,
@@ -1095,7 +1233,19 @@
           },
           "credits": []
         }
-      ]
+      ],
+      "preCount": {
+        "outs": 2,
+        "runners": [
+          "Wes Griffin",
+          "Hank Barrett",
+          "Evan Reed"
+        ],
+        "score": {
+          "home": 0,
+          "away": 3
+        }
+      }
     }
   ],
   "playCount": 92,
