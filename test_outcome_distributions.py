@@ -53,19 +53,19 @@ class TestOutcomeDistributions(unittest.TestCase):
         # Overrides for current simulation inaccuracies
         # TODO: Improve simulation realism to match MLB stats closer and remove these overrides
         delta_overrides = {
-            'Strikeout': 600,       # Actual ~2214 vs 1690
-            'Groundout': 500,       # Actual ~983 vs 1450
-            'Flyout': 300,          # Actual ~916 vs 1150
-            'Single': 800,          # Actual ~1732 vs 1060
-            'Walk': 250,            # Actual ~414 vs 630
-            'Lineout': 450,         # Actual ~790 vs 350
-            'Double': 250,          # Actual ~530 vs 320
-            'Home Run': 200,        # Actual ~56 vs 230
-            'Pop Out': 170,         # Actual ~15 vs 180
+            'Strikeout': 350,       # Actual ~2009 vs 1690
+            'Groundout': 200,       # Actual ~1302 vs 1450
+            'Flyout': 300,          # Actual ~980 vs 1150
+            'Single': 800,          # Actual ~1855 vs 1060
+            'Walk': 50,             # Actual ~602 vs 630
+            'Lineout': 200,         # Actual ~510 vs 350
+            'Double': 250,          # Actual ~523 vs 320
+            'Home Run': 200,        # Actual ~75 vs 230
+            'Pop Out': 170,         # Actual ~21 vs 180
             'Stolen Base': 160,     # Actual ~0 vs 150
-            'Double Play': 100,     # Actual ~58 vs 145
+            'Double Play': 100,     # Actual ~70 vs 145
             'Hit By Pitch': 90,     # Actual ~0 vs 85
-            'Caught Stealing': 40,  # Actual ~7 vs 40
+            'Caught Stealing': 40,  # Actual ~17 vs 40
         }
 
         print("\n--- Simulation Outcome Report ---")
