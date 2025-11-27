@@ -72,7 +72,7 @@ def get_our_schema_fields():
         'liveData': {
             'plays': {
                 'allPlays': {
-                    'result': ['type', 'event', 'rbi', 'awayScore', 'homeScore'],
+                    'result': ['type', 'event', 'eventType', 'description', 'rbi', 'awayScore', 'homeScore'],
                     'about': ['atBatIndex', 'halfInning', 'isTopInning', 'inning', 'isScoringPlay'],
                     'count': ['balls', 'strikes', 'outs'],
                     'matchup': ['batter', 'batSide', 'pitcher', 'pitchHand', 'batterHotColdZones', 'pitcherHotColdZones', 'splits', 'postOnFirst', 'postOnSecond', 'postOnThird'],
@@ -303,7 +303,14 @@ def anonymize_player_reference(player_ref, id_mapping):
         return player_ref
     real_id = player_ref['id']
     mapped = id_mapping.get(real_id)
-    return {'id': (mapped['id'] if mapped else real_id)}
+    new_id = mapped['id'] if mapped else real_id
+    full_name = mapped['legal_name'] if mapped else player_ref.get('fullName', '')
+
+    return {
+        'id': new_id,
+        'fullName': full_name,
+        'link': f"/api/v1/people/{new_id}"
+    }
 
 
 def _case_like(src: str, repl: str) -> str:
@@ -449,6 +456,8 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                 # Filter result
                 if 'result' in play:
                     anonymized_play['result'] = filter_dict(play['result'], schema['liveData']['plays']['allPlays']['result'])
+                    # Enforce empty description to match simulator
+                    anonymized_play['result']['description'] = ""
 
                 # Filter about
                 if 'about' in play:
@@ -541,10 +550,6 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                 if 'runners' in play:
                     anonymized_play['runners'] = [simplify_runner(r, id_mapping, schema) for r in play['runners']]
 
-                # Result taxonomy
-                if 'result' in anonymized_play:
-                    anonymized_play['result'].pop('eventType', None)  # keep 'event' if you need it; otherwise consider removing too
-
                 # Matchup: ensure only IDs and basic handedness/splits
                 if 'matchup' in anonymized_play:
                     m = anonymized_play['matchup']
@@ -565,6 +570,82 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
             for field in schema['liveData']['linescore']:
                 if field in ls:
                     result['liveData']['linescore'][field] = ls[field]
+
+        # Handle boxscore
+        if 'boxscore' in real_data['liveData']:
+            bs = real_data['liveData']['boxscore']
+            result['liveData']['boxscore'] = {
+                'teams': {},
+                'officials': [],
+                'info': [],
+                'pitchingNotes': []
+            }
+
+            # Process teams
+            if 'teams' in bs:
+                for side in ['home', 'away']:
+                    if side in bs['teams']:
+                        real_bs_team = bs['teams'][side]
+                        our_team = our_teams['BAY_BOMBERS'] if side == 'home' else our_teams['PC_PILOTS']
+
+                        anon_bs_team = {
+                            'team': {
+                                'id': our_team['id'],
+                                'name': our_team['name'],
+                                'abbreviation': our_team['abbreviation'],
+                                'teamName': our_team['teamName']
+                            },
+                            'teamStats': real_bs_team.get('teamStats', {}),
+                            'players': {},
+                            'batters': [],
+                            'pitchers': [],
+                            'bench': [],
+                            'bullpen': [],
+                            'battingOrder': [],
+                            # Clear info/note to avoid leaking names in stats/summaries
+                            'info': [],
+                            'note': []
+                        }
+
+                        # Process players map
+                        if 'players' in real_bs_team:
+                            for key, player_entry in real_bs_team['players'].items():
+                                person = player_entry.get('person', {})
+                                if 'id' in person:
+                                    real_id = person['id']
+                                    mapped = id_mapping.get(real_id)
+                                    if mapped:
+                                        new_id = mapped['id']
+                                        new_key = f"ID{new_id}"
+
+                                        # Clone and update entry
+                                        new_entry = player_entry.copy()
+                                        new_entry['person'] = {
+                                            'id': new_id,
+                                            'fullName': mapped['legal_name'],
+                                            'link': f"/api/v1/people/{new_id}"
+                                        }
+                                        new_entry['parentTeamId'] = our_team['id']
+                                        new_entry['jerseyNumber'] = str(new_id % 100)
+
+                                        anon_bs_team['players'][new_key] = new_entry
+
+                        # Process ID lists
+                        def map_ids(real_ids):
+                            new_ids = []
+                            for rid in real_ids:
+                                mapped = id_mapping.get(rid)
+                                if mapped:
+                                    new_ids.append(mapped['id'])
+                            return new_ids
+
+                        anon_bs_team['batters'] = map_ids(real_bs_team.get('batters', []))
+                        anon_bs_team['pitchers'] = map_ids(real_bs_team.get('pitchers', []))
+                        anon_bs_team['bench'] = map_ids(real_bs_team.get('bench', []))
+                        anon_bs_team['bullpen'] = map_ids(real_bs_team.get('bullpen', []))
+                        anon_bs_team['battingOrder'] = map_ids(real_bs_team.get('battingOrder', []))
+
+                        result['liveData']['boxscore']['teams'][side] = anon_bs_team
 
     return result
 
