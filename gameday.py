@@ -32,6 +32,9 @@ class GameTeams(TypedDict):
 
 class GameData(TypedDict):
     teams: GameTeams
+    venue: str
+    weather: str
+    umpires: List[str]
 
 
 # Linescore Structures
@@ -69,7 +72,7 @@ class Linescore(TypedDict):
 
 # Play-by-Play Structures
 class FielderCredit(TypedDict):
-    player: PlayerReference
+    player: "PlayerInfo"
     position: Position
     credit: Literal["assist", "putout", "fielding_error"]
 

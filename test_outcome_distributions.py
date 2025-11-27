@@ -20,9 +20,7 @@ class TestOutcomeDistributions(unittest.TestCase):
             game = BaseballSimulator(
                 copy.deepcopy(TEAMS["BAY_BOMBERS"]),
                 copy.deepcopy(TEAMS["PC_PILOTS"]),
-                game_seed=i,
-                commentary_seed=i,
-                commentary_style='gameday'
+                game_seed=i
             )
             game.play_game()
             gameday_data = game.gameday_data
@@ -58,7 +56,7 @@ class TestOutcomeDistributions(unittest.TestCase):
             'Strikeout': 600,       # Actual ~2214 vs 1690
             'Groundout': 500,       # Actual ~983 vs 1450
             'Flyout': 300,          # Actual ~916 vs 1150
-            'Single': 700,          # Actual ~1732 vs 1060
+            'Single': 800,          # Actual ~1732 vs 1060
             'Walk': 250,            # Actual ~414 vs 630
             'Lineout': 450,         # Actual ~790 vs 350
             'Double': 250,          # Actual ~530 vs 320

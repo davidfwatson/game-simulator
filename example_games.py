@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Iterable, List
 
 from baseball import BaseballSimulator
+from renderers import NarrativeRenderer, StatcastRenderer
 from teams import TEAMS
 
 
@@ -35,21 +36,27 @@ class ExampleGame:
         simulator = BaseballSimulator(
             copy.deepcopy(_BASE_TEAMS[self.home_team]),
             copy.deepcopy(_BASE_TEAMS[self.away_team]),
-            verbose_phrasing=self.verbose_phrasing,
-            use_bracketed_ui=self.use_bracketed_ui,
-            commentary_style=commentary_style,
             game_seed=game_seed,
-            commentary_seed=commentary_seed,
         )
 
         simulator.play_game()
 
         if commentary_style == "gameday":
             import json
-            return json.dumps(simulator.gameday_data, indent=2)
+            # Use a custom encoder to handle datetime if present
+            class DateTimeEncoder(json.JSONEncoder):
+                def default(self, obj):
+                    from datetime import datetime
+                    if isinstance(obj, datetime): return obj.isoformat()
+                    return super().default(obj)
+            return json.dumps(simulator.gameday_data, indent=2, cls=DateTimeEncoder)
+        elif commentary_style == "statcast":
+            renderer = StatcastRenderer(simulator.gameday_data, seed=commentary_seed)
+            return renderer.render() + "\n"
         else:
-            # Return buffered output for narrative/statcast
-            return "\n".join(simulator.output_lines) + "\n"
+            # Narrative
+            renderer = NarrativeRenderer(simulator.gameday_data, seed=commentary_seed, verbose=self.verbose_phrasing)
+            return renderer.render() + "\n"
 
 
 EXAMPLE_GAMES: List[ExampleGame] = [
