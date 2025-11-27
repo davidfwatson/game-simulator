@@ -2,7 +2,7 @@
 This module defines the data structures for MLB Gameday-style play events,
 which are used as the canonical, structured output of the simulation engine.
 """
-from typing import List, Literal, Optional, TypedDict
+from typing import List, Literal, Optional, TypedDict, Dict
 
 from typing_extensions import NotRequired
 
@@ -214,9 +214,143 @@ class Plays(TypedDict):
     allPlays: List[Play]
 
 
+class BattingStats(TypedDict):
+    flyOuts: int
+    groundOuts: int
+    airOuts: int
+    runs: int
+    doubles: int
+    triples: int
+    homeRuns: int
+    strikeOuts: int
+    baseOnBalls: int
+    intentionalWalks: int
+    hits: int
+    hitByPitch: int
+    atBats: int
+    caughtStealing: int
+    stolenBases: int
+    groundIntoDoublePlay: int
+    groundIntoTriplePlay: int
+    plateAppearances: int
+    totalBases: int
+    rbi: int
+    leftOnBase: int
+    sacBunts: int
+    sacFlies: int
+    catchersInterference: int
+    pickoffs: int
+    popOuts: int
+    lineOuts: int
+
+
+class PitchingStats(TypedDict):
+    flyOuts: int
+    groundOuts: int
+    airOuts: int
+    runs: int
+    doubles: int
+    triples: int
+    homeRuns: int
+    strikeOuts: int
+    baseOnBalls: int
+    intentionalWalks: int
+    hits: int
+    hitByPitch: int
+    atBats: int
+    caughtStealing: int
+    stolenBases: int
+    numberOfPitches: int
+    inningsPitched: str
+    earnedRuns: int
+    battersFaced: int
+    outs: int
+    balls: int
+    strikes: int
+    hitBatsmen: int
+    balks: int
+    wildPitches: int
+    pickoffs: int
+    rbi: int
+    sacBunts: int
+    sacFlies: int
+    popOuts: int
+    lineOuts: int
+
+
+class FieldingStats(TypedDict):
+    assists: int
+    putOuts: int
+    errors: int
+    chances: int
+    caughtStealing: int
+    stolenBases: int
+    passedBall: int
+    pickoffs: int
+
+
+class TeamStats(TypedDict):
+    batting: BattingStats
+    pitching: PitchingStats
+    fielding: FieldingStats
+
+
+class PlayerGameStats(TypedDict):
+    batting: NotRequired[BattingStats]
+    pitching: NotRequired[PitchingStats]
+    fielding: NotRequired[FieldingStats]
+
+
+class BoxscorePlayer(TypedDict):
+    person: PlayerInfo
+    jerseyNumber: str
+    position: Position
+    status: dict  # code, description
+    parentTeamId: int
+    battingOrder: Optional[str]
+    stats: PlayerGameStats
+    seasonStats: dict
+    gameStatus: dict
+    allPositions: List[Position]
+
+
+class BoxscoreTeamInfo(TypedDict):
+    id: int
+    name: str
+    abbreviation: str
+    teamName: str
+
+
+class BoxscoreTeam(TypedDict):
+    team: BoxscoreTeamInfo
+    teamStats: TeamStats
+    players: Dict[str, BoxscorePlayer]
+    batters: List[int]
+    pitchers: List[int]
+    bench: List[int]
+    bullpen: List[int]
+    battingOrder: List[int]
+    info: List[dict]
+    note: List[dict]
+
+
+class BoxscoreTeams(TypedDict):
+    away: BoxscoreTeam
+    home: BoxscoreTeam
+
+
+class Boxscore(TypedDict):
+    teams: BoxscoreTeams
+    officials: List[dict]
+    info: List[dict]
+    pitchingNotes: List[str]
+    topPerformers: List[dict]
+
+
 class LiveData(TypedDict):
     linescore: Linescore
     plays: Plays
+    boxscore: Boxscore
 
 
 # Top-level structure for the entire game output

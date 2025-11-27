@@ -2,7 +2,7 @@ import random
 import uuid
 import json
 from datetime import datetime, timezone
-from gameday import GamedayData, GameData, LiveData, Linescore, InningLinescore, Play, PlayResult, PlayAbout, PlayCount, PlayEvent, Runner, FielderCredit, PitchData, HitData, PitchDetails
+from gameday import GamedayData, GameData, LiveData, Linescore, InningLinescore, Play, PlayResult, PlayAbout, PlayCount, PlayEvent, Runner, FielderCredit, PitchData, HitData, PitchDetails, Boxscore, BoxscoreTeam, BoxscorePlayer
 from teams import TEAMS
 from commentary import GAME_CONTEXT
 
@@ -84,9 +84,169 @@ class BaseballSimulator:
                         "away": {"runs": 0, "hits": 0, "errors": 0}
                     },
                     "innings": [{"num": 1, "home": {"runs": 0}, "away": {"runs": 0}}]
+                },
+                "boxscore": {
+                    "teams": {
+                        "away": self._initialize_boxscore_team(self.team2_data, self.team2_lineup),
+                        "home": self._initialize_boxscore_team(self.team1_data, self.team1_lineup)
+                    },
+                    "officials": [],
+                    "info": [],
+                    "pitchingNotes": []
                 }
             }
         }
+
+    def _initialize_boxscore_team(self, team_data, lineup):
+        players = {}
+        batters = []
+        pitchers = []
+        bench = []
+        bullpen = []
+        batting_order = []
+
+        lineup_ids = [p['id'] for p in lineup]
+
+        for p in team_data['players']:
+            pid = f"ID{p['id']}"
+            is_pitcher = p['position']['abbreviation'] == 'P'
+            is_starter = p in lineup
+
+            player_entry = {
+                "person": {
+                    "id": p['id'],
+                    "fullName": p['legal_name'],
+                    "link": f"/api/v1/people/{p['id']}"
+                },
+                "jerseyNumber": str(p['id'] % 100),
+                "position": p['position'],
+                "status": {"code": "A", "description": "Active"},
+                "parentTeamId": team_data['id'],
+                "battingOrder": str((lineup_ids.index(p['id']) + 1) * 100) if is_starter else None,
+                "stats": {
+                    "batting": {
+                        "gamesPlayed": 1, "flyOuts": 0, "groundOuts": 0, "runs": 0, "doubles": 0, "triples": 0,
+                        "homeRuns": 0, "strikeOuts": 0, "baseOnBalls": 0, "intentionalWalks": 0, "hits": 0,
+                        "hitByPitch": 0, "atBats": 0, "caughtStealing": 0, "stolenBases": 0,
+                        "groundIntoDoublePlay": 0, "groundIntoTriplePlay": 0, "plateAppearances": 0,
+                        "totalBases": 0, "rbi": 0, "leftOnBase": 0, "sacBunts": 0, "sacFlies": 0,
+                        "catchersInterference": 0, "pickoffs": 0
+                    },
+                    "pitching": {
+                        "gamesPlayed": 1 if is_pitcher else 0, "gamesStarted": 1 if is_pitcher and p['type'] == 'Starter' else 0,
+                        "groundOuts": 0, "airOuts": 0, "runs": 0, "doubles": 0, "triples": 0, "homeRuns": 0,
+                        "strikeOuts": 0, "baseOnBalls": 0, "intentionalWalks": 0, "hits": 0, "hitByPitch": 0,
+                        "atBats": 0, "caughtStealing": 0, "stolenBases": 0, "inningsPitched": "0.0", "wins": 0,
+                        "losses": 0, "saves": 0, "saveOpportunities": 0, "holds": 0, "blownSaves": 0,
+                        "earnedRuns": 0, "whip": "0.00", "outs": 0, "numberOfPitches": 0, "strikes": 0, "balls": 0
+                    },
+                    "fielding": {
+                         "gamesPlayed": 1, "gamesStarted": 1 if is_starter or (is_pitcher and p['type'] == 'Starter') else 0,
+                         "assists": 0, "putOuts": 0, "errors": 0, "chances": 0, "fielding": "0.000",
+                         "position": p['position']
+                    }
+                },
+                "seasonStats": {"batting": {}, "pitching": {}, "fielding": {}},
+                "gameStatus": {"isCurrentBatter": False, "isCurrentPitcher": False, "isOnBench": not is_starter and not is_pitcher, "isSubstitute": False}
+            }
+
+            players[pid] = player_entry
+
+            if is_pitcher:
+                pitchers.append(p['id'])
+                if p['type'] != 'Starter':
+                    bullpen.append(p['id'])
+            elif is_starter:
+                batters.append(p['id'])
+                batting_order.append(p['id'])
+            else:
+                bench.append(p['id'])
+
+        return {
+            "team": {
+                "id": team_data['id'],
+                "name": team_data['name'],
+                "abbreviation": team_data['abbreviation'],
+                "teamName": team_data['teamName']
+            },
+            "teamStats": {
+                "batting": {
+                    "flyOuts": 0, "groundOuts": 0, "airOuts": 0, "runs": 0, "doubles": 0, "triples": 0,
+                    "homeRuns": 0, "strikeOuts": 0, "baseOnBalls": 0, "intentionalWalks": 0, "hits": 0,
+                    "hitByPitch": 0, "atBats": 0, "caughtStealing": 0, "stolenBases": 0,
+                    "groundIntoDoublePlay": 0, "groundIntoTriplePlay": 0, "plateAppearances": 0,
+                    "totalBases": 0, "rbi": 0, "leftOnBase": 0, "sacBunts": 0, "sacFlies": 0,
+                    "catchersInterference": 0, "pickoffs": 0, "popOuts": 0, "lineOuts": 0
+                },
+                "pitching": {
+                    "flyOuts": 0, "groundOuts": 0, "airOuts": 0, "runs": 0, "doubles": 0, "triples": 0,
+                    "homeRuns": 0, "strikeOuts": 0, "baseOnBalls": 0, "intentionalWalks": 0, "hits": 0,
+                    "hitByPitch": 0, "atBats": 0, "caughtStealing": 0, "stolenBases": 0,
+                    "numberOfPitches": 0, "inningsPitched": "0.0", "earnedRuns": 0, "battersFaced": 0,
+                    "outs": 0, "balls": 0, "strikes": 0, "hitBatsmen": 0, "balks": 0, "wildPitches": 0,
+                    "pickoffs": 0, "rbi": 0, "sacBunts": 0, "sacFlies": 0, "popOuts": 0, "lineOuts": 0
+                },
+                "fielding": {
+                    "assists": 0, "putOuts": 0, "errors": 0, "chances": 0,
+                    "caughtStealing": 0, "stolenBases": 0, "passedBall": 0, "pickoffs": 0
+                }
+            },
+            "players": players,
+            "batters": batters,
+            "pitchers": pitchers,
+            "bench": bench,
+            "bullpen": bullpen,
+            "battingOrder": batting_order,
+            "info": [{"title": "Team LOB", "fieldList": [{"label": "LOB", "value": "0"}]}],
+            "note": []
+        }
+
+    def _update_batting_stat(self, team_key, player_id, stat_key, value=1):
+        pid_key = f"ID{player_id}"
+        stats = self.gameday_data['liveData']['boxscore']['teams'][team_key]['players'][pid_key]['stats']['batting']
+        team_stats = self.gameday_data['liveData']['boxscore']['teams'][team_key]['teamStats']['batting']
+        if stat_key in stats:
+            stats[stat_key] += value
+        if stat_key in team_stats:
+            team_stats[stat_key] += value
+
+    def _update_pitching_stat(self, team_key, player_id, stat_key, value=1):
+        pid_key = f"ID{player_id}"
+        stats = self.gameday_data['liveData']['boxscore']['teams'][team_key]['players'][pid_key]['stats']['pitching']
+        team_stats = self.gameday_data['liveData']['boxscore']['teams'][team_key]['teamStats']['pitching']
+        if stat_key in stats:
+            stats[stat_key] += value
+            if stat_key == 'outs':
+                outs = stats['outs']
+                stats['inningsPitched'] = f"{outs // 3}.{outs % 3}"
+
+        if stat_key in team_stats:
+            team_stats[stat_key] += value
+            if stat_key == 'outs':
+                outs = team_stats['outs']
+                team_stats['inningsPitched'] = f"{outs // 3}.{outs % 3}"
+
+    def _update_fielding_stat(self, team_key, player_id, stat_key, value=1):
+        pid_key = f"ID{player_id}"
+        stats = self.gameday_data['liveData']['boxscore']['teams'][team_key]['players'][pid_key]['stats']['fielding']
+        team_stats = self.gameday_data['liveData']['boxscore']['teams'][team_key]['teamStats']['fielding']
+        if stat_key in stats:
+            stats[stat_key] += value
+            if stat_key in ['putOuts', 'assists', 'errors']:
+                stats['chances'] += value
+
+        if stat_key in team_stats:
+            team_stats[stat_key] += value
+            if stat_key in ['putOuts', 'assists', 'errors']:
+                team_stats['chances'] += value
+
+    @property
+    def _batting_team_key(self):
+        return 'away' if self.top_of_inning else 'home'
+
+    @property
+    def _pitching_team_key(self):
+        return 'home' if self.top_of_inning else 'away'
 
     def _setup_pitchers(self, team_data, team_prefix):
         all_pitchers = [p for p in team_data["players"] if p['position']['abbreviation'] == 'P']
@@ -421,6 +581,7 @@ class BaseballSimulator:
             self.bases[base_to_steal - 1] = runner_name
             self.bases[base_from_idx] = None
 
+            self._update_batting_stat(self._batting_team_key, runner_data['id'], 'stolenBases')
             # Record Stolen Base Event
             event: PlayEvent = {
                  'index': self._pitch_event_seq,
@@ -440,6 +601,7 @@ class BaseballSimulator:
             self.outs += 1
             self.bases[base_from_idx] = None
 
+            self._update_batting_stat(self._batting_team_key, runner_data['id'], 'caughtStealing')
             # Record Caught Stealing Event
             event: PlayEvent = {
                  'index': self._pitch_event_seq,
@@ -457,11 +619,14 @@ class BaseballSimulator:
             return True # Caught stealing
 
     def _simulate_at_bat(self, batter, pitcher):
+        self._update_batting_stat(self._batting_team_key, batter['id'], 'plateAppearances')
         balls, strikes = 0, 0
         play_events: list[PlayEvent] = []
         
         # Boost HBP rate to match MLB averages
         if self.game_rng.random() < (batter['plate_discipline'].get('HBP', 0) * 2.5):
+            self._update_batting_stat(self._batting_team_key, batter['id'], 'hitByPitch')
+            self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'hitByPitch')
             return "Hit By Pitch", None, play_events
 
         bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
@@ -497,19 +662,23 @@ class BaseballSimulator:
                 if is_strike_loc:
                     strikes += 1; pitch_outcome_text = "called strike"
                     event_details = {'code': 'C', 'description': 'Called Strike', 'isStrike': True}
+                    self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
                 else:
                     balls += 1; pitch_outcome_text = "ball"
                     event_details = {'code': 'B', 'description': 'Ball', 'isStrike': False}
+                    self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'balls')
             else: # Swung or Bunting
                 if not contact:
                     strikes += 1; pitch_outcome_text = "swinging strike"
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
+                    self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
                 else: # Contact
                     is_foul = self.game_rng.random() < 0.6
                     if is_foul:
                         if strikes < 2: strikes += 1
                         pitch_outcome_text = "foul"
                         event_details = {'code': 'F', 'description': 'Foul', 'isStrike': True}
+                        self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
                         if is_bunting:
                             event_details['description'] = 'Foul Bunt'
                             if strikes == 3: # Foul bunt with 2 strikes is a strikeout
@@ -524,7 +693,9 @@ class BaseballSimulator:
                             hit_result = self._determine_outcome_from_trajectory(batted_ball_data['ev'], batted_ball_data['la'])
                         pitch_outcome_text = "in play"
                         event_details = {'code': 'X', 'description': f'In play, {hit_result}', 'isStrike': True}
+                        self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
 
+            self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'numberOfPitches')
             event_details['type'] = {'code': GAME_CONTEXT['PITCH_TYPE_MAP'].get(pitch_selection, 'UN'), 'description': pitch_selection.capitalize()}
             pitch_data: PitchData = {'startSpeed': pitch_velo}
             if pitch_spin: pitch_data['breaks'] = {'spinRate': pitch_spin}
@@ -561,11 +732,20 @@ class BaseballSimulator:
                     elif caught_stealing and strikes == 3:
                         # "Strike 'em out, throw 'em out" double play
                         self.outs += 1
+                        self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
+                        self._update_batting_stat(self._batting_team_key, batter['id'], 'strikeOuts')
+                        self._update_batting_stat(self._batting_team_key, batter['id'], 'atBats')
+                        self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikeOuts')
                         return "Strikeout Double Play", None, play_events
 
         if balls == 4:
+            self._update_batting_stat(self._batting_team_key, batter['id'], 'baseOnBalls')
+            self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'baseOnBalls')
             return "Walk", None, play_events
 
+        self._update_batting_stat(self._batting_team_key, batter['id'], 'strikeOuts')
+        self._update_batting_stat(self._batting_team_key, batter['id'], 'atBats')
+        self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikeOuts')
         return "Strikeout", {}, play_events
 
 
@@ -764,6 +944,7 @@ class BaseballSimulator:
             # Note: Renderer handles "Automatic runner" text
 
         while self.outs < 3:
+            old_outs = self.outs
             self._manage_pitching_change()
             pitcher_name = self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name
             pitcher = (self.team1_pitcher_stats if self.top_of_inning else self.team2_pitcher_stats)[pitcher_name]
@@ -784,10 +965,20 @@ class BaseballSimulator:
             old_bases = self.bases[:]
 
             if outcome == "Caught Stealing":
+                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
                 pass
             elif outcome in ["Groundout", "Flyout", "Sacrifice Bunt", "Lineout", "Pop Out", "Forceout", "Grounded Into DP", "Bunt Ground Out"]:
                 result = self._handle_batted_ball_out(outcome, batter, description)
                 new_runs, was_error, new_rbis, credits_from_out, is_dp, specific_event, runner_out_dp = result
+
+                # Update fielding stats
+                for credit in credits_from_out:
+                    if credit['credit'] == 'putout':
+                        self._update_fielding_stat(self._pitching_team_key, credit['player']['id'], 'putOuts')
+                    elif credit['credit'] == 'assist':
+                        self._update_fielding_stat(self._pitching_team_key, credit['player']['id'], 'assists')
+                    elif credit['credit'] == 'fielding_error':
+                        self._update_fielding_stat(self._pitching_team_key, credit['player']['id'], 'errors')
 
                 # If the catcher grounded out logic changed the batted ball data, update the event
                 # The 'X' event is the last one in play_events
@@ -801,25 +992,67 @@ class BaseballSimulator:
                 rbis += new_rbis
                 credits.extend(credits_from_out)
 
+                # Pitching Outs
+                outs_on_play = self.outs - old_outs
+                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs', outs_on_play)
+
+                if 'Ground' in outcome or 'DP' in outcome or 'Forceout' in outcome or 'Bunt' in outcome:
+                     self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'groundOuts', outs_on_play)
+                else:
+                     self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'airOuts', outs_on_play)
+
                 if was_error:
                     outcome = "Field Error"
                     adv_info = self._advance_runners("Single", batter, was_error=True, include_batter_advance=True)
                     runs += adv_info['runs']
                     advances.extend(adv_info['advances'])
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'atBats')
                 elif is_dp:
                     outcome = "Double Play"
-                else:
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'atBats')
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'groundIntoDoublePlay')
+                elif "Sacrifice Bunt" in specific_event:
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'sacBunts')
+                elif "Sac Fly" in specific_event:
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'sacFlies')
+                else: # Generic Out
                     outcome = specific_event
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'atBats')
+                    if "Ground" in outcome or "Forceout" in outcome:
+                        self._update_batting_stat(self._batting_team_key, batter['id'], 'groundOuts')
+                    else:
+                        self._update_batting_stat(self._batting_team_key, batter['id'], 'flyOuts')
+
             elif outcome == "Strikeout":
                 self.outs += 1
+                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
             elif outcome == "Strikeout Double Play":
+                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs') # CS out is separate?
                 pass # Outs handled
             elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:
                 adv_info = self._advance_runners(outcome, batter)
                 runs += adv_info['runs']; rbis += adv_info['rbis']; advances.extend(adv_info['advances'])
+                if outcome in ["Single", "Double", "Triple", "Home Run"]:
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'hits')
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'atBats')
+                    self._update_batting_stat(self._batting_team_key, batter['id'], 'totalBases', {"Single": 1, "Double": 2, "Triple": 3, "Home Run": 4}[outcome])
+                    self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'hits')
+                    if outcome == "Double": self._update_batting_stat(self._batting_team_key, batter['id'], 'doubles'); self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'doubles')
+                    if outcome == "Triple": self._update_batting_stat(self._batting_team_key, batter['id'], 'triples'); self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'triples')
+                    if outcome == "Home Run": self._update_batting_stat(self._batting_team_key, batter['id'], 'homeRuns'); self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'homeRuns')
 
             if is_home_team_batting: self.team1_score += runs
             else: self.team2_score += runs
+
+            if rbis > 0:
+                 self._update_batting_stat(self._batting_team_key, batter['id'], 'rbi', rbis)
+
+            # Pitching Runs
+            if runs > 0:
+                 self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'runs', runs)
+                 # Earned runs? Simplifying to all earned for now
+                 if not was_error:
+                      self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'earnedRuns', runs)
 
             play_index = len(play_events) - 1 if play_events else 0
             base_map = {0: "1B", 1: "2B", 2: "3B"}
@@ -977,6 +1210,12 @@ class BaseballSimulator:
                              runner_list.append(runner_entry)
 
             # --- End runner tracking ---
+
+            # Update scoring runners stats
+            for runner_entry in runner_list:
+                if runner_entry['details']['isScoringEvent']:
+                     runner_id = runner_entry['details']['runner']['id']
+                     self._update_batting_stat(self._batting_team_key, runner_id, 'runs')
 
             if runs > 0:
                 current_inning_idx = self.inning - 1
