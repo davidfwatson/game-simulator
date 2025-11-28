@@ -128,6 +128,7 @@ class NarrativeRenderer(GameRenderer):
         current_inning_state = (0, '')
         self.last_play_inning = None
         self.outs_tracker = 0
+        self.runners_on_base = {'1B': None, '2B': None, '3B': None}
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
@@ -142,10 +143,16 @@ class NarrativeRenderer(GameRenderer):
                 lines.append("-" * 50)
                 lines.append(f"{half} of Inning {inning} | {team_name} batting")
 
-                if inning >= 10 and 'postOnSecond' in matchup:
-                     runner_name = matchup['postOnSecond']['fullName']
-                     if self.verbose:
-                         lines.append(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
+                self.runners_on_base = {'1B': None, '2B': None, '3B': None}
+                if inning >= 10:
+                     # Detect ghost runner from play events if it's the start of the inning
+                     for r in play['runners']:
+                         if r['movement']['start'] == '2B':
+                             runner_name = r['details']['runner']['fullName']
+                             self.runners_on_base['2B'] = runner_name
+                             if self.verbose:
+                                 lines.append(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
+                             break
 
                 current_inning_state = (inning, half)
                 self.outs_tracker = 0 # New inning starts with 0 outs
@@ -163,12 +170,7 @@ class NarrativeRenderer(GameRenderer):
 
             batter_name = matchup['batter']['fullName']
 
-            current_bases = {
-                '1B': matchup['postOnFirst']['fullName'] if 'postOnFirst' in matchup else None,
-                '2B': matchup['postOnSecond']['fullName'] if 'postOnSecond' in matchup else None,
-                '3B': matchup['postOnThird']['fullName'] if 'postOnThird' in matchup else None
-            }
-            bases_str = self._format_bases_string(current_bases)
+            bases_str = self._format_bases_string(self.runners_on_base)
 
             situation = f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}, {bases_str}" if bases_str != "Bases empty" else f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}"
             lines.append(f"\n{batter_name} steps to the plate. {situation}.")
@@ -288,6 +290,8 @@ class NarrativeRenderer(GameRenderer):
                  m = r['movement']
                  if not m['isOut'] and m['end'] in post_bases:
                      post_bases[m['end']] = r['details']['runner']['fullName']
+
+            self.runners_on_base = post_bases
 
             bases_str = self._format_bases_string(post_bases)
 
