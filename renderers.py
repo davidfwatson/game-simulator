@@ -128,6 +128,7 @@ class NarrativeRenderer(GameRenderer):
         current_inning_state = (0, '')
         self.last_play_inning = None
         self.outs_tracker = 0
+        self.current_bases = {'1B': None, '2B': None, '3B': None}
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
@@ -142,10 +143,21 @@ class NarrativeRenderer(GameRenderer):
                 lines.append("-" * 50)
                 lines.append(f"{half} of Inning {inning} | {team_name} batting")
 
-                if inning >= 10 and 'postOnSecond' in matchup:
-                     runner_name = matchup['postOnSecond']['fullName']
-                     if self.verbose:
-                         lines.append(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
+                self.current_bases = {'1B': None, '2B': None, '3B': None}
+                if inning >= 10:
+                     ghost_runner_name = None
+                     # Attempt to find ghost runner (starts at 2B)
+                     for r in play.get('runners', []):
+                         if r['movement'].get('start') == '2B':
+                             ghost_runner_name = r['details']['runner']['fullName']
+                             break
+                     if not ghost_runner_name and 'postOnSecond' in matchup:
+                         ghost_runner_name = matchup['postOnSecond']['fullName']
+
+                     if ghost_runner_name:
+                        self.current_bases['2B'] = ghost_runner_name
+                        if self.verbose:
+                             lines.append(f"Automatic runner on second: {ghost_runner_name} jogs out to take his lead.")
 
                 current_inning_state = (inning, half)
                 self.outs_tracker = 0 # New inning starts with 0 outs
@@ -163,18 +175,13 @@ class NarrativeRenderer(GameRenderer):
 
             batter_name = matchup['batter']['fullName']
 
-            current_bases = {
-                '1B': matchup['postOnFirst']['fullName'] if 'postOnFirst' in matchup else None,
-                '2B': matchup['postOnSecond']['fullName'] if 'postOnSecond' in matchup else None,
-                '3B': matchup['postOnThird']['fullName'] if 'postOnThird' in matchup else None
-            }
-            bases_str = self._format_bases_string(current_bases)
+            bases_str = self._format_bases_string(self.current_bases)
 
             situation = f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}, {bases_str}" if bases_str != "Bases empty" else f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}"
             lines.append(f"\n{batter_name} steps to the plate. {situation}.")
 
             if self.verbose:
-                 if 'postOnSecond' in matchup or 'postOnThird' in matchup:
+                 if self.current_bases.get('2B') or self.current_bases.get('3B'):
                      if self.rng.random() < 0.2:
                          lines.append(f"  {self._get_narrative_string('runners_in_scoring_position', {'batter_name': batter_name})}")
                  if self.rng.random() < 0.04:
@@ -283,13 +290,14 @@ class NarrativeRenderer(GameRenderer):
             self.outs_tracker = play['count']['outs']
 
             # Score & Status
-            post_bases = { '1B': None, '2B': None, '3B': None }
-            for r in play['runners']:
-                 m = r['movement']
-                 if not m['isOut'] and m['end'] in post_bases:
-                     post_bases[m['end']] = r['details']['runner']['fullName']
+            # Update current bases for next play
+            self.current_bases = {
+                '1B': matchup['postOnFirst']['fullName'] if 'postOnFirst' in matchup else None,
+                '2B': matchup['postOnSecond']['fullName'] if 'postOnSecond' in matchup else None,
+                '3B': matchup['postOnThird']['fullName'] if 'postOnThird' in matchup else None
+            }
 
-            bases_str = self._format_bases_string(post_bases)
+            bases_str = self._format_bases_string(self.current_bases)
 
             lines.append(f" | Outs: {self.outs_tracker} | Bases: {bases_str} | Score: {self.home_team['name']}: {result['homeScore']}, {self.away_team['name']}: {result['awayScore']}\n")
 
