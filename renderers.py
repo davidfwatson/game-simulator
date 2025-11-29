@@ -170,10 +170,82 @@ class NarrativeRenderer(GameRenderer):
 
             batter_name = matchup['batter']['fullName']
 
-            bases_str = self._format_bases_string(self.runners_on_base)
+            # Better batter intro
+            outs_str = f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}"
+            if self.outs_tracker == 1: outs_str = "one away"
+            elif self.outs_tracker == 2: outs_str = "two down"
+            else: outs_str = "nobody out"
 
-            situation = f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}, {bases_str}" if bases_str != "Bases empty" else f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}"
-            lines.append(f"\n{batter_name} steps to the plate. {situation}.")
+            team_name = self.home_team['name'] if not about['isTopInning'] else self.away_team['name']
+
+            bases_dict = self.runners_on_base
+            runners_str = ""
+            runners = []
+            if bases_dict.get('1B'): runners.append("first")
+            if bases_dict.get('2B'): runners.append("second")
+            if bases_dict.get('3B'): runners.append("third")
+
+            if len(runners) == 0:
+                if self.outs_tracker == 0:
+                     template = self.rng.choice(GAME_CONTEXT['narrative_strings']['batter_intro_leadoff'])
+                else:
+                     template = self.rng.choice(GAME_CONTEXT['narrative_strings']['batter_intro_empty'])
+                lines.append(f"\n{template.format(batter_name=batter_name, team_name=team_name, outs_str=outs_str)}")
+            else:
+                 runners_str = " and ".join(runners)
+                 # Adjust runners_str for specific templates or make templates agnostic
+                 # Problem: "runner on {runners_str}" -> "runner on runner on first"
+
+                 # Let's clean up `runners_str` to just be the locations
+                 if len(runners) == 3: runners_str = "the bases loaded"
+                 elif len(runners) == 2: runners_str = f"{runners[0]} and {runners[1]}"
+                 else: runners_str = f"{runners[0]}"
+
+                 template = self.rng.choice(GAME_CONTEXT['narrative_strings']['batter_intro_runners'])
+                 # Special handling if the template expects just the bases or the full "runner on X" phrase
+                 # Looking at commentary.py:
+                 # "Runner on {runners_str}, {outs_str}, for {batter_name}." -> Needs "first" or "first and second"
+                 # "And {batter_name} steps in with {runners_str} with {outs_str}." -> "runners on first and second"
+
+                 # I need to separate templates that include "runner on" vs those that don't.
+                 # Or standardize my templates.
+
+                 # Let's fix the templates in memory (by logic here) or better yet, fix the templates in commentary.py?
+                 # Fixing `commentary.py` is better but I am in renderers.py.
+                 # I'll update logic here to match the current templates in `commentary.py`.
+
+                 # Templates:
+                 # 1. "And {batter_name} steps in with {runners_str} with {outs_str}." -> wants "runners on first and second"
+                 # 2. "{batter_name} comes to the plate. {runners_str} and {outs_str}." -> wants "Runners on first and second" (Capitalized?)
+                 # 3. "And that will bring up {batter_name} with {runners_str}." -> wants "runners on first and second"
+                 # 4. "Runner on {runners_str}, {outs_str}, for {batter_name}." -> wants "first"
+
+                 # This is tricky because the templates are mixed.
+                 # I will simplify the usage here by creating a "situation string" based on the template selected?
+                 # No, that's hard because I pick template random.
+
+                 # I'll modify the logic to use a smarter replacement.
+
+                 if len(runners) == 3:
+                     base_desc = "the bases loaded"
+                     runner_desc = "the bases loaded"
+                 elif len(runners) == 2:
+                     base_desc = f"{runners[0]} and {runners[1]}"
+                     runner_desc = f"runners on {runners[0]} and {runners[1]}"
+                 else:
+                     base_desc = f"{runners[0]}"
+                     runner_desc = f"runner on {runners[0]}" # "runner on first"
+
+                 # I need to pick a template and then format it correctly.
+                 template = self.rng.choice(GAME_CONTEXT['narrative_strings']['batter_intro_runners'])
+
+                 # Hack: Check if template starts with "Runner on" or contains "with {runners_str}" where it expects full desc.
+
+                 val_to_use = runner_desc
+                 if "Runner on {runners_str}" in template:
+                      val_to_use = base_desc
+
+                 lines.append(f"\n{template.format(batter_name=batter_name, runners_str=val_to_use, outs_str=outs_str)}")
 
             if self.verbose:
                  if 'postOnSecond' in matchup or 'postOnThird' in matchup:
@@ -227,22 +299,19 @@ class NarrativeRenderer(GameRenderer):
             if outcome == "Strikeout":
                 k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
                 verb = self.rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
-                if self.verbose: lines.append(f"  {batter_name} {verb}.")
-                lines.append("Result: Strikeout")
+                lines.append(f"  {batter_name} {verb}.")
             elif outcome == "Walk":
-                if self.verbose: lines.append(f"  {batter_name} draws a walk.")
-                lines.append("Result: Walk")
+                lines.append(f"  {batter_name} draws a walk.")
             elif outcome in ["HBP", "Hit By Pitch"]:
-                lines.append("Result: Hit by Pitch")
+                lines.append(f"  {batter_name} is hit by the pitch.")
             elif outcome == "Strikeout Double Play":
-                lines.append("Result: Strike 'em out, throw 'em out double play.")
+                lines.append(f"  {batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play.")
             elif outcome == "Caught Stealing":
                  runner_out = next((r for r in play['runners'] if r['movement']['isOut']), None)
                  if runner_out:
                      ob = runner_out['movement']['outBase']
                      base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
                      lines.append(f"  {runner_out['details']['runner']['fullName']} is caught stealing {base_name}!")
-                 lines.append("Result: Caught Stealing")
             elif outcome == "Field Error":
                  err_credit = None
                  for r in play['runners']:
@@ -252,11 +321,12 @@ class NarrativeRenderer(GameRenderer):
                              break
                      if err_credit: break
 
-                 if err_credit and self.verbose:
+                 if err_credit:
                      pos = err_credit['position']['abbreviation']
                      name = err_credit['player']['fullName']
                      lines.append(f"  An error by {pos} {name} allows the batter to reach base.")
-                 lines.append(f"Result: Reached on Error") # Approximate baseline
+                 else:
+                     lines.append(f"  The batter reaches on a fielding error.")
 
             else:
                 x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
@@ -273,13 +343,7 @@ class NarrativeRenderer(GameRenderer):
                          if fielder_pos: break
 
                     desc = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos)
-
-                    if self.verbose and outcome in ["Single", "Double", "Triple", "Home Run"]:
-                        lines.append(desc)
-                        lines.append(f"Result: {outcome}")
-                    else:
-                        if self.verbose: lines.append(desc)
-                        lines.append(f"Result: {outcome}")
+                    lines.append(desc)
 
             # Update outs
             self.outs_tracker = play['count']['outs']

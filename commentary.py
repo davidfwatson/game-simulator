@@ -106,6 +106,25 @@ GAME_CONTEXT = {
             "{runner_name} takes off for third... and he makes it! A stolen base!",
             "He's going for third! And he's safe! {runner_name} with a great jump."
         ],
+        "batter_intro_leadoff": [
+            "And {batter_name} leads off for the {team_name}.",
+            "And leading off for the {team_name}, {batter_name}.",
+            "{batter_name} steps in to lead things off.",
+            "And {batter_name} will step in at the top of the {team_name} order."
+        ],
+        "batter_intro_empty": [
+             "And {batter_name} will step in with {outs_str} and nobody on.",
+             "And {batter_name} steps in with {outs_str} and the bases empty.",
+             "And that will bring {batter_name} to the plate with {outs_str} and the bases empty.",
+             "{batter_name} steps to the plate. {outs_str}, bases empty.",
+             "And {batter_name} is due up. {outs_str}, bases empty."
+        ],
+        "batter_intro_runners": [
+             "And {batter_name} steps in with {runners_str} with {outs_str}.",
+             "{batter_name} comes to the plate. {runners_str} and {outs_str}.",
+             "And that will bring up {batter_name} with {runners_str}.",
+             "Runner on {runners_str}, {outs_str}, for {batter_name}."
+        ],
         "play_by_play_templates": [
             "{batter_name} {verb} {direction} on a {pitch_velo} mph {pitch_type}.",
             "A {pitch_velo} mph {pitch_type}, and {batter_name} {verb} {direction}.",
@@ -226,6 +245,10 @@ GAME_CONTEXT = {
             "nouns": { "default": ["a hard line drive", "a screaming liner"] }
         },
         "Grounded Into DP": {
+            "verbs": { "default": ["grounds into a double play"] },
+            "nouns": { "default": ["a double play ball"] }
+        },
+        "Double Play": {
             "verbs": { "default": ["grounds into a double play"] },
             "nouns": { "default": ["a double play ball"] }
         },
