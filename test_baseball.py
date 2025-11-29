@@ -68,7 +68,7 @@ class TestBaseballRealism(unittest.TestCase):
             log = renderer.render()
 
             if "draws a walk" in log: events["Walk"] += 1
-            if "An error by" in log or "Field Error" in log: events["Error"] += 1 # Adjusted for flexible checking
+            if "error" in log.lower() or "bobbles" in log or "drops it" in log or "clanks" in log or "tips off" in log: events["Error"] += 1 # Adjusted for flexible checking
             if "double play" in log.lower() or "Double Play" in log: events["Double Play"] += 1
 
         self.assertGreater(events["Walk"], 0, "No walks were recorded in the simulations.")

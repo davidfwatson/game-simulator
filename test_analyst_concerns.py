@@ -113,7 +113,8 @@ class TestAnalystConcerns(unittest.TestCase):
             pass
 
         # Check that we use specific error descriptions
-        self.assertTrue(any("An error by" in line for line in log.split('\n')) or any("Reached on Error" in line for line in log.split('\n')), "Error descriptions are not specific.")
+        expected_phrases = ["An error by", "Reached on Error", "commits an error", "bobbles it", "drops it", "throws it away", "clanks off", "tips off his glove"]
+        self.assertTrue(any(phrase in log for phrase in expected_phrases), "Error descriptions are not specific or missing.")
 
     def test_velocity_regularity(self):
         """

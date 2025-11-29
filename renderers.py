@@ -32,6 +32,10 @@ class GameRenderer:
             elif outcome == "Flyout":
                 if (ev < 95 and la > 50) or (ev < 90 and la > 40): cat = 'popup'
                 elif ev > 100 and la > 30: cat = 'deep'
+            elif outcome == "Field Error":
+                if la < 10: cat = 'grounder'
+                elif 10 <= la < 25: cat = 'liner'
+                elif la >= 50: cat = 'popup'
         return cat
 
     def _get_batted_ball_verb(self, outcome, cat, force_type=None):
@@ -238,7 +242,7 @@ class NarrativeRenderer(GameRenderer):
         prefix = f"{connector} " if connector else ""
 
         # Force narrative templates for certain outcomes to improve flow
-        force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout"]
+        force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Field Error"]
 
         if template or (specific_templates and (force_narrative or self.rng.random() < 0.8)):
              if not template: template = self.rng.choice(specific_templates)
@@ -563,14 +567,28 @@ class NarrativeRenderer(GameRenderer):
             # Outcome
             outcome_text = ""
             if outcome == "Strikeout":
-                k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
+                # Determine k_type from the last pitch event, not necessarily the last event (which could be a steal)
+                last_pitch = next((e for e in reversed(play_events) if e['details'].get('code') in ['C', 'S', 'B', 'F', 'X']), None)
+                k_type = "looking"
+                if last_pitch and last_pitch['details']['code'] == 'C':
+                    k_type = "looking"
+                else:
+                    k_type = "swinging"
+
                 if last_pitch_context:
-                     if k_type == 'swinging':
-                         simple_verb = self.rng.choice(["strikes out", "is set down swinging", "goes down swinging", "is out"])
-                         outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
+                     # Check if context already implies the out
+                     if "strike three" in last_pitch_context or "struck him out" in last_pitch_context or "rings him up" in last_pitch_context:
+                         if k_type == 'swinging':
+                             outcome_text = f"{last_pitch_context}. {batter_name} is out."
+                         else:
+                             outcome_text = f"{last_pitch_context}. {batter_name} is out."
                      else:
-                         simple_verb = self.rng.choice(["strikes out looking", "is caught looking", "is rung up", "is out looking"])
-                         outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
+                         if k_type == 'swinging':
+                             simple_verb = self.rng.choice(["strikes out", "is set down swinging", "goes down swinging", "is out"])
+                             outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
+                         else:
+                             simple_verb = self.rng.choice(["strikes out looking", "is caught looking", "is rung up", "is out looking"])
+                             outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
                 else:
                     # Generic fallback
                     verb = self.rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
@@ -596,6 +614,10 @@ class NarrativeRenderer(GameRenderer):
                      outcome_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
 
             elif outcome == "Field Error":
+                 x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
+                 hit_data = x_event.get('hitData', {}) if x_event else {}
+                 pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed')} if x_event else {}
+
                  # Find credit
                  err_credit = None
                  for r in play['runners']:
@@ -605,12 +627,14 @@ class NarrativeRenderer(GameRenderer):
                              break
                      if err_credit: break
 
+                 fielder_pos = None
+                 fielder_name = None
                  if err_credit:
-                     pos = err_credit['position']['abbreviation']
-                     name = err_credit['player']['fullName']
-                     outcome_text = f"An error by {pos} {name} allows the batter to reach base."
-                 else:
-                     outcome_text = "The batter reaches on a fielding error."
+                     fielder_pos = err_credit['position']['abbreviation']
+                     fielder_name = err_credit['player']['fullName'].split()[-1]
+
+                 outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'])
+
             else:
                 x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
                 if x_event:

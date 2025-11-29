@@ -187,6 +187,29 @@ GAME_CONTEXT = {
                  "{pitch_type} called strike three, and {batter_name} is down on strikes.",
                  "He looks at a {pitch_type} for a called strike three."
              ]
+        },
+        "Field Error": {
+            "grounder": [
+                "Grounder to {fielder_name}... and he bobbles it! {batter_name} reaches safely.",
+                "Hit on the ground to {fielder_name}... it goes right through his legs! An error on the play.",
+                "Sharp grounder to {fielder_name}, but he can't come up with it.",
+                "Bouncer to {fielder_name}... and he throws it away! {batter_name} is safe."
+            ],
+            "liner": [
+                "Line drive right at {fielder_name}... and it tips off his glove.",
+                "Hard liner {direction}... {fielder_name} can't handle it."
+            ],
+            "popup": [
+                "Popped up {direction}. {fielder_name} calling for it... and he drops it!",
+                "High popup... {fielder_name} loses it in the lights and it drops in!"
+            ],
+            "default": [
+                 "Hit to {fielder_name}... and he commits an error!",
+                 "A mistake by {fielder_name} allows {batter_name} to reach.",
+                 "Fly ball {direction}... {fielder_name} is there... but he drops it! {batter_name} is safe.",
+                 "Lifted in the air {direction}. {fielder_name} drifts under it... and it clanks off his glove!",
+                 "Hit in the air to {fielder_name}, and he drops the ball."
+            ]
         }
     },
     "narrative_strings": {
@@ -470,6 +493,10 @@ GAME_CONTEXT = {
         "Strikeout": {
             "swinging": ["strikes out swinging", "down on strikes", "goes down swinging", "a big cut and a miss for strike three", "swings through it for strike three", "is set down swinging"],
             "looking": ["strikes out looking", "caught looking", "frozen on a pitch right down the middle", "watches strike three go by", "knew it was a strike", "is rung up"]
+        },
+        "Field Error": {
+            "verbs": { "default": ["reaches on an error"] },
+            "nouns": { "default": ["a fielding error"] }
         }
     },
     "statcast_templates": {
