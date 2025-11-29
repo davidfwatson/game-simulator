@@ -71,7 +71,10 @@ class GameRenderer:
         phrase = self.rng_play.choice(phrase_list)
         return phrase, phrase_type
 
-    def _get_hit_location(self, hit_type, ev, la):
+    def _get_hit_location(self, hit_type, ev, la, location_code=None):
+        if location_code:
+            return GAME_CONTEXT['hit_directions'].get(location_code, "fair")
+
         if la is None or ev is None: return "fair"
         if hit_type in ["Single", "Double"]:
             if -10 < la < 10: return self.rng_play.choice(["up the middle", "through the right side", "through the left side"])
@@ -216,6 +219,7 @@ class NarrativeRenderer(GameRenderer):
     def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context=""):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
+        location_code = hit_data.get('location')
 
         cat = self._get_batted_ball_category(outcome, ev, la)
 
@@ -231,7 +235,9 @@ class NarrativeRenderer(GameRenderer):
             template = self.rng_play.choice(specific_templates)
 
         direction = ""
-        if outcome in ["Single", "Double", "Triple", "Home Run"]:
+        if location_code:
+            direction = self._get_hit_location(outcome, ev, la, location_code)
+        elif outcome in ["Single", "Double", "Triple", "Home Run"]:
             direction = self._get_hit_location(outcome, ev, la)
         elif fielder_pos:
             direction = GAME_CONTEXT['hit_directions'].get(fielder_pos, "")
@@ -859,7 +865,12 @@ class StatcastRenderer(GameRenderer):
             x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
             pitch_info = {}
             if x_event:
-                pitch_info = {'ev': x_event.get('hitData', {}).get('launchSpeed'), 'la': x_event.get('hitData', {}).get('launchAngle')}
+                hit_data = x_event.get('hitData', {})
+                pitch_info = {
+                    'ev': hit_data.get('launchSpeed'),
+                    'la': hit_data.get('launchAngle'),
+                    'location': hit_data.get('location')
+                }
 
             batted_ball_str = ""
             if outcome not in ["Strikeout", "Walk", "HBP"] and pitch_info.get('ev') is not None:
@@ -885,7 +896,7 @@ class StatcastRenderer(GameRenderer):
             elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
                 cat = self._get_batted_ball_category(outcome, pitch_info.get('ev'), pitch_info.get('la'))
                 phrase, _ = self._get_batted_ball_verb(outcome, cat)
-                direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la'))
+                direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la'), pitch_info.get('location'))
                 tmpl = self._format_statcast_template(outcome, {'batter_name': batter_name, 'verb': phrase, 'runs': rbis, 'direction': direction})
                 result_line = tmpl if tmpl else f"{batter_name} {phrase}."
             elif outcome in ["HBP", "Hit By Pitch"]: result_line = "Hit by Pitch."

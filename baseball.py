@@ -470,6 +470,19 @@ class BaseballSimulator:
         }
         return event_map.get(event, event.lower().replace(" ", "_"))
 
+    def _determine_hit_location(self, hit_type, ev, la):
+        if la is None or ev is None: return "CF"
+        if hit_type in ["Single", "Double"]:
+            if -10 < la < 10: return self.game_rng.choice(["MI", "RS", "LS"])
+            elif 10 < la < 25: return self.game_rng.choice(["LF", "CF", "RF"])
+            else: return self.game_rng.choice(["SL", "SC", "SR"])
+        elif hit_type == "Triple":
+            return self.game_rng.choice(["RC", "LC"])
+        elif hit_type == "Home Run":
+            if abs(la - 28) < 5 and ev > 105: return "DL"
+            return self.game_rng.choice(["DLF", "DCF", "DRF"])
+        return "CF"
+
     def _get_trajectory(self, outcome, la):
         if "Groundout" in outcome: return "ground_ball"
         if la is not None:
@@ -788,6 +801,8 @@ class BaseballSimulator:
                         'launchSpeed': batted_ball_data['ev'], 'launchAngle': batted_ball_data['la'],
                         'trajectory': self._get_trajectory(hit_result, batted_ball_data.get('la'))
                     }
+                    if hit_result in ["Single", "Double", "Triple", "Home Run"]:
+                        hit_data['location'] = self._determine_hit_location(hit_result, batted_ball_data['ev'], batted_ball_data['la'])
                     play_events[-1]['hitData'] = hit_data
                 return hit_result, description_context, play_events
 
@@ -1057,6 +1072,28 @@ class BaseballSimulator:
                     if hit_data:
                         hit_data['launchSpeed'] = description['batted_ball_data']['ev']
                         hit_data['launchAngle'] = description['batted_ball_data']['la']
+
+                # Determine location from credits
+                fielder_pos = None
+                for c in credits_from_out:
+                    if c['credit'] == 'fielding_error':
+                        fielder_pos = c['position']['abbreviation']
+                        break
+                if not fielder_pos:
+                    for c in credits_from_out:
+                         if c['credit'] == 'assist':
+                              fielder_pos = c['position']['abbreviation']
+                              break
+                if not fielder_pos:
+                     for c in credits_from_out:
+                          if c['credit'] == 'putout':
+                               fielder_pos = c['position']['abbreviation']
+                               break
+
+                if fielder_pos:
+                     hit_data = play_events[-1].get('hitData')
+                     if hit_data:
+                          hit_data['location'] = fielder_pos
 
                 runs += new_runs
                 rbis += new_rbis
