@@ -61,15 +61,20 @@ GAME_CONTEXT = {
                 "Lined into shallow {direction}. That one drops in.",
                 "Lined sharply into {direction}. That one will drop in for a base hit.",
                 "Lined into the gap for a base hit.",
-                "That one falls into the gap for a base hit."
+                "That one falls into the gap for a base hit.",
+                "A sharp line drive {direction}, and that's a base hit.",
+                "Ripped {direction} for a single."
             ],
             "bloop": [
                 "Blooped {direction}. That one drops in for a hit.",
-                "Blooped into shallow {direction}. That one drops in for a hit."
+                "Blooped into shallow {direction}. That one drops in for a hit.",
+                "A little flare {direction} falls in."
             ],
             "grounder": [
                 "Hard grounder up the middle... and that one will squeeze through for a base hit.",
-                "Hard grounder {direction}... and that one will squeeze through for a base hit."
+                "Hard grounder {direction}... and that one will squeeze through for a base hit.",
+                "Finds a hole through the infield.",
+                "Seeing-eye single {direction}."
             ],
             "default": [
                 "Lined into shallow {direction}. That one drops in."
@@ -97,7 +102,11 @@ GAME_CONTEXT = {
                 "Chopper {direction}. {fielder_name} is there and he fires to first.",
                 "Hard grounder {direction}. {fielder_name} is up with it and tosses to first.",
                 "Low roller {direction}.",
-                "Chopper {direction}. {fielder_name}'s got it and he fires to first."
+                "Chopper {direction}. {fielder_name}'s got it and he fires to first.",
+                "Routine play for {fielder_name} and he flips to first.",
+                "Grounded to {fielder_name}, who fields it cleanly and throws to first.",
+                "Sent on the ground {direction}. {fielder_name} up with it, over to first.",
+                "Chopped {direction}. {fielder_name} charges and throws."
             ]
         },
         "Flyout": {
@@ -112,7 +121,11 @@ GAME_CONTEXT = {
                 "{fielder_name} drifting in... and he makes the catch.",
                 "{fielder_name} is camped under it, and he makes the catch.",
                 "{fielder_name} calling for it... and he makes the catch.",
-                "Routine play for {fielder_name}, and he makes the catch."
+                "Routine play for {fielder_name}, and he makes the catch.",
+                "A high fly ball {direction}, but {fielder_name} has a bead on it.",
+                "{fielder_name} tracks it down {direction}.",
+                "Hit well {direction}, but {fielder_name} is there.",
+                "Sent deep {direction}, but {fielder_name} has plenty of room."
             ]
         },
         "Pop Out": {
@@ -132,12 +145,16 @@ GAME_CONTEXT = {
                  "He takes an awkward hack at a {pitch_type}, and {batter_name} strikes out.",
                  "Swing and a miss on a low {pitch_type}.",
                  "He takes an awkward hack at a {pitch_type} in the dirt.",
-                 "Swing and a miss on a high {pitch_type}."
+                 "Swing and a miss on a high {pitch_type}.",
+                 "He chases a {pitch_type} out of the zone for strike three.",
+                 "Way out in front of that {pitch_type}."
              ],
              "looking": [
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
                  "He looks at a {pitch_type} for a called strike three.",
-                 "{pitch_type} called strike three."
+                 "{pitch_type} called strike three.",
+                 "Frozen by a {pitch_type} on the corner.",
+                 "He couldn't pull the trigger on a {pitch_type}."
              ]
         }
     },
@@ -149,7 +166,7 @@ GAME_CONTEXT = {
         ],
         "strike_called_three": [
             "called strike three", "caught looking at strike three", "strike three called",
-            "in there for strike three"
+            "in there for strike three", "rings him up", "got him looking"
         ],
         "strike_swinging": [
             "swung on and missed", "cut on and missed", "a big swing and a miss",
@@ -157,7 +174,7 @@ GAME_CONTEXT = {
         ],
         "strike_swinging_three": [
             "swung on and missed for strike three", "struck him out swinging",
-            "swings through it for strike three"
+            "swings through it for strike three", "fans him", "gets him swinging"
         ],
         "mound_visit": [
             "will stroll out to the mound to have a chat with",
