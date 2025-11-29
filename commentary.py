@@ -221,7 +221,31 @@ GAME_CONTEXT = {
             "and the runner goes!",
             "and there he goes!",
             "runner goes!",
-            "and the runner takes off!"
+            "and the runner takes off!",
+            "and the runner breaks!"
+        ],
+        "payoff_pitch": [
+            "And the payoff pitch...",
+            "The payoff pitch...",
+            "Full count, here's the pitch...",
+            "And the 3-2 pitch..."
+        ],
+        "count_full": [
+            ", and the count runs full",
+            ", count is full",
+            ", brings the count to 3-2",
+            ", and the count is now full"
+        ],
+        "inning_end_123": [
+             "{pitcher_name} sets them down in order.",
+             "Another one-two-three inning for {pitcher_name}.",
+             "{pitcher_name} retires the side in order.",
+             "Three up, three down for {pitcher_name}."
+        ],
+        "walk_aboard": [
+            "{batter_name} is aboard with a {outs_str} walk.",
+            "{batter_name} draws a {outs_str} walk.",
+            "Ball misses outside, and {batter_name} is aboard with a {outs_str} walk."
         ],
         "throw_outcome_safe": [
             "The throw down... not in time!",

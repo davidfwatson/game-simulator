@@ -85,6 +85,9 @@ class NarrativeRenderer(GameRenderer):
         return self.rng.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
 
     def _get_pitch_connector(self, balls, strikes):
+        if balls == 3 and strikes == 2:
+            return self.rng.choice(GAME_CONTEXT['narrative_strings']['payoff_pitch'])
+
         if balls == 0 and strikes == 0:
             return self.rng.choice(["And the pitch...", "And the pitch..."])
 
@@ -241,6 +244,7 @@ class NarrativeRenderer(GameRenderer):
         self.outs_tracker = 0
         self.runners_on_base = {'1B': None, '2B': None, '3B': None}
         self.current_score = (0, 0) # Away, Home
+        self.plays_in_half_inning = []
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
@@ -253,6 +257,25 @@ class NarrativeRenderer(GameRenderer):
             if (inning, half) != current_inning_state:
                 # End of previous inning summary
                 if current_inning_state[0] != 0:
+                     # Check for 1-2-3 inning
+                     is_123 = False
+                     if len(self.plays_in_half_inning) == 3:
+                         is_123 = True
+                         for p in self.plays_in_half_inning:
+                             for r in p['runners']:
+                                 if not r['movement']['isOut'] and r['movement'].get('end') in ['1B', '2B', '3B', 'score']:
+                                     is_123 = False
+                                     break
+                             if not is_123: break
+
+                     if is_123:
+                         prev_half = current_inning_state[1]
+                         pitching_team = 'home' if prev_half == 'Top' else 'away'
+                         if self.current_pitcher_info[pitching_team]:
+                             pitcher_name = self.current_pitcher_info[pitching_team]['name'].split()[-1]
+                             template = self.rng.choice(GAME_CONTEXT['narrative_strings']['inning_end_123'])
+                             lines.append(f" {template.format(pitcher_name=pitcher_name)}")
+
                      # Calculate total innings completed so far
                      innings_in_books = inning - 1
                      if half == "Top" and inning > 1:
@@ -260,6 +283,7 @@ class NarrativeRenderer(GameRenderer):
                          num = innings_in_books
                          lines.append(f"\nAnd with {num} in the books, it's {self.away_team['name']} {self.current_score[0]}, {self.home_team['name']} {self.current_score[1]}.")
 
+                self.plays_in_half_inning = []
                 team_name = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
                 lines.append("-" * 50)
                 lines.append(f"{half} of Inning {inning} | {team_name} batting")
@@ -426,6 +450,8 @@ class NarrativeRenderer(GameRenderer):
                              pbp_line = f"{pitch_type}, {self._get_narrative_string('strike_swinging')}"
                     elif code == 'B':
                          pbp_line = f"{pitch_type} {self.rng.choice(GAME_CONTEXT['pitch_locations']['ball'])}"
+                         if event['count']['balls'] == 2 and event['count']['strikes'] == 2:
+                             pbp_line += self.rng.choice(GAME_CONTEXT['narrative_strings']['count_full'])
 
                     if pbp_line:
                         pbp_line = f"  {connector} {pbp_line}."
@@ -503,7 +529,20 @@ class NarrativeRenderer(GameRenderer):
                     lines.append(f"  {outcome_text}.")
 
             elif outcome == "Walk":
-                if last_pitch_context:
+                walk_template = None
+                if self.rng.random() < 0.6:
+                    outs_str_map = {0: "leadoff", 1: "one-out", 2: "two-out"}
+                    outs_str = outs_str_map.get(self.outs_tracker, f"{self.outs_tracker}-out")
+                    walk_template = self.rng.choice(GAME_CONTEXT['narrative_strings']['walk_aboard']).format(batter_name=batter_name, outs_str=outs_str)
+
+                if walk_template and not walk_template.startswith("Ball misses"):
+                    if last_pitch_context:
+                        lines.append(f"{last_pitch_context}, and {walk_template}")
+                    else:
+                        lines.append(f"  {walk_template}")
+                elif walk_template:
+                     lines.append(f"  {walk_template}")
+                elif last_pitch_context:
                     lines.append(f"{last_pitch_context}, and {batter_name} draws a walk.")
                 else:
                     lines.append(f"  {batter_name} draws a walk.")
@@ -592,6 +631,7 @@ class NarrativeRenderer(GameRenderer):
             lines.append(f" | Outs: {self.outs_tracker} | Bases: {bases_str} | Score: {self.home_team['name']}: {result['homeScore']}, {self.away_team['name']}: {result['awayScore']}\n")
 
             self.current_score = (result['awayScore'], result['homeScore'])
+            self.plays_in_half_inning.append(play)
 
         lines.append("=" * 20 + " GAME OVER " + "=" * 20)
         final_home = self.gameday_data['liveData']['linescore']['teams']['home']['runs']
