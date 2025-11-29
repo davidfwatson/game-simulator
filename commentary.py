@@ -192,6 +192,22 @@ GAME_CONTEXT = {
         "infield_in": [
             "The infield is playing in, looking to cut down the run at the plate."
         ],
+        "runner_goes": [
+            "and the runner goes!",
+            "and there he goes!",
+            "runner goes!",
+            "and the runner takes off!"
+        ],
+        "throw_outcome_safe": [
+            "The throw down... not in time!",
+            "Throw to {base} is not in time.",
+            "The throw is late!"
+        ],
+        "throw_outcome_out": [
+            "The throw down... he got him!",
+            "Throw to {base} is in time!",
+            "And they got him at {base}!"
+        ],
         "stolen_base": [
             "{runner_name} takes off for second... and he's in there with a stolen base!",
             "A good jump and a stolen base for {runner_name}."
