@@ -124,7 +124,7 @@ class NarrativeRenderer(GameRenderer):
             return simplified.capitalize()
         return simplified
 
-    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None):
+    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
 
@@ -167,13 +167,19 @@ class NarrativeRenderer(GameRenderer):
         orig_pitch_type = pitch_details.get('type', 'pitch')
         simple_pitch_type = self._simplify_pitch_type(orig_pitch_type)
 
+        result_outs_word = "one"
+        if result_outs == 2: result_outs_word = "two"
+        elif result_outs == 3: result_outs_word = "three"
+
         context = {
             'batter_name': batter_name,
             'direction': direction,
             'direction_noun': direction_noun,
             'pitch_type': simple_pitch_type,
             'pitch_velo': pitch_details.get('velo', 'N/A'),
-            'fielder_name': fielder_name or "the fielder"
+            'fielder_name': fielder_name or "the fielder",
+            'result_outs': result_outs,
+            'result_outs_word': result_outs_word
         }
 
         prefix = f"{connector} " if connector else ""
@@ -576,7 +582,7 @@ class NarrativeRenderer(GameRenderer):
                         fielder_pos = primary_credit['position']['abbreviation']
                         fielder_name = primary_credit['player']['fullName'].split()[-1]
 
-                    outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector)
+                    outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'])
 
             if outcome_text: play_text_blocks.append(outcome_text)
 
