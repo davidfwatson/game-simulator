@@ -172,7 +172,31 @@ class NarrativeRenderer(GameRenderer):
 
         return f"{lead_str}-to-{trail_str}"
 
-    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None):
+    def _get_runner_status_string(self, outcome, batter_name, result_outs, is_leadoff, inning_context):
+        key = None
+        outcome_lower = outcome.lower()
+
+        if is_leadoff:
+             key = f"leadoff_{outcome_lower}"
+        elif result_outs == 0:
+             key = f"{outcome_lower}_nobody_out"
+        elif result_outs == 1:
+             key = f"{outcome_lower}_one_out"
+        elif result_outs == 2:
+             key = f"two_out_{outcome_lower}"
+
+        if not key:
+            return ""
+
+        context = {
+            'batter_name': batter_name,
+            'inning_context': inning_context
+        }
+
+        return self._get_narrative_string(key, context)
+
+
+    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context=""):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
 
@@ -240,32 +264,39 @@ class NarrativeRenderer(GameRenderer):
         # Force narrative templates for certain outcomes to improve flow
         force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout"]
 
+        final_description = ""
         if template or (specific_templates and (force_narrative or self.rng.random() < 0.8)):
              if not template: template = self.rng.choice(specific_templates)
-             return prefix + template.format(**context)
-
-        phrase, phrase_type = self._get_batted_ball_verb(outcome, cat)
-
-        if connector:
-            if phrase_type == 'verbs':
-                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-                context['verb'] = phrase
-                context['verb_capitalized'] = phrase.capitalize()
-            else:
-                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
-                context['noun'] = phrase
-                context['noun_capitalized'] = phrase.capitalize()
+             final_description = prefix + template.format(**context)
         else:
-            if phrase_type == 'verbs':
-                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-                context['verb'] = phrase
-                context['verb_capitalized'] = phrase.capitalize()
+            phrase, phrase_type = self._get_batted_ball_verb(outcome, cat)
+            if connector:
+                if phrase_type == 'verbs':
+                    template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
+                    context['verb'] = phrase
+                    context['verb_capitalized'] = phrase.capitalize()
+                else:
+                    template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
+                    context['noun'] = phrase
+                    context['noun_capitalized'] = phrase.capitalize()
             else:
-                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
-                context['noun'] = phrase
-                context['noun_capitalized'] = phrase.capitalize()
+                if phrase_type == 'verbs':
+                    template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
+                    context['verb'] = phrase
+                    context['verb_capitalized'] = phrase.capitalize()
+                else:
+                    template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
+                    context['noun'] = phrase
+                    context['noun_capitalized'] = phrase.capitalize()
+            final_description = prefix + template.format(**context)
 
-        return prefix + template.format(**context)
+        # Add runner status for hits
+        if outcome in ["Single", "Double", "Triple"]:
+             status_str = self._get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context)
+             if status_str:
+                 final_description += " " + status_str
+
+        return final_description
 
     def _render_steal_event(self, event):
         details = event['details']
@@ -641,7 +672,12 @@ class NarrativeRenderer(GameRenderer):
                         fielder_pos = primary_credit['position']['abbreviation']
                         fielder_name = primary_credit['player']['fullName'].split()[-1]
 
-                    outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'])
+                    # Calculate contexts for runner status
+                    ordinal = self._get_ordinal(inning)
+                    inning_context = f" here in the {half.lower()} of the {ordinal}"
+                    is_leadoff = (len(self.plays_in_half_inning) == 0)
+
+                    outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context)
 
             if outcome_text: play_text_blocks.append(outcome_text)
 

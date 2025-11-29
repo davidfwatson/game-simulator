@@ -73,7 +73,6 @@ GAME_CONTEXT = {
                 "A sharp line drive {direction}, and that's a base hit.",
                 "Ripped {direction} for a single.",
                 "Lined into shallow {direction_noun}. That one drops in.",
-                "Line drive, {direction}. A base hit for {batter_name}.",
                 "Lined sharply into {direction_noun}.",
                 "Lined down the {direction_noun} line! That one is fair..."
             ],
@@ -100,7 +99,6 @@ GAME_CONTEXT = {
             "default": [
                  "Lined {direction}! That one is fair and that one will get all the way to the wall.",
                  "Hammered {direction}! That one will drop in for a hit and roll all the way to the wall.",
-                 "That's going to be a stand-up double for {batter_name}.",
                  "Hammered to {direction_noun}! That one will drop in for a hit and roll all the way to the wall."
             ]
         },
@@ -220,25 +218,66 @@ GAME_CONTEXT = {
             "rolls it up for two"
         ],
         "leadoff_single": [
-            "{batter_name} is aboard with a leadoff single.",
+            "{batter_name} is aboard with a leadoff single{inning_context}.",
             "The inning starts with a base hit from {batter_name}.",
-            "A leadoff single for {batter_name} to get things going."
+            "A leadoff single for {batter_name} to get things going{inning_context}.",
+            "{batter_name} starts the inning with a base hit."
         ],
         "leadoff_double": [
-            "{batter_name} starts the inning with a stand-up double.",
-            "A leadoff double for {batter_name}, and the offense is in business."
+            "{batter_name} starts the inning with a stand-up double{inning_context}.",
+            "A leadoff double for {batter_name}, and the offense is in business.",
+            "{batter_name} is aboard with a leadoff double{inning_context}."
+        ],
+        "leadoff_triple": [
+            "{batter_name} starts the inning with a triple{inning_context}!",
+            "A leadoff triple for {batter_name}!",
+            "{batter_name} is aboard with a leadoff triple{inning_context}."
         ],
         "leadoff_walk": [
-            "{batter_name} draws a leadoff walk.",
-            "The inning begins with a four-pitch walk to {batter_name}."
+            "{batter_name} draws a leadoff walk{inning_context}.",
+            "The inning begins with a walk to {batter_name}."
+        ],
+        "single_nobody_out": [
+            "{batter_name} is aboard with a single.",
+            "{batter_name} reaches with a base hit.",
+            "And {batter_name} is aboard with a single{inning_context}."
+        ],
+        "double_nobody_out": [
+            "{batter_name} is aboard with a double.",
+            "And {batter_name} stands at second with a double{inning_context}."
+        ],
+        "triple_nobody_out": [
+            "{batter_name} is aboard with a triple.",
+            "And {batter_name} stands at third with a triple{inning_context}."
+        ],
+        "single_one_out": [
+            "{batter_name} is aboard with a one-out single{inning_context}.",
+            "A one-out base hit for {batter_name}.",
+            "{batter_name} singles with one away."
+        ],
+        "double_one_out": [
+            "{batter_name} is aboard with a one-out double{inning_context}.",
+            "A one-out double for {batter_name}.",
+            "{batter_name} doubles with one away."
+        ],
+        "triple_one_out": [
+            "{batter_name} is aboard with a one-out triple{inning_context}.",
+            "A one-out triple for {batter_name}.",
+            "{batter_name} triples with one away."
         ],
         "two_out_single": [
-            "{batter_name} keeps the inning alive with a two-out single.",
-            "A two-out base hit for {batter_name}."
+            "{batter_name} keeps the inning alive with a two-out single{inning_context}.",
+            "A two-out base hit for {batter_name}.",
+            "{batter_name} is aboard with a two-out single{inning_context}."
         ],
         "two_out_double": [
             "A two-out double for {batter_name}!",
-            "{batter_name} rips one into the gap for a two-out double."
+            "{batter_name} rips one into the gap for a two-out double.",
+            "{batter_name} is aboard with a two-out double{inning_context}."
+        ],
+        "two_out_triple": [
+            "A two-out triple for {batter_name}!",
+            "{batter_name} is aboard with a two-out triple{inning_context}."
         ],
         "two_out_walk": [
             "{batter_name} extends the inning with a two-out walk."
