@@ -113,71 +113,55 @@ GAME_CONTEXT = {
         },
         "Groundout": {
             "default": [
-                "Roller {direction}. {fielder_name} scoops it up and fires to first.",
-                "Slow roller {direction}. That will move the runner up.",
-                "Dribbler {direction}. Backhanded pick by {fielder_name} and he fires to first.",
-                "Grounder {direction}. {fielder_name} has it and tosses to first.",
-                "Chopper {direction}. {fielder_name} is there and he fires to first.",
-                "Hard grounder {direction}. {fielder_name} is up with it and tosses to first.",
-                "Low roller {direction}.",
-                "Chopper {direction}. {fielder_name}'s got it and he fires to first.",
-                "Routine play for {fielder_name} and he flips to first.",
-                "Grounded to {fielder_name}, who fields it cleanly and throws to first.",
-                "Sent on the ground {direction}. {fielder_name} up with it, over to first.",
-                "Chopped {direction}. {fielder_name} charges and throws.",
-                "Tapped down the line. {fielder_name} steps on the bag.",
-                "Bouncer {direction}. {fielder_name} gloves it and fires to first.",
-                "Grounder {direction}. {fielder_name} backhands it and fires to first.",
-                "Roller {direction}. {fielder_name} scoops it up and fires to first...",
-                "Bouncer {direction}. {fielder_name} gloves it and fires to first...",
-                "Dribbler {direction}. Backhanded pick by {fielder_name} and he fires to first...",
-                "Roller {direction}. {fielder_name} scoops it up and fires to first to retire {batter_name} for out number {result_outs_word}.",
-                "{fielder_name} has it and he fires to first to retire {batter_name} for out number {result_outs_word}.",
-                "{fielder_name} is there and he fires to first to retire {batter_name} for out number {result_outs_word}."
+                "Roller {direction}. {fielder_name} scoops it up and fires to first {out_context_str}.",
+                "Dribbler {direction}. Backhanded pick by {fielder_name} and he fires to first {out_context_str}.",
+                "Grounder {direction}. {fielder_name} has it and tosses to first {out_context_str}.",
+                "Chopper {direction}. {fielder_name} is there and he fires to first {out_context_str}.",
+                "Hard grounder {direction}. {fielder_name} is up with it and tosses to first {out_context_str}.",
+                "Low roller {direction}. {fielder_name} fields it and throws to first {out_context_str}.",
+                "Chopper {direction}. {fielder_name}'s got it and he fires to first {out_context_str}.",
+                "Routine play for {fielder_name} and he flips to first {out_context_str}.",
+                "Grounded to {fielder_name}, who fields it cleanly and throws to first {out_context_str}.",
+                "Sent on the ground {direction}. {fielder_name} up with it, over to first {out_context_str}.",
+                "Chopped {direction}. {fielder_name} charges and throws to first {out_context_str}.",
+                "Tapped down the line. {fielder_name} steps on the bag {out_context_str}.",
+                "Bouncer {direction}. {fielder_name} gloves it and fires to first {out_context_str}.",
+                "Grounder {direction}. {fielder_name} backhands it and fires to first {out_context_str}."
             ]
         },
         "Flyout": {
             "default": [
-                "Hit in the air {direction}. {fielder_name} is after it and he makes the catch.",
-                "Fly ball, {direction}. {fielder_name} drifting in... and he makes the catch.",
-                "Fly ball, deep {direction}. {fielder_name} is racing after it... and he makes the catch on the warning track.",
-                "Line drive {direction}. That one is into the glove of {fielder_name}.",
-                "Fly ball, {direction}. {fielder_name} is camped under it, and he makes the catch.",
-                "Popped up, {direction}. {fielder_name} is calling for it... and he makes the catch.",
-                "High fly ball, {direction}... and that one is caught by {fielder_name}.",
-                "{fielder_name} drifting in... and he makes the catch.",
-                "{fielder_name} is camped under it, and he makes the catch.",
-                "{fielder_name} calling for it... and he makes the catch.",
-                "Routine play for {fielder_name}, and he makes the catch.",
-                "A high fly ball {direction}, but {fielder_name} has a bead on it.",
-                "{fielder_name} tracks it down {direction}.",
-                "Hit well {direction}, but {fielder_name} is there.",
-                "Sent deep {direction}, but {fielder_name} has plenty of room.",
-                "Fly ball, {direction}. {fielder_name} is there.",
-                "{fielder_name} racing in... and he makes the catch.",
-                "{fielder_name} will have room... and he makes the catch.",
-                "{fielder_name} drifting back... and he makes the catch.",
-                "Fly ball, straightaway {direction}. {fielder_name} drifting in... and he makes the catch.",
-                "{fielder_name} is after it and he makes the catch.",
-                "{fielder_name} is camped under it... and he makes the catch.",
-                "{fielder_name} is racing after it... and he makes the catch on the warning track.",
-                "{fielder_name} drifting in... and he makes the catch for out number {result_outs_word}.",
-                "{fielder_name} is camped under it... and he makes the catch for out number {result_outs_word}.",
-                "Routine play for {fielder_name}, and he makes the catch for out number {result_outs_word}."
+                "Hit in the air {direction}. {fielder_name} is after it and he makes the catch {out_context_str}.",
+                "Fly ball, {direction}. {fielder_name} drifting in... and he makes the catch {out_context_str}.",
+                "Fly ball, deep {direction}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
+                "Line drive {direction}. That one is into the glove of {fielder_name} {out_context_str}.",
+                "Fly ball, {direction}. {fielder_name} is camped under it, and he makes the catch {out_context_str}.",
+                "Popped up, {direction}. {fielder_name} is calling for it... and he makes the catch {out_context_str}.",
+                "High fly ball, {direction}... and that one is caught by {fielder_name} {out_context_str}.",
+                "{fielder_name} drifting in... and he makes the catch {out_context_str}.",
+                "{fielder_name} is camped under it, and he makes the catch {out_context_str}.",
+                "{fielder_name} calling for it... and he makes the catch {out_context_str}.",
+                "Routine play for {fielder_name}, and he makes the catch {out_context_str}.",
+                "A high fly ball {direction}, but {fielder_name} has a bead on it. He makes the catch {out_context_str}.",
+                "{fielder_name} tracks it down {direction} {out_context_str}.",
+                "Hit well {direction}, but {fielder_name} is there to make the catch {out_context_str}.",
+                "Sent deep {direction}, but {fielder_name} has plenty of room. He makes the catch {out_context_str}."
             ]
         },
         "Pop Out": {
              "default": [
-                 "Popped up, {direction}. {fielder_name} is after it and he makes the catch.",
-                 "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch.",
-                 "Pop fly, {direction}. {fielder_name} drifting back... and he makes the catch.",
-                 "{fielder_name} calling for it... and he makes the squeeze.",
-                 "{fielder_name} drifting back... and he makes the catch."
+                 "Popped up, {direction}. {fielder_name} is after it and he makes the catch {out_context_str}.",
+                 "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch {out_context_str}.",
+                 "Pop fly, {direction}. {fielder_name} drifting back... and he makes the catch {out_context_str}.",
+                 "{fielder_name} calling for it... and he makes the squeeze {out_context_str}.",
+                 "{fielder_name} drifting back... and he makes the catch {out_context_str}."
              ]
         },
         "Lineout": {
              "default": [
-                 "Hard liner right into the glove of {fielder_name}."
+                 "Hard liner right into the glove of {fielder_name} {out_context_str}.",
+                 "Lined sharply to {fielder_name} {out_context_str}.",
+                 "A screaming liner to {fielder_name}, caught {out_context_str}."
              ]
         },
         "Strikeout": {
