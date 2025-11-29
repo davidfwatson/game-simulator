@@ -119,7 +119,7 @@ class TestRealism(unittest.TestCase):
             log = renderer.render()
 
             total_walks += log.count("draws a walk")
-            total_hbps += log.count("Hit by Pitch")
+            total_hbps += (log.count("Hit by Pitch") + log.count("hit by the pitch"))
             total_dps += log.lower().count("double play")
             total_triples += log.count("a triple")
             groundout_2_3_count += len(re.findall(r'grounds out to Catcher', log, re.IGNORECASE))

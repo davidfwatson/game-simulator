@@ -33,6 +33,18 @@ class TestAnalystConcerns(unittest.TestCase):
             log += renderer.render() + "\n"
         return log
 
+    def _run_sim_and_get_data(self, num_games=1):
+        all_plays = []
+        for i in range(num_games):
+            game = BaseballSimulator(
+                copy.deepcopy(self.home_team),
+                copy.deepcopy(self.away_team),
+                game_seed=i
+            )
+            game.play_game()
+            all_plays.extend(game.gameday_data['liveData']['plays']['allPlays'])
+        return all_plays
+
     def test_mechanical_phrasing_of_pitches(self):
         """
         Analyst Concern: Nearly every pitch says “in the strike zone” (or simple “inside/high/low”)
@@ -55,11 +67,19 @@ class TestAnalystConcerns(unittest.TestCase):
         and lineouts are rare.
         Fix: Adjusted _determine_outcome_from_trajectory logic.
         """
-        log = self._run_sim_and_get_log(num_games=100)
-        popouts = len(re.findall(r'Pop Out', log))
-        groundouts = len(re.findall(r'Groundout', log))
-        lineouts = len(re.findall(r'Lineout', log))
-        flyouts = len(re.findall(r'Flyout', log))
+        plays = self._run_sim_and_get_data(num_games=100)
+
+        popouts = 0
+        groundouts = 0
+        lineouts = 0
+        flyouts = 0
+
+        for play in plays:
+            event = play['result']['event']
+            if event == "Pop Out": popouts += 1
+            elif event == "Groundout": groundouts += 1
+            elif event == "Lineout": lineouts += 1
+            elif event == "Flyout": flyouts += 1
 
         # Ratio of popouts to total outs should be low (e.g., < 15%)
         total_outs = popouts + groundouts + lineouts + flyouts
