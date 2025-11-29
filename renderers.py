@@ -97,6 +97,15 @@ class NarrativeRenderer(GameRenderer):
         if context is None: context = {}
         return self.rng.choice(GAME_CONTEXT['radio_strings'].get(key, [""])).format(**context)
 
+    def _get_spoken_count(self, balls, strikes, connector="and"):
+        nums = ["oh", "one", "two", "three", "four"]
+        b_word = nums[balls] if balls < len(nums) else str(balls)
+        s_word = nums[strikes] if strikes < len(nums) else str(strikes)
+
+        if connector == "-":
+            return f"{b_word}-{s_word}"
+        return f"{b_word} {connector} {s_word}"
+
     def _get_pitch_connector(self, balls, strikes):
         if balls == 3 and strikes == 2:
             return self.rng.choice(GAME_CONTEXT['narrative_strings']['payoff_pitch'])
@@ -104,7 +113,7 @@ class NarrativeRenderer(GameRenderer):
         if balls == 0 and strikes == 0:
             return self.rng.choice(["And the pitch...", "And the pitch..."])
 
-        count_str = f"{balls}-{strikes}"
+        count_str = self._get_spoken_count(balls, strikes, connector="-")
         templates = [
             f"And the {count_str}...",
             f"The {count_str} pitch...",
@@ -483,7 +492,9 @@ class NarrativeRenderer(GameRenderer):
                         elif code in ['C', 'S', 'F']:
                             if not (code == 'F' and s == 2): s += 1
 
-                        if b < 4 and s < 3: pbp_line += f" {b}-{s}."
+                        if b < 4 and s < 3:
+                            spoken_count = self._get_spoken_count(b, s, connector="and")
+                            pbp_line += f" {spoken_count.capitalize()}."
 
                         is_final_event = (event == play_events[-1])
                         if is_final_event and outcome in ["Strikeout", "Walk"]:

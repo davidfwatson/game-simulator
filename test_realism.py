@@ -36,8 +36,9 @@ class TestRealism(unittest.TestCase):
     def test_repetitive_phrasing(self):
         """Test for repetitive phrasing in play-by-play output."""
         # Find all lines describing a pitch outcome (ball, strike, foul).
-        # New format: "And the pitch... Description. 1-0." or "The 1-1 pitch... Description."
-        pitch_lines = re.findall(r'\.\.\. (.*?)\. \d-\d', self.log)
+        # New format: "And the pitch... Description. One and oh." or "The one-one pitch... Description."
+        # Spoken counts end in "One and one." or "Two and two." etc.
+        pitch_lines = re.findall(r'\.\.\. (.*?)\. (?:[A-Z][a-z]+(?: and [a-z]+)?)\.', self.log)
 
         self.assertGreater(len(pitch_lines), 0, "No pitch description lines found in the log.")
 
