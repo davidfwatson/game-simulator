@@ -316,7 +316,12 @@ class NarrativeRenderer(GameRenderer):
                  if self.rng.random() < 0.04:
                      lines.append(f"  {self._get_narrative_string('infield_in')}")
 
+            result = play['result']
+            outcome = result['event']
+
             play_events = play['playEvents']
+            last_pitch_context = None
+
             for event in play_events:
                 details = event['details']
                 desc = details['description']
@@ -357,13 +362,17 @@ class NarrativeRenderer(GameRenderer):
 
                         if b < 4 and s < 3:
                             pbp_line += f" {b}-{s}."
+
+                        # Check if this is the final pitch of a Strikeout or Walk
+                        is_final_event = (event == play_events[-1])
+                        if is_final_event and outcome in ["Strikeout", "Walk"]:
+                            last_pitch_context = pbp_line.rstrip(".") # Store without trailing period
+                            continue
+
                         lines.append(pbp_line)
                 else:
                     if code != 'X':
                          lines.append(f"  {desc}.")
-
-            result = play['result']
-            outcome = result['event']
 
             # Outcome Logic
             if outcome == "Strikeout":
@@ -379,18 +388,37 @@ class NarrativeRenderer(GameRenderer):
                 if specific_templates and self.rng.random() < 0.5:
                      template = self.rng.choice(specific_templates)
 
+                outcome_text = ""
                 if template:
                      pitch_details = {'type': play_events[-1]['details'].get('type', {}).get('description', 'pitch')}
                      context = {
                         'batter_name': batter_name,
                         'pitch_type': pitch_details['type']
                      }
-                     lines.append("  " + template.format(**context))
+                     outcome_text = template.format(**context)
                 else:
                     verb = self.rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
-                    lines.append(f"  {batter_name} {verb}.")
+                    outcome_text = f"{batter_name} {verb}"
+
+                if last_pitch_context:
+                    # Check if outcome text is a full sentence starting with batter name
+                    if outcome_text.startswith(batter_name):
+                         lines.append(f"{last_pitch_context}, and {outcome_text}.")
+                    else:
+                         if k_type == 'swinging':
+                             simple_verb = self.rng.choice(["strikes out", "is set down swinging", "goes down swinging"])
+                             lines.append(f"{last_pitch_context}, and {batter_name} {simple_verb}.")
+                         else: # looking
+                             simple_verb = self.rng.choice(["strikes out looking", "is caught looking", "is rung up"])
+                             lines.append(f"{last_pitch_context}, and {batter_name} {simple_verb}.")
+                else:
+                    lines.append(f"  {outcome_text}.")
+
             elif outcome == "Walk":
-                lines.append(f"  {batter_name} draws a walk.")
+                if last_pitch_context:
+                    lines.append(f"{last_pitch_context}, and {batter_name} draws a walk.")
+                else:
+                    lines.append(f"  {batter_name} draws a walk.")
             elif outcome in ["HBP", "Hit By Pitch"]:
                 lines.append(f"  {batter_name} is hit by the pitch.")
             elif outcome == "Strikeout Double Play":
