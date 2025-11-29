@@ -219,6 +219,10 @@ class NarrativeRenderer(GameRenderer):
         if result_outs == 2: result_outs_word = "two"
         elif result_outs == 3: result_outs_word = "three"
 
+        out_context_str = f"for out number {result_outs_word}"
+        if result_outs == 3:
+            out_context_str = "to end the inning"
+
         context = {
             'batter_name': batter_name,
             'direction': direction,
@@ -227,12 +231,17 @@ class NarrativeRenderer(GameRenderer):
             'pitch_velo': pitch_details.get('velo', 'N/A'),
             'fielder_name': fielder_name or "the fielder",
             'result_outs': result_outs,
-            'result_outs_word': result_outs_word
+            'result_outs_word': result_outs_word,
+            'out_context_str': out_context_str
         }
 
         prefix = f"{connector} " if connector else ""
 
-        if template:
+        # Force narrative templates for certain outcomes to improve flow
+        force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout"]
+
+        if template or (specific_templates and (force_narrative or self.rng.random() < 0.8)):
+             if not template: template = self.rng.choice(specific_templates)
              return prefix + template.format(**context)
 
         phrase, phrase_type = self._get_batted_ball_verb(outcome, cat)
