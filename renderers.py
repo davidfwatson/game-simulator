@@ -182,11 +182,13 @@ class NarrativeRenderer(GameRenderer):
             u = self.gameday_data['gameData']['umpires']
             lines.append(f"Umpires: HP: {u[0]}, 1B: {u[1]}, 2B: {u[2]}, 3B: {u[3]}")
         lines.append("-" * 50)
+        lines.append(f"So, we are underway here at {self.gameday_data['gameData'].get('venue', 'the ballpark')}.")
 
         current_inning_state = (0, '')
         self.last_play_inning = None
         self.outs_tracker = 0
         self.runners_on_base = {'1B': None, '2B': None, '3B': None}
+        self.current_score = (0, 0) # Away, Home
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
@@ -197,6 +199,15 @@ class NarrativeRenderer(GameRenderer):
             half = "Top" if about['isTopInning'] else "Bottom"
 
             if (inning, half) != current_inning_state:
+                # End of previous inning summary
+                if current_inning_state[0] != 0:
+                     # Calculate total innings completed so far
+                     innings_in_books = inning - 1
+                     if half == "Top" and inning > 1:
+                         # Start of Top of N means N-1 full innings are done.
+                         num = innings_in_books
+                         lines.append(f"\nAnd with {num} in the books, it's {self.away_team['name']} {self.current_score[0]}, {self.home_team['name']} {self.current_score[1]}.")
+
                 team_name = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
                 lines.append("-" * 50)
                 lines.append(f"{half} of Inning {inning} | {team_name} batting")
@@ -250,40 +261,7 @@ class NarrativeRenderer(GameRenderer):
                      template = self.rng.choice(GAME_CONTEXT['narrative_strings']['batter_intro_empty'])
                 lines.append(f"\n{template.format(batter_name=batter_name, team_name=team_name, outs_str=outs_str)}")
             else:
-                 runners_str = " and ".join(runners)
-                 # Adjust runners_str for specific templates or make templates agnostic
-                 # Problem: "runner on {runners_str}" -> "runner on runner on first"
-
-                 # Let's clean up `runners_str` to just be the locations
-                 if len(runners) == 3: runners_str = "the bases loaded"
-                 elif len(runners) == 2: runners_str = f"{runners[0]} and {runners[1]}"
-                 else: runners_str = f"{runners[0]}"
-
-                 template = self.rng.choice(GAME_CONTEXT['narrative_strings']['batter_intro_runners'])
-                 # Special handling if the template expects just the bases or the full "runner on X" phrase
-                 # Looking at commentary.py:
-                 # "Runner on {runners_str}, {outs_str}, for {batter_name}." -> Needs "first" or "first and second"
-                 # "And {batter_name} steps in with {runners_str} with {outs_str}." -> "runners on first and second"
-
-                 # I need to separate templates that include "runner on" vs those that don't.
-                 # Or standardize my templates.
-
-                 # Let's fix the templates in memory (by logic here) or better yet, fix the templates in commentary.py?
-                 # Fixing `commentary.py` is better but I am in renderers.py.
-                 # I'll update logic here to match the current templates in `commentary.py`.
-
-                 # Templates:
-                 # 1. "And {batter_name} steps in with {runners_str} with {outs_str}." -> wants "runners on first and second"
-                 # 2. "{batter_name} comes to the plate. {runners_str} and {outs_str}." -> wants "Runners on first and second" (Capitalized?)
-                 # 3. "And that will bring up {batter_name} with {runners_str}." -> wants "runners on first and second"
-                 # 4. "Runner on {runners_str}, {outs_str}, for {batter_name}." -> wants "first"
-
-                 # This is tricky because the templates are mixed.
-                 # I will simplify the usage here by creating a "situation string" based on the template selected?
-                 # No, that's hard because I pick template random.
-
-                 # I'll modify the logic to use a smarter replacement.
-
+                 # Logic for runner strings
                  if len(runners) == 3:
                      base_desc = "the bases loaded"
                      runner_desc = "the bases loaded"
@@ -292,18 +270,44 @@ class NarrativeRenderer(GameRenderer):
                      runner_desc = f"runners on {runners[0]} and {runners[1]}"
                  else:
                      base_desc = f"{runners[0]}"
-                     runner_desc = f"runner on {runners[0]}" # "runner on first"
+                     runner_desc = f"runner on {runners[0]}"
 
-                 # I need to pick a template and then format it correctly.
                  template = self.rng.choice(GAME_CONTEXT['narrative_strings']['batter_intro_runners'])
-
-                 # Hack: Check if template starts with "Runner on" or contains "with {runners_str}" where it expects full desc.
 
                  val_to_use = runner_desc
                  if "Runner on {runners_str}" in template:
                       val_to_use = base_desc
 
                  lines.append(f"\n{template.format(batter_name=batter_name, runners_str=val_to_use, outs_str=outs_str)}")
+
+            # Handedness matchup
+            if self.verbose and self.rng.random() < 0.3:
+                 # Check matchup
+                 bat_side = matchup['batSide']['code'] # L or R or S
+                 pitch_hand = matchup['pitchHand']['code'] # L or R
+
+                 # If switch, we need to know which side they are batting from.
+                 # Usually switch hitters bat opposite to pitcher.
+                 if bat_side == 'S':
+                     bat_side = 'R' if pitch_hand == 'L' else 'L'
+
+                 b_text = "Righty" if bat_side == 'R' else "Lefty"
+                 p_text = "righty" if pitch_hand == 'R' else "lefty"
+
+                 # "Righty against righty."
+                 matchup_str = f"{b_text} against {p_text}."
+                 # Or use template if available, but simple construction works
+                 matchup_template = self.rng.choice(GAME_CONTEXT['narrative_strings'].get('batter_matchup_handedness', []))
+                 if matchup_template:
+                     # Filter for correct one
+                     # This is brittle if templates change. Let's just use constructed string for now or map it.
+                     pass
+
+                 # Let's map it simply
+                 if bat_side == 'R' and pitch_hand == 'R': lines.append("  Righty against righty.")
+                 elif bat_side == 'R' and pitch_hand == 'L': lines.append("  Righty against the lefty.")
+                 elif bat_side == 'L' and pitch_hand == 'R': lines.append("  Lefty against the righty.")
+                 elif bat_side == 'L' and pitch_hand == 'L': lines.append("  Lefty against the lefty.")
 
             if self.verbose:
                  if 'postOnSecond' in matchup or 'postOnThird' in matchup:
@@ -330,10 +334,10 @@ class NarrativeRenderer(GameRenderer):
                              pbp_line = self.rng.choice(GAME_CONTEXT['narrative_strings']['bunt_foul']).strip().rstrip('.')
                         else:
                              phrase = self.rng.choice(GAME_CONTEXT['pitch_locations']['foul'])
-                             if "foul" in phrase.lower():
-                                 pbp_line = f"{phrase} on a {pitch_type}"
+                             if "foul" in phrase.lower() or "spoils" in phrase.lower() or "fights" in phrase.lower() or "jams" in phrase.lower():
+                                 pbp_line = f"{phrase}"
                              else:
-                                 pbp_line = f"Foul, {phrase} on a {pitch_type}"
+                                 pbp_line = f"Foul, {phrase}"
                     elif code == 'C':
                          pbp_line = f"{pitch_type}, {self.rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])}"
                     elif code == 'S':
@@ -452,12 +456,15 @@ class NarrativeRenderer(GameRenderer):
 
             lines.append(f" | Outs: {self.outs_tracker} | Bases: {bases_str} | Score: {self.home_team['name']}: {result['homeScore']}, {self.away_team['name']}: {result['awayScore']}\n")
 
+            self.current_score = (result['awayScore'], result['homeScore'])
+
         lines.append("=" * 20 + " GAME OVER " + "=" * 20)
         final_home = self.gameday_data['liveData']['linescore']['teams']['home']['runs']
         final_away = self.gameday_data['liveData']['linescore']['teams']['away']['runs']
         lines.append(f"\nFinal Score: {self.home_team['name']} {final_home} - {self.away_team['name']} {final_away}")
         winner = self.home_team['name'] if final_home > final_away else self.away_team['name']
         lines.append(f"\n{winner} win!")
+        lines.append(f"\nFor the victorious {winner}: {max(final_home, final_away)} runs.") # Simplified, don't have hits/errors counts easily without calc
 
         return "\n".join(lines)
 
