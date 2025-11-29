@@ -147,12 +147,30 @@ class NarrativeRenderer(GameRenderer):
         elif fielder_pos:
             direction = GAME_CONTEXT['hit_directions'].get(fielder_pos, "")
 
+        # Create a direction noun (e.g., "left field" instead of "to left field")
+        direction_noun = direction
+        if direction == "up the middle":
+            direction_noun = "center field"
+        elif direction == "through the right side":
+            direction_noun = "right field"
+        elif direction == "through the left side":
+            direction_noun = "left field"
+        elif direction == "fair":
+            direction_noun = "the outfield"
+        elif direction.startswith("to "):
+            direction_noun = direction[3:]
+        elif direction.startswith("into shallow "):
+             direction_noun = direction[13:]
+        elif direction.startswith("into "):
+             direction_noun = direction[5:]
+
         orig_pitch_type = pitch_details.get('type', 'pitch')
         simple_pitch_type = self._simplify_pitch_type(orig_pitch_type)
 
         context = {
             'batter_name': batter_name,
             'direction': direction,
+            'direction_noun': direction_noun,
             'pitch_type': simple_pitch_type,
             'pitch_velo': pitch_details.get('velo', 'N/A'),
             'fielder_name': fielder_name or "the fielder"

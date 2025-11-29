@@ -19,7 +19,8 @@ GAME_CONTEXT = {
             "spikes before the plate", "misses high and wide", "misses low and inside",
             "misses low", "misses outside", "runs high", "runs inside",
             "misses just a bit outside", "down and in",
-            "misses low and outside"
+            "misses low and outside",
+            "misses upstairs"
         ],
         "foul": [
             "fights it off", "jams him inside", "gets a piece of it",
@@ -31,7 +32,8 @@ GAME_CONTEXT = {
             "hammered foul and into the stands", "chopped foul on the first base line",
             "flied foul and out of play",
             "dribbled foul on the first base line",
-            "knuckles foul and lands into the stands"
+            "knuckles foul and lands into the stands",
+            "chopped foul down the first base line"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -64,7 +66,8 @@ GAME_CONTEXT = {
                 "Lined into the gap for a base hit.",
                 "That one falls into the gap for a base hit.",
                 "A sharp line drive {direction}, and that's a base hit.",
-                "Ripped {direction} for a single."
+                "Ripped {direction} for a single.",
+                "Lined into shallow {direction_noun}. That one drops in."
             ],
             "bloop": [
                 "Blooped {direction}. That one drops in for a hit.",
@@ -80,14 +83,16 @@ GAME_CONTEXT = {
             "default": [
                 "Lined {direction}. That one drops in.",
                 "Lined {direction}. That one drops in.",
-                "Base hit {direction}."
+                "Base hit {direction}.",
+                "Lined into shallow {direction_noun}, and that one will drop in for a base hit."
             ]
         },
         "Double": {
             "default": [
                  "Lined {direction}! That one is fair and that one will get all the way to the wall.",
                  "Hammered {direction}! That one will drop in for a hit and roll all the way to the wall.",
-                 "That's going to be a stand-up double for {batter_name}."
+                 "That's going to be a stand-up double for {batter_name}.",
+                 "Hammered to {direction_noun}! That one will drop in for a hit and roll all the way to the wall."
             ]
         },
         "Home Run": {
@@ -112,7 +117,8 @@ GAME_CONTEXT = {
                 "Sent on the ground {direction}. {fielder_name} up with it, over to first.",
                 "Chopped {direction}. {fielder_name} charges and throws.",
                 "Tapped down the line. {fielder_name} steps on the bag.",
-                "Bouncer {direction}. {fielder_name} gloves it and fires to first."
+                "Bouncer {direction}. {fielder_name} gloves it and fires to first.",
+                "Grounder {direction}. {fielder_name} backhands it and fires to first."
             ]
         },
         "Flyout": {
@@ -132,14 +138,19 @@ GAME_CONTEXT = {
                 "{fielder_name} tracks it down {direction}.",
                 "Hit well {direction}, but {fielder_name} is there.",
                 "Sent deep {direction}, but {fielder_name} has plenty of room.",
-                "Fly ball, {direction}. {fielder_name} is there."
+                "Fly ball, {direction}. {fielder_name} is there.",
+                "{fielder_name} racing in... and he makes the catch.",
+                "{fielder_name} will have room... and he makes the catch.",
+                "{fielder_name} drifting back... and he makes the catch."
             ]
         },
         "Pop Out": {
              "default": [
                  "Popped up, {direction}. {fielder_name} is after it and he makes the catch.",
                  "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch.",
-                 "Pop fly, {direction}. {fielder_name} drifting back... and he makes the catch."
+                 "Pop fly, {direction}. {fielder_name} drifting back... and he makes the catch.",
+                 "{fielder_name} calling for it... and he makes the squeeze.",
+                 "{fielder_name} drifting back... and he makes the catch."
              ]
         },
         "Lineout": {
@@ -155,7 +166,8 @@ GAME_CONTEXT = {
                  "He takes an awkward hack at a {pitch_type} in the dirt.",
                  "Swing and a miss on a high {pitch_type}.",
                  "He chases a {pitch_type} out of the zone for strike three.",
-                 "Way out in front of that {pitch_type}."
+                 "Way out in front of that {pitch_type}.",
+                 "He takes a wild hack at a {pitch_type}."
              ],
              "looking": [
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
@@ -463,7 +475,8 @@ GAME_CONTEXT = {
     "radio_strings": {
         "station_intro": [
              "The Pacific Coast Baseball Network presents Baseball.",
-             "You're listening to the Pacific Coast Baseball Network."
+             "You're listening to the Pacific Coast Baseball Network.",
+             "The Pacific Coast Baseball Network presents Sleep Baseball."
         ],
         "welcome_intro": [
              "Good evening, friends. We're glad to have you back with us.",
