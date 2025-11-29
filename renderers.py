@@ -113,10 +113,9 @@ class NarrativeRenderer(GameRenderer):
                 specific_templates = outcome_templates.get('default', [])
 
         # Decide whether to use a specific full-sentence template or build one
-        # If specific templates exist, use them 40% of the time for variety, unless it's a special case?
-        # Let's use them if available.
+        # If specific templates exist, use them more often (80%) as they are generally higher quality/more natural.
         template = None
-        if specific_templates and self.rng.random() < 0.5:
+        if specific_templates and self.rng.random() < 0.8:
             template = self.rng.choice(specific_templates)
 
         direction = ""
