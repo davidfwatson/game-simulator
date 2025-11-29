@@ -416,9 +416,15 @@ class NarrativeRenderer(GameRenderer):
                              else:
                                  pbp_line = f"Foul, {phrase}"
                     elif code == 'C':
-                         pbp_line = f"{pitch_type}, {self.rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])}"
+                         if event['count']['strikes'] == 2:
+                             pbp_line = f"{pitch_type}, {self.rng.choice(GAME_CONTEXT['narrative_strings']['strike_called_three'])}"
+                         else:
+                             pbp_line = f"{pitch_type}, {self.rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])}"
                     elif code == 'S':
-                         pbp_line = f"{pitch_type}, {self._get_narrative_string('strike_swinging')}"
+                         if event['count']['strikes'] == 2:
+                             pbp_line = f"{pitch_type}, {self.rng.choice(GAME_CONTEXT['narrative_strings']['strike_swinging_three'])}"
+                         else:
+                             pbp_line = f"{pitch_type}, {self._get_narrative_string('strike_swinging')}"
                     elif code == 'B':
                          pbp_line = f"{pitch_type} {self.rng.choice(GAME_CONTEXT['pitch_locations']['ball'])}"
 
@@ -464,40 +470,37 @@ class NarrativeRenderer(GameRenderer):
             if outcome == "Strikeout":
                 k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
 
-                # Try narrative templates first
-                specific_templates = []
-                if 'narrative_templates' in GAME_CONTEXT:
-                    outcome_templates = GAME_CONTEXT['narrative_templates'].get(outcome, {})
-                    specific_templates = outcome_templates.get(k_type, [])
-
-                template = None
-                if specific_templates and self.rng.random() < 0.5:
-                     template = self.rng.choice(specific_templates)
-
-                outcome_text = ""
-                if template:
-                     pitch_details = {'type': play_events[-1]['details'].get('type', {}).get('description', 'pitch')}
-                     context = {
-                        'batter_name': batter_name,
-                        'pitch_type': pitch_details['type']
-                     }
-                     outcome_text = template.format(**context)
-                else:
-                    verb = self.rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
-                    outcome_text = f"{batter_name} {verb}"
-
                 if last_pitch_context:
-                    # Check if outcome text is a full sentence starting with batter name
-                    if outcome_text.startswith(batter_name):
-                         lines.append(f"{last_pitch_context}, and {outcome_text}.")
-                    else:
-                         if k_type == 'swinging':
-                             simple_verb = self.rng.choice(["strikes out", "is set down swinging", "goes down swinging"])
-                             lines.append(f"{last_pitch_context}, and {batter_name} {simple_verb}.")
-                         else: # looking
-                             simple_verb = self.rng.choice(["strikes out looking", "is caught looking", "is rung up"])
-                             lines.append(f"{last_pitch_context}, and {batter_name} {simple_verb}.")
+                     # Combined with final pitch context. Use simplified verbs to avoid redundancy.
+                     if k_type == 'swinging':
+                         simple_verb = self.rng.choice(["strikes out", "is set down swinging", "goes down swinging", "is out"])
+                         lines.append(f"{last_pitch_context}, and {batter_name} {simple_verb}.")
+                     else: # looking
+                         simple_verb = self.rng.choice(["strikes out looking", "is caught looking", "is rung up", "is out looking"])
+                         lines.append(f"{last_pitch_context}, and {batter_name} {simple_verb}.")
                 else:
+                    # Try narrative templates first
+                    specific_templates = []
+                    if 'narrative_templates' in GAME_CONTEXT:
+                        outcome_templates = GAME_CONTEXT['narrative_templates'].get(outcome, {})
+                        specific_templates = outcome_templates.get(k_type, [])
+
+                    template = None
+                    if specific_templates and self.rng.random() < 0.5:
+                         template = self.rng.choice(specific_templates)
+
+                    outcome_text = ""
+                    if template:
+                         pitch_details = {'type': play_events[-1]['details'].get('type', {}).get('description', 'pitch')}
+                         context = {
+                            'batter_name': batter_name,
+                            'pitch_type': pitch_details['type']
+                         }
+                         outcome_text = template.format(**context)
+                    else:
+                        verb = self.rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
+                        outcome_text = f"{batter_name} {verb}"
+
                     lines.append(f"  {outcome_text}.")
 
             elif outcome == "Walk":

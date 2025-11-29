@@ -147,9 +147,17 @@ GAME_CONTEXT = {
             "taken for a called strike", "paints the corner for a strike", "catches the black",
             "called a strike on the inside corner"
         ],
+        "strike_called_three": [
+            "called strike three", "caught looking at strike three", "strike three called",
+            "in there for strike three"
+        ],
         "strike_swinging": [
             "swung on and missed", "cut on and missed", "a big swing and a miss",
             "he hacks at it and misses", "comes up empty"
+        ],
+        "strike_swinging_three": [
+            "swung on and missed for strike three", "struck him out swinging",
+            "swings through it for strike three"
         ],
         "mound_visit": [
             "will stroll out to the mound to have a chat with",
@@ -232,11 +240,11 @@ GAME_CONTEXT = {
              "And {batter_name} will step in with {outs_str} and the bases empty."
         ],
         "batter_intro_runners": [
-             "And {batter_name} steps in with {runners_str} with {outs_str}.",
+             "And {batter_name} steps in with {runners_str}, {outs_str}.",
              "{batter_name} comes to the plate. {runners_str} and {outs_str}.",
              "And that will bring up {batter_name} with {runners_str}.",
              "Runner on {runners_str}, {outs_str}, for {batter_name}.",
-             "And {batter_name} will step in with {runners_str} with {outs_str}."
+             "And {batter_name} will step in with {runners_str} and {outs_str}."
         ],
         "batter_matchup_handedness": [
             "Righty against righty.",
