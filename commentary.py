@@ -75,7 +75,8 @@ GAME_CONTEXT = {
                 "Lined into shallow {direction_noun}. That one drops in.",
                 "Lined sharply into {direction_noun}.",
                 "Line drive, {direction_noun}.",
-                "Lined into shallow {direction_noun}, and that one will drop in."
+                "Lined into shallow {direction_noun}, and that one will drop in.",
+                "Lined into shallow {direction_noun}. That one drops in."
             ],
             "bloop": [
                 "Blooped {direction}. That one drops in for a hit.",
@@ -96,7 +97,8 @@ GAME_CONTEXT = {
                 "Lined {direction}. That one drops in.",
                 "Base hit {direction}.",
                 "Lined into shallow {direction_noun}, and that one will drop in.",
-                "Line drive, {direction_noun}."
+                "Line drive, {direction_noun}.",
+                "That one drops in."
             ]
         },
         "Double": {
@@ -156,7 +158,8 @@ GAME_CONTEXT = {
                 "Fly ball, {direction_noun}. {fielder_name} is camped under it, and he makes the catch {out_context_str}.",
                 "Fly ball, {direction_noun}. {fielder_name} will have room... and he makes the catch {out_context_str}.",
                 "Hit in the air to {direction_noun}. {fielder_name} is after it and he makes the catch {out_context_str}.",
-                "Fly ball, deep {direction_noun}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}."
+                "Fly ball, deep {direction_noun}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
+                "{fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}."
             ]
         },
         "Pop Out": {
@@ -359,7 +362,8 @@ GAME_CONTEXT = {
             "{batter_name} steps in to lead things off.",
             "And {batter_name} will step in at the top of the {team_name} order.",
             "And {batter_name} will lead off the inning.",
-            "Leading off, {batter_name}."
+            "Leading off, {batter_name}.",
+            "Leading off, {position}, {batter_name}."
         ],
         "batter_intro_empty": [
              "And {batter_name} will step in with {outs_str} and nobody on.",
@@ -367,7 +371,8 @@ GAME_CONTEXT = {
              "And that will bring {batter_name} to the plate with {outs_str} and the bases empty.",
              "{batter_name} steps to the plate. {outs_str}, bases empty.",
              "And {batter_name} is due up. {outs_str}, bases empty.",
-             "And {batter_name} will step in with {outs_str} and the bases empty."
+             "And {batter_name} will step in with {outs_str} and the bases empty.",
+             "And {batter_name} will step in with {outs_str} and nobody on."
         ],
         "batter_intro_runners": [
              "And {batter_name} steps in with {runners_str}, {outs_str}.",
@@ -375,7 +380,24 @@ GAME_CONTEXT = {
              "And that will bring up {batter_name} with {runners_str}.",
              "Runner on {runners_str}, {outs_str}, for {batter_name}.",
              "And {batter_name} will step in with {runners_str} and {outs_str}.",
-             "Runner on {runners_str}, {outs_str}, for {batter_name}."
+             "Runner on {runners_str}, {outs_str}, for {batter_name}.",
+             "And {batter_name} steps in. {runners_str}, {outs_str}."
+        ],
+        "pitch_connectors": [
+            "And the {count_str}...",
+            "The {count_str} pitch...",
+            "And the {count_str} pitch...",
+            "And the {count_str}...",
+            "Here comes the {count_str}...",
+            "{count_str_cap}, pitch on the way...",
+            "And {pitcher_name_last}'s pitch...",
+            "And {pitcher_name_last} delivers...",
+            "And the pitch..."
+        ],
+        "pitch_connectors_stretch": [
+             "And {pitcher_name_last} from the stretch...",
+             "And the pitch...",
+             "And the {count_str} pitch..."
         ],
         "batter_matchup_handedness": [
             "Righty against righty.",

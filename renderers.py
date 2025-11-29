@@ -127,25 +127,31 @@ class NarrativeRenderer(GameRenderer):
             return f"{b_word}-{s_word}"
         return f"{b_word} {connector} {s_word}"
 
-    def _get_pitch_connector(self, balls, strikes):
+    def _get_pitch_connector(self, balls, strikes, pitcher_name=None, runners_on_base=False):
         if balls == 3 and strikes == 2:
             return self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['payoff_pitch'])
 
+        count_str = self._get_spoken_count(balls, strikes, connector="-")
+        pitcher_last = pitcher_name.split()[-1] if pitcher_name else "The pitcher"
+
         if balls == 0 and strikes == 0:
+            if runners_on_base and self.rng_flow.random() < 0.4:
+                 return self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('pitch_connectors_stretch', ["And the pitch..."])).format(pitcher_name_last=pitcher_last, count_str=count_str)
             return self.rng_flow.choice(["And the pitch...", "And the pitch..."])
 
-        count_str = self._get_spoken_count(balls, strikes, connector="-")
+        context = {
+            'count_str': count_str,
+            'count_str_cap': count_str.capitalize(),
+            'pitcher_name_last': pitcher_last
+        }
 
-        # Added variety to pitch connectors
-        templates = [
-            f"And the {count_str}...",
-            f"The {count_str} pitch...",
-            f"And the {count_str} pitch...",
-            f"And the {count_str}...",
-            f"Here comes the {count_str}...",
-            f"{count_str.capitalize()}, pitch on the way..."
-        ]
-        return self.rng_flow.choice(templates)
+        templates = GAME_CONTEXT['narrative_strings'].get('pitch_connectors', [
+            "And the {count_str}...",
+            "The {count_str} pitch...",
+            "And the {count_str} pitch..."
+        ])
+
+        return self.rng_flow.choice(templates).format(**context)
 
     def _simplify_pitch_type(self, pitch_type: str, capitalize=False) -> str:
         simplified = pitch_type
@@ -476,7 +482,20 @@ class NarrativeRenderer(GameRenderer):
                      intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_leadoff'])
                 else:
                      intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_empty'])
-                play_text_blocks.append(intro_template.format(batter_name=batter_name, team_name=team_name, outs_str=outs_str))
+
+                # Fetch position from gameData players if available
+                batter_pos = "batter"
+                batter_id = f"ID{matchup['batter']['id']}"
+                if 'players' in self.gameday_data['gameData'] and batter_id in self.gameday_data['gameData']['players']:
+                    batter_pos = self.gameday_data['gameData']['players'][batter_id]['primaryPosition']['name']
+
+                play_text_blocks.append(intro_template.format(
+                    batter_name=batter_name,
+                    team_name=team_name,
+                    outs_str=outs_str,
+                    position=batter_pos.lower(),
+                    pitcher_name=self.current_pitcher_info[pitching_team_key]['name']
+                ))
             else:
                  if len(runners) == 3:
                      base_desc = "the bases loaded"
@@ -528,7 +547,15 @@ class NarrativeRenderer(GameRenderer):
 
                 if self.verbose:
                     pbp_line = ""
-                    connector = self._get_pitch_connector(event['count']['balls'], event['count']['strikes'])
+                    pitching_team = 'home' if about['isTopInning'] else 'away'
+                    current_pitcher_name = self.current_pitcher_info[pitching_team]['name']
+                    runners_on = any(self.runners_on_base.values())
+                    connector = self._get_pitch_connector(
+                        event['count']['balls'],
+                        event['count']['strikes'],
+                        pitcher_name=current_pitcher_name,
+                        runners_on_base=runners_on
+                    )
 
                     if code == 'X': x_event_connector = connector
 
