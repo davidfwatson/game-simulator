@@ -59,7 +59,19 @@ GAME_CONTEXT = {
         "SS": "to short",
         "LF": "to left",
         "CF": "to center",
-        "RF": "to right"
+        "RF": "to right",
+        "MI": "up the middle",
+        "RS": "through the right side",
+        "LS": "through the left side",
+        "SL": "into shallow left",
+        "SC": "into shallow center",
+        "SR": "into shallow right",
+        "RC": "into the right-center gap",
+        "LC": "into the left-center gap",
+        "DL": "down the line",
+        "DLF": "to deep left field",
+        "DCF": "to deep center field",
+        "DRF": "to deep right field"
     },
     "narrative_templates": {
         "Single": {
@@ -406,8 +418,8 @@ GAME_CONTEXT = {
             "Lefty against the righty."
         ],
         "play_by_play_templates": [
-            "{batter_name} {verb} {direction} on a {pitch_velo} mph {pitch_type}.",
-            "{batter_name} {verb} {direction} on the {pitch_type}.",
+            "He {verb} {direction} on a {pitch_velo} mph {pitch_type}.",
+            "He {verb} {direction} on the {pitch_type}.",
             "{verb_capitalized} {direction}.",
             "{verb_capitalized} {direction} on a {pitch_type}.",
             "{pitch_type}, {verb} {direction}."
@@ -415,8 +427,8 @@ GAME_CONTEXT = {
         "play_by_play_noun_templates": [
              "{noun_capitalized} {direction}.",
              "{noun_capitalized} {direction} off a {pitch_type}.",
-             "{batter_name} hits {noun} {direction}.",
-             "{batter_name} gets {noun} {direction}."
+             "He hits {noun} {direction}.",
+             "He gets {noun} {direction}."
         ],
         "bunt_foul": [
             "  He squares to bunt, but fouls it off.",

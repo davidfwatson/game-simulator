@@ -173,6 +173,7 @@ class HitData(TypedDict):
     launchSpeed: float
     launchAngle: float
     trajectory: str
+    location: NotRequired[str]
 
 
 class PlayEvent(TypedDict):

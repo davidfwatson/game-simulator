@@ -1204,7 +1204,8 @@
           "hitData": {
             "launchSpeed": 79.0,
             "launchAngle": 3.3,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "SS"
           }
         }
       ],
@@ -1443,7 +1444,8 @@
           "hitData": {
             "launchSpeed": 107.3,
             "launchAngle": 27.8,
-            "trajectory": "fly_ball"
+            "trajectory": "fly_ball",
+            "location": "DL"
           }
         }
       ],
@@ -1772,7 +1774,8 @@
           "hitData": {
             "launchSpeed": 99.9,
             "launchAngle": -4.6,
-            "trajectory": "ground_ball"
+            "trajectory": "ground_ball",
+            "location": "MI"
           }
         }
       ],
@@ -1994,7 +1997,8 @@
           "hitData": {
             "launchSpeed": 100.5,
             "launchAngle": 39.9,
-            "trajectory": "fly_ball"
+            "trajectory": "fly_ball",
+            "location": "SC"
           }
         }
       ],
@@ -2117,7 +2121,7 @@
       },
       "playEvents": [
         {
-          "index": 29,
+          "index": 31,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -2132,75 +2136,31 @@
             }
           },
           "pitchData": {
-            "startSpeed": 90.2,
+            "startSpeed": 92.9,
             "breaks": {
-              "spinRate": 2069
-            }
-          }
-        },
-        {
-          "index": 30,
-          "count": {
-            "balls": 1,
-            "strikes": 0
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 91.2,
-            "breaks": {
-              "spinRate": 1993
-            }
-          }
-        },
-        {
-          "index": 31,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 86.8,
-            "breaks": {
-              "spinRate": 2578
+              "spinRate": 2103
             }
           }
         },
         {
           "index": 32,
           "count": {
-            "balls": 2,
-            "strikes": 1
+            "balls": 1,
+            "strikes": 0
           },
           "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
             "type": {
-              "code": "CU",
-              "description": "Curveball"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 79.2,
+            "startSpeed": 91.6,
             "breaks": {
-              "spinRate": 2871
+              "spinRate": 1954
             }
           }
         },
@@ -2208,7 +2168,7 @@
           "index": 33,
           "count": {
             "balls": 2,
-            "strikes": 2
+            "strikes": 0
           },
           "details": {
             "code": "F",
@@ -2230,7 +2190,7 @@
           "index": 34,
           "count": {
             "balls": 2,
-            "strikes": 2
+            "strikes": 1
           },
           "details": {
             "code": "F",
@@ -2316,7 +2276,7 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 7
+            "playIndex": 5
           },
           "credits": []
         },
@@ -2342,7 +2302,7 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 7
+            "playIndex": 5
           },
           "credits": []
         },
@@ -2368,17 +2328,17 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 7
+            "playIndex": 5
           },
           "credits": []
         }
       ]
     }
   ],
-  "playCount": 78,
+  "playCount": 74,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 78,
+    "totalPlaysInGame": 74,
     "snapshotPlayCount": 6
   }
 }
