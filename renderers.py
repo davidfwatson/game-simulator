@@ -262,7 +262,7 @@ class NarrativeRenderer(GameRenderer):
         prefix = f"{connector} " if connector else ""
 
         # Force narrative templates for certain outcomes to improve flow
-        force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout"]
+        force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Single", "Double", "Triple"]
 
         final_description = ""
         if template or (specific_templates and (force_narrative or self.rng.random() < 0.8)):

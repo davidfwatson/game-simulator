@@ -71,35 +71,54 @@ GAME_CONTEXT = {
                 "Lined into the gap for a base hit.",
                 "That one falls into the gap for a base hit.",
                 "A sharp line drive {direction}, and that's a base hit.",
-                "Ripped {direction} for a single.",
+                "Ripped {direction} for a base hit.",
                 "Lined into shallow {direction_noun}. That one drops in.",
                 "Lined sharply into {direction_noun}.",
-                "Lined down the {direction_noun} line! That one is fair..."
+                "Lined down the {direction_noun} line! That one is fair...",
+                "Line drive, {direction_noun}! That one drops in.",
+                "Lined to {direction_noun}. That one drops in."
             ],
             "bloop": [
                 "Blooped {direction}. That one drops in for a hit.",
                 "Blooped {direction}. That one drops in for a hit.",
                 "A little flare {direction} falls in.",
-                "Blooped into shallow {direction_noun}. That one drops in for a hit."
+                "Blooped into shallow {direction_noun}. That one drops in for a hit.",
+                "Bloop hit, {direction_noun}.",
+                "Pop fly... and it drops in {direction}."
             ],
             "grounder": [
                 "Hard grounder up the middle... and that one will squeeze through for a base hit.",
                 "Hard grounder {direction}... and that one will squeeze through for a base hit.",
                 "Finds a hole through the infield.",
-                "Seeing-eye single {direction}."
+                "Seeing-eye single {direction}.",
+                "Ground ball {direction}... and it's through for a base hit.",
+                "Ground ball up the middle... and it's through."
             ],
             "default": [
                 "Lined {direction}. That one drops in.",
                 "Lined {direction}. That one drops in.",
                 "Base hit {direction}.",
-                "Lined into shallow {direction_noun}, and that one will drop in for a base hit."
+                "Lined into shallow {direction_noun}, and that one will drop in for a base hit.",
+                "A base hit {direction}.",
+                "Sharp grounder {direction} and it gets through."
             ]
         },
         "Double": {
             "default": [
                  "Lined {direction}! That one is fair and that one will get all the way to the wall.",
                  "Hammered {direction}! That one will drop in for a hit and roll all the way to the wall.",
-                 "Hammered to {direction_noun}! That one will drop in for a hit and roll all the way to the wall."
+                 "Hammered to {direction_noun}! That one will drop in for a hit and roll all the way to the wall.",
+                 "Lined down the {direction_noun} line! That one is fair and that one will get all the way to the wall.",
+                 "Ripped into the gap! That will be extra bases.",
+                 "A drive into the gap! That one is down for a hit."
+            ]
+        },
+        "Triple": {
+            "default": [
+                "Hit deep into the gap! {fielder_name} gives chase but he won't get there.",
+                "Lined into the gap! That one rolls all the way to the wall.",
+                "A drive deep into the gap! That one is down.",
+                "Hammered into the gap!"
             ]
         },
         "Home Run": {
