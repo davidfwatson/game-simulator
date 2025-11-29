@@ -219,68 +219,74 @@ GAME_CONTEXT = {
         ],
         "leadoff_single": [
             "{batter_name} is aboard with a leadoff single{inning_context}.",
+            "{batter_name} is aboard with a leadoff single{inning_context}.",
+            "{batter_name} is aboard with a leadoff single.",
             "The inning starts with a base hit from {batter_name}.",
-            "A leadoff single for {batter_name} to get things going{inning_context}.",
             "{batter_name} starts the inning with a base hit."
         ],
         "leadoff_double": [
             "{batter_name} starts the inning with a stand-up double{inning_context}.",
-            "A leadoff double for {batter_name}, and the offense is in business.",
-            "{batter_name} is aboard with a leadoff double{inning_context}."
+            "{batter_name} is aboard with a leadoff double{inning_context}.",
+            "{batter_name} is aboard with a leadoff double.",
+            "{batter_name} leads off the inning with a double."
         ],
         "leadoff_triple": [
             "{batter_name} starts the inning with a triple{inning_context}!",
-            "A leadoff triple for {batter_name}!",
-            "{batter_name} is aboard with a leadoff triple{inning_context}."
+            "{batter_name} is aboard with a leadoff triple{inning_context}.",
+            "{batter_name} leads off the inning with a triple."
         ],
         "leadoff_walk": [
             "{batter_name} draws a leadoff walk{inning_context}.",
+            "{batter_name} is aboard with a leadoff walk.",
             "The inning begins with a walk to {batter_name}."
         ],
         "single_nobody_out": [
             "{batter_name} is aboard with a single.",
-            "{batter_name} reaches with a base hit.",
-            "And {batter_name} is aboard with a single{inning_context}."
+            "{batter_name} is aboard with a single{inning_context}.",
+            "{batter_name} reaches with a base hit."
         ],
         "double_nobody_out": [
             "{batter_name} is aboard with a double.",
+            "{batter_name} is aboard with a double{inning_context}.",
             "And {batter_name} stands at second with a double{inning_context}."
         ],
         "triple_nobody_out": [
             "{batter_name} is aboard with a triple.",
+            "{batter_name} is aboard with a triple{inning_context}.",
             "And {batter_name} stands at third with a triple{inning_context}."
         ],
         "single_one_out": [
             "{batter_name} is aboard with a one-out single{inning_context}.",
-            "A one-out base hit for {batter_name}.",
+            "{batter_name} is aboard with a one-out single{inning_context}.",
             "{batter_name} singles with one away."
         ],
         "double_one_out": [
             "{batter_name} is aboard with a one-out double{inning_context}.",
-            "A one-out double for {batter_name}.",
+            "{batter_name} is aboard with a one-out double{inning_context}.",
             "{batter_name} doubles with one away."
         ],
         "triple_one_out": [
             "{batter_name} is aboard with a one-out triple{inning_context}.",
-            "A one-out triple for {batter_name}.",
+            "{batter_name} is aboard with a one-out triple{inning_context}.",
             "{batter_name} triples with one away."
         ],
         "two_out_single": [
-            "{batter_name} keeps the inning alive with a two-out single{inning_context}.",
-            "A two-out base hit for {batter_name}.",
-            "{batter_name} is aboard with a two-out single{inning_context}."
+            "{batter_name} is aboard with a two-out single{inning_context}.",
+            "{batter_name} is aboard with a two-out single{inning_context}.",
+            "{batter_name} keeps the inning alive with a two-out single{inning_context}."
         ],
         "two_out_double": [
-            "A two-out double for {batter_name}!",
-            "{batter_name} rips one into the gap for a two-out double.",
-            "{batter_name} is aboard with a two-out double{inning_context}."
+            "{batter_name} is aboard with a two-out double{inning_context}.",
+            "{batter_name} is aboard with a two-out double{inning_context}.",
+            "A two-out double for {batter_name}!"
         ],
         "two_out_triple": [
-            "A two-out triple for {batter_name}!",
-            "{batter_name} is aboard with a two-out triple{inning_context}."
+            "{batter_name} is aboard with a two-out triple{inning_context}.",
+            "A two-out triple for {batter_name}!"
         ],
         "two_out_walk": [
-            "{batter_name} extends the inning with a two-out walk."
+            "{batter_name} extends the inning with a two-out walk.",
+            "{batter_name} draws a two-out walk."
         ],
         "runners_in_scoring_position": [
             "The tying run is on second.",
@@ -342,17 +348,17 @@ GAME_CONTEXT = {
             "And {batter_name} leads off for the {team_name}.",
             "And leading off for the {team_name}, {batter_name}.",
             "{batter_name} steps in to lead things off.",
+            "And {batter_name} will step in to lead things off.",
             "And {batter_name} will step in at the top of the {team_name} order.",
-            "And {batter_name} will lead off the inning.",
             "Leading off, {batter_name}."
         ],
         "batter_intro_empty": [
              "And {batter_name} will step in with {outs_str} and nobody on.",
+             "And {batter_name} will step in with {outs_str} and the bases empty.",
              "And {batter_name} steps in with {outs_str} and the bases empty.",
              "And that will bring {batter_name} to the plate with {outs_str} and the bases empty.",
              "{batter_name} steps to the plate. {outs_str}, bases empty.",
-             "And {batter_name} is due up. {outs_str}, bases empty.",
-             "And {batter_name} will step in with {outs_str} and the bases empty."
+             "And {batter_name} is due up. {outs_str}, bases empty."
         ],
         "batter_intro_runners": [
              "And {batter_name} steps in with {runners_str}, {outs_str}.",
