@@ -624,7 +624,19 @@ class NarrativeRenderer(GameRenderer):
                     else:
                          score_lines.append(self._get_radio_string('score_update_lead', ctx))
 
-                play_text_blocks.append(" ".join(score_lines))
+                score_update_text = " ".join(score_lines)
+                if play_text_blocks:
+                    last_block = play_text_blocks[-1]
+                    if last_block.endswith('...'):
+                        play_text_blocks[-1] = last_block.rstrip('.') + ", " + score_update_text + "."
+                    elif last_block.endswith('.'):
+                        play_text_blocks[-1] = last_block[:-1] + ", " + score_update_text + "."
+                    elif last_block.endswith('!'):
+                        play_text_blocks[-1] = last_block + " " + score_update_text[0].upper() + score_update_text[1:] + "."
+                    else:
+                        play_text_blocks[-1] = last_block + " " + score_update_text + "."
+                else:
+                    play_text_blocks.append(score_update_text[0].upper() + score_update_text[1:] + ".")
 
             self.current_score = (new_away, new_home)
             self.outs_tracker = play['count']['outs']
