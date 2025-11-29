@@ -74,25 +74,29 @@ GAME_CONTEXT = {
                 "Ripped {direction} for a single.",
                 "Lined into shallow {direction_noun}. That one drops in.",
                 "Lined sharply into {direction_noun}.",
-                "Lined down the {direction_noun} line! That one is fair..."
+                "Line drive, {direction_noun}.",
+                "Lined into shallow {direction_noun}, and that one will drop in."
             ],
             "bloop": [
                 "Blooped {direction}. That one drops in for a hit.",
                 "Blooped {direction}. That one drops in for a hit.",
                 "A little flare {direction} falls in.",
+                "Blooped into shallow {direction_noun}. That one drops in for a hit.",
                 "Blooped into shallow {direction_noun}. That one drops in for a hit."
             ],
             "grounder": [
                 "Hard grounder up the middle... and that one will squeeze through for a base hit.",
                 "Hard grounder {direction}... and that one will squeeze through for a base hit.",
                 "Finds a hole through the infield.",
-                "Seeing-eye single {direction}."
+                "Seeing-eye single {direction}.",
+                "Hard grounder through the hole."
             ],
             "default": [
                 "Lined {direction}. That one drops in.",
                 "Lined {direction}. That one drops in.",
                 "Base hit {direction}.",
-                "Lined into shallow {direction_noun}, and that one will drop in for a base hit."
+                "Lined into shallow {direction_noun}, and that one will drop in.",
+                "Line drive, {direction_noun}."
             ]
         },
         "Double": {
@@ -124,7 +128,11 @@ GAME_CONTEXT = {
                 "Chopped {direction}. {fielder_name} charges and throws to first {out_context_str}.",
                 "Tapped down the line. {fielder_name} steps on the bag {out_context_str}.",
                 "Bouncer {direction}. {fielder_name} gloves it and fires to first {out_context_str}.",
-                "Grounder {direction}. {fielder_name} backhands it and fires to first {out_context_str}."
+                "Grounder {direction}. {fielder_name} backhands it and fires to first {out_context_str}.",
+                "Roller to {direction_noun}. {fielder_name} scoops it up and fires to first {out_context_str}.",
+                "Hard grounder to {direction_noun}. {fielder_name} is up with it and he fires to first {out_context_str}.",
+                "Dribbler to {direction_noun}. Backhanded pick by {fielder_name} and he fires to first in time {out_context_str}.",
+                "Hard grounder up the middle... {fielder_name} is there and he fires to first {out_context_str}."
             ]
         },
         "Flyout": {
@@ -143,7 +151,12 @@ GAME_CONTEXT = {
                 "A high fly ball {direction}, but {fielder_name} has a bead on it. He makes the catch {out_context_str}.",
                 "{fielder_name} tracks it down {direction} {out_context_str}.",
                 "Hit well {direction}, but {fielder_name} is there to make the catch {out_context_str}.",
-                "Sent deep {direction}, but {fielder_name} has plenty of room. He makes the catch {out_context_str}."
+                "Sent deep {direction}, but {fielder_name} has plenty of room. He makes the catch {out_context_str}.",
+                "Fly ball, {direction_noun}. {fielder_name} drifting in... and he makes the catch {out_context_str}.",
+                "Fly ball, {direction_noun}. {fielder_name} is camped under it, and he makes the catch {out_context_str}.",
+                "Fly ball, {direction_noun}. {fielder_name} will have room... and he makes the catch {out_context_str}.",
+                "Hit in the air to {direction_noun}. {fielder_name} is after it and he makes the catch {out_context_str}.",
+                "Fly ball, deep {direction_noun}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}."
             ]
         },
         "Pop Out": {
@@ -152,7 +165,9 @@ GAME_CONTEXT = {
                  "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch {out_context_str}.",
                  "Pop fly, {direction}. {fielder_name} drifting back... and he makes the catch {out_context_str}.",
                  "{fielder_name} calling for it... and he makes the squeeze {out_context_str}.",
-                 "{fielder_name} drifting back... and he makes the catch {out_context_str}."
+                 "{fielder_name} drifting back... and he makes the catch {out_context_str}.",
+                 "Popped up, {direction_noun}. {fielder_name} is calling for it... he makes the catch {out_context_str}.",
+                 "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch {out_context_str}."
              ]
         },
         "Lineout": {
