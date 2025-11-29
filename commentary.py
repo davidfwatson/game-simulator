@@ -22,7 +22,8 @@ GAME_CONTEXT = {
             "misses just a bit outside", "down and in",
             "misses low and outside",
             "misses upstairs",
-            "misses low and inside", "misses down and in"
+            "misses low and inside", "misses down and in",
+            "misses high"
         ],
         "foul": [
             "fights it off", "jams him inside", "gets a piece of it",
@@ -36,7 +37,8 @@ GAME_CONTEXT = {
             "dribbled foul on the first base line",
             "knuckles foul and lands into the stands",
             "chopped foul down the first base line",
-            "fouled back and out of play"
+            "fouled back and out of play",
+            "hammered foul and into the stands"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -128,7 +130,10 @@ GAME_CONTEXT = {
                 "Grounder {direction}. {fielder_name} backhands it and fires to first.",
                 "Roller {direction}. {fielder_name} scoops it up and fires to first...",
                 "Bouncer {direction}. {fielder_name} gloves it and fires to first...",
-                "Dribbler {direction}. Backhanded pick by {fielder_name} and he fires to first..."
+                "Dribbler {direction}. Backhanded pick by {fielder_name} and he fires to first...",
+                "Roller {direction}. {fielder_name} scoops it up and fires to first to retire {batter_name} for out number {result_outs_word}.",
+                "{fielder_name} has it and he fires to first to retire {batter_name} for out number {result_outs_word}.",
+                "{fielder_name} is there and he fires to first to retire {batter_name} for out number {result_outs_word}."
             ]
         },
         "Flyout": {
@@ -155,7 +160,10 @@ GAME_CONTEXT = {
                 "Fly ball, straightaway {direction}. {fielder_name} drifting in... and he makes the catch.",
                 "{fielder_name} is after it and he makes the catch.",
                 "{fielder_name} is camped under it... and he makes the catch.",
-                "{fielder_name} is racing after it... and he makes the catch on the warning track."
+                "{fielder_name} is racing after it... and he makes the catch on the warning track.",
+                "{fielder_name} drifting in... and he makes the catch for out number {result_outs_word}.",
+                "{fielder_name} is camped under it... and he makes the catch for out number {result_outs_word}.",
+                "Routine play for {fielder_name}, and he makes the catch for out number {result_outs_word}."
             ]
         },
         "Pop Out": {
@@ -328,7 +336,8 @@ GAME_CONTEXT = {
              "{batter_name} comes to the plate. {runners_str} and {outs_str}.",
              "And that will bring up {batter_name} with {runners_str}.",
              "Runner on {runners_str}, {outs_str}, for {batter_name}.",
-             "And {batter_name} will step in with {runners_str} and {outs_str}."
+             "And {batter_name} will step in with {runners_str} and {outs_str}.",
+             "Runner on {runners_str}, {outs_str}, for {batter_name}."
         ],
         "batter_matchup_handedness": [
             "Righty against righty.",
