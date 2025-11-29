@@ -13,8 +13,7 @@ class GameRenderer:
     def render(self) -> str:
         raise NotImplementedError
 
-    def _get_batted_ball_verb(self, outcome, ev, la):
-        outcome_data = GAME_CONTEXT['statcast_verbs'].get(outcome, {})
+    def _get_batted_ball_category(self, outcome, ev, la):
         cat = 'default'
         if ev is not None and la is not None:
             if outcome == "Single":
@@ -33,11 +32,24 @@ class GameRenderer:
             elif outcome == "Flyout":
                 if (ev < 95 and la > 50) or (ev < 90 and la > 40): cat = 'popup'
                 elif ev > 100 and la > 30: cat = 'deep'
+        return cat
 
-        use_verb = self.rng.random() < 0.6
-        phrase_type = 'verbs' if use_verb else 'nouns'
+    def _get_batted_ball_verb(self, outcome, cat, force_type=None):
+        outcome_data = GAME_CONTEXT['statcast_verbs'].get(outcome, {})
+
+        if force_type:
+            phrase_type = force_type
+        else:
+            use_verb = self.rng.random() < 0.6
+            phrase_type = 'verbs' if use_verb else 'nouns'
+
         phrases = outcome_data.get(phrase_type, outcome_data.get('verbs', {}))
-        phrase = self.rng.choice(phrases.get(cat, phrases.get('default', ["describes"])))
+        phrase_list = phrases.get(cat, phrases.get('default', ["describes"]))
+        # Fallback if specific category empty
+        if not phrase_list:
+             phrase_list = phrases.get('default', ["describes"])
+
+        phrase = self.rng.choice(phrase_list)
         return phrase, phrase_type
 
     def _get_hit_location(self, hit_type, ev, la):
@@ -85,33 +97,66 @@ class NarrativeRenderer(GameRenderer):
         ]
         return self.rng.choice(templates)
 
-    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None):
+    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
-        phrase, phrase_type = self._get_batted_ball_verb(outcome, ev, la)
-        direction = ""
 
+        cat = self._get_batted_ball_category(outcome, ev, la)
+
+        # 1. Try to find a full-sentence narrative template for this outcome/category
+        # Structure: GAME_CONTEXT['narrative_templates'][outcome][cat] -> list of templates
+        specific_templates = []
+        if 'narrative_templates' in GAME_CONTEXT:
+            outcome_templates = GAME_CONTEXT['narrative_templates'].get(outcome, {})
+            specific_templates = outcome_templates.get(cat, [])
+            if not specific_templates:
+                specific_templates = outcome_templates.get('default', [])
+
+        # Decide whether to use a specific full-sentence template or build one
+        # If specific templates exist, use them 40% of the time for variety, unless it's a special case?
+        # Let's use them if available.
+        template = None
+        if specific_templates and self.rng.random() < 0.5:
+            template = self.rng.choice(specific_templates)
+
+        direction = ""
         if outcome in ["Single", "Double", "Triple", "Home Run"]:
             direction = self._get_hit_location(outcome, ev, la)
         elif fielder_pos:
             direction = GAME_CONTEXT['hit_directions'].get(fielder_pos, "")
 
-        if batter_name and direction:
-            if phrase_type == 'verbs':
-                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-                return "  " + template.format(
-                    batter_name=batter_name, verb=phrase, direction=direction,
-                    pitch_type=pitch_details.get('type', 'pitch'),
-                    pitch_velo=pitch_details.get('velo', 'N/A')
-                )
-            else:
-                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
-                return "  " + template.format(
-                    batter_name=batter_name, noun=phrase, direction=direction,
-                    pitch_type=pitch_details.get('type', 'pitch'),
-                    pitch_velo=pitch_details.get('velo', 'N/A')
-                )
-        return f"  {phrase.capitalize()} {direction}."
+        context = {
+            'batter_name': batter_name,
+            'direction': direction,
+            'pitch_type': pitch_details.get('type', 'pitch'),
+            'pitch_velo': pitch_details.get('velo', 'N/A'),
+            'fielder_name': fielder_name or "the fielder"
+        }
+
+        if template:
+             # These templates are usually self-contained or use simple vars
+             # If they need a verb/noun, we might need to fetch one, but the design
+             # of these specific templates (e.g. "Lined {direction}") is to avoid generic verbs.
+             return "  " + template.format(**context)
+
+        # 2. Fallback to generic construction
+
+        # Decide verb vs noun first? Or let _get_batted_ball_verb decide?
+        # We need to pick the template first to know if we need a verb or noun,
+        # OR pick the phrase type first and then the template.
+        # Let's pick phrase type first.
+        phrase, phrase_type = self._get_batted_ball_verb(outcome, cat)
+
+        if phrase_type == 'verbs':
+            template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
+            context['verb'] = phrase
+            context['verb_capitalized'] = phrase.capitalize()
+        else:
+            template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
+            context['noun'] = phrase
+            context['noun_capitalized'] = phrase.capitalize()
+
+        return "  " + template.format(**context)
 
     def _format_bases_string(self, bases_dict):
         if self.use_bracketed_ui:
@@ -284,7 +329,11 @@ class NarrativeRenderer(GameRenderer):
                         if "Bunt" in desc:
                              pbp_line = self.rng.choice(GAME_CONTEXT['narrative_strings']['bunt_foul']).strip().rstrip('.')
                         else:
-                             pbp_line = f"Foul, {self.rng.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_type}"
+                             phrase = self.rng.choice(GAME_CONTEXT['pitch_locations']['foul'])
+                             if "foul" in phrase.lower():
+                                 pbp_line = f"{phrase} on a {pitch_type}"
+                             else:
+                                 pbp_line = f"Foul, {phrase} on a {pitch_type}"
                     elif code == 'C':
                          pbp_line = f"{pitch_type}, {self.rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])}"
                     elif code == 'S':
@@ -352,14 +401,39 @@ class NarrativeRenderer(GameRenderer):
                     pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed')}
 
                     fielder_pos = None
-                    for r in play['runners']:
-                         for c in r.get('credits', []):
-                             if c['credit'] == 'putout':
-                                 fielder_pos = c['position']['abbreviation']
-                                 break
-                         if fielder_pos: break
+                    fielder_name = None
 
-                    desc = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos)
+                    # Find credits for the out
+                    out_credits = []
+                    for r in play['runners']:
+                        if r['movement']['isOut']:
+                            out_credits = r.get('credits', [])
+                            break
+
+                    # Fallback to any credits if no out (e.g. single)
+                    if not out_credits:
+                        for r in play['runners']:
+                             if r.get('credits'):
+                                 out_credits = r.get('credits')
+                                 break
+
+                    # Identify primary fielder (assist preferred for groundouts, otherwise putout)
+                    primary_credit = None
+                    for c in out_credits:
+                        if c['credit'] == 'assist':
+                            primary_credit = c
+                            break
+                    if not primary_credit:
+                        for c in out_credits:
+                            if c['credit'] == 'putout':
+                                primary_credit = c
+                                break
+
+                    if primary_credit:
+                        fielder_pos = primary_credit['position']['abbreviation']
+                        fielder_name = primary_credit['player']['fullName'].split()[-1]
+
+                    desc = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name)
                     lines.append(desc)
 
             # Update outs
@@ -494,7 +568,8 @@ class StatcastRenderer(GameRenderer):
                 # description['k_type']
                 result_line = f"{batter_name} {self.rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])}."
             elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
-                phrase, _ = self._get_batted_ball_verb(outcome, pitch_info.get('ev'), pitch_info.get('la'))
+                cat = self._get_batted_ball_category(outcome, pitch_info.get('ev'), pitch_info.get('la'))
+                phrase, _ = self._get_batted_ball_verb(outcome, cat)
                 direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la'))
                 # Template
                 tmpl = self._format_statcast_template(outcome, {'batter_name': batter_name, 'verb': phrase, 'runs': rbis, 'direction': direction})

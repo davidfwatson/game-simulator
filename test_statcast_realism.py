@@ -40,27 +40,32 @@ class TestStatcastRealism(unittest.TestCase):
 
         # Test Case 1: High EV, low LA single -> "liner"
         # EV > 100, LA < 10
-        phrase, _ = renderer._get_batted_ball_verb("Single", 105.0, 5.0)
+        cat = renderer._get_batted_ball_category("Single", 105.0, 5.0)
+        phrase, _ = renderer._get_batted_ball_verb("Single", cat)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['liner'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['liner'])
 
         # Test Case 2: Low EV, medium LA single -> "bloop"
         # EV < 90, 10 < LA < 30
-        phrase, _ = renderer._get_batted_ball_verb("Single", 85.0, 20.0)
+        cat = renderer._get_batted_ball_category("Single", 85.0, 20.0)
+        phrase, _ = renderer._get_batted_ball_verb("Single", cat)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['bloop'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['bloop'])
 
         # Test Case 3: High EV, negative LA single -> "grounder"
         # EV > 95, LA < 0
-        phrase, _ = renderer._get_batted_ball_verb("Single", 98.0, -5.0)
+        cat = renderer._get_batted_ball_category("Single", 98.0, -5.0)
+        phrase, _ = renderer._get_batted_ball_verb("Single", cat)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Single']['verbs']['grounder'] + GAME_CONTEXT['statcast_verbs']['Single']['nouns']['grounder'])
 
         # Test Case 4: High EV flyout -> "deep"
         # EV > 100, LA > 30
-        phrase, _ = renderer._get_batted_ball_verb("Flyout", 102.0, 35.0)
+        cat = renderer._get_batted_ball_category("Flyout", 102.0, 35.0)
+        phrase, _ = renderer._get_batted_ball_verb("Flyout", cat)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Flyout']['verbs']['deep'] + GAME_CONTEXT['statcast_verbs']['Flyout']['nouns'].get('deep',[]))
 
         # Test Case 5: Low EV flyout -> "popup"
         # EV < 90, LA > 40
-        phrase, _ = renderer._get_batted_ball_verb("Pop Out", 88.0, 45.0)
+        cat = renderer._get_batted_ball_category("Pop Out", 88.0, 45.0)
+        phrase, _ = renderer._get_batted_ball_verb("Pop Out", cat)
         self.assertIn(phrase, GAME_CONTEXT['statcast_verbs']['Pop Out']['verbs']['default'] + GAME_CONTEXT['statcast_verbs']['Pop Out']['nouns']['default'])
 
     def test_strikeout_looking_consistency(self):
