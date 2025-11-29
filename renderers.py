@@ -171,6 +171,44 @@ class NarrativeRenderer(GameRenderer):
             if bases_dict.get('1B'): runners.append(f"1B: {bases_dict['1B']}")
             return ", ".join(runners) if runners else "Bases empty"
 
+    def _render_steal_event(self, event):
+        details = event['details']
+        outcome = details['eventType'] # 'stolen_base' or 'caught_stealing'
+        desc = details['description'] # e.g. "Stolen Base 2B"
+
+        base_target = "second"
+        base_key = "2B"
+        prev_base = "1B"
+        if "3B" in desc:
+            base_target = "third"
+            base_key = "3B"
+            prev_base = "2B"
+        elif "2B" in desc:
+            pass # default
+        elif "Home" in desc:
+            base_target = "home"
+            base_key = "score"
+            prev_base = "3B"
+
+        runner_name = self.runners_on_base.get(prev_base)
+        if not runner_name:
+             runner_name = "The runner"
+
+        if outcome == 'stolen_base':
+            self.runners_on_base[base_key] = runner_name
+            self.runners_on_base[prev_base] = None
+
+            throw_desc = self.rng.choice(GAME_CONTEXT['narrative_strings']['throw_outcome_safe']).format(base=base_target)
+            return f"  {throw_desc} {runner_name} steals {base_target}."
+
+        elif outcome == 'caught_stealing':
+            self.runners_on_base[prev_base] = None # Out
+
+            throw_desc = self.rng.choice(GAME_CONTEXT['narrative_strings']['throw_outcome_out']).format(base=base_target)
+            return f"  {throw_desc} {runner_name} is caught stealing {base_target}."
+
+        return f"  {desc}."
+
     def render(self) -> str:
         lines = []
 
@@ -322,10 +360,21 @@ class NarrativeRenderer(GameRenderer):
             play_events = play['playEvents']
             last_pitch_context = None
 
-            for event in play_events:
+            i = 0
+            while i < len(play_events):
+                event = play_events[i]
                 details = event['details']
                 desc = details['description']
                 code = details.get('code', '')
+
+                # Check ahead for steal
+                is_steal_attempt = False
+                steal_event = None
+                if i + 1 < len(play_events):
+                    next_event = play_events[i+1]
+                    if next_event['details'].get('eventType') in ['stolen_base', 'caught_stealing']:
+                        is_steal_attempt = True
+                        steal_event = next_event
 
                 # Pitch info
                 pitch_type = details.get('type', {}).get('description', 'pitch')
@@ -333,6 +382,9 @@ class NarrativeRenderer(GameRenderer):
                 if self.verbose:
                     pbp_line = ""
                     connector = self._get_pitch_connector(event['count']['balls'], event['count']['strikes'])
+
+                    if is_steal_attempt:
+                        connector = f"{connector.rstrip('...')} {self.rng.choice(GAME_CONTEXT['narrative_strings']['runner_goes'])}"
 
                     if code == 'F':
                         if "Bunt" in desc:
@@ -364,15 +416,29 @@ class NarrativeRenderer(GameRenderer):
                             pbp_line += f" {b}-{s}."
 
                         # Check if this is the final pitch of a Strikeout or Walk
+                        # Note: If steal happened, next event is steal, not final pitch event unless steal IS final event (unlikely)
+                        # Actually, if Caught Stealing makes 3 outs, then this pitch is final.
+                        # But loop will handle steal output, then break loop or continue.
+
                         is_final_event = (event == play_events[-1])
+                        # If steal follows, this is NOT final event of list.
+
                         if is_final_event and outcome in ["Strikeout", "Walk"]:
                             last_pitch_context = pbp_line.rstrip(".") # Store without trailing period
+                            # Don't append line yet, will combine with outcome.
+                            i += 1
                             continue
 
                         lines.append(pbp_line)
+
+                        if is_steal_attempt:
+                            lines.append(self._render_steal_event(steal_event))
+                            i += 1 # Skip steal event in next iteration
                 else:
                     if code != 'X':
                          lines.append(f"  {desc}.")
+
+                i += 1
 
             # Outcome Logic
             if outcome == "Strikeout":
