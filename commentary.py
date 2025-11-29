@@ -29,7 +29,8 @@ GAME_CONTEXT = {
             "chopped on the first base line",
             "tapped down the first base line", "flied out of play",
             "hammered foul and into the stands", "chopped foul on the first base line",
-            "flied foul and out of play"
+            "flied foul and out of play",
+            "dribbled foul on the first base line"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -58,7 +59,9 @@ GAME_CONTEXT = {
                 "Lined {direction}. That one drops in.",
                 "Lined into shallow {direction}, and that one will drop in for a base hit.",
                 "Lined into shallow {direction}. That one drops in.",
-                "Lined sharply into {direction}. That one will drop in for a base hit."
+                "Lined sharply into {direction}. That one will drop in for a base hit.",
+                "Lined into the gap for a base hit.",
+                "That one falls into the gap for a base hit."
             ],
             "bloop": [
                 "Blooped {direction}. That one drops in for a hit.",
@@ -67,7 +70,23 @@ GAME_CONTEXT = {
             "grounder": [
                 "Hard grounder up the middle... and that one will squeeze through for a base hit.",
                 "Hard grounder {direction}... and that one will squeeze through for a base hit."
+            ],
+            "default": [
+                "Lined into shallow {direction}. That one drops in."
             ]
+        },
+        "Double": {
+            "default": [
+                 "Lined {direction}! That one is fair and that one will get all the way to the wall.",
+                 "Hammered {direction}! That one will drop in for a hit and roll all the way to the wall.",
+                 "That's going to be a stand-up double for {batter_name}."
+            ]
+        },
+        "Home Run": {
+             "default": [
+                 "Hit in the air {direction}! {fielder_name} racing after it... he will not get there, as that one sails over the wall for a long, lazy home run!",
+                 "Sails over the wall for a long, lazy home run!"
+             ]
         },
         "Groundout": {
             "default": [
@@ -76,7 +95,9 @@ GAME_CONTEXT = {
                 "Dribbler {direction}. Backhanded pick by {fielder_name} and he fires to first.",
                 "Grounder {direction}. {fielder_name} has it and tosses to first.",
                 "Chopper {direction}. {fielder_name} is there and he fires to first.",
-                "Hard grounder {direction}. {fielder_name} is up with it and tosses to first."
+                "Hard grounder {direction}. {fielder_name} is up with it and tosses to first.",
+                "Low roller {direction}.",
+                "Chopper {direction}. {fielder_name}'s got it and he fires to first."
             ]
         },
         "Flyout": {
@@ -87,18 +108,36 @@ GAME_CONTEXT = {
                 "Line drive {direction}. That one is into the glove of {fielder_name}.",
                 "Fly ball, {direction}. {fielder_name} is camped under it, and he makes the catch.",
                 "Popped up, {direction}. {fielder_name} is calling for it... and he makes the catch.",
-                "High fly ball, {direction}... and that one is caught by {fielder_name}."
+                "High fly ball, {direction}... and that one is caught by {fielder_name}.",
+                "{fielder_name} drifting in... and he makes the catch.",
+                "{fielder_name} is camped under it, and he makes the catch.",
+                "{fielder_name} calling for it... and he makes the catch.",
+                "Routine play for {fielder_name}, and he makes the catch."
             ]
+        },
+        "Pop Out": {
+             "default": [
+                 "Popped up, {direction}. {fielder_name} is after it and he makes the catch.",
+                 "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch."
+             ]
+        },
+        "Lineout": {
+             "default": [
+                 "Hard liner right into the glove of {fielder_name}."
+             ]
         },
         "Strikeout": {
              "swinging": [
                  "Swing and a miss on a {pitch_type}, and {batter_name} strikes out.",
                  "He takes an awkward hack at a {pitch_type}, and {batter_name} strikes out.",
-                 "Swing and a miss on a low {pitch_type}."
+                 "Swing and a miss on a low {pitch_type}.",
+                 "He takes an awkward hack at a {pitch_type} in the dirt.",
+                 "Swing and a miss on a high {pitch_type}."
              ],
              "looking": [
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
-                 "He looks at a {pitch_type} for a called strike three."
+                 "He looks at a {pitch_type} for a called strike three.",
+                 "{pitch_type} called strike three."
              ]
         }
     },
