@@ -459,5 +459,51 @@ GAME_CONTEXT = {
         "Forceout": [ "{batter_name} {verb}." ],
         "Sac Fly": [ "{batter_name} {verb} {direction}." ],
         "Sac Bunt": [ "{batter_name} {verb}." ]
+    },
+    "radio_strings": {
+        "station_intro": [
+             "The Northwoods Baseball Radio Network presents Baseball.",
+             "You're listening to the Northwoods Baseball Radio Network."
+        ],
+        "welcome_intro": [
+             "Good evening, friends. We're glad to have you back with us.",
+             "Hello and welcome to another beautiful night for baseball."
+        ],
+        "inning_break_outro": [
+             "We'll be back with the {next_inning_ordinal} inning in a moment here on the Northwoods Baseball Radio Network.",
+             "We'll be back with more baseball here on the Northwoods Baseball Radio Network.",
+             "We'll be back after these messages."
+        ],
+        "inning_break_intro": [
+             "And welcome back with us here from {venue}.",
+             "And we're back.",
+             "Welcome back."
+        ],
+        "score_update_lead": [
+             "and the {team_name} take a {score_lead} lead",
+             "and the {team_name} move out in front, {score_lead}",
+             "and the {team_name} are on top, {score_lead}"
+        ],
+        "score_update_tied": [
+             "and this game is now tied at {score}",
+             "and we are all knotted up at {score}"
+        ],
+        "score_update_extend": [
+             "and the {team_name} extend their lead to {score_lead}",
+             "making it {score_lead} in favor of {team_name}"
+        ],
+        "inning_summary_score": [
+            "And with {inning_ordinal} in the books, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
+            "It's {away_team_name} {score_away}, {home_team_name} {score_home} after {inning_ordinal}.",
+            "{away_team_name} {score_away}, {home_team_name} {score_home}."
+        ],
+        "inning_summary_remains": [
+            "And it remains {leading_team} {score_lead}, {trailing_team} {score_trail}.",
+            "Score remains {leading_team} {score_lead}, {trailing_team} {score_trail}."
+        ],
+        "inning_summary_tied": [
+            "And we are tied at {score} apiece.",
+            "Score is tied at {score}."
+        ]
     }
 }
