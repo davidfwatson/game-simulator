@@ -368,8 +368,27 @@ class NarrativeRenderer(GameRenderer):
             # Outcome Logic
             if outcome == "Strikeout":
                 k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
-                verb = self.rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
-                lines.append(f"  {batter_name} {verb}.")
+
+                # Try narrative templates first
+                specific_templates = []
+                if 'narrative_templates' in GAME_CONTEXT:
+                    outcome_templates = GAME_CONTEXT['narrative_templates'].get(outcome, {})
+                    specific_templates = outcome_templates.get(k_type, [])
+
+                template = None
+                if specific_templates and self.rng.random() < 0.5:
+                     template = self.rng.choice(specific_templates)
+
+                if template:
+                     pitch_details = {'type': play_events[-1]['details'].get('type', {}).get('description', 'pitch')}
+                     context = {
+                        'batter_name': batter_name,
+                        'pitch_type': pitch_details['type']
+                     }
+                     lines.append("  " + template.format(**context))
+                else:
+                    verb = self.rng.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
+                    lines.append(f"  {batter_name} {verb}.")
             elif outcome == "Walk":
                 lines.append(f"  {batter_name} draws a walk.")
             elif outcome in ["HBP", "Hit By Pitch"]:
