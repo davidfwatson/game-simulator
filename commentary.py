@@ -25,7 +25,8 @@ GAME_CONTEXT = {
             "back and out of play", "back and into the stands",
             "hammered into the stands", "dribbled along the first base line",
             "chopped on the first base line",
-            "tapped down the first base line", "flied out of play"
+            "tapped down the first base line", "flied out of play",
+            "hammered foul and into the stands", "chopped foul on the first base line"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -47,6 +48,45 @@ GAME_CONTEXT = {
         "LF": "to left",
         "CF": "to center",
         "RF": "to right"
+    },
+    "narrative_templates": {
+        "Single": {
+            "liner": [
+                "Lined {direction}. That one drops in.",
+                "Lined into shallow {direction}, and that one will drop in for a base hit."
+            ],
+            "bloop": [
+                "Blooped {direction}. That one drops in for a hit."
+            ],
+            "grounder": [
+                "Hard grounder up the middle... and that one will squeeze through for a base hit."
+            ]
+        },
+        "Groundout": {
+            "default": [
+                "Roller {direction}. {fielder_name} scoops it up and fires to first.",
+                "Slow roller {direction}. That will move the runner up.",
+                "Dribbler {direction}. Backhanded pick by {fielder_name} and he fires to first.",
+                "Grounder {direction}. {fielder_name} has it and tosses to first."
+            ]
+        },
+        "Flyout": {
+            "default": [
+                "Hit in the air {direction}. {fielder_name} is after it and he makes the catch.",
+                "Fly ball, {direction}. {fielder_name} drifting in... and he makes the catch.",
+                "Fly ball, deep {direction}. {fielder_name} is racing after it... and he makes the catch on the warning track.",
+                "Line drive {direction}. That one is into the glove of {fielder_name}."
+            ]
+        },
+        "Strikeout": {
+             "swinging": [
+                 "Swing and a miss on a {pitch_type}, and {batter_name} strikes out.",
+                 "He takes an awkward hack at a {pitch_type}, and {batter_name} strikes out."
+             ],
+             "looking": [
+                 "{batter_name} strikes out on a {pitch_type} to end the at-bat."
+             ]
+        }
     },
     "narrative_strings": {
         "strike_called": [
@@ -168,15 +208,15 @@ GAME_CONTEXT = {
         },
         "Single": {
             "verbs": {
-                "default": ["singles", "lines a clean single", "gets one to drop in"],
-                "bloop": ["singles on a bloop", "bloops one in"],
-                "liner": ["lines a single", "a sharp single", "lined sharply into the outfield"],
-                "grounder": ["grounds a single through the infield"]
+                "default": ["singles", "lines a clean single", "gets one to drop in", "pokes a single", "rips a base hit"],
+                "bloop": ["singles on a bloop", "bloops one in", "flares one", "muscles one", "fists one"],
+                "liner": ["lines a single", "a sharp single", "lined sharply into the outfield", "lines one", "loops one", "drives a base hit"],
+                "grounder": ["grounds a single through the infield", "squeezes a grounder through"]
             },
             "nouns": {
                 "default": ["a base hit", "a base knock"],
                 "bloop": ["a bloop single", "a little flare"],
-                "liner": ["a rope to the outfield"],
+                "liner": ["a rope to the outfield", "a sharp single that drops in"],
                 "grounder": ["a ground ball single", "a hard grounder that gets through"]
             }
         },
@@ -204,20 +244,20 @@ GAME_CONTEXT = {
         },
         "Home Run": {
             "verbs": {
-                "default": ["homers", "sails one over the wall"],
+                "default": ["homers", "sails one over the wall", "goes yard", "deposits one in the seats"],
                 "screamer": ["homers on a liner", "a laser over the fence"],
                 "moonshot": ["homers on a fly ball", "hits one a mile in the air", "a high, majestic blast"]
             },
             "nouns": {
                 "default": ["a long home run", "a solo shot"],
                 "screamer": ["a line drive home run"],
-                "moonshot": ["a towering home run"]
+                "moonshot": ["a towering home run", "a long, lazy home run"]
             }
         },
         "Groundout": {
             "verbs": {
-                "default": ["grounds out"],
-                "soft": ["grounds out softly"],
+                "default": ["grounds out", "bounces one", "taps one"],
+                "soft": ["grounds out softly", "taps one", "dribbles one"],
                 "hard": ["grounds out sharply", "smokes one on the ground"]
             },
             "nouns": {
@@ -228,11 +268,11 @@ GAME_CONTEXT = {
         },
         "Flyout": {
             "verbs": {
-                "default": ["flies out"],
-                "deep": ["flies out deep", "drives him to the track, but he makes the catch"]
+                "default": ["flies out", "lifts a fly ball", "skies one"],
+                "deep": ["flies out deep", "drives him to the track, but he makes the catch", "racing after it... and he makes the catch", "drifting in... and he makes the catch"]
             },
             "nouns": {
-                "default": ["a routine fly ball", "a fly ball", "hit in the air", "a can of corn"],
+                "default": ["a routine fly ball", "a fly ball", "hit in the air", "a can of corn", "a high fly ball", "a lazy fly"],
                 "deep": ["a long fly ball", "a drive to the warning track"]
             }
         },
@@ -261,8 +301,8 @@ GAME_CONTEXT = {
             "nouns": { "default": ["a sacrifice fly"] }
         },
         "Strikeout": {
-            "swinging": ["strikes out swinging", "down on strikes", "goes down swinging", "a big cut and a miss for strike three"],
-            "looking": ["strikes out looking", "caught looking", "frozen on a pitch right down the middle", "watches strike three go by"]
+            "swinging": ["strikes out swinging", "down on strikes", "goes down swinging", "a big cut and a miss for strike three", "swings through it for strike three", "is set down swinging"],
+            "looking": ["strikes out looking", "caught looking", "frozen on a pitch right down the middle", "watches strike three go by", "knew it was a strike", "is rung up"]
         }
     },
     "statcast_templates": {

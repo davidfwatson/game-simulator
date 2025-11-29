@@ -47,8 +47,12 @@ class TestRealism(unittest.TestCase):
         """Test for abstract outcomes instead of specific scorer's notation."""
         # The new commentary is more abstract, so we look for descriptive verbs instead of just "Groundout."
         # This test now checks that fielder information is still present in the narrative.
-        out_lines = re.findall(r'\w+ (?:grounds out|flies out|pops out) to \w+', self.log)
-        self.assertGreater(len(out_lines), 0, "Outcomes lack specific fielder information.")
+        # Updated regex to match new phrasing variations (e.g. "Grounder to short", "Fly ball, to left", "into the glove of")
+        out_lines = re.findall(r'(?:grounds out|flies out|pops out|Grounder|Roller|Dribbler|Fly ball|Line drive|Lined|Pop) .*to \w+', self.log)
+        # Also check for fielder names/actions
+        action_lines = re.findall(r'(?:scoops it up|makes the catch|into the glove)', self.log)
+
+        self.assertGreater(len(out_lines) + len(action_lines), 0, "Outcomes lack specific fielder information.")
 
     def test_box_state_ui(self):
         """Test for the presence of the unrealistic '[1B]-[2B]-[3B]' base state UI."""
