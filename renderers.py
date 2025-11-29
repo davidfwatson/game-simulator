@@ -100,6 +100,17 @@ class NarrativeRenderer(GameRenderer):
         ]
         return self.rng.choice(templates)
 
+    def _simplify_pitch_type(self, pitch_type: str, capitalize=False) -> str:
+        simplified = pitch_type
+        if pitch_type.lower() == "four-seam fastball":
+            r = self.rng.random()
+            if r < 0.6: simplified = "fastball"
+            elif r < 0.7: simplified = "heater"
+
+        if capitalize:
+            return simplified.capitalize()
+        return simplified
+
     def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
@@ -127,10 +138,13 @@ class NarrativeRenderer(GameRenderer):
         elif fielder_pos:
             direction = GAME_CONTEXT['hit_directions'].get(fielder_pos, "")
 
+        orig_pitch_type = pitch_details.get('type', 'pitch')
+        simple_pitch_type = self._simplify_pitch_type(orig_pitch_type)
+
         context = {
             'batter_name': batter_name,
             'direction': direction,
-            'pitch_type': pitch_details.get('type', 'pitch'),
+            'pitch_type': simple_pitch_type,
             'pitch_velo': pitch_details.get('velo', 'N/A'),
             'fielder_name': fielder_name or "the fielder"
         }
@@ -417,7 +431,8 @@ class NarrativeRenderer(GameRenderer):
                         steal_event = next_event
 
                 # Pitch info
-                pitch_type = details.get('type', {}).get('description', 'pitch')
+                orig_pitch_type = details.get('type', {}).get('description', 'pitch')
+                pitch_type = self._simplify_pitch_type(orig_pitch_type, capitalize=True)
 
                 if self.verbose:
                     pbp_line = ""
@@ -516,7 +531,17 @@ class NarrativeRenderer(GameRenderer):
 
                     outcome_text = ""
                     if template:
-                         pitch_details = {'type': play_events[-1]['details'].get('type', {}).get('description', 'pitch')}
+                         orig_pitch_type = play_events[-1]['details'].get('type', {}).get('description', 'pitch')
+                         pitch_type = self._simplify_pitch_type(orig_pitch_type) # No cap here usually unless at start? Template usage usually mid sentence or own sentence.
+                         # Check template starts with {pitch_type}?
+                         # Most templates are like "{batter_name} strikes out on a {pitch_type}..."
+                         # Or "{pitch_type} called strike three." (Here cap needed).
+
+                         # Hacky check:
+                         if template.strip().startswith("{pitch_type}"):
+                             pitch_type = pitch_type.capitalize()
+
+                         pitch_details = {'type': pitch_type}
                          context = {
                             'batter_name': batter_name,
                             'pitch_type': pitch_details['type']

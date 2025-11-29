@@ -11,7 +11,7 @@ GAME_CONTEXT = {
             "a perfect strike", "in the zone", "freezes him on the inner edge",
             "snaps over the backdoor", "drops onto the knees",
             "called a strike", "in there for a called strike", "taken for a called strike",
-            "called a strike on the inside corner"
+            "called a strike on the inside corner", "called strike", "a strike"
         ],
         "ball": [
             "just misses outside", "high and tight", "in the dirt", "way outside",
@@ -30,7 +30,8 @@ GAME_CONTEXT = {
             "tapped down the first base line", "flied out of play",
             "hammered foul and into the stands", "chopped foul on the first base line",
             "flied foul and out of play",
-            "dribbled foul on the first base line"
+            "dribbled foul on the first base line",
+            "knuckles foul and lands into the stands"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -57,9 +58,9 @@ GAME_CONTEXT = {
         "Single": {
             "liner": [
                 "Lined {direction}. That one drops in.",
-                "Lined into shallow {direction}, and that one will drop in for a base hit.",
-                "Lined into shallow {direction}. That one drops in.",
-                "Lined sharply into {direction}. That one will drop in for a base hit.",
+                "Lined {direction}, and that one will drop in for a base hit.",
+                "Lined {direction}. That one drops in.",
+                "Lined sharply {direction}. That one will drop in for a base hit.",
                 "Lined into the gap for a base hit.",
                 "That one falls into the gap for a base hit.",
                 "A sharp line drive {direction}, and that's a base hit.",
@@ -67,7 +68,7 @@ GAME_CONTEXT = {
             ],
             "bloop": [
                 "Blooped {direction}. That one drops in for a hit.",
-                "Blooped into shallow {direction}. That one drops in for a hit.",
+                "Blooped {direction}. That one drops in for a hit.",
                 "A little flare {direction} falls in."
             ],
             "grounder": [
@@ -77,7 +78,9 @@ GAME_CONTEXT = {
                 "Seeing-eye single {direction}."
             ],
             "default": [
-                "Lined into shallow {direction}. That one drops in."
+                "Lined {direction}. That one drops in.",
+                "Lined {direction}. That one drops in.",
+                "Base hit {direction}."
             ]
         },
         "Double": {
@@ -90,7 +93,8 @@ GAME_CONTEXT = {
         "Home Run": {
              "default": [
                  "Hit in the air {direction}! {fielder_name} racing after it... he will not get there, as that one sails over the wall for a long, lazy home run!",
-                 "Sails over the wall for a long, lazy home run!"
+                 "Sails over the wall for a long, lazy home run!",
+                 "Hit in the air {direction}! {fielder_name} racing after it... he will not get there!"
              ]
         },
         "Groundout": {
@@ -106,7 +110,9 @@ GAME_CONTEXT = {
                 "Routine play for {fielder_name} and he flips to first.",
                 "Grounded to {fielder_name}, who fields it cleanly and throws to first.",
                 "Sent on the ground {direction}. {fielder_name} up with it, over to first.",
-                "Chopped {direction}. {fielder_name} charges and throws."
+                "Chopped {direction}. {fielder_name} charges and throws.",
+                "Tapped down the line. {fielder_name} steps on the bag.",
+                "Bouncer {direction}. {fielder_name} gloves it and fires to first."
             ]
         },
         "Flyout": {
@@ -125,13 +131,15 @@ GAME_CONTEXT = {
                 "A high fly ball {direction}, but {fielder_name} has a bead on it.",
                 "{fielder_name} tracks it down {direction}.",
                 "Hit well {direction}, but {fielder_name} is there.",
-                "Sent deep {direction}, but {fielder_name} has plenty of room."
+                "Sent deep {direction}, but {fielder_name} has plenty of room.",
+                "Fly ball, {direction}. {fielder_name} is there."
             ]
         },
         "Pop Out": {
              "default": [
                  "Popped up, {direction}. {fielder_name} is after it and he makes the catch.",
-                 "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch."
+                 "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch.",
+                 "Pop fly, {direction}. {fielder_name} drifting back... and he makes the catch."
              ]
         },
         "Lineout": {
@@ -162,7 +170,7 @@ GAME_CONTEXT = {
         "strike_called": [
             "called strike one", "called a strike", "in there for a called strike",
             "taken for a called strike", "paints the corner for a strike", "catches the black",
-            "called a strike on the inside corner"
+            "called a strike on the inside corner", "called strike", "a strike"
         ],
         "strike_called_three": [
             "called strike three", "caught looking at strike three", "strike three called",
@@ -270,7 +278,8 @@ GAME_CONTEXT = {
             "And leading off for the {team_name}, {batter_name}.",
             "{batter_name} steps in to lead things off.",
             "And {batter_name} will step in at the top of the {team_name} order.",
-            "And {batter_name} will lead off the inning."
+            "And {batter_name} will lead off the inning.",
+            "Leading off, {batter_name}."
         ],
         "batter_intro_empty": [
              "And {batter_name} will step in with {outs_str} and nobody on.",
