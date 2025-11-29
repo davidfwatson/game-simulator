@@ -133,6 +133,45 @@ class NarrativeRenderer(GameRenderer):
             return simplified.capitalize()
         return simplified
 
+    def _get_spoken_score_string(self, score_a, score_b):
+        nums = ["nothing", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+
+        def to_word(n):
+            if 0 <= n < len(nums): return nums[n]
+            return str(n)
+
+        # Determine lead
+        if score_a > score_b:
+            lead, trail = score_a, score_b
+        else:
+            lead, trail = score_b, score_a
+
+        lead_str = to_word(lead)
+        trail_str = to_word(trail)
+
+        # "one-nothing", "4-to-1", "two-to-one"
+        if trail == 0:
+            return f"{lead_str}-nothing"
+
+        # Use digit if > 9 ? Or > 3?
+        # The example used "4-to-1". Let's use digits if > 2 for now to match "4-to-1"
+        # but keep "one" and "two" as words?
+        # "one-nothing" -> 1-0.
+        # "two-to-one" -> 2-1.
+        # "4-to-1".
+
+        # Let's check logic:
+        # If either number > 2, use digits for both?
+        # 1-0: one-nothing
+        # 2-1: two-to-one
+        # 4-1: 4-to-1
+
+        use_digits = (lead > 2 or trail > 2)
+        if use_digits:
+            return f"{lead}-to-{trail}"
+
+        return f"{lead_str}-to-{trail_str}"
+
     def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
@@ -605,12 +644,23 @@ class NarrativeRenderer(GameRenderer):
             if new_away != old_away or new_home != old_home:
                 # Score changed
                 lead_team = self.away_team['name'] if new_away > new_home else self.home_team['name']
-                lead_score = f"{max(new_away, new_home)}-{min(new_away, new_home)}"
+
+                # Format score string
+                score_lead_str = self._get_spoken_score_string(new_away, new_home)
+
+                # Tied score string
+                score_tied_str = "0"
+                if new_away == new_home:
+                     nums = ["nothing", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+                     if new_away < len(nums) and new_away > 0: score_tied_str = nums[new_away]
+                     else: score_tied_str = str(new_away)
 
                 ctx = {
                     'team_name': lead_team,
-                    'score_lead': lead_score,
-                    'score': new_away
+                    'score_lead': score_lead_str,
+                    'score': score_tied_str,
+                    'inning': self._get_ordinal(inning),
+                    'half': half.lower()
                 }
 
                 score_lines = []
@@ -624,7 +674,19 @@ class NarrativeRenderer(GameRenderer):
                     else:
                          score_lines.append(self._get_radio_string('score_update_lead', ctx))
 
-                play_text_blocks.append(" ".join(score_lines))
+                score_update_text = " ".join(score_lines)
+                if play_text_blocks:
+                    last_block = play_text_blocks[-1]
+                    if last_block.endswith('...'):
+                        play_text_blocks[-1] = last_block.rstrip('.') + ", " + score_update_text + "."
+                    elif last_block.endswith('.'):
+                        play_text_blocks[-1] = last_block[:-1] + ", " + score_update_text + "."
+                    elif last_block.endswith('!'):
+                        play_text_blocks[-1] = last_block + " " + score_update_text[0].upper() + score_update_text[1:] + "."
+                    else:
+                        play_text_blocks[-1] = last_block + " " + score_update_text + "."
+                else:
+                    play_text_blocks.append(score_update_text[0].upper() + score_update_text[1:] + ".")
 
             self.current_score = (new_away, new_home)
             self.outs_tracker = play['count']['outs']
