@@ -97,7 +97,7 @@ class NarrativeRenderer(GameRenderer):
         ]
         return self.rng.choice(templates)
 
-    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None):
+    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
 
@@ -133,11 +133,14 @@ class NarrativeRenderer(GameRenderer):
             'fielder_name': fielder_name or "the fielder"
         }
 
+        # If a connector is provided (e.g. "And the 1-1..."), prepend it.
+        prefix = f"  {connector} " if connector else "  "
+
         if template:
              # These templates are usually self-contained or use simple vars
              # If they need a verb/noun, we might need to fetch one, but the design
              # of these specific templates (e.g. "Lined {direction}") is to avoid generic verbs.
-             return "  " + template.format(**context)
+             return prefix + template.format(**context)
 
         # 2. Fallback to generic construction
 
@@ -147,16 +150,28 @@ class NarrativeRenderer(GameRenderer):
         # Let's pick phrase type first.
         phrase, phrase_type = self._get_batted_ball_verb(outcome, cat)
 
-        if phrase_type == 'verbs':
-            template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-            context['verb'] = phrase
-            context['verb_capitalized'] = phrase.capitalize()
+        if connector:
+            # If we have a connector, prefer verb-first templates to match flow
+            if phrase_type == 'verbs':
+                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
+                context['verb'] = phrase
+                context['verb_capitalized'] = phrase.capitalize()
+            else:
+                # Noun templates
+                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
+                context['noun'] = phrase
+                context['noun_capitalized'] = phrase.capitalize()
         else:
-            template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
-            context['noun'] = phrase
-            context['noun_capitalized'] = phrase.capitalize()
+            if phrase_type == 'verbs':
+                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
+                context['verb'] = phrase
+                context['verb_capitalized'] = phrase.capitalize()
+            else:
+                template = self.rng.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
+                context['noun'] = phrase
+                context['noun_capitalized'] = phrase.capitalize()
 
-        return "  " + template.format(**context)
+        return prefix + template.format(**context)
 
     def _format_bases_string(self, bases_dict):
         if self.use_bracketed_ui:
@@ -361,6 +376,8 @@ class NarrativeRenderer(GameRenderer):
             last_pitch_context = None
 
             i = 0
+            x_event_connector = None
+
             while i < len(play_events):
                 event = play_events[i]
                 details = event['details']
@@ -382,6 +399,9 @@ class NarrativeRenderer(GameRenderer):
                 if self.verbose:
                     pbp_line = ""
                     connector = self._get_pitch_connector(event['count']['balls'], event['count']['strikes'])
+
+                    if code == 'X':
+                        x_event_connector = connector
 
                     if is_steal_attempt:
                         connector = f"{connector.rstrip('...')} {self.rng.choice(GAME_CONTEXT['narrative_strings']['runner_goes'])}"
@@ -550,7 +570,7 @@ class NarrativeRenderer(GameRenderer):
                         fielder_pos = primary_credit['position']['abbreviation']
                         fielder_name = primary_credit['player']['fullName'].split()[-1]
 
-                    desc = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name)
+                    desc = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector)
                     lines.append(desc)
 
             # Update outs
