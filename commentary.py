@@ -525,8 +525,8 @@ GAME_CONTEXT = {
         ],
         "score_update_lead": [
              "and the {team_name} take a {score_lead} lead",
-             "and the {team_name} move out in front, {score_lead}",
-             "and the {team_name} are on top, {score_lead}"
+             "and the {team_name} take a {score_lead} lead here in the {half} of the {inning}",
+             "and the {team_name} move out in front, {score_lead}"
         ],
         "score_update_tied": [
              "and this game is now tied at {score}",
@@ -534,7 +534,8 @@ GAME_CONTEXT = {
         ],
         "score_update_extend": [
              "and the {team_name} extend their lead to {score_lead}",
-             "making it {score_lead} in favor of {team_name}"
+             "and the {team_name} now lead {score_lead}",
+             "and the {team_name} now lead {score_lead} here in the {half} of the {inning}"
         ],
         "inning_summary_score": [
             "And with {inning_ordinal} in the books, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
