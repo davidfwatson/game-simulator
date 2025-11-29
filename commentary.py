@@ -254,17 +254,16 @@ GAME_CONTEXT = {
         ],
         "play_by_play_templates": [
             "{batter_name} {verb} {direction} on a {pitch_velo} mph {pitch_type}.",
-            "A {pitch_velo} mph {pitch_type}, and {batter_name} {verb} {direction}.",
-            "And the pitch... a {pitch_type} at {pitch_velo} mph, {batter_name} {verb} {direction}.",
-            "{batter_name} gets a {pitch_type} and {verb} {direction}.",
+            "{batter_name} {verb} {direction} on the {pitch_type}.",
             "{verb_capitalized} {direction}.",
             "{verb_capitalized} {direction} on a {pitch_type}.",
             "{pitch_type}, {verb} {direction}."
         ],
         "play_by_play_noun_templates": [
-             "It's a {pitch_type} and {batter_name} hits {noun} {direction}.",
-             "It's a {pitch_type} and {batter_name} gets {noun} {direction}.",
-             "{noun_capitalized} {direction}."
+             "{noun_capitalized} {direction}.",
+             "{noun_capitalized} {direction} off a {pitch_type}.",
+             "{batter_name} hits {noun} {direction}.",
+             "{batter_name} gets {noun} {direction}."
         ],
         "bunt_foul": [
             "  He squares to bunt, but fouls it off.",
