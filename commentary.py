@@ -418,15 +418,15 @@ GAME_CONTEXT = {
             "Lefty against the righty."
         ],
         "play_by_play_templates": [
-            "He {verb} {direction} on a {pitch_velo} mph {pitch_type}.",
-            "He {verb} {direction} on the {pitch_type}.",
+            "He {verb} {direction} on a {pitch_velo} mph {pitch_type_lower}.",
+            "He {verb} {direction} on a {pitch_type_lower}.",
             "{verb_capitalized} {direction}.",
-            "{verb_capitalized} {direction} on a {pitch_type}.",
+            "{verb_capitalized} {direction} on a {pitch_type_lower}.",
             "{pitch_type}, {verb} {direction}."
         ],
         "play_by_play_noun_templates": [
              "{noun_capitalized} {direction}.",
-             "{noun_capitalized} {direction} off a {pitch_type}.",
+             "{noun_capitalized} {direction} off a {pitch_type_lower}.",
              "He hits {noun} {direction}.",
              "He gets {noun} {direction}."
         ],
