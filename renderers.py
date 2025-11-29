@@ -72,6 +72,19 @@ class NarrativeRenderer(GameRenderer):
         if context is None: context = {}
         return self.rng.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
 
+    def _get_pitch_connector(self, balls, strikes):
+        if balls == 0 and strikes == 0:
+            return self.rng.choice(["And the pitch...", "And the pitch..."])
+
+        count_str = f"{balls}-{strikes}"
+        templates = [
+            f"And the {count_str}...",
+            f"The {count_str} pitch...",
+            f"And the {count_str} pitch...",
+            f"And the {count_str}..."
+        ]
+        return self.rng.choice(templates)
+
     def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
@@ -265,19 +278,23 @@ class NarrativeRenderer(GameRenderer):
 
                 if self.verbose:
                     pbp_line = ""
+                    connector = self._get_pitch_connector(event['count']['balls'], event['count']['strikes'])
+
                     if code == 'F':
                         if "Bunt" in desc:
-                             pbp_line = self.rng.choice(GAME_CONTEXT['narrative_strings']['bunt_foul'])
+                             pbp_line = self.rng.choice(GAME_CONTEXT['narrative_strings']['bunt_foul']).strip().rstrip('.')
                         else:
-                             pbp_line = f"  Foul, {self.rng.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_type}."
+                             pbp_line = f"Foul, {self.rng.choice(GAME_CONTEXT['pitch_locations']['foul'])} on a {pitch_type}"
                     elif code == 'C':
-                         pbp_line = f"  {self.rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])} with the {pitch_type}."
+                         pbp_line = f"{pitch_type}, {self.rng.choice(GAME_CONTEXT['narrative_strings']['strike_called'])}"
                     elif code == 'S':
-                         pbp_line = f"  {self._get_narrative_string('strike_swinging')} on a {pitch_type}."
+                         pbp_line = f"{pitch_type}, {self._get_narrative_string('strike_swinging')}"
                     elif code == 'B':
-                         pbp_line = f"  {self.rng.choice(GAME_CONTEXT['pitch_locations']['ball'])} with the {pitch_type}."
+                         pbp_line = f"{pitch_type} {self.rng.choice(GAME_CONTEXT['pitch_locations']['ball'])}"
 
                     if pbp_line:
+                        pbp_line = f"  {connector} {pbp_line}."
+
                         c = event['count']
                         b, s = c['balls'], c['strikes']
                         if code == 'B': b += 1
