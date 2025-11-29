@@ -540,7 +540,8 @@ class NarrativeRenderer(GameRenderer):
                              pbp_line = self.rng_pitch.choice(GAME_CONTEXT['narrative_strings']['bunt_foul']).strip().rstrip('.')
                         else:
                              phrase = self.rng_pitch.choice(GAME_CONTEXT['pitch_locations']['foul'])
-                             if any(x in phrase.lower() for x in ["foul", "spoils", "fights", "jams"]): pbp_line = f"{phrase}"
+                             if any(x in phrase.lower() for x in ["foul", "spoils", "fights"]): pbp_line = f"{phrase}"
+                             elif "jams" in phrase.lower(): pbp_line = f"Foul, {phrase}"
                              else: pbp_line = f"Foul, {phrase}"
                     elif code == 'C':
                          key = 'strike_called_three' if event['count']['strikes'] == 2 else 'strike_called'
@@ -575,10 +576,18 @@ class NarrativeRenderer(GameRenderer):
                             # but `spoken_count` is usually words.
                             # "And the 1-1... Slider outside, two and one."
 
-                            if use_comma:
-                                 pbp_line += f" {spoken_count}."
-                            else:
-                                 pbp_line += f" {spoken_count.capitalize()}."
+                            suppress_count = False
+                            if "strike one" in pbp_line.lower() and b == 0 and s == 1:
+                                suppress_count = True
+
+                            if not suppress_count:
+                                if use_comma:
+                                     pbp_line += f" {spoken_count}."
+                                else:
+                                     pbp_line += f" {spoken_count.capitalize()}."
+                            elif use_comma:
+                                 # If count suppressed but we used a comma, switch to period
+                                 pbp_line = pbp_line.rstrip(',') + "."
 
                         is_final_event = (event == play_events[-1])
                         if is_final_event and outcome in ["Strikeout", "Walk"]:
