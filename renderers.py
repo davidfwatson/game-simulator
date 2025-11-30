@@ -274,6 +274,7 @@ class NarrativeRenderer(GameRenderer):
             'direction': direction,
             'direction_noun': direction_noun,
             'pitch_type': simple_pitch_type,
+            'pitch_type_lower': simple_pitch_type.lower(),
             'pitch_velo': pitch_details.get('velo', 'N/A'),
             'fielder_name': fielder_name or "the fielder",
             'result_outs': result_outs,
