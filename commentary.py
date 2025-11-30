@@ -388,6 +388,14 @@ GAME_CONTEXT = {
             ", brings the count to 3-2",
             ", and the count is now full"
         ],
+        "count_remains_two_strikes": [
+            ", and we'll do it again",
+            ", count holds at {count_str}",
+            ", count remains {count_str}",
+            ", still {count_str}",
+            ", so we'll do it again",
+            ", and the count stays at {count_str}"
+        ],
         "inning_end_123": [
              "{pitcher_name} sets them down in order.",
              "Another one-two-three inning for {pitcher_name}.",
