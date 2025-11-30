@@ -687,6 +687,15 @@ class NarrativeRenderer(GameRenderer):
             if outcome == "Strikeout":
                 k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
 
+                result_outs = play['count']['outs']
+                result_outs_word = "one"
+                if result_outs == 2: result_outs_word = "two"
+                elif result_outs == 3: result_outs_word = "three"
+
+                out_context_str = f"for out number {result_outs_word}"
+                if result_outs == 3:
+                    out_context_str = "to end the inning"
+
                 # Check for specific narrative templates based on context
                 template_found = False
                 if last_pitch_context and k_type == 'swinging':
@@ -706,25 +715,26 @@ class NarrativeRenderer(GameRenderer):
 
                 if not template_found:
                     if last_pitch_context:
-                         # Flow Improvement: Check redundancy
+                         # Flow Improvement: Check for phrases that already imply the out ("rings him up")
                          last_pitch_lower = last_pitch_context.lower()
-                         redundant_verbs = ["strikes out", "fans him", "strike three", "caught looking", "rung up"]
+                         complete_out_phrases = ["rings him up", "fans him", "struck him out", "gets him swinging", "got him looking", "caught looking"]
 
-                         already_described = any(phrase in last_pitch_lower for phrase in redundant_verbs)
+                         is_complete = any(phrase in last_pitch_lower for phrase in complete_out_phrases)
 
-                         if already_described:
-                             # Minimal addition
-                             outcome_text = f"{last_pitch_context}, and {batter_name} is out."
+                         if is_complete:
+                             # "Slider, rings him up! Evan Reed goes down for out number two."
+                             outcome_text = f"{last_pitch_context}! {batter_name} goes down {out_context_str}."
                          else:
+                             # Standard flow: "Slider, called strike three, and Evan Reed strikes out to end the inning."
                              if k_type == 'swinging':
-                                 simple_verb = self.rng_play.choice(["strikes out", "is set down swinging", "goes down swinging", "is out"])
-                                 outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
+                                 simple_verb = self.rng_play.choice(["strikes out", "is set down swinging", "goes down swinging", "is down on strikes"])
+                                 outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb} {out_context_str}."
                              else:
-                                 simple_verb = self.rng_play.choice(["strikes out looking", "is caught looking", "is rung up", "is out looking"])
-                                 outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
+                                 simple_verb = self.rng_play.choice(["strikes out looking", "is down on strikes", "goes down looking", "is rung up"])
+                                 outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb} {out_context_str}."
                     else:
                         verb = self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
-                        outcome_text = f"{batter_name} {verb}."
+                        outcome_text = f"{batter_name} {verb} {out_context_str}."
 
             elif outcome == "Walk":
                  is_leadoff_batter = (len(self.plays_in_half_inning) == 0)
