@@ -625,7 +625,7 @@ class NarrativeRenderer(GameRenderer):
 
                         is_final_event = (event == play_events[-1])
                         if is_final_event and outcome in ["Strikeout", "Walk"]:
-                            last_pitch_context = pbp_line.rstrip(".")
+                            last_pitch_context = pbp_line.rstrip(".,")
                             i += 1
                             continue
 
@@ -642,35 +642,70 @@ class NarrativeRenderer(GameRenderer):
             outcome_text = ""
             if outcome == "Strikeout":
                 k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
-                if last_pitch_context:
-                     # Flow Improvement: Check redundancy
-                     last_pitch_lower = last_pitch_context.lower()
-                     redundant_verbs = ["strikes out", "fans him", "strike three", "caught looking", "rung up"]
 
-                     already_described = any(phrase in last_pitch_lower for phrase in redundant_verbs)
+                # Check for specific narrative templates based on context
+                template_found = False
+                if last_pitch_context and k_type == 'swinging':
+                    last_pitch_lower = last_pitch_context.lower()
+                    if "dirt" in last_pitch_lower:
+                        # Try to find a dirt-specific template
+                        dirt_templates = [
+                            "He takes an awkward hack at a {pitch_type} in the dirt.",
+                            "Chases a {pitch_type} in the dirt."
+                        ]
+                        if self.rng_play.random() < 0.7:
+                            last_event = play_events[-1]
+                            orig_p_type = last_event['details'].get('type', {}).get('description', 'pitch')
+                            simple_p_type = self._simplify_pitch_type(orig_p_type)
+                            outcome_text = self.rng_play.choice(dirt_templates).format(pitch_type=simple_p_type, batter_name=batter_name)
+                            template_found = True
 
-                     if already_described:
-                         # Minimal addition
-                         outcome_text = f"{last_pitch_context}, and {batter_name} is out."
-                     else:
-                         if k_type == 'swinging':
-                             simple_verb = self.rng_play.choice(["strikes out", "is set down swinging", "goes down swinging", "is out"])
-                             outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
+                if not template_found:
+                    if last_pitch_context:
+                         # Flow Improvement: Check redundancy
+                         last_pitch_lower = last_pitch_context.lower()
+                         redundant_verbs = ["strikes out", "fans him", "strike three", "caught looking", "rung up"]
+
+                         already_described = any(phrase in last_pitch_lower for phrase in redundant_verbs)
+
+                         if already_described:
+                             # Minimal addition
+                             outcome_text = f"{last_pitch_context}, and {batter_name} is out."
                          else:
-                             simple_verb = self.rng_play.choice(["strikes out looking", "is caught looking", "is rung up", "is out looking"])
-                             outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
-                else:
-                    verb = self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
-                    outcome_text = f"{batter_name} {verb}."
+                             if k_type == 'swinging':
+                                 simple_verb = self.rng_play.choice(["strikes out", "is set down swinging", "goes down swinging", "is out"])
+                                 outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
+                             else:
+                                 simple_verb = self.rng_play.choice(["strikes out looking", "is caught looking", "is rung up", "is out looking"])
+                                 outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb}."
+                    else:
+                        verb = self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])
+                        outcome_text = f"{batter_name} {verb}."
 
             elif outcome == "Walk":
-                 if last_pitch_context:
-                     outcome_text = f"{last_pitch_context}, and {batter_name} draws a walk."
-                 else:
-                     outcome_text = f"{batter_name} draws a walk."
+                 is_leadoff_batter = (len(self.plays_in_half_inning) == 0)
+                 w_out = "leadoff" if (self.outs_tracker == 0 and is_leadoff_batter) else "no-out"
+                 if self.outs_tracker == 1: w_out = "one-out"
+                 elif self.outs_tracker == 2: w_out = "two-out"
+
+                 walk_context = {
+                     'last_pitch_context': last_pitch_context,
+                     'batter_name': batter_name,
+                     'outs_str': w_out
+                 }
+
+                 templates = GAME_CONTEXT['narrative_templates'].get('Walk', {}).get('default', [])
+                 if not templates: templates = ["{batter_name} draws a walk."]
+
+                 valid_templates = [t for t in templates if not ("{last_pitch_context}" in t and not last_pitch_context)]
+                 if not valid_templates: valid_templates = ["{batter_name} draws a walk."]
+
+                 outcome_text = self.rng_play.choice(valid_templates).format(**walk_context)
 
             elif outcome in ["HBP", "Hit By Pitch"]:
-                outcome_text = f"{batter_name} is hit by the pitch."
+                templates = GAME_CONTEXT['narrative_templates'].get('Hit By Pitch', {}).get('default', [])
+                if not templates: templates = ["{batter_name} is hit by the pitch."]
+                outcome_text = self.rng_play.choice(templates).format(batter_name=batter_name)
 
             elif outcome == "Strikeout Double Play":
                 outcome_text = f"{batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play."
