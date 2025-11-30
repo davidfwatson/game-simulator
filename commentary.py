@@ -464,10 +464,22 @@ GAME_CONTEXT = {
             "And the pitch...",
             "Here is the {count_str}..."
         ],
+        "pitch_connectors_00": [
+            "And the pitch...",
+            "And the pitch...",
+            "And {pitcher_name_last}'s pitch...",
+            "And {pitcher_name_last} delivers...",
+            "And the pitch to {batter_name_last}...",
+            "{pitcher_name_last} winds and fires...",
+            "Here's the pitch...",
+            "And {pitcher_name_last} deals..."
+        ],
         "pitch_connectors_stretch": [
              "And {pitcher_name_last} from the stretch...",
              "And the pitch...",
-             "And the {count_str} pitch..."
+             "And {pitcher_name_last} deals...",
+             "And {pitcher_name_last} comes to the plate...",
+             "From the belt, the pitch..."
         ],
         "batter_matchup_handedness": [
             "Righty against righty.",

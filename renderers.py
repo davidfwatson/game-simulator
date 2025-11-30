@@ -158,23 +158,28 @@ class NarrativeRenderer(GameRenderer):
             return f"{b_word}-{s_word}"
         return f"{b_word} {connector} {s_word}"
 
-    def _get_pitch_connector(self, balls, strikes, pitcher_name=None, runners_on_base=False):
+    def _get_pitch_connector(self, balls, strikes, pitcher_name=None, batter_name=None, runners_on_base=False):
         if balls == 3 and strikes == 2:
             return self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['payoff_pitch'])
 
         count_str = self._get_spoken_count(balls, strikes, connector="-")
         pitcher_last = pitcher_name.split()[-1] if pitcher_name else "The pitcher"
-
-        if balls == 0 and strikes == 0:
-            if runners_on_base and self.rng_flow.random() < 0.4:
-                 return self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('pitch_connectors_stretch', ["And the pitch..."])).format(pitcher_name_last=pitcher_last, count_str=count_str)
-            return self.rng_flow.choice(["And the pitch...", "And the pitch..."])
+        batter_last = batter_name.split()[-1] if batter_name else "the batter"
 
         context = {
             'count_str': count_str,
             'count_str_cap': count_str.capitalize(),
-            'pitcher_name_last': pitcher_last
+            'pitcher_name_last': pitcher_last,
+            'batter_name_last': batter_last
         }
+
+        if balls == 0 and strikes == 0:
+            if runners_on_base and self.rng_flow.random() < 0.5:
+                 return self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('pitch_connectors_stretch', ["And the pitch..."])).format(**context)
+
+            # Use specific 0-0 connectors if available, otherwise fallback
+            templates = GAME_CONTEXT['narrative_strings'].get('pitch_connectors_00', ["And the pitch..."])
+            return self.rng_flow.choice(templates).format(**context)
 
         templates = GAME_CONTEXT['narrative_strings'].get('pitch_connectors', [
             "And the {count_str}...",
@@ -602,6 +607,7 @@ class NarrativeRenderer(GameRenderer):
                         event['count']['balls'],
                         event['count']['strikes'],
                         pitcher_name=current_pitcher_name,
+                        batter_name=batter_name,
                         runners_on_base=runners_on
                     )
 
