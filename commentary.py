@@ -120,11 +120,19 @@ GAME_CONTEXT = {
                  "Hammered to {direction_noun}! That one will drop in for a hit and roll all the way to the wall."
             ]
         },
+        "Triple": {
+             "default": [
+                 "Hit deep into the gap! {batter_name} racing around second... and he's in safely at third with a triple.",
+                 "A drive into the gap! {batter_name} on his way to third... and he slides in safely."
+             ]
+        },
         "Home Run": {
              "default": [
                  "Hit in the air {direction}! {fielder_name} racing after it... he will not get there, as that one sails over the wall for a long, lazy home run!",
                  "Sails over the wall for a long, lazy home run!",
-                 "Hit in the air {direction}! {fielder_name} racing after it... he will not get there!"
+                 "Hit in the air {direction}! {fielder_name} racing after it... he will not get there!",
+                 "Deep fly ball {direction}... back, back... gone! A home run for {batter_name}!",
+                 "High fly ball {direction}... and that one is gone!"
              ]
         },
         "Groundout": {
@@ -146,7 +154,11 @@ GAME_CONTEXT = {
                 "Roller to {direction_noun}. {fielder_name} scoops it up and fires to first {out_context_str}.",
                 "Hard grounder to {direction_noun}. {fielder_name} is up with it and he fires to first {out_context_str}.",
                 "Dribbler to {direction_noun}. Backhanded pick by {fielder_name} and he fires to first in time {out_context_str}.",
-                "Hard grounder up the middle... {fielder_name} is there and he fires to first {out_context_str}."
+                "Hard grounder up the middle... {fielder_name} is there and he fires to first {out_context_str}.",
+                "{fielder_name} gloves it and fires to first to retire {batter_name} {out_context_str}.",
+                "Routine play for {fielder_name} and he flips to first to retire {batter_name} {out_context_str}.",
+                "{fielder_name} scoops it up and fires to first to retire {batter_name} {out_context_str}.",
+                "Roller {direction}. {fielder_name} scoops it up and fires to first to retire {batter_name} {out_context_str}."
             ]
         },
         "Flyout": {
@@ -203,7 +215,9 @@ GAME_CONTEXT = {
                  "Way out in front of that {pitch_type}.",
                  "He takes a wild hack at a {pitch_type}.",
                  "Swing and a miss on a low {pitch_type}, and {batter_name} is down on strikes.",
-                 "Swing and a miss on a high {pitch_type}, and {batter_name} is down on strikes."
+                 "Swing and a miss on a high {pitch_type}, and {batter_name} is down on strikes.",
+                 "He takes a wild hack at a {pitch_type} in the dirt.",
+                 "Chases a {pitch_type} in the dirt."
              ],
              "looking": [
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
@@ -214,6 +228,20 @@ GAME_CONTEXT = {
                  "{pitch_type} called strike three, and {batter_name} strikes out.",
                  "{pitch_type} called strike three, and {batter_name} is down on strikes.",
                  "He looks at a {pitch_type} for a called strike three."
+             ]
+        },
+        "Walk": {
+             "default": [
+                 "{last_pitch_context}, and {batter_name} draws a walk.",
+                 "{last_pitch_context}, and {batter_name} is aboard with a walk.",
+                 "{last_pitch_context}, and {batter_name} is aboard with a {outs_str} walk.",
+                 "{batter_name} draws a walk."
+             ]
+        },
+        "Hit By Pitch": {
+             "default": [
+                 "{batter_name} is hit by the pitch.",
+                 "{batter_name} takes one for the team."
              ]
         }
     },
@@ -400,6 +428,7 @@ GAME_CONTEXT = {
             "The {count_str} pitch...",
             "And the {count_str} pitch...",
             "And the {count_str}...",
+            "The {count_str}...",
             "Here comes the {count_str}...",
             "{count_str_cap}, pitch on the way...",
             "And {pitcher_name_last}'s pitch...",
