@@ -591,10 +591,7 @@ class NarrativeRenderer(GameRenderer):
                         if "Bunt" in desc:
                              pbp_line = self.rng_pitch.choice(GAME_CONTEXT['narrative_strings']['bunt_foul']).strip().rstrip('.')
                         else:
-                             phrase = self.rng_pitch.choice(GAME_CONTEXT['pitch_locations']['foul'])
-                             if any(x in phrase.lower() for x in ["foul", "spoils", "fights"]): pbp_line = f"{phrase}"
-                             elif "jams" in phrase.lower(): pbp_line = f"Foul, {phrase}"
-                             else: pbp_line = f"Foul, {phrase}"
+                             pbp_line = self.rng_pitch.choice(GAME_CONTEXT['pitch_locations']['foul'])
                     elif code == 'C':
                          key = 'strike_called_three' if event['count']['strikes'] == 2 else 'strike_called'
                          pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
