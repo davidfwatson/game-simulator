@@ -101,6 +101,29 @@ class NarrativeRenderer(GameRenderer):
         super().__init__(gameday_data, seed)
         self.verbose = verbose
         # use_bracketed_ui is ignored in new format as we don't print status lines
+        self.last_foul_phrase = ""
+
+    def _get_foul_description(self):
+        options = GAME_CONTEXT['pitch_locations']['foul']
+
+        # Try up to 10 times to find a unique phrase
+        for _ in range(10):
+            choice = self.rng_pitch.choice(options)
+
+            # Skip if identical to last phrase
+            if choice == self.last_foul_phrase:
+                continue
+
+            # Skip if one contains the other (prevents "hammered foul" -> "hammered foul and...")
+            if self.last_foul_phrase and (choice.startswith(self.last_foul_phrase) or self.last_foul_phrase.startswith(choice)):
+                continue
+
+            self.last_foul_phrase = choice
+            return choice
+
+        # Fallback if we fail to find unique
+        self.last_foul_phrase = choice
+        return choice
 
     def _get_ordinal(self, n):
         words = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"]
@@ -591,10 +614,7 @@ class NarrativeRenderer(GameRenderer):
                         if "Bunt" in desc:
                              pbp_line = self.rng_pitch.choice(GAME_CONTEXT['narrative_strings']['bunt_foul']).strip().rstrip('.')
                         else:
-                             phrase = self.rng_pitch.choice(GAME_CONTEXT['pitch_locations']['foul'])
-                             if any(x in phrase.lower() for x in ["foul", "spoils", "fights"]): pbp_line = f"{phrase}"
-                             elif "jams" in phrase.lower(): pbp_line = f"Foul, {phrase}"
-                             else: pbp_line = f"Foul, {phrase}"
+                             pbp_line = self._get_foul_description()
                     elif code == 'C':
                          key = 'strike_called_three' if event['count']['strikes'] == 2 else 'strike_called'
                          pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"

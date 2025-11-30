@@ -26,19 +26,29 @@ GAME_CONTEXT = {
             "misses high"
         ],
         "foul": [
-            "fights it off", "jams him inside", "gets a piece of it",
-            "back to the screen", "down the line, but wide of the bag", "spoils a good pitch",
-            "back and out of play", "back and into the stands",
-            "hammered into the stands", "dribbled along the first base line",
-            "chopped on the first base line",
-            "tapped down the first base line", "flied out of play",
-            "hammered foul and into the stands", "chopped foul on the first base line",
-            "flied foul and out of play",
-            "dribbled foul on the first base line",
-            "knuckles foul and lands into the stands",
-            "chopped foul down the first base line",
+            "fights it off",
+            "he spoils a good pitch",
+            "he gets a piece of it",
+            "he fouls it off",
+            "fouled back",
+            "fouled back to the screen",
             "fouled back and out of play",
-            "hammered foul and into the stands"
+            "fouled back and into the stands",
+            "hammered foul",
+            "hammered foul and into the stands",
+            "lined foul",
+            "hit foul down the line",
+            "fouled down the line",
+            "chopped foul",
+            "chopped foul down the first base line",
+            "dribbled foul down the first base line",
+            "tapped foul down the line",
+            "flied foul and out of play",
+            "knuckles foul and lands into the stands",
+            "just gets a piece of it",
+            "fouled away",
+            "sent foul and out of play",
+            "he fouls that one off"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -479,9 +489,14 @@ GAME_CONTEXT = {
              "He gets {noun} {direction}."
         ],
         "bunt_foul": [
-            "  He squares to bunt, but fouls it off.",
-            "  Showing bunt, he pushes it foul.",
-            "  He tries to lay one down, but it rolls foul."
+            "He squares to bunt, but fouls it off",
+            "Showing bunt, he pushes it foul",
+            "He tries to lay one down, but it rolls foul",
+            "Bunted foul",
+            "He offers at the bunt, but fouls it back",
+            "The bunt attempt is fouled off",
+            "He attempts to bunt, but it goes foul",
+            "Squared around, but he fouls it"
         ],
         "bunt_sac": [
             "  He gets the bunt down, a perfect sacrifice.",
