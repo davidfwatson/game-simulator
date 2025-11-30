@@ -111,6 +111,11 @@ class NarrativeRenderer(GameRenderer):
         else: suffix = ordinals[n % 10]
         return f"{n}{suffix}"
 
+    def _get_number_word(self, n):
+        words = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+        if 0 <= n <= 9: return words[n]
+        return str(n)
+
     def _get_narrative_string(self, key, context=None, rng=None):
         if context is None: context = {}
         # Default to rng_play if not specified, as most narrative strings are play-related
@@ -407,8 +412,10 @@ class NarrativeRenderer(GameRenderer):
                          summary_lines.append(template.format(pitcher_name=pitcher_name))
 
                      score_away, score_home = self.current_score
+                     completed_innings = inning - 1 if half == 'Top' else inning
                      ctx = {
-                         'inning_ordinal': self._get_ordinal(inning - 1) if half == 'Top' else self._get_ordinal(inning),
+                         'inning_ordinal': self._get_ordinal(completed_innings),
+                         'inning_count_word': self._get_number_word(completed_innings),
                          'away_team_name': self.away_team['name'],
                          'home_team_name': self.home_team['name'],
                          'score_away': score_away,

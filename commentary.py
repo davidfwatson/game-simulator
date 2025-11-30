@@ -658,8 +658,8 @@ GAME_CONTEXT = {
              "and the {team_name} now lead {score_lead} here in the {half} of the {inning}"
         ],
         "inning_summary_score": [
-            "And with {inning_ordinal} in the books, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
-            "It's {away_team_name} {score_away}, {home_team_name} {score_home} after {inning_ordinal}.",
+            "And with {inning_count_word} in the books, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
+            "It's {away_team_name} {score_away}, {home_team_name} {score_home} after {inning_count_word}.",
             "{away_team_name} {score_away}, {home_team_name} {score_home}."
         ],
         "inning_summary_remains": [
