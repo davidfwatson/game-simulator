@@ -618,7 +618,17 @@ class NarrativeRenderer(GameRenderer):
 
                     if code == 'F':
                         if "Bunt" in desc:
-                             pbp_line = self.rng_pitch.choice(GAME_CONTEXT['narrative_strings']['bunt_foul']).strip().rstrip('.')
+                             # Handle repeated bunt fouls
+                             options = GAME_CONTEXT['narrative_strings']['bunt_foul']
+                             choice = self.rng_pitch.choice(options).strip().rstrip('.')
+                             if last_pitch_context and (choice in last_pitch_context or last_pitch_context in choice):
+                                 # Try to find a different one
+                                 for _ in range(5):
+                                     alt = self.rng_pitch.choice(options).strip().rstrip('.')
+                                     if alt not in last_pitch_context and last_pitch_context not in alt:
+                                         choice = alt
+                                         break
+                             pbp_line = choice
                         else:
                              pbp_line = self._get_foul_description()
                     elif code == 'C':
@@ -658,11 +668,41 @@ class NarrativeRenderer(GameRenderer):
                             if "strike one" in pbp_line.lower() and b == 0 and s == 1:
                                 suppress_count = True
 
+                            # Check for repeating 2-strike count
+                            repeating_two_strikes = False
+                            if code == 'F' and s == 2 and event['count']['strikes'] == 2:
+                                repeating_two_strikes = True
+
                             if not suppress_count:
-                                if use_comma:
-                                     pbp_line += f" {spoken_count}."
+                                if repeating_two_strikes:
+                                    # Use special "count holds at..." logic
+                                    count_hold_str = self._get_narrative_string('count_remains_two_strikes', {'count_str': spoken_count}, rng=self.rng_flow)
+                                    if use_comma:
+                                        # pbp_line already ends in comma
+                                        # "Fouled back, and we'll do it again."
+                                        # strip leading comma from template if present (it is in my template definitions)
+                                        count_hold_str = count_hold_str.lstrip(", ")
+                                        pbp_line += f" {count_hold_str}."
+                                    else:
+                                        # pbp_line ends in period.
+                                        # "Fouled back. And we'll do it again."
+                                        # Need to handle the leading comma/connector in template or construct sentence.
+                                        # My templates start with ", ". So replace ", " with "And " or similar if starting new sentence?
+                                        # Or just append.
+                                        # Let's adjust templates or logic.
+                                        # Templates: ", and we'll do it again"
+                                        # If period: "Fouled back. And we'll do it again." (Replace ", and" with "And")
+
+                                        clean_hold_str = count_hold_str.strip(", ")
+                                        # Capitalize first letter
+                                        clean_hold_str = clean_hold_str[0].upper() + clean_hold_str[1:]
+                                        pbp_line += f" {clean_hold_str}."
+
                                 else:
-                                     pbp_line += f" {spoken_count.capitalize()}."
+                                    if use_comma:
+                                         pbp_line += f" {spoken_count}."
+                                    else:
+                                         pbp_line += f" {spoken_count.capitalize()}."
                             elif use_comma:
                                  # If count suppressed but we used a comma, switch to period
                                  pbp_line = pbp_line.rstrip(',') + "."
@@ -673,6 +713,8 @@ class NarrativeRenderer(GameRenderer):
                             i += 1
                             continue
 
+                        # Update last_pitch_context for the next iteration (important for de-duplication)
+                        last_pitch_context = pbp_line.rstrip(".,")
                         play_text_blocks.append(pbp_line)
 
                         if is_steal_attempt:
