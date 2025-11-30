@@ -548,14 +548,42 @@ class NarrativeRenderer(GameRenderer):
                      runner_desc = f"runners on {runners[0]} and {runners[1]}"
                  else:
                      base_desc = f"{runners[0]}"
-                     runner_desc = f"runner on {runners[0]}"
+                     runner_desc = f"a runner on {runners[0]}"
 
                  template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_runners'])
                  val_to_use = runner_desc
+
                  if "Runner on {runners_str}" in template:
-                     val_to_use = base_desc
+                     if len(runners) == 3:
+                         template = template.replace("Runner on {runners_str}", "Bases loaded")
+                     elif len(runners) == 2:
+                         template = template.replace("Runner on", "Runners on")
+                         val_to_use = base_desc
+                     else:
+                         val_to_use = base_desc
+
                  elif "runner on {runners_str}" in template:
-                     val_to_use = base_desc
+                     if len(runners) == 3:
+                         if "So a " in template:
+                             template = template.replace("So a runner on {runners_str}", "So with the bases loaded")
+                         else:
+                             template = template.replace("runner on {runners_str}", "bases loaded")
+                     elif len(runners) == 2:
+                         if "So a " in template:
+                             template = template.replace("So a runner on {runners_str}", "So runners on")
+                             val_to_use = base_desc
+                         else:
+                             template = template.replace("runner on", "runners on")
+                             val_to_use = base_desc
+                     else:
+                         val_to_use = base_desc
+
+                 # If template starts with {runners_str}, ensure it's capitalized
+                 if template.strip().startswith("{runners_str}"):
+                     val_to_use = val_to_use[0].upper() + val_to_use[1:]
+                 # If template puts runner desc after a period and space, capitalize it (e.g. "Batter steps in. a runner on...")
+                 elif ". {runners_str}" in template:
+                     val_to_use = val_to_use[0].upper() + val_to_use[1:]
 
                  pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
                  play_text_blocks.append(template.format(
