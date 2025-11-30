@@ -496,12 +496,13 @@ class NarrativeRenderer(GameRenderer):
                 if 'players' in self.gameday_data['gameData'] and batter_id in self.gameday_data['gameData']['players']:
                     batter_pos = self.gameday_data['gameData']['players'][batter_id]['primaryPosition']['name']
 
+                pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
                 play_text_blocks.append(intro_template.format(
                     batter_name=batter_name,
                     team_name=team_name,
                     outs_str=outs_str,
                     position=batter_pos.lower(),
-                    pitcher_name=self.current_pitcher_info[pitching_team_key]['name']
+                    pitcher_name=pitcher_name
                 ))
             else:
                  if len(runners) == 3:
@@ -516,8 +517,18 @@ class NarrativeRenderer(GameRenderer):
 
                  template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_runners'])
                  val_to_use = runner_desc
-                 if "Runner on {runners_str}" in template: val_to_use = base_desc
-                 play_text_blocks.append(template.format(batter_name=batter_name, runners_str=val_to_use, outs_str=outs_str))
+                 if "Runner on {runners_str}" in template:
+                     val_to_use = base_desc
+                 elif "runner on {runners_str}" in template:
+                     val_to_use = base_desc
+
+                 pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
+                 play_text_blocks.append(template.format(
+                     batter_name=batter_name,
+                     runners_str=val_to_use,
+                     outs_str=outs_str,
+                     pitcher_name=pitcher_name
+                 ))
 
             if self.rng_color.random() < 0.2:
                  bat_side = matchup['batSide']['code']
