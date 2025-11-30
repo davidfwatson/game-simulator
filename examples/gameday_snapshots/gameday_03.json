@@ -1193,62 +1193,79 @@
         "eventType": "double",
         "description": "",
         "rbi": 1,
-        "awayScore": 0,
-        "homeScore": 1
+        "awayScore": 1,
+        "homeScore": 0
       },
       "about": {
-        "atBatIndex": 14,
-        "halfInning": "bottom",
-        "isTopInning": false,
+        "atBatIndex": 7,
+        "halfInning": "top",
+        "isTopInning": true,
         "inning": 2,
         "isScoringPlay": true
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 1
+        "outs": 0
       },
       "matchup": {
         "batter": {
-          "id": 545108,
-          "fullName": "Miles Corbin",
-          "link": "/api/v1/people/545108"
+          "id": 625205,
+          "fullName": "Evan Reed",
+          "link": "/api/v1/people/625205"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitcher": {
-          "id": 645210,
-          "fullName": "Miguel Garcia",
-          "link": "/api/v1/people/645210"
-        },
-        "pitchHand": {
           "code": "L",
           "description": "Left"
         },
+        "pitcher": {
+          "id": 605110,
+          "fullName": "Joe Gibson",
+          "link": "/api/v1/people/605110"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
         "splits": {
-          "batter": "vs_LHP",
-          "pitcher": "vs_RHB",
+          "batter": "vs_RHP",
+          "pitcher": "vs_LHB",
           "menOnBase": "RISP"
         },
         "postOnSecond": {
-          "id": 545108,
-          "fullName": "Miles Corbin",
-          "link": "/api/v1/people/545108"
-        },
-        "postOnThird": {
-          "id": 545107,
-          "fullName": "Owen Chen",
-          "link": "/api/v1/people/545107"
+          "id": 625205,
+          "fullName": "Evan Reed",
+          "link": "/api/v1/people/625205"
         }
       },
       "playEvents": [
         {
-          "index": 45,
+          "index": 17,
           "count": {
             "balls": 0,
             "strikes": 0
+          },
+          "details": {
+            "code": "F",
+            "description": "Foul",
+            "isStrike": true,
+            "type": {
+              "code": "FF",
+              "description": "Four-seam fastball"
+            }
+          },
+          "pitchData": {
+            "startSpeed": 96.8,
+            "breaks": {
+              "spinRate": 2202
+            }
+          }
+        },
+        {
+          "index": 18,
+          "count": {
+            "balls": 0,
+            "strikes": 1
           },
           "details": {
             "code": "X",
@@ -1260,46 +1277,17 @@
             }
           },
           "pitchData": {
-            "startSpeed": 80.2,
-            "breaks": {
-              "spinRate": 2764
-            }
+            "startSpeed": 80.2
           },
           "hitData": {
-            "launchSpeed": 102.2,
-            "launchAngle": 45.4,
+            "launchSpeed": 98.0,
+            "launchAngle": 34.5,
             "trajectory": "fly_ball",
-            "location": "SR"
+            "location": "SC"
           }
         }
       ],
       "runners": [
-        {
-          "movement": {
-            "originBase": "1B",
-            "start": "1B",
-            "end": "3B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Double",
-            "eventType": "double",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 545107,
-              "fullName": "Owen Chen",
-              "link": "/api/v1/people/545107"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 0
-          },
-          "credits": []
-        },
         {
           "movement": {
             "originBase": "2B",
@@ -1314,18 +1302,18 @@
             "eventType": "double",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 545105,
-              "fullName": "Caleb Jones",
-              "link": "/api/v1/people/545105"
+              "id": 625204,
+              "fullName": "Rex Power",
+              "link": "/api/v1/people/625204"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 0,
+            "playIndex": 1,
             "responsiblePitcher": {
-              "id": 645210,
-              "link": "/api/v1/people/645210"
+              "id": 605110,
+              "link": "/api/v1/people/605110"
             }
           },
           "credits": []
@@ -1344,15 +1332,15 @@
             "eventType": "double",
             "movementReason": null,
             "runner": {
-              "id": 545108,
-              "fullName": "Miles Corbin",
-              "link": "/api/v1/people/545108"
+              "id": 625205,
+              "fullName": "Evan Reed",
+              "link": "/api/v1/people/625205"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 0
+            "playIndex": 1
           },
           "credits": []
         }
@@ -1864,125 +1852,214 @@
         "type": "atBat",
         "event": "Double Play",
         "eventType": "grounded_into_double_play",
-        "description": "",
+        "description": "Sam Decker grounds into a double play, second base Alex Chase to shortstop Wes Griffin to first base Felix Washington. Leo Vance out at 2nd. Sam Decker out at 1st.",
         "rbi": 0,
         "awayScore": 0,
         "homeScore": 0
       },
       "about": {
-        "atBatIndex": 7,
-        "halfInning": "top",
-        "isTopInning": true,
-        "inning": 2,
+        "atBatIndex": 5,
+        "halfInning": "bottom",
+        "isTopInning": false,
+        "inning": 1,
         "isScoringPlay": false
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 0
+        "outs": 3
       },
       "matchup": {
         "batter": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
+          "id": 545103,
+          "fullName": "Sam Decker",
+          "link": "/api/v1/people/545103"
         },
         "batSide": {
           "code": "R",
           "description": "Right"
         },
         "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
         },
         "pitchHand": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "splits": {
-          "batter": "vs_RHP",
+          "batter": "vs_LHP",
           "pitcher": "vs_RHB",
-          "menOnBase": "Empty"
+          "menOnBase": "Men_On"
         }
       },
       "playEvents": [
         {
-          "index": 21,
+          "index": 13,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "F",
-            "description": "Foul",
+            "code": "S",
+            "description": "Swinging Strike",
             "isStrike": true,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 83.7,
+            "startSpeed": 91.8,
             "breaks": {
-              "spinRate": 1606
+              "spinRate": 2046
             }
           }
         },
         {
-          "index": 22,
+          "index": 14,
           "count": {
             "balls": 0,
             "strikes": 1
           },
           "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 95.6
-          }
-        },
-        {
-          "index": 23,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
             "code": "X",
-            "description": "In play, Double Play",
+            "description": "In play, Groundout",
             "isStrike": true,
             "type": {
-              "code": "CU",
-              "description": "Curveball"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 79.6,
+            "startSpeed": 91.5,
             "breaks": {
-              "spinRate": 2631
+              "spinRate": 2018
             }
           },
           "hitData": {
-            "launchSpeed": 114.1,
-            "launchAngle": 6.6,
-            "trajectory": "ground_ball"
+            "launchSpeed": 88.2,
+            "launchAngle": -7.2,
+            "trajectory": "ground_ball",
+            "location": "SS"
           }
         }
       ],
-      "runners": []
+      "runners": [
+        {
+          "movement": {
+            "originBase": "1B",
+            "start": "1B",
+            "end": null,
+            "outBase": "2B",
+            "isOut": true,
+            "outNumber": 2
+          },
+          "details": {
+            "event": "Grounded Into DP",
+            "eventType": "grounded_into_double_play",
+            "movementReason": "r_force_out",
+            "runner": {
+              "id": 545101,
+              "fullName": "Leo Vance",
+              "link": "/api/v1/people/545101"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 1
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 625201,
+                "fullName": "Alex Chase",
+                "link": "/api/v1/people/625201"
+              },
+              "position": {
+                "code": "4",
+                "name": "Second Base",
+                "abbreviation": "2B"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 625208,
+                "fullName": "Wes Griffin",
+                "link": "/api/v1/people/625208"
+              },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
+              "credit": "putout"
+            }
+          ]
+        },
+        {
+          "movement": {
+            "originBase": null,
+            "start": null,
+            "end": null,
+            "outBase": "1B",
+            "isOut": true,
+            "outNumber": 3
+          },
+          "details": {
+            "event": "Grounded Into DP",
+            "eventType": "grounded_into_double_play",
+            "movementReason": null,
+            "runner": {
+              "id": 545103,
+              "fullName": "Sam Decker",
+              "link": "/api/v1/people/545103"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 1
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 625208,
+                "fullName": "Wes Griffin",
+                "link": "/api/v1/people/625208"
+              },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 625206,
+                "fullName": "Felix Washington",
+                "link": "/api/v1/people/625206"
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
+              "credit": "putout"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "playCount": 82,
+  "playCount": 68,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 82,
+    "totalPlaysInGame": 68,
     "snapshotPlayCount": 6
   }
 }
