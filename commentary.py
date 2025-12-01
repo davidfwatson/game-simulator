@@ -259,6 +259,21 @@ GAME_CONTEXT = {
                  "{batter_name} is hit by the pitch.",
                  "{batter_name} takes one for the team."
              ]
+        },
+        "Sacrifice Bunt": {
+            "default": [
+                "He lays down a sacrifice bunt {direction}. {fielder_name} fields it and throws to first {out_context_str}.",
+                "Bunted {direction}. {fielder_name} scoops it up and fires to first {out_context_str}.",
+                "Squares around and bunts it {direction}. {fielder_name} charges and throws to first {out_context_str}.",
+                "A well-placed bunt {direction}. {fielder_name} to first {out_context_str}."
+            ]
+        },
+        "Bunt Ground Out": {
+            "default": [
+                 "Bunts {direction}, but {fielder_name} is there and throws to first {out_context_str}.",
+                 "He bunts it {direction}. {fielder_name} fields it cleanly and retires the batter at first {out_context_str}.",
+                 "A bunt attempt {direction}. {fielder_name} pounces on it and fires to first {out_context_str}."
+            ]
         }
     },
     "narrative_strings": {
