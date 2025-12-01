@@ -103,6 +103,32 @@ class NarrativeRenderer(GameRenderer):
         # use_bracketed_ui is ignored in new format as we don't print status lines
         self.last_foul_phrase = ""
 
+    def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple):
+        # Helper to get description based on zone
+        if event_type == 'B':
+            base_key = 'ball'
+        elif event_type in ['C', 'S']:
+            base_key = 'strike'
+        else:
+            return None
+
+        location_data = GAME_CONTEXT['pitch_locations'].get(base_key, {})
+
+        # Determine category from zone
+        category = 'default'
+        if event_type == 'B':
+            if zone == 11: category = 'high'
+            elif zone == 12: category = 'outside'
+            elif zone == 13: category = 'inside'
+            elif zone == 14: category = 'low'
+
+        options = location_data.get(category, location_data.get('default', []))
+        if not options:
+            options = location_data.get('default', [])
+
+        return self.rng_pitch.choice(options)
+
+
     def _get_foul_description(self):
         options = GAME_CONTEXT['pitch_locations']['foul']
 
@@ -673,13 +699,30 @@ class NarrativeRenderer(GameRenderer):
                         else:
                              pbp_line = self._get_foul_description()
                     elif code == 'C':
-                         key = 'strike_called_three' if event['count']['strikes'] == 2 else 'strike_called'
-                         pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                         if event['count']['strikes'] == 2:
+                             key = 'strike_called_three'
+                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                         else:
+                             # Use location-aware description if available
+                             zone = details.get('zone')
+                             desc = self._get_pitch_description_for_location('C', zone, pitch_type)
+                             pbp_line = f"{pitch_type}, {desc}"
+
                     elif code == 'S':
-                         key = 'strike_swinging_three' if event['count']['strikes'] == 2 else 'strike_swinging'
-                         pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                         if event['count']['strikes'] == 2:
+                             key = 'strike_swinging_three'
+                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                         else:
+                             # For swinging strikes, we usually just say "Swing and a miss" but could describe location
+                             # "Swing and a miss on a slider in the dirt"
+                             key = 'strike_swinging'
+                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+
                     elif code == 'B':
-                         pbp_line = f"{pitch_type} {self.rng_pitch.choice(GAME_CONTEXT['pitch_locations']['ball'])}"
+                         zone = details.get('zone')
+                         desc = self._get_pitch_description_for_location('B', zone, pitch_type)
+                         pbp_line = f"{pitch_type} {desc}"
+
                          if event['count']['balls'] == 2 and event['count']['strikes'] == 2:
                              pbp_line += self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['count_full'])
 

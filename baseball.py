@@ -347,10 +347,35 @@ class BaseballSimulator:
         setattr(self, f"{team_prefix}_catcher", defense.get('C'))
 
     def _simulate_pitch_trajectory(self, pitcher):
-        """Simulates the pitch's path and determines if it's in the strike zone."""
+        """
+        Simulates the pitch's path and determines if it's in the strike zone.
+        Returns a tuple: (is_strike_loc, zone_code)
+        zone_code 1-9 are strike zones.
+        11: High (Ball)
+        12: Outside (Ball)
+        13: Inside (Ball)
+        14: Low (Ball)
+        """
         fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina']) / 15) * 0.1
         # Add a small penalty to control to increase walks slightly
-        return self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012)
+        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012)
+
+        if is_strike:
+            # Weighted distribution for strike zones (1-9)
+            # Corners (1, 3, 7, 9) and Edges (2, 4, 6, 8) are more common than Center (5)
+            # Weights: Corners=1.5, Edges=1.0, Center=0.6
+            zones = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            weights = [1.5, 1.0, 1.5, 1.0, 0.6, 1.0, 1.5, 1.0, 1.5]
+            zone = self.game_rng.choices(zones, weights=weights, k=1)[0]
+        else:
+            # Ball locations: 11 (High-Left), 12 (High-Right), 13 (Low-Left), 14 (Low-Right)
+            # Low pitches (dirt) are more common than high misses generally
+            # Weights: Low (13, 14)=3.0, High (11, 12)=2.0
+            zones = [11, 12, 13, 14]
+            weights = [2.0, 2.0, 3.0, 3.0]
+            zone = self.game_rng.choices(zones, weights=weights, k=1)[0]
+
+        return is_strike, zone
 
     def _simulate_bat_swing(self, batter, is_strike_loc):
         """Determines if the batter swings at the pitch."""
@@ -386,7 +411,7 @@ class BaseballSimulator:
         if la < 12:
             if ev > 108: return "Double Play" # Hard grounder at infielder
             if ev > 102: return "Single" # Hard grounder through the hole
-            if ev > 92 and self.game_rng.random() < 0.25: return "Single" # Lucky finder
+            if ev > 92 and self.game_rng.random() < 0.30: return "Single" # Lucky finder
             return "Groundout"
 
         # Line drives
@@ -403,7 +428,7 @@ class BaseballSimulator:
             if ev > 104: return "Home Run" # Reduced threshold
             if ev > 103: return "Double" # Gap shot
             if ev > 94 and self.game_rng.random() < 0.3: return "Double"
-            if ev > 90 and self.game_rng.random() < 0.2: return "Single" # Bloop
+            if ev > 90 and self.game_rng.random() < 0.28: return "Single" # Bloop
             if ev > 99 and la > 40: return "Triple"
             return "Flyout"
 
@@ -726,7 +751,7 @@ class BaseballSimulator:
             pitch_velo = round(self.game_rng.uniform(*pitch_details_team['velo_range']), 1)
             pitch_spin = self.game_rng.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if self.game_rng.random() > 0.08 else None
             
-            is_strike_loc = self._simulate_pitch_trajectory(pitcher)
+            is_strike_loc, pitch_zone = self._simulate_pitch_trajectory(pitcher)
             
             pre_pitch_balls, pre_pitch_strikes = balls, strikes
             event_details: PlayEvent['details'] = {}
@@ -780,7 +805,9 @@ class BaseballSimulator:
 
             self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'numberOfPitches')
             event_details['type'] = {'code': GAME_CONTEXT['PITCH_TYPE_MAP'].get(pitch_selection, 'UN'), 'description': pitch_selection.capitalize()}
-            pitch_data: PitchData = {'startSpeed': pitch_velo}
+            event_details['zone'] = pitch_zone
+
+            pitch_data: PitchData = {'startSpeed': pitch_velo, 'zone': pitch_zone}
             if pitch_spin: pitch_data['breaks'] = {'spinRate': pitch_spin}
 
             play_event['details'] = event_details
