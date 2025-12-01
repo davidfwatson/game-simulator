@@ -6,32 +6,59 @@ GAME_CONTEXT = {
         "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R"
     ],
     "pitch_locations": {
-        "strike": [
-            "paints the corner", "right down the middle", "catches the black",
-            "a perfect strike", "in the zone", "freezes him on the inner edge",
-            "snaps over the backdoor", "drops onto the knees",
-            "called a strike", "in there for a called strike", "taken for a called strike",
-            "called a strike on the inside corner", "called strike", "a strike",
-            "paints the corner for a called strike",
-            "right down Main Street",
-            "caught the corner"
-        ],
-        "ball": [
-            "just misses outside", "high and tight", "in the dirt", "way outside",
-            "low and away", "a bit inside", "sails over the letters",
-            "spikes before the plate", "misses high and wide", "misses low and inside",
-            "misses low", "misses outside", "runs high", "runs inside",
-            "misses just a bit outside", "down and in",
-            "misses low and outside",
-            "misses upstairs",
-            "misses low and inside", "misses down and in",
-            "misses high",
-            "misses a bit low",
-            "runs a bit low",
-            "just off the plate",
-            "misses away",
-            "high and inside"
-        ],
+        "strike": {
+            "default": [
+                "paints the corner", "right down the middle", "catches the black",
+                "a perfect strike", "in the zone", "freezes him on the inner edge",
+                "snaps over the backdoor", "drops onto the knees",
+                "called a strike", "in there for a called strike", "taken for a called strike",
+                "called a strike on the inside corner", "called strike", "a strike",
+                "paints the corner for a called strike",
+                "right down Main Street",
+                "caught the corner"
+            ]
+        },
+        "ball": {
+            "default": [
+                "just misses outside", "high and tight", "in the dirt", "way outside",
+                "low and away", "a bit inside", "sails over the letters",
+                "spikes before the plate", "misses high and wide", "misses low and inside",
+                "misses low", "misses outside", "runs high", "runs inside",
+                "misses just a bit outside", "down and in",
+                "misses low and outside",
+                "misses upstairs",
+                "misses low and inside", "misses down and in",
+                "misses high",
+                "misses a bit low",
+                "runs a bit low",
+                "just off the plate",
+                "misses away",
+                "high and inside"
+            ],
+            # 11: High (Ball)
+            "high": [
+                "high and tight", "sails over the letters", "misses high and wide",
+                "runs high", "misses upstairs", "misses high", "high and inside",
+                "up in the eyes", "over the head", "way upstairs"
+            ],
+            # 12: Outside (Ball)
+            "outside": [
+                "just misses outside", "way outside", "misses outside",
+                "misses just a bit outside", "just off the plate", "misses away",
+                "wide"
+            ],
+            # 13: Inside (Ball)
+            "inside": [
+                "a bit inside", "runs inside", "misses low and inside", "down and in",
+                "high and tight", "runs a bit inside", "nearly hits him", "brushes him back"
+            ],
+            # 14: Low (Ball)
+            "low": [
+                "in the dirt", "low and away", "spikes before the plate", "misses low and inside",
+                "misses low", "down and in", "misses low and outside", "misses a bit low",
+                "runs a bit low", "bounced in the dirt"
+            ]
+        },
         "foul": [
             "fights it off",
             "he spoils a good pitch",
