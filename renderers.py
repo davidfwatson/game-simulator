@@ -263,6 +263,18 @@ class NarrativeRenderer(GameRenderer):
             if not specific_templates:
                 specific_templates = outcome_templates.get('default', [])
 
+            # Special handling for 1B unassisted groundouts
+            if outcome == "Groundout" and fielder_pos == "1B":
+                unassisted_templates = outcome_templates.get('unassisted_1b', [])
+                if unassisted_templates and self.rng_play.random() < 0.5:
+                    specific_templates = unassisted_templates
+
+            # Special handling for Pitcher comebacker groundouts
+            if outcome == "Groundout" and fielder_pos == "P":
+                pitcher_templates = outcome_templates.get('pitcher_groundout', [])
+                if pitcher_templates and self.rng_play.random() < 0.5:
+                    specific_templates = pitcher_templates
+
         template = None
         if specific_templates and self.rng_play.random() < 0.8:
             template = self.rng_play.choice(specific_templates)
