@@ -451,6 +451,7 @@ class NarrativeRenderer(GameRenderer):
                          'leading_team': self.away_team['name'] if score_away > score_home else self.home_team['name'],
                          'trailing_team': self.home_team['name'] if score_away > score_home else self.away_team['name'],
                          'score_lead': f"{max(score_away, score_home)}-{min(score_away, score_home)}",
+                         'leading_score_val': max(score_away, score_home),
                          'score_trail': min(score_away, score_home),
                          'score': score_away
                      }

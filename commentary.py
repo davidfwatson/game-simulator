@@ -698,8 +698,8 @@ GAME_CONTEXT = {
             "{away_team_name} {score_away}, {home_team_name} {score_home}."
         ],
         "inning_summary_remains": [
-            "And it remains {leading_team} {score_lead}, {trailing_team} {score_trail}.",
-            "Score remains {leading_team} {score_lead}, {trailing_team} {score_trail}."
+            "And it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
+            "Score remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}."
         ],
         "inning_summary_tied": [
             "And we are tied at {score} apiece.",
