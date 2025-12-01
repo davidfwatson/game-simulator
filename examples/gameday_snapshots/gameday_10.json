@@ -1258,174 +1258,100 @@
         "event": "Home Run",
         "eventType": "home_run",
         "description": "",
-        "rbi": 2,
-        "awayScore": 2,
-        "homeScore": 0
+        "rbi": 1,
+        "awayScore": 0,
+        "homeScore": 1
       },
       "about": {
-        "atBatIndex": 13,
-        "halfInning": "top",
-        "isTopInning": true,
+        "atBatIndex": 12,
+        "halfInning": "bottom",
+        "isTopInning": false,
         "inning": 2,
         "isScoringPlay": true
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 2
+        "outs": 1
       },
       "matchup": {
         "batter": {
-          "id": 625209,
-          "fullName": "TJ Hawkins",
-          "link": "/api/v1/people/625209"
+          "id": 545107,
+          "fullName": "Owen Chen",
+          "link": "/api/v1/people/545107"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
         },
         "pitchHand": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "splits": {
-          "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "Men_On"
+          "batter": "vs_LHP",
+          "pitcher": "vs_LHB",
+          "menOnBase": "Empty"
         }
       },
       "playEvents": [
         {
-          "index": 48,
+          "index": 47,
           "count": {
             "balls": 0,
             "strikes": 0
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 89.4,
-            "breaks": {
-              "spinRate": 2434
-            }
-          }
-        },
-        {
-          "index": 49,
-          "count": {
-            "balls": 0,
-            "strikes": 1
           },
           "details": {
             "code": "B",
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "SI",
+              "description": "Sinker"
             }
           },
           "pitchData": {
-            "startSpeed": 88.4,
+            "startSpeed": 90.9,
             "breaks": {
-              "spinRate": 2507
+              "spinRate": 2145
             }
           }
         },
         {
-          "index": 50,
+          "index": 48,
           "count": {
             "balls": 1,
-            "strikes": 1
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            }
-          },
-          "pitchData": {
-            "startSpeed": 87.7,
-            "breaks": {
-              "spinRate": 2532
-            }
-          }
-        },
-        {
-          "index": 51,
-          "count": {
-            "balls": 1,
-            "strikes": 2
+            "strikes": 0
           },
           "details": {
             "code": "X",
             "description": "In play, Home Run",
             "isStrike": true,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "CU",
+              "description": "Curveball"
             }
           },
           "pitchData": {
-            "startSpeed": 89.3,
+            "startSpeed": 80.2,
             "breaks": {
-              "spinRate": 2424
+              "spinRate": 2895
             }
           },
           "hitData": {
-            "launchSpeed": 104.7,
-            "launchAngle": 34.1,
+            "launchSpeed": 108.1,
+            "launchAngle": 26.5,
             "trajectory": "fly_ball",
-            "location": "DLF"
+            "location": "DL"
           }
         }
       ],
       "runners": [
-        {
-          "movement": {
-            "originBase": "1B",
-            "start": "1B",
-            "end": "score",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Home Run",
-            "eventType": "home_run",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 625204,
-              "fullName": "Rex Power",
-              "link": "/api/v1/people/625204"
-            },
-            "isScoringEvent": true,
-            "rbi": true,
-            "earned": true,
-            "teamUnearned": false,
-            "playIndex": 3,
-            "responsiblePitcher": {
-              "id": 605110,
-              "link": "/api/v1/people/605110"
-            }
-          },
-          "credits": []
-        },
         {
           "movement": {
             "originBase": null,
@@ -1440,18 +1366,18 @@
             "eventType": "home_run",
             "movementReason": null,
             "runner": {
-              "id": 625209,
-              "fullName": "TJ Hawkins",
-              "link": "/api/v1/people/625209"
+              "id": 545107,
+              "fullName": "Owen Chen",
+              "link": "/api/v1/people/545107"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 3,
+            "playIndex": 1,
             "responsiblePitcher": {
-              "id": 605110,
-              "link": "/api/v1/people/605110"
+              "id": 645210,
+              "link": "/api/v1/people/645210"
             }
           },
           "credits": []
@@ -2146,10 +2072,10 @@
       ]
     }
   ],
-  "playCount": 112,
+  "playCount": 82,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 112,
+    "totalPlaysInGame": 82,
     "snapshotPlayCount": 6
   }
 }
