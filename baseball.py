@@ -1,7 +1,7 @@
 import random
 import uuid
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from gameday import GamedayData, GameData, LiveData, Linescore, InningLinescore, Play, PlayResult, PlayAbout, PlayCount, PlayEvent, Runner, FielderCredit, PitchData, HitData, PitchDetails, Boxscore, BoxscoreTeam, BoxscorePlayer
 from teams import TEAMS
 from commentary import GAME_CONTEXT
@@ -23,6 +23,11 @@ class BaseballSimulator:
         self.team2_name = self.team2_data["name"]
         self.max_innings = max_innings
         self.game_rng = random.Random(game_seed)
+
+        # Start Time: September 27th 2025, 7:00 PM UTC
+        self.current_time = datetime(2025, 9, 27, 19, 0, 0, tzinfo=timezone.utc)
+        # Track inning state to apply breaks correctly (inning, is_top)
+        self._last_inning_state = (1, True)
 
         # Setup lineups and pitchers
         self.team1_lineup = [p for p in self.team1_data["players"] if p['position']['abbreviation'] != 'P']
@@ -684,6 +689,13 @@ class BaseballSimulator:
         if not runner_data:
             return False # Should not happen
 
+        # Timing for steal event
+        action_start = self.current_time + timedelta(seconds=self.game_rng.uniform(1.0, 3.0))
+        action_duration = self.game_rng.uniform(3.0, 5.0)
+        action_end = action_start + timedelta(seconds=action_duration)
+        # Advance time past the action
+        self.current_time = action_end + timedelta(seconds=self.game_rng.uniform(5.0, 10.0))
+
         success_chance = runner_data['batting_profile']['stealing_success_rate'] - (defensive_catcher['catchers_arm'] * 0.1)
         if self.game_rng.random() < success_chance:
             self.bases[base_to_steal - 1] = runner_name
@@ -700,7 +712,9 @@ class BaseballSimulator:
                      'isStrike': False,
                      'type': {'code': 'AS', 'description': 'Action'},
                      'eventType': 'stolen_base'
-                 }
+                 },
+                 'startTime': action_start.isoformat(),
+                 'endTime': action_end.isoformat()
              }
             play_events.append(event)
             self._pitch_event_seq += 1
@@ -720,7 +734,9 @@ class BaseballSimulator:
                      'isStrike': False,
                      'type': {'code': 'AS', 'description': 'Action'},
                      'eventType': 'caught_stealing'
-                 }
+                 },
+                 'startTime': action_start.isoformat(),
+                 'endTime': action_end.isoformat()
              }
             play_events.append(event)
             self._pitch_event_seq += 1
@@ -731,8 +747,16 @@ class BaseballSimulator:
         balls, strikes = 0, 0
         play_events: list[PlayEvent] = []
         
+        at_bat_start_time = self.current_time
+
         # Boost HBP rate to match MLB averages
         if self.game_rng.random() < (batter['plate_discipline'].get('HBP', 0) * 2.5):
+            # Advance time for HBP
+            pitch_start = self.current_time
+            pitch_duration = 3.5 + self.game_rng.uniform(0, 1.5)
+            pitch_end = pitch_start + timedelta(seconds=pitch_duration)
+            self.current_time = pitch_end + timedelta(seconds=self.game_rng.normalvariate(17, 3)) # Prep for next batter
+
             self._update_batting_stat(self._batting_team_key, batter['id'], 'hitByPitch')
             self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'hitByPitch')
             return "Hit By Pitch", None, play_events
@@ -742,6 +766,11 @@ class BaseballSimulator:
         is_bunting = bunt_situation and self.game_rng.random() < bunt_propensity
 
         while balls < 4 and strikes < 3:
+            # Time setup for this pitch
+            pitch_start = self.current_time
+            pitch_duration = 3.5 + self.game_rng.uniform(0, 1.5) # Pitch takes ~3.5-5s
+            pitch_end = pitch_start + timedelta(seconds=pitch_duration)
+
             pitch_outcome_text = ""
             steal_attempt_base = self._decide_steal_attempt(balls, strikes)
             
@@ -762,7 +791,12 @@ class BaseballSimulator:
             # Boost contact rate slightly to reduce strikeouts (adjusted to 0.063)
             contact = self.game_rng.random() < (batter['batting_profile']['contact'] + 0.063) or (is_bunting and is_strike_loc)
 
-            play_event: PlayEvent = {'index': self._pitch_event_seq, 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}}
+            play_event: PlayEvent = {
+                'index': self._pitch_event_seq,
+                'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes},
+                'startTime': pitch_start.isoformat(),
+                'endTime': pitch_end.isoformat()
+            }
             if is_bunting:
                 play_event['isBunt'] = True
 
@@ -814,6 +848,11 @@ class BaseballSimulator:
             play_event['pitchData'] = pitch_data
             play_events.append(play_event)
             self._pitch_event_seq += 1
+
+            # Update current time for next pitch
+            # Median pitch interval is 17s.
+            time_between = max(10, self.game_rng.normalvariate(17, 3))
+            self.current_time = pitch_end + timedelta(seconds=time_between)
 
             if is_in_play:
                 if steal_attempt_base:
@@ -922,9 +961,13 @@ class BaseballSimulator:
             next_pitcher_name = available_bullpen[0]
             if is_home_team_pitching:
                 if self.team1_current_pitcher_name != next_pitcher_name:
+                    # Pitching change takes time
+                    self.current_time += timedelta(seconds=120)
                     self.team1_current_pitcher_name, self.team1_available_bullpen = next_pitcher_name, available_bullpen[1:]
             else:
                 if self.team2_current_pitcher_name != next_pitcher_name:
+                    # Pitching change takes time
+                    self.current_time += timedelta(seconds=120)
                     self.team2_current_pitcher_name, self.team2_available_bullpen = next_pitcher_name, available_bullpen[1:]
 
     def _create_credit(self, player, credit_type):
@@ -1087,6 +1130,12 @@ class BaseballSimulator:
         is_home_team_batting = not self.top_of_inning
         batting_team_name, lineup, batter_idx_ref = (self.team1_name, self.team1_lineup, 'team1_batter_idx') if is_home_team_batting else (self.team2_name, self.team2_lineup, 'team2_batter_idx')
 
+        # Add time for inning break (approx 2 minutes) if we just switched innings
+        current_inning_state = (self.inning, self.top_of_inning)
+        if current_inning_state != self._last_inning_state:
+            self.current_time += timedelta(minutes=2)
+            self._last_inning_state = current_inning_state
+
         if self.inning >= 10:
             last_batter_idx = (getattr(self, batter_idx_ref) - 1 + 9) % 9
             runner_name = lineup[last_batter_idx]['legal_name']
@@ -1103,7 +1152,13 @@ class BaseballSimulator:
             # Store pre-play base state for matchup
             pre_play_bases = self.bases[:]
 
+            # Capture start time of the play
+            play_start_time = self.current_time
+
             outcome, description, play_events = self._simulate_at_bat(batter, pitcher)
+
+            # Capture end time of the play
+            play_end_time = self.current_time
 
             runs, rbis, was_error = 0, 0, False
             advances, credits = [], []
@@ -1438,7 +1493,17 @@ class BaseballSimulator:
             final_description = play_description_text if is_dp and play_description_text else ""
 
             play_result = PlayResult(type="atBat", event=outcome, eventType=self._get_event_type_code(outcome), description=final_description, rbi=rbis, awayScore=self.team2_score, homeScore=self.team1_score)
-            play_about = PlayAbout(atBatIndex=at_bat_index, halfInning="bottom" if is_home_team_batting else "top", isTopInning=not is_home_team_batting, inning=self.inning, isScoringPlay=runs > 0)
+
+            play_about = PlayAbout(
+                atBatIndex=at_bat_index,
+                halfInning="bottom" if is_home_team_batting else "top",
+                isTopInning=not is_home_team_batting,
+                inning=self.inning,
+                isScoringPlay=runs > 0,
+                startTime=play_start_time.isoformat(),
+                endTime=play_end_time.isoformat()
+            )
+
             final_count = PlayCount(balls=0, strikes=0, outs=self.outs)
             matchup = self._build_matchup(batter, pitcher, pre_play_bases)
             current_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
