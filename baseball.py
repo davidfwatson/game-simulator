@@ -411,7 +411,7 @@ class BaseballSimulator:
         if la < 12:
             if ev > 108: return "Double Play" # Hard grounder at infielder
             if ev > 102: return "Single" # Hard grounder through the hole
-            if ev > 92 and self.game_rng.random() < 0.25: return "Single" # Lucky finder
+            if ev > 92 and self.game_rng.random() < 0.30: return "Single" # Lucky finder
             return "Groundout"
 
         # Line drives
@@ -428,7 +428,7 @@ class BaseballSimulator:
             if ev > 104: return "Home Run" # Reduced threshold
             if ev > 103: return "Double" # Gap shot
             if ev > 94 and self.game_rng.random() < 0.3: return "Double"
-            if ev > 90 and self.game_rng.random() < 0.2: return "Single" # Bloop
+            if ev > 90 and self.game_rng.random() < 0.28: return "Single" # Bloop
             if ev > 99 and la > 40: return "Triple"
             return "Flyout"
 
