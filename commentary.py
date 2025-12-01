@@ -274,6 +274,24 @@ GAME_CONTEXT = {
                  "He bunts it {direction}. {fielder_name} fields it cleanly and retires the batter at first {out_context_str}.",
                  "A bunt attempt {direction}. {fielder_name} pounces on it and fires to first {out_context_str}."
             ]
+        },
+        "Sac Fly": {
+            "default": [
+                "Fly ball to {direction_noun}. {fielder_name} makes the catch. Tagging and scoring from third is {scoring_runner_name}.",
+                "Hit deep enough to {direction_noun}. {fielder_name} makes the catch, and {scoring_runner_name} tags and scores.",
+                "Lifted to {direction_noun}. {fielder_name} makes the grab. {scoring_runner_name} tags from third and scores.",
+                "Fly ball, {direction_noun}. Caught by {fielder_name}. Here comes {scoring_runner_name} from third, and he scores."
+            ]
+        },
+        "Double Play": {
+            "default": [
+                "Ground ball to {fielder_name}. They go to second for one... and over to first for the double play!",
+                "Hits a grounder to {fielder_name}. To second for one, onto first... Double play!",
+                "Hard grounder to {fielder_name}... flips to second for one, back to first in time! A double play.",
+                "Ground ball {direction}. {fielder_name} to second for one... and the relay to first is in time for the double play!",
+                "Chopper to {fielder_name}. He goes to second for one, onto first for the double play.",
+                "Grounder to {fielder_name}. Quick throw to second, onto first... got 'em both! Double play."
+            ]
         }
     },
     "narrative_strings": {
