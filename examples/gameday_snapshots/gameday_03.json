@@ -1,5 +1,13 @@
 {
   "gameData": {
+    "datetime": {
+      "dateTime": "2025-09-27T23:05:00+00:00",
+      "originalDate": "2025-09-27",
+      "officialDate": "2025-09-27",
+      "dayNight": "night",
+      "time": "7:05",
+      "ampm": "PM"
+    },
     "teams": {
       "away": {
         "id": 134,
@@ -1081,7 +1089,9 @@
         "halfInning": "top",
         "isTopInning": true,
         "inning": 1,
-        "isScoringPlay": false
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:05:00+00:00",
+        "endTime": "2025-09-27T23:06:23.542466+00:00"
       },
       "count": {
         "balls": 0,
@@ -1116,6 +1126,9 @@
       "playEvents": [
         {
           "index": 0,
+          "startTime": "2025-09-27T23:05:00+00:00",
+          "endTime": "2025-09-27T23:05:24.655206+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -1140,6 +1153,9 @@
         },
         {
           "index": 1,
+          "startTime": "2025-09-27T23:05:24.655206+00:00",
+          "endTime": "2025-09-27T23:05:45.137233+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 1
@@ -1164,6 +1180,9 @@
         },
         {
           "index": 2,
+          "startTime": "2025-09-27T23:05:45.137233+00:00",
+          "endTime": "2025-09-27T23:06:03.790251+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 2
@@ -1188,6 +1207,9 @@
         },
         {
           "index": 3,
+          "startTime": "2025-09-27T23:06:03.790251+00:00",
+          "endTime": "2025-09-27T23:06:23.542466+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 2
@@ -1288,7 +1310,9 @@
         "halfInning": "top",
         "isTopInning": true,
         "inning": 1,
-        "isScoringPlay": true
+        "isScoringPlay": true,
+        "startTime": "2025-09-27T23:12:36.024793+00:00",
+        "endTime": "2025-09-27T23:12:55.559177+00:00"
       },
       "count": {
         "balls": 0,
@@ -1338,6 +1362,9 @@
       "playEvents": [
         {
           "index": 17,
+          "startTime": "2025-09-27T23:12:36.024793+00:00",
+          "endTime": "2025-09-27T23:12:55.559177+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -1504,7 +1531,9 @@
         "halfInning": "top",
         "isTopInning": true,
         "inning": 1,
-        "isScoringPlay": false
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:06:45.668008+00:00",
+        "endTime": "2025-09-27T23:09:15.560349+00:00"
       },
       "count": {
         "balls": 0,
@@ -1544,6 +1573,9 @@
       "playEvents": [
         {
           "index": 4,
+          "startTime": "2025-09-27T23:06:45.668008+00:00",
+          "endTime": "2025-09-27T23:07:05.712269+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -1568,6 +1600,9 @@
         },
         {
           "index": 5,
+          "startTime": "2025-09-27T23:07:05.712269+00:00",
+          "endTime": "2025-09-27T23:07:29.555418+00:00",
+          "isPitch": true,
           "count": {
             "balls": 1,
             "strikes": 0
@@ -1592,6 +1627,9 @@
         },
         {
           "index": 6,
+          "startTime": "2025-09-27T23:07:29.555418+00:00",
+          "endTime": "2025-09-27T23:07:52.373768+00:00",
+          "isPitch": true,
           "count": {
             "balls": 1,
             "strikes": 1
@@ -1616,6 +1654,9 @@
         },
         {
           "index": 7,
+          "startTime": "2025-09-27T23:07:52.373768+00:00",
+          "endTime": "2025-09-27T23:08:10.800371+00:00",
+          "isPitch": true,
           "count": {
             "balls": 2,
             "strikes": 1
@@ -1640,6 +1681,9 @@
         },
         {
           "index": 8,
+          "startTime": "2025-09-27T23:08:10.800371+00:00",
+          "endTime": "2025-09-27T23:08:31.877056+00:00",
+          "isPitch": true,
           "count": {
             "balls": 2,
             "strikes": 2
@@ -1664,6 +1708,9 @@
         },
         {
           "index": 9,
+          "startTime": "2025-09-27T23:08:31.877056+00:00",
+          "endTime": "2025-09-27T23:08:57.105597+00:00",
+          "isPitch": true,
           "count": {
             "balls": 2,
             "strikes": 2
@@ -1688,6 +1735,9 @@
         },
         {
           "index": 10,
+          "startTime": "2025-09-27T23:08:57.105597+00:00",
+          "endTime": "2025-09-27T23:09:15.560349+00:00",
+          "isPitch": true,
           "count": {
             "balls": 3,
             "strikes": 2
@@ -1755,7 +1805,9 @@
         "halfInning": "top",
         "isTopInning": true,
         "inning": 1,
-        "isScoringPlay": false
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:09:37.397848+00:00",
+        "endTime": "2025-09-27T23:10:26.190414+00:00"
       },
       "count": {
         "balls": 0,
@@ -1800,6 +1852,9 @@
       "playEvents": [
         {
           "index": 11,
+          "startTime": "2025-09-27T23:09:37.397848+00:00",
+          "endTime": "2025-09-27T23:10:01.666573+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -1824,6 +1879,9 @@
         },
         {
           "index": 12,
+          "startTime": "2025-09-27T23:10:01.666573+00:00",
+          "endTime": "2025-09-27T23:10:26.190414+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 1
@@ -1920,7 +1978,9 @@
         "halfInning": "top",
         "isTopInning": true,
         "inning": 1,
-        "isScoringPlay": false
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:13:22.300289+00:00",
+        "endTime": "2025-09-27T23:14:32.896866+00:00"
       },
       "count": {
         "balls": 0,
@@ -1970,6 +2030,9 @@
       "playEvents": [
         {
           "index": 18,
+          "startTime": "2025-09-27T23:13:22.300289+00:00",
+          "endTime": "2025-09-27T23:13:46.037174+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -1994,6 +2057,9 @@
         },
         {
           "index": 19,
+          "startTime": "2025-09-27T23:13:46.037174+00:00",
+          "endTime": "2025-09-27T23:14:07.706122+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 1
@@ -2018,6 +2084,9 @@
         },
         {
           "index": 20,
+          "startTime": "2025-09-27T23:14:07.706122+00:00",
+          "endTime": "2025-09-27T23:14:32.896866+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 2
@@ -2085,7 +2154,9 @@
         "halfInning": "bottom",
         "isTopInning": false,
         "inning": 1,
-        "isScoringPlay": false
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:20:55.453866+00:00",
+        "endTime": "2025-09-27T23:21:40.056348+00:00"
       },
       "count": {
         "balls": 0,
@@ -2125,6 +2196,9 @@
       "playEvents": [
         {
           "index": 31,
+          "startTime": "2025-09-27T23:20:55.453866+00:00",
+          "endTime": "2025-09-27T23:21:15.150325+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
@@ -2149,6 +2223,9 @@
         },
         {
           "index": 32,
+          "startTime": "2025-09-27T23:21:15.150325+00:00",
+          "endTime": "2025-09-27T23:21:40.056348+00:00",
+          "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 1
