@@ -361,11 +361,19 @@ class BaseballSimulator:
         is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012)
 
         if is_strike:
-            zone = self.game_rng.randint(1, 9)
+            # Weighted distribution for strike zones (1-9)
+            # Corners (1, 3, 7, 9) and Edges (2, 4, 6, 8) are more common than Center (5)
+            # Weights: Corners=1.5, Edges=1.0, Center=0.6
+            zones = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            weights = [1.5, 1.0, 1.5, 1.0, 0.6, 1.0, 1.5, 1.0, 1.5]
+            zone = self.game_rng.choices(zones, weights=weights, k=1)[0]
         else:
-            # Ball locations: 11 (High), 12 (Outside), 13 (Inside), 14 (Low)
-            # Simple uniform distribution for now
-            zone = self.game_rng.choice([11, 12, 13, 14])
+            # Ball locations: 11 (High-Left), 12 (High-Right), 13 (Low-Left), 14 (Low-Right)
+            # Low pitches (dirt) are more common than high misses generally
+            # Weights: Low (13, 14)=3.0, High (11, 12)=2.0
+            zones = [11, 12, 13, 14]
+            weights = [2.0, 2.0, 3.0, 3.0]
+            zone = self.game_rng.choices(zones, weights=weights, k=1)[0]
 
         return is_strike, zone
 
