@@ -158,6 +158,7 @@ class PitchDetails(TypedDict):
     isStrike: bool
     type: PitchType
     eventType: NotRequired[str]
+    zone: NotRequired[int]
 
 
 class PitchBreaks(TypedDict):
@@ -167,6 +168,7 @@ class PitchBreaks(TypedDict):
 class PitchData(TypedDict):
     startSpeed: float
     breaks: PitchBreaks
+    zone: NotRequired[int]
 
 
 class HitData(TypedDict):

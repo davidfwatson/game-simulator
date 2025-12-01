@@ -347,10 +347,27 @@ class BaseballSimulator:
         setattr(self, f"{team_prefix}_catcher", defense.get('C'))
 
     def _simulate_pitch_trajectory(self, pitcher):
-        """Simulates the pitch's path and determines if it's in the strike zone."""
+        """
+        Simulates the pitch's path and determines if it's in the strike zone.
+        Returns a tuple: (is_strike_loc, zone_code)
+        zone_code 1-9 are strike zones.
+        11: High (Ball)
+        12: Outside (Ball)
+        13: Inside (Ball)
+        14: Low (Ball)
+        """
         fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina']) / 15) * 0.1
         # Add a small penalty to control to increase walks slightly
-        return self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012)
+        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012)
+
+        if is_strike:
+            zone = self.game_rng.randint(1, 9)
+        else:
+            # Ball locations: 11 (High), 12 (Outside), 13 (Inside), 14 (Low)
+            # Simple uniform distribution for now
+            zone = self.game_rng.choice([11, 12, 13, 14])
+
+        return is_strike, zone
 
     def _simulate_bat_swing(self, batter, is_strike_loc):
         """Determines if the batter swings at the pitch."""
@@ -726,7 +743,7 @@ class BaseballSimulator:
             pitch_velo = round(self.game_rng.uniform(*pitch_details_team['velo_range']), 1)
             pitch_spin = self.game_rng.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if self.game_rng.random() > 0.08 else None
             
-            is_strike_loc = self._simulate_pitch_trajectory(pitcher)
+            is_strike_loc, pitch_zone = self._simulate_pitch_trajectory(pitcher)
             
             pre_pitch_balls, pre_pitch_strikes = balls, strikes
             event_details: PlayEvent['details'] = {}
@@ -780,7 +797,9 @@ class BaseballSimulator:
 
             self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'numberOfPitches')
             event_details['type'] = {'code': GAME_CONTEXT['PITCH_TYPE_MAP'].get(pitch_selection, 'UN'), 'description': pitch_selection.capitalize()}
-            pitch_data: PitchData = {'startSpeed': pitch_velo}
+            event_details['zone'] = pitch_zone
+
+            pitch_data: PitchData = {'startSpeed': pitch_velo, 'zone': pitch_zone}
             if pitch_spin: pitch_data['breaks'] = {'spinRate': pitch_spin}
 
             play_event['details'] = event_details
