@@ -465,7 +465,16 @@ class NarrativeRenderer(GameRenderer):
 
                      summary_lines.append(self._get_radio_string('inning_break_outro', {'next_inning_ordinal': self._get_ordinal(inning)}))
 
-                     lines.append(" ".join(summary_lines))
+                     # Append summary to the last play of the previous inning if possible for better flow
+                     if lines and lines[-1] == "":
+                         lines.pop()
+
+                     summary_text = " ".join(summary_lines)
+                     if lines:
+                         lines[-1] += " " + summary_text
+                     else:
+                         lines.append(summary_text)
+
                      lines.append("")
 
                      if half == "Top":
