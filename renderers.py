@@ -1,4 +1,5 @@
 import random
+from datetime import datetime
 from commentary import GAME_CONTEXT
 from gameday import GamedayData
 
@@ -102,6 +103,55 @@ class NarrativeRenderer(GameRenderer):
         self.verbose = verbose
         # use_bracketed_ui is ignored in new format as we don't print status lines
         self.last_foul_phrase = ""
+
+        # Timing vars
+        self.lines = []
+        # Initialize last_timestamp to game start time
+        start_time_str = self.gameday_data['gameData']['datetime']['dateTime']
+        self.last_timestamp = datetime.fromisoformat(start_time_str)
+        self.pending_duration = 0.0
+
+    def _calculate_spoken_duration(self, text: str) -> float:
+        """Estimate spoken duration of text in seconds."""
+        if not text:
+            return 0.0
+        # Roughly 0.07 seconds per character (approx 14 chars/sec)
+        # Plus some pauses for punctuation
+        duration = len(text) * 0.07
+        duration += text.count('.') * 0.5
+        duration += text.count(',') * 0.2
+        return duration
+
+    def _emit(self, text: str, target_time_iso: str = None):
+        """
+        Append text to output lines.
+        If target_time_iso is provided, calculate delay relative to last_timestamp + pending_duration.
+        """
+        if target_time_iso:
+            target_time = datetime.fromisoformat(target_time_iso)
+            gap = (target_time - self.last_timestamp).total_seconds()
+
+            # The gap is the time from previous event end to current event target time.
+            # pending_duration is the time occupied by spoken text since previous event end.
+            delay = gap - self.pending_duration
+
+            if delay > 0.5:
+                self.lines.append(f"[TTS SPLIT HERE DELAY:{delay:.1f}s]")
+                # We have consumed the wait time.
+                # The text we are about to emit happens AT target_time.
+                self.last_timestamp = target_time
+                self.pending_duration = 0.0
+            else:
+                # We are behind or just on time.
+                # effectively advance clock to target_time, but account for overshoot
+                overshoot = self.pending_duration - gap
+                if overshoot < 0: overshoot = 0 # Should be covered by delay > 0 check, but safe guard
+
+                self.last_timestamp = target_time
+                self.pending_duration = overshoot
+
+        self.lines.append(text)
+        self.pending_duration += self._calculate_spoken_duration(text)
 
     def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple):
         # Helper to get description based on zone
@@ -426,19 +476,20 @@ class NarrativeRenderer(GameRenderer):
         return f"{desc}."
 
     def render(self) -> str:
-        lines = []
+        self.lines = []
+        game_start_time = self.gameday_data['gameData']['datetime']['dateTime']
 
         venue = self.gameday_data['gameData'].get('venue', 'the ballpark')
-        lines.append(self._get_radio_string('station_intro'))
-        lines.append(f"Tonight, from {venue}, it's the {self.home_team['name']} hosting the {self.away_team['name']}.")
-        lines.append(self._get_radio_string('welcome_intro'))
+        self._emit(self._get_radio_string('station_intro'), game_start_time)
+        self._emit(f"Tonight, from {venue}, it's the {self.home_team['name']} hosting the {self.away_team['name']}.")
+        self._emit(self._get_radio_string('welcome_intro'))
 
         weather = self.gameday_data['gameData'].get('weather')
         if weather:
-             lines.append(f"And it is a perfect night for a ball game: {weather}.")
+             self._emit(f"And it is a perfect night for a ball game: {weather}.")
 
-        lines.append("And we are underway.")
-        lines.append("")
+        self._emit("And we are underway.")
+        self._emit("")
 
         current_inning_state = (0, '')
         self.last_play_inning = None
@@ -503,18 +554,18 @@ class NarrativeRenderer(GameRenderer):
 
                      summary_lines.append(self._get_radio_string('inning_break_outro', {'next_inning_ordinal': self._get_ordinal(inning)}))
 
-                     lines.append(" ".join(summary_lines))
-                     lines.append("")
+                     self._emit(" ".join(summary_lines))
+                     self._emit("")
 
                      if half == "Top":
-                         lines.append(f"Top of the {self._get_ordinal(inning)} inning here at {venue}.")
+                         self._emit(f"Top of the {self._get_ordinal(inning)} inning here at {venue}.")
                      else:
-                         lines.append(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning)}))
-                     lines.append("")
+                         self._emit(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning)}))
+                     self._emit("")
 
                 else:
-                    lines.append(f"{half} of the {self._get_ordinal(inning)} inning.")
-                    lines.append("")
+                    self._emit(f"{half} of the {self._get_ordinal(inning)} inning.")
+                    self._emit("")
 
                 self.plays_in_half_inning = []
                 self.runners_on_base = {'1B': None, '2B': None, '3B': None}
@@ -524,7 +575,7 @@ class NarrativeRenderer(GameRenderer):
                          if r['movement']['start'] == '2B':
                              runner_name = r['details']['runner']['fullName']
                              self.runners_on_base['2B'] = runner_name
-                             lines.append(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
+                             self._emit(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
                              break
 
                 current_inning_state = (inning, half)
@@ -536,13 +587,13 @@ class NarrativeRenderer(GameRenderer):
 
             if prev_info and prev_info['id'] != pitcher_id:
                  team_name = self.home_team['name'] if about['isTopInning'] else self.away_team['name']
-                 lines.append(f"Pitching Change for {team_name}: {matchup['pitcher']['fullName']} replaces {prev_info['name']}.")
-                 lines.append("")
+                 self._emit(f"Pitching Change for {team_name}: {matchup['pitcher']['fullName']} replaces {prev_info['name']}.")
+                 self._emit("")
 
             self.current_pitcher_info[pitching_team_key] = {'id': pitcher_id, 'name': matchup['pitcher']['fullName']}
 
             batter_name = matchup['batter']['fullName']
-            play_text_blocks = []
+            play_block_buffer = [] # list of (text, timestamp)
 
             outs_str = f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}"
             if self.outs_tracker == 1: outs_str = "one away"
@@ -571,13 +622,13 @@ class NarrativeRenderer(GameRenderer):
                     batter_pos = self.gameday_data['gameData']['players'][batter_id]['primaryPosition']['name']
 
                 pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
-                play_text_blocks.append(intro_template.format(
+                play_block_buffer.append((intro_template.format(
                     batter_name=batter_name,
                     team_name=team_name,
                     outs_str=outs_str,
                     position=batter_pos.lower(),
                     pitcher_name=pitcher_name
-                ))
+                ), about['startTime'])) # Trigger delay before batter intro
             else:
                  if len(runners) == 3:
                      base_desc = "the bases loaded"
@@ -625,21 +676,21 @@ class NarrativeRenderer(GameRenderer):
                      val_to_use = val_to_use[0].upper() + val_to_use[1:]
 
                  pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
-                 play_text_blocks.append(template.format(
+                 play_block_buffer.append((template.format(
                      batter_name=batter_name,
                      runners_str=val_to_use,
                      outs_str=outs_str,
                      pitcher_name=pitcher_name
-                 ))
+                 ), about['startTime']))
 
             if self.rng_color.random() < 0.2:
                  bat_side = matchup['batSide']['code']
                  pitch_hand = matchup['pitchHand']['code']
                  if bat_side == 'S': bat_side = 'R' if pitch_hand == 'L' else 'L'
-                 if bat_side == 'R' and pitch_hand == 'R': play_text_blocks.append("Righty against righty.")
-                 elif bat_side == 'R' and pitch_hand == 'L': play_text_blocks.append("Righty against the lefty.")
-                 elif bat_side == 'L' and pitch_hand == 'R': play_text_blocks.append("Lefty against the righty.")
-                 elif bat_side == 'L' and pitch_hand == 'L': play_text_blocks.append("Lefty against the lefty.")
+                 if bat_side == 'R' and pitch_hand == 'R': play_block_buffer.append(("Righty against righty.", None))
+                 elif bat_side == 'R' and pitch_hand == 'L': play_block_buffer.append(("Righty against the lefty.", None))
+                 elif bat_side == 'L' and pitch_hand == 'R': play_block_buffer.append(("Lefty against the righty.", None))
+                 elif bat_side == 'L' and pitch_hand == 'L': play_block_buffer.append(("Lefty against the lefty.", None))
 
             result = play['result']
             outcome = result['event']
@@ -799,13 +850,13 @@ class NarrativeRenderer(GameRenderer):
 
                         # Update last_pitch_context for the next iteration (important for de-duplication)
                         last_pitch_context = pbp_line.rstrip(".,")
-                        play_text_blocks.append(pbp_line)
+                        play_block_buffer.append((pbp_line, event['endTime']))
 
                         if is_steal_attempt:
-                            play_text_blocks.append(self._render_steal_event(steal_event))
+                            play_block_buffer.append((self._render_steal_event(steal_event), steal_event['endTime']))
                             i += 1
                 else:
-                    if code != 'X': play_text_blocks.append(f"{desc}.")
+                    if code != 'X': play_block_buffer.append((f"{desc}.", event['endTime']))
 
                 i += 1
 
@@ -948,7 +999,9 @@ class NarrativeRenderer(GameRenderer):
 
                     outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context)
 
-            if outcome_text: play_text_blocks.append(outcome_text)
+            if outcome_text:
+                # Outcome text generally happens at the end of the play
+                play_block_buffer.append((outcome_text, about['endTime']))
 
             new_away = result['awayScore']
             new_home = result['homeScore']
@@ -983,18 +1036,21 @@ class NarrativeRenderer(GameRenderer):
                          score_lines.append(self._get_radio_string('score_update_lead', ctx))
 
                 score_update_text = " ".join(score_lines)
-                if play_text_blocks:
-                    last_block = play_text_blocks[-1]
-                    if last_block.endswith('...'):
-                        play_text_blocks[-1] = last_block.rstrip('.') + ", " + score_update_text + "."
-                    elif last_block.endswith('.'):
-                        play_text_blocks[-1] = last_block[:-1] + ", " + score_update_text + "."
-                    elif last_block.endswith('!'):
-                        play_text_blocks[-1] = last_block + " " + score_update_text[0].upper() + score_update_text[1:] + "."
+                if play_block_buffer:
+                    last_block_text, last_block_time = play_block_buffer[-1]
+                    # We modify the text of the last block, keep its timestamp
+                    new_text = last_block_text
+                    if last_block_text.endswith('...'):
+                        new_text = last_block_text.rstrip('.') + ", " + score_update_text + "."
+                    elif last_block_text.endswith('.'):
+                        new_text = last_block_text[:-1] + ", " + score_update_text + "."
+                    elif last_block_text.endswith('!'):
+                        new_text = last_block_text + " " + score_update_text[0].upper() + score_update_text[1:] + "."
                     else:
-                        play_text_blocks[-1] = last_block + " " + score_update_text + "."
+                        new_text = last_block_text + " " + score_update_text + "."
+                    play_block_buffer[-1] = (new_text, last_block_time)
                 else:
-                    play_text_blocks.append(score_update_text[0].upper() + score_update_text[1:] + ".")
+                    play_block_buffer.append((score_update_text[0].upper() + score_update_text[1:] + ".", about['endTime']))
 
             self.current_score = (new_away, new_home)
             self.outs_tracker = play['count']['outs']
@@ -1007,15 +1063,132 @@ class NarrativeRenderer(GameRenderer):
 
             self.plays_in_half_inning.append(play)
 
-            lines.append("\n".join(play_text_blocks))
-            lines.append("")
+            # Flush buffer
+            for text, timestamp in play_block_buffer:
+                self._emit(text, timestamp)
+            self._emit("")
+
+        self._emit("=" * 20 + " GAME OVER " + "=" * 20)
+        final_home = self.gameday_data['liveData']['linescore']['teams']['home']['runs']
+        final_away = self.gameday_data['liveData']['linescore']['teams']['away']['runs']
+        self._emit(f"Final Score: {self.home_team['name']} {final_home} - {self.away_team['name']} {final_away}")
+        winner = self.home_team['name'] if final_home > final_away else self.away_team['name']
+        self._emit(f"{winner} win!")
+
+        return "\n".join(self.lines)
+
+
+class StatcastRenderer(GameRenderer):
+    def render(self) -> str:
+        lines = []
+
+        lines.append("=" * 20 + " GAME START " + "=" * 20)
+        lines.append(f"{self.away_team['name']} vs. {self.home_team['name']}")
+        if 'venue' in self.gameday_data['gameData']: lines.append(f"Venue: {self.gameday_data['gameData']['venue']}")
+        if 'weather' in self.gameday_data['gameData']: lines.append(f"Weather: {self.gameday_data['gameData']['weather']}")
+        if 'umpires' in self.gameday_data['gameData']:
+            u = self.gameday_data['gameData']['umpires']
+            lines.append(f"Umpires: HP: {u[0]}, 1B: {u[1]}, 2B: {u[2]}, 3B: {u[3]}")
+        lines.append("-" * 50)
+
+        current_inning_state = (0, '')
+
+        plays = self.gameday_data['liveData']['plays']['allPlays']
+
+        for play in plays:
+            about = play['about']
+            inning = about['inning']
+            half = "Top" if about['isTopInning'] else "Bottom"
+
+            if (inning, half) != current_inning_state:
+                team_name = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
+                lines.append("-" * 50)
+                lines.append(f"{half} of Inning {inning} | {team_name} batting")
+                current_inning_state = (inning, half)
+
+            pitching_team_key = 'home' if about['isTopInning'] else 'away'
+            pitcher_id = play['matchup']['pitcher']['id']
+            prev_info = self.current_pitcher_info[pitching_team_key]
+            if prev_info and prev_info['id'] != pitcher_id:
+                 team_name = self.home_team['name'] if about['isTopInning'] else self.away_team['name']
+                 lines.append(f"\n--- Pitching Change for {team_name}: {play['matchup']['pitcher']['fullName']} replaces {prev_info['name']} ---\n")
+            self.current_pitcher_info[pitching_team_key] = {'id': pitcher_id, 'name': play['matchup']['pitcher']['fullName']}
+
+            play_events = play['playEvents']
+            for event in play_events:
+                details = event['details']
+                desc = details['description']
+                code = details.get('code', '')
+                pitch_velo = event.get('pitchData', {}).get('startSpeed')
+                pitch_selection = details.get('type', {}).get('description', 'pitch')
+
+                outcome_text = ""
+                if code == 'C': outcome_text = "called strike"
+                elif code == 'B': outcome_text = "ball"
+                elif code == 'S': outcome_text = "swinging strike"
+                elif code == 'F': outcome_text = "foul"
+                elif code == 'X': outcome_text = "in play"
+
+                if outcome_text:
+                     lines.append(f"  {outcome_text.capitalize()}: {pitch_velo} mph {pitch_selection}")
+
+            result = play['result']
+            outcome = result['event']
+            batter_name = play['matchup']['batter']['fullName']
+
+            x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
+            pitch_info = {}
+            if x_event:
+                hit_data = x_event.get('hitData', {})
+                pitch_info = {
+                    'ev': hit_data.get('launchSpeed'),
+                    'la': hit_data.get('launchAngle'),
+                    'location': hit_data.get('location')
+                }
+
+            batted_ball_str = ""
+            if outcome not in ["Strikeout", "Walk", "HBP"] and pitch_info.get('ev') is not None:
+                batted_ball_str = f" (EV: {pitch_info['ev']} mph, LA: {pitch_info['la']}°)"
+
+            result_line = outcome
+
+            was_error = outcome == "Field Error"
+            rbis = result['rbi']
+            advances = []
+            for r in play['runners']:
+                m = r['movement']
+                if m['end'] == 'score':
+                    advances.append(f"{r['details']['runner']['fullName']} scores")
+                elif m['end'] and m['start'] != m['end']:
+                    pass
+
+            if was_error:
+                result_line = self._format_statcast_template('Error', {'display_outcome': outcome, 'adv_str': "; ".join(advances), 'batter_name': batter_name})
+            elif outcome == "Strikeout":
+                k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
+                result_line = f"{batter_name} {self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])}."
+            elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
+                cat = self._get_batted_ball_category(outcome, pitch_info.get('ev'), pitch_info.get('la'))
+                phrase, _ = self._get_batted_ball_verb(outcome, cat)
+                direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la'), pitch_info.get('location'))
+                tmpl = self._format_statcast_template(outcome, {'batter_name': batter_name, 'verb': phrase, 'runs': rbis, 'direction': direction})
+                result_line = tmpl if tmpl else f"{batter_name} {phrase}."
+            elif outcome in ["HBP", "Hit By Pitch"]: result_line = "Hit by Pitch."
+
+            if batted_ball_str: result_line += batted_ball_str
+            if rbis > 0 and not was_error: result_line += f" {batter_name} drives in {rbis}."
+
+            lines.append(f"Result: {result_line}")
+
+            outs = play['count']['outs']
+            lines.append(f" | Outs: {outs} | Score: {self.home_team['name']}: {result['homeScore']}, {self.away_team['name']}: {result['awayScore']}\n")
 
         lines.append("=" * 20 + " GAME OVER " + "=" * 20)
         final_home = self.gameday_data['liveData']['linescore']['teams']['home']['runs']
         final_away = self.gameday_data['liveData']['linescore']['teams']['away']['runs']
-        lines.append(f"Final Score: {self.home_team['name']} {final_home} - {self.away_team['name']} {final_away}")
+        lines.append(f"\nFinal Score: {self.home_team['name']} {final_home} - {self.away_team['name']} {final_away}")
         winner = self.home_team['name'] if final_home > final_away else self.away_team['name']
-        lines.append(f"{winner} win!")
+        lines.append(f"\n{winner} win!")
 
         return "\n".join(lines)
 
