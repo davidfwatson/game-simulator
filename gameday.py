@@ -185,6 +185,8 @@ class PlayEvent(TypedDict):
     pitchData: NotRequired[PitchData]
     hitData: NotRequired[HitData]
     isBunt: NotRequired[bool]
+    startTime: NotRequired[str]
+    endTime: NotRequired[str]
 
 
 class PlayResult(TypedDict):
@@ -203,6 +205,8 @@ class PlayAbout(TypedDict):
     isTopInning: bool
     inning: int
     isScoringPlay: bool
+    startTime: NotRequired[str]
+    endTime: NotRequired[str]
 
 
 class PlayCount(TypedDict):
