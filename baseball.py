@@ -46,6 +46,12 @@ class BaseballSimulator:
         self.current_time = datetime(2025, 9, 27, 23, 5, 0, tzinfo=timezone.utc)
         self.game_start_time = self.current_time
 
+        # Separate RNG for timing to prevent cascading changes to game outcome
+        # when timing logic is adjusted.
+        # Use a deterministic seed derived from game_seed if available.
+        seed_val = game_seed if game_seed is not None else 0
+        self.time_rng = random.Random(seed_val + 99999)
+
         self.gameday_data: GamedayData | None = None
         self._pitch_event_seq = 0
         self._initialize_gameday_data()
@@ -698,7 +704,7 @@ class BaseballSimulator:
             return False # Should not happen
 
         # Advance time for the steal play (throw, tag, etc.)
-        steal_duration = self.game_rng.uniform(3.0, 6.0)
+        steal_duration = self.time_rng.uniform(3.0, 6.0)
         start_time = self.current_time.isoformat()
         self.current_time += timedelta(seconds=steal_duration)
         end_time = self.current_time.isoformat()
@@ -759,7 +765,7 @@ class BaseballSimulator:
         # Boost HBP rate to match MLB averages
         if self.game_rng.random() < (batter['plate_discipline'].get('HBP', 0) * 2.5):
             # Advance time for the HBP pitch
-            self.current_time += timedelta(seconds=self.game_rng.uniform(15.0, 25.0))
+            self.current_time += timedelta(seconds=self.time_rng.uniform(15.0, 25.0))
             self._update_batting_stat(self._batting_team_key, batter['id'], 'hitByPitch')
             self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'hitByPitch')
             return "Hit By Pitch", None, play_events
@@ -772,7 +778,7 @@ class BaseballSimulator:
             pitch_start_time = self.current_time.isoformat()
 
             # Advance time for the pitch (median ~20.4s)
-            time_between_pitches = self.game_rng.uniform(18.0, 26.0)
+            time_between_pitches = self.time_rng.uniform(18.0, 26.0)
             self.current_time += timedelta(seconds=time_between_pitches)
             pitch_end_time = self.current_time.isoformat()
 
@@ -1137,7 +1143,7 @@ class BaseballSimulator:
         while self.outs < 3:
             if not first_batter:
                 # Time between at-bats (avg ~23.6s)
-                self.current_time += timedelta(seconds=self.game_rng.uniform(20.0, 27.0))
+                self.current_time += timedelta(seconds=self.time_rng.uniform(20.0, 27.0))
             first_batter = False
 
             ab_start_time = self.current_time.isoformat()
@@ -1529,7 +1535,7 @@ class BaseballSimulator:
             # Break between innings (or start of game logic)
             if self.inning > 1:
                 # Inning break (avg ~119.6s)
-                self.current_time += timedelta(seconds=self.game_rng.uniform(115.0, 125.0))
+                self.current_time += timedelta(seconds=self.time_rng.uniform(115.0, 125.0))
 
             self.top_of_inning = True
             self._simulate_half_inning()
@@ -1542,7 +1548,7 @@ class BaseballSimulator:
                 break
 
             # Mid-inning break
-            self.current_time += timedelta(seconds=self.game_rng.uniform(115.0, 125.0))
+            self.current_time += timedelta(seconds=self.time_rng.uniform(115.0, 125.0))
 
             self.top_of_inning = False
             self._simulate_half_inning()
