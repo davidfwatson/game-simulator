@@ -66,12 +66,22 @@ class PlayerDetail(TypedDict):
     strikeZoneBottom: float
 
 
+class GameDatetime(TypedDict):
+    dateTime: str
+    originalDate: str
+    officialDate: str
+    dayNight: str
+    time: str
+    ampm: str
+
+
 class GameData(TypedDict):
     teams: GameTeams
     players: Dict[str, PlayerDetail]
     venue: str
     weather: str
     umpires: List[str]
+    datetime: NotRequired[GameDatetime]
 
 
 # Linescore Structures
@@ -185,6 +195,10 @@ class PlayEvent(TypedDict):
     pitchData: NotRequired[PitchData]
     hitData: NotRequired[HitData]
     isBunt: NotRequired[bool]
+    startTime: str
+    endTime: str
+    isPitch: bool
+    type: NotRequired[str]
 
 
 class PlayResult(TypedDict):
@@ -203,6 +217,8 @@ class PlayAbout(TypedDict):
     isTopInning: bool
     inning: int
     isScoringPlay: bool
+    startTime: str
+    endTime: str
 
 
 class PlayCount(TypedDict):

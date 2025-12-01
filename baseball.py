@@ -1,7 +1,7 @@
 import random
 import uuid
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from gameday import GamedayData, GameData, LiveData, Linescore, InningLinescore, Play, PlayResult, PlayAbout, PlayCount, PlayEvent, Runner, FielderCredit, PitchData, HitData, PitchDetails, Boxscore, BoxscoreTeam, BoxscorePlayer
 from teams import TEAMS
 from commentary import GAME_CONTEXT
@@ -40,6 +40,11 @@ class BaseballSimulator:
         self.team1_score, self.team2_score = 0, 0
         self.inning, self.top_of_inning = 1, True
         self.outs, self.bases = 0, [None, None, None] # Runners on base by name
+
+        # Time state
+        # September 27th 2025, 7:05 PM EDT -> 23:05 UTC
+        self.current_time = datetime(2025, 9, 27, 23, 5, 0, tzinfo=timezone.utc)
+        self.game_start_time = self.current_time
 
         self.gameday_data: GamedayData | None = None
         self._pitch_event_seq = 0
@@ -129,6 +134,14 @@ class BaseballSimulator:
         """Sets up the initial structure for Gameday JSON output."""
         self.gameday_data = {
             "gameData": {
+                "datetime": {
+                    "dateTime": self.game_start_time.isoformat(),
+                    "originalDate": "2025-09-27",
+                    "officialDate": "2025-09-27",
+                    "dayNight": "night",
+                    "time": "7:05",
+                    "ampm": "PM"
+                },
                 "teams": {
                     "away": {
                         "id": self.team2_data["id"],
@@ -684,6 +697,12 @@ class BaseballSimulator:
         if not runner_data:
             return False # Should not happen
 
+        # Advance time for the steal play (throw, tag, etc.)
+        steal_duration = self.game_rng.uniform(3.0, 6.0)
+        start_time = self.current_time.isoformat()
+        self.current_time += timedelta(seconds=steal_duration)
+        end_time = self.current_time.isoformat()
+
         success_chance = runner_data['batting_profile']['stealing_success_rate'] - (defensive_catcher['catchers_arm'] * 0.1)
         if self.game_rng.random() < success_chance:
             self.bases[base_to_steal - 1] = runner_name
@@ -693,6 +712,9 @@ class BaseballSimulator:
             # Record Stolen Base Event
             event: PlayEvent = {
                  'index': self._pitch_event_seq,
+                 'startTime': start_time,
+                 'endTime': end_time,
+                 'isPitch': False,
                  'count': {'balls': balls, 'strikes': strikes},
                  'details': {
                      'description': f"Stolen Base {base_to_steal}B",
@@ -713,6 +735,9 @@ class BaseballSimulator:
             # Record Caught Stealing Event
             event: PlayEvent = {
                  'index': self._pitch_event_seq,
+                 'startTime': start_time,
+                 'endTime': end_time,
+                 'isPitch': False,
                  'count': {'balls': balls, 'strikes': strikes},
                  'details': {
                      'description': f"Caught Stealing {base_to_steal}B",
@@ -733,6 +758,8 @@ class BaseballSimulator:
         
         # Boost HBP rate to match MLB averages
         if self.game_rng.random() < (batter['plate_discipline'].get('HBP', 0) * 2.5):
+            # Advance time for the HBP pitch
+            self.current_time += timedelta(seconds=self.game_rng.uniform(15.0, 25.0))
             self._update_batting_stat(self._batting_team_key, batter['id'], 'hitByPitch')
             self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'hitByPitch')
             return "Hit By Pitch", None, play_events
@@ -742,6 +769,13 @@ class BaseballSimulator:
         is_bunting = bunt_situation and self.game_rng.random() < bunt_propensity
 
         while balls < 4 and strikes < 3:
+            pitch_start_time = self.current_time.isoformat()
+
+            # Advance time for the pitch (median ~20.4s)
+            time_between_pitches = self.game_rng.uniform(18.0, 26.0)
+            self.current_time += timedelta(seconds=time_between_pitches)
+            pitch_end_time = self.current_time.isoformat()
+
             pitch_outcome_text = ""
             steal_attempt_base = self._decide_steal_attempt(balls, strikes)
             
@@ -762,7 +796,13 @@ class BaseballSimulator:
             # Boost contact rate slightly to reduce strikeouts (adjusted to 0.063)
             contact = self.game_rng.random() < (batter['batting_profile']['contact'] + 0.063) or (is_bunting and is_strike_loc)
 
-            play_event: PlayEvent = {'index': self._pitch_event_seq, 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}}
+            play_event: PlayEvent = {
+                'index': self._pitch_event_seq,
+                'startTime': pitch_start_time,
+                'endTime': pitch_end_time,
+                'isPitch': True,
+                'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}
+            }
             if is_bunting:
                 play_event['isBunt'] = True
 
@@ -1093,7 +1133,15 @@ class BaseballSimulator:
             self.bases[1] = runner_name
             # Note: Renderer handles "Automatic runner" text
 
+        first_batter = True
         while self.outs < 3:
+            if not first_batter:
+                # Time between at-bats (avg ~23.6s)
+                self.current_time += timedelta(seconds=self.game_rng.uniform(20.0, 27.0))
+            first_batter = False
+
+            ab_start_time = self.current_time.isoformat()
+
             old_outs = self.outs
             self._manage_pitching_change()
             pitcher_name = self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name
@@ -1104,6 +1152,8 @@ class BaseballSimulator:
             pre_play_bases = self.bases[:]
 
             outcome, description, play_events = self._simulate_at_bat(batter, pitcher)
+
+            ab_end_time = self.current_time.isoformat()
 
             runs, rbis, was_error = 0, 0, False
             advances, credits = [], []
@@ -1438,7 +1488,7 @@ class BaseballSimulator:
             final_description = play_description_text if is_dp and play_description_text else ""
 
             play_result = PlayResult(type="atBat", event=outcome, eventType=self._get_event_type_code(outcome), description=final_description, rbi=rbis, awayScore=self.team2_score, homeScore=self.team1_score)
-            play_about = PlayAbout(atBatIndex=at_bat_index, halfInning="bottom" if is_home_team_batting else "top", isTopInning=not is_home_team_batting, inning=self.inning, isScoringPlay=runs > 0)
+            play_about = PlayAbout(atBatIndex=at_bat_index, halfInning="bottom" if is_home_team_batting else "top", isTopInning=not is_home_team_batting, inning=self.inning, isScoringPlay=runs > 0, startTime=ab_start_time, endTime=ab_end_time)
             final_count = PlayCount(balls=0, strikes=0, outs=self.outs)
             matchup = self._build_matchup(batter, pitcher, pre_play_bases)
             current_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
@@ -1476,14 +1526,23 @@ class BaseballSimulator:
         should_continue = lambda: (self.inning <= 9 or self.team1_score == self.team2_score) if self.max_innings is None else self.inning <= self.max_innings
 
         while should_continue():
+            # Break between innings (or start of game logic)
+            if self.inning > 1:
+                # Inning break (avg ~119.6s)
+                self.current_time += timedelta(seconds=self.game_rng.uniform(115.0, 125.0))
+
             self.top_of_inning = True
             self._simulate_half_inning()
 
-            if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score:
+            # Fix logic: If middle of >=9th inning and Home (Team 1) is ahead, game over.
+            if self.inning >= 9 and self.team1_score > self.team2_score:
                 break
 
             if self.max_innings and self.inning >= self.max_innings:
                 break
+
+            # Mid-inning break
+            self.current_time += timedelta(seconds=self.game_rng.uniform(115.0, 125.0))
 
             self.top_of_inning = False
             self._simulate_half_inning()
