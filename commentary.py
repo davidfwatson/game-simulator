@@ -107,7 +107,8 @@ GAME_CONTEXT = {
                 "Lined sharply into {direction_noun}.",
                 "Line drive, {direction_noun}.",
                 "Lined into shallow {direction_noun}, and that one will drop in.",
-                "Lined into shallow {direction_noun}. That one drops in."
+                "Lined into shallow {direction_noun}. That one drops in.",
+                "Hard liner {direction}. And that one drops in for a base hit."
             ],
             "bloop": [
                 "Blooped {direction}. That one drops in for a hit.",
@@ -185,7 +186,8 @@ GAME_CONTEXT = {
                 "Hard grounder to {direction_noun}, smothered by {fielder_name} and he fires to first {out_context_str}.",
                 "Hard chopper to {direction_noun}. {fielder_name} snares it and fires to first {out_context_str}.",
                 "Slow roller to {direction_noun}. {fielder_name} picks it up and fires to first {out_context_str}.",
-                "Bouncer to {direction_noun}. {fielder_name} gloves it and flips to first {out_context_str}."
+                "Bouncer to {direction_noun}. {fielder_name} gloves it and flips to first {out_context_str}.",
+                "Hard chopper to {direction_noun}. {fielder_name} snares it and fires to first to get {batter_name} by a step {out_context_str}."
             ],
             "unassisted_1b": [
                 "One hopper to first. {fielder_name} will have it unassisted. And he steps on the bag to retire {batter_name} {out_context_str}.",
@@ -203,7 +205,6 @@ GAME_CONTEXT = {
             "default": [
                 "Hit in the air {direction}. {fielder_name} is after it and he makes the catch {out_context_str}.",
                 "Fly ball, {direction}. {fielder_name} drifting in... and he makes the catch {out_context_str}.",
-                "Fly ball, deep {direction}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
                 "Line drive {direction}. That one is into the glove of {fielder_name} {out_context_str}.",
                 "Fly ball, {direction}. {fielder_name} is camped under it, and he makes the catch {out_context_str}.",
                 "Popped up, {direction}. {fielder_name} is calling for it... and he makes the catch {out_context_str}.",
@@ -220,15 +221,19 @@ GAME_CONTEXT = {
                 "Fly ball, {direction_noun}. {fielder_name} is camped under it, and he makes the catch {out_context_str}.",
                 "Fly ball, {direction_noun}. {fielder_name} will have room... and he makes the catch {out_context_str}.",
                 "Hit in the air to {direction_noun}. {fielder_name} is after it and he makes the catch {out_context_str}.",
-                "Fly ball, deep {direction_noun}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
-                "{fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
-                "Hit in the air to {direction_noun}. {fielder_name} is after it and he makes the catch {out_context_str}.",
                 "Fly ball into shallow {direction_noun}. {fielder_name} coming in. And he puts the squeeze on it {out_context_str}.",
-                "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab to haul it in {out_context_str}.",
                 "Lifted into {direction_noun}, routine play for {fielder_name}.",
                 "Lifted to shallow {direction_noun}. {fielder_name} drifting back and calling for it. And he makes the catch {out_context_str}.",
                 "Pulled into {direction_noun}. {fielder_name} is there and he makes the catch {out_context_str}.",
                 "Driven into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch {out_context_str}."
+            ],
+            "deep": [
+                "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab on the warning track to haul it in {out_context_str}.",
+                "Fly ball, deep {direction}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
+                "Fly ball, deep {direction_noun}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
+                "{fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
+                "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab to haul it in {out_context_str}.",
+                "Sent deep {direction}. {fielder_name} on the run... and he makes the catch {out_context_str}."
             ]
         },
         "Pop Out": {
@@ -265,7 +270,8 @@ GAME_CONTEXT = {
                  "Swing and a miss on a low {pitch_type}, and {batter_name} is down on strikes.",
                  "Swing and a miss on a high {pitch_type}, and {batter_name} is down on strikes.",
                  "He takes a wild hack at a {pitch_type} in the dirt.",
-                 "Chases a {pitch_type} in the dirt."
+                 "Chases a {pitch_type} in the dirt.",
+                 "Swing and a miss on a {pitch_type} in the dirt, and {batter_name} is down on strikes."
              ],
              "looking": [
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
@@ -491,6 +497,7 @@ GAME_CONTEXT = {
             "And {batter_name} will lead off the inning.",
             "Leading off, {batter_name}.",
             "Leading off, {position}, {batter_name}.",
+            "Batting first and playing {position}, {batter_name}.",
             "And {batter_name} steps in to start the inning.",
             "{batter_name} digs in. He'll lead off."
         ],
@@ -527,6 +534,7 @@ GAME_CONTEXT = {
             "{count_str_cap}, pitch on the way...",
             "And {pitcher_name_last}'s pitch...",
             "And {pitcher_name_last} delivers...",
+            "{pitcher_name_last} kicks and delivers...",
             "And the pitch...",
             "Here is the {count_str}..."
         ],
