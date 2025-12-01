@@ -249,7 +249,7 @@ class NarrativeRenderer(GameRenderer):
         return self._get_narrative_string(key, context, rng=self.rng_play)
 
 
-    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context=""):
+    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context="", scoring_runner_name=None):
         ev = hit_data.get('launchSpeed')
         la = hit_data.get('launchAngle')
         location_code = hit_data.get('location')
@@ -312,11 +312,12 @@ class NarrativeRenderer(GameRenderer):
             'fielder_name': fielder_name or "the fielder",
             'result_outs': result_outs,
             'result_outs_word': result_outs_word,
-            'out_context_str': out_context_str
+            'out_context_str': out_context_str,
+            'scoring_runner_name': scoring_runner_name or "the runner"
         }
 
         prefix = f"{connector} " if connector else ""
-        force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout"]
+        force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play", "Sac Fly", "Sacrifice Bunt"]
 
         final_description = ""
         if template or (specific_templates and (force_narrative or self.rng_play.random() < 0.8)):
@@ -891,7 +892,20 @@ class NarrativeRenderer(GameRenderer):
                     inning_context = f" here in the {half.lower()} of the {ordinal}"
                     is_leadoff = (len(self.plays_in_half_inning) == 0)
 
-                    outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context)
+                    # Extract scoring runner for Sac Fly
+                    scoring_runner_name = None
+                    if outcome == "Sac Fly":
+                         for r in play['runners']:
+                             if r['movement']['end'] == 'score':
+                                 scoring_runner_name = r['details']['runner']['fullName']
+                                 break
+
+                    outcome_text = self._generate_play_description(
+                        outcome, hit_data, pitch_details, batter_name,
+                        fielder_pos, fielder_name, connector=x_event_connector,
+                        result_outs=play['count']['outs'], is_leadoff=is_leadoff,
+                        inning_context=inning_context, scoring_runner_name=scoring_runner_name
+                    )
 
             if outcome_text: play_text_blocks.append(outcome_text)
 
