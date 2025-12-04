@@ -1,9 +1,11 @@
 GAME_CONTEXT = {
     "umpires": [
-        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman"
+        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
+        "Bill Miller", "Dan Bellino", "Chris Guccione", "Mark Carlson", "Paul Emmel"
     ],
     "weather_conditions": [
-        "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R"
+        "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R",
+        "65°F, Fog rolling in", "70°F, Clear skies over Pacifica", "62°F, Cool breeze", "85°F, Santa Ana winds blowing out", "58°F, Misty night at the ballpark"
     ],
     "pitch_locations": {
         "strike": {
@@ -754,11 +756,17 @@ GAME_CONTEXT = {
         "station_intro": [
              "The Pacific Coast Baseball Network presents Baseball.",
              "You're listening to the Pacific Coast Baseball Network.",
-             "The Pacific Coast Baseball Network presents Sleep Baseball."
+             "The Pacific Coast Baseball Network presents Sleep Baseball.",
+             "Live from the coast, this is Pacific Coast Baseball.",
+             "Broadcasting to you from the golden shores, welcome to baseball.",
+             "Another night, another game, right here on the network."
         ],
         "welcome_intro": [
              "Good evening, friends. We're glad to have you back with us.",
-             "Hello and welcome to another beautiful night for baseball."
+             "Hello and welcome to another beautiful night for baseball.",
+             "Welcome aboard, baseball fans.",
+             "Grab a hot dog and settle in, we've got a great matchup tonight.",
+             "It's time for the greatest game on earth."
         ],
         "inning_break_outro": [
              "We'll be back with the {next_inning_ordinal} inning in a moment here on the Pacific Coast Baseball Network.",
