@@ -1,6 +1,7 @@
 GAME_CONTEXT = {
     "umpires": [
-        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman"
+        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
+        "Bill Miller", "Phil Cuzzi", "Paul Emmel", "Jerry Layne", "Tom Hallion"
     ],
     "weather_conditions": [
         "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R"
