@@ -1,4 +1,5 @@
 GAME_CONTEXT = {
+    "network_name": "The Golden State Diamond Network",
     "umpires": [
         "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
         "Bill Miller", "Dan Bellino", "Chris Guccione", "Mark Carlson", "Paul Emmel"
@@ -754,12 +755,16 @@ GAME_CONTEXT = {
     },
     "radio_strings": {
         "station_intro": [
-             "The Pacific Coast Baseball Network presents Baseball.",
-             "You're listening to the Pacific Coast Baseball Network.",
-             "The Pacific Coast Baseball Network presents Sleep Baseball.",
-             "Live from the coast, this is Pacific Coast Baseball.",
-             "Broadcasting to you from the golden shores, welcome to baseball.",
-             "Another night, another game, right here on the network."
+             "{network_name} presents Baseball.",
+             "You're listening to {network_name}.",
+             "{network_name} presents Sleep Baseball.",
+             "Live from the coast, this is {network_name}.",
+             "Broadcasting to you from the golden shores, welcome to baseball on {network_name}.",
+             "Another night, another game, right here on {network_name}.",
+             "From the first pitch to the final out, you're locked into {network_name}.",
+             "This is {network_name}, your home for summer baseball.",
+             "We are live on {network_name}, bringing you the sounds of the game.",
+             "Baseball is on the air, exclusively on {network_name}."
         ],
         "welcome_intro": [
              "Good evening, friends. We're glad to have you back with us.",
@@ -769,8 +774,8 @@ GAME_CONTEXT = {
              "It's time for the greatest game on earth."
         ],
         "inning_break_outro": [
-             "We'll be back with the {next_inning_ordinal} inning in a moment here on the Pacific Coast Baseball Network.",
-             "We'll be back with more baseball here on the Pacific Coast Baseball Network.",
+             "We'll be back with the {next_inning_ordinal} inning in a moment here on {network_name}.",
+             "We'll be back with more baseball here on {network_name}.",
              "We'll be back after these messages."
         ],
         "inning_break_intro": [
@@ -806,8 +811,8 @@ GAME_CONTEXT = {
             "Score is tied at {score}."
         ],
         "outro": [
-             "Producer Phil and I will be back with the post-game show in a moment here on the Pacific Coast Baseball Network.",
-             "You're drifting off with the Pacific Coast Baseball Network."
+             "Producer Phil and I will be back with the post-game show in a moment here on {network_name}.",
+             "You're drifting off with {network_name}."
         ]
     }
 }

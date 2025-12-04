@@ -499,7 +499,8 @@ class NarrativeRenderer(GameRenderer):
             lines.append(text)
             self._add_to_buffer(text)
 
-        add_line(self._get_radio_string('station_intro'))
+        network_name = GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network')
+        add_line(self._get_radio_string('station_intro', {'network_name': network_name}))
         add_line(f"Tonight, from {venue}, it's the {self.home_team['name']} hosting the {self.away_team['name']}.")
         add_line(self._get_radio_string('welcome_intro'))
 
@@ -571,7 +572,7 @@ class NarrativeRenderer(GameRenderer):
                      else:
                          summary_lines.append(self._get_radio_string('inning_summary_remains', ctx))
 
-                     summary_lines.append(self._get_radio_string('inning_break_outro', {'next_inning_ordinal': self._get_ordinal(inning)}))
+                     summary_lines.append(self._get_radio_string('inning_break_outro', {'next_inning_ordinal': self._get_ordinal(inning), 'network_name': network_name}))
 
                      summary_text = " ".join(summary_lines)
                      lines.append(summary_text)
@@ -584,7 +585,7 @@ class NarrativeRenderer(GameRenderer):
                      if half == "Top":
                          add_line(f"Top of the {self._get_ordinal(inning)} inning here at {venue}.")
                      else:
-                         add_line(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning)}))
+                         add_line(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning), 'network_name': network_name}))
                      lines.append("")
 
                 else:
