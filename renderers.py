@@ -159,7 +159,7 @@ class NarrativeRenderer(GameRenderer):
         if text:
             self.pending_text_buffer += text + " "
 
-    def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple):
+    def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple, batter_hand='R'):
         # Helper to get description based on zone
         if event_type == 'B':
             base_key = 'ball'
@@ -173,10 +173,19 @@ class NarrativeRenderer(GameRenderer):
         # Determine category from zone
         category = 'default'
         if event_type == 'B':
-            if zone == 11: category = 'high'
-            elif zone == 12: category = 'outside'
-            elif zone == 13: category = 'inside'
-            elif zone == 14: category = 'low'
+            # Zone mapping based on handedness
+            # 11: High-Left, 12: High-Right, 13: Low-Left, 14: Low-Right (Catcher's perspective)
+
+            if batter_hand == 'R':
+                if zone == 11: category = 'high_inside'
+                elif zone == 12: category = 'high_outside'
+                elif zone == 13: category = 'low_inside'
+                elif zone == 14: category = 'low_outside'
+            else: # LHB
+                if zone == 11: category = 'high_outside'
+                elif zone == 12: category = 'high_inside'
+                elif zone == 13: category = 'low_outside'
+                elif zone == 14: category = 'low_inside'
 
         options = location_data.get(category, location_data.get('default', []))
         if not options:
@@ -816,7 +825,7 @@ class NarrativeRenderer(GameRenderer):
                          else:
                              # Use location-aware description if available
                              zone = details.get('zone')
-                             desc = self._get_pitch_description_for_location('C', zone, pitch_type)
+                             desc = self._get_pitch_description_for_location('C', zone, pitch_type, matchup['batSide']['code'])
                              pbp_line = f"{pitch_type}, {desc}"
 
                     elif code == 'S':
@@ -831,7 +840,7 @@ class NarrativeRenderer(GameRenderer):
 
                     elif code == 'B':
                          zone = details.get('zone')
-                         desc = self._get_pitch_description_for_location('B', zone, pitch_type)
+                         desc = self._get_pitch_description_for_location('B', zone, pitch_type, matchup['batSide']['code'])
                          pbp_line = f"{pitch_type} {desc}"
 
                          if event['count']['balls'] == 2 and event['count']['strikes'] == 2:
