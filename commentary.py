@@ -1,9 +1,14 @@
 GAME_CONTEXT = {
     "umpires": [
-        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman"
+        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
+        "Jim Joyce", "Dale Scott", "Tim Tschida", "Angel Hernandez", "Joe West"
     ],
     "weather_conditions": [
-        "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R"
+        "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R",
+        "62°F, Fog rolling in", "66°F, Marine Layer present", "70°F, Clear with a cool breeze",
+        "58°F, Misty", "64°F, Cloudy with a chance of rain", "78°F, Clear skies and a light breeze",
+        "60°F, Heavy marine layer", "69°F, Overcast and cool", "74°F, Perfect baseball weather",
+        "57°F, Chilly wind blowing in", "85°F, Unseasonably warm", "63°F, Low clouds"
     ],
     "pitch_locations": {
         "strike": {
@@ -349,6 +354,26 @@ GAME_CONTEXT = {
                  "He bunts it {direction}. {fielder_name} fields it cleanly and retires the batter at first {out_context_str}.",
                  "A bunt attempt {direction}. {fielder_name} pounces on it and fires to first {out_context_str}."
             ]
+        },
+        "Field Error": {
+             "grounder": [
+                  "Ground ball to {position} {player_name}... and he bobbles it! {batter_name} reaches safely.",
+                  "Roller to {player_name} at {position}... but it goes right through the legs! E-{pos_code}.",
+                  "Sharp grounder to {player_name}, but he can't handle it.",
+                  "A tough hop for {player_name} at {position}, and he kicks it away."
+             ],
+             "liner": [
+                  "A hot shot to {position}... and it eats up {player_name}!",
+                  "Lined at {player_name}, but it tips off the glove and drops."
+             ],
+             "popup": [
+                  "Popped up... {player_name} calling for it... and he drops it!",
+                  "Can of corn for {player_name}, but he muffs the catch!"
+             ],
+             "default": [
+                  "An error by {player_name} allows the runner to reach.",
+                  "A fielding mishap by {player_name} at {position}."
+             ]
         }
     },
     "narrative_strings": {
@@ -755,35 +780,67 @@ GAME_CONTEXT = {
         "station_intro": [
              "The Pacific Coast Baseball Network presents Baseball.",
              "You're listening to the Pacific Coast Baseball Network.",
-             "The Pacific Coast Baseball Network presents Sleep Baseball."
+             "The Pacific Coast Baseball Network presents Sleep Baseball.",
+             "Broadcasting live from the heart of the Pacific Coast, this is PCBN.",
+             "From the mountains to the sea, you're listening to the Pacific Coast Baseball Network."
         ],
         "welcome_intro": [
              "Good evening, friends. We're glad to have you back with us.",
-             "Hello and welcome to another beautiful night for baseball."
+             "Hello and welcome to another beautiful night for baseball.",
+             "Welcome back, baseball fans. It's a great night for a game.",
+             "Good evening from the coast. Settling in for some baseball.",
+             "Welcome, everyone. We have a wonderful matchup for you tonight.",
+             "Hello again, everybody. Glad you could tune in.",
+             "Good evening from Pacific City. It's time for baseball.",
+             "Welcome to the broadcast. We've got a good one on tap.",
+             "Hello and welcome. A lovely evening for baseball here on the coast.",
+             "Greetings, fans. It's another fine night for our national pastime.",
+             "Welcome back to the ballpark. The air is crisp and we're ready for baseball.",
+             "Good evening. Whether you're listening in Santa Maria or up in the Redwood Coast, we're glad to have you.",
+             "Welcome, from San Gabriel to Oceanview. It's baseball time.",
+             "Good evening, folks. The fog is holding off, and we're ready for first pitch.",
+             "Hello and welcome. A cool breeze coming off the bay tonight.",
+             "Welcome back. It feels like a perfect night for baseball here in the West."
+        ],
+        "weather_intro": [
+             "And it is a perfect night for a ball game: {weather}.",
+             "Conditions at first pitch: {weather}.",
+             "We've got {weather} for tonight's contest.",
+             "Weather tonight: {weather}.",
+             "It's a beautiful night, {weather}.",
+             "Current conditions: {weather}.",
+             "A look at the weather: {weather}.",
+             "For those keeping score at home, it's {weather}."
         ],
         "inning_break_outro": [
              "We'll be back with the {next_inning_ordinal} inning in a moment here on the Pacific Coast Baseball Network.",
              "We'll be back with more baseball here on the Pacific Coast Baseball Network.",
-             "We'll be back after these messages."
+             "We'll be back after these messages.",
+             "Don't go anywhere. The {next_inning_ordinal} is coming up."
         ],
         "inning_break_intro": [
              "And welcome back with us here from {venue}.",
              "And we're back.",
-             "Welcome back."
+             "Welcome back.",
+             "And we are back for the {inning_ordinal}.",
+             "Welcome back to {venue}."
         ],
         "score_update_lead": [
              "and the {team_name} take a {score_lead} lead",
              "and the {team_name} take a {score_lead} lead here in the {half} of the {inning}",
-             "and the {team_name} move out in front, {score_lead}"
+             "and the {team_name} move out in front, {score_lead}",
+             "putting {team_name} on top, {score_lead}"
         ],
         "score_update_tied": [
              "and this game is now tied at {score}",
-             "and we are all knotted up at {score}"
+             "and we are all knotted up at {score}",
+             "bringing the score to {score} apiece"
         ],
         "score_update_extend": [
              "and the {team_name} extend their lead to {score_lead}",
              "and the {team_name} now lead {score_lead}",
-             "and the {team_name} now lead {score_lead} here in the {half} of the {inning}"
+             "and the {team_name} now lead {score_lead} here in the {half} of the {inning}",
+             "making it a {score_lead} ballgame"
         ],
         "inning_summary_score": [
             "And with {inning_count_word} in the books, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
@@ -800,7 +857,9 @@ GAME_CONTEXT = {
         ],
         "outro": [
              "Producer Phil and I will be back with the post-game show in a moment here on the Pacific Coast Baseball Network.",
-             "You're drifting off with the Pacific Coast Baseball Network."
+             "You're drifting off with the Pacific Coast Baseball Network.",
+             "Thanks for listening to the Pacific Coast Baseball Network.",
+             "We'll see you next time on the Pacific Coast Baseball Network."
         ]
     }
 }
