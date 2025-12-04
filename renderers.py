@@ -496,7 +496,7 @@ class NarrativeRenderer(GameRenderer):
 
         weather = self.gameday_data['gameData'].get('weather')
         if weather:
-             add_line(f"And it is a perfect night for a ball game: {weather}.")
+             add_line(self._get_radio_string('weather_intro', {'weather': weather}))
 
         add_line("And we are underway.")
         lines.append("") # Empty line

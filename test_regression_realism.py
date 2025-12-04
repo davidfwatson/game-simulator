@@ -63,7 +63,7 @@ class TestRegressionRealism(unittest.TestCase):
         This was a regression where `available_bullpen` sorting/shuffling was ineffective.
         """
         first_relievers = set()
-        for seed in range(5):
+        for seed in range(15):
             sim = BaseballSimulator(self.home, self.away, game_seed=seed)
             sim.play_game()
 
