@@ -115,5 +115,109 @@ TEAMS = {
                 }, 'control': 0.80, 'wild_pitch_rate': 0.001
             },
         ]
+    },
+    "URBAN_UNDERGROUND": {
+        "id": 135,
+        "name": "Urban Underground",
+        "abbreviation": "URB",
+        "teamName": "Underground",
+        "venue": "The Metroplex",
+        "fielding_prowess": 0.985,
+        "double_play_rate": 0.45,
+        "hbp_rate": 0.005,
+        "players": [
+             # Batting Order
+            {'id': 745301, 'legal_name': 'Dash Darnell', 'nickname': 'Flash', 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.995, 'plate_discipline': {'Walk': 0.12, 'Strikeout': 0.18, 'HBP': 0.006}, 'batting_profile': {'contact': 0.72, 'power': 0.35, 'angle': 10.0, 'bunt_propensity': 0.45, 'stealing_tendency': 0.25, 'stealing_success_rate': 0.85}},
+            {'id': 745302, 'legal_name': 'Simon Fletcher', 'nickname': 'Slick', 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.990, 'plate_discipline': {'Walk': 0.09, 'Strikeout': 0.10, 'HBP': 0.002}, 'batting_profile': {'contact': 0.88, 'power': 0.30, 'angle': 8.0, 'bunt_propensity': 0.35, 'stealing_tendency': 0.05, 'stealing_success_rate': 0.75}},
+            {'id': 745303, 'legal_name': 'Mike Steel', 'nickname': 'Iron', 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.992, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.15, 'HBP': 0.004}, 'batting_profile': {'contact': 0.78, 'power': 0.50, 'angle': 12.0, 'bunt_propensity': 0.15, 'stealing_tendency': 0.02, 'stealing_success_rate': 0.70}},
+            {'id': 745304, 'legal_name': 'Turner Banks', 'nickname': 'Tank', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.930, 'plate_discipline': {'Walk': 0.15, 'Strikeout': 0.25, 'HBP': 0.010}, 'batting_profile': {'contact': 0.65, 'power': 0.90, 'angle': 19.0, 'bunt_propensity': 0.00, 'stealing_tendency': 0.00, 'stealing_success_rate': 0.40}},
+            {'id': 745305, 'legal_name': 'Ben Biggs', 'nickname': 'Big Ben', 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.985, 'plate_discipline': {'Walk': 0.11, 'Strikeout': 0.22, 'HBP': 0.008}, 'batting_profile': {'contact': 0.68, 'power': 0.75, 'angle': 16.0, 'bunt_propensity': 0.02, 'stealing_tendency': 0.01, 'stealing_success_rate': 0.50}},
+            {'id': 745306, 'legal_name': 'Cornelius Hotch', 'nickname': 'Hot Corner', 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.988, 'plate_discipline': {'Walk': 0.08, 'Strikeout': 0.16, 'HBP': 0.005}, 'batting_profile': {'contact': 0.75, 'power': 0.60, 'angle': 14.0, 'bunt_propensity': 0.08, 'stealing_tendency': 0.03, 'stealing_success_rate': 0.65}},
+            {'id': 745307, 'legal_name': 'Rob Rockets', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.980, 'plate_discipline': {'Walk': 0.09, 'Strikeout': 0.20, 'HBP': 0.003}, 'batting_profile': {'contact': 0.70, 'power': 0.65, 'angle': 15.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.04, 'stealing_success_rate': 0.70}},
+            {'id': 745308, 'legal_name': 'Lou Lewis', 'nickname': 'Lefty', 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.975, 'plate_discipline': {'Walk': 0.13, 'Strikeout': 0.14, 'HBP': 0.002}, 'batting_profile': {'contact': 0.82, 'power': 0.40, 'angle': 11.0, 'bunt_propensity': 0.20, 'stealing_tendency': 0.06, 'stealing_success_rate': 0.72}},
+            {'id': 745309, 'legal_name': 'Wallace Green', 'nickname': 'Wall', 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.998, 'catchers_arm': 0.92, 'passed_ball_rate': 0.001, 'plate_discipline': {'Walk': 0.07, 'Strikeout': 0.12, 'HBP': 0.004}, 'batting_profile': {'contact': 0.74, 'power': 0.45, 'angle': 10.0, 'bunt_propensity': 0.15, 'stealing_tendency': 0.01, 'stealing_success_rate': 0.55}},
+            # Pitchers
+            {
+                'id': 705310, 'legal_name': 'Andy Anderson', 'nickname': 'Ace', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Starter', 'stamina': 60, 'fielding_ability': 0.970,
+                'pitch_arsenal': {
+                    'sinker': {'prob': 0.55, 'velo_range': (92, 95), 'spin_range': (2100, 2400)},
+                    'slider': {'prob': 0.30, 'velo_range': (85, 88), 'spin_range': (2500, 2800)},
+                    'changeup': {'prob': 0.15, 'velo_range': (82, 85), 'spin_range': (1700, 2000)}
+                }, 'control': 0.72, 'wild_pitch_rate': 0.002
+            },
+            {
+                'id': 705311, 'legal_name': 'Larry Long', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Long Reliever', 'stamina': 55, 'fielding_ability': 0.960,
+                'pitch_arsenal': {
+                    'four-seam fastball': {'prob': 0.60, 'velo_range': (90, 93), 'spin_range': (2200, 2500)},
+                    'curveball': {'prob': 0.40, 'velo_range': (76, 79), 'spin_range': (2600, 2900)}
+                }, 'control': 0.65, 'wild_pitch_rate': 0.004
+            },
+            {
+                'id': 705312, 'legal_name': 'Mitch Middle', 'nickname': 'Mid', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Middle Reliever', 'stamina': 35, 'fielding_ability': 0.950,
+                'pitch_arsenal': {
+                    'four-seam fastball': {'prob': 0.50, 'velo_range': (94, 97), 'spin_range': (2300, 2600)},
+                    'slider': {'prob': 0.50, 'velo_range': (86, 89), 'spin_range': (2550, 2850)}
+                }, 'control': 0.62, 'wild_pitch_rate': 0.005
+            },
+            {
+                'id': 705313, 'legal_name': 'Carl Closer', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Closer', 'stamina': 25, 'fielding_ability': 0.980,
+                'pitch_arsenal': {
+                    'four-seam fastball': {'prob': 0.70, 'velo_range': (98, 101), 'spin_range': (2400, 2750)},
+                    'knuckle curve': {'prob': 0.30, 'velo_range': (82, 85), 'spin_range': (2800, 3200)}
+                }, 'control': 0.68, 'wild_pitch_rate': 0.003
+            },
+        ]
+    },
+    "NEBULA_NAVIGATORS": {
+        "id": 136,
+        "name": "Nebula Navigators",
+        "abbreviation": "NEB",
+        "teamName": "Navigators",
+        "venue": "Stellar Field",
+        "fielding_prowess": 0.970,
+        "double_play_rate": 0.40,
+        "hbp_rate": 0.003,
+        "players": [
+            # Batting Order
+            {'id': 845401, 'legal_name': 'Stella Star', 'nickname': None, 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.965, 'plate_discipline': {'Walk': 0.08, 'Strikeout': 0.20, 'HBP': 0.002}, 'batting_profile': {'contact': 0.70, 'power': 0.60, 'angle': 14.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.15, 'stealing_success_rate': 0.80}},
+            {'id': 845402, 'legal_name': 'Carl Comet', 'nickname': None, 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.975, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.22, 'HBP': 0.003}, 'batting_profile': {'contact': 0.68, 'power': 0.65, 'angle': 16.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.18, 'stealing_success_rate': 0.82}},
+            {'id': 845403, 'legal_name': 'Nick Nova', 'nickname': None, 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.900, 'plate_discipline': {'Walk': 0.12, 'Strikeout': 0.28, 'HBP': 0.005}, 'batting_profile': {'contact': 0.62, 'power': 0.95, 'angle': 20.0, 'bunt_propensity': 0.00, 'stealing_tendency': 0.01, 'stealing_success_rate': 0.50}},
+            {'id': 845404, 'legal_name': 'Quinn Quasar', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.960, 'plate_discipline': {'Walk': 0.11, 'Strikeout': 0.25, 'HBP': 0.004}, 'batting_profile': {'contact': 0.65, 'power': 0.85, 'angle': 18.0, 'bunt_propensity': 0.02, 'stealing_tendency': 0.05, 'stealing_success_rate': 0.60}},
+            {'id': 845405, 'legal_name': 'Matt Meteor', 'nickname': None, 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.980, 'plate_discipline': {'Walk': 0.09, 'Strikeout': 0.24, 'HBP': 0.006}, 'batting_profile': {'contact': 0.66, 'power': 0.80, 'angle': 17.0, 'bunt_propensity': 0.01, 'stealing_tendency': 0.02, 'stealing_success_rate': 0.55}},
+            {'id': 845406, 'legal_name': 'Art Astro', 'nickname': None, 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.955, 'plate_discipline': {'Walk': 0.08, 'Strikeout': 0.20, 'HBP': 0.003}, 'batting_profile': {'contact': 0.72, 'power': 0.60, 'angle': 15.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.03, 'stealing_success_rate': 0.65}},
+            {'id': 845407, 'legal_name': 'Luna Love', 'nickname': None, 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.965, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.18, 'HBP': 0.002}, 'batting_profile': {'contact': 0.75, 'power': 0.50, 'angle': 13.0, 'bunt_propensity': 0.10, 'stealing_tendency': 0.08, 'stealing_success_rate': 0.70}},
+            {'id': 845408, 'legal_name': 'Ollie Orbit', 'nickname': None, 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.985, 'catchers_arm': 0.75, 'passed_ball_rate': 0.004, 'plate_discipline': {'Walk': 0.08, 'Strikeout': 0.15, 'HBP': 0.002}, 'batting_profile': {'contact': 0.78, 'power': 0.45, 'angle': 11.0, 'bunt_propensity': 0.15, 'stealing_tendency': 0.02, 'stealing_success_rate': 0.60}},
+            {'id': 845409, 'legal_name': 'Gabe Galaxy', 'nickname': None, 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.970, 'plate_discipline': {'Walk': 0.07, 'Strikeout': 0.14, 'HBP': 0.001}, 'batting_profile': {'contact': 0.82, 'power': 0.40, 'angle': 9.0, 'bunt_propensity': 0.20, 'stealing_tendency': 0.06, 'stealing_success_rate': 0.75}},
+            # Pitchers
+            {
+                'id': 805410, 'legal_name': 'Roger Rocket', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Starter', 'stamina': 62, 'fielding_ability': 0.940,
+                'pitch_arsenal': {
+                    'four-seam fastball': {'prob': 0.65, 'velo_range': (96, 99), 'spin_range': (2350, 2650)},
+                    'curveball': {'prob': 0.25, 'velo_range': (79, 82), 'spin_range': (2700, 3000)},
+                    'changeup': {'prob': 0.10, 'velo_range': (84, 87), 'spin_range': (1600, 1900)}
+                }, 'control': 0.60, 'wild_pitch_rate': 0.008
+            },
+            {
+                'id': 805411, 'legal_name': 'Sam Space', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Long Reliever', 'stamina': 48, 'fielding_ability': 0.935,
+                'pitch_arsenal': {
+                    'cutter': {'prob': 0.55, 'velo_range': (88, 91), 'spin_range': (2200, 2500)},
+                    'slider': {'prob': 0.45, 'velo_range': (82, 85), 'spin_range': (2400, 2700)}
+                }, 'control': 0.65, 'wild_pitch_rate': 0.005
+            },
+            {
+                'id': 805412, 'legal_name': 'Mark Mars', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Middle Reliever', 'stamina': 28, 'fielding_ability': 0.945,
+                'pitch_arsenal': {
+                    'four-seam fastball': {'prob': 0.50, 'velo_range': (91, 94), 'spin_range': (2150, 2450)},
+                    'slurve': {'prob': 0.50, 'velo_range': (78, 81), 'spin_range': (2600, 2900)}
+                }, 'control': 0.62, 'wild_pitch_rate': 0.006
+            },
+            {
+                'id': 805413, 'legal_name': 'Pete Pluto', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Closer', 'stamina': 20, 'fielding_ability': 0.950,
+                'pitch_arsenal': {
+                    'sinker': {'prob': 0.40, 'velo_range': (93, 96), 'spin_range': (2100, 2350)},
+                    'slider': {'prob': 0.60, 'velo_range': (83, 86), 'spin_range': (2700, 3100)}
+                }, 'control': 0.68, 'wild_pitch_rate': 0.004
+            },
+        ]
     }
 }

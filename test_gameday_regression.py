@@ -2,6 +2,7 @@ import json
 import subprocess
 import unittest
 import copy
+import random
 from baseball import BaseballSimulator
 from teams import TEAMS
 
@@ -13,9 +14,13 @@ class TestGamedayRegression(unittest.TestCase):
         """
         Run a simulation before each test to generate fresh Gameday JSON output.
         """
+        # Randomly select two teams from TEAMS for randomization coverage
+        team_keys = list(TEAMS.keys())
+        home_key, away_key = random.sample(team_keys, 2)
+
         sim = BaseballSimulator(
-            copy.deepcopy(TEAMS["BAY_BOMBERS"]),
-            copy.deepcopy(TEAMS["PC_PILOTS"])
+            copy.deepcopy(TEAMS[home_key]),
+            copy.deepcopy(TEAMS[away_key])
         )
         sim.play_game()
         self.gameday_data = sim.gameday_data

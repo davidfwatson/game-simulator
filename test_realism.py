@@ -11,8 +11,15 @@ class TestRealism(unittest.TestCase):
     def setUp(self):
         """Set up a new game for each test with a fixed random seed."""
         random.seed(42)
-        self.home_team = copy.deepcopy(TEAMS["BAY_BOMBERS"])
-        self.away_team = copy.deepcopy(TEAMS["PC_PILOTS"])
+
+        # Pick random teams using the seeded random to be deterministic per test
+        team_keys = sorted(list(TEAMS.keys())) # Sort for deterministic indexing
+        # Use simple modulo to pick different teams if we wanted, or just random.sample with the seeded random
+        # random.seed(42) is already set above.
+        home_key, away_key = random.sample(team_keys, 2)
+
+        self.home_team = copy.deepcopy(TEAMS[home_key])
+        self.away_team = copy.deepcopy(TEAMS[away_key])
 
         # Run the simulation and get the output from the simulator instance
         game = BaseballSimulator(self.home_team, self.away_team)
@@ -64,8 +71,14 @@ class TestRealism(unittest.TestCase):
     def test_extra_innings_banner(self):
         """Test for unrealistic extra-innings banner text."""
         extra_inning_log = ""
+        team_keys = sorted(list(TEAMS.keys()))
+
         for i in range(10):
-            game = BaseballSimulator(copy.deepcopy(TEAMS["BAY_BOMBERS"]), copy.deepcopy(TEAMS["PC_PILOTS"]), game_seed=i)
+            # Randomize teams for this loop too
+            random.seed(i)
+            h, a = random.sample(team_keys, 2)
+
+            game = BaseballSimulator(copy.deepcopy(TEAMS[h]), copy.deepcopy(TEAMS[a]), game_seed=i)
             game.play_game()
             renderer = NarrativeRenderer(game.gameday_data, seed=i)
             log = renderer.render()

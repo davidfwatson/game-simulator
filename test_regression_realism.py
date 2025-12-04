@@ -1,13 +1,16 @@
 import unittest
 import copy
+import random
 from baseball import BaseballSimulator
 from renderers import NarrativeRenderer
 from teams import TEAMS
 
 class TestRegressionRealism(unittest.TestCase):
     def setUp(self):
-        self.home = copy.deepcopy(TEAMS["BAY_BOMBERS"])
-        self.away = copy.deepcopy(TEAMS["PC_PILOTS"])
+        team_keys = list(TEAMS.keys())
+        home_key, away_key = random.sample(team_keys, 2)
+        self.home = copy.deepcopy(TEAMS[home_key])
+        self.away = copy.deepcopy(TEAMS[away_key])
 
     def test_catcher_groundouts_are_rare(self):
         """
