@@ -17,12 +17,20 @@ EXAMPLES_DIR = Path(__file__).parent / "examples"
 class ExampleGame:
     game_seed: int
     commentary_seed: int | None = None
+    team1: dict | None = None
+    team2: dict | None = None
+
+    def __post_init__(self):
+        if self.team1 is None:
+            self.team1 = TEAMS["BAY_BOMBERS"]
+        if self.team2 is None:
+            self.team2 = TEAMS["PC_PILOTS"]
 
     def render(self, commentary_type: str = 'narrative') -> str:
         # 1. Run Simulation
         game = BaseballSimulator(
-            TEAMS["BAY_BOMBERS"],
-            TEAMS["PC_PILOTS"],
+            self.team1,
+            self.team2,
             game_seed=self.game_seed
         )
         game.play_game()
@@ -56,8 +64,8 @@ EXAMPLE_GAMES = [
     ExampleGame(game_seed=6, commentary_seed=6),
     ExampleGame(game_seed=7, commentary_seed=7),
     ExampleGame(game_seed=8, commentary_seed=8),
-    ExampleGame(game_seed=9, commentary_seed=9),
-    ExampleGame(game_seed=10, commentary_seed=10),
+    ExampleGame(game_seed=9, commentary_seed=9, team1=TEAMS["COASTAL_VIPERS"], team2=TEAMS["DESERT_SCORPIONS"]),
+    ExampleGame(game_seed=10, commentary_seed=10, team1=TEAMS["COASTAL_VIPERS"], team2=TEAMS["DESERT_SCORPIONS"]),
 ]
 
 if __name__ == "__main__":

@@ -1,13 +1,19 @@
 import unittest
 import copy
+import random
 from baseball import BaseballSimulator
 from renderers import NarrativeRenderer
 from teams import TEAMS
 
 class TestRegressionRealism(unittest.TestCase):
     def setUp(self):
-        self.home = copy.deepcopy(TEAMS["BAY_BOMBERS"])
-        self.away = copy.deepcopy(TEAMS["PC_PILOTS"])
+        # We'll select teams randomly for each test to ensure coverage
+        # Note: tests might override this if they need specific teams
+        team_keys = list(TEAMS.keys())
+        # Ensure we pick two different teams
+        t1, t2 = random.sample(team_keys, 2)
+        self.home = copy.deepcopy(TEAMS[t1])
+        self.away = copy.deepcopy(TEAMS[t2])
 
     def test_catcher_groundouts_are_rare(self):
         """
@@ -63,8 +69,13 @@ class TestRegressionRealism(unittest.TestCase):
         This was a regression where `available_bullpen` sorting/shuffling was ineffective.
         """
         first_relievers = set()
-        for seed in range(5):
-            sim = BaseballSimulator(self.home, self.away, game_seed=seed)
+        # Use consistent teams for this specific test to isolate RNG effects on bullpen usage
+        # rather than team selection effects.
+        home = copy.deepcopy(TEAMS["BAY_BOMBERS"])
+        away = copy.deepcopy(TEAMS["PC_PILOTS"])
+
+        for seed in range(15):
+            sim = BaseballSimulator(home, away, game_seed=seed)
             sim.play_game()
 
             # Find the first pitcher change
@@ -78,11 +89,6 @@ class TestRegressionRealism(unittest.TestCase):
             # Starter is usually the one with most pitches or first one?
             # Starter is determined in _setup_pitchers (first in list of starters? no).
             # We know the starter name from setup.
-            starter = sim.team1_pitcher_stats[sim.team1_current_pitcher_name]['legal_name']
-            # Wait, sim.team1_current_pitcher_name at end of game is the LAST pitcher.
-            # We need to know who started.
-            # Actually _setup_pitchers sets current_pitcher_name to the starter initially.
-            # But we can't access the initial state easily after play_game.
             # However, we know the starter is 'Ace Armstrong' for Bay Bombers usually?
             # Let's just check that we see different names in the "pitchers_used" list besides the starter.
 

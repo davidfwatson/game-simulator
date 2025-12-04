@@ -1,9 +1,12 @@
 GAME_CONTEXT = {
+    "network_name": "The Pacific Sleep Baseball Network",
     "umpires": [
-        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman"
+        "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
+        "Bill Miller", "Dan Bellino", "Chris Guccione", "Mark Carlson", "Paul Emmel"
     ],
     "weather_conditions": [
-        "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R"
+        "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R",
+        "65°F, Fog rolling in", "70°F, Clear skies over Pacifica", "62°F, Cool breeze", "85°F, Santa Ana winds blowing out", "58°F, Misty night at the ballpark"
     ],
     "pitch_locations": {
         "strike": {
@@ -752,17 +755,27 @@ GAME_CONTEXT = {
     },
     "radio_strings": {
         "station_intro": [
-             "The Pacific Coast Baseball Network presents Baseball.",
-             "You're listening to the Pacific Coast Baseball Network.",
-             "The Pacific Coast Baseball Network presents Sleep Baseball."
+             "{network_name} presents Baseball.",
+             "You're listening to {network_name}.",
+             "{network_name} presents Sleep Baseball.",
+             "Live from the coast, this is {network_name}.",
+             "Broadcasting to you from the golden shores, welcome to baseball on {network_name}.",
+             "Another night, another game, right here on {network_name}.",
+             "From the first pitch to the final out, you're locked into {network_name}.",
+             "This is {network_name}, your home for summer baseball.",
+             "We are live on {network_name}, bringing you the sounds of the game.",
+             "Baseball is on the air, exclusively on {network_name}."
         ],
         "welcome_intro": [
              "Good evening, friends. We're glad to have you back with us.",
-             "Hello and welcome to another beautiful night for baseball."
+             "Hello and welcome to another beautiful night for baseball.",
+             "Welcome aboard, baseball fans.",
+             "Grab a hot dog and settle in, we've got a great matchup tonight.",
+             "It's time for the greatest game on earth."
         ],
         "inning_break_outro": [
-             "We'll be back with the {next_inning_ordinal} inning in a moment here on the Pacific Coast Baseball Network.",
-             "We'll be back with more baseball here on the Pacific Coast Baseball Network.",
+             "We'll be back with the {next_inning_ordinal} inning in a moment here on {network_name}.",
+             "We'll be back with more baseball here on {network_name}.",
              "We'll be back after these messages."
         ],
         "inning_break_intro": [
@@ -798,8 +811,8 @@ GAME_CONTEXT = {
             "Score is tied at {score}."
         ],
         "outro": [
-             "Producer Phil and I will be back with the post-game show in a moment here on the Pacific Coast Baseball Network.",
-             "You're drifting off with the Pacific Coast Baseball Network."
+             "Producer Phil and I will be back with the post-game show in a moment here on {network_name}.",
+             "You're drifting off with {network_name}."
         ]
     }
 }
