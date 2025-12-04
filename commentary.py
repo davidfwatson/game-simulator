@@ -1,5 +1,5 @@
 GAME_CONTEXT = {
-    "network_name": "The Golden State Diamond Network",
+    "network_name": "The Pacific Sleep Baseball Network",
     "umpires": [
         "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
         "Bill Miller", "Dan Bellino", "Chris Guccione", "Mark Carlson", "Paul Emmel"
