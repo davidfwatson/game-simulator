@@ -10,16 +10,16 @@
     },
     "teams": {
       "away": {
-        "id": 134,
-        "name": "Pacific City Pilots",
-        "abbreviation": "PCP",
-        "teamName": "Pilots"
-      },
-      "home": {
         "id": 133,
         "name": "Bay Area Bombers",
         "abbreviation": "BAY",
         "teamName": "Bombers"
+      },
+      "home": {
+        "id": 134,
+        "name": "Pacific City Pilots",
+        "abbreviation": "PCP",
+        "teamName": "Pilots"
       }
     },
     "umpires": [
@@ -29,528 +29,8 @@
       "Paul Emmel"
     ],
     "weather": "82\u00b0F, Sunny",
-    "venue": "Waterfront Park",
+    "venue": "Aero Field",
     "players": {
-      "ID545101": {
-        "id": 545101,
-        "fullName": "Leo Vance",
-        "link": "/api/v1/people/545101",
-        "firstName": "Leo",
-        "lastName": "Vance",
-        "primaryNumber": "1",
-        "birthDate": "1998-09-10",
-        "currentAge": 27,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "5' 2\"",
-        "weight": 197,
-        "active": true,
-        "primaryPosition": {
-          "code": "8",
-          "name": "Center Field",
-          "abbreviation": "CF"
-        },
-        "useName": "Leo",
-        "useLastName": "Vance",
-        "middleName": "",
-        "boxscoreName": "Vance",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2017,
-        "mlbDebutDate": "2020-04-01",
-        "batSide": {
-          "code": "L",
-          "description": "Left"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID545102": {
-        "id": 545102,
-        "fullName": "Marcus Thorne",
-        "link": "/api/v1/people/545102",
-        "firstName": "Marcus",
-        "lastName": "Thorne",
-        "primaryNumber": "2",
-        "birthDate": "2003-07-05",
-        "currentAge": 22,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "5' 1\"",
-        "weight": 191,
-        "active": true,
-        "primaryPosition": {
-          "code": "9",
-          "name": "Right Field",
-          "abbreviation": "RF"
-        },
-        "useName": "Marcus",
-        "useLastName": "Thorne",
-        "middleName": "",
-        "boxscoreName": "Thorne",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2021,
-        "mlbDebutDate": "2024-04-01",
-        "batSide": {
-          "code": "L",
-          "description": "Left"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID545103": {
-        "id": 545103,
-        "fullName": "Sam Decker",
-        "link": "/api/v1/people/545103",
-        "firstName": "Sam",
-        "lastName": "Decker",
-        "primaryNumber": "3",
-        "birthDate": "1996-10-12",
-        "currentAge": 29,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "5' 5\"",
-        "weight": 206,
-        "active": true,
-        "primaryPosition": {
-          "code": "2",
-          "name": "Catcher",
-          "abbreviation": "C"
-        },
-        "useName": "Sam",
-        "useLastName": "Decker",
-        "middleName": "",
-        "boxscoreName": "Decker",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2017,
-        "mlbDebutDate": "2022-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID545104": {
-        "id": 545104,
-        "fullName": "Jackson Riley",
-        "link": "/api/v1/people/545104",
-        "firstName": "Jackson",
-        "lastName": "Riley",
-        "primaryNumber": "4",
-        "birthDate": "1997-09-11",
-        "currentAge": 28,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "6' 0\"",
-        "weight": 184,
-        "active": true,
-        "primaryPosition": {
-          "code": "D",
-          "name": "Designated Hitter",
-          "abbreviation": "DH"
-        },
-        "useName": "Jax",
-        "useLastName": "Riley",
-        "middleName": "",
-        "boxscoreName": "Riley",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2017,
-        "mlbDebutDate": "2021-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID545105": {
-        "id": 545105,
-        "fullName": "Caleb Jones",
-        "link": "/api/v1/people/545105",
-        "firstName": "Caleb",
-        "lastName": "Jones",
-        "primaryNumber": "5",
-        "birthDate": "2002-08-13",
-        "currentAge": 23,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "5' 0\"",
-        "weight": 181,
-        "active": true,
-        "primaryPosition": {
-          "code": "6",
-          "name": "Shortstop",
-          "abbreviation": "SS"
-        },
-        "useName": "Caleb",
-        "useLastName": "Jones",
-        "middleName": "",
-        "boxscoreName": "Jones",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2021,
-        "mlbDebutDate": "2026-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID545106": {
-        "id": 545106,
-        "fullName": "Nate Diaz",
-        "link": "/api/v1/people/545106",
-        "firstName": "Nate",
-        "lastName": "Diaz",
-        "primaryNumber": "6",
-        "birthDate": "1995-01-24",
-        "currentAge": 30,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "6' 1\"",
-        "weight": 220,
-        "active": true,
-        "primaryPosition": {
-          "code": "4",
-          "name": "Second Base",
-          "abbreviation": "2B"
-        },
-        "useName": "Kid",
-        "useLastName": "Diaz",
-        "middleName": "",
-        "boxscoreName": "Diaz",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2014,
-        "mlbDebutDate": "2017-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID545107": {
-        "id": 545107,
-        "fullName": "Owen Chen",
-        "link": "/api/v1/people/545107",
-        "firstName": "Owen",
-        "lastName": "Chen",
-        "primaryNumber": "7",
-        "birthDate": "2003-12-13",
-        "currentAge": 22,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "6' 2\"",
-        "weight": 210,
-        "active": true,
-        "primaryPosition": {
-          "code": "3",
-          "name": "First Base",
-          "abbreviation": "1B"
-        },
-        "useName": "Big Duck",
-        "useLastName": "Chen",
-        "middleName": "",
-        "boxscoreName": "Chen",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2024,
-        "mlbDebutDate": "2028-04-01",
-        "batSide": {
-          "code": "L",
-          "description": "Left"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID545108": {
-        "id": 545108,
-        "fullName": "Miles Corbin",
-        "link": "/api/v1/people/545108",
-        "firstName": "Miles",
-        "lastName": "Corbin",
-        "primaryNumber": "8",
-        "birthDate": "2003-03-17",
-        "currentAge": 22,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "6' 7\"",
-        "weight": 238,
-        "active": true,
-        "primaryPosition": {
-          "code": "5",
-          "name": "Third Base",
-          "abbreviation": "3B"
-        },
-        "useName": "Miles",
-        "useLastName": "Corbin",
-        "middleName": "",
-        "boxscoreName": "Corbin",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2023,
-        "mlbDebutDate": "2026-04-01",
-        "batSide": {
-          "code": "S",
-          "description": "Switch"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID545109": {
-        "id": 545109,
-        "fullName": "Grant Fisher",
-        "link": "/api/v1/people/545109",
-        "firstName": "Grant",
-        "lastName": "Fisher",
-        "primaryNumber": "9",
-        "birthDate": "2002-12-05",
-        "currentAge": 23,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "6' 3\"",
-        "weight": 222,
-        "active": true,
-        "primaryPosition": {
-          "code": "7",
-          "name": "Left Field",
-          "abbreviation": "LF"
-        },
-        "useName": "Grant",
-        "useLastName": "Fisher",
-        "middleName": "",
-        "boxscoreName": "Fisher",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2021,
-        "mlbDebutDate": "2025-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID605110": {
-        "id": 605110,
-        "fullName": "Joe Gibson",
-        "link": "/api/v1/people/605110",
-        "firstName": "Joe",
-        "lastName": "Gibson",
-        "primaryNumber": "10",
-        "birthDate": "2003-11-13",
-        "currentAge": 22,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "5' 2\"",
-        "weight": 205,
-        "active": true,
-        "primaryPosition": {
-          "code": "1",
-          "name": "Pitcher",
-          "abbreviation": "P"
-        },
-        "useName": "Smokey",
-        "useLastName": "Gibson",
-        "middleName": "",
-        "boxscoreName": "Gibson",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2021,
-        "mlbDebutDate": "2026-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID605111": {
-        "id": 605111,
-        "fullName": "Colin Miller",
-        "link": "/api/v1/people/605111",
-        "firstName": "Colin",
-        "lastName": "Miller",
-        "primaryNumber": "11",
-        "birthDate": "2001-04-25",
-        "currentAge": 24,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "6' 4\"",
-        "weight": 186,
-        "active": true,
-        "primaryPosition": {
-          "code": "1",
-          "name": "Pitcher",
-          "abbreviation": "P"
-        },
-        "useName": "Cyclone",
-        "useLastName": "Miller",
-        "middleName": "",
-        "boxscoreName": "Miller",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2021,
-        "mlbDebutDate": "2024-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID605112": {
-        "id": 605112,
-        "fullName": "Adam Adams",
-        "link": "/api/v1/people/605112",
-        "firstName": "Adam",
-        "lastName": "Adams",
-        "primaryNumber": "12",
-        "birthDate": "1998-08-24",
-        "currentAge": 27,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "6' 5\"",
-        "weight": 171,
-        "active": true,
-        "primaryPosition": {
-          "code": "1",
-          "name": "Pitcher",
-          "abbreviation": "P"
-        },
-        "useName": "Ace",
-        "useLastName": "Adams",
-        "middleName": "",
-        "boxscoreName": "Adams",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2019,
-        "mlbDebutDate": "2021-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "L",
-          "description": "Left"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
-      "ID605113": {
-        "id": 605113,
-        "fullName": "Victor Stone",
-        "link": "/api/v1/people/605113",
-        "firstName": "Victor",
-        "lastName": "Stone",
-        "primaryNumber": "13",
-        "birthDate": "1998-12-20",
-        "currentAge": 27,
-        "birthCity": "Sim City",
-        "birthStateProvince": "CA",
-        "birthCountry": "USA",
-        "height": "5' 4\"",
-        "weight": 216,
-        "active": true,
-        "primaryPosition": {
-          "code": "1",
-          "name": "Pitcher",
-          "abbreviation": "P"
-        },
-        "useName": "The Vulture",
-        "useLastName": "Stone",
-        "middleName": "",
-        "boxscoreName": "Stone",
-        "gender": "M",
-        "isPlayer": true,
-        "isVerified": false,
-        "draftYear": 2017,
-        "mlbDebutDate": "2021-04-01",
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "strikeZoneTop": 3.5,
-        "strikeZoneBottom": 1.5
-      },
       "ID625201": {
         "id": 625201,
         "fullName": "Alex Chase",
@@ -1070,6 +550,526 @@
         },
         "strikeZoneTop": 3.5,
         "strikeZoneBottom": 1.5
+      },
+      "ID545101": {
+        "id": 545101,
+        "fullName": "Leo Vance",
+        "link": "/api/v1/people/545101",
+        "firstName": "Leo",
+        "lastName": "Vance",
+        "primaryNumber": "1",
+        "birthDate": "1998-09-10",
+        "currentAge": 27,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "5' 2\"",
+        "weight": 197,
+        "active": true,
+        "primaryPosition": {
+          "code": "8",
+          "name": "Center Field",
+          "abbreviation": "CF"
+        },
+        "useName": "Leo",
+        "useLastName": "Vance",
+        "middleName": "",
+        "boxscoreName": "Vance",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2017,
+        "mlbDebutDate": "2020-04-01",
+        "batSide": {
+          "code": "L",
+          "description": "Left"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID545102": {
+        "id": 545102,
+        "fullName": "Marcus Thorne",
+        "link": "/api/v1/people/545102",
+        "firstName": "Marcus",
+        "lastName": "Thorne",
+        "primaryNumber": "2",
+        "birthDate": "2003-07-05",
+        "currentAge": 22,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "5' 1\"",
+        "weight": 191,
+        "active": true,
+        "primaryPosition": {
+          "code": "9",
+          "name": "Right Field",
+          "abbreviation": "RF"
+        },
+        "useName": "Marcus",
+        "useLastName": "Thorne",
+        "middleName": "",
+        "boxscoreName": "Thorne",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2021,
+        "mlbDebutDate": "2024-04-01",
+        "batSide": {
+          "code": "L",
+          "description": "Left"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID545103": {
+        "id": 545103,
+        "fullName": "Sam Decker",
+        "link": "/api/v1/people/545103",
+        "firstName": "Sam",
+        "lastName": "Decker",
+        "primaryNumber": "3",
+        "birthDate": "1996-10-12",
+        "currentAge": 29,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "5' 5\"",
+        "weight": 206,
+        "active": true,
+        "primaryPosition": {
+          "code": "2",
+          "name": "Catcher",
+          "abbreviation": "C"
+        },
+        "useName": "Sam",
+        "useLastName": "Decker",
+        "middleName": "",
+        "boxscoreName": "Decker",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2017,
+        "mlbDebutDate": "2022-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID545104": {
+        "id": 545104,
+        "fullName": "Jackson Riley",
+        "link": "/api/v1/people/545104",
+        "firstName": "Jackson",
+        "lastName": "Riley",
+        "primaryNumber": "4",
+        "birthDate": "1997-09-11",
+        "currentAge": 28,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "6' 0\"",
+        "weight": 184,
+        "active": true,
+        "primaryPosition": {
+          "code": "D",
+          "name": "Designated Hitter",
+          "abbreviation": "DH"
+        },
+        "useName": "Jax",
+        "useLastName": "Riley",
+        "middleName": "",
+        "boxscoreName": "Riley",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2017,
+        "mlbDebutDate": "2021-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID545105": {
+        "id": 545105,
+        "fullName": "Caleb Jones",
+        "link": "/api/v1/people/545105",
+        "firstName": "Caleb",
+        "lastName": "Jones",
+        "primaryNumber": "5",
+        "birthDate": "2002-08-13",
+        "currentAge": 23,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "5' 0\"",
+        "weight": 181,
+        "active": true,
+        "primaryPosition": {
+          "code": "6",
+          "name": "Shortstop",
+          "abbreviation": "SS"
+        },
+        "useName": "Caleb",
+        "useLastName": "Jones",
+        "middleName": "",
+        "boxscoreName": "Jones",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2021,
+        "mlbDebutDate": "2026-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID545106": {
+        "id": 545106,
+        "fullName": "Nate Diaz",
+        "link": "/api/v1/people/545106",
+        "firstName": "Nate",
+        "lastName": "Diaz",
+        "primaryNumber": "6",
+        "birthDate": "1995-01-24",
+        "currentAge": 30,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "6' 1\"",
+        "weight": 220,
+        "active": true,
+        "primaryPosition": {
+          "code": "4",
+          "name": "Second Base",
+          "abbreviation": "2B"
+        },
+        "useName": "Kid",
+        "useLastName": "Diaz",
+        "middleName": "",
+        "boxscoreName": "Diaz",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2014,
+        "mlbDebutDate": "2017-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID545107": {
+        "id": 545107,
+        "fullName": "Owen Chen",
+        "link": "/api/v1/people/545107",
+        "firstName": "Owen",
+        "lastName": "Chen",
+        "primaryNumber": "7",
+        "birthDate": "2003-12-13",
+        "currentAge": 22,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "6' 2\"",
+        "weight": 210,
+        "active": true,
+        "primaryPosition": {
+          "code": "3",
+          "name": "First Base",
+          "abbreviation": "1B"
+        },
+        "useName": "Big Duck",
+        "useLastName": "Chen",
+        "middleName": "",
+        "boxscoreName": "Chen",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2024,
+        "mlbDebutDate": "2028-04-01",
+        "batSide": {
+          "code": "L",
+          "description": "Left"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID545108": {
+        "id": 545108,
+        "fullName": "Miles Corbin",
+        "link": "/api/v1/people/545108",
+        "firstName": "Miles",
+        "lastName": "Corbin",
+        "primaryNumber": "8",
+        "birthDate": "2003-03-17",
+        "currentAge": 22,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "6' 7\"",
+        "weight": 238,
+        "active": true,
+        "primaryPosition": {
+          "code": "5",
+          "name": "Third Base",
+          "abbreviation": "3B"
+        },
+        "useName": "Miles",
+        "useLastName": "Corbin",
+        "middleName": "",
+        "boxscoreName": "Corbin",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2023,
+        "mlbDebutDate": "2026-04-01",
+        "batSide": {
+          "code": "S",
+          "description": "Switch"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID545109": {
+        "id": 545109,
+        "fullName": "Grant Fisher",
+        "link": "/api/v1/people/545109",
+        "firstName": "Grant",
+        "lastName": "Fisher",
+        "primaryNumber": "9",
+        "birthDate": "2002-12-05",
+        "currentAge": 23,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "6' 3\"",
+        "weight": 222,
+        "active": true,
+        "primaryPosition": {
+          "code": "7",
+          "name": "Left Field",
+          "abbreviation": "LF"
+        },
+        "useName": "Grant",
+        "useLastName": "Fisher",
+        "middleName": "",
+        "boxscoreName": "Fisher",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2021,
+        "mlbDebutDate": "2025-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID605110": {
+        "id": 605110,
+        "fullName": "Joe Gibson",
+        "link": "/api/v1/people/605110",
+        "firstName": "Joe",
+        "lastName": "Gibson",
+        "primaryNumber": "10",
+        "birthDate": "2003-11-13",
+        "currentAge": 22,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "5' 2\"",
+        "weight": 205,
+        "active": true,
+        "primaryPosition": {
+          "code": "1",
+          "name": "Pitcher",
+          "abbreviation": "P"
+        },
+        "useName": "Smokey",
+        "useLastName": "Gibson",
+        "middleName": "",
+        "boxscoreName": "Gibson",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2021,
+        "mlbDebutDate": "2026-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID605111": {
+        "id": 605111,
+        "fullName": "Colin Miller",
+        "link": "/api/v1/people/605111",
+        "firstName": "Colin",
+        "lastName": "Miller",
+        "primaryNumber": "11",
+        "birthDate": "2001-04-25",
+        "currentAge": 24,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "6' 4\"",
+        "weight": 186,
+        "active": true,
+        "primaryPosition": {
+          "code": "1",
+          "name": "Pitcher",
+          "abbreviation": "P"
+        },
+        "useName": "Cyclone",
+        "useLastName": "Miller",
+        "middleName": "",
+        "boxscoreName": "Miller",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2021,
+        "mlbDebutDate": "2024-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID605112": {
+        "id": 605112,
+        "fullName": "Adam Adams",
+        "link": "/api/v1/people/605112",
+        "firstName": "Adam",
+        "lastName": "Adams",
+        "primaryNumber": "12",
+        "birthDate": "1998-08-24",
+        "currentAge": 27,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "6' 5\"",
+        "weight": 171,
+        "active": true,
+        "primaryPosition": {
+          "code": "1",
+          "name": "Pitcher",
+          "abbreviation": "P"
+        },
+        "useName": "Ace",
+        "useLastName": "Adams",
+        "middleName": "",
+        "boxscoreName": "Adams",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2019,
+        "mlbDebutDate": "2021-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "L",
+          "description": "Left"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
+      },
+      "ID605113": {
+        "id": 605113,
+        "fullName": "Victor Stone",
+        "link": "/api/v1/people/605113",
+        "firstName": "Victor",
+        "lastName": "Stone",
+        "primaryNumber": "13",
+        "birthDate": "1998-12-20",
+        "currentAge": 27,
+        "birthCity": "Sim City",
+        "birthStateProvince": "CA",
+        "birthCountry": "USA",
+        "height": "5' 4\"",
+        "weight": 216,
+        "active": true,
+        "primaryPosition": {
+          "code": "1",
+          "name": "Pitcher",
+          "abbreviation": "P"
+        },
+        "useName": "The Vulture",
+        "useLastName": "Stone",
+        "middleName": "",
+        "boxscoreName": "Stone",
+        "gender": "M",
+        "isPlayer": true,
+        "isVerified": false,
+        "draftYear": 2017,
+        "mlbDebutDate": "2021-04-01",
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "strikeZoneTop": 3.5,
+        "strikeZoneBottom": 1.5
       }
     }
   },
@@ -1091,942 +1091,7 @@
         "inning": 1,
         "isScoringPlay": false,
         "startTime": "2025-09-27T23:05:00+00:00",
-        "endTime": "2025-09-27T23:06:51.913428+00:00"
-      },
-      "count": {
-        "balls": 0,
-        "strikes": 0,
-        "outs": 0
-      },
-      "matchup": {
-        "batter": {
-          "id": 625201,
-          "fullName": "Alex Chase",
-          "link": "/api/v1/people/625201"
-        },
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "splits": {
-          "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "Empty"
-        },
-        "postOnFirst": {
-          "id": 625201,
-          "fullName": "Alex Chase",
-          "link": "/api/v1/people/625201"
-        }
-      },
-      "playEvents": [
-        {
-          "index": 0,
-          "startTime": "2025-09-27T23:05:00+00:00",
-          "endTime": "2025-09-27T23:05:20.963776+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 0
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 6
-          },
-          "pitchData": {
-            "startSpeed": 96.8,
-            "zone": 6,
-            "breaks": {
-              "spinRate": 2230
-            }
-          }
-        },
-        {
-          "index": 1,
-          "startTime": "2025-09-27T23:05:20.963776+00:00",
-          "endTime": "2025-09-27T23:05:43.867742+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 11
-          },
-          "pitchData": {
-            "startSpeed": 96.8,
-            "zone": 11,
-            "breaks": {
-              "spinRate": 2333
-            }
-          }
-        },
-        {
-          "index": 2,
-          "startTime": "2025-09-27T23:05:43.867742+00:00",
-          "endTime": "2025-09-27T23:06:08.903895+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            },
-            "zone": 12
-          },
-          "pitchData": {
-            "startSpeed": 89.6,
-            "zone": 12,
-            "breaks": {
-              "spinRate": 2444
-            }
-          }
-        },
-        {
-          "index": 3,
-          "startTime": "2025-09-27T23:06:08.903895+00:00",
-          "endTime": "2025-09-27T23:06:33.777498+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 2,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 11
-          },
-          "pitchData": {
-            "startSpeed": 94.8,
-            "zone": 11,
-            "breaks": {
-              "spinRate": 2480
-            }
-          }
-        },
-        {
-          "index": 4,
-          "startTime": "2025-09-27T23:06:33.777498+00:00",
-          "endTime": "2025-09-27T23:06:51.913428+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 3,
-            "strikes": 1
-          },
-          "details": {
-            "code": "X",
-            "description": "In play, Lineout",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 4
-          },
-          "pitchData": {
-            "startSpeed": 96.3,
-            "zone": 4,
-            "breaks": {
-              "spinRate": 2416
-            }
-          },
-          "hitData": {
-            "launchSpeed": 92.9,
-            "launchAngle": 17.2,
-            "trajectory": "line_drive",
-            "location": "2B"
-          }
-        }
-      ],
-      "runners": [
-        {
-          "movement": {
-            "originBase": null,
-            "start": null,
-            "end": "1B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Field Error",
-            "eventType": "field_error",
-            "movementReason": null,
-            "runner": {
-              "id": 625201,
-              "fullName": "Alex Chase",
-              "link": "/api/v1/people/625201"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 4
-          },
-          "credits": [
-            {
-              "player": {
-                "id": 545106,
-                "fullName": "Nate Diaz",
-                "link": "/api/v1/people/545106"
-              },
-              "position": {
-                "code": "4",
-                "name": "Second Base",
-                "abbreviation": "2B"
-              },
-              "credit": "fielding_error"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "result": {
-        "type": "atBat",
-        "event": "Double",
-        "eventType": "double",
-        "description": "",
-        "rbi": 1,
-        "awayScore": 1,
-        "homeScore": 0
-      },
-      "about": {
-        "atBatIndex": 2,
-        "halfInning": "top",
-        "isTopInning": true,
-        "inning": 1,
-        "isScoringPlay": true,
-        "startTime": "2025-09-27T23:07:59.734499+00:00",
-        "endTime": "2025-09-27T23:08:25.523077+00:00"
-      },
-      "count": {
-        "balls": 0,
-        "strikes": 0,
-        "outs": 1
-      },
-      "matchup": {
-        "batter": {
-          "id": 625203,
-          "fullName": "Omar Ramirez",
-          "link": "/api/v1/people/625203"
-        },
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "splits": {
-          "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "RISP"
-        },
-        "postOnSecond": {
-          "id": 625203,
-          "fullName": "Omar Ramirez",
-          "link": "/api/v1/people/625203"
-        }
-      },
-      "playEvents": [
-        {
-          "index": 6,
-          "startTime": "2025-09-27T23:07:59.734499+00:00",
-          "endTime": "2025-09-27T23:08:25.523077+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 0
-          },
-          "details": {
-            "code": "X",
-            "description": "In play, Double",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 14
-          },
-          "pitchData": {
-            "startSpeed": 94.2,
-            "zone": 14,
-            "breaks": {
-              "spinRate": 2346
-            }
-          },
-          "hitData": {
-            "launchSpeed": 100.9,
-            "launchAngle": 29.1,
-            "trajectory": "fly_ball",
-            "location": "SC"
-          }
-        }
-      ],
-      "runners": [
-        {
-          "movement": {
-            "originBase": "2B",
-            "start": "2B",
-            "end": "score",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Double",
-            "eventType": "double",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 625201,
-              "fullName": "Alex Chase",
-              "link": "/api/v1/people/625201"
-            },
-            "isScoringEvent": true,
-            "rbi": true,
-            "earned": true,
-            "teamUnearned": false,
-            "playIndex": 0,
-            "responsiblePitcher": {
-              "id": 605110,
-              "link": "/api/v1/people/605110"
-            }
-          },
-          "credits": []
-        },
-        {
-          "movement": {
-            "originBase": null,
-            "start": null,
-            "end": "2B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Double",
-            "eventType": "double",
-            "movementReason": null,
-            "runner": {
-              "id": 625203,
-              "fullName": "Omar Ramirez",
-              "link": "/api/v1/people/625203"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 0
-          },
-          "credits": []
-        }
-      ]
-    },
-    {
-      "result": {
-        "type": "atBat",
-        "event": "Sacrifice Bunt",
-        "eventType": "sac_bunt",
-        "description": "",
-        "rbi": 0,
-        "awayScore": 0,
-        "homeScore": 0
-      },
-      "about": {
-        "atBatIndex": 1,
-        "halfInning": "top",
-        "isTopInning": true,
-        "inning": 1,
-        "isScoringPlay": false,
-        "startTime": "2025-09-27T23:07:17.835076+00:00",
-        "endTime": "2025-09-27T23:07:36.231799+00:00"
-      },
-      "count": {
-        "balls": 0,
-        "strikes": 0,
-        "outs": 1
-      },
-      "matchup": {
-        "batter": {
-          "id": 625202,
-          "fullName": "Kevin Webb",
-          "link": "/api/v1/people/625202"
-        },
-        "batSide": {
-          "code": "L",
-          "description": "Left"
-        },
-        "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "splits": {
-          "batter": "vs_RHP",
-          "pitcher": "vs_LHB",
-          "menOnBase": "Men_On"
-        },
-        "postOnSecond": {
-          "id": 625201,
-          "fullName": "Alex Chase",
-          "link": "/api/v1/people/625201"
-        }
-      },
-      "playEvents": [
-        {
-          "index": 5,
-          "startTime": "2025-09-27T23:07:17.835076+00:00",
-          "endTime": "2025-09-27T23:07:36.231799+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 0
-          },
-          "isBunt": true,
-          "details": {
-            "code": "X",
-            "description": "In play, Sacrifice Bunt",
-            "isStrike": true,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            },
-            "zone": 2
-          },
-          "pitchData": {
-            "startSpeed": 87.8,
-            "zone": 2,
-            "breaks": {
-              "spinRate": 2564
-            }
-          },
-          "hitData": {
-            "launchSpeed": 64.2,
-            "launchAngle": -32.5,
-            "trajectory": "ground_ball",
-            "location": "SS"
-          }
-        }
-      ],
-      "runners": [
-        {
-          "movement": {
-            "originBase": "1B",
-            "start": "1B",
-            "end": "2B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Sacrifice Bunt",
-            "eventType": "sac_bunt",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 625201,
-              "fullName": "Alex Chase",
-              "link": "/api/v1/people/625201"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 0
-          },
-          "credits": []
-        },
-        {
-          "movement": {
-            "originBase": null,
-            "start": null,
-            "end": null,
-            "outBase": "1B",
-            "isOut": true,
-            "outNumber": 1
-          },
-          "details": {
-            "event": "Sacrifice Bunt",
-            "eventType": "sac_bunt",
-            "movementReason": null,
-            "runner": {
-              "id": 625202,
-              "fullName": "Kevin Webb",
-              "link": "/api/v1/people/625202"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 0
-          },
-          "credits": [
-            {
-              "player": {
-                "id": 545105,
-                "fullName": "Caleb Jones",
-                "link": "/api/v1/people/545105"
-              },
-              "position": {
-                "code": "6",
-                "name": "Shortstop",
-                "abbreviation": "SS"
-              },
-              "credit": "assist"
-            },
-            {
-              "player": {
-                "id": 545107,
-                "fullName": "Owen Chen",
-                "link": "/api/v1/people/545107"
-              },
-              "position": {
-                "code": "3",
-                "name": "First Base",
-                "abbreviation": "1B"
-              },
-              "credit": "putout"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "result": {
-        "type": "atBat",
-        "event": "Strikeout",
-        "eventType": "strikeout",
-        "description": "",
-        "rbi": 0,
-        "awayScore": 1,
-        "homeScore": 0
-      },
-      "about": {
-        "atBatIndex": 3,
-        "halfInning": "top",
-        "isTopInning": true,
-        "inning": 1,
-        "isScoringPlay": false,
-        "startTime": "2025-09-27T23:08:46.739970+00:00",
-        "endTime": "2025-09-27T23:10:39.329457+00:00"
-      },
-      "count": {
-        "balls": 0,
-        "strikes": 0,
-        "outs": 2
-      },
-      "matchup": {
-        "batter": {
-          "id": 625204,
-          "fullName": "Rex Power",
-          "link": "/api/v1/people/625204"
-        },
-        "batSide": {
-          "code": "R",
-          "description": "Right"
-        },
-        "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "splits": {
-          "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "RISP"
-        },
-        "postOnSecond": {
-          "id": 625203,
-          "fullName": "Omar Ramirez",
-          "link": "/api/v1/people/625203"
-        }
-      },
-      "playEvents": [
-        {
-          "index": 7,
-          "startTime": "2025-09-27T23:08:46.739970+00:00",
-          "endTime": "2025-09-27T23:09:10.619181+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 0
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 8
-          },
-          "pitchData": {
-            "startSpeed": 95.7,
-            "zone": 8,
-            "breaks": {
-              "spinRate": 2432
-            }
-          }
-        },
-        {
-          "index": 8,
-          "startTime": "2025-09-27T23:09:10.619181+00:00",
-          "endTime": "2025-09-27T23:09:31.561539+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 1
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 2
-          },
-          "pitchData": {
-            "startSpeed": 94.6,
-            "zone": 2
-          }
-        },
-        {
-          "index": 9,
-          "startTime": "2025-09-27T23:09:31.561539+00:00",
-          "endTime": "2025-09-27T23:09:53.579894+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 2
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 9
-          },
-          "pitchData": {
-            "startSpeed": 97.0,
-            "zone": 9,
-            "breaks": {
-              "spinRate": 2470
-            }
-          }
-        },
-        {
-          "index": 10,
-          "startTime": "2025-09-27T23:09:53.579894+00:00",
-          "endTime": "2025-09-27T23:10:16.492203+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 2
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 14
-          },
-          "pitchData": {
-            "startSpeed": 94.7,
-            "zone": 14,
-            "breaks": {
-              "spinRate": 2531
-            }
-          }
-        },
-        {
-          "index": 11,
-          "startTime": "2025-09-27T23:10:16.492203+00:00",
-          "endTime": "2025-09-27T23:10:39.329457+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 2
-          },
-          "details": {
-            "code": "C",
-            "description": "Called Strike",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 1
-          },
-          "pitchData": {
-            "startSpeed": 94.6,
-            "zone": 1,
-            "breaks": {
-              "spinRate": 2333
-            }
-          }
-        }
-      ],
-      "runners": [
-        {
-          "movement": {
-            "originBase": null,
-            "start": null,
-            "end": null,
-            "outBase": null,
-            "isOut": true,
-            "outNumber": 2
-          },
-          "details": {
-            "event": "Strikeout",
-            "eventType": "strikeout",
-            "movementReason": null,
-            "runner": {
-              "id": 625204,
-              "fullName": "Rex Power",
-              "link": "/api/v1/people/625204"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 4
-          },
-          "credits": []
-        }
-      ]
-    },
-    {
-      "result": {
-        "type": "atBat",
-        "event": "Flyout",
-        "eventType": "field_out",
-        "description": "",
-        "rbi": 0,
-        "awayScore": 1,
-        "homeScore": 0
-      },
-      "about": {
-        "atBatIndex": 4,
-        "halfInning": "top",
-        "isTopInning": true,
-        "inning": 1,
-        "isScoringPlay": false,
-        "startTime": "2025-09-27T23:11:03.269803+00:00",
-        "endTime": "2025-09-27T23:11:28.366115+00:00"
-      },
-      "count": {
-        "balls": 0,
-        "strikes": 0,
-        "outs": 3
-      },
-      "matchup": {
-        "batter": {
-          "id": 625205,
-          "fullName": "Evan Reed",
-          "link": "/api/v1/people/625205"
-        },
-        "batSide": {
-          "code": "L",
-          "description": "Left"
-        },
-        "pitcher": {
-          "id": 605110,
-          "fullName": "Joe Gibson",
-          "link": "/api/v1/people/605110"
-        },
-        "pitchHand": {
-          "code": "R",
-          "description": "Right"
-        },
-        "splits": {
-          "batter": "vs_RHP",
-          "pitcher": "vs_LHB",
-          "menOnBase": "RISP"
-        },
-        "postOnSecond": {
-          "id": 625203,
-          "fullName": "Omar Ramirez",
-          "link": "/api/v1/people/625203"
-        }
-      },
-      "playEvents": [
-        {
-          "index": 12,
-          "startTime": "2025-09-27T23:11:03.269803+00:00",
-          "endTime": "2025-09-27T23:11:28.366115+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 0
-          },
-          "details": {
-            "code": "X",
-            "description": "In play, Flyout",
-            "isStrike": true,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            },
-            "zone": 1
-          },
-          "pitchData": {
-            "startSpeed": 80.0,
-            "zone": 1,
-            "breaks": {
-              "spinRate": 2620
-            }
-          },
-          "hitData": {
-            "launchSpeed": 101.3,
-            "launchAngle": 38.6,
-            "trajectory": "fly_ball",
-            "location": "CF"
-          }
-        }
-      ],
-      "runners": [
-        {
-          "movement": {
-            "originBase": "2B",
-            "start": "2B",
-            "end": "2B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Flyout",
-            "eventType": "field_out",
-            "movementReason": "r_adv_play",
-            "runner": {
-              "id": 625203,
-              "fullName": "Omar Ramirez",
-              "link": "/api/v1/people/625203"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 0
-          },
-          "credits": []
-        },
-        {
-          "movement": {
-            "originBase": null,
-            "start": null,
-            "end": null,
-            "outBase": "1B",
-            "isOut": true,
-            "outNumber": 3
-          },
-          "details": {
-            "event": "Flyout",
-            "eventType": "field_out",
-            "movementReason": null,
-            "runner": {
-              "id": 625205,
-              "fullName": "Evan Reed",
-              "link": "/api/v1/people/625205"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 0
-          },
-          "credits": [
-            {
-              "player": {
-                "id": 545101,
-                "fullName": "Leo Vance",
-                "link": "/api/v1/people/545101"
-              },
-              "position": {
-                "code": "8",
-                "name": "Center Field",
-                "abbreviation": "CF"
-              },
-              "credit": "putout"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "result": {
-        "type": "atBat",
-        "event": "Walk",
-        "eventType": "walk",
-        "description": "",
-        "rbi": 0,
-        "awayScore": 1,
-        "homeScore": 0
-      },
-      "about": {
-        "atBatIndex": 5,
-        "halfInning": "bottom",
-        "isTopInning": false,
-        "inning": 1,
-        "isScoringPlay": false,
-        "startTime": "2025-09-27T23:13:24.466880+00:00",
-        "endTime": "2025-09-27T23:14:57.894291+00:00"
+        "endTime": "2025-09-27T23:05:20.963776+00:00"
       },
       "count": {
         "balls": 0,
@@ -2065,111 +1130,36 @@
       },
       "playEvents": [
         {
-          "index": 13,
-          "startTime": "2025-09-27T23:13:24.466880+00:00",
-          "endTime": "2025-09-27T23:13:46.918172+00:00",
+          "index": 0,
+          "startTime": "2025-09-27T23:05:00+00:00",
+          "endTime": "2025-09-27T23:05:20.963776+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
+            "code": "X",
+            "description": "In play, Groundout",
+            "isStrike": true,
             "type": {
               "code": "SI",
               "description": "Sinker"
             },
-            "zone": 12
+            "zone": 5
           },
           "pitchData": {
             "startSpeed": 92.8,
-            "zone": 12,
+            "zone": 5,
             "breaks": {
-              "spinRate": 1969
+              "spinRate": 2145
             }
-          }
-        },
-        {
-          "index": 14,
-          "startTime": "2025-09-27T23:13:46.918172+00:00",
-          "endTime": "2025-09-27T23:14:12.145235+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 0
           },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            },
-            "zone": 11
-          },
-          "pitchData": {
-            "startSpeed": 91.9,
-            "zone": 11,
-            "breaks": {
-              "spinRate": 2018
-            }
-          }
-        },
-        {
-          "index": 15,
-          "startTime": "2025-09-27T23:14:12.145235+00:00",
-          "endTime": "2025-09-27T23:14:33.943435+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 2,
-            "strikes": 0
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            },
-            "zone": 12
-          },
-          "pitchData": {
-            "startSpeed": 80.2,
-            "zone": 12,
-            "breaks": {
-              "spinRate": 2811
-            }
-          }
-        },
-        {
-          "index": 16,
-          "startTime": "2025-09-27T23:14:33.943435+00:00",
-          "endTime": "2025-09-27T23:14:57.894291+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 3,
-            "strikes": 0
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            },
-            "zone": 13
-          },
-          "pitchData": {
-            "startSpeed": 91.2,
-            "zone": 13,
-            "breaks": {
-              "spinRate": 2047
-            }
+          "hitData": {
+            "launchSpeed": 85.5,
+            "launchAngle": 4.4,
+            "trajectory": "ground_ball",
+            "location": "SS"
           }
         }
       ],
@@ -2184,8 +1174,8 @@
             "outNumber": null
           },
           "details": {
-            "event": "Walk",
-            "eventType": "walk",
+            "event": "Field Error",
+            "eventType": "field_error",
             "movementReason": null,
             "runner": {
               "id": 545101,
@@ -2196,17 +1186,946 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 3
+            "playIndex": 0
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 625208,
+                "fullName": "Wes Griffin",
+                "link": "/api/v1/people/625208"
+              },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
+              "credit": "fielding_error"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "result": {
+        "type": "atBat",
+        "event": "Home Run",
+        "eventType": "home_run",
+        "description": "",
+        "rbi": 1,
+        "awayScore": 1,
+        "homeScore": 0
+      },
+      "about": {
+        "atBatIndex": 9,
+        "halfInning": "top",
+        "isTopInning": true,
+        "inning": 2,
+        "isScoringPlay": true,
+        "startTime": "2025-09-27T23:21:59.531282+00:00",
+        "endTime": "2025-09-27T23:22:20.147833+00:00"
+      },
+      "count": {
+        "balls": 0,
+        "strikes": 0,
+        "outs": 2
+      },
+      "matchup": {
+        "batter": {
+          "id": 545107,
+          "fullName": "Owen Chen",
+          "link": "/api/v1/people/545107"
+        },
+        "batSide": {
+          "code": "L",
+          "description": "Left"
+        },
+        "pitcher": {
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
+        },
+        "pitchHand": {
+          "code": "L",
+          "description": "Left"
+        },
+        "splits": {
+          "batter": "vs_LHP",
+          "pitcher": "vs_LHB",
+          "menOnBase": "Empty"
+        }
+      },
+      "playEvents": [
+        {
+          "index": 27,
+          "startTime": "2025-09-27T23:21:59.531282+00:00",
+          "endTime": "2025-09-27T23:22:20.147833+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 0
+          },
+          "details": {
+            "code": "X",
+            "description": "In play, Home Run",
+            "isStrike": true,
+            "type": {
+              "code": "SL",
+              "description": "Slider"
+            },
+            "zone": 14
+          },
+          "pitchData": {
+            "startSpeed": 86.0,
+            "zone": 14,
+            "breaks": {
+              "spinRate": 2389
+            }
+          },
+          "hitData": {
+            "launchSpeed": 106.3,
+            "launchAngle": 31.7,
+            "trajectory": "fly_ball",
+            "location": "DL"
+          }
+        }
+      ],
+      "runners": [
+        {
+          "movement": {
+            "originBase": null,
+            "start": null,
+            "end": "score",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
+          },
+          "details": {
+            "event": "Home Run",
+            "eventType": "home_run",
+            "movementReason": null,
+            "runner": {
+              "id": 545107,
+              "fullName": "Owen Chen",
+              "link": "/api/v1/people/545107"
+            },
+            "isScoringEvent": true,
+            "rbi": true,
+            "earned": true,
+            "teamUnearned": false,
+            "playIndex": 0,
+            "responsiblePitcher": {
+              "id": 645210,
+              "link": "/api/v1/people/645210"
+            }
           },
           "credits": []
         }
       ]
+    },
+    {
+      "result": {
+        "type": "atBat",
+        "event": "Strikeout",
+        "eventType": "strikeout",
+        "description": "",
+        "rbi": 0,
+        "awayScore": 0,
+        "homeScore": 0
+      },
+      "about": {
+        "atBatIndex": 1,
+        "halfInning": "top",
+        "isTopInning": true,
+        "inning": 1,
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:05:45.254746+00:00",
+        "endTime": "2025-09-27T23:07:58.467839+00:00"
+      },
+      "count": {
+        "balls": 0,
+        "strikes": 0,
+        "outs": 1
+      },
+      "matchup": {
+        "batter": {
+          "id": 545102,
+          "fullName": "Marcus Thorne",
+          "link": "/api/v1/people/545102"
+        },
+        "batSide": {
+          "code": "L",
+          "description": "Left"
+        },
+        "pitcher": {
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
+        },
+        "pitchHand": {
+          "code": "L",
+          "description": "Left"
+        },
+        "splits": {
+          "batter": "vs_LHP",
+          "pitcher": "vs_LHB",
+          "menOnBase": "Men_On"
+        },
+        "postOnFirst": {
+          "id": 545101,
+          "fullName": "Leo Vance",
+          "link": "/api/v1/people/545101"
+        }
+      },
+      "playEvents": [
+        {
+          "index": 1,
+          "startTime": "2025-09-27T23:05:45.254746+00:00",
+          "endTime": "2025-09-27T23:06:10.290899+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 0
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 1
+          },
+          "pitchData": {
+            "startSpeed": 91.2,
+            "zone": 1,
+            "breaks": {
+              "spinRate": 2013
+            }
+          }
+        },
+        {
+          "index": 2,
+          "startTime": "2025-09-27T23:06:10.290899+00:00",
+          "endTime": "2025-09-27T23:06:35.164502+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 1
+          },
+          "details": {
+            "code": "F",
+            "description": "Foul",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 8
+          },
+          "pitchData": {
+            "startSpeed": 92.7,
+            "zone": 8,
+            "breaks": {
+              "spinRate": 2175
+            }
+          }
+        },
+        {
+          "index": 3,
+          "startTime": "2025-09-27T23:06:35.164502+00:00",
+          "endTime": "2025-09-27T23:06:53.300432+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 2
+          },
+          "details": {
+            "code": "F",
+            "description": "Foul",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 7
+          },
+          "pitchData": {
+            "startSpeed": 90.8,
+            "zone": 7,
+            "breaks": {
+              "spinRate": 1970
+            }
+          }
+        },
+        {
+          "index": 4,
+          "startTime": "2025-09-27T23:06:53.300432+00:00",
+          "endTime": "2025-09-27T23:07:18.068030+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 2
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "SL",
+              "description": "Slider"
+            },
+            "zone": 13
+          },
+          "pitchData": {
+            "startSpeed": 84.6,
+            "zone": 13,
+            "breaks": {
+              "spinRate": 2453
+            }
+          }
+        },
+        {
+          "index": 5,
+          "startTime": "2025-09-27T23:07:18.068030+00:00",
+          "endTime": "2025-09-27T23:07:36.464753+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 1,
+            "strikes": 2
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "CU",
+              "description": "Curveball"
+            },
+            "zone": 12
+          },
+          "pitchData": {
+            "startSpeed": 78.6,
+            "zone": 12,
+            "breaks": {
+              "spinRate": 2731
+            }
+          }
+        },
+        {
+          "index": 6,
+          "startTime": "2025-09-27T23:07:36.464753+00:00",
+          "endTime": "2025-09-27T23:07:58.467839+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 2,
+            "strikes": 2
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "SL",
+              "description": "Slider"
+            },
+            "zone": 1
+          },
+          "pitchData": {
+            "startSpeed": 84.9,
+            "zone": 1
+          }
+        }
+      ],
+      "runners": [
+        {
+          "movement": {
+            "originBase": null,
+            "start": null,
+            "end": null,
+            "outBase": null,
+            "isOut": true,
+            "outNumber": 1
+          },
+          "details": {
+            "event": "Strikeout",
+            "eventType": "strikeout",
+            "movementReason": null,
+            "runner": {
+              "id": 545102,
+              "fullName": "Marcus Thorne",
+              "link": "/api/v1/people/545102"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 5
+          },
+          "credits": []
+        }
+      ]
+    },
+    {
+      "result": {
+        "type": "atBat",
+        "event": "Forceout",
+        "eventType": "force_out",
+        "description": "",
+        "rbi": 0,
+        "awayScore": 0,
+        "homeScore": 0
+      },
+      "about": {
+        "atBatIndex": 2,
+        "halfInning": "top",
+        "isTopInning": true,
+        "inning": 1,
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:08:25.282845+00:00",
+        "endTime": "2025-09-27T23:09:51.513504+00:00"
+      },
+      "count": {
+        "balls": 0,
+        "strikes": 0,
+        "outs": 2
+      },
+      "matchup": {
+        "batter": {
+          "id": 545103,
+          "fullName": "Sam Decker",
+          "link": "/api/v1/people/545103"
+        },
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitcher": {
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
+        },
+        "pitchHand": {
+          "code": "L",
+          "description": "Left"
+        },
+        "splits": {
+          "batter": "vs_LHP",
+          "pitcher": "vs_RHB",
+          "menOnBase": "Men_On"
+        },
+        "postOnFirst": {
+          "id": 545103,
+          "fullName": "Sam Decker",
+          "link": "/api/v1/people/545103"
+        }
+      },
+      "playEvents": [
+        {
+          "index": 7,
+          "startTime": "2025-09-27T23:08:25.282845+00:00",
+          "endTime": "2025-09-27T23:08:44.673580+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 0
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 13
+          },
+          "pitchData": {
+            "startSpeed": 90.5,
+            "zone": 13,
+            "breaks": {
+              "spinRate": 2170
+            }
+          }
+        },
+        {
+          "index": 8,
+          "startTime": "2025-09-27T23:08:44.673580+00:00",
+          "endTime": "2025-09-27T23:09:08.552791+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 1,
+            "strikes": 0
+          },
+          "details": {
+            "code": "F",
+            "description": "Foul",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 6
+          },
+          "pitchData": {
+            "startSpeed": 90.4,
+            "zone": 6,
+            "breaks": {
+              "spinRate": 2196
+            }
+          }
+        },
+        {
+          "index": 9,
+          "startTime": "2025-09-27T23:09:08.552791+00:00",
+          "endTime": "2025-09-27T23:09:29.495149+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 1,
+            "strikes": 1
+          },
+          "details": {
+            "code": "F",
+            "description": "Foul",
+            "isStrike": true,
+            "type": {
+              "code": "SL",
+              "description": "Slider"
+            },
+            "zone": 2
+          },
+          "pitchData": {
+            "startSpeed": 85.7,
+            "zone": 2,
+            "breaks": {
+              "spinRate": 2456
+            }
+          }
+        },
+        {
+          "index": 10,
+          "startTime": "2025-09-27T23:09:29.495149+00:00",
+          "endTime": "2025-09-27T23:09:51.513504+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 1,
+            "strikes": 2
+          },
+          "details": {
+            "code": "X",
+            "description": "In play, Groundout",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 1
+          },
+          "pitchData": {
+            "startSpeed": 90.1,
+            "zone": 1,
+            "breaks": {
+              "spinRate": 2013
+            }
+          },
+          "hitData": {
+            "launchSpeed": 98.9,
+            "launchAngle": 4.8,
+            "trajectory": "ground_ball",
+            "location": "1B"
+          }
+        }
+      ],
+      "runners": [
+        {
+          "movement": {
+            "originBase": "1B",
+            "start": "1B",
+            "end": "score",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
+          },
+          "details": {
+            "event": "Forceout",
+            "eventType": "force_out",
+            "movementReason": "r_adv_play",
+            "runner": {
+              "id": 545101,
+              "fullName": "Leo Vance",
+              "link": "/api/v1/people/545101"
+            },
+            "isScoringEvent": true,
+            "rbi": true,
+            "earned": true,
+            "teamUnearned": false,
+            "playIndex": 3,
+            "responsiblePitcher": {
+              "id": 645210,
+              "link": "/api/v1/people/645210"
+            }
+          },
+          "credits": []
+        },
+        {
+          "movement": {
+            "originBase": null,
+            "start": null,
+            "end": null,
+            "outBase": "1B",
+            "isOut": true,
+            "outNumber": 2
+          },
+          "details": {
+            "event": "Forceout",
+            "eventType": "force_out",
+            "movementReason": null,
+            "runner": {
+              "id": 545103,
+              "fullName": "Sam Decker",
+              "link": "/api/v1/people/545103"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 3
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 625206,
+                "fullName": "Felix Washington",
+                "link": "/api/v1/people/625206"
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 625208,
+                "fullName": "Wes Griffin",
+                "link": "/api/v1/people/625208"
+              },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
+              "credit": "putout"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "result": {
+        "type": "atBat",
+        "event": "Flyout",
+        "eventType": "field_out",
+        "description": "",
+        "rbi": 0,
+        "awayScore": 0,
+        "homeScore": 0
+      },
+      "about": {
+        "atBatIndex": 3,
+        "halfInning": "top",
+        "isTopInning": true,
+        "inning": 1,
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:10:15.811774+00:00",
+        "endTime": "2025-09-27T23:10:38.649028+00:00"
+      },
+      "count": {
+        "balls": 0,
+        "strikes": 0,
+        "outs": 3
+      },
+      "matchup": {
+        "batter": {
+          "id": 545104,
+          "fullName": "Jackson Riley",
+          "link": "/api/v1/people/545104"
+        },
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitcher": {
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
+        },
+        "pitchHand": {
+          "code": "L",
+          "description": "Left"
+        },
+        "splits": {
+          "batter": "vs_LHP",
+          "pitcher": "vs_RHB",
+          "menOnBase": "Men_On"
+        },
+        "postOnFirst": {
+          "id": 545103,
+          "fullName": "Sam Decker",
+          "link": "/api/v1/people/545103"
+        }
+      },
+      "playEvents": [
+        {
+          "index": 11,
+          "startTime": "2025-09-27T23:10:15.811774+00:00",
+          "endTime": "2025-09-27T23:10:38.649028+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 0
+          },
+          "details": {
+            "code": "X",
+            "description": "In play, Flyout",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 9
+          },
+          "pitchData": {
+            "startSpeed": 90.8,
+            "zone": 9,
+            "breaks": {
+              "spinRate": 2147
+            }
+          },
+          "hitData": {
+            "launchSpeed": 86.6,
+            "launchAngle": 39.4,
+            "trajectory": "fly_ball",
+            "location": "RF"
+          }
+        }
+      ],
+      "runners": [
+        {
+          "movement": {
+            "originBase": "1B",
+            "start": "1B",
+            "end": "1B",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
+          },
+          "details": {
+            "event": "Flyout",
+            "eventType": "field_out",
+            "movementReason": "r_adv_play",
+            "runner": {
+              "id": 545103,
+              "fullName": "Sam Decker",
+              "link": "/api/v1/people/545103"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 0
+          },
+          "credits": []
+        },
+        {
+          "movement": {
+            "originBase": null,
+            "start": null,
+            "end": null,
+            "outBase": "1B",
+            "isOut": true,
+            "outNumber": 3
+          },
+          "details": {
+            "event": "Flyout",
+            "eventType": "field_out",
+            "movementReason": null,
+            "runner": {
+              "id": 545104,
+              "fullName": "Jackson Riley",
+              "link": "/api/v1/people/545104"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 0
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 625209,
+                "fullName": "TJ Hawkins",
+                "link": "/api/v1/people/625209"
+              },
+              "position": {
+                "code": "9",
+                "name": "Right Field",
+                "abbreviation": "RF"
+              },
+              "credit": "putout"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "result": {
+        "type": "atBat",
+        "event": "Groundout",
+        "eventType": "field_out",
+        "description": "",
+        "rbi": 0,
+        "awayScore": 0,
+        "homeScore": 0
+      },
+      "about": {
+        "atBatIndex": 6,
+        "halfInning": "bottom",
+        "isTopInning": false,
+        "inning": 1,
+        "isScoringPlay": false,
+        "startTime": "2025-09-27T23:16:28.882697+00:00",
+        "endTime": "2025-09-27T23:16:53.385355+00:00"
+      },
+      "count": {
+        "balls": 0,
+        "strikes": 0,
+        "outs": 3
+      },
+      "matchup": {
+        "batter": {
+          "id": 625203,
+          "fullName": "Omar Ramirez",
+          "link": "/api/v1/people/625203"
+        },
+        "batSide": {
+          "code": "R",
+          "description": "Right"
+        },
+        "pitcher": {
+          "id": 605110,
+          "fullName": "Joe Gibson",
+          "link": "/api/v1/people/605110"
+        },
+        "pitchHand": {
+          "code": "R",
+          "description": "Right"
+        },
+        "splits": {
+          "batter": "vs_RHP",
+          "pitcher": "vs_RHB",
+          "menOnBase": "Empty"
+        }
+      },
+      "playEvents": [
+        {
+          "index": 20,
+          "startTime": "2025-09-27T23:16:28.882697+00:00",
+          "endTime": "2025-09-27T23:16:53.385355+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 0
+          },
+          "details": {
+            "code": "X",
+            "description": "In play, Groundout",
+            "isStrike": true,
+            "type": {
+              "code": "FF",
+              "description": "Four-seam fastball"
+            },
+            "zone": 9
+          },
+          "pitchData": {
+            "startSpeed": 97.0,
+            "zone": 9,
+            "breaks": {
+              "spinRate": 2427
+            }
+          },
+          "hitData": {
+            "launchSpeed": 89.2,
+            "launchAngle": 7.7,
+            "trajectory": "ground_ball",
+            "location": "3B"
+          }
+        }
+      ],
+      "runners": [
+        {
+          "movement": {
+            "originBase": null,
+            "start": null,
+            "end": null,
+            "outBase": "1B",
+            "isOut": true,
+            "outNumber": 3
+          },
+          "details": {
+            "event": "Groundout",
+            "eventType": "field_out",
+            "movementReason": null,
+            "runner": {
+              "id": 625203,
+              "fullName": "Omar Ramirez",
+              "link": "/api/v1/people/625203"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 0
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 545108,
+                "fullName": "Miles Corbin",
+                "link": "/api/v1/people/545108"
+              },
+              "position": {
+                "code": "5",
+                "name": "Third Base",
+                "abbreviation": "3B"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 545107,
+                "fullName": "Owen Chen",
+                "link": "/api/v1/people/545107"
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
+              "credit": "putout"
+            }
+          ]
+        }
+      ]
     }
   ],
-  "playCount": 80,
+  "playCount": 77,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 80,
+    "totalPlaysInGame": 77,
     "snapshotPlayCount": 6
   }
 }

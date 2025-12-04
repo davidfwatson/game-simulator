@@ -55,18 +55,25 @@ class ExampleGame:
 
 
 # Define the 10 example games used for snapshot testing
-EXAMPLE_GAMES = [
-    ExampleGame(game_seed=1, commentary_seed=1),
-    ExampleGame(game_seed=2, commentary_seed=2),
-    ExampleGame(game_seed=3, commentary_seed=3),
-    ExampleGame(game_seed=4, commentary_seed=4),
-    ExampleGame(game_seed=5, commentary_seed=5),
-    ExampleGame(game_seed=6, commentary_seed=6),
-    ExampleGame(game_seed=7, commentary_seed=7),
-    ExampleGame(game_seed=8, commentary_seed=8),
-    ExampleGame(game_seed=9, commentary_seed=9, team1=TEAMS["COASTAL_VIPERS"], team2=TEAMS["DESERT_SCORPIONS"]),
-    ExampleGame(game_seed=10, commentary_seed=10, team1=TEAMS["COASTAL_VIPERS"], team2=TEAMS["DESERT_SCORPIONS"]),
-]
+# We rotate through all possible matchups of the 4 teams
+teams = ["BAY_BOMBERS", "PC_PILOTS", "COASTAL_VIPERS", "DESERT_SCORPIONS"]
+matchups = []
+for t1 in teams:
+    for t2 in teams:
+        if t1 != t2:
+            matchups.append((t1, t2))
+
+EXAMPLE_GAMES = []
+for i in range(10):
+    t1_key, t2_key = matchups[i]
+    EXAMPLE_GAMES.append(
+        ExampleGame(
+            game_seed=i + 1,
+            commentary_seed=i + 1,
+            team1=TEAMS[t1_key],
+            team2=TEAMS[t2_key]
+        )
+    )
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
