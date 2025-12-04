@@ -35,28 +35,27 @@ GAME_CONTEXT = {
                 "misses away",
                 "high and inside"
             ],
-            # 11: High (Ball)
-            "high": [
-                "high and tight", "sails over the letters", "misses high and wide",
-                "runs high", "misses upstairs", "misses high", "high and inside",
-                "up in the eyes", "over the head", "way upstairs"
+            "high_inside": [
+                "high and tight", "high and inside", "runs high", "misses high",
+                "misses upstairs", "up in the eyes", "over the head", "way upstairs",
+                "runs inside", "a bit inside", "nearly hits him", "brushes him back"
             ],
-            # 12: Outside (Ball)
-            "outside": [
+            "high_outside": [
+                "sails over the letters", "misses high and wide", "runs high",
+                "misses upstairs", "misses high", "up in the eyes", "way upstairs",
                 "just misses outside", "way outside", "misses outside",
-                "misses just a bit outside", "just off the plate", "misses away",
-                "wide"
+                "misses just a bit outside", "just off the plate", "misses away", "wide"
             ],
-            # 13: Inside (Ball)
-            "inside": [
-                "a bit inside", "runs inside", "misses low and inside", "down and in",
-                "high and tight", "runs a bit inside", "nearly hits him", "brushes him back"
+            "low_inside": [
+                "misses low and inside", "down and in", "misses low", "misses a bit low",
+                "runs a bit low", "in the dirt", "bounced in the dirt", "runs inside",
+                "a bit inside", "misses down and in"
             ],
-            # 14: Low (Ball)
-            "low": [
-                "in the dirt", "low and away", "spikes before the plate", "misses low and inside",
-                "misses low", "down and in", "misses low and outside", "misses a bit low",
-                "runs a bit low", "bounced in the dirt"
+            "low_outside": [
+                "low and away", "spikes before the plate", "misses low and outside",
+                "misses low", "misses a bit low", "runs a bit low", "in the dirt",
+                "bounced in the dirt", "just misses outside", "way outside", "misses outside",
+                "misses just a bit outside", "just off the plate", "misses away", "wide"
             ]
         },
         "foul": [
