@@ -365,7 +365,7 @@ class BaseballSimulator:
         setattr(self, f"{team_prefix}_outfielders", [defense[pos] for pos in outfielders if pos in defense])
         setattr(self, f"{team_prefix}_catcher", defense.get('C'))
 
-    def _simulate_pitch_trajectory(self, pitcher):
+    def _simulate_pitch_trajectory(self, pitcher, batter=None):
         """
         Simulates the pitch's path and determines if it's in the strike zone.
         Returns a tuple: (is_strike_loc, zone_code)
@@ -376,8 +376,27 @@ class BaseballSimulator:
         14: Low (Ball)
         """
         fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina']) / 15) * 0.1
+
+        # Determine "pitch around" penalty based on batter threat
+        pitch_around_penalty = 0.0
+        if batter:
+            profile = batter.get('batting_profile', {})
+            power = profile.get('power', 0.5)
+            contact = profile.get('contact', 0.7)
+
+            # Simple threat model: Power over 0.70 starts to matter
+            if power > 0.70:
+                pitch_around_penalty += (power - 0.70) * 0.15
+
+            # High contact batters also get some respect if they have decent power
+            if contact > 0.85 and power > 0.50:
+                pitch_around_penalty += (contact - 0.85) * 0.10
+
+            # Cap the penalty to avoid breaking the game (max ~5% drop in strike rate)
+            pitch_around_penalty = min(pitch_around_penalty, 0.06)
+
         # Add a small penalty to control to increase walks slightly
-        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012)
+        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012 - pitch_around_penalty)
 
         if is_strike:
             # Weighted distribution for strike zones (1-9)
@@ -791,7 +810,7 @@ class BaseballSimulator:
             pitch_velo = round(self.game_rng.uniform(*pitch_details_team['velo_range']), 1)
             pitch_spin = self.game_rng.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if self.game_rng.random() > 0.08 else None
             
-            is_strike_loc, pitch_zone = self._simulate_pitch_trajectory(pitcher)
+            is_strike_loc, pitch_zone = self._simulate_pitch_trajectory(pitcher, batter)
             
             pre_pitch_balls, pre_pitch_strikes = balls, strikes
             event_details: PlayEvent['details'] = {}
