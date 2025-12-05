@@ -2325,7 +2325,7 @@
         "description": "",
         "rbi": 0,
         "awayScore": 0,
-        "homeScore": 2
+        "homeScore": 1
       },
       "about": {
         "atBatIndex": 8,
@@ -2333,8 +2333,8 @@
         "isTopInning": false,
         "inning": 1,
         "isScoringPlay": false,
-        "startTime": "2025-09-27T23:21:41.254145+00:00",
-        "endTime": "2025-09-27T23:22:06.513496+00:00"
+        "startTime": "2025-09-27T23:22:06.210261+00:00",
+        "endTime": "2025-09-27T23:22:27.608158+00:00"
       },
       "count": {
         "balls": 0,
@@ -2363,19 +2363,24 @@
         "splits": {
           "batter": "vs_RHP",
           "pitcher": "vs_LHB",
-          "menOnBase": "Men_On"
+          "menOnBase": "RISP"
         },
         "postOnFirst": {
           "id": 625204,
           "fullName": "Rex Power",
           "link": "/api/v1/people/625204"
+        },
+        "postOnThird": {
+          "id": 625202,
+          "fullName": "Kevin Webb",
+          "link": "/api/v1/people/625202"
         }
       },
       "playEvents": [
         {
-          "index": 34,
-          "startTime": "2025-09-27T23:21:41.254145+00:00",
-          "endTime": "2025-09-27T23:22:06.513496+00:00",
+          "index": 35,
+          "startTime": "2025-09-27T23:22:06.210261+00:00",
+          "endTime": "2025-09-27T23:22:27.608158+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
@@ -2432,6 +2437,32 @@
         },
         {
           "movement": {
+            "originBase": "3B",
+            "start": "3B",
+            "end": "3B",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
+          },
+          "details": {
+            "event": "Flyout",
+            "eventType": "field_out",
+            "movementReason": "r_adv_play",
+            "runner": {
+              "id": 625202,
+              "fullName": "Kevin Webb",
+              "link": "/api/v1/people/625202"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 0
+          },
+          "credits": []
+        },
+        {
+          "movement": {
             "originBase": null,
             "start": null,
             "end": null,
@@ -2473,10 +2504,10 @@
       ]
     }
   ],
-  "playCount": 89,
+  "playCount": 86,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 89,
+    "totalPlaysInGame": 86,
     "snapshotPlayCount": 6
   }
 }

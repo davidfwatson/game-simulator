@@ -1325,18 +1325,18 @@
             "strikes": 1
           },
           "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
             "type": {
               "code": "CH",
               "description": "Changeup"
             },
-            "zone": 6
+            "zone": 13
           },
           "pitchData": {
             "startSpeed": 81.3,
-            "zone": 6,
+            "zone": 13,
             "breaks": {
               "spinRate": 1867
             }
@@ -1348,8 +1348,8 @@
           "endTime": "2025-09-27T23:20:40.613238+00:00",
           "isPitch": true,
           "count": {
-            "balls": 0,
-            "strikes": 2
+            "balls": 1,
+            "strikes": 1
           },
           "details": {
             "code": "F",
@@ -1362,7 +1362,7 @@
             "zone": 9
           },
           "pitchData": {
-            "startSpeed": 87.3,
+            "startSpeed": 89.1,
             "zone": 9,
             "breaks": {
               "spinRate": 2642
@@ -1375,7 +1375,7 @@
           "endTime": "2025-09-27T23:21:04.022140+00:00",
           "isPitch": true,
           "count": {
-            "balls": 0,
+            "balls": 1,
             "strikes": 2
           },
           "details": {
@@ -2331,10 +2331,10 @@
       ]
     }
   ],
-  "playCount": 103,
+  "playCount": 90,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 103,
+    "totalPlaysInGame": 90,
     "snapshotPlayCount": 6
   }
 }
