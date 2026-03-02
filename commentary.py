@@ -43,7 +43,8 @@ GAME_CONTEXT = {
             "high_inside": [
                 "high and tight", "high and inside", "runs high", "misses high",
                 "misses upstairs", "up in the eyes", "over the head", "way upstairs",
-                "runs inside", "a bit inside", "nearly hits him", "brushes him back"
+                "runs inside", "a bit inside", "nearly hits him", "brushes him back",
+                "fastball high and tight"
             ],
             "high_outside": [
                 "sails over the letters", "misses high and wide", "runs high",
@@ -266,7 +267,8 @@ GAME_CONTEXT = {
                 "Lifted into {direction_noun}, routine play for {fielder_name}.",
                 "Lifted to shallow {direction_noun}. {fielder_name} drifting back and calling for it. And he makes the catch {out_context_str}.",
                 "Pulled into {direction_noun}. {fielder_name} is there and he makes the catch {out_context_str}.",
-                "Driven into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch {out_context_str}."
+                "Driven into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch {out_context_str}.",
+                "Lifted to {direction_noun}. {fielder_name} is calling for it, and he makes the catch {out_context_str}."
             ],
             "deep": [
                 "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab on the warning track to haul it in {out_context_str}.",
@@ -286,7 +288,8 @@ GAME_CONTEXT = {
                  "{fielder_name} drifting back... and he makes the catch {out_context_str}.",
                  "Popped up, {direction_noun}. {fielder_name} is calling for it... he makes the catch {out_context_str}.",
                  "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch {out_context_str}.",
-                 "{fielder_name} calling for it... and he makes the squeeze {out_context_str}."
+                 "{fielder_name} calling for it... and he makes the squeeze {out_context_str}.",
+                 "Popped up on the infield, {direction_noun} side. {fielder_name} is under it, and he makes the catch {out_context_str}."
              ]
         },
         "Lineout": {
@@ -375,7 +378,8 @@ GAME_CONTEXT = {
         ],
         "strike_called_three": [
             "called strike three", "caught looking at strike three", "strike three called",
-            "in there for strike three", "rings him up", "got him looking"
+            "in there for strike three", "rings him up", "got him looking",
+            "paints the corner for a called strike three"
         ],
         "strike_swinging": [
             "swung on and missed", "cut on and missed", "a big swing and a miss",
@@ -386,7 +390,7 @@ GAME_CONTEXT = {
         "strike_swinging_three": [
             "swung on and missed for strike three", "struck him out swinging",
             "swings through it for strike three", "fans him", "gets him swinging",
-            "he chases it for strike three", "a high heater gets him swinging"
+            "he chases it for strike three"
         ],
         "mound_visit": [
             "will stroll out to the mound to have a chat with",
@@ -507,7 +511,9 @@ GAME_CONTEXT = {
              "{pitcher_name} sets them down in order.",
              "Another one-two-three inning for {pitcher_name}.",
              "{pitcher_name} retires the side in order.",
-             "Three up, three down for {pitcher_name}."
+             "Three up, three down for {pitcher_name}.",
+             "{pitcher_name} works a 1-2-3 inning.",
+             "{pitcher_name} sets down the side with ease."
         ],
         "walk_aboard": [
             "{batter_name} is aboard with a {outs_str} walk.",
@@ -527,11 +533,14 @@ GAME_CONTEXT = {
         "stolen_base": [
             "{runner_name} takes off for second... and he's in there with a stolen base!",
             "A good jump and a stolen base for {runner_name}.",
-            "{runner_name} hustling for second... and he's in there safely with a stolen base!"
+            "{runner_name} hustling for second... and he's in there safely with a stolen base!",
+            "Throw to second is not in time. {runner_name} steals second.",
+            "{runner_name} will slide in under the tag. That's a stolen base for {runner_name}."
         ],
         "stolen_base_third": [
             "{runner_name} takes off for third... and he makes it! A stolen base!",
-            "He's going for third! And he's safe! {runner_name} with a great jump."
+            "He's going for third! And he's safe! {runner_name} with a great jump.",
+            "Throw to third is not in time. {runner_name} steals third."
         ],
         "batter_intro_leadoff": [
             "And {batter_name} leads off for the {team_name}.",
@@ -626,7 +635,9 @@ GAME_CONTEXT = {
             "He offers at the bunt, but fouls it back",
             "The bunt attempt is fouled off",
             "He attempts to bunt, but it goes foul",
-            "Squared around, but he fouls it"
+            "Squared around, but he fouls it",
+            "Bunted foul off to the right",
+            "Bunted foul along the third base line"
         ],
         "bunt_sac": [
             "  He gets the bunt down, a perfect sacrifice.",
