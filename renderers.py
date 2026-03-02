@@ -1262,6 +1262,56 @@ class NarrativeRenderer(GameRenderer):
             lines.append("\n".join(play_text_blocks))
             lines.append("")
 
+        # --- GAME SUMMARY ---
+        linescore_teams = self.gameday_data['liveData']['linescore']['teams']
+        home_runs = linescore_teams['home']['runs']
+        home_hits = linescore_teams['home']['hits']
+        home_errors = linescore_teams['home']['errors']
+        away_runs = linescore_teams['away']['runs']
+        away_hits = linescore_teams['away']['hits']
+        away_errors = linescore_teams['away']['errors']
+
+        if home_runs > away_runs:
+             win_team = self.home_team['name']
+             win_runs = home_runs
+             win_hits = home_hits
+             win_errors = home_errors
+             lose_team = self.away_team['name']
+             lose_runs = away_runs
+             lose_hits = away_hits
+             lose_errors = away_errors
+        else:
+             win_team = self.away_team['name']
+             win_runs = away_runs
+             win_hits = away_hits
+             win_errors = away_errors
+             lose_team = self.home_team['name']
+             lose_runs = home_runs
+             lose_hits = home_hits
+             lose_errors = home_errors
+
+        summary_lines = []
+        ctx = {
+            'win_team': win_team, 'win_runs': win_runs, 'win_hits': win_hits, 'win_errors': win_errors,
+            'lose_team': lose_team, 'lose_runs': lose_runs, 'lose_hits': lose_hits, 'lose_errors': lose_errors,
+            'network_name': GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network')
+        }
+        summary_text = self._get_radio_string('game_summary', ctx)
+
+
+        outro_text = self._get_radio_string('outro', ctx)
+
+
+
+
+        if summary_text:
+             lines.append(summary_text)
+        if outro_text:
+             lines.append(outro_text)
+
+
+        lines.append("")
+
         lines.append("=" * 20 + " GAME OVER " + "=" * 20)
         final_home = self.gameday_data['liveData']['linescore']['teams']['home']['runs']
         final_away = self.gameday_data['liveData']['linescore']['teams']['away']['runs']

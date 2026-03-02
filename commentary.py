@@ -882,6 +882,11 @@ GAME_CONTEXT = {
             "And we are tied at {score} apiece.",
             "Score is tied at {score}."
         ],
+        "game_summary": [
+            "For the victorious {win_team}, {win_runs} runs on {win_hits} hits, {win_errors} errors. And for the {lose_team}, {lose_runs} runs on {lose_hits} hits and {lose_errors} errors.",
+            "Final line score tonight: The {win_team} take it with {win_runs} runs, {win_hits} hits, and {win_errors} errors. The {lose_team} fall with {lose_runs} runs on {lose_hits} hits and {lose_errors} errors.",
+            "The {win_team} win it, finishing with {win_runs} runs, {win_hits} hits, and {win_errors} errors. The {lose_team} manage {lose_runs} runs, {lose_hits} hits, and {lose_errors} errors."
+        ],
         "outro": [
              "Producer Phil and I will be back with the post-game show in a moment here on {network_name}.",
              "You're drifting off with {network_name}."
