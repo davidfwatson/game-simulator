@@ -8,6 +8,11 @@ GAME_CONTEXT = {
         "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R",
         "65°F, Fog rolling in", "70°F, Clear skies over Pacifica", "62°F, Cool breeze", "85°F, Santa Ana winds blowing out", "58°F, Misty night at the ballpark"
     ],
+    "listener_names": [
+        "Tracy Davidson", "Anna", "Old Man Henderson",
+        "Captain Salty", "Little Jimmy", "Mrs. Gable", "Doc Winters",
+        "Sully from down the coast", "Crazy Carl"
+    ],
     "pitch_locations": {
         "strike": {
             "default": [
@@ -798,6 +803,19 @@ GAME_CONTEXT = {
              "Welcome aboard, baseball fans.",
              "Grab a hot dog and settle in, we've got a great matchup tonight.",
              "It's time for the greatest game on earth."
+        ],
+        "pregame_color": [
+             "And before we are underway here at {venue}, it's time for producer Phil to pull a name out of the fishbowl for tonight's Instagram winner. If you'd like your name to go into the fishbowl, head over to sleepbaseball.com and follow us on Instagram. Tonight's winner is {listener_name}. Congratulations. And Producer Phil will be in touch on Instagram to sort out the exciting details.",
+             "And a special happy birthday to listener {listener_name}. Phil and I have fond memories of those early years back at the dawn of the radio industry. Here's hoping you have a great birthday, {listener_name}.",
+             "And a quick hello to {listener_name}, who writes in to say they are listening on their porch down the coast. Thanks for tuning in.",
+             "And a warm welcome to {listener_name}, who won tonight's ticket giveaway but couldn't make the drive. We're glad you're with us on the broadcast instead."
+        ],
+        "sponsor_reads": [
+             "Hey kids. This is Blink Rederson. I'm here at Ted's Fishing World and I just wanted to say they've got some great deals for people that like to fish or wish they could fish. They have wheels. And they have lures, and they have bait. You can get a special 25 percent off. If you mention my name, Blink Rederson. Ted's Fishing World. If fishing is in your head, trust Ted.",
+             "You know me, this is Uncle Ed. It makes sense that Pacifica would have the finest water ski emporium in the world. I want to tell you about the good folks of Samuelson's Ski Shop. They got everything you need for water skiing: skis, tow ropes, life jackets, soft shell, you know the drill. Why don't you go on into Samuelson's Ski Shop and tell them Uncle Ed sent ya.",
+             "Hey there. It's Dana Dedrick and I am thrilled to bring you Love Notes, where we blend the best of smooth jazz and relationship advice. A creative cozy, late night, listening experience. Finding love and keeping it doesn't have to be so mysterious. Tune in weeknights at 10 p.m. on {network_name} to unwind with some mellow melodies and get tips on how to build and maintain healthier relationships.",
+             "In addition to our world famous popcorn, The Rusty Anchor down by the pier has the best clam chowder this side of the Mississippi. Stop by The Rusty Anchor for a bite and tell them we sent you.",
+             "Hey there. This is producer Phil. Everyone here at {network_name} would love to welcome our new listeners. Thanks for joining us for another night of baseball."
         ],
         "inning_break_outro": [
              "We'll be back with the {next_inning_ordinal} inning in a moment here on {network_name}.",

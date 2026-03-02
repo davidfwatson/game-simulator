@@ -521,6 +521,13 @@ class NarrativeRenderer(GameRenderer):
         if weather:
              add_line(f"And it is a perfect night for a ball game: {weather}.")
 
+        # Pregame extra color (50% chance)
+        if self.rng_color.random() < 0.5:
+            listener_name = self.rng_color.choice(GAME_CONTEXT.get('listener_names', ["a lucky listener"]))
+            pregame_text = self._get_radio_string('pregame_color', {'venue': venue, 'listener_name': listener_name, 'network_name': network_name})
+            if pregame_text:
+                add_line(pregame_text)
+
         add_line("And we are underway.")
         lines.append("") # Empty line
 
@@ -594,6 +601,14 @@ class NarrativeRenderer(GameRenderer):
                      lines.append(summary_text)
                      self._add_to_buffer(summary_text)
                      lines.append("")
+
+                     # Mid-inning sponsor reads (25% chance)
+                     if self.rng_color.random() < 0.25:
+                         sponsor_text = self._get_radio_string('sponsor_reads', {'network_name': network_name})
+                         if sponsor_text:
+                             lines.append(sponsor_text)
+                             self._add_to_buffer(sponsor_text)
+                             lines.append("")
 
                      # Hardcoded 15s delay for inning break, placed between summary and welcome back
                      lines.append("[TTS SPLIT HERE DELAY:15.0s]")
