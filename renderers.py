@@ -1,4 +1,5 @@
 import random
+import hashlib
 from datetime import datetime
 from commentary import GAME_CONTEXT
 from gameday import GamedayData
@@ -6,29 +7,41 @@ from gameday import GamedayData
 class GameRenderer:
     def __init__(self, gameday_data: GamedayData, seed: int = None):
         self.gameday_data = gameday_data
-
-        # Master RNG to generate sub-seeds for stability
-        master_rng = random.Random(seed)
+        self.base_seed = seed
 
         # Separate RNGs for different categories of commentary
-        # rng_play: Batted ball descriptions, hit locations, specific play outcomes
-        self.rng_play = random.Random(master_rng.randint(0, 1_000_000_000))
-
-        # rng_pitch: Pitch types, ball/strike descriptions, foul ball descriptions
-        self.rng_pitch = random.Random(master_rng.randint(0, 1_000_000_000))
-
-        # rng_flow: Connectors ("And the 1-1..."), inning transitions, batter intros
-        self.rng_flow = random.Random(master_rng.randint(0, 1_000_000_000))
-
-        # rng_color: Station IDs, weather comments, handedness comments, color commentary
-        self.rng_color = random.Random(master_rng.randint(0, 1_000_000_000))
+        self.rng_play = random.Random()
+        self.rng_pitch = random.Random()
+        self.rng_flow = random.Random()
+        self.rng_color = random.Random()
 
         # Fallback/Default
         self.rng = self.rng_play
 
+        # Initial seed based on game start time
+        game_start = gameday_data.get('gameData', {}).get('datetime', {}).get('dateTime', '')
+        self._reseed_from_timestamp(game_start, "init")
+
         self.home_team = gameday_data['gameData']['teams']['home']
         self.away_team = gameday_data['gameData']['teams']['away']
         self.current_pitcher_info = {'home': None, 'away': None}
+
+    def _reseed_from_timestamp(self, time_str: str, salt: str = ""):
+        if not time_str:
+            return
+
+        # Combine base seed, timestamp, and salt to create a unique, deterministic hash
+        seed_str = f"{self.base_seed}_{time_str}_{salt}"
+        hash_obj = hashlib.md5(seed_str.encode('utf-8'))
+        hash_int = int(hash_obj.hexdigest(), 16)
+
+        master_rng = random.Random(hash_int)
+
+        # Reseed all specific RNGs deterministically from the master
+        self.rng_play.seed(master_rng.randint(0, 1_000_000_000))
+        self.rng_pitch.seed(master_rng.randint(0, 1_000_000_000))
+        self.rng_flow.seed(master_rng.randint(0, 1_000_000_000))
+        self.rng_color.seed(master_rng.randint(0, 1_000_000_000))
 
     def render(self) -> str:
         raise NotImplementedError
@@ -526,6 +539,9 @@ class NarrativeRenderer(GameRenderer):
             inning = about['inning']
             half = "Top" if about['isTopInning'] else "Bottom"
 
+            if 'startTime' in about:
+                self._reseed_from_timestamp(about['startTime'], "play_start")
+
             if (inning, half) != current_inning_state:
                 if current_inning_state[0] != 0:
                      is_123 = False
@@ -759,6 +775,9 @@ class NarrativeRenderer(GameRenderer):
             while i < len(play_events):
                 event = play_events[i]
 
+                if 'startTime' in event:
+                    self._reseed_from_timestamp(event['startTime'], "event")
+
                 # Timing check
                 insert_idx = 0 if i == 0 else -1
 
@@ -938,6 +957,9 @@ class NarrativeRenderer(GameRenderer):
                          self._add_to_buffer(txt)
 
                 i += 1
+
+            if 'endTime' in about:
+                self._reseed_from_timestamp(about['endTime'], "play_outcome")
 
             outcome_text = ""
             if outcome == "Strikeout":
@@ -1176,6 +1198,9 @@ class StatcastRenderer(GameRenderer):
             inning = about['inning']
             half = "Top" if about['isTopInning'] else "Bottom"
 
+            if 'startTime' in about:
+                self._reseed_from_timestamp(about['startTime'], "play_start")
+
             if (inning, half) != current_inning_state:
                 team_name = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
                 lines.append("-" * 50)
@@ -1192,6 +1217,9 @@ class StatcastRenderer(GameRenderer):
 
             play_events = play['playEvents']
             for event in play_events:
+                if 'startTime' in event:
+                    self._reseed_from_timestamp(event['startTime'], "event")
+
                 details = event['details']
                 desc = details['description']
                 code = details.get('code', '')
@@ -1207,6 +1235,9 @@ class StatcastRenderer(GameRenderer):
 
                 if outcome_text:
                      lines.append(f"  {outcome_text.capitalize()}: {pitch_velo} mph {pitch_selection}")
+
+            if 'endTime' in about:
+                self._reseed_from_timestamp(about['endTime'], "play_outcome")
 
             result = play['result']
             outcome = result['event']
