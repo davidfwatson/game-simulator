@@ -8,6 +8,9 @@ GAME_CONTEXT = {
         "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R",
         "65°F, Fog rolling in", "70°F, Clear skies over Pacifica", "62°F, Cool breeze", "85°F, Santa Ana winds blowing out", "58°F, Misty night at the ballpark"
     ],
+    "listener_names": [
+        "Tracy Davidson", "Anna", "Wally", "Phil", "Dana Dedrick", "Blink Rederson", "Daniel Loon", "Evelyn", "Marco", "Tony", "Sarah"
+    ],
     "pitch_locations": {
         "strike": {
             "default": [
@@ -885,6 +888,20 @@ GAME_CONTEXT = {
         "outro": [
              "Producer Phil and I will be back with the post-game show in a moment here on {network_name}.",
              "You're drifting off with {network_name}."
+        ],
+        "pregame_color": [
+            "Before we get underway, it's time for producer Phil to pull a name out of the fishbowl for tonight's Instagram winner. Tonight's winner is {listener}. Congratulations!",
+            "A special happy birthday to listener {listener}. Here's hoping you have a great birthday.",
+            "And a quick shoutout to {listener}, who is listening in from the road tonight.",
+            "If you'd like your name to go into the Fishbowl head over to sleepbaseball.com and follow us on Instagram. Tonight's winner is {listener}.",
+            "We have a special birthday in the crowd tonight. Happy birthday to {listener}, enjoying the game right behind the dugout."
+        ],
+        "sponsor_reads": [
+            "Hey there. It's Dana Dedrick and I am thrilled to bring you Love Notes where we blend the best of smooth jazz and relationship advice. Weeknights at 10 p.m. on {network_name}.",
+            "This inning is brought to you by Ted's Fishing World. If fishing is in your head, trust Ted.",
+            "Don't forget to stop by the concession stand for Daniel Loon's famous three dollar bowls of spaghetti.",
+            "Need a break? Grab a bag of our world famous popcorn, available now at all stadium vendors.",
+            "Tonight's game is sponsored by Pacifica Sleep Center. Get the rest you deserve."
         ]
     }
 }

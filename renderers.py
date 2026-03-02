@@ -616,6 +616,10 @@ class NarrativeRenderer(GameRenderer):
             build_lineup('away')
             build_lineup('home')
 
+        if self.rng_color.random() < 0.5:
+            listener = self.rng_color.choice(GAME_CONTEXT.get('listener_names', ['Tracy Davidson']))
+            add_line(self._get_radio_string('pregame_color', {'listener': listener}))
+
         add_line("And we are underway.")
 
         lines.append("") # Empty line
@@ -690,6 +694,12 @@ class NarrativeRenderer(GameRenderer):
                      lines.append(summary_text)
                      self._add_to_buffer(summary_text)
                      lines.append("")
+
+                     if self.rng_color.random() < 0.25:
+                         sponsor_text = self._get_radio_string('sponsor_reads', {'network_name': network_name})
+                         lines.append(sponsor_text)
+                         self._add_to_buffer(sponsor_text)
+                         lines.append("")
 
                      # Hardcoded 15s delay for inning break, placed between summary and welcome back
                      lines.append("[TTS SPLIT HERE DELAY:15.0s]")
