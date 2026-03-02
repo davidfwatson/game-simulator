@@ -457,16 +457,16 @@ GAME_CONTEXT = {
         ],
         "two_out_single": [
             "{batter_name} keeps the inning alive with a two-out single{inning_context}.",
-            "A two-out base hit for {batter_name}.",
+            "A two-out base hit.",
             "{batter_name} is aboard with a two-out single{inning_context}."
         ],
         "two_out_double": [
-            "A two-out double for {batter_name}!",
+            "A two-out double!",
             "{batter_name} rips one into the gap for a two-out double.",
             "{batter_name} is aboard with a two-out double{inning_context}."
         ],
         "two_out_triple": [
-            "A two-out triple for {batter_name}!",
+            "A two-out triple!",
             "{batter_name} is aboard with a two-out triple{inning_context}."
         ],
         "two_out_walk": [

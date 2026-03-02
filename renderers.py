@@ -1,4 +1,5 @@
 import random
+import hashlib
 from datetime import datetime
 from commentary import GAME_CONTEXT
 from gameday import GamedayData
@@ -8,6 +9,7 @@ class GameRenderer:
         self.gameday_data = gameday_data
 
         # Master RNG to generate sub-seeds for stability
+        self.base_seed = seed
         master_rng = random.Random(seed)
 
         # Separate RNGs for different categories of commentary
@@ -29,6 +31,26 @@ class GameRenderer:
         self.home_team = gameday_data['gameData']['teams']['home']
         self.away_team = gameday_data['gameData']['teams']['away']
         self.current_pitcher_info = {'home': None, 'away': None}
+
+    def _reseed_from_timestamp(self, timestamp_iso: str, salt: str = ""):
+        if not timestamp_iso:
+            return
+
+        base_seed_str = str(self.base_seed) if hasattr(self, 'base_seed') and self.base_seed is not None else "0"
+
+        hash_input = f"{base_seed_str}_{timestamp_iso}_{salt}".encode('utf-8')
+        md5_hash = hashlib.md5(hash_input).hexdigest()
+
+        seed_val = int(md5_hash[:8], 16)
+
+        if salt == 'play':
+            self.rng_play.seed(seed_val)
+        elif salt == 'pitch':
+            self.rng_pitch.seed(seed_val)
+        elif salt == 'flow':
+            self.rng_flow.seed(seed_val)
+        elif salt == 'color':
+            self.rng_color.seed(seed_val)
 
     def render(self) -> str:
         raise NotImplementedError
@@ -522,6 +544,13 @@ class NarrativeRenderer(GameRenderer):
 
         for play in plays:
             about = play['about']
+            start_time = about.get('startTime')
+            if start_time:
+                self._reseed_from_timestamp(start_time, 'play')
+                self._reseed_from_timestamp(start_time, 'flow')
+                self._reseed_from_timestamp(start_time, 'color')
+
+            about = play['about']
             matchup = play['matchup']
             inning = about['inning']
             half = "Top" if about['isTopInning'] else "Bottom"
@@ -758,6 +787,11 @@ class NarrativeRenderer(GameRenderer):
 
             while i < len(play_events):
                 event = play_events[i]
+                event_start_time = event.get('startTime')
+                if event_start_time:
+                    self._reseed_from_timestamp(event_start_time, 'pitch')
+                    self._reseed_from_timestamp(event_start_time, 'flow')
+
 
                 # Timing check
                 insert_idx = 0 if i == 0 else -1
@@ -1173,6 +1207,13 @@ class StatcastRenderer(GameRenderer):
 
         for play in plays:
             about = play['about']
+            start_time = about.get('startTime')
+            if start_time:
+                self._reseed_from_timestamp(start_time, 'play')
+                self._reseed_from_timestamp(start_time, 'flow')
+                self._reseed_from_timestamp(start_time, 'color')
+
+            about = play['about']
             inning = about['inning']
             half = "Top" if about['isTopInning'] else "Bottom"
 
@@ -1192,6 +1233,11 @@ class StatcastRenderer(GameRenderer):
 
             play_events = play['playEvents']
             for event in play_events:
+                event_start_time = event.get('startTime')
+                if event_start_time:
+                    self._reseed_from_timestamp(event_start_time, 'pitch')
+                    self._reseed_from_timestamp(event_start_time, 'flow')
+
                 details = event['details']
                 desc = details['description']
                 code = details.get('code', '')
