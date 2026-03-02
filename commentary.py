@@ -11,6 +11,7 @@ GAME_CONTEXT = {
     "pitch_locations": {
         "strike": {
             "default": [
+                "right down Main Street",
                 "paints the corner", "right down the middle", "catches the black",
                 "a perfect strike", "in the zone", "freezes him on the inner edge",
                 "snaps over the backdoor", "drops onto the knees",
@@ -23,6 +24,7 @@ GAME_CONTEXT = {
         },
         "ball": {
             "default": [
+                "bounces in front of the plate",
                 "just misses outside", "high and tight", "in the dirt", "way outside",
                 "low and away", "a bit inside", "sails over the letters",
                 "spikes before the plate", "misses high and wide", "misses low and inside",
@@ -62,6 +64,9 @@ GAME_CONTEXT = {
             ]
         },
         "foul": [
+            "Slashed out of play",
+            "High foul ball drifting into the stands",
+            "Chopped foul and off to the right",
             "fights it off",
             "he spoils a good pitch",
             "he gets a piece of it",
@@ -140,6 +145,7 @@ GAME_CONTEXT = {
                 "Hard liner {direction}. And that one drops in for a base hit."
             ],
             "bloop": [
+                "Looper into shallow {direction_noun}. And that one falls in for a base hit.",
                 "Blooped {direction}. That one drops in for a hit.",
                 "Blooped {direction}. That one drops in for a hit.",
                 "A little flare {direction} falls in.",
@@ -219,12 +225,14 @@ GAME_CONTEXT = {
                 "Hard chopper to {direction_noun}. {fielder_name} snares it and fires to first to get {batter_name} by a step {out_context_str}."
             ],
             "unassisted_1b": [
+                "Roller to {direction_noun}. {fielder_name} will have it unassisted. And he steps on the bag to retire him {out_context_str}.",
                 "One hopper to first. {fielder_name} will have it unassisted. And he steps on the bag to retire {batter_name} {out_context_str}.",
                 "Roller to first. {fielder_name} will have it unassisted, and he steps on the bag {out_context_str}.",
                 "Bouncer to first. {fielder_name} takes it himself and steps on the bag {out_context_str}.",
                 "Grounder to first. {fielder_name} scoops it up and steps on the bag {out_context_str}."
             ],
             "pitcher_groundout": [
+                "Chopper over the mound. {fielder_name} picks it up and fires {out_context_str}.",
                 "Comebacker to the mound. {fielder_name} handles it and tosses over to first {out_context_str}.",
                 "Bouncer back to the mound. {fielder_name} scoops it up and throws to first {out_context_str}.",
                 "Chopper back to the box. {fielder_name} fields it cleanly and fires to first {out_context_str}."
@@ -232,6 +240,7 @@ GAME_CONTEXT = {
         },
         "Flyout": {
             "default": [
+                "Lifted into {direction_noun}. {fielder_name} is calling for it and he makes the catch {out_context_str}.",
                 "Hit in the air {direction}. {fielder_name} is after it and he makes the catch {out_context_str}.",
                 "Fly ball, {direction}. {fielder_name} drifting in... and he makes the catch {out_context_str}.",
                 "Line drive {direction}. That one is into the glove of {fielder_name} {out_context_str}.",
@@ -257,6 +266,7 @@ GAME_CONTEXT = {
                 "Driven into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch {out_context_str}."
             ],
             "deep": [
+                "Driven into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch on the warning track {out_context_str}.",
                 "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab on the warning track to haul it in {out_context_str}.",
                 "Fly ball, deep {direction}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
                 "Fly ball, deep {direction_noun}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
@@ -288,6 +298,8 @@ GAME_CONTEXT = {
         },
         "Strikeout": {
              "swinging": [
+                 "strikes out swinging on a {pitch_type}.",
+                 "swings and misses at a {pitch_type}.",
                  "Swing and a miss on a {pitch_type}, and {batter_name} strikes out.",
                  "He takes an awkward hack at a {pitch_type}, and {batter_name} strikes out.",
                  "Swing and a miss on a low {pitch_type}.",
@@ -303,6 +315,7 @@ GAME_CONTEXT = {
                  "Swing and a miss on a {pitch_type} in the dirt, and {batter_name} is down on strikes."
              ],
              "looking": [
+                 "takes a {pitch_type} for a called strike.",
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
                  "He looks at a {pitch_type} for a called strike three.",
                  "{pitch_type} called strike three.",
@@ -323,6 +336,7 @@ GAME_CONTEXT = {
         },
         "Double Play": {
              "default": [
+                 "Grounds it {direction}. They turn the double play {out_context_str}.",
                  "Ground ball to {direction_noun}, this could be two! And they turn the double play {out_context_str}.",
                  "Roller to {direction_noun}. They get the lead runner at second and turn it for a double play {out_context_str}.",
                  "Grounder to {direction_noun}. Flip to second for one, onto first... double play!",
