@@ -517,11 +517,107 @@ class NarrativeRenderer(GameRenderer):
         add_line(f"Tonight, from {venue}, it's the {self.home_team['name']} hosting the {self.away_team['name']}.")
         add_line(self._get_radio_string('welcome_intro'))
 
+
         weather = self.gameday_data['gameData'].get('weather')
         if weather:
              add_line(f"And it is a perfect night for a ball game: {weather}.")
 
+        # STARTING LINEUPS
+        if 'boxscore' in self.gameday_data['liveData']:
+            boxscore = self.gameday_data['liveData']['boxscore']
+            players_data = self.gameday_data['gameData'].get('players', {})
+            lineup_strings = GAME_CONTEXT.get('lineup_strings', {})
+
+            def get_position_str(pos_code, pos_name):
+                # Try to clean up position names for radio
+                if pos_code == '1': return "starting pitcher"
+                if pos_code == '2': return "catcher"
+                if pos_code == '3': return "first base"
+                if pos_code == '4': return "second base"
+                if pos_code == '5': return "third base"
+                if pos_code == '6': return "shortstop"
+                if pos_code == '7': return "left field"
+                if pos_code == '8': return "center field"
+                if pos_code == '9': return "right field"
+                if pos_code == 'D': return "designated hitter"
+                return pos_name.lower()
+
+            def build_lineup(team_type):
+                team_box = boxscore['teams'][team_type]
+                batting_order = team_box.get('battingOrder', [])
+                team_name = team_box['team']['name']
+
+                if team_type == 'away':
+                    intro_template = self.rng_color.choice(lineup_strings.get('intro_away', ["Let's take a look at the Starting 9 for the visiting {team_name}."]))
+                    add_line(intro_template.format(team_name=team_name))
+                else:
+                    intro_template = self.rng_color.choice(lineup_strings.get('intro_home', ["Here are the {home_team_name}."]))
+                    add_line(intro_template.format(away_team_name=self.away_team['name'], home_team_name=self.home_team['name']))
+
+                for idx, p_id in enumerate(batting_order):
+                    player_key = f"ID{p_id}"
+                    if player_key in players_data:
+                        player = players_data[player_key]
+                        p_name = player.get('fullName', 'Unknown Player')
+                        pos_info = player.get('primaryPosition', {})
+                        pos_code = pos_info.get('code', '')
+                        pos_name = pos_info.get('name', '')
+                        pos_str = get_position_str(pos_code, pos_name)
+
+                        # Fetch the starting pitcher hand if they are batting 9th (or any DH/Pitcher)
+                        pitch_hand = player.get('pitchHand', {}).get('description', 'Right').lower()
+
+                        context = {
+                            'team_name': team_name,
+                            'player_name': p_name,
+                            'position': pos_str,
+                            'pitch_hand': pitch_hand
+                        }
+
+                        # Get string for the specific batting position (1 through 9)
+                        batting_pos = idx + 1
+                        string_options = lineup_strings.get(f'batting_{batting_pos}', [f"Batting {batting_pos}, {p_name}."])
+
+                        # Specific handling for the 9th spot starter vs position player
+                        if batting_pos == 9:
+                            if pos_code == '1':
+                                string_options = [s for s in string_options if 'pitcher' in s]
+                            else:
+                                string_options = [s for s in string_options if 'pitcher' not in s]
+                            if not string_options:
+                                string_options = [f"And batting ninth, {pos_str} {p_name}."]
+
+                        # Ensure valid template
+                        if not string_options:
+                            string_options = [f"Batting {batting_pos}, {p_name}."]
+
+                        template = self.rng_color.choice(string_options)
+
+                        # For lead-off and others, sometimes they are formatted "Name will lead off in position"
+                        # Handle name at beginning
+                        if template.startswith("{player_name}"):
+                            line = template.format(**context)
+                        else:
+                            # Capitalize first letter of template
+                            # (unless the template naturally handles it)
+                            line = template.format(**context)
+                            line = line[0].upper() + line[1:]
+
+                        add_line(line)
+
+                # Manager string
+                if team_type == 'away':
+                    manager_template = self.rng_color.choice(lineup_strings.get('manager_away', ["And the {team_name} are managed by veteran Skipper, Mick Jenkins."]))
+                    add_line(manager_template.format(team_name=team_name))
+                else:
+                    manager_template = self.rng_color.choice(lineup_strings.get('manager_home', ["The {team_name} are managed by Manager Samuels."]))
+                    add_line(manager_template.format(team_name=team_name))
+
+            build_lineup('away')
+            build_lineup('home')
+
         add_line("And we are underway.")
+
         lines.append("") # Empty line
 
         current_inning_state = (0, '')
