@@ -64,6 +64,8 @@ GAME_CONTEXT = {
             ]
         },
         "foul": [
+            "popped foul and out of play",
+            "dribbled foul",
             "Slashed out of play",
             "High foul ball drifting into the stands",
             "Chopped foul and off to the right",
@@ -129,6 +131,7 @@ GAME_CONTEXT = {
     "narrative_templates": {
         "Single": {
             "liner": [
+                "Line drive {direction}! And that one gets through the infield for a base hit.",
                 "Lined {direction}. That one drops in.",
                 "Lined {direction}, and that one will drop in for a base hit.",
                 "Lined {direction}. That one drops in.",
@@ -145,6 +148,7 @@ GAME_CONTEXT = {
                 "Hard liner {direction}. And that one drops in for a base hit."
             ],
             "bloop": [
+                "Fly ball into shallow {direction_noun}. And that one drops in for a base hit.",
                 "Looper into shallow {direction_noun}. And that one falls in for a base hit.",
                 "Blooped {direction}. That one drops in for a hit.",
                 "Blooped {direction}. That one drops in for a hit.",
@@ -153,6 +157,7 @@ GAME_CONTEXT = {
                 "Blooped into shallow {direction_noun}. That one drops in for a hit."
             ],
             "grounder": [
+                "Hard grounder {direction}. And that one gets through the infield for a base hit.",
                 "Hard grounder up the middle... and that one will squeeze through for a base hit.",
                 "Hard grounder {direction}... and that one will squeeze through for a base hit.",
                 "Finds a hole through the infield.",
@@ -170,6 +175,9 @@ GAME_CONTEXT = {
         },
         "Double": {
             "default": [
+                 "Lined {direction}! That one is fair and that one will get all the way to the wall.",
+                 "Hit into {direction_noun}. That one's going to fall in, and roll all the way to the wall.",
+                 "Sliced {direction}. That one falls in for a hit, and it will roll all the way into the corner.",
                  "Lined {direction}! That one is fair and that one will get all the way to the wall.",
                  "Hammered {direction}! That one will drop in for a hit and roll all the way to the wall.",
                  "Hammered to {direction_noun}! That one will drop in for a hit and roll all the way to the wall."
@@ -192,6 +200,9 @@ GAME_CONTEXT = {
         },
         "Groundout": {
             "default": [
+                "Grounder {direction}. {fielder_name} backhands it and fires to first {out_context_str}.",
+                "Slow roller {direction}. {fielder_name} picks it up and fires to first {out_context_str}.",
+                "Roller {direction}. {fielder_name} has it, and fires across to first {out_context_str}.",
                 "Roller {direction}. {fielder_name} scoops it up and fires to first {out_context_str}.",
                 "Dribbler {direction}. Backhanded pick by {fielder_name} and he fires to first {out_context_str}.",
                 "Grounder {direction}. {fielder_name} has it and tosses to first {out_context_str}.",
@@ -240,6 +251,8 @@ GAME_CONTEXT = {
         },
         "Flyout": {
             "default": [
+                "Flies into shallow {direction_noun}. {fielder_name} coming in, and he puts the squeeze on it {out_context_str}.",
+                "Lifts it to shallow {direction_noun}. {fielder_name} drifting back and calling for it. And he makes the catch {out_context_str}.",
                 "Lifted into {direction_noun}. {fielder_name} is calling for it and he makes the catch {out_context_str}.",
                 "Hit in the air {direction}. {fielder_name} is after it and he makes the catch {out_context_str}.",
                 "Fly ball, {direction}. {fielder_name} drifting in... and he makes the catch {out_context_str}.",
@@ -277,6 +290,7 @@ GAME_CONTEXT = {
         },
         "Pop Out": {
              "default": [
+                 "Pops it up, shallow {direction_noun}. {fielder_name} drifting back... and he makes the catch {out_context_str}.",
                  "Popped up, {direction}. {fielder_name} is after it and he makes the catch {out_context_str}.",
                  "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch {out_context_str}.",
                  "Pop fly, {direction}. {fielder_name} drifting back... and he makes the catch {out_context_str}.",
@@ -298,6 +312,8 @@ GAME_CONTEXT = {
         },
         "Strikeout": {
              "swinging": [
+                 "swings and misses on a {pitch_type}.",
+                 "goes down swinging on a {pitch_type}.",
                  "strikes out swinging on a {pitch_type}.",
                  "swings and misses at a {pitch_type}.",
                  "Swing and a miss on a {pitch_type}, and {batter_name} strikes out.",
@@ -336,6 +352,8 @@ GAME_CONTEXT = {
         },
         "Double Play": {
              "default": [
+                 "Grounds it hard {direction}. They get the lead runner and turn it in time {out_context_str}.",
+                 "Bounces it {direction}. They start the double play and finish it off just in time {out_context_str}.",
                  "Grounds it {direction}. They turn the double play {out_context_str}.",
                  "Ground ball to {direction_noun}, this could be two! And they turn the double play {out_context_str}.",
                  "Roller to {direction_noun}. They get the lead runner at second and turn it for a double play {out_context_str}.",
