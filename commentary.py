@@ -1,5 +1,5 @@
 GAME_CONTEXT = {
-    "network_name": "The Pacific Sleep Baseball Network",
+    "network_name": "the Northwoods baseball radio network",
     "umpires": [
         "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
         "Bill Miller", "Dan Bellino", "Chris Guccione", "Mark Carlson", "Paul Emmel"
@@ -826,6 +826,16 @@ GAME_CONTEXT = {
         ]
     },
     "radio_strings": {
+    "pregame_color": [
+        "And before we are underway here at {venue}, it's time for producer Phil to pull a name out of the Fishbowl for tonight's Instagram winner. If you'd like your name to go into the Fishbowl head over to sleepbaseball.com and follow us on Instagram. if that sounds like the kind of thing you're into, and tonight's winner is Anna. Congratulations. And Producer Phil will be in touch on Instagram to sort out the exciting details.",
+        "And a special happy birthday to listener Tracy Davidson. He'll be turning 28. Phil and I have fun memories of being 28 years old back at the dawn of the radio industry. Here's hoping you have a great birthday Tracy Davidson.",
+        "Hey there. This is producer Phil. Everyone here at the North Woods baseball, radio network. Would love to welcome the Lake City Loons into the fold. And you might be thinking that the Lake City Loons were named after the bird. But actually, they were named after Lake City resident, Daniel Loon, who was famous for his pirate hat and the three dollar bowls of spaghetti he'd sell from this front yard. And my dad told you where the Lake City area. This is producer Phil. Thanks for joining us."
+    ],
+    "sponsor_reads": [
+        "In addition to our world famous popcorn, we have some great sponsors to thank.",
+        "Stop by the concession stand for some delicious spaghetti."
+    ],
+
         "station_intro": [
              "{network_name} presents Baseball.",
              "You're listening to {network_name}.",
@@ -835,14 +845,14 @@ GAME_CONTEXT = {
              "Another night, another game, right here on {network_name}.",
              "From the first pitch to the final out, you're locked into {network_name}.",
              "This is {network_name}, your home for summer baseball.",
-             "We are live on {network_name}, bringing you the sounds of the game.",
+             "It's Wally McCarthy and producer Phil back with you from beautiful {away_team_city}, The {away_team_name} will be playing their first game in {away_team_city} on the banks of the {away_team_city} River. For what should be a relaxing contest.",
              "Baseball is on the air, exclusively on {network_name}."
         ],
         "welcome_intro": [
-             "Good evening, friends. We're glad to have you back with us.",
+             "There's a hint of autumn in the air as the season starts to wind down.",
              "Hello and welcome to another beautiful night for baseball.",
              "Welcome aboard, baseball fans.",
-             "Grab a hot dog and settle in, we've got a great matchup tonight.",
+             "And currently whipping the mosquitoes into what might be called a subdued Frenzy.",
              "It's time for the greatest game on earth."
         ],
         "inning_break_outro": [

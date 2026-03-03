@@ -4,11 +4,11 @@ from teams import TEAMS
 
 def main():
     # Use existing teams but we will change their names in the JSON
-    team1 = TEAMS["BAY_BOMBERS"]
-    team2 = TEAMS["PC_PILOTS"]
+    team1 = TEAMS["LAKE_CITY_LOONS"]
+    team2 = TEAMS["BARABOO_BOMBERS"]
 
     # Run a simulation for 9 innings
-    sim = BaseballSimulator(team1, team2, game_seed=42)
+    sim = BaseballSimulator(team1, team2, game_seed=2172)
     sim.play_game()
 
     data = sim.gameday_data
