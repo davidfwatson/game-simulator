@@ -30,6 +30,42 @@ class GameRenderer:
         if not time_str:
             return
 
+        is_direct_mode = self.gameday_data.get('gameData', {}).get('directMode', False)
+
+        if is_direct_mode:
+            try:
+                # Extract digits from fractional seconds. e.g., '2025-09-27T23:05:00.123456Z' -> 123456
+                parts = time_str.split('.')
+                if len(parts) > 1:
+                    digits_str = parts[1].replace('Z', '').replace('+', '').split('-')[0]
+                    index = int(digits_str)
+                else:
+                    index = 0
+            except ValueError:
+                index = 0
+
+            class DirectRNG:
+                def __init__(self, start_idx):
+                    self.idx = start_idx
+                def choice(self, seq):
+                    if not seq:
+                        raise IndexError("Cannot choose from an empty sequence")
+                    val = seq[self.idx % len(seq)]
+                    self.idx = self.idx // 100
+                    return val
+                def random(self):
+                    val = (self.idx % 100) / 100.0
+                    self.idx = self.idx // 100
+                    return val
+                def seed(self, *args, **kwargs):
+                    pass
+
+            self.rng_play = DirectRNG(index)
+            self.rng_pitch = DirectRNG(index)
+            self.rng_flow = DirectRNG(index)
+            self.rng_color = DirectRNG(index)
+            return
+
         # Combine base seed, timestamp, and salt to create a unique, deterministic hash
         seed_str = f"{self.base_seed}_{time_str}_{salt}"
         hash_obj = hashlib.md5(seed_str.encode('utf-8'))
