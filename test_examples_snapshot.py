@@ -88,5 +88,54 @@ class TestExampleSnapshots(unittest.TestCase):
                     self.assertLessEqual(len(foul_mentions), 1, f"Double 'foul' mention found: {line}")
 
 
+
+    def test_pbp_example_3_match_percentage(self):
+        """Asserts that the output of pbp_example_3_draft.json meets a minimum threshold of match with pbp_example_3.txt."""
+        import json
+        import re
+        from renderers.narrative.renderer import NarrativeRenderer
+
+        with open('pbp_example_3.txt', 'r') as f:
+            text = f.read()
+
+        with open('pbp_example_3_draft.json', 'r') as f:
+            data = json.load(f)
+
+        renderer = NarrativeRenderer(data)
+        rendered = renderer.render()
+
+        def get_words(s):
+            return set(re.findall(r'\b\w+\b', s.lower()))
+
+        text_words = get_words(text)
+        rendered_words = get_words(rendered)
+
+        intersection = text_words.intersection(rendered_words)
+        union = text_words.union(rendered_words)
+        jaccard = len(intersection) / len(union) if union else 0
+
+        # Let's ensure the Jaccard similarity is at least 30%
+        self.assertGreaterEqual(
+            jaccard, 0.30,
+            f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 30% threshold."
+        )
+
+        def get_ngrams(s, n=5):
+            words = re.findall(r'\b\w+\b', s.lower())
+            return set(tuple(words[i:i+n]) for i in range(len(words)-n+1))
+
+        text_ngrams = get_ngrams(text)
+        rendered_ngrams = get_ngrams(rendered)
+
+        intersection_ngrams = text_ngrams.intersection(rendered_ngrams)
+        ngram_percentage = len(intersection_ngrams) / len(text_ngrams) if text_ngrams else 0
+
+        # Let's ensure at least 5% of 5-grams match
+        self.assertGreaterEqual(
+            ngram_percentage, 0.05,
+            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 5% threshold."
+        )
+
 if __name__ == "__main__":
+
     unittest.main()
