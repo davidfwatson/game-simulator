@@ -1,114 +1,12 @@
 import random
-import hashlib
 from datetime import datetime
 from commentary import GAME_CONTEXT
 from gameday import GamedayData
-
-class GameRenderer:
-    def __init__(self, gameday_data: GamedayData, seed: int = None):
-        self.gameday_data = gameday_data
-        self.base_seed = seed
-
-        # Separate RNGs for different categories of commentary
-        self.rng_play = random.Random()
-        self.rng_pitch = random.Random()
-        self.rng_flow = random.Random()
-        self.rng_color = random.Random()
-
-        # Fallback/Default
-        self.rng = self.rng_play
-
-        # Initial seed based on game start time
-        game_start = gameday_data.get('gameData', {}).get('datetime', {}).get('dateTime', '')
-        self._reseed_from_timestamp(game_start, "init")
-
-        self.home_team = gameday_data['gameData']['teams']['home']
-        self.away_team = gameday_data['gameData']['teams']['away']
-        self.current_pitcher_info = {'home': None, 'away': None}
-
-    def _reseed_from_timestamp(self, time_str: str, salt: str = ""):
-        if not time_str:
-            return
-
-        # Combine base seed, timestamp, and salt to create a unique, deterministic hash
-        seed_str = f"{self.base_seed}_{time_str}_{salt}"
-        hash_obj = hashlib.md5(seed_str.encode('utf-8'))
-        hash_int = int(hash_obj.hexdigest(), 16)
-
-        master_rng = random.Random(hash_int)
-
-        # Reseed all specific RNGs deterministically from the master
-        self.rng_play.seed(master_rng.randint(0, 1_000_000_000))
-        self.rng_pitch.seed(master_rng.randint(0, 1_000_000_000))
-        self.rng_flow.seed(master_rng.randint(0, 1_000_000_000))
-        self.rng_color.seed(master_rng.randint(0, 1_000_000_000))
-
-    def render(self) -> str:
-        raise NotImplementedError
-
-    def _get_batted_ball_category(self, outcome, ev, la):
-        cat = 'default'
-        if ev is not None and la is not None:
-            if outcome == "Single":
-                if ev < 90 and 10 < la < 30: cat = 'bloop'
-                elif ev > 100 and la < 10: cat = 'liner'
-                elif ev > 95 and la < 0: cat = 'grounder'
-            elif outcome == "Double":
-                if ev > 100 and la < 15: cat = 'liner'
-                elif ev > 100 and la >= 15: cat = 'wall'
-            elif outcome == "Home Run":
-                if ev > 105 and la < 22: cat = 'screamer'
-                elif ev > 100 and la > 35: cat = 'moonshot'
-            elif outcome == "Groundout":
-                if ev < 85: cat = 'soft'
-                elif ev > 100: cat = 'hard'
-            elif outcome == "Flyout":
-                if (ev < 95 and la > 50) or (ev < 90 and la > 40): cat = 'popup'
-                elif ev > 100 and la > 30: cat = 'deep'
-        return cat
-
-    def _get_batted_ball_verb(self, outcome, cat, force_type=None):
-        outcome_data = GAME_CONTEXT['statcast_verbs'].get(outcome, {})
-
-        if force_type:
-            phrase_type = force_type
-        else:
-            use_verb = self.rng_play.random() < 0.6
-            phrase_type = 'verbs' if use_verb else 'nouns'
-
-        phrases = outcome_data.get(phrase_type, outcome_data.get('verbs', {}))
-        phrase_list = phrases.get(cat, phrases.get('default', ["describes"]))
-        # Fallback if specific category empty
-        if not phrase_list:
-             phrase_list = phrases.get('default', ["describes"])
-
-        phrase = self.rng_play.choice(phrase_list)
-        return phrase, phrase_type
-
-    def _get_hit_location(self, hit_type, ev, la, location_code=None):
-        if location_code:
-            return GAME_CONTEXT['hit_directions'].get(location_code, "fair")
-
-        if la is None or ev is None: return "fair"
-        if hit_type in ["Single", "Double"]:
-            if -10 < la < 10: return self.rng_play.choice(["up the middle", "through the right side", "through the left side"])
-            elif 10 < la < 25: return self.rng_play.choice(["to left field", "to center field", "to right field"])
-            else: return self.rng_play.choice(["into shallow left", "into shallow center", "into shallow right"])
-        elif hit_type == "Triple":
-            return self.rng_play.choice(["into the right-center gap", "into the left-center gap"])
-        elif hit_type == "Home Run":
-            if abs(la - 28) < 5 and ev > 105: return "down the line"
-            return self.rng_play.choice(["to deep left field", "to deep center field", "to deep right field"])
-        return "fair"
-
-    def _format_statcast_template(self, outcome, context):
-        templates = GAME_CONTEXT.get('statcast_templates', {}).get(outcome)
-        if not templates: return None
-        template = self.rng_play.choice(templates)
-        if '{verb_capitalized}' in template:
-            context['verb_capitalized'] = context.get('verb', '').capitalize()
-        return template.format(**context)
-
+from ..base import GameRenderer
+from .helpers import (
+    estimate_duration, get_ordinal, get_number_word, get_spoken_count,
+    get_spoken_score_string, simplify_pitch_type, get_pitch_description_for_location
+)
 
 class NarrativeRenderer(GameRenderer):
     def __init__(self, gameday_data: GamedayData, seed: int = None, verbose: bool = True, use_bracketed_ui: bool = False):
@@ -122,12 +20,7 @@ class NarrativeRenderer(GameRenderer):
         self.pending_text_buffer = ""
 
     def _estimate_duration(self, text):
-        # Estimate 0.4 seconds per word (approx 150 wpm)
-        if not text: return 0.0
-        # Simple cleanup to avoid counting punctuation as words excessively
-        clean_text = text.replace('.', ' ').replace(',', ' ').replace('!', ' ').replace('?', ' ')
-        words = len(clean_text.split())
-        return words * 0.4
+        return estimate_duration(text)
 
     def _check_and_add_delay(self, current_end_time_iso, block_list, insert_at_index=-1, context='pitch'):
         if not self.last_event_end_time or not current_end_time_iso:
@@ -139,8 +32,6 @@ class NarrativeRenderer(GameRenderer):
         current_end = datetime.fromisoformat(current_end_time_iso)
 
         if context == 'inning':
-            # Inning break delay is inserted manually in the render loop to ensure correct placement.
-            # We just update the state here to reset the timeline for the new inning.
             self.last_event_end_time = current_end
             self.pending_text_buffer = ""
             return
@@ -156,8 +47,6 @@ class NarrativeRenderer(GameRenderer):
         elif context == 'batter':
              final_delay = raw_delay / 3
 
-        # User requested: "if the announcer would need to pause between events"
-        # 1.0s buffer seems reasonable for "breathing room"
         if final_delay > 1.0:
             delay_line = f"[TTS SPLIT HERE DELAY:{final_delay:.1f}s]"
             if insert_at_index >= 0:
@@ -173,79 +62,34 @@ class NarrativeRenderer(GameRenderer):
             self.pending_text_buffer += text + " "
 
     def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple, batter_hand='R'):
-        # Helper to get description based on zone
-        if event_type == 'B':
-            base_key = 'ball'
-        elif event_type in ['C', 'S']:
-            base_key = 'strike'
-        else:
-            return None
-
-        location_data = GAME_CONTEXT['pitch_locations'].get(base_key, {})
-
-        # Determine category from zone
-        category = 'default'
-        if event_type == 'B':
-            # Zone mapping based on handedness
-            # 11: High-Left, 12: High-Right, 13: Low-Left, 14: Low-Right (Catcher's perspective)
-
-            if batter_hand == 'R':
-                if zone == 11: category = 'high_inside'
-                elif zone == 12: category = 'high_outside'
-                elif zone == 13: category = 'low_inside'
-                elif zone == 14: category = 'low_outside'
-            else: # LHB
-                if zone == 11: category = 'high_outside'
-                elif zone == 12: category = 'high_inside'
-                elif zone == 13: category = 'low_outside'
-                elif zone == 14: category = 'low_inside'
-
-        options = location_data.get(category, location_data.get('default', []))
-        if not options:
-            options = location_data.get('default', [])
-
-        return self.rng_pitch.choice(options)
-
+        return get_pitch_description_for_location(event_type, zone, pitch_type_simple, self.rng_pitch, batter_hand)
 
     def _get_foul_description(self):
         options = GAME_CONTEXT['pitch_locations']['foul']
 
-        # Try up to 10 times to find a unique phrase
         for _ in range(10):
             choice = self.rng_pitch.choice(options)
 
-            # Skip if identical to last phrase
             if choice == self.last_foul_phrase:
                 continue
 
-            # Skip if one contains the other (prevents "hammered foul" -> "hammered foul and...")
             if self.last_foul_phrase and (choice.startswith(self.last_foul_phrase) or self.last_foul_phrase.startswith(choice)):
                 continue
 
             self.last_foul_phrase = choice
             return choice
 
-        # Fallback if we fail to find unique
         self.last_foul_phrase = choice
         return choice
 
     def _get_ordinal(self, n):
-        words = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"]
-        if 1 <= n <= 9: return words[n]
-
-        ordinals = ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"]
-        if 11 <= (n % 100) <= 13: suffix = "th"
-        else: suffix = ordinals[n % 10]
-        return f"{n}{suffix}"
+        return get_ordinal(n)
 
     def _get_number_word(self, n):
-        words = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-        if 0 <= n <= 9: return words[n]
-        return str(n)
+        return get_number_word(n)
 
     def _get_narrative_string(self, key, context=None, rng=None):
         if context is None: context = {}
-        # Default to rng_play if not specified, as most narrative strings are play-related
         selected_rng = rng if rng else self.rng_play
         return selected_rng.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
 
@@ -254,13 +98,7 @@ class NarrativeRenderer(GameRenderer):
         return self.rng_color.choice(GAME_CONTEXT['radio_strings'].get(key, [""])).format(**context)
 
     def _get_spoken_count(self, balls, strikes, connector="and"):
-        nums = ["oh", "one", "two", "three", "four"]
-        b_word = nums[balls] if balls < len(nums) else str(balls)
-        s_word = nums[strikes] if strikes < len(nums) else str(strikes)
-
-        if connector == "-":
-            return f"{b_word}-{s_word}"
-        return f"{b_word} {connector} {s_word}"
+        return get_spoken_count(balls, strikes, connector)
 
     def _get_pitch_connector(self, balls, strikes, pitcher_name=None, batter_name=None, runners_on_base=False):
         if balls == 3 and strikes == 2:
@@ -281,7 +119,6 @@ class NarrativeRenderer(GameRenderer):
             if runners_on_base and self.rng_flow.random() < 0.5:
                  return self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('pitch_connectors_stretch', ["And the pitch..."])).format(**context)
 
-            # Use specific 0-0 connectors if available, otherwise fallback
             templates = GAME_CONTEXT['narrative_strings'].get('pitch_connectors_00', ["And the pitch..."])
             return self.rng_flow.choice(templates).format(**context)
 
@@ -294,214 +131,22 @@ class NarrativeRenderer(GameRenderer):
         return self.rng_flow.choice(templates).format(**context)
 
     def _simplify_pitch_type(self, pitch_type: str, capitalize=False) -> str:
-        simplified = pitch_type
-        if pitch_type.lower() == "four-seam fastball":
-            r = self.rng_pitch.random()
-            if r < 0.6: simplified = "fastball"
-            elif r < 0.7: simplified = "heater"
-
-        if capitalize:
-            return simplified.capitalize()
-        return simplified
+        return simplify_pitch_type(pitch_type, self.rng_pitch, capitalize)
 
     def _get_spoken_score_string(self, score_a, score_b):
-        nums = ["nothing", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-
-        def to_word(n):
-            if 0 <= n < len(nums): return nums[n]
-            return str(n)
-
-        if score_a > score_b:
-            lead, trail = score_a, score_b
-        else:
-            lead, trail = score_b, score_a
-
-        lead_str = to_word(lead)
-        trail_str = to_word(trail)
-
-        use_digits = (lead > 2 or trail > 2)
-        if use_digits:
-            return f"{lead}-to-{trail}"
-
-        if trail == 0:
-            return f"{lead_str}-nothing"
-
-        return f"{lead_str}-to-{trail_str}"
+        return get_spoken_score_string(score_a, score_b)
 
     def _get_runner_status_string(self, outcome, batter_name, result_outs, is_leadoff, inning_context):
-        key = None
-        outcome_lower = outcome.lower()
-
-        if is_leadoff:
-             key = f"leadoff_{outcome_lower}"
-        elif result_outs == 0:
-             key = f"{outcome_lower}_nobody_out"
-        elif result_outs == 1:
-             key = f"{outcome_lower}_one_out"
-        elif result_outs == 2:
-             key = f"two_out_{outcome_lower}"
-
-        if not key:
-            return ""
-
-        context = {
-            'batter_name': batter_name,
-            'inning_context': inning_context
-        }
-
-        # Use rng_play for status strings
-        return self._get_narrative_string(key, context, rng=self.rng_play)
-
+        from .play_description import get_runner_status_string as grss
+        return grss(outcome, batter_name, result_outs, is_leadoff, inning_context, self.rng_play)
 
     def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context=""):
-        ev = hit_data.get('launchSpeed')
-        la = hit_data.get('launchAngle')
-        location_code = hit_data.get('location')
-
-        cat = self._get_batted_ball_category(outcome, ev, la)
-
-        specific_templates = []
-        if 'narrative_templates' in GAME_CONTEXT:
-            outcome_templates = GAME_CONTEXT['narrative_templates'].get(outcome, {})
-            specific_templates = outcome_templates.get(cat, [])
-            if not specific_templates:
-                specific_templates = outcome_templates.get('default', [])
-
-            # Special handling for 1B unassisted groundouts
-            if outcome == "Groundout" and fielder_pos == "1B":
-                unassisted_templates = outcome_templates.get('unassisted_1b', [])
-                if unassisted_templates and self.rng_play.random() < 0.5:
-                    specific_templates = unassisted_templates
-
-            # Special handling for Pitcher comebacker groundouts
-            if outcome == "Groundout" and fielder_pos == "P":
-                pitcher_templates = outcome_templates.get('pitcher_groundout', [])
-                if pitcher_templates and self.rng_play.random() < 0.5:
-                    specific_templates = pitcher_templates
-
-        template = None
-        if specific_templates and self.rng_play.random() < 0.8:
-            template = self.rng_play.choice(specific_templates)
-
-        direction = ""
-        if location_code:
-            direction = self._get_hit_location(outcome, ev, la, location_code)
-        elif outcome in ["Single", "Double", "Triple", "Home Run"]:
-            direction = self._get_hit_location(outcome, ev, la)
-        elif fielder_pos:
-            direction = GAME_CONTEXT['hit_directions'].get(fielder_pos, "")
-
-        direction_noun = direction
-        if direction == "up the middle":
-            direction_noun = "center field"
-        elif direction == "through the right side":
-            direction_noun = "right field"
-        elif direction == "through the left side":
-            direction_noun = "left field"
-        elif direction == "fair":
-            direction_noun = "the outfield"
-        elif direction.startswith("to "):
-            direction_noun = direction[3:]
-        elif direction.startswith("into shallow "):
-             direction_noun = direction[13:]
-        elif direction.startswith("into "):
-             direction_noun = direction[5:]
-
-        orig_pitch_type = pitch_details.get('type', 'pitch')
-        simple_pitch_type = self._simplify_pitch_type(orig_pitch_type)
-
-        result_outs_word = "one"
-        if result_outs == 2: result_outs_word = "two"
-        elif result_outs == 3: result_outs_word = "three"
-
-        out_context_str = f"for out number {result_outs_word}"
-        if result_outs == 3:
-            out_context_str = "to end the inning"
-
-        context = {
-            'batter_name': batter_name,
-            'direction': direction,
-            'direction_noun': direction_noun,
-            'pitch_type': simple_pitch_type,
-            'pitch_type_lower': simple_pitch_type.lower(),
-            'pitch_velo': pitch_details.get('velo', 'N/A'),
-            'fielder_name': fielder_name or "the fielder",
-            'result_outs': result_outs,
-            'result_outs_word': result_outs_word,
-            'out_context_str': out_context_str
-        }
-
-        prefix = f"{connector} " if connector else ""
-        force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout"]
-
-        final_description = ""
-        if template or (specific_templates and (force_narrative or self.rng_play.random() < 0.8)):
-             if not template: template = self.rng_play.choice(specific_templates)
-             final_description = prefix + template.format(**context)
-        else:
-            phrase, phrase_type = self._get_batted_ball_verb(outcome, cat)
-            if connector:
-                if phrase_type == 'verbs':
-                    template = self.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-                    context['verb'] = phrase
-                    context['verb_capitalized'] = phrase.capitalize()
-                else:
-                    template = self.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
-                    context['noun'] = phrase
-                    context['noun_capitalized'] = phrase.capitalize()
-            else:
-                if phrase_type == 'verbs':
-                    template = self.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-                    context['verb'] = phrase
-                    context['verb_capitalized'] = phrase.capitalize()
-                else:
-                    template = self.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
-                    context['noun'] = phrase
-                    context['noun_capitalized'] = phrase.capitalize()
-            final_description = prefix + template.format(**context)
-
-        if outcome in ["Single", "Double", "Triple"]:
-             status_str = self._get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context)
-             if status_str:
-                 final_description += " " + status_str
-
-        return final_description
+        from .play_description import generate_play_description as gpd
+        return gpd(self, outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector, result_outs, is_leadoff, inning_context)
 
     def _render_steal_event(self, event):
-        details = event['details']
-        outcome = details['eventType']
-        desc = details['description']
-
-        base_target = "second"
-        base_key = "2B"
-        prev_base = "1B"
-        if "3B" in desc:
-            base_target = "third"
-            base_key = "3B"
-            prev_base = "2B"
-        elif "2B" in desc:
-            pass
-        elif "Home" in desc:
-            base_target = "home"
-            base_key = "score"
-            prev_base = "3B"
-
-        runner_name = self.runners_on_base.get(prev_base)
-        if not runner_name:
-             runner_name = "The runner"
-
-        if outcome == 'stolen_base':
-            self.runners_on_base[base_key] = runner_name
-            self.runners_on_base[prev_base] = None
-            throw_desc = self.rng_play.choice(GAME_CONTEXT['narrative_strings']['throw_outcome_safe']).format(base=base_target)
-            return f"{throw_desc} {runner_name} steals {base_target}."
-
-        elif outcome == 'caught_stealing':
-            self.runners_on_base[prev_base] = None
-            throw_desc = self.rng_play.choice(GAME_CONTEXT['narrative_strings']['throw_outcome_out']).format(base=base_target)
-            return f"{throw_desc} {runner_name} is caught stealing {base_target}."
-
-        return f"{desc}."
+        from .play_description import render_steal_event as rse
+        return rse(self, event)
 
     def render(self) -> str:
         lines = []
@@ -1318,129 +963,5 @@ class NarrativeRenderer(GameRenderer):
         lines.append(f"Final Score: {self.home_team['name']} {final_home} - {self.away_team['name']} {final_away}")
         winner = self.home_team['name'] if final_home > final_away else self.away_team['name']
         lines.append(f"{winner} win!")
-
-        return "\n".join(lines)
-
-
-class StatcastRenderer(GameRenderer):
-    def render(self) -> str:
-        lines = []
-
-        lines.append("=" * 20 + " GAME START " + "=" * 20)
-        lines.append(f"{self.away_team['name']} vs. {self.home_team['name']}")
-        if 'venue' in self.gameday_data['gameData']: lines.append(f"Venue: {self.gameday_data['gameData']['venue']}")
-        if 'weather' in self.gameday_data['gameData']: lines.append(f"Weather: {self.gameday_data['gameData']['weather']}")
-        if 'umpires' in self.gameday_data['gameData']:
-            u = self.gameday_data['gameData']['umpires']
-            lines.append(f"Umpires: HP: {u[0]}, 1B: {u[1]}, 2B: {u[2]}, 3B: {u[3]}")
-        lines.append("-" * 50)
-
-        current_inning_state = (0, '')
-
-        plays = self.gameday_data['liveData']['plays']['allPlays']
-
-        for play in plays:
-            about = play['about']
-            inning = about['inning']
-            half = "Top" if about['isTopInning'] else "Bottom"
-
-            if 'startTime' in about:
-                self._reseed_from_timestamp(about['startTime'], "play_start")
-
-            if (inning, half) != current_inning_state:
-                team_name = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
-                lines.append("-" * 50)
-                lines.append(f"{half} of Inning {inning} | {team_name} batting")
-                current_inning_state = (inning, half)
-
-            pitching_team_key = 'home' if about['isTopInning'] else 'away'
-            pitcher_id = play['matchup']['pitcher']['id']
-            prev_info = self.current_pitcher_info[pitching_team_key]
-            if prev_info and prev_info['id'] != pitcher_id:
-                 team_name = self.home_team['name'] if about['isTopInning'] else self.away_team['name']
-                 lines.append(f"\n--- Pitching Change for {team_name}: {play['matchup']['pitcher']['fullName']} replaces {prev_info['name']} ---\n")
-            self.current_pitcher_info[pitching_team_key] = {'id': pitcher_id, 'name': play['matchup']['pitcher']['fullName']}
-
-            play_events = play['playEvents']
-            for event in play_events:
-                if 'startTime' in event:
-                    self._reseed_from_timestamp(event['startTime'], "event")
-
-                details = event['details']
-                desc = details['description']
-                code = details.get('code', '')
-                pitch_velo = event.get('pitchData', {}).get('startSpeed')
-                pitch_selection = details.get('type', {}).get('description', 'pitch')
-
-                outcome_text = ""
-                if code == 'C': outcome_text = "called strike"
-                elif code == 'B': outcome_text = "ball"
-                elif code == 'S': outcome_text = "swinging strike"
-                elif code == 'F': outcome_text = "foul"
-                elif code == 'X': outcome_text = "in play"
-
-                if outcome_text:
-                     lines.append(f"  {outcome_text.capitalize()}: {pitch_velo} mph {pitch_selection}")
-
-            if 'endTime' in about:
-                self._reseed_from_timestamp(about['endTime'], "play_outcome")
-
-            result = play['result']
-            outcome = result['event']
-            batter_name = play['matchup']['batter']['fullName']
-
-            x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
-            pitch_info = {}
-            if x_event:
-                hit_data = x_event.get('hitData', {})
-                pitch_info = {
-                    'ev': hit_data.get('launchSpeed'),
-                    'la': hit_data.get('launchAngle'),
-                    'location': hit_data.get('location')
-                }
-
-            batted_ball_str = ""
-            if outcome not in ["Strikeout", "Walk", "HBP"] and pitch_info.get('ev') is not None:
-                batted_ball_str = f" (EV: {pitch_info['ev']} mph, LA: {pitch_info['la']}°)"
-
-            result_line = outcome
-
-            was_error = outcome == "Field Error"
-            rbis = result['rbi']
-            advances = []
-            for r in play['runners']:
-                m = r['movement']
-                if m['end'] == 'score':
-                    advances.append(f"{r['details']['runner']['fullName']} scores")
-                elif m['end'] and m['start'] != m['end']:
-                    pass
-
-            if was_error:
-                result_line = self._format_statcast_template('Error', {'display_outcome': outcome, 'adv_str': "; ".join(advances), 'batter_name': batter_name})
-            elif outcome == "Strikeout":
-                k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
-                result_line = f"{batter_name} {self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])}."
-            elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
-                cat = self._get_batted_ball_category(outcome, pitch_info.get('ev'), pitch_info.get('la'))
-                phrase, _ = self._get_batted_ball_verb(outcome, cat)
-                direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la'), pitch_info.get('location'))
-                tmpl = self._format_statcast_template(outcome, {'batter_name': batter_name, 'verb': phrase, 'runs': rbis, 'direction': direction})
-                result_line = tmpl if tmpl else f"{batter_name} {phrase}."
-            elif outcome in ["HBP", "Hit By Pitch"]: result_line = "Hit by Pitch."
-
-            if batted_ball_str: result_line += batted_ball_str
-            if rbis > 0 and not was_error: result_line += f" {batter_name} drives in {rbis}."
-
-            lines.append(f"Result: {result_line}")
-
-            outs = play['count']['outs']
-            lines.append(f" | Outs: {outs} | Score: {self.home_team['name']}: {result['homeScore']}, {self.away_team['name']}: {result['awayScore']}\n")
-
-        lines.append("=" * 20 + " GAME OVER " + "=" * 20)
-        final_home = self.gameday_data['liveData']['linescore']['teams']['home']['runs']
-        final_away = self.gameday_data['liveData']['linescore']['teams']['away']['runs']
-        lines.append(f"\nFinal Score: {self.home_team['name']} {final_home} - {self.away_team['name']} {final_away}")
-        winner = self.home_team['name'] if final_home > final_away else self.away_team['name']
-        lines.append(f"\n{winner} win!")
 
         return "\n".join(lines)
