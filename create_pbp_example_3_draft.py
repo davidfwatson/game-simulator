@@ -4,8 +4,8 @@ from teams import TEAMS
 
 def main():
     # Use existing teams but we will change their names in the JSON
-    team1 = TEAMS["BAY_BOMBERS"]
-    team2 = TEAMS["PC_PILOTS"]
+    team1 = TEAMS["LAKE_CITY_LOONS"]
+    team2 = TEAMS["BARABOO_BOMBERS"]
 
     # Run a simulation for 9 innings
     sim = BaseballSimulator(team1, team2, game_seed=42)
@@ -16,18 +16,17 @@ def main():
     # Enable direct mode
     data['gameData']['directMode'] = True
 
-    # Modify team names to match the desired output
-    data['gameData']['teams']['home']['name'] = 'Lake City Loons'
-    data['gameData']['teams']['home']['teamName'] = 'Loons'
-    data['gameData']['teams']['home']['abbreviation'] = 'LCL'
-
-    data['gameData']['teams']['away']['name'] = 'Baraboo Bombers'
-    data['gameData']['teams']['away']['teamName'] = 'Bombers'
-    data['gameData']['teams']['away']['abbreviation'] = 'BAR'
-
     # Modify venue and weather
     data['gameData']['venue'] = 'Goodhue Field'
-    data['gameData']['weather'] = '66 degrees at game time. With a breeze blowing in from center field...'
+    data['gameData']['weather'] = '66 degrees at game time. With a breeze blowing in from center field'
+
+    # Set umpires exactly
+    data['gameData']['umpires'] = [
+        "Bartolo Simpson",
+        "Gus Morales",
+        "Mark Carlson",
+        "Larry Phillips"
+    ]
 
     # We must format datetime objects correctly since python's json.dumps doesn't handle them
     from datetime import datetime
