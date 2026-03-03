@@ -1594,31 +1594,37 @@ if __name__ == "__main__":
     parser.add_argument('--max-innings', type=int, help="Stop simulation after specified number of innings (e.g., 2 for partial game).")
     parser.add_argument('--pbp-outfile', type=str, help="File to write play-by-play output to (stdout by default).")
     parser.add_argument('--gameday-outfile', type=str, help="File to write Gameday JSON output to (stdout by default).")
+    parser.add_argument('--gameday-file', type=str, help="File to read Gameday JSON from, skipping the simulation.")
     parser.add_argument('--game-seed', type=int, help="Seed for the game's random number generator.")
     parser.add_argument('--commentary-seed', type=int, help="Seed for the commentary's random number generator.")
     args = parser.parse_args()
 
-    # 1. Run Simulation
-    game = BaseballSimulator(
-        TEAMS["BAY_BOMBERS"],
-        TEAMS["PC_PILOTS"],
-        max_innings=args.max_innings,
-        game_seed=args.game_seed
-    )
-    game.play_game()
+    # 1. Run Simulation or Load Data
+    if args.gameday_file:
+        with open(args.gameday_file, 'r') as f:
+            gameday_data = json.load(f)
+    else:
+        game = BaseballSimulator(
+            TEAMS["BAY_BOMBERS"],
+            TEAMS["PC_PILOTS"],
+            max_innings=args.max_innings,
+            game_seed=args.game_seed
+        )
+        game.play_game()
+        gameday_data = game.gameday_data
 
-    # 2. Output Gameday JSON
-    class DateTimeEncoder(json.JSONEncoder):
-        def default(self, obj):
-            if isinstance(obj, datetime): return obj.isoformat()
-            return super().default(obj)
+        # 2. Output Gameday JSON
+        class DateTimeEncoder(json.JSONEncoder):
+            def default(self, obj):
+                if isinstance(obj, datetime): return obj.isoformat()
+                return super().default(obj)
 
-    gameday_json = json.dumps(game.gameday_data, indent=2, cls=DateTimeEncoder)
-    if args.gameday_outfile:
-        with open(args.gameday_outfile, 'w') as f:
-            f.write(gameday_json)
-    elif args.commentary == 'gameday':
-        print(gameday_json)
+        gameday_json = json.dumps(gameday_data, indent=2, cls=DateTimeEncoder)
+        if args.gameday_outfile:
+            with open(args.gameday_outfile, 'w') as f:
+                f.write(gameday_json)
+        elif args.commentary == 'gameday':
+            print(gameday_json)
 
     # 3. Output Commentary (PBP or Statcast)
     output_text = ""
@@ -1626,10 +1632,10 @@ if __name__ == "__main__":
         commentary_seed = args.commentary_seed if args.commentary_seed else args.game_seed # Fallback
 
         if args.commentary == 'narrative' or args.commentary == 'combo':
-            renderer = NarrativeRenderer(game.gameday_data, seed=commentary_seed, verbose=not args.terse)
+            renderer = NarrativeRenderer(gameday_data, seed=commentary_seed, verbose=not args.terse)
             output_text = renderer.render()
         elif args.commentary == 'statcast':
-            renderer = StatcastRenderer(game.gameday_data, seed=commentary_seed)
+            renderer = StatcastRenderer(gameday_data, seed=commentary_seed)
             output_text = renderer.render()
 
         if args.pbp_outfile:
