@@ -26,7 +26,14 @@ class BaseballSimulator:
 
         # Setup lineups and pitchers
         self.team1_lineup = [p for p in self.team1_data["players"] if p['position']['abbreviation'] != 'P']
+        if len(self.team1_lineup) < 9:
+            starters = [p for p in self.team1_data["players"] if p.get('type') == 'Starter']
+            if starters: self.team1_lineup.append(starters[0])
+
         self.team2_lineup = [p for p in self.team2_data["players"] if p['position']['abbreviation'] != 'P']
+        if len(self.team2_lineup) < 9:
+            starters = [p for p in self.team2_data["players"] if p.get('type') == 'Starter']
+            if starters: self.team2_lineup.append(starters[0])
         
         self._setup_pitchers(self.team1_data, 'team1')
         self._setup_pitchers(self.team2_data, 'team2')
