@@ -24,10 +24,10 @@ TEAMS = {
             {'id': 545101, 'legal_name': 'Leo Vance', 'nickname': None, 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.988, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.15, 'HBP': 0.005}, 'batting_profile': {'contact': 0.75, 'power': 0.40, 'angle': 12.0, 'bunt_propensity': 0.4, 'stealing_tendency': 0.016, 'stealing_success_rate': 0.79}},
             {'id': 545102, 'legal_name': 'Marcus Thorne', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.981, 'plate_discipline': {'Walk': 0.11, 'Strikeout': 0.14, 'HBP': 0.004}, 'batting_profile': {'contact': 0.80, 'power': 0.55, 'angle': 12.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.016, 'stealing_success_rate': 0.79}},
             {'id': 545103, 'legal_name': 'Sam Decker', 'nickname': None, 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.995, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.13, 'Strikeout': 0.12, 'HBP': 0.003}, 'batting_profile': {'contact': 0.85, 'power': 0.65, 'angle': 14.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.6}},
-            {'id': 545104, 'legal_name': 'Jackson Riley', 'nickname': 'Jax', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.950, 'plate_discipline': {'Walk': 0.12, 'Strikeout': 0.18, 'HBP': 0.006}, 'batting_profile': {'contact': 0.70, 'power': 0.80, 'angle': 16.0, 'bunt_propensity': 0.02, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.65}},
+            {'id': 545104, 'legal_name': 'Jackson Riley', 'nickname': 'Jax', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.950, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.12, 'Strikeout': 0.18, 'HBP': 0.006}, 'batting_profile': {'contact': 0.70, 'power': 0.80, 'angle': 16.0, 'bunt_propensity': 0.02, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.65}},
             {'id': 545105, 'legal_name': 'Caleb Jones', 'nickname': None, 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.975, 'plate_discipline': {'Walk': 0.08, 'Strikeout': 0.19, 'HBP': 0.002}, 'batting_profile': {'contact': 0.65, 'power': 0.30, 'angle': 10.0, 'bunt_propensity': 0.3, 'stealing_tendency': 0.018, 'stealing_success_rate': 0.80}},
             {'id': 545106, 'legal_name': 'Nate Diaz', 'nickname': 'Kid', 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.983, 'plate_discipline': {'Walk': 0.07, 'Strikeout': 0.10, 'HBP': 0.001}, 'batting_profile': {'contact': 0.90, 'power': 0.35, 'angle': 8.0, 'bunt_propensity': 0.5, 'stealing_tendency': 0.10, 'stealing_success_rate': 0.9}},
-            {'id': 545107, 'legal_name': 'Owen Chen', 'nickname': 'Big Duck', 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.991, 'plate_discipline': {'Walk': 0.09, 'Strikeout': 0.22, 'HBP': 0.005}, 'batting_profile': {'contact': 0.60, 'power': 0.70, 'angle': 15.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.6}},
+            {'id': 545107, 'legal_name': 'Owen Chen', 'nickname': 'Big Duck', 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.991, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.09, 'Strikeout': 0.22, 'HBP': 0.005}, 'batting_profile': {'contact': 0.60, 'power': 0.70, 'angle': 15.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.6}},
             {'id': 545108, 'legal_name': 'Miles Corbin', 'nickname': None, 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.965, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.17, 'HBP': 0.003}, 'batting_profile': {'contact': 0.72, 'power': 0.50, 'angle': 12.0, 'bunt_propensity': 0.15, 'stealing_tendency': 0.015, 'stealing_success_rate': 0.75}},
             {'id': 545109, 'legal_name': 'Grant Fisher', 'nickname': None, 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.980, 'plate_discipline': {'Walk': 0.09, 'Strikeout': 0.19, 'HBP': 0.004}, 'batting_profile': {'contact': 0.68, 'power': 0.60, 'angle': 13.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.015, 'stealing_success_rate': 0.75}},
             # Pitchers
@@ -38,14 +38,14 @@ TEAMS = {
                     'slider': {'prob': 0.25, 'velo_range': (87, 90), 'spin_range': (2400, 2700)},
                     'changeup': {'prob': 0.15, 'velo_range': (81, 84), 'spin_range': (1600, 1900)},
                     'curveball': {'prob': 0.10, 'velo_range': (78, 81), 'spin_range': (2600, 2900)}
-                }, 'control': 0.65, 'wild_pitch_rate': 0.003
+                }, 'control': 0.65, 'wild_pitch_rate': 0.003, 'plate_discipline': {'Walk': 0.1, 'Strikeout': 0.3, 'HBP': 0.01}, 'batting_profile': {'contact': 0.3, 'power': 0.2, 'angle': 10.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.0, 'stealing_success_rate': 0.0}
             },
             {
                 'id': 605111, 'legal_name': 'Colin Miller', 'nickname': 'Cyclone', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Long Reliever', 'stamina': 45, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
                     'sinker': {'prob': 0.6, 'velo_range': (91, 94), 'spin_range': (2000, 2250)},
                     'slider': {'prob': 0.4, 'velo_range': (86, 88), 'spin_range': (2500, 2800)}
-                }, 'control': 0.60, 'wild_pitch_rate': 0.005
+                }, 'control': 0.60, 'wild_pitch_rate': 0.005, 'plate_discipline': {'Walk': 0.1, 'Strikeout': 0.3, 'HBP': 0.01}, 'batting_profile': {'contact': 0.3, 'power': 0.2, 'angle': 10.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.0, 'stealing_success_rate': 0.0}
             },
             {
                 'id': 605112, 'legal_name': 'Adam Adams', 'nickname': 'Ace', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Middle Reliever', 'stamina': 25, 'fielding_ability': 0.945,
@@ -186,7 +186,7 @@ TEAMS = {
             {'id': 585404, 'legal_name': 'Lourdes Gurriel', 'nickname': 'Piña', 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.975, 'plate_discipline': {'Walk': 0.06, 'Strikeout': 0.15, 'HBP': 0.003}, 'batting_profile': {'contact': 0.80, 'power': 0.68, 'angle': 15.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.02, 'stealing_success_rate': 0.65}},
             {'id': 585405, 'legal_name': 'Eugenio Suarez', 'nickname': 'Geno', 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.965, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.28, 'HBP': 0.007}, 'batting_profile': {'contact': 0.65, 'power': 0.88, 'angle': 19.0, 'bunt_propensity': 0.02, 'stealing_tendency': 0.01, 'stealing_success_rate': 0.55}},
             {'id': 585406, 'legal_name': 'Gabriel Moreno', 'nickname': 'Gaby', 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.992, 'catchers_arm': 0.88, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.08, 'Strikeout': 0.14, 'HBP': 0.002}, 'batting_profile': {'contact': 0.84, 'power': 0.45, 'angle': 11.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.03, 'stealing_success_rate': 0.70}},
-            {'id': 585407, 'legal_name': 'Joc Pederson', 'nickname': 'Champ', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.950, 'plate_discipline': {'Walk': 0.13, 'Strikeout': 0.24, 'HBP': 0.005}, 'batting_profile': {'contact': 0.68, 'power': 0.85, 'angle': 22.0, 'bunt_propensity': 0.0, 'stealing_tendency': 0.01, 'stealing_success_rate': 0.50}},
+            {'id': 585407, 'legal_name': 'Joc Pederson', 'nickname': 'Champ', 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.950, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.13, 'Strikeout': 0.24, 'HBP': 0.005}, 'batting_profile': {'contact': 0.68, 'power': 0.85, 'angle': 22.0, 'bunt_propensity': 0.0, 'stealing_tendency': 0.01, 'stealing_success_rate': 0.50}},
             {'id': 585408, 'legal_name': 'Geraldo Perdomo', 'nickname': 'Domo', 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.985, 'plate_discipline': {'Walk': 0.11, 'Strikeout': 0.13, 'HBP': 0.003}, 'batting_profile': {'contact': 0.75, 'power': 0.35, 'angle': 10.0, 'bunt_propensity': 0.3, 'stealing_tendency': 0.12, 'stealing_success_rate': 0.80}},
             {'id': 585409, 'legal_name': 'Blaze Alexander', 'nickname': None, 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.970, 'plate_discipline': {'Walk': 0.07, 'Strikeout': 0.20, 'HBP': 0.004}, 'batting_profile': {'contact': 0.72, 'power': 0.50, 'angle': 12.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.05, 'stealing_success_rate': 0.70}},
             # Pitchers
@@ -222,6 +222,72 @@ TEAMS = {
                     'slider': {'prob': 0.4, 'velo_range': (82, 85), 'spin_range': (2600, 2900)}
                 }, 'control': 0.75, 'wild_pitch_rate': 0.002
             },
+        ]
+    },
+
+    "BARABOO_BOMBERS": {
+        "id": 137,
+        "name": "Baraboo Bombers",
+        "abbreviation": "BAR",
+        "teamName": "Bombers",
+        "venue": "Baraboo Field",
+        "fielding_prowess": 0.982,
+        "double_play_rate": 0.42,
+        "hbp_rate": 0.004,
+        "players": [
+            {'id': 700001, 'legal_name': 'Bugs Yamaguchi', 'nickname': None, 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.988, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.15, 'HBP': 0.005}, 'batting_profile': {'contact': 0.75, 'power': 0.40, 'angle': 12.0, 'bunt_propensity': 0.4, 'stealing_tendency': 0.016, 'stealing_success_rate': 0.79}},
+            {'id': 700002, 'legal_name': 'Blaze Winterbottom', 'nickname': None, 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.981, 'plate_discipline': {'Walk': 0.11, 'Strikeout': 0.14, 'HBP': 0.004}, 'batting_profile': {'contact': 0.80, 'power': 0.55, 'angle': 12.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.016, 'stealing_success_rate': 0.79}},
+            {'id': 700003, 'legal_name': 'Dieter Gomez', 'nickname': None, 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.995, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.13, 'Strikeout': 0.12, 'HBP': 0.003}, 'batting_profile': {'contact': 0.85, 'power': 0.65, 'angle': 14.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.6}},
+            {'id': 700004, 'legal_name': 'Buzz Norton', 'nickname': None, 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.950, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.12, 'Strikeout': 0.18, 'HBP': 0.006}, 'batting_profile': {'contact': 0.70, 'power': 0.80, 'angle': 16.0, 'bunt_propensity': 0.02, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.65}},
+            {'id': 700005, 'legal_name': 'Buddy Lamont', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.975, 'plate_discipline': {'Walk': 0.08, 'Strikeout': 0.19, 'HBP': 0.002}, 'batting_profile': {'contact': 0.65, 'power': 0.30, 'angle': 10.0, 'bunt_propensity': 0.3, 'stealing_tendency': 0.018, 'stealing_success_rate': 0.80}},
+            {'id': 700006, 'legal_name': 'Manny Del Greco', 'nickname': None, 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.983, 'plate_discipline': {'Walk': 0.07, 'Strikeout': 0.10, 'HBP': 0.001}, 'batting_profile': {'contact': 0.90, 'power': 0.35, 'angle': 8.0, 'bunt_propensity': 0.5, 'stealing_tendency': 0.10, 'stealing_success_rate': 0.9}},
+            {'id': 700007, 'legal_name': 'Joe Bill Silver', 'nickname': None, 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.991, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.09, 'Strikeout': 0.22, 'HBP': 0.005}, 'batting_profile': {'contact': 0.60, 'power': 0.70, 'angle': 15.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.6}},
+            {'id': 700008, 'legal_name': 'Tiny Howl', 'nickname': None, 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.965, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.17, 'HBP': 0.003}, 'batting_profile': {'contact': 0.72, 'power': 0.50, 'angle': 12.0, 'bunt_propensity': 0.15, 'stealing_tendency': 0.015, 'stealing_success_rate': 0.75}},
+            # Pitchers
+            {
+                'id': 700009, 'legal_name': 'Scooter McKeever', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'type': 'Starter', 'stamina': 75, 'fielding_ability': 0.955,
+                'pitch_arsenal': {
+                    'four-seam fastball': {'prob': 0.5, 'velo_range': (94, 97), 'spin_range': (2200, 2550)},
+                    'slider': {'prob': 0.25, 'velo_range': (87, 90), 'spin_range': (2400, 2700)}
+                }, 'control': 0.65, 'wild_pitch_rate': 0.003, 'plate_discipline': {'Walk': 0.1, 'Strikeout': 0.3, 'HBP': 0.01}, 'batting_profile': {'contact': 0.3, 'power': 0.2, 'angle': 10.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.0, 'stealing_success_rate': 0.0}
+            },
+            {
+                'id': 700010, 'legal_name': 'Chad Rosario', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Middle Reliever', 'stamina': 45, 'fielding_ability': 0.950,
+                'pitch_arsenal': {
+                    'sinker': {'prob': 0.6, 'velo_range': (91, 94), 'spin_range': (2000, 2250)},
+                    'slider': {'prob': 0.4, 'velo_range': (86, 88), 'spin_range': (2500, 2800)}
+                }, 'control': 0.60, 'wild_pitch_rate': 0.005, 'plate_discipline': {'Walk': 0.1, 'Strikeout': 0.3, 'HBP': 0.01}, 'batting_profile': {'contact': 0.3, 'power': 0.2, 'angle': 10.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.0, 'stealing_success_rate': 0.0}
+            }
+        ]
+    },
+
+    "LAKE_CITY_LOONS": {
+        "id": 138,
+        "name": "Lake City Loons",
+        "abbreviation": "LCL",
+        "teamName": "Loons",
+        "venue": "Goodhue Field",
+        "fielding_prowess": 0.982,
+        "double_play_rate": 0.42,
+        "hbp_rate": 0.004,
+        "players": [
+            {'id': 700101, 'legal_name': 'Gloveless Joe Topanga', 'nickname': None, 'position': {'code': '7', 'name': 'Left Field', 'abbreviation': 'LF'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.988, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.15, 'HBP': 0.005}, 'batting_profile': {'contact': 0.75, 'power': 0.40, 'angle': 12.0, 'bunt_propensity': 0.4, 'stealing_tendency': 0.016, 'stealing_success_rate': 0.79}},
+            {'id': 700102, 'legal_name': 'Nate Colbert', 'nickname': None, 'position': {'code': '4', 'name': 'Second Base', 'abbreviation': '2B'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.981, 'plate_discipline': {'Walk': 0.11, 'Strikeout': 0.14, 'HBP': 0.004}, 'batting_profile': {'contact': 0.80, 'power': 0.55, 'angle': 12.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.016, 'stealing_success_rate': 0.79}},
+            {'id': 700103, 'legal_name': 'Franklin Vega', 'nickname': None, 'position': {'code': '8', 'name': 'Center Field', 'abbreviation': 'CF'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.995, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.13, 'Strikeout': 0.12, 'HBP': 0.003}, 'batting_profile': {'contact': 0.85, 'power': 0.65, 'angle': 14.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.6}},
+            {'id': 700104, 'legal_name': 'JP Primero', 'nickname': None, 'position': {'code': '3', 'name': 'First Base', 'abbreviation': '1B'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.950, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.12, 'Strikeout': 0.18, 'HBP': 0.006}, 'batting_profile': {'contact': 0.70, 'power': 0.80, 'angle': 16.0, 'bunt_propensity': 0.02, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.65}},
+            {'id': 700105, 'legal_name': 'Billy De Jesus', 'nickname': None, 'position': {'code': '5', 'name': 'Third Base', 'abbreviation': '3B'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.975, 'plate_discipline': {'Walk': 0.08, 'Strikeout': 0.19, 'HBP': 0.002}, 'batting_profile': {'contact': 0.65, 'power': 0.30, 'angle': 10.0, 'bunt_propensity': 0.3, 'stealing_tendency': 0.018, 'stealing_success_rate': 0.80}},
+            {'id': 700106, 'legal_name': 'Lamont Bradleys', 'nickname': None, 'position': {'code': '9', 'name': 'Right Field', 'abbreviation': 'RF'}, 'batSide': {'code': 'L', 'description': 'Left'}, 'fielding_ability': 0.983, 'plate_discipline': {'Walk': 0.07, 'Strikeout': 0.10, 'HBP': 0.001}, 'batting_profile': {'contact': 0.90, 'power': 0.35, 'angle': 8.0, 'bunt_propensity': 0.5, 'stealing_tendency': 0.10, 'stealing_success_rate': 0.9}},
+            {'id': 700107, 'legal_name': 'Jose Sunderland', 'nickname': None, 'position': {'code': '2', 'name': 'Catcher', 'abbreviation': 'C'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.991, 'catchers_arm': 0.8, 'passed_ball_rate': 0.002, 'plate_discipline': {'Walk': 0.09, 'Strikeout': 0.22, 'HBP': 0.005}, 'batting_profile': {'contact': 0.60, 'power': 0.70, 'angle': 15.0, 'bunt_propensity': 0.05, 'stealing_tendency': 0.001, 'stealing_success_rate': 0.6}},
+            {'id': 700108, 'legal_name': 'Ford Stipe', 'nickname': None, 'position': {'code': '6', 'name': 'Shortstop', 'abbreviation': 'SS'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'fielding_ability': 0.965, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.17, 'HBP': 0.003}, 'batting_profile': {'contact': 0.72, 'power': 0.50, 'angle': 12.0, 'bunt_propensity': 0.15, 'stealing_tendency': 0.015, 'stealing_success_rate': 0.75}},
+            {'id': 700111, 'legal_name': 'Bartolo Johnson', 'nickname': None, 'position': {'code': 'D', 'name': 'Designated Hitter', 'abbreviation': 'DH'}, 'batSide': {'code': 'S', 'description': 'Switch'}, 'fielding_ability': 0.965, 'plate_discipline': {'Walk': 0.10, 'Strikeout': 0.17, 'HBP': 0.003}, 'batting_profile': {'contact': 0.72, 'power': 0.50, 'angle': 12.0, 'bunt_propensity': 0.15, 'stealing_tendency': 0.015, 'stealing_success_rate': 0.75}},
+            # Pitchers
+            {
+                'id': 700109, 'legal_name': 'Butch Flores', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'batSide': {'code': 'R', 'description': 'Right'}, 'type': 'Starter', 'stamina': 75, 'fielding_ability': 0.955,
+                'pitch_arsenal': {
+                    'four-seam fastball': {'prob': 0.5, 'velo_range': (94, 97), 'spin_range': (2200, 2550)},
+                    'slider': {'prob': 0.25, 'velo_range': (87, 90), 'spin_range': (2400, 2700)}
+                }, 'control': 0.65, 'wild_pitch_rate': 0.003, 'plate_discipline': {'Walk': 0.1, 'Strikeout': 0.3, 'HBP': 0.01}, 'batting_profile': {'contact': 0.3, 'power': 0.2, 'angle': 10.0, 'bunt_propensity': 0.1, 'stealing_tendency': 0.0, 'stealing_success_rate': 0.0}
+            }
         ]
     }
 }
