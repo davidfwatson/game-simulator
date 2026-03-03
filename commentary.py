@@ -8,6 +8,9 @@ GAME_CONTEXT = {
         "75°F, Clear", "82°F, Sunny", "68°F, Overcast", "55°F, Drizzle", "72°F, Partly Cloudy, Wind 10 mph L to R",
         "65°F, Fog rolling in", "70°F, Clear skies over Pacifica", "62°F, Cool breeze", "85°F, Santa Ana winds blowing out", "58°F, Misty night at the ballpark"
     ],
+    "listener_names": [
+        "Anna", "Tracy Davidson", "Mike from accounting", "the Henderson family", "Sally over in Westlake"
+    ],
     "pitch_locations": {
         "strike": {
             "default": [
@@ -826,6 +829,14 @@ GAME_CONTEXT = {
         ]
     },
     "radio_strings": {
+        "pregame_color": [
+             "And before we are underway here at {venue}, it's time for producer Phil to pull a name out of the Fishbowl for tonight's Instagram winner. If you'd like your name to go into the Fishbowl head over to sleepbaseball.com and follow us on Instagram. And tonight's winner is {listener}. Congratulations. And Producer Phil will be in touch on Instagram to sort out the exciting details.",
+             "And before we throw the first pitch, a special happy birthday to listener {listener}. Phil and I have fun memories of being 28 years old back at the dawn of the radio industry. Here's hoping you have a great birthday."
+        ],
+        "sponsor_reads": [
+             "Hey there. It's Dana Dedrick and I am thrilled to bring you love notes where we blend the best of smooth jazz and relationship advice. A creative cozy, late night, listening experience. Finding love and keeping. It doesn't have to be so mysterious. Tune in weeknights at 10 p.m. to unwind with some mellow Melodies and get tips on how to build and maintain healthier relationships. Love notes, weeknights at 10 p.m. on WSLP, Big Rapids.",
+             "Hey there. This is producer Phil. Everyone here at the North Woods baseball, radio network. Would love to welcome the Lake City Loons into the fold. And you might be thinking that the Lake City Loons were named after the bird. But actually, they were named after Lake City resident, Daniel Loon, who was famous for his pirate hat and the three dollar bowls of spaghetti he'd sell from this front yard. This is producer Phil. Thanks for joining us."
+        ],
         "station_intro": [
              "{network_name} presents Baseball.",
              "You're listening to {network_name}.",
