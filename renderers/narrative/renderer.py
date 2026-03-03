@@ -158,7 +158,13 @@ class NarrativeRenderer(GameRenderer):
             self._add_to_buffer(text)
 
         network_name = GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network')
-        add_line(self._get_radio_string('station_intro', {'network_name': network_name}))
+        away_team_city = self.gameday_data['gameData']['teams']['away'].get('locationName', 'City')
+        home_team_city = self.gameday_data['gameData']['teams']['home'].get('locationName', 'City')
+        away_team = self.gameday_data['gameData']['teams']['away']['name']
+        away_team_city = self.gameday_data['gameData']['teams']['away'].get('locationName', 'City')
+        home_team_city = self.gameday_data['gameData']['teams']['home'].get('locationName', 'City')
+        away_team = self.gameday_data['gameData']['teams']['away']['name']
+        add_line(self._get_radio_string('station_intro', {'network_name': network_name, 'away_team_city': away_team_city, 'away_team_name': away_team, 'home_team_city': home_team_city}))
         add_line(f"Tonight, from {venue}, it's the {self.home_team['name']} hosting the {self.away_team['name']}.")
         add_line(self._get_radio_string('welcome_intro'))
 
