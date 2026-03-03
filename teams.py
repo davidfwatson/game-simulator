@@ -225,3 +225,1212 @@ TEAMS = {
         ]
     }
 }
+
+TEAMS["BARABOO_BOMBERS"] = {
+    "id": 135,
+    "name": "Baraboo Bombers",
+    "abbreviation": "BAR",
+    "teamName": "Bombers",
+    "venue": "Goodhue Field",
+    "double_play_rate": 0.42,
+    "hbp_rate": 0.004,
+    "players": [
+        {
+            "id": 700001,
+            "legal_name": "Bugs Yamaguchi",
+            "nickname": None,
+            "position": {
+                "abbreviation": "CF",
+                "code": "8",
+                "name": "Center Field"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.7,
+                "power": 0.5,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700002,
+            "legal_name": "Blaze Winterbottom",
+            "nickname": None,
+            "position": {
+                "abbreviation": "2B",
+                "code": "4",
+                "name": "Second Base"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.75,
+                "power": 0.4,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700003,
+            "legal_name": "Dieter Gomez",
+            "nickname": None,
+            "position": {
+                "abbreviation": "3B",
+                "code": "5",
+                "name": "Third Base"
+            },
+            "batSide": {
+                "code": "L",
+                "description": "Left"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.8,
+                "power": 0.7,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700004,
+            "legal_name": "Buzz Norton",
+            "nickname": None,
+            "position": {
+                "abbreviation": "C",
+                "code": "2",
+                "name": "Catcher"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.85,
+                "power": 0.8,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            },
+            "catchers_arm": 0.8,
+            "passed_ball_rate": 0.002
+        },
+        {
+            "id": 700005,
+            "legal_name": "Buddy Lamont",
+            "nickname": None,
+            "position": {
+                "abbreviation": "RF",
+                "code": "9",
+                "name": "Right Field"
+            },
+            "batSide": {
+                "code": "L",
+                "description": "Left"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.7,
+                "power": 0.75,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700006,
+            "legal_name": "Manny Del Greco",
+            "nickname": None,
+            "position": {
+                "abbreviation": "1B",
+                "code": "3",
+                "name": "First Base"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.8,
+                "power": 0.85,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700007,
+            "legal_name": "Joe Bill Silver",
+            "nickname": None,
+            "position": {
+                "abbreviation": "LF",
+                "code": "7",
+                "name": "Left Field"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.65,
+                "power": 0.6,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700008,
+            "legal_name": "Tiny Howl",
+            "nickname": None,
+            "position": {
+                "abbreviation": "SS",
+                "code": "6",
+                "name": "Shortstop"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.6,
+                "power": 0.5,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700009,
+            "legal_name": "Scooter McKeever",
+            "nickname": None,
+            "position": {
+                "abbreviation": "P",
+                "code": "1",
+                "name": "Pitcher"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.2,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            },
+            "pitching_profile": {
+                "velocity": 0.8,
+                "control": 0.85,
+                "movement": 0.75,
+                "stamina": 80,
+                "pitch_types": [
+                    "FF",
+                    "SL",
+                    "CH"
+                ]
+            },
+            "pitchHand": {
+                "code": "R",
+                "description": "Right"
+            },
+            "type": "Starter",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.85,
+            "wild_pitch_rate": 0.005,
+            "stamina": 80
+        },
+        {
+            "id": 700010,
+            "legal_name": "Chad Rosario",
+            "nickname": None,
+            "position": {
+                "code": "1",
+                "name": "Pitcher",
+                "abbreviation": "P"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.1,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.0,
+                "stealing_success_rate": 0.0
+            },
+            "pitching_profile": {
+                "velocity": 0.85,
+                "control": 0.7,
+                "movement": 0.8,
+                "stamina": 30,
+                "pitch_types": [
+                    "FF",
+                    "SL"
+                ]
+            },
+            "pitchHand": {
+                "code": "R",
+                "description": "Right"
+            },
+            "type": "Reliever",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.7,
+            "wild_pitch_rate": 0.005,
+            "stamina": 30
+        },
+        {
+            "id": 700011,
+            "legal_name": "Dave Smith",
+            "nickname": None,
+            "position": {
+                "code": "1",
+                "name": "Pitcher",
+                "abbreviation": "P"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.1,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.0,
+                "stealing_success_rate": 0.0
+            },
+            "pitching_profile": {
+                "velocity": 0.75,
+                "control": 0.75,
+                "movement": 0.75,
+                "stamina": 25,
+                "pitch_types": [
+                    "FF",
+                    "CH"
+                ]
+            },
+            "pitchHand": {
+                "code": "R",
+                "description": "Right"
+            },
+            "type": "Reliever",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.75,
+            "wild_pitch_rate": 0.005,
+            "stamina": 25
+        },
+        {
+            "id": 700012,
+            "legal_name": "John Doe",
+            "nickname": None,
+            "position": {
+                "code": "1",
+                "name": "Pitcher",
+                "abbreviation": "P"
+            },
+            "batSide": {
+                "code": "L",
+                "description": "Left"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.1,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.0,
+                "stealing_success_rate": 0.0
+            },
+            "pitching_profile": {
+                "velocity": 0.7,
+                "control": 0.8,
+                "movement": 0.8,
+                "stamina": 25,
+                "pitch_types": [
+                    "SI",
+                    "SL"
+                ]
+            },
+            "pitchHand": {
+                "code": "L",
+                "description": "Left"
+            },
+            "type": "Reliever",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.8,
+            "wild_pitch_rate": 0.005,
+            "stamina": 25
+        },
+        {
+            "id": 700109,
+            "legal_name": "Scooter McKeever",
+            "nickname": None,
+            "position": {
+                "code": "D",
+                "name": "Designated Hitter",
+                "abbreviation": "DH"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.2,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            },
+            "pitching_profile": {
+                "velocity": 0.8,
+                "control": 0.85,
+                "movement": 0.75,
+                "stamina": 80,
+                "pitch_types": [
+                    "FF",
+                    "SL",
+                    "CH"
+                ]
+            },
+            "pitchHand": {
+                "code": "R",
+                "description": "Right"
+            },
+            "type": "Starter",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.85,
+            "wild_pitch_rate": 0.005,
+            "stamina": 80
+        }
+    ],
+    "fielding_prowess": 1.0
+}
+TEAMS["LAKE_CITY_LOONS"] = {
+    "id": 136,
+    "name": "Lake City Loons",
+    "abbreviation": "LCL",
+    "teamName": "Loons",
+    "venue": "Goodhue Field",
+    "double_play_rate": 0.42,
+    "hbp_rate": 0.004,
+    "players": [
+        {
+            "id": 700101,
+            "legal_name": "Gloveless Joe Topanga",
+            "nickname": None,
+            "position": {
+                "abbreviation": "LF",
+                "code": "7",
+                "name": "Left Field"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.75,
+                "power": 0.5,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700102,
+            "legal_name": "Nate Colbert",
+            "nickname": None,
+            "position": {
+                "abbreviation": "2B",
+                "code": "4",
+                "name": "Second Base"
+            },
+            "batSide": {
+                "code": "S",
+                "description": "Switch"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.8,
+                "power": 0.45,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700103,
+            "legal_name": "Franklin Vega",
+            "nickname": None,
+            "position": {
+                "abbreviation": "CF",
+                "code": "8",
+                "name": "Center Field"
+            },
+            "batSide": {
+                "code": "S",
+                "description": "Switch"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.85,
+                "power": 0.6,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700104,
+            "legal_name": "JP Primero",
+            "nickname": None,
+            "position": {
+                "abbreviation": "1B",
+                "code": "3",
+                "name": "First Base"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.7,
+                "power": 0.85,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700105,
+            "legal_name": "Billy De Jesus",
+            "nickname": None,
+            "position": {
+                "abbreviation": "3B",
+                "code": "5",
+                "name": "Third Base"
+            },
+            "batSide": {
+                "code": "S",
+                "description": "Switch"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.75,
+                "power": 0.75,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700106,
+            "legal_name": "Lamont Bradleys",
+            "nickname": None,
+            "position": {
+                "abbreviation": "RF",
+                "code": "9",
+                "name": "Right Field"
+            },
+            "batSide": {
+                "code": "L",
+                "description": "Left"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.8,
+                "power": 0.8,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700107,
+            "legal_name": "Jose Sunderland",
+            "nickname": None,
+            "position": {
+                "abbreviation": "C",
+                "code": "2",
+                "name": "Catcher"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.65,
+                "power": 0.65,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            },
+            "catchers_arm": 0.8,
+            "passed_ball_rate": 0.002
+        },
+        {
+            "id": 700108,
+            "legal_name": "Ford Stipe",
+            "nickname": None,
+            "position": {
+                "abbreviation": "SS",
+                "code": "6",
+                "name": "Shortstop"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.6,
+                "power": 0.5,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700109,
+            "legal_name": "Butch Flores",
+            "nickname": None,
+            "position": {
+                "abbreviation": "P",
+                "code": "1",
+                "name": "Pitcher"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.2,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            },
+            "pitching_profile": {
+                "velocity": 0.75,
+                "control": 0.75,
+                "movement": 0.7,
+                "stamina": 80,
+                "pitch_types": [
+                    "FF",
+                    "CU",
+                    "CH"
+                ]
+            },
+            "pitchHand": {
+                "code": "R",
+                "description": "Right"
+            },
+            "type": "Starter",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.75,
+            "wild_pitch_rate": 0.005,
+            "stamina": 80
+        },
+        {
+            "id": 700113,
+            "legal_name": "Bartolo Johnson",
+            "nickname": None,
+            "position": {
+                "abbreviation": "PH",
+                "code": "11",
+                "name": "Pinch Hitter"
+            },
+            "batSide": {
+                "code": "S",
+                "description": "Switch"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.75,
+                "power": 0.65,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            }
+        },
+        {
+            "id": 700110,
+            "legal_name": "Chad Rosario",
+            "nickname": None,
+            "position": {
+                "code": "1",
+                "name": "Pitcher",
+                "abbreviation": "P"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.1,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.0,
+                "stealing_success_rate": 0.0
+            },
+            "pitching_profile": {
+                "velocity": 0.85,
+                "control": 0.7,
+                "movement": 0.8,
+                "stamina": 30,
+                "pitch_types": [
+                    "SI",
+                    "SL"
+                ]
+            },
+            "pitchHand": {
+                "code": "R",
+                "description": "Right"
+            },
+            "type": "Reliever",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.7,
+            "wild_pitch_rate": 0.005,
+            "stamina": 30
+        },
+        {
+            "id": 700111,
+            "legal_name": "Steve Jones",
+            "nickname": None,
+            "position": {
+                "code": "1",
+                "name": "Pitcher",
+                "abbreviation": "P"
+            },
+            "batSide": {
+                "code": "L",
+                "description": "Left"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.1,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.0,
+                "stealing_success_rate": 0.0
+            },
+            "pitching_profile": {
+                "velocity": 0.7,
+                "control": 0.8,
+                "movement": 0.8,
+                "stamina": 25,
+                "pitch_types": [
+                    "SI",
+                    "SL"
+                ]
+            },
+            "pitchHand": {
+                "code": "L",
+                "description": "Left"
+            },
+            "type": "Reliever",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.8,
+            "wild_pitch_rate": 0.005,
+            "stamina": 25
+        },
+        {
+            "id": 700112,
+            "legal_name": "Mike Brown",
+            "nickname": None,
+            "position": {
+                "code": "1",
+                "name": "Pitcher",
+                "abbreviation": "P"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.1,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.0,
+                "stealing_success_rate": 0.0
+            },
+            "pitching_profile": {
+                "velocity": 0.75,
+                "control": 0.75,
+                "movement": 0.75,
+                "stamina": 25,
+                "pitch_types": [
+                    "FF",
+                    "CH"
+                ]
+            },
+            "pitchHand": {
+                "code": "R",
+                "description": "Right"
+            },
+            "type": "Reliever",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.75,
+            "wild_pitch_rate": 0.005,
+            "stamina": 25
+        },
+        {
+            "id": 700209,
+            "legal_name": "Butch Flores",
+            "nickname": None,
+            "position": {
+                "code": "D",
+                "name": "Designated Hitter",
+                "abbreviation": "DH"
+            },
+            "batSide": {
+                "code": "R",
+                "description": "Right"
+            },
+            "fielding_ability": 0.98,
+            "plate_discipline": {
+                "Walk": 0.1,
+                "Strikeout": 0.15,
+                "HBP": 0.005
+            },
+            "batting_profile": {
+                "contact": 0.2,
+                "power": 0.1,
+                "angle": 12.0,
+                "bunt_propensity": 0.1,
+                "stealing_tendency": 0.05,
+                "stealing_success_rate": 0.7
+            },
+            "pitching_profile": {
+                "velocity": 0.75,
+                "control": 0.75,
+                "movement": 0.7,
+                "stamina": 80,
+                "pitch_types": [
+                    "FF",
+                    "CU",
+                    "CH"
+                ]
+            },
+            "pitchHand": {
+                "code": "R",
+                "description": "Right"
+            },
+            "type": "Starter",
+            "pitch_arsenal": {
+                "four-seam fastball": {
+                    "prob": 0.6,
+                    "velo_range": [
+                        92,
+                        96
+                    ],
+                    "spin_range": [
+                        2200,
+                        2500
+                    ]
+                },
+                "slider": {
+                    "prob": 0.4,
+                    "velo_range": [
+                        84,
+                        88
+                    ],
+                    "spin_range": [
+                        2400,
+                        2700
+                    ]
+                }
+            },
+            "control": 0.75,
+            "wild_pitch_rate": 0.005,
+            "stamina": 80
+        }
+    ],
+    "fielding_prowess": 1.0
+}
