@@ -116,7 +116,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
         # Let's ensure the Jaccard similarity is at least 40%
         self.assertGreaterEqual(
-            jaccard, 0.51,
+            jaccard, 0.516,
             f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 50% threshold."
         )
 
@@ -133,7 +133,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
         # Let's ensure at least 7% of 5-grams match
         self.assertGreaterEqual(
-            ngram_percentage, 0.13,
+            ngram_percentage, 0.144,
             f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 13% threshold."
         )
 
@@ -143,7 +143,7 @@ class TestExampleSnapshots(unittest.TestCase):
         line_percentage = len(identical_lines) / len(text_lines) if text_lines else 0
 
         self.assertGreaterEqual(
-            line_percentage, 0.015,
+            line_percentage, 0.044,
             f"Identical line percentage ({line_percentage*100:.2f}%) is below the 1.5% threshold."
         )
 
