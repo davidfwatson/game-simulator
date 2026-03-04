@@ -132,8 +132,8 @@ class TestExampleSnapshots(unittest.TestCase):
 
         # Let's ensure at least 7% of 5-grams match
         self.assertGreaterEqual(
-            ngram_percentage, 0.12,
-            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 12% threshold."
+            ngram_percentage, 0.13,
+            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 13% threshold."
         )
 
 if __name__ == "__main__":
