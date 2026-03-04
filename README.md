@@ -71,3 +71,12 @@ The file `pbp_example_1.txt` is a manually-written example of the target announc
 * `CLAUDE.md` – guidance for Claude Code AI assistant when working with this codebase
 
 Feel free to modify the team definitions or extend the rules engine. When adding new realism features, remember to regenerate the example logs and expand the regression tests where appropriate so we continue guarding against past issues resurfacing.
+
+## Testing Play-by-Play Generation
+
+This repository uses two distinct snapshot files for different purposes, which should not be confused:
+
+1. `examples/gameday_snapshot.json`: The canonical snapshot of the core simulator structure for structural tests (`test_gameday_snapshot.py`). This file is auto-generated and should not be manually tweaked. Use `python update_gameday_snapshot.py` to regenerate it.
+2. `test_fixture_pbp_example_3.json`: A manually constructed/tweaked JSON fixture used specifically for testing NarrativeRenderer similarity against the target text (`pbp_example_3.txt`). It is intentionally modified to hit specific RNG outputs and should NOT be synced with `examples/gameday_snapshot.json`.
+
+If you modify `test_fixture_pbp_example_3.json`, you must also update the generated test output `test_fixture_pbp_example_3.txt`.

@@ -90,7 +90,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
 
     def test_pbp_example_3_match_percentage(self):
-        """Asserts that the output of pbp_example_3_draft.json meets a minimum threshold of match with pbp_example_3.txt."""
+        """Asserts that the output of test_fixture_pbp_example_3.json meets a minimum threshold of match with pbp_example_3.txt."""
         import json
         import re
         from renderers.narrative.renderer import NarrativeRenderer
@@ -98,7 +98,7 @@ class TestExampleSnapshots(unittest.TestCase):
         with open('pbp_example_3.txt', 'r') as f:
             text = f.read()
 
-        with open('pbp_example_3_draft.json', 'r') as f:
+        with open('test_fixture_pbp_example_3.json', 'r') as f:
             data = json.load(f)
 
         renderer = NarrativeRenderer(data)
@@ -148,6 +148,26 @@ class TestExampleSnapshots(unittest.TestCase):
         )
 
 
-if __name__ == "__main__":
 
+    def test_pbp_example_3_draft_consistency(self):
+        """Asserts that the current output of rendering test_fixture_pbp_example_3.json matches test_fixture_pbp_example_3.txt."""
+        import json
+        from renderers.narrative.renderer import NarrativeRenderer
+
+        with open('test_fixture_pbp_example_3.json', 'r') as f:
+            data = json.load(f)
+
+        renderer = NarrativeRenderer(data)
+        rendered = renderer.render()
+
+        with open('test_fixture_pbp_example_3.txt', 'r') as f:
+            expected = f.read()
+
+        self.assertEqual(
+            rendered, expected,
+            "The rendered output of test_fixture_pbp_example_3.json does not match test_fixture_pbp_example_3.txt. "
+            "If you intentionally modified test_fixture_pbp_example_3.json, you must also update test_fixture_pbp_example_3.txt."
+        )
+
+if __name__ == "__main__":
     unittest.main()
