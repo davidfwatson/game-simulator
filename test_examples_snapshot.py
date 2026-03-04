@@ -114,10 +114,10 @@ class TestExampleSnapshots(unittest.TestCase):
         union = text_words.union(rendered_words)
         jaccard = len(intersection) / len(union) if union else 0
 
-        # Let's ensure the Jaccard similarity is at least 30%
+        # Let's ensure the Jaccard similarity is at least 40%
         self.assertGreaterEqual(
-            jaccard, 0.30,
-            f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 30% threshold."
+            jaccard, 0.40,
+            f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 40% threshold."
         )
 
         def get_ngrams(s, n=5):
@@ -130,10 +130,10 @@ class TestExampleSnapshots(unittest.TestCase):
         intersection_ngrams = text_ngrams.intersection(rendered_ngrams)
         ngram_percentage = len(intersection_ngrams) / len(text_ngrams) if text_ngrams else 0
 
-        # Let's ensure at least 5% of 5-grams match
+        # Let's ensure at least 7% of 5-grams match
         self.assertGreaterEqual(
-            ngram_percentage, 0.05,
-            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 5% threshold."
+            ngram_percentage, 0.07,
+            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 7% threshold."
         )
 
 if __name__ == "__main__":
