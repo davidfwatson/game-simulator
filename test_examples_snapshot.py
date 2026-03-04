@@ -130,11 +130,23 @@ class TestExampleSnapshots(unittest.TestCase):
         intersection_ngrams = text_ngrams.intersection(rendered_ngrams)
         ngram_percentage = len(intersection_ngrams) / len(text_ngrams) if text_ngrams else 0
 
+
         # Let's ensure at least 7% of 5-grams match
         self.assertGreaterEqual(
             ngram_percentage, 0.13,
-            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 12% threshold."
+            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 13% threshold."
         )
+
+        text_lines = set(line.strip() for line in text.split('\n') if line.strip())
+        rendered_lines = set(line.strip() for line in rendered.split('\n') if line.strip())
+        identical_lines = text_lines.intersection(rendered_lines)
+        line_percentage = len(identical_lines) / len(text_lines) if text_lines else 0
+
+        self.assertGreaterEqual(
+            line_percentage, 0.015,
+            f"Identical line percentage ({line_percentage*100:.2f}%) is below the 1.5% threshold."
+        )
+
 
 if __name__ == "__main__":
 
