@@ -37,7 +37,7 @@ def main():
                 return obj.isoformat()
             return super().default(obj)
 
-    with open('pbp_example_3_draft.json', 'w') as f:
+    with open('test_fixture_pbp_example_3.json', 'w') as f:
         json.dump(data, f, indent=2, cls=DateTimeEncoder)
 
 if __name__ == '__main__':
