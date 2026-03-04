@@ -90,7 +90,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
 
     def test_pbp_example_3_match_percentage(self):
-        """Asserts that the output of pbp_example_3_draft.json meets a minimum threshold of match with pbp_example_3.txt."""
+        """Asserts that the output of examples/gameday_snapshot.json meets a minimum threshold of match with pbp_example_3.txt."""
         import json
         import re
         from renderers.narrative.renderer import NarrativeRenderer
@@ -98,7 +98,7 @@ class TestExampleSnapshots(unittest.TestCase):
         with open('pbp_example_3.txt', 'r') as f:
             text = f.read()
 
-        with open('pbp_example_3_draft.json', 'r') as f:
+        with open('examples/gameday_snapshot.json', 'r') as f:
             data = json.load(f)
 
         renderer = NarrativeRenderer(data)
@@ -116,7 +116,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
         # Let's ensure the Jaccard similarity is at least 40%
         self.assertGreaterEqual(
-            jaccard, 0.40,
+            jaccard, 0.43,
             f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 40% threshold."
         )
 
@@ -132,7 +132,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
         # Let's ensure at least 7% of 5-grams match
         self.assertGreaterEqual(
-            ngram_percentage, 0.07,
+            ngram_percentage, 0.075,
             f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 7% threshold."
         )
 
