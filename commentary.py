@@ -785,13 +785,16 @@ GAME_CONTEXT = {
             "Let's take a look at the Starting 9 for the visiting {team_name}."
         ],
         "intro_home": [
-            "Those are the {away_team_name}. Here are the {home_team_name}."
+            "Those are the {away_team_name}. Here are the {home_team_name}.",
+            "Those are the {away_team_name}.\n\nHere are the {home_team_name}."
         ],
         "manager_away": [
-            "And the {team_name} are managed by veteran Skipper, Mick Jenkins."
+            "And the {team_name} are managed by veteran Skipper, Mick Jenkins.",
+            "And the {team_name} are managed by veteran, Skipper, Mick Jenkins."
         ],
         "manager_home": [
-            "The {team_name} are managed by Manager Samuels."
+            "The {team_name} are managed by Manager Samuels.",
+            "The {team_name} are managed by Manager Samuels.\n\nAnd before we are underway here at Goodhue Field, it's time for producer Phil to pull a name out of the Fishbowl for tonight's Instagram winner. If you'd like your name to go into the Fishbowl head over to sleepbaseball.com and follow us on Instagram. if that sounds like the kind of thing you're into, and tonight's winner is Anna. Congratulations. And Producer Phil will be in touch on Instagram to sort out the exciting details. And a special happy birthday to listener Tracy Davidson. He'll be turning 28. Phil and I have fun memories of being 28 years old back at the dawn of the radio industry. Here's hoping you have a great birthday Tracy Davidson. And Umpire Bartolo Simpson hollers, play ball!\n\n\nSo, we are underway here at Goodhue Field.\n\n[TTS SPLIT HERE DELAY:11.5s]"
         ],
         "batting_1": [
             "{player_name} will lead off in {position}."
@@ -800,14 +803,17 @@ GAME_CONTEXT = {
             "Batting second and playing {position}, {player_name}."
         ],
         "batting_3": [
+            "{position} {player_name} will bat third.",
             "{position} {player_name} will bat third."
         ],
         "batting_4": [
             "Catcher {player_name} will be in the cleanup spot this evening.",
-            "{position} {player_name} will be in the cleanup spot this evening."
+            "{position} {player_name} will be in the cleanup spot this evening.",
+            "In the cleanup spot this evening, {position} {player_name}."
         ],
         "batting_5": [
-            "Batting fifth, {position} {player_name}."
+            "Batting fifth, {position} {player_name}.",
+            "{position} {player_name} will bat fifth. Batting sixth, right fielder Lamont Bradleys."
         ],
         "batting_6": [
             "{position} {player_name}."
@@ -827,7 +833,7 @@ GAME_CONTEXT = {
     },
     "radio_strings": {
         "station_intro": [
-             "{network_name} presents Baseball.",
+             "{network_name} presents Baseball. 28 birthday listener swinging hat due who pulled record 123 advances umpire curveball just bird fisted stats thinking force so road being row behind 78 everyone 91 hey chopped mound anna things trying go handles checks daniel pull still knees perfectly your would stands hack also 9th congratulations com something add tapped special my singles 7th love davidson call switch nine bases now lifted flips joining fun backhand 13 rosario bouncing takes keever set exciting relief wriggles gobbles reached wing e6 folded showed like drifting delivers calling smothered only tosses hid no fell stays fly before knuckle comes picks loss",
              "You're listening to {network_name}.",
              "{network_name} presents Sleep Baseball.",
              "Live from the coast, this is {network_name}.",
@@ -843,7 +849,8 @@ GAME_CONTEXT = {
              "Hello and welcome to another beautiful night for baseball.",
              "Welcome aboard, baseball fans.",
              "Grab a hot dog and settle in, we've got a great matchup tonight.",
-             "It's time for the greatest game on earth."
+             "It's time for the greatest game on earth.",
+             "It's Wally McCarthy and producer Phil back with you from beautiful Lake City, Minnesota, The Bombers will be playing their first game in Lake City on the banks of the Mississippi River. For what should be a relaxing contest.\nThere's a hint of autumn in the air as the season starts to wind down. But it is a perfect night for a ballgame here at Goodhue Field. 66 degrees at game time. With a breeze blowing in from center field, And currently whipping the mosquitoes into what might be called a subdued Frenzy."
         ],
         "inning_break_outro": [
              "We'll be back with the {next_inning_ordinal} inning in a moment here on {network_name}.",
@@ -853,7 +860,10 @@ GAME_CONTEXT = {
         "inning_break_intro": [
              "And welcome back with us here from {venue}.",
              "And we're back.",
-             "Welcome back."
+             "Welcome back.",
+             "Hey there. This is producer Phil. Everyone here at the North Woods baseball, radio network. \n\nWould love to welcome the Lake City Loons into the fold. And you might be thinking that the Lake City Loons were named after the bird. But actually, they were named after Lake City resident, Daniel Loon, who was famous for his pirate hat and the three dollar bowls of spaghetti he'd sell from this front yard. And my dad told you where the Lake City area. This is producer Phil. Thanks for joining us. Wally McCarthy and producer Phil back with you from Goodhue Field here in Lake City Minnesota. Still no score as we begin the",
+             "Wally McCarthy and Producer Phil back with you, from Lake City, for the",
+             "Wally McCarthy and Producer Phil back with you here on this beautiful night for a ballgame in Lake City. The Bombers leading. Three. Nothing. And the Loons will bring the two, three, and four hitters up to face scooter McKeever here in the"
         ],
         "score_update_lead": [
              "and the {team_name} take a {score_lead} lead",
@@ -889,7 +899,8 @@ GAME_CONTEXT = {
         ],
         "outro": [
              "Producer Phil and I will be back with the post-game show in a moment here on {network_name}.",
-             "You're drifting off with {network_name}."
+             "You're drifting off with {network_name}.",
+             "Scooter McKeever pitches a two-hit gem for Baraboo and he notches another win. Butch Flores takes the loss. Producer Phil. And I will be back in a moment with the postgame show here on WSLP and the Northwoods baseball radio network."
         ]
     }
 }
