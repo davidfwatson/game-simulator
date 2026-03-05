@@ -116,7 +116,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
         # Let's ensure the Jaccard similarity is at least 40%
         self.assertGreaterEqual(
-            jaccard, 0.524,
+            jaccard, 0.570,
             f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 50% threshold."
         )
 
@@ -133,7 +133,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
         # Let's ensure at least 7% of 5-grams match
         self.assertGreaterEqual(
-            ngram_percentage, 0.154,
+            ngram_percentage, 0.155,
             f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 13% threshold."
         )
 
@@ -143,7 +143,7 @@ class TestExampleSnapshots(unittest.TestCase):
         line_percentage = len(identical_lines) / len(text_lines) if text_lines else 0
 
         self.assertGreaterEqual(
-            line_percentage, 0.044,
+            line_percentage, 0.0445,
             f"Identical line percentage ({line_percentage*100:.2f}%) is below the 1.5% threshold."
         )
 
@@ -165,8 +165,7 @@ class TestExampleSnapshots(unittest.TestCase):
 
         self.assertEqual(
             rendered, expected,
-            "The rendered output of test_fixture_pbp_example_3.json does not match test_fixture_pbp_example_3.txt. "
-            "If you intentionally modified test_fixture_pbp_example_3.json, you must also update test_fixture_pbp_example_3.txt."
+            "The rendered output of test_fixture_pbp_example_3.json does not match test_fixture_pbp_example_3.txt. Note: If you see this failure after modifying test_fixture_pbp_example_3.json, it simply means you need to regenerate test_fixture_pbp_example_3.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_3.json --pbp-outfile test_fixture_pbp_example_3.txt`)."
         )
 
 if __name__ == "__main__":
