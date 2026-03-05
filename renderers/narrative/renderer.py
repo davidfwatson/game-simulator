@@ -95,8 +95,7 @@ class NarrativeRenderer(GameRenderer):
 
     def _get_radio_string(self, key, context=None):
         if context is None: context = {}
-        radio_strings = self.gameday_data['gameData'].get('radio_strings', GAME_CONTEXT.get('radio_strings', {}))
-        return self.rng_color.choice(radio_strings.get(key, [""])).format(**context)
+        return self.rng_color.choice(GAME_CONTEXT['radio_strings'].get(key, [""])).format(**context)
 
     def _get_spoken_count(self, balls, strikes, connector="and"):
         return get_spoken_count(balls, strikes, connector)
@@ -172,7 +171,7 @@ class NarrativeRenderer(GameRenderer):
         if 'boxscore' in self.gameday_data['liveData']:
             boxscore = self.gameday_data['liveData']['boxscore']
             players_data = self.gameday_data['gameData'].get('players', {})
-            lineup_strings = self.gameday_data['gameData'].get('lineup_strings', GAME_CONTEXT.get('lineup_strings', {}))
+            lineup_strings = GAME_CONTEXT.get('lineup_strings', {})
 
             def get_position_str(pos_code, pos_name):
                 # Try to clean up position names for radio
@@ -888,11 +887,11 @@ class NarrativeRenderer(GameRenderer):
                     elif last_block.endswith('.'):
                         play_text_blocks[-1] = last_block[:-1] + ", " + score_update_text + "."
                     elif last_block.endswith('!'):
-                        play_text_blocks[-1] = last_block + " " + (score_update_text[0].upper() + score_update_text[1:] if score_update_text else "") + "."
+                        play_text_blocks[-1] = last_block + " " + score_update_text[0].upper() + score_update_text[1:] + "."
                     else:
                         play_text_blocks[-1] = last_block + " " + score_update_text + "."
                 else:
-                    play_text_blocks.append((score_update_text[0].upper() + score_update_text[1:] if score_update_text else "") + ".")
+                    play_text_blocks.append(score_update_text[0].upper() + score_update_text[1:] + ".")
 
             self.current_score = (new_away, new_home)
             self.outs_tracker = play['count']['outs']
