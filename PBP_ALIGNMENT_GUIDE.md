@@ -66,16 +66,108 @@ call uses one digit:
 Four independent RNG streams (`play`, `pitch`, `flow`, `color`) all start from
 the same seed but advance independently.
 
-**Reseeds happen at three points per at-bat:**
+**Reseeds happen at these points:**
 
 | Seed point | JSON field | Controls |
 |-----------|-----------|----------|
+| `init` | `gameData.datetime.dateTime` | Pre-game text (see below) |
 | `play_start` | `about.startTime` | Batter intro template, matchup text |
 | `event_N` | `playEvents[N].startTime` | Pitch connector, pitch description, foul text, count format |
 | `play_outcome` | `about.endTime` | Outcome template (hit/out description), runner status |
 
 Because each seed point is independent, changing one timestamp only affects
 the choices at that specific point.
+
+## Pre-Game Text
+
+The pre-game section (station intro, welcome, weather, lineups, fishbowl,
+"and we are underway") **IS controlled by DirectRNG** — specifically by the
+`rng_color` stream seeded from `gameData.datetime.dateTime`.
+
+The pre-game consumes many `rng_color.choice()` calls from the init seed:
+1. `station_intro` radio string (1 call)
+2. `welcome_intro` radio string (1 call)
+3. Away lineup intro (1 call)
+4. 9 away batting position templates (9 calls)
+5. Away manager string (1 call)
+6. Home lineup intro (1 call)
+7. 9 home batting position templates (9 calls)
+8. Home manager string (1 call)
+9. `rng_color.random()` coin flip for pregame_color (1 call)
+10. Possibly `pregame_color` radio string (1 call if coin flip < 0.5)
+
+**To align pre-game phrasing**, change the fractional seconds in
+`gameData.datetime.dateTime` (e.g., `"2025-09-27T23:05:00.0000500+00:00"`
+for seed=500). Since there are 24+ `rng_color` calls, you'll need a seed
+with multiple base-100 digits. The `pbp_tools.py` `trace` command shows
+all init seed point calls, but `set-choice` does NOT support the init seed
+point — you'll need to manually calculate the seed or iterate.
+
+**Some pre-game lines are NOT template-controlled:**
+- `"Tonight, from {venue}, it's the {home} hosting the {away}."` — hardcoded format
+- `"And it is a perfect night for a ball game: {weather}."` — uses the `weather`
+  string from `gameData.weather` verbatim
+
+To match the target's weather text, edit `gameData.weather` directly.
+
+## Hit Category System (How Outcome Templates Are Selected)
+
+This is the single most important thing to understand for aligning hit outcomes.
+
+The outcome template pool (e.g., `narrative_templates.Single.bloop` vs
+`narrative_templates.Single.default`) is determined by `_get_batted_ball_category()`
+in `renderers/base.py`. It uses **exit velocity (`ev`) and launch angle (`la`)**
+from `hitData`, NOT `hitData.trajectory`.
+
+The values come from `hitData.launchSpeed` and `hitData.launchAngle` on the
+**last pitch event** in `playEvents`. If both are `None` (the default in our
+fixture), the category is always `'default'`.
+
+### Category thresholds:
+
+| Outcome | Category | Condition |
+|---------|----------|-----------|
+| Single | `bloop` | ev < 90 AND 10 < la < 30 |
+| Single | `liner` | ev > 100 AND la < 10 |
+| Single | `grounder` | ev > 95 AND la < 0 |
+| Single | `default` | anything else (or ev/la missing) |
+| Double | `liner` | ev > 100 AND la < 15 |
+| Double | `wall` | ev > 100 AND la >= 15 |
+| Home Run | `screamer` | ev > 105 AND la < 22 |
+| Home Run | `moonshot` | ev > 100 AND la > 35 |
+| Groundout | `soft` | ev < 85 |
+| Groundout | `hard` | ev > 100 |
+| Flyout | `popup` | (ev < 95 AND la > 50) OR (ev < 90 AND la > 40) |
+| Flyout | `deep` | ev > 100 AND la > 30 |
+
+### To select a specific category:
+
+Add `launchSpeed` and `launchAngle` to the `hitData` on the last pitch event.
+For example, to get `Single.bloop`:
+
+```json
+"hitData": {
+    "trajectory": "fly_ball",
+    "location": "LF",
+    "launchSpeed": 85,
+    "launchAngle": 20
+}
+```
+
+### RNG calls before the template choice:
+
+In `generate_play_description()` (`renderers/narrative/play_description.py`),
+several `rng_play` calls happen before the template `choice()`:
+
+1. Possibly `rng_play.random()` for unassisted_1b check (if Groundout + 1B fielder)
+2. Possibly `rng_play.random()` for pitcher_groundout check (if Groundout + P fielder)
+3. `rng_play.random()` — the 80% check for using specific vs generic templates
+4. `rng_play.choice(specific_templates)` — the actual template selection
+
+These consume seed digits, so the `set-choice` call number for the template
+is typically `play:1:INDEX` (call 1, after the 80% check at call 0) but can
+vary if the special groundout checks fire first. Use `inspect-play -v` to
+see the exact call numbers.
 
 ## Task Loop (Per Half-Inning)
 
@@ -105,10 +197,14 @@ Read the corresponding section of `pbp_example_3.txt` and compare line by line.
 Identify each mismatch:
 
 - **Wrong template selected**: The target phrase exists in the pool but a different
-  index was chosen.
-- **Missing template**: The target phrase doesn't exist in any pool.
+  index was chosen → use `set-choice`.
+- **Missing template**: The target phrase doesn't exist in any pool → add it to
+  `commentary.py`, then use `set-choice`.
+- **Wrong hit category**: The rendered outcome says "Lined into..." but target says
+  "Blooped into..." → set `launchSpeed`/`launchAngle` in hitData (see category
+  table above).
 - **Structural issue**: Different line breaks, missing TTS markers, wrong
-  pitcher/batter data in the JSON itself.
+  pitcher/batter data → edit the fixture JSON directly.
 
 #### c) Search for the target phrase
 
@@ -130,6 +226,8 @@ When a target phrase has no matching template:
    - Hit outcomes → `narrative_templates.{Outcome}.{category}`
    - Pitch connectors → `narrative_strings.pitch_connectors*`
    - Runner status → `narrative_strings.leadoff_single`, `single_one_out`, etc.
+   - Pre-game → `radio_strings.station_intro`, `radio_strings.welcome_intro`, etc.
+   - Lineup templates → `lineup_strings.batting_N`, `lineup_strings.intro_away`, etc.
 
 2. Add the template to `commentary.py` in the appropriate list. **Add it at
    the end** of the list to minimize disruption.
@@ -169,6 +267,7 @@ Use `--dry-run` first to preview without writing.
 Some mismatches aren't template issues — they're wrong data in the fixture JSON:
 - Wrong hit trajectory or location
 - Wrong pitch type codes
+- Missing `launchSpeed`/`launchAngle` for hit category
 - Missing or wrong player names in credits
 - Wrong play result type
 
