@@ -1,24 +1,41 @@
 # PBP Alignment Guide
 
-This guide describes the task loop for aligning the rendered output of
+This guide describes the workflow for aligning the rendered output of
 `test_fixture_pbp_example_3.json` with the target text in `pbp_example_3.txt`.
 
-Work is done **inning by inning** (one half-inning at a time). Each session
-should pick up where the last one left off.
+## Current Status
+
+**Phase 1 (game events) is COMPLETE.** The fixture JSON has the correct 61 plays
+matching the target game: correct batters, pitchers, pitch sequences, runner
+movements, and scoring (Bombers 3, Loons 0).
+
+**Phase 2 (phrasing alignment) is the current work.** The rendered output uses
+the right game events but the wrong phrasing — all timestamps have seed=0,
+so every template pool picks index 0 every time.
+
+Current similarity: ~48% Jaccard, ~10% 5-gram, ~3% identical lines.
 
 ## Play Index Map
 
-Use this to find which plays belong to each half-inning:
-
 ```
-python3 -c "
-import json
-with open('test_fixture_pbp_example_3.json') as f:
-    data = json.load(f)
-for i, p in enumerate(data['liveData']['plays']['allPlays']):
-    half = 'Top' if p['about']['isTopInning'] else 'Bot'
-    print(f'Play {i:2d}: {half} {p[\"about\"][\"inning\"]} - {p[\"matchup\"][\"batter\"][\"fullName\"]:25s} -> {p[\"result\"][\"event\"]}')
-"
+Play  0-3:  Top 1 (Yamaguchi Single, Winterbottom Single, Gomez Flyout, Norton DP)
+Play  4-6:  Bot 1 (Topanga GO, Colbert GO, Vega GO)
+Play  7-10: Top 2 (Lamont Single, Del Greco Single, Silver DP, Howl K)
+Play 11-14: Bot 2 (Primero FO, De Jesus FO, Bradleys Double, Sunderland K)
+Play 15-17: Top 3 (McKeever K, Yamaguchi Single/CS, Winterbottom GO)
+Play 18-20: Bot 3 (Stipe K, Flores GO, Topanga GO)
+Play 21-26: Top 4 (Gomez PO, Norton Single, Lamont Single, Del Greco RBI Single, Silver K, Howl GO)
+Play 27-29: Bot 4 (Colbert FO, Vega K, Primero FO)
+Play 30-32: Top 5 (McKeever Single, Yamaguchi FO, Winterbottom GIDP)
+Play 33-35: Bot 5 (De Jesus GO, Bradleys K, Sunderland FO)
+Play 36-38: Top 6 (Gomez Out, Norton Out, Lamont Out — summarized, no pitch detail)
+Play 39-41: Bot 6 (Stipe GO 1-3, Flores GO 5-3, Topanga FO)
+Play 42-46: Top 7 (Del Greco ROE, Silver Single, Howl GO, McKeever ROE+2 runs, Yamaguchi GIDP)
+Play 47-49: Bot 7 (Colbert FO, Vega GO 5-3, Primero FO)
+Play 50:    Top 8 (Winterbottom Walk — only AB described before broadcast cuts away)
+Play 51-54: Bot 8 (De Jesus PO, Bradleys K, Sunderland Double, Stipe called K)
+Play 55-57: Top 9 (Lamont GO, Del Greco GO, Silver PO)
+Play 58-60: Bot 9 (Johnson FO [PH], Topanga PO, Colbert GO unassisted)
 ```
 
 ## The Tools
@@ -28,7 +45,7 @@ All tools live in `pbp_tools.py`. Key commands:
 | Command | What it does |
 |---------|-------------|
 | `inspect-play FILE --play N [-v]` | Shows all seed points and RNG choices for play N. Use `-v` to see the full list of options at each choice point. |
-| `set-choice FILE --play N --point POINT --set STREAM:CALL:INDEX` | Updates the JSON timestamp at a seed point so that a specific template is selected. Preserves all other selections at the same seed point. |
+| `set-choice FILE --play N --point POINT --set STREAM:CALL:INDEX` | Updates the JSON timestamp at a seed point so a specific template is selected. Preserves other selections at the same seed point. |
 | `search "phrase"` | Searches all template pools for a substring match. |
 | `list-pool POOL_PATH` | Lists all templates in a pool (e.g., `narrative_templates.Single.default`). |
 | `whatif SEED POOL_PATH` | Shows what a given seed would select from a pool. |
@@ -150,12 +167,14 @@ Use `--dry-run` first to preview without writing.
 #### f) Fix JSON data issues
 
 Some mismatches aren't template issues — they're wrong data in the fixture JSON:
-- Wrong pitcher (e.g., home pitcher listed for away at-bats)
 - Wrong hit trajectory or location
-- Wrong play result type
+- Wrong pitch type codes
 - Missing or wrong player names in credits
+- Wrong play result type
 
-Edit `test_fixture_pbp_example_3.json` directly for these.
+Edit `test_fixture_pbp_example_3.json` directly for these. You can also
+re-run `stitch_fixture.py` after updating the relevant `draft_innings/inning_N.json`
+file, but be aware this regenerates ALL plays and resets all seed timestamps.
 
 #### g) Verify
 
@@ -163,10 +182,10 @@ Re-run `inspect-play` to confirm the rendered output now matches the target.
 
 ### 3. After completing a half-inning
 
-Run the consistency test to make sure the fixture still renders deterministically:
+Regenerate the rendered snapshot and run tests:
 
 ```bash
-# Re-render the fixture to update the draft file
+# Re-render the fixture to update the snapshot file
 python3 -c "
 import json
 from renderers.narrative.renderer import NarrativeRenderer
@@ -211,61 +230,49 @@ The renderer uses spoken words (`one-oh`) while the target sometimes uses digits
 (`1-0`). This is controlled by `get_spoken_count()` in `renderers/narrative/helpers.py`.
 Note any count-format mismatches — they may need a renderer change.
 
-## IMPORTANT: Fixture JSON Must Match the Target Game
+### Top of 6th: Summarized inning
 
-The fixture JSON (`test_fixture_pbp_example_3.json`) was originally generated
-from a simulation with seed 42, **not** reverse-engineered from the target
-text. This means the game events (outcomes, pitch sequences, lineups) in the
-JSON may not match what happens in the target text. For example:
+Plays 36-38 (top 6th) have no pitch detail — they were described as a "1-2-3 inning"
+in the broadcast. The renderer may need special handling for plays with empty
+`pitchSequence` arrays. Check how this renders and adjust if needed.
 
-- The fixture has 75 plays; the target game has a different number of at-bats
-- The fixture has 6 walks; the target appears to have ~0
-- Outcome distributions don't fully align
+### Top of 8th: Incomplete half-inning
 
-**Before working on phrasing alignment**, the fixture JSON must be updated so
-that the actual game events (which batter, which pitcher, what outcome, what
-pitch sequence) match the target text. This is prerequisite work — no amount
-of seed-tweaking will produce "Fly ball into shallow left" if the JSON says
-the outcome is a Groundout.
+Only play 50 (Winterbottom Walk) is described in the broadcast for the top 8th.
+The other at-bats (Gomez, Norton) presumably happened but weren't narrated.
+The renderer should handle this gracefully.
 
-The alignment work has two phases:
+### Pitching change and pinch hitter
 
-### Phase 1: Fix game event data in the JSON
+- Play 50: Pitching change — Chad Rosario (605112) replaces Butch Flores (645210)
+- Play 58: Pinch hitter — Bartolo Johnson (545110) bats for the pitcher spot
 
-For each at-bat in the target text:
-1. Identify the batter, pitcher, outcome, and pitch sequence
-2. Ensure the corresponding play in the fixture JSON has the right data
-3. Add/remove/reorder plays as needed so the JSON game matches the target game
-
-### Phase 2: Align phrasing via seeds and templates
-
-Once the game events match, use the seed tools to select the right phrasing
-(this is what the rest of this guide covers).
+These are detected by the renderer from matchup data changes. Verify the
+pitching change announcement and pinch hitter intro render correctly.
 
 ## Progress Tracking
 
-After completing each half-inning, update this section. The play ranges below
-are from the **current** fixture JSON and will need updating once Phase 1
-(fixing game events) is complete.
+After completing each half-inning's phrasing alignment, update this table.
 
-| Half-Inning | Fixture Plays | Phase 1 (events) | Phase 2 (phrasing) |
-|-------------|---------------|-------------------|--------------------|
-| Pre-game | — | Not started | Not started |
-| Top 1 | 0-3 | Not started | Not started |
-| Bot 1 | 4-6 | Not started | Not started |
-| Top 2 | 7-9 | Not started | Not started |
-| Bot 2 | 10-13 | Not started | Not started |
-| Top 3 | 14-16 | Not started | Not started |
-| Bot 3 | 17-20 | Not started | Not started |
-| Top 4 | 21-23 | Not started | Not started |
-| Bot 4 | 24-35 | Not started | Not started |
-| Top 5 | 36-40 | Not started | Not started |
-| Bot 5 | 41-44 | Not started | Not started |
-| Top 6 | 45-47 | Not started | Not started |
-| Bot 6 | 48-52 | Not started | Not started |
-| Top 7 | 53-56 | Not started | Not started |
-| Bot 7 | 57-61 | Not started | Not started |
-| Top 8 | 62-67 | Not started | Not started |
-| Bot 8 | 68-70 | Not started | Not started |
-| Top 9 | 71-74 | Not started | Not started |
-| Post-game | — | Not started | Not started |
+| Half-Inning | Plays | Phase 2 (phrasing) |
+|-------------|-------|--------------------|
+| Pre-game    | —     | Not started        |
+| Top 1       | 0-3   | Not started        |
+| Bot 1       | 4-6   | Not started        |
+| Top 2       | 7-10  | Not started        |
+| Bot 2       | 11-14 | Not started        |
+| Top 3       | 15-17 | Not started        |
+| Bot 3       | 18-20 | Not started        |
+| Top 4       | 21-26 | Not started        |
+| Bot 4       | 27-29 | Not started        |
+| Top 5       | 30-32 | Not started        |
+| Bot 5       | 33-35 | Not started        |
+| Top 6       | 36-38 | Not started        |
+| Bot 6       | 39-41 | Not started        |
+| Top 7       | 42-46 | Not started        |
+| Bot 7       | 47-49 | Not started        |
+| Top 8       | 50    | Not started        |
+| Bot 8       | 51-54 | Not started        |
+| Top 9       | 55-57 | Not started        |
+| Bot 9       | 58-60 | Not started        |
+| Post-game   | —     | Not started        |
