@@ -261,6 +261,8 @@ class NarrativeRenderer(GameRenderer):
             build_lineup('away')
             build_lineup('home')
 
+        if self.rng_color.random() < 0.5:
+            add_line(self._get_radio_string('pregame_color', {'venue': venue}))
         add_line("And we are underway.")
 
         lines.append("") # Empty line
