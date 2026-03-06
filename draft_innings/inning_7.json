@@ -1,0 +1,172 @@
+[
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Manny Del Greco", "battingOrder": 6},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Reached on Error"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Slow Curve", "description": "Misses outside, ball one"},
+      {"code": "B", "pitchType": "Fastball", "description": "High and tight, ball two"},
+      {"code": "X", "pitchType": "Unknown", "description": "Slow roller to short; Stipe picks it up and fires to first, throw is offline pulling Primero off the bag"}
+    ],
+    "hitData": {"trajectory": "ground ball", "location": "shortstop"},
+    "fielders": [
+      {"role": "error", "name": "Ford Stipe", "position": "SS"}
+    ],
+    "runnerMovement": [
+      {"runner": "Manny Del Greco", "start": "home", "end": "1B"}
+    ],
+    "notes": "Count was 2-0 when ball put in play. Error scored as E6 on Ford Stipe. Del Greco reaches first safely. Pitcher was in windup (nobody on before this AB)."
+  },
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Joe Bill Silver", "battingOrder": 7},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Hammered foul down the third base line, 0-1"},
+      {"code": "S", "pitchType": "Slider", "description": "Cut on and missed, 0-2"},
+      {"code": "B", "pitchType": "Fastball", "description": "Misses high and outside, 1-2"},
+      {"code": "B", "pitchType": "Slider", "description": "Low and in, 2-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "Tapped into shallow right, drops in for a base hit"}
+    ],
+    "hitData": {"trajectory": "bloop/tap", "location": "shallow right field"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Manny Del Greco", "start": "1B", "end": "2B"},
+      {"runner": "Joe Bill Silver", "start": "home", "end": "1B"}
+    ],
+    "notes": "Flores pitching from the stretch with Del Greco on first. Silver reaches on a bloop single to shallow right. Runners now on first and second, nobody out."
+  },
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Tiny Howl", "battingOrder": 8},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Groundout (Unassisted)"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Bunted foul off to the right, 0-1"},
+      {"code": "B", "pitchType": "Fastball", "description": "Low and away, 1-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Chopper at first, Primero handles it unassisted, steps on the bag"}
+    ],
+    "hitData": {"trajectory": "chopper", "location": "first base"},
+    "fielders": [
+      {"role": "putout", "name": "JP Primero", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Manny Del Greco", "start": "2B", "end": "3B"},
+      {"runner": "Joe Bill Silver", "start": "1B", "end": "2B"}
+    ],
+    "notes": "Howl 0-for-2 entering the AB. Bunt attempt foul on first pitch. Chopper to first base, Primero unassisted (3U). Both runners advance. Runners on second and third, one out. Howl is 0-for-3 on the night."
+  },
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Scooter McKeever", "battingOrder": 9},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Reached on Error"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Foul, 0-1"},
+      {"code": "S", "pitchType": "Curveball", "description": "Cut on and missed, 0-2"},
+      {"code": "B", "pitchType": "Slider", "description": "Just off the plate, 1-2"},
+      {"code": "B", "pitchType": "Fastball", "description": "Runs low, 2-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "Chopper over the mound to Stipe; Stipe fires home, throw gets away from Sunderland"}
+    ],
+    "hitData": {"trajectory": "chopper", "location": "through the mound to shortstop"},
+    "fielders": [
+      {"role": "error", "name": "Ford Stipe", "position": "SS"},
+      {"role": "receiver (wild throw)", "name": "Jose Sunderland", "position": "C"}
+    ],
+    "runnerMovement": [
+      {"runner": "Manny Del Greco", "start": "3B", "end": "home", "scored": true},
+      {"runner": "Joe Bill Silver", "start": "2B", "end": "home", "scored": true},
+      {"runner": "Scooter McKeever", "start": "home", "end": "1B"}
+    ],
+    "notes": "McKeever is the pitcher batting. Stipe's throw home gets away from catcher Sunderland, allowing both Del Greco and Silver to score. McKeever safe at first. Scored as E6 (second error by Stipe this inning). Bombers now lead 3-0. One out, runner on first."
+  },
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Bugs Yamaguchi", "battingOrder": 1},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Grounded into Double Play (6-4-3)"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Misses low, 1-0"},
+      {"code": "F", "pitchType": "Unknown", "description": "Foul back and out of play, 1-1"},
+      {"code": "C", "pitchType": "Fastball", "description": "Paints the corner for a called strike, 1-2"},
+      {"code": "B", "pitchType": "Slider", "description": "Misses way outside, 2-2"},
+      {"code": "B", "pitchType": "Curveball", "description": "Down and in, count runs full, 3-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "Grounder to short, Stipe to second for one, over to first in time — 6-4-3 double play"}
+    ],
+    "hitData": {"trajectory": "ground ball", "location": "shortstop"},
+    "fielders": [
+      {"role": "assist", "name": "Ford Stipe", "position": "SS"},
+      {"role": "putout (force at 2B)", "name": "Nate Colbert", "position": "2B"},
+      {"role": "putout (at 1B)", "name": "JP Primero", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Scooter McKeever", "start": "1B", "end": "out (force at 2B)"}
+    ],
+    "notes": "Full-count grounder ends the inning on a 6-4-3 double play. Yamaguchi and McKeever both retired. Inning ends with Bombers leading 3-0."
+  },
+  {
+    "inning": 7,
+    "isTopInning": false,
+    "batter": {"fullName": "Nate Colbert", "battingOrder": 2},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Called strike, 0-1"},
+      {"code": "S", "pitchType": "Slider", "description": "Swung on and missed, 0-2"},
+      {"code": "B", "pitchType": "Curveball", "description": "Low and away, 1-2"},
+      {"code": "X", "pitchType": "Curveball", "description": "Lifted to left field, Silver calls for it and makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly ball", "location": "left field"},
+    "fielders": [
+      {"role": "putout", "name": "Joe Bill Silver", "position": "LF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Colbert 0-for-2 entering the AB. Quick out for McKeever, first out of the bottom half. Bases remain empty."
+  },
+  {
+    "inning": 7,
+    "isTopInning": false,
+    "batter": {"fullName": "Franklin Vega", "battingOrder": 3},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout (5-3)"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Slider", "description": "Misses low, 1-0"},
+      {"code": "X", "pitchType": "Unknown", "description": "Hard chopper to third, Howl snares it and fires to first to get Vega by a step"}
+    ],
+    "hitData": {"trajectory": "hard chopper", "location": "third base"},
+    "fielders": [
+      {"role": "assist", "name": "Tiny Howl", "position": "3B"},
+      {"role": "putout", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Vega 0-for-2 entering the AB (groundout in 1st, strikeout in 4th). Two pitches, two outs. Bases still empty."
+  },
+  {
+    "inning": 7,
+    "isTopInning": false,
+    "batter": {"fullName": "JP Primero", "battingOrder": 4},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Down and in, 1-0"},
+      {"code": "B", "pitchType": "Fastball", "description": "Runs outside, 2-0"},
+      {"code": "B", "pitchType": "Curveball", "description": "Misses just outside, 3-0"},
+      {"code": "C", "pitchType": "Fastball", "description": "Called strike, 3-1; Primero taking all the way"},
+      {"code": "S", "pitchType": "Slider", "description": "Cut on and missed, full count, 3-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball into deep center, Yamaguchi drifting back and makes the catch to end the inning"}
+    ],
+    "hitData": {"trajectory": "fly ball", "location": "deep center field"},
+    "fielders": [
+      {"role": "putout", "name": "Bugs Yamaguchi", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Full-count fly ball to deep center. McKeever retires the side, recording 16 consecutive outs against the Loons (since the 1st inning). Game score: Bombers 3, Loons 0 after seven complete innings."
+  }
+]

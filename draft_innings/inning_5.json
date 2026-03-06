@@ -1,0 +1,112 @@
+[
+  {
+    "inning": 5,
+    "isTopInning": true,
+    "batter": {"fullName": "Scooter McKeever", "battingOrder": 9},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Breaking Ball", "description": "Called strike one"},
+      {"code": "F", "pitchType": "Unknown", "description": "Hammered foul and out of play, 0-2"},
+      {"code": "D", "pitchType": "Unknown", "description": "Looper into shallow left, falls in for base hit"}
+    ],
+    "hitData": {"trajectory": "Looper", "location": "Shallow Left Field"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Scooter McKeever", "start": "home", "end": "1B"}
+    ],
+    "notes": "Leadoff single in the fifth. McKeever had struck out in the third."
+  },
+  {
+    "inning": 5,
+    "isTopInning": true,
+    "batter": {"fullName": "Bugs Yamaguchi", "battingOrder": 1},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball into left-center, caught by Vega"}
+    ],
+    "hitData": {"trajectory": "Fly Ball", "location": "Left-Center Field"},
+    "fielders": [
+      {"role": "putout", "name": "Franklin Vega", "position": "CF"}
+    ],
+    "runnerMovement": [
+      {"runner": "Scooter McKeever", "start": "1B", "end": "1B", "notes": "Held at first"}
+    ],
+    "notes": "First out of the inning. Yamaguchi had a pair of singles entering this at-bat. No intermediate pitch details given before the ball in play."
+  },
+  {
+    "inning": 5,
+    "isTopInning": true,
+    "batter": {"fullName": "Blaze Winterbottom", "battingOrder": 2},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Grounded Into Double Play"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Low and inside, ball one, 1-0"},
+      {"code": "X", "pitchType": "Unknown", "description": "Grounder to short, 6-4-3 double play"}
+    ],
+    "hitData": {"trajectory": "Ground Ball", "location": "Shortstop"},
+    "fielders": [
+      {"role": "assist", "name": "Ford Stipe", "position": "SS"},
+      {"role": "assist", "name": "Nate Colbert", "position": "2B"},
+      {"role": "putout", "name": "JP Primero", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Scooter McKeever", "start": "1B", "end": "out", "notes": "Force out at second base on 6-4-3 DP"},
+      {"runner": "Blaze Winterbottom", "start": "home", "end": "out", "notes": "Out at first to complete double play"}
+    ],
+    "notes": "6-4-3 double play ends the inning. Winterbottom was 1-for-2 entering with a bunt single in the first. Bombers do not score; score remains 1-0."
+  },
+  {
+    "inning": 5,
+    "isTopInning": false,
+    "batter": {"fullName": "Billy De Jesus", "battingOrder": 5},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Hard grounder to third, smothered by Gomez, thrown to first in time"}
+    ],
+    "hitData": {"trajectory": "Ground Ball", "location": "Third Base"},
+    "fielders": [
+      {"role": "assist", "name": "Dieter Gomez", "position": "3B"},
+      {"role": "putout", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Out number one. De Jesus had popped out in the second inning. No intermediate pitch details before ball in play."
+  },
+  {
+    "inning": 5,
+    "isTopInning": false,
+    "batter": {"fullName": "Lamont Bradleys", "battingOrder": 6},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Curveball", "description": "Called strike, 0-1"},
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play, 0-2"},
+      {"code": "F", "pitchType": "Unknown", "description": "Fouls another one off, still 0-2"},
+      {"code": "S", "pitchType": "Slider", "description": "Swinging strike, slider in the dirt, strikeout"}
+    ],
+    "hitData": {},
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Out number two. Bradleys struck out on four pitches, last being a slider in the dirt."
+  },
+  {
+    "inning": 5,
+    "isTopInning": false,
+    "batter": {"fullName": "Jose Sunderland", "battingOrder": 7},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Called strike, 0-1"},
+      {"code": "B", "pitchType": "Fastball", "description": "Runs inside, ball one, 1-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Lifted into center field, caught by Yamaguchi"}
+    ],
+    "hitData": {"trajectory": "Fly Ball", "location": "Center Field"},
+    "fielders": [
+      {"role": "putout", "name": "Bugs Yamaguchi", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Out number three, ends the inning. Sunderland had struck out in the second inning. McKeever sets down the Loons 1-2-3 in the bottom of the fifth. Score remains Bombers 1, Loons 0."
+  }
+]

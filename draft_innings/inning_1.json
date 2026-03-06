@@ -1,0 +1,140 @@
+[
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Bugs Yamaguchi", "battingOrder": 1},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "misses a bit low"},
+      {"code": "X", "pitchType": "Unknown", "description": "fly ball into shallow left, drops in front of Topanga"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "LF"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Bugs Yamaguchi", "start": "batter", "end": "1B"}
+    ],
+    "notes": "Leadoff single. Topanga (LF) could not make play on shallow fly ball. Count was 1-0 when put in play."
+  },
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Blaze Winterbottom", "battingOrder": 2},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "hammered foul off third"},
+      {"code": "B", "pitchType": "Curveball", "description": "looping curve ball misses just outside"},
+      {"code": "X", "pitchType": "Unknown", "description": "bunted along third, De Jesus comes in but has no play"}
+    ],
+    "hitData": {"trajectory": "bunt", "location": "3B"},
+    "fielders": [
+      {"role": "fielder (no play)", "name": "Billy De Jesus", "position": "3B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Bugs Yamaguchi", "start": "1B", "end": "2B"},
+      {"runner": "Blaze Winterbottom", "start": "batter", "end": "1B"}
+    ],
+    "notes": "Perfectly executed bunt single. De Jesus charged but had no play. Runners on 1st and 2nd, nobody out. Text says 'runners on first and second now with nobody out' confirming Winterbottom reached safely. Count was 1-1 when put in play."
+  },
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Dieter Gomez", "battingOrder": 3},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "low, ball one"},
+      {"code": "F", "pitchType": "Unknown", "description": "chopped foul off to the right"},
+      {"code": "X", "pitchType": "Unknown", "description": "fly ball into shallow center, Vega comes in and catches it"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "CF"},
+    "fielders": [
+      {"role": "putout", "name": "Franklin Vega", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "First out of the inning. Runners hold at 1st and 2nd. Count was 1-1 when put in play. Broadcast says 'puts the squeeze on it'."
+  },
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Buzz Norton", "battingOrder": 4},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Double Play"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "misses just a bit outside"},
+      {"code": "B", "pitchType": "Fastball", "description": "off the plate, ball two"},
+      {"code": "C", "pitchType": "Fastball", "description": "called strike"},
+      {"code": "X", "pitchType": "Unknown", "description": "bouncer to short, Stipe to second to first, 6-4-3 double play"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "SS"},
+    "fielders": [
+      {"role": "putout (2B)", "name": "Ford Stipe", "position": "SS"},
+      {"role": "relay (2B)", "name": "Nate Colbert", "position": "2B"},
+      {"role": "putout (1B)", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Blaze Winterbottom", "start": "1B", "end": "out at 2B"},
+      {"runner": "Buzz Norton", "start": "batter", "end": "out at 1B"}
+    ],
+    "notes": "6-4-3 double play ends the top of the 1st. Bombers strand Yamaguchi at 2B. Count was 2-1 when put in play. Broadcast: 'Stipe to second for one over to first just in time.' Final: Bombers 0, Loons 0 after half inning."
+  },
+  {
+    "inning": 1,
+    "isTopInning": false,
+    "batter": {"fullName": "Gloveless Joe Topanga", "battingOrder": 1},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Slider", "description": "called a strike"},
+      {"code": "F", "pitchType": "Unknown", "description": "swung on and fouled off"},
+      {"code": "B", "pitchType": "Fastball", "description": "high and inside"},
+      {"code": "X", "pitchType": "Unknown", "description": "bouncer to second, Winterbottom flips to first to retire Topanga"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "2B"},
+    "fielders": [
+      {"role": "assist", "name": "Blaze Winterbottom", "position": "2B"},
+      {"role": "putout", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "4-3 groundout. First out of the bottom half. Count was 1-2 when put in play. Broadcast says 'routine routine play'."
+  },
+  {
+    "inning": 1,
+    "isTopInning": false,
+    "batter": {"fullName": "Nate Colbert", "battingOrder": 2},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "paints the corner, called strike one"},
+      {"code": "F", "pitchType": "Unknown", "description": "fouled back and out of play"},
+      {"code": "B", "pitchType": "Slider", "description": "down low"},
+      {"code": "X", "pitchType": "Unknown", "description": "one hopper to first, Del Greco unassisted"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "1B"},
+    "fielders": [
+      {"role": "putout (unassisted)", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "3U unassisted groundout. Colbert batting left as switch hitter against righty McKeever. Count was 1-2 when put in play. Second out of the inning."
+  },
+  {
+    "inning": 1,
+    "isTopInning": false,
+    "batter": {"fullName": "Franklin Vega", "battingOrder": 3},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "S", "pitchType": "Curveball", "description": "cut on and missed"},
+      {"code": "C", "pitchType": "Changeup", "description": "called a strike"},
+      {"code": "X", "pitchType": "Unknown", "description": "grounder to short, Howl tosses to first to retire Vega"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "SS"},
+    "fielders": [
+      {"role": "assist", "name": "Tiny Howl", "position": "SS"},
+      {"role": "putout", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "6-3 groundout to end the inning. Vega batting left as switch hitter vs righty McKeever. Count was 0-2 when put in play. McKeever sets down Loons 1-2-3. Scoreless after 1."
+  }
+]

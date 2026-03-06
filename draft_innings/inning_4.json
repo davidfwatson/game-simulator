@@ -1,0 +1,154 @@
+[
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Dieter Gomez", "battingOrder": 3},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Pop Out"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "unknown", "description": "Popped up on the infield"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "infield"},
+    "fielders": [{"role": "putout", "name": "Ford Stipe", "position": "SS"}],
+    "runnerMovement": [],
+    "notes": "Gomez had flied out in the first. Stipe catches the popup for out number one."
+  },
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Buzz Norton", "battingOrder": 4},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball away, ball one"},
+      {"code": "S", "pitchType": "Curveball", "description": "Curveball cut on and missed, strike one"},
+      {"code": "X", "pitchType": "unknown", "description": "Hard liner up the middle, base hit"}
+    ],
+    "hitData": {"trajectory": "line drive", "location": "center field / up the middle"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Buzz Norton", "start": "home", "end": "1B"}
+    ],
+    "notes": "Count went 1-0, then 1-1 before the single. Norton had grounded into a double play in his first time up. One out when Norton reaches."
+  },
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Buddy Lamont", "battingOrder": 5},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "unknown", "description": "Hammered foul and out of play, strike one"},
+      {"code": "X", "pitchType": "unknown", "description": "Hit in the air to shallow left, drops in for a hit"}
+    ],
+    "hitData": {"trajectory": "flare / bloop", "location": "shallow left field"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Buzz Norton", "start": "1B", "end": "3B"},
+      {"runner": "Buddy Lamont", "start": "home", "end": "1B"}
+    ],
+    "notes": "Count was 0-1 before the hit. Lamont had a base hit in the second. Norton advances to third on the hit. Runners on corners, one out."
+  },
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Manny Del Greco", "battingOrder": 6},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single", "rbi": 1},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "unknown", "description": "Hard grounder up the middle, past a diving Colbert"}
+    ],
+    "hitData": {"trajectory": "ground ball", "location": "up the middle"},
+    "fielders": [{"role": "fielder (dive attempt)", "name": "Nate Colbert", "position": "2B"}],
+    "runnerMovement": [
+      {"runner": "Buzz Norton", "start": "3B", "end": "home", "scored": true},
+      {"runner": "Buddy Lamont", "start": "1B", "end": "2B"},
+      {"runner": "Manny Del Greco", "start": "home", "end": "1B"}
+    ],
+    "notes": "RBI single for Del Greco. Norton scores from third to give the Bombers a 1-0 lead — first run of the game. Runners on first and second, one out after the play. Del Greco had a base hit in the second."
+  },
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Joe Bill Silver", "battingOrder": 7},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball low, ball one"},
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball called strike, strike one"},
+      {"code": "F", "pitchType": "unknown", "description": "Chopper foul off to the right, strike two"},
+      {"code": "S", "pitchType": "Slider", "description": "Swing and a miss on a low slider, strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Count progression: 1-0, 1-1, 1-2, then strikeout. Second out of the inning. Runners remain on first and second."
+  },
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Tiny Howl", "battingOrder": 8},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "unknown", "description": "Bouncer back to the mound"}
+    ],
+    "hitData": {"trajectory": "ground ball", "location": "pitcher"},
+    "fielders": [
+      {"role": "assist", "name": "Butch Flores", "position": "P"},
+      {"role": "putout", "name": "JP Primero", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Flores scoops it up and tosses to first to retire Howl. Ends the top of the fourth. Howl had struck out in the second. Bombers lead 1-0 after three and a half."
+  },
+  {
+    "inning": 4,
+    "isTopInning": false,
+    "batter": {"fullName": "Nate Colbert", "battingOrder": 2},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball called strike one"},
+      {"code": "X", "pitchType": "unknown", "description": "Lifted into right field, routine fly ball"}
+    ],
+    "hitData": {"trajectory": "fly ball", "location": "right field"},
+    "fielders": [{"role": "putout", "name": "Buddy Lamont", "position": "RF"}],
+    "runnerMovement": [],
+    "notes": "Count was 0-1 before the flyout. Colbert had grounded out in the first. Lamont makes the routine catch for out number one. Loons send up the 2-3-4 hitters."
+  },
+  {
+    "inning": 4,
+    "isTopInning": false,
+    "batter": {"fullName": "Franklin Vega", "battingOrder": 3},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "unknown", "description": "Fouled back and out of play, strike one"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider low and inside, ball one"},
+      {"code": "S", "pitchType": "Curveball", "description": "Curveball cut on and missed, strike two"},
+      {"code": "B", "pitchType": "off-speed", "description": "Off-speed pitch high and outside, ball two"},
+      {"code": "F", "pitchType": "unknown", "description": "Hit in the air to deep left, knuckles foul and out of play"},
+      {"code": "S", "pitchType": "Changeup", "description": "Changeup called strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Count progression: 0-1, 1-1, 1-2, 2-2, 2-2 (foul), then called strikeout. Vega had grounded out in the first. Two outs."
+  },
+  {
+    "inning": 4,
+    "isTopInning": false,
+    "batter": {"fullName": "JP Primero", "battingOrder": 4},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "S", "pitchType": "Curveball", "description": "Curveball paints the corner, called strike one"},
+      {"code": "S", "pitchType": "Slider", "description": "Slider called strike, strike two"},
+      {"code": "X", "pitchType": "unknown", "description": "Fly ball into left center"}
+    ],
+    "hitData": {"trajectory": "fly ball", "location": "left center field"},
+    "fielders": [{"role": "putout", "name": "Bugs Yamaguchi", "position": "CF"}],
+    "runnerMovement": [],
+    "notes": "Count went 0-1, 0-2 before the flyout. Primero had flied out in the second. Yamaguchi calls for it and makes the catch to end the inning. McKeever's second consecutive 1-2-3 inning. Score remains Bombers 1, Loons 0."
+  }
+]

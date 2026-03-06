@@ -1,0 +1,150 @@
+[
+  {
+    "inning": 2,
+    "isTopInning": true,
+    "batter": {"fullName": "Buddy Lamont", "battingOrder": 5},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Slider", "description": "slider in the dirt, ball one"},
+      {"code": "C", "pitchType": "Fastball", "description": "called a strike, 1-1"},
+      {"code": "B", "pitchType": "Fastball", "description": "misses outside, 2-1"},
+      {"code": "X", "pitchType": "Fastball", "description": "hard grounder left side, gets through the infield for a base hit"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "left side (through infield)"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Buddy Lamont", "start": "batter", "end": "1B"}
+    ],
+    "notes": "Lead-off single in the top of the 2nd. Lamont noted as 'Lefty'. Text says 2-1 count then in play on what is described as a fastball (implied same pitch type as prior)."
+  },
+  {
+    "inning": 2,
+    "isTopInning": true,
+    "batter": {"fullName": "Manny Del Greco", "battingOrder": 6},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "line into shallow left, falls in for a base hit"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "LF shallow"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Manny Del Greco", "start": "batter", "end": "1B"},
+      {"runner": "Buddy Lamont", "start": "1B", "end": "2B"}
+    ],
+    "notes": "First pitch hit. Described as righty vs lefty (Del Greco righty, Flores lefty). Runners on 1st and 2nd, nobody out after this at-bat."
+  },
+  {
+    "inning": 2,
+    "isTopInning": true,
+    "batter": {"fullName": "Joe Bill Silver", "battingOrder": 7},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Double Play"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "one-hopper to third, 5-4-3 double play; Silver safe at first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "3B"},
+    "fielders": [
+      {"role": "putout", "name": "Billy De Jesus", "position": "3B"},
+      {"role": "putout", "name": "Nate Colbert", "position": "2B"},
+      {"role": "putout", "name": "JP Primero", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Buddy Lamont", "start": "2B", "end": "out (force at 3B)"},
+      {"runner": "Manny Del Greco", "start": "1B", "end": "out (force at 2B)"},
+      {"runner": "Joe Bill Silver", "start": "batter", "end": "1B"}
+    ],
+    "notes": "5-4-3 double play. De Jesus steps on 3B for force on Lamont, fires to 2B (Colbert) who relays to 1B (Primero). Silver safe at 1B. Two outs, runner on 1st. Text says 'Flores from the stretch'."
+  },
+  {
+    "inning": 2,
+    "isTopInning": true,
+    "batter": {"fullName": "Tiny Howl", "battingOrder": 8},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Breaking ball", "description": "called a strike, 0-1"},
+      {"code": "S", "pitchType": "Slider", "description": "swung on and missed, 0-2"},
+      {"code": "S", "pitchType": "Breaking ball", "description": "swing and a miss on an outside breaking ball, strikeout"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Howl strikes out to end the top of the 2nd. Righty vs righty. Bombers do not score; still 0-0 after 1.5 innings."
+  },
+  {
+    "inning": 2,
+    "isTopInning": false,
+    "batter": {"fullName": "JP Primero", "battingOrder": 4},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "slashed out of play, 0-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "hit to deep right field, Lamont leaping catch at warning track"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "RF (warning track)"},
+    "fielders": [
+      {"role": "putout", "name": "Buddy Lamont", "position": "RF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Righty vs righty. Lamont races back and makes a leaping grab on the warning track for out number one."
+  },
+  {
+    "inning": 2,
+    "isTopInning": false,
+    "batter": {"fullName": "Billy De Jesus", "battingOrder": 5},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "called a strike, 0-1"},
+      {"code": "B", "pitchType": "Slider", "description": "slider in the dirt, 1-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "lifted to shallow center, Winterbottom catches"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "CF shallow"},
+    "fielders": [
+      {"role": "putout", "name": "Blaze Winterbottom", "position": "2B (drifting back into shallow CF)"}
+    ],
+    "runnerMovement": [],
+    "notes": "De Jesus is a switch hitter batting left against righty McKeever. Winterbottom (2B) drifted back and called for it. Out number two."
+  },
+  {
+    "inning": 2,
+    "isTopInning": false,
+    "batter": {"fullName": "Lamont Bradleys", "battingOrder": 6},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Double"},
+    "pitchSequence": [
+      {"code": "S", "pitchType": "Fastball", "description": "swung on and missed, 0-1"},
+      {"code": "F", "pitchType": "Unknown", "description": "fouled back and out of play, 0-2"},
+      {"code": "B", "pitchType": "Breaking ball", "description": "away, 1-2"},
+      {"code": "B", "pitchType": "Breaking ball", "description": "down and away, count evens at 2-2"},
+      {"code": "F", "pitchType": "Unknown", "description": "held back (foul), Bradleys stays alive, 2-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "pulled into right field, rolls to the wall, stand-up double"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "RF (down the line / toward wall)"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Lamont Bradleys", "start": "batter", "end": "2B"}
+    ],
+    "notes": "Righty vs lefty (McKeever lefty, Bradleys righty). Two down and nobody on. Text says 'Basketball' for pitch 3 and 4 which likely is a transcription artifact for 'Breaking ball' or 'Curveball'. Ball rolled to the wall; Bradleys credited with a stand-up double."
+  },
+  {
+    "inning": 2,
+    "isTopInning": false,
+    "batter": {"fullName": "Jose Sunderland", "battingOrder": 7},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "in at the knees, called strike, 0-1"},
+      {"code": "B", "pitchType": "Slider", "description": "runs a bit low, 1-1"},
+      {"code": "C", "pitchType": "Breaking ball", "description": "right down the middle, 1-2"},
+      {"code": "B", "pitchType": "Unknown", "description": "low and inside, 2-2"},
+      {"code": "S", "pitchType": "Unknown", "description": "swung on and missed, strikeout"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Righty vs righty. McKeever pitching from the stretch with Bradleys on 2B. Sunderland strikes out to end the inning. No runs, one hit (Bradleys double), one left on base. Score remains 0-0 after 2 full innings."
+  }
+]

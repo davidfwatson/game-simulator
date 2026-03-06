@@ -1,0 +1,117 @@
+[
+  {
+    "inning": 9,
+    "isTopInning": true,
+    "batter": {"fullName": "Buddy Lamont", "battingOrder": 5},
+    "pitcher": {"fullName": "Chad Rosario"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Slider", "description": "Misses low, ball one"},
+      {"code": "X", "pitchType": "Unknown", "description": "Grounder to short, in play"}
+    ],
+    "hitData": {"trajectory": "ground ball", "location": "shortstop"},
+    "fielders": [
+      {"role": "fielder", "name": "Ford Stipe", "position": "SS"},
+      {"role": "putout", "name": "Ford Stipe", "position": "1B (throw)"}
+    ],
+    "runnerMovement": [],
+    "notes": "1-0 count when ball put in play. Stipe fielded and threw to first. Out number one."
+  },
+  {
+    "inning": 9,
+    "isTopInning": true,
+    "batter": {"fullName": "Manny Del Greco", "battingOrder": 6},
+    "pitcher": {"fullName": "Chad Rosario"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Curveball", "description": "Called strike, 0-1"},
+      {"code": "S", "pitchType": "Slider", "description": "Swinging strike, 0-2"},
+      {"code": "B", "pitchType": "Slider", "description": "In the dirt, 1-2"},
+      {"code": "B", "pitchType": "Fastball", "description": "Inside, 2-2"},
+      {"code": "B", "pitchType": "Slider", "description": "In the dirt, count full (3-2)"},
+      {"code": "X", "pitchType": "Unknown", "description": "Chopper to short, in play"}
+    ],
+    "hitData": {"trajectory": "chopper", "location": "shortstop"},
+    "fielders": [
+      {"role": "fielder", "name": "Ford Stipe", "position": "SS"},
+      {"role": "putout", "name": "Ford Stipe", "position": "1B (throw)"}
+    ],
+    "runnerMovement": [],
+    "notes": "Full count payoff pitch. Stipe gobbled it up and fired to first. Out number two."
+  },
+  {
+    "inning": 9,
+    "isTopInning": true,
+    "batter": {"fullName": "Joe Bill Silver", "battingOrder": 7},
+    "pitcher": {"fullName": "Chad Rosario"},
+    "result": {"event": "Popout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Called strike, 0-1"},
+      {"code": "B", "pitchType": "Slider", "description": "Misses low, 1-1"},
+      {"code": "B", "pitchType": "Fastball", "description": "Down and in, 2-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Popped up on the infield, left side, in play"}
+    ],
+    "hitData": {"trajectory": "pop up", "location": "infield left side"},
+    "fielders": [
+      {"role": "putout", "name": "Billy De Jesus", "position": "3B"}
+    ],
+    "runnerMovement": [],
+    "notes": "De Jesus called for it and made the catch to end the inning. Rosario with another 1-2-3 inning."
+  },
+  {
+    "inning": 9,
+    "isTopInning": false,
+    "batter": {"fullName": "Bartolo Johnson", "battingOrder": 9},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Called strike, 0-1"},
+      {"code": "F", "pitchType": "Unknown", "description": "High foul ball drifting into the stands, 0-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "Driven into deep center, in play"}
+    ],
+    "hitData": {"trajectory": "fly ball", "location": "deep center field / warning track"},
+    "fielders": [
+      {"role": "putout", "name": "Bugs Yamaguchi", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Pinch hitter for Butch Flores (who had been replaced by Chad Rosario in inning 8). Johnson is a switch hitter batting left against McKeever. Yamaguchi drifted back and caught it on the warning track. Out number one."
+  },
+  {
+    "inning": 9,
+    "isTopInning": false,
+    "batter": {"fullName": "Gloveless Joe Topanga", "battingOrder": 1},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Popout"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Dribbled foul down the first base line, 0-1"},
+      {"code": "B", "pitchType": "Slider", "description": "Bounces in front of the plate, 1-1"},
+      {"code": "B", "pitchType": "Curveball", "description": "Low and outside, 2-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Popped up on the infield right side, in play"}
+    ],
+    "hitData": {"trajectory": "pop up", "location": "infield right side"},
+    "fielders": [
+      {"role": "putout", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Topanga was 0-for-3 on the evening. Del Greco under it and made the catch for out number two. Loons down to their last out."
+  },
+  {
+    "inning": 9,
+    "isTopInning": false,
+    "batter": {"fullName": "Nate Colbert", "battingOrder": 2},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout (unassisted)"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Low and inside, 1-0"},
+      {"code": "B", "pitchType": "Curveball", "description": "Off the plate, 2-0"},
+      {"code": "C", "pitchType": "Fastball", "description": "Called strike, 2-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Roller to first, in play"}
+    ],
+    "hitData": {"trajectory": "ground ball", "location": "first base"},
+    "fielders": [
+      {"role": "putout", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Final out of the game. Del Greco fielded the roller unassisted and stepped on the bag. Bombers win 3-0. McKeever pitches a two-hit complete game shutout for the win. Butch Flores takes the loss."
+  }
+]

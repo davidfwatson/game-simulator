@@ -1,0 +1,231 @@
+[
+  {
+    "inning": 8,
+    "isTopInning": true,
+    "batter": {
+      "fullName": "Blaze Winterbottom",
+      "battingOrder": 2
+    },
+    "pitcher": {
+      "fullName": "Chad Rosario"
+    },
+    "result": {
+      "event": "Walk"
+    },
+    "pitchSequence": [
+      {
+        "code": "B",
+        "pitchType": "Fastball",
+        "description": "Misses outside, ball one"
+      },
+      {
+        "code": "F",
+        "pitchType": "Unknown",
+        "description": "Foul back and out of play, 1-1"
+      },
+      {
+        "code": "B",
+        "pitchType": "Slider",
+        "description": "In the dirt, 2-1"
+      },
+      {
+        "code": "S",
+        "pitchType": "Offspeed",
+        "description": "Cut on it, missed, 2-2"
+      },
+      {
+        "code": "B",
+        "pitchType": "Fastball",
+        "description": "Misses very high, full count 3-2"
+      },
+      {
+        "code": "B",
+        "pitchType": "Slider",
+        "description": "Misses low, ball four — walk"
+      }
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [
+      {
+        "runner": "Blaze Winterbottom",
+        "start": "home",
+        "end": "1B"
+      }
+    ],
+    "notes": "Pitching change: Chad Rosario (RHP, reliever) replaces Butch Flores for the Loons. Bombers bring up the 2-3-4 hitters. Only Winterbottom's at-bat is described in the broadcast before the half-inning transitions to the bottom of the eighth."
+  },
+  {
+    "inning": 8,
+    "isTopInning": false,
+    "batter": {
+      "fullName": "Billy De Jesus",
+      "battingOrder": 5
+    },
+    "pitcher": {
+      "fullName": "Scooter McKeever"
+    },
+    "result": {
+      "event": "Pop Out"
+    },
+    "pitchSequence": [
+      {
+        "code": "C",
+        "pitchType": "Curveball",
+        "description": "Called strike one, 0-1"
+      },
+      {
+        "code": "S",
+        "pitchType": "Fastball",
+        "description": "Cut on and missed, 0-2"
+      },
+      {
+        "code": "B",
+        "pitchType": "Slider",
+        "description": "Low and away, 1-2"
+      },
+      {
+        "code": "F",
+        "pitchType": "Unknown",
+        "description": "Popped up right side — out"
+      }
+    ],
+    "hitData": {
+      "trajectory": "Popup",
+      "location": "Right side, foul territory"
+    },
+    "fielders": [
+      {
+        "role": "putout",
+        "name": "Manny Del Greco",
+        "position": "1B"
+      }
+    ],
+    "runnerMovement": [],
+    "notes": "Del Greco drifts over and makes the catch in foul territory. Out number one. De Jesus 0 for 2 on the evening (implied by context)."
+  },
+  {
+    "inning": 8,
+    "isTopInning": false,
+    "batter": {
+      "fullName": "Lamont Bradleys",
+      "battingOrder": 6
+    },
+    "pitcher": {
+      "fullName": "Scooter McKeever"
+    },
+    "result": {
+      "event": "Strikeout"
+    },
+    "pitchSequence": [
+      {
+        "code": "F",
+        "pitchType": "Unknown",
+        "description": "Hammered foul and out of play, 0-1"
+      },
+      {
+        "code": "S",
+        "pitchType": "Curveball",
+        "description": "Come on and missed, 0-2"
+      },
+      {
+        "code": "S",
+        "pitchType": "Fastball",
+        "description": "Swing and a miss on a low fastball, strikeout — out number two"
+      }
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Bases empty, one away. Bradleys had a double in the second and struck out in the fifth. Swinging strikeout."
+  },
+  {
+    "inning": 8,
+    "isTopInning": false,
+    "batter": {
+      "fullName": "Jose Sunderland",
+      "battingOrder": 7
+    },
+    "pitcher": {
+      "fullName": "Scooter McKeever"
+    },
+    "result": {
+      "event": "Double"
+    },
+    "pitchSequence": [
+      {
+        "code": "C",
+        "pitchType": "Fastball",
+        "description": "Called strike one, 0-1"
+      },
+      {
+        "code": "F",
+        "pitchType": "Unknown",
+        "description": "Fouled up to the left, 0-2"
+      },
+      {
+        "code": "H",
+        "pitchType": "Unknown",
+        "description": "Sliced down the right field line, falls in for a hit — rolls into the corner, stand-up double"
+      }
+    ],
+    "hitData": {
+      "trajectory": "Line drive / slice",
+      "location": "Right field line, corner"
+    },
+    "fielders": [],
+    "runnerMovement": [
+      {
+        "runner": "Jose Sunderland",
+        "start": "home",
+        "end": "2B"
+      }
+    ],
+    "notes": "Two down, bases empty. Sunderland 0 for 2 entering this at-bat. Stand-up double into the right field corner. Runner on second with two outs for Ford Stipe."
+  },
+  {
+    "inning": 8,
+    "isTopInning": false,
+    "batter": {
+      "fullName": "Ford Stipe",
+      "battingOrder": 8
+    },
+    "pitcher": {
+      "fullName": "Scooter McKeever"
+    },
+    "result": {
+      "event": "Called Strikeout"
+    },
+    "pitchSequence": [
+      {
+        "code": "B",
+        "pitchType": "Slider",
+        "description": "Misses low, 1-0"
+      },
+      {
+        "code": "C",
+        "pitchType": "Fastball",
+        "description": "Called strike one, 1-1"
+      },
+      {
+        "code": "F",
+        "pitchType": "Unknown",
+        "description": "Fisted foul and out of play, 1-2"
+      },
+      {
+        "code": "B",
+        "pitchType": "Curveball",
+        "description": "Just off the corner, 2-2"
+      },
+      {
+        "code": "C",
+        "pitchType": "Curveball",
+        "description": "Called strike — Stipe called out on strikes to end the inning"
+      }
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Two down, runner (Sunderland) on second. McKeever pitching from the stretch. Stipe 0 for 2 on the evening. Called strikeout ends the inning. Loons do not score; Bombers hold 3-0 lead heading to the ninth."
+  }
+]

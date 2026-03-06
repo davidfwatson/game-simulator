@@ -1,0 +1,129 @@
+[
+  {
+    "inning": 3,
+    "isTopInning": true,
+    "batter": {"fullName": "Scooter McKeever", "battingOrder": 9},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "runs inside"},
+      {"code": "S", "pitchType": "unknown", "description": "swung on and missed"},
+      {"code": "B", "pitchType": "Fastball", "description": "away"},
+      {"code": "B", "pitchType": "unknown", "description": "in low and outside"},
+      {"code": "C", "pitchType": "Fastball", "description": "called a strike on the corner"},
+      {"code": "S", "pitchType": "Fastball", "description": "high heater, swinging strike"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "McKeever", "start": "batter", "end": "out"}
+    ],
+    "notes": "Full count strikeout swinging on a high fastball. Out number one."
+  },
+  {
+    "inning": 3,
+    "isTopInning": true,
+    "batter": {"fullName": "Bugs Yamaguchi", "battingOrder": 1},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Caught Stealing 2B / Single"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Slider", "description": "called strike one"},
+      {"code": "X", "pitchType": "unknown", "description": "hammered down the left field line, drops in"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "LF"},
+    "fielders": [
+      {"role": "fielder", "name": "Topanga", "position": "LF"},
+      {"role": "assist_throw", "name": "Topanga", "position": "LF"},
+      {"role": "putout", "name": "unknown", "position": "2B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Yamaguchi", "start": "batter", "end": "1B"},
+      {"runner": "Yamaguchi", "start": "1B", "end": "out", "note": "thrown out attempting to stretch single into double; spectacular throw by Topanga"}
+    ],
+    "notes": "Line drive single to left field drops in. Yamaguchi tries to stretch to second and is tagged out sliding. Two outs, bases empty."
+  },
+  {
+    "inning": 3,
+    "isTopInning": true,
+    "batter": {"fullName": "Blaze Winterbottom", "battingOrder": 2},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "unknown", "description": "takes a strike"},
+      {"code": "B", "pitchType": "Curveball", "description": "low and inside"},
+      {"code": "C", "pitchType": "Fastball", "description": "called a strike"},
+      {"code": "X", "pitchType": "unknown", "description": "chopper to short"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "SS"},
+    "fielders": [
+      {"role": "assist", "name": "Stipe", "position": "SS"},
+      {"role": "putout", "name": "Primero", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Winterbottom", "start": "batter", "end": "out"}
+    ],
+    "notes": "Chopper to short. Stipe picks it up and fires to first in time. Ends the inning. Bombers do not score."
+  },
+  {
+    "inning": 3,
+    "isTopInning": false,
+    "batter": {"fullName": "Ford Stipe", "battingOrder": 8},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "unknown", "description": "showed bunt but took a strike"},
+      {"code": "S", "pitchType": "unknown", "description": "swung on and missed"},
+      {"code": "B", "pitchType": "unknown", "description": "runs low"},
+      {"code": "C", "pitchType": "Curveball", "description": "paints the corner, called strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Stipe", "start": "batter", "end": "out"}
+    ],
+    "notes": "Stipe showed bunt on first pitch. Strikeout called on a curveball painting the corner. Out number one."
+  },
+  {
+    "inning": 3,
+    "isTopInning": false,
+    "batter": {"fullName": "Butch Flores", "battingOrder": 9},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "called a strike on the corner"},
+      {"code": "F", "pitchType": "unknown", "description": "foul ball out of play"},
+      {"code": "X", "pitchType": "unknown", "description": "bouncer to first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "1B"},
+    "fielders": [
+      {"role": "putout", "name": "Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Flores", "start": "batter", "end": "out"}
+    ],
+    "notes": "Del Greco fields the bouncer unassisted, steps on first base. Out number two."
+  },
+  {
+    "inning": 3,
+    "isTopInning": false,
+    "batter": {"fullName": "Gloveless Joe Topanga", "battingOrder": 1},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Slider", "description": "called strike one"},
+      {"code": "B", "pitchType": "Curveball", "description": "misses away"},
+      {"code": "F", "pitchType": "unknown", "description": "popped foul and out of play"},
+      {"code": "B", "pitchType": "Fastball", "description": "low and inside"},
+      {"code": "X", "pitchType": "unknown", "description": "grounder to short"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "SS"},
+    "fielders": [
+      {"role": "assist", "name": "Howl", "position": "SS"},
+      {"role": "putout", "name": "Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Topanga", "start": "batter", "end": "out"}
+    ],
+    "notes": "Howl up with the grounder and tosses to first. Retires Topanga to end the inning. McKeever works a 1-2-3 inning. Still scoreless after 3."
+  }
+]

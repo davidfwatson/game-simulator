@@ -1,0 +1,149 @@
+[
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Dieter Gomez", "battingOrder": 3},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Out (1-2-3 inning summary, no pitch detail)"},
+    "pitchSequence": [],
+    "hitData": {},
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Part of Butch Flores 1-2-3 inning (top of 6th summarized without pitch-by-pitch detail). Batting order position 3 in sequence after top-5th ended on batters 9/1/2."
+  },
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Buzz Norton", "battingOrder": 4},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Out (1-2-3 inning summary, no pitch detail)"},
+    "pitchSequence": [],
+    "hitData": {},
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Part of Butch Flores 1-2-3 inning (top of 6th summarized without pitch-by-pitch detail)."
+  },
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Buddy Lamont", "battingOrder": 5},
+    "pitcher": {"fullName": "Butch Flores"},
+    "result": {"event": "Out (1-2-3 inning summary, no pitch detail)"},
+    "pitchSequence": [],
+    "hitData": {},
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Part of Butch Flores 1-2-3 inning (top of 6th summarized without pitch-by-pitch detail). Final out of the half-inning."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Ford Stipe", "battingOrder": 8},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout (pitcher to first, 1-3)"},
+    "pitchSequence": [
+      {
+        "code": "X",
+        "pitchType": "Unknown",
+        "description": "Comebacker to the mound; McKeever handles it and tosses to first"
+      }
+    ],
+    "hitData": {
+      "trajectory": "groundball",
+      "location": "pitcher"
+    },
+    "fielders": [
+      {"role": "fielder", "name": "Scooter McKeever", "position": "P"},
+      {"role": "putout", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Out number one. Stipe was a strikeout victim in the third. Only one pitch described; pitch type not specified by broadcaster. Scoring: 1-3."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Butch Flores", "battingOrder": 9},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Groundout (third to first, 5-3)"},
+    "pitchSequence": [
+      {
+        "code": "B",
+        "pitchType": "Fastball",
+        "description": "Fastball misses low; ball one"
+      },
+      {
+        "code": "S",
+        "pitchType": "Slider",
+        "description": "Low slider; Flores takes an awkward hack at it; swinging strike"
+      },
+      {
+        "code": "X",
+        "pitchType": "Unknown",
+        "description": "Roller to third; Gomez has it and fires across to first to get Flores"
+      }
+    ],
+    "hitData": {
+      "trajectory": "groundball",
+      "location": "third base"
+    },
+    "fielders": [
+      {"role": "assist", "name": "Dieter Gomez", "position": "3B"},
+      {"role": "putout", "name": "Manny Del Greco", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Out number two. Flores grounded out in the third as well. Count was 1-1 when ball was put in play. Pitch 3 type unspecified; contact made off what appears to be a third pitch on 1-1 count. Scoring: 5-3."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Gloveless Joe Topanga", "battingOrder": 1},
+    "pitcher": {"fullName": "Scooter McKeever"},
+    "result": {"event": "Flyout to right field (RF)"},
+    "pitchSequence": [
+      {
+        "code": "C",
+        "pitchType": "Curveball",
+        "description": "Curveball called a strike; count 0-1"
+      },
+      {
+        "code": "B",
+        "pitchType": "Offspeed",
+        "description": "Offspeed pitch runs high; ball; count 1-1"
+      },
+      {
+        "code": "F",
+        "pitchType": "Unknown",
+        "description": "Fell off to the left; foul ball; count 1-2"
+      },
+      {
+        "code": "F",
+        "pitchType": "Unknown",
+        "description": "Files another one off; foul ball; count remains 1-2"
+      },
+      {
+        "code": "B",
+        "pitchType": "Fastball",
+        "description": "Fastball just misses high; ball; count 2-2"
+      },
+      {
+        "code": "B",
+        "pitchType": "Fastball",
+        "description": "Fastball misses low; ball; count runs full (3-2)"
+      },
+      {
+        "code": "X",
+        "pitchType": "Unknown",
+        "description": "Payoff pitch hit in the air to right field; Lamont drifting back makes the catch; inning over"
+      }
+    ],
+    "hitData": {
+      "trajectory": "fly ball",
+      "location": "right field"
+    },
+    "fielders": [
+      {"role": "putout", "name": "Lamont Bradleys", "position": "RF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Out number three; ends the inning. Topanga was 0-for-2 on the evening. Full count (3-2) before flyout to right. This is the 13th consecutive Loon retired by McKeever. Score remains Bombers 1, Loons 0 after six innings."
+  }
+]
