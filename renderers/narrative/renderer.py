@@ -410,6 +410,7 @@ class NarrativeRenderer(GameRenderer):
                     batter_name=batter_name,
                     team_name=team_name,
                     outs_str=outs_str,
+                    outs_str_cap=outs_str.capitalize(),
                     position=batter_pos.lower(),
                     pitcher_name=pitcher_name
                 )
@@ -466,6 +467,7 @@ class NarrativeRenderer(GameRenderer):
                      batter_name=batter_name,
                      runners_str=val_to_use,
                      outs_str=outs_str,
+                    outs_str_cap=outs_str.capitalize(),
                      pitcher_name=pitcher_name
                  )
                  play_text_blocks.append(intro_txt)
