@@ -1,7 +1,7 @@
 from commentary import GAME_CONTEXT
 from .helpers import simplify_pitch_type
 
-def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play):
+def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play, batter_name_last=None):
     key = None
     outcome_lower = outcome.lower()
 
@@ -18,13 +18,14 @@ def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inni
         return ""
 
     context = {
+        'batter_name_last': batter_name_last if batter_name_last else batter_name.split()[-1],
         'batter_name': batter_name,
         'inning_context': inning_context
     }
 
     return rng_play.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
 
-def generate_play_description(renderer, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context=""):
+def generate_play_description(renderer, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context="", batter_name_last=None):
     ev = hit_data.get('launchSpeed')
     la = hit_data.get('launchAngle')
     location_code = hit_data.get('location')
@@ -90,6 +91,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         out_context_str = "to end the inning"
 
     context = {
+        'batter_name_last': batter_name_last if batter_name_last else batter_name.split()[-1],
         'batter_name': batter_name,
         'direction': direction,
         'direction_noun': direction_noun,
@@ -132,7 +134,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         final_description = prefix + template.format(**context)
 
     if outcome in ["Single", "Double", "Triple"]:
-         status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play)
+         status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play, batter_name_last)
          if status_str:
              final_description += " " + status_str
 
