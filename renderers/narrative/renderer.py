@@ -406,12 +406,18 @@ class NarrativeRenderer(GameRenderer):
                     batter_pos = self.gameday_data['gameData']['players'][batter_id]['primaryPosition']['name']
 
                 pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
+
+                pitcher_hand = matchup.get('pitchHand', {}).get('description', 'Right')
+                batter_hand = matchup.get('batSide', {}).get('description', 'Right')
+                matchup_str = f"{batter_hand.lower()}y-{pitcher_hand.lower()}y"
+
                 intro_txt = intro_template.format(
                     batter_name=batter_name,
                     team_name=team_name,
                     outs_str=outs_str,
                     position=batter_pos.lower(),
-                    pitcher_name=pitcher_name
+                    pitcher_name=pitcher_name,
+                    matchup_str=matchup_str
                 )
                 play_text_blocks.append(intro_txt)
                 self._add_to_buffer(intro_txt)
@@ -462,10 +468,12 @@ class NarrativeRenderer(GameRenderer):
                      val_to_use = val_to_use[0].upper() + val_to_use[1:]
 
                  pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
+                 outs_str_cap = outs_str[0].upper() + outs_str[1:] if outs_str else ""
                  intro_txt = template.format(
                      batter_name=batter_name,
                      runners_str=val_to_use,
                      outs_str=outs_str,
+                     outs_str_cap=outs_str_cap,
                      pitcher_name=pitcher_name
                  )
                  play_text_blocks.append(intro_txt)
