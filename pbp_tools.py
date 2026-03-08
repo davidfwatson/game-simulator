@@ -10,16 +10,21 @@ This module provides utilities for:
 
 ## Key Concepts
 
-The NarrativeRenderer uses DirectRNG in "directMode". Each timestamp encodes a seed
-in its fractional seconds:
-    "2025-09-27T23:05:19.0000300" → seed = 300
+The NarrativeRenderer uses DirectRNG in "directMode". Each timestamp encodes
+per-stream seeds in its fractional seconds (8 digits):
 
-The seed is consumed as base-100 digits (right to left):
-    seed=12345 → digit_0=45, digit_1=23, digit_2=1
+    "2025-09-27T23:05:19.03050267" → play=67, pitch=02, flow=05, color=03
 
-Four independent RNG streams (play, pitch, flow, color) all start with the same seed
-but advance independently. Each choice() call consumes one base-100 digit:
-    choice(pool) → pool[digit % len(pool)]
+The fractional seconds are split into 2-digit segments, one per stream:
+    digits 0-1 (rightmost) → rng_play
+    digits 2-3             → rng_pitch
+    digits 4-5             → rng_flow
+    digits 6-7             → rng_color
+
+Each stream independently consumes its seed via choice():
+    choice(pool) → pool[seed % len(pool)]
+
+Because streams are independent, setting one never conflicts with another.
 
 Reseeds happen at:
     - play.startTime  → controls batter intro, matchup text
@@ -148,10 +153,11 @@ class TracingRenderer:
             else:
                 index = 0
 
-            play = TracingDirectRNG(index, 'play')
-            pitch = TracingDirectRNG(index, 'pitch')
-            flow = TracingDirectRNG(index, 'flow')
-            color = TracingDirectRNG(index, 'color')
+            # Split index into per-stream seeds (matching base.py)
+            play = TracingDirectRNG(index % 100, 'play')
+            pitch = TracingDirectRNG((index // 100) % 100, 'pitch')
+            flow = TracingDirectRNG((index // 10000) % 100, 'flow')
+            color = TracingDirectRNG((index // 1000000) % 100, 'color')
 
             self.renderer.rng_play = play
             self.renderer.rng_pitch = pitch
@@ -180,19 +186,15 @@ def solve_seed(constraints):
     """
     Compute a seed value that satisfies all constraints.
 
+    With the split-stream encoding, each stream has its own independent 2-digit
+    portion of the fractional seconds. No cross-stream conflicts are possible.
+
     Args:
         constraints: list of dicts, one per base-100 digit position.
             Each dict maps stream names to (pool_size, desired_index) tuples.
-            Example: [
-                {"flow": (10, 3), "color": (100, 19)},  # digit 0 constraints
-                {"pitch": (21, 15), "flow": (12, 5)},    # digit 1 constraints
-            ]
 
     Returns:
         (seed, success, conflicts)
-        - seed: the computed seed value
-        - success: True if all constraints satisfied
-        - conflicts: list of (digit_pos, constraints_dict) for unsatisfied positions
     """
     seed = 0
     conflicts = []
@@ -207,7 +209,6 @@ def solve_seed(constraints):
 
         if not found:
             conflicts.append((digit_pos, dict(digit_constraints)))
-            # Use best partial match
             best = 0
             best_score = 0
             for candidate in range(100):
@@ -220,13 +221,41 @@ def solve_seed(constraints):
     return seed, len(conflicts) == 0, conflicts
 
 
+# Stream offsets in the fractional seconds (matching base.py split):
+#   play  = index % 100           (digits 0-1, rightmost)
+#   pitch = (index // 100) % 100  (digits 2-3)
+#   flow  = (index // 10000) % 100 (digits 4-5)
+#   color = (index // 1000000) % 100 (digits 6-7)
+STREAM_OFFSETS = {
+    'play':  (1, 100),        # multiplier to pack into fractional
+    'pitch': (100, 100),
+    'flow':  (10000, 100),
+    'color': (1000000, 100),
+}
+
+
+def pack_stream_seeds(play=0, pitch=0, flow=0, color=0):
+    """Pack per-stream seeds into a single fractional-seconds integer."""
+    return (play % 100) + (pitch % 100) * 100 + (flow % 100) * 10000 + (color % 100) * 1000000
+
+
+def unpack_stream_seeds(index):
+    """Unpack a fractional-seconds integer into per-stream seeds."""
+    return {
+        'play':  index % 100,
+        'pitch': (index // 100) % 100,
+        'flow':  (index // 10000) % 100,
+        'color': (index // 1000000) % 100,
+    }
+
+
 def seed_to_fractional(seed, base_timestamp="2025-09-27T23:05:00"):
-    """Convert a seed to a timestamp with the seed encoded in fractional seconds."""
-    return f"{base_timestamp}.{seed:07d}"
+    """Convert a packed seed to a timestamp with the seed encoded in fractional seconds."""
+    return f"{base_timestamp}.{seed:08d}"
 
 
 def timestamp_to_seed(timestamp):
-    """Extract the seed from a timestamp's fractional seconds."""
+    """Extract the full packed seed from a timestamp's fractional seconds."""
     parts = timestamp.split('.')
     if len(parts) > 1:
         digits_str = parts[1].replace('Z', '').replace('+', '').split('-')[0]
@@ -924,60 +953,58 @@ def cmd_set_choice(args):
         print(f"Could not find trace entry for {point_type} at {target_sp['timestamp']}")
         return
 
-    # Build constraints from current selections + overrides
-    max_calls = 0
-    for stream_name, rng in target_entry['rngs'].items():
-        max_calls = max(max_calls, len(rng.calls))
+    # With split-stream encoding, each stream has its own 2-digit seed.
+    # We solve each stream independently — no cross-stream conflicts possible.
+    old_packed = target_sp['seed']
+    old_streams = unpack_stream_seeds(old_packed)
 
-    constraints = []
-    for digit_pos in range(max_calls):
-        digit_constraints = {}
-        for stream_name, rng in target_entry['rngs'].items():
-            if digit_pos < len(rng.calls):
-                call = rng.calls[digit_pos]
-                if call['type'] == 'choice':
-                    desired = call['selected_index']
-                    # Check for override
-                    if (stream_name, digit_pos) in overrides:
-                        desired = overrides[(stream_name, digit_pos)]
-                    digit_constraints[stream_name] = (call['pool_size'], desired)
-                elif call['type'] == 'random':
-                    # For random, preserve the exact digit value unless overridden
-                    if (stream_name, digit_pos) in overrides:
-                        digit_constraints[stream_name] = (100, overrides[(stream_name, digit_pos)])
-                    else:
-                        digit_constraints[stream_name] = (100, call['digit_value'])
-        if digit_constraints:
-            constraints.append(digit_constraints)
+    print(f"Old packed seed: {old_packed}")
+    print(f"Old per-stream: play={old_streams['play']}, pitch={old_streams['pitch']}, flow={old_streams['flow']}, color={old_streams['color']}")
 
-    seed, success, conflicts = solve_seed(constraints)
+    new_streams = dict(old_streams)
 
-    print(f"Old seed: {target_sp['seed']}")
-    print(f"New seed: {seed}")
-    print(f"Success: {success}")
+    for (stream_name, call_num), desired_idx in overrides.items():
+        rng = target_entry['rngs'].get(stream_name)
+        if not rng or call_num >= len(rng.calls):
+            print(f"Warning: {stream_name} call {call_num} not found in trace")
+            continue
 
-    if conflicts:
-        print(f"\nConflicts at {len(conflicts)} digit position(s):")
-        for pos, cons in conflicts:
-            print(f"  Digit {pos}: {cons}")
+        call = rng.calls[call_num]
+        if call_num > 0:
+            print(f"Warning: {stream_name} call {call_num} > 0. With split-stream encoding, "
+                  f"each stream only has 2 digits (1 meaningful call). Call {call_num} "
+                  f"would require a larger seed allocation.")
+            continue
+
+        if call['type'] == 'choice':
+            pool_size = call['pool_size']
+            # Find a 2-digit value where value % pool_size == desired_idx
+            found = False
+            for candidate in range(100):
+                if candidate % pool_size == desired_idx:
+                    new_streams[stream_name] = candidate
+                    found = True
+                    break
+            if not found:
+                print(f"Error: no value 0-99 satisfies {stream_name} % {pool_size} == {desired_idx}")
+        elif call['type'] == 'random':
+            new_streams[stream_name] = desired_idx
+
+    new_packed = pack_stream_seeds(**new_streams)
+    print(f"New per-stream: play={new_streams['play']}, pitch={new_streams['pitch']}, flow={new_streams['flow']}, color={new_streams['color']}")
+    print(f"New packed seed: {new_packed}")
 
     # Update the JSON
+    old_ts = target_sp['timestamp']
+    base = old_ts.split('.')[0]
+    tz_suffix = ''
+    if '+' in old_ts.split('.')[-1]:
+        tz_suffix = '+' + old_ts.split('.')[-1].split('+')[1]
+    elif old_ts.endswith('Z'):
+        tz_suffix = 'Z'
+    new_ts = f"{base}.{new_packed:08d}{tz_suffix}"
+
     if not args.dry_run:
-        # Navigate to the timestamp field and update it
-        # Parse the json_path to update the right field
-        old_ts = target_sp['timestamp']
-        # Keep the base timestamp (everything before the dot), update fractional seconds
-        base = old_ts.split('.')[0]
-        # Preserve timezone if present
-        tz_suffix = ''
-        if '+' in old_ts.split('.')[-1]:
-            tz_suffix = '+' + old_ts.split('.')[-1].split('+')[1]
-        elif old_ts.endswith('Z'):
-            tz_suffix = 'Z'
-
-        new_ts = f"{base}.{seed:07d}{tz_suffix}"
-
-        # Update the JSON using the path
         path = target_sp['json_path']
         parts = re.findall(r'(\w+)|\[(\d+)\]', path)
         obj = data
@@ -1001,14 +1028,6 @@ def cmd_set_choice(args):
         print(f"  New: {new_ts}")
     else:
         print(f"\n[DRY RUN] Would update {target_sp['json_path']}")
-        old_ts = target_sp['timestamp']
-        base = old_ts.split('.')[0]
-        tz_suffix = ''
-        if '+' in old_ts.split('.')[-1]:
-            tz_suffix = '+' + old_ts.split('.')[-1].split('+')[1]
-        elif old_ts.endswith('Z'):
-            tz_suffix = 'Z'
-        new_ts = f"{base}.{seed:07d}{tz_suffix}"
         print(f"  Old: {old_ts}")
         print(f"  New: {new_ts}")
 

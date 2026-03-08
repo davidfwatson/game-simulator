@@ -71,18 +71,23 @@ All tools live in `pbp_tools.py`. Key commands:
 
 ## How DirectRNG Works
 
-Each timestamp in the JSON encodes a seed in its **fractional seconds**:
+Each timestamp in the JSON encodes **per-stream seeds** in its fractional
+seconds (8 digits):
 
-    "2025-09-27T23:05:19.0000300" → seed = 300
+    "2025-09-27T23:05:19.03050267"
+                          ││││││└─ play  = 67  (digits 0-1, rightmost)
+                          ││││└─── pitch = 02  (digits 2-3)
+                          ││└───── flow  = 05  (digits 4-5)
+                          └─────── color = 03  (digits 6-7)
 
-The seed is consumed as **base-100 digits** (right to left). Each `choice(pool)`
-call uses one digit:
+Each stream gets its own independent 2-digit seed (0-99). A `choice(pool)`
+call uses:
 
-    choice(pool) → pool[seed_digit % len(pool)]
-    then seed_digit = seed // 100   (advance to next digit)
+    choice(pool) → pool[seed % len(pool)]
 
-Four independent RNG streams (`play`, `pitch`, `flow`, `color`) all start from
-the same seed but advance independently.
+**Because streams are independent, setting one never conflicts with another.**
+This is the key advantage — you never need to duplicate pool entries or work
+around modular arithmetic conflicts between streams.
 
 **Reseeds happen at these points:**
 
@@ -94,7 +99,15 @@ the same seed but advance independently.
 | `play_outcome` | `about.endTime` | Outcome template (hit/out description), runner status |
 
 Because each seed point is independent, changing one timestamp only affects
-the choices at that specific point.
+the choices at that specific point. And because each stream within a seed point
+is independent, changing one stream's seed doesn't affect the others.
+
+### Example: setting a specific template
+
+If `inspect-play` shows that `rng_flow` picks from a pool of 8 templates and
+you want index 5, you need `flow_seed % 8 == 5`. Any value like 5, 13, 21, 29,
+37, 45... works. Set `flow=5` in digits 4-5 of the fractional seconds, leaving
+play/pitch/color digits unchanged.
 
 ## Pre-Game Text
 
@@ -114,12 +127,13 @@ The pre-game consumes many `rng_color.choice()` calls from the init seed:
 9. `rng_color.random()` coin flip for pregame_color (1 call)
 10. Possibly `pregame_color` radio string (1 call if coin flip < 0.5)
 
-**To align pre-game phrasing**, change the fractional seconds in
-`gameData.datetime.dateTime` (e.g., `"2025-09-27T23:05:00.0000500+00:00"`
-for seed=500). Since there are 24+ `rng_color` calls, you'll need a seed
-with multiple base-100 digits. The `pbp_tools.py` `trace` command shows
-all init seed point calls, but `set-choice` does NOT support the init seed
-point — you'll need to manually calculate the seed or iterate.
+**To align pre-game phrasing**, change the `color` digits (6-7) in the
+fractional seconds of `gameData.datetime.dateTime`. Since there are 24+
+`rng_color` calls but only 2 digits (1 meaningful call), only the first
+`rng_color.choice()` is controllable — subsequent calls will use seed=0.
+The `pbp_tools.py` `trace` command shows all init seed point calls, but
+`set-choice` does NOT support the init seed point — you'll need to manually
+set the fractional seconds.
 
 **Some pre-game lines are NOT template-controlled:**
 - `"Tonight, from {venue}, it's the {home} hosting the {away}."` — hardcoded format

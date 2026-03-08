@@ -34,7 +34,7 @@ class GameRenderer:
 
         if is_direct_mode:
             try:
-                # Extract digits from fractional seconds. e.g., '2025-09-27T23:05:00.123456Z' -> 123456
+                # Extract digits from fractional seconds. e.g., '2025-09-27T23:05:00.12345678Z' -> 12345678
                 parts = time_str.split('.')
                 if len(parts) > 1:
                     digits_str = parts[1].replace('Z', '').replace('+', '').split('-')[0]
@@ -60,10 +60,17 @@ class GameRenderer:
                 def seed(self, *args, **kwargs):
                     pass
 
-            self.rng_play = DirectRNG(index)
-            self.rng_pitch = DirectRNG(index)
-            self.rng_flow = DirectRNG(index)
-            self.rng_color = DirectRNG(index)
+            # Each stream gets its own independent portion of the fractional seconds.
+            # Fractional digits are split into 2-digit segments (base-100 values):
+            #   digits 0-1 (rightmost) → rng_play
+            #   digits 2-3             → rng_pitch
+            #   digits 4-5             → rng_flow
+            #   digits 6-7             → rng_color
+            # This prevents modular arithmetic conflicts between streams.
+            self.rng_play  = DirectRNG(index % 100)
+            self.rng_pitch = DirectRNG((index // 100) % 100)
+            self.rng_flow  = DirectRNG((index // 10000) % 100)
+            self.rng_color = DirectRNG((index // 1000000) % 100)
             return
 
         # Combine base seed, timestamp, and salt to create a unique, deterministic hash
