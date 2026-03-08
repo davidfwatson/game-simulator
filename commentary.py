@@ -86,6 +86,7 @@ GAME_CONTEXT = {
             "chopped foul and off to the right",
             "chopped foul and off to the left",
             "dribbled foul down the first base line",
+            "hammered foul off third",
             "tapped foul down the line",
             "flied foul and out of play",
             "popped foul and out of play",
@@ -552,7 +553,8 @@ GAME_CONTEXT = {
             "Leading off, {position}, {batter_name}.",
             "Batting first and playing {position}, {batter_name}.",
             "And {batter_name} steps in to start the inning.",
-            "{batter_name} digs in. He'll lead off."
+            "{batter_name} digs in. He'll lead off.",
+            "And {batter_name} steps into the box against {pitcher_name}, a {matchup_str} matchup."
         ],
         "batter_intro_empty": [
              "And {batter_name} will step in with {outs_str} and nobody on.",
@@ -575,7 +577,8 @@ GAME_CONTEXT = {
              "And {batter_name} steps in. {runners_str}, {outs_str}.",
              "So a runner on {runners_str} and {outs_str} for {batter_name}.",
              "{runners_str}, {outs_str}. {batter_name} at the plate.",
-             "And {batter_name} steps in against {pitcher_name}. {runners_str}, {outs_str}."
+             "And {batter_name} steps in against {pitcher_name}. {runners_str}, {outs_str}.",
+             "So, {runners_str}. {outs_str_cap} for {batter_name}."
         ],
         "pitch_connectors": [
             "And the {count_str}...",
@@ -606,7 +609,9 @@ GAME_CONTEXT = {
              "And the pitch...",
              "And {pitcher_name_last} deals...",
              "And {pitcher_name_last} comes to the plate...",
-             "From the belt, the pitch..."
+             "From the belt, the pitch...",
+             "And {pitcher_name_last} from the stretch... And that one's",
+             "And {pitcher_name_last} from the stretch... And that one's"
         ],
         "batter_matchup_handedness": [
             "Righty against righty.",
