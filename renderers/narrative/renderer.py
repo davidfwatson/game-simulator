@@ -342,9 +342,9 @@ class NarrativeRenderer(GameRenderer):
                      lines.append("[TTS SPLIT HERE DELAY:15.0s]")
 
                      if half == "Top":
-                         add_line(f"Top of the {self._get_ordinal(inning)} inning here at {venue}.")
+                         add_line(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning), 'network_name': network_name, 'batter_name': play['matchup']['batter']['fullName'], 'pitcher_name': play['matchup']['pitcher']['fullName']}))
                      else:
-                         add_line(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning), 'network_name': network_name}))
+                         add_line(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning), 'network_name': network_name, 'batter_name': play['matchup']['batter']['fullName'], 'pitcher_name': play['matchup']['pitcher']['fullName']}))
                      lines.append("")
 
                 else:
