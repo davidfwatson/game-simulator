@@ -1,7 +1,7 @@
 from commentary import GAME_CONTEXT
 from .helpers import simplify_pitch_type
 
-def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play):
+def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play, renderer=None):
     key = None
     outcome_lower = outcome.lower()
 
@@ -19,7 +19,8 @@ def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inni
 
     context = {
         'batter_name': batter_name,
-        'inning_context': inning_context
+        'inning_context': inning_context,
+        'inning_ordinal': getattr(renderer, 'inning_ordinal', '')
     }
 
     return rng_play.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
@@ -132,7 +133,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         final_description = prefix + template.format(**context)
 
     if outcome in ["Single", "Double", "Triple"]:
-         status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play)
+         status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play, renderer)
          if status_str:
              final_description += " " + status_str
 

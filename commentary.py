@@ -18,7 +18,8 @@ GAME_CONTEXT = {
                 "called a strike on the inside corner", "called strike", "a strike",
                 "paints the corner for a called strike",
                 "right down Main Street",
-                "caught the corner"
+                "caught the corner",
+                "called a strike, it's {count_str}"
             ]
         },
         "ball": {
@@ -59,13 +60,16 @@ GAME_CONTEXT = {
                 "runs a bit low", "in the dirt", "bounced in the dirt", "runs inside",
                 "a bit inside", "misses down and in",
                 "he bounces one in the dirt",
-                "down low"
+                "down low",
+                "in the dirt ball one"
             ],
             "low_outside": [
                 "low and away", "spikes before the plate", "misses low and outside",
                 "misses low", "misses a bit low", "runs a bit low", "in the dirt",
                 "bounced in the dirt", "just misses outside", "way outside", "misses outside",
-                "misses just a bit outside", "just off the plate", "misses away", "wide"
+                "misses just a bit outside", "just off the plate", "misses away", "wide",
+                "in the dirt ball one",
+                "Misses outside {count_str}"
             ]
         },
         "foul": [
@@ -165,7 +169,8 @@ GAME_CONTEXT = {
                 "Hard grounder {direction}... and that one will squeeze through for a base hit.",
                 "Finds a hole through the infield.",
                 "Seeing-eye single {direction}.",
-                "Hard grounder through the hole."
+                "Hard grounder through the hole.",
+                "Hard grounder left side. And that one gets through the infield for a base hit."
             ],
             "default": [
                 "Lined {direction}. That one drops in.",
@@ -414,7 +419,8 @@ GAME_CONTEXT = {
             "{batter_name} is aboard with a leadoff single{inning_context}.",
             "The inning starts with a base hit from {batter_name}.",
             "A leadoff single for {batter_name} to get things going{inning_context}.",
-            "{batter_name} starts the inning with a base hit."
+            "{batter_name} starts the inning with a base hit.",
+                "And {batter_name} is aboard with a lead-off single here in the {inning_ordinal}."
         ],
         "leadoff_double": [
             "{batter_name} starts the inning with a stand-up double{inning_context}.",
@@ -599,7 +605,9 @@ GAME_CONTEXT = {
             "And {pitcher_name_last} delivers...",
             "{pitcher_name_last} kicks and delivers...",
             "And the pitch...",
-            "Here is the {count_str}..."
+            "Here is the {count_str}...",
+                "The {count_str} pitch.....",
+                "And the {count_str}... And that fastball."
         ],
         "pitch_connectors_00": [
             "And the pitch...",
@@ -866,6 +874,7 @@ GAME_CONTEXT = {
              "We'll be back after these messages."
         ],
         "inning_break_intro": [
+                "Top of the second inning here on the banks of the Mississippi and Lake City Minnesota. No score as Lefty {batter_name} steps in against {pitcher_name}.",
              "And welcome back with us here from {venue}.",
              "And we're back.",
              "Welcome back."
