@@ -322,7 +322,8 @@ GAME_CONTEXT = {
                  "Swing and a miss on a high {pitch_type}, and {batter_name} is down on strikes.",
                  "He takes a wild hack at a {pitch_type} in the dirt.",
                  "Chases a {pitch_type} in the dirt.",
-                 "Swing and a miss on a {pitch_type} in the dirt, and {batter_name} is down on strikes."
+            "Swing and a miss on a {pitch_type} in the dirt, and {batter_name} is down on strikes.",
+            "Swing and a miss on an outside {pitch_type} and {batter_name} strikes out {out_context_str}."
              ],
              "looking": [
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
@@ -352,7 +353,8 @@ GAME_CONTEXT = {
                  "Hard grounder to {direction_noun}. Starts the double play {out_context_str}.",
                  "Bouncer to {direction_noun}, and they spin the double play {out_context_str}.",
                  "Grounder to {direction_noun}. {fielder_name} to second for one, over to first in time. And that's a double play {out_context_str}.",
-                 "Bouncer to {direction_noun}. {fielder_name} to second for one, over to first just in time. And that's a double play {out_context_str}."
+                "Bouncer to {direction_noun}. {fielder_name} to second for one, over to first just in time. And that's a double play {out_context_str}.",
+                "One hopper to {direction_noun} {fielder_name} steps on the bag, for the force. He fires to second in time and that's a double play. And {batter_name} is safe at first."
              ]
         },
         "Hit By Pitch": {
@@ -398,7 +400,7 @@ GAME_CONTEXT = {
         "strike_swinging_three": [
             "swung on and missed for strike three", "struck him out swinging",
             "swings through it for strike three", "fans him", "gets him swinging",
-            "he chases it for strike three"
+            "he chases it for strike three", "Swing and a miss on an outside {pitch_type}"
         ],
         "mound_visit": [
             "will stroll out to the mound to have a chat with",
@@ -585,7 +587,9 @@ GAME_CONTEXT = {
              "So a runner on {runners_str} and {outs_str} for {batter_name}.",
              "{runners_str}, {outs_str}. {batter_name} at the plate.",
              "And {batter_name} steps in against {pitcher_name}. {runners_str}, {outs_str}.",
-             "And here's {batter_name} with {runners_str} and {outs_str}."
+             "And here's {batter_name} with {runners_str} and {outs_str}.",
+             "So {runners_str}, {outs_str} for {batter_name}.",
+             "And {batter_name} digs in with a runner on, and {outs_str}."
         ],
         "pitch_connectors": [
             "And the {count_str}...",

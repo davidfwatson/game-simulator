@@ -584,7 +584,11 @@ class NarrativeRenderer(GameRenderer):
                     elif code == 'C':
                          if event['count']['strikes'] == 2:
                              key = 'strike_called_three'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                             ns = self._get_narrative_string(key, context={'pitch_type': pitch_type.lower()}, rng=self.rng_pitch)
+                             if '{pitch_type}' in GAME_CONTEXT['narrative_strings'][key][0] or pitch_type.lower() in ns.lower():
+                                 pbp_line = ns
+                             else:
+                                 pbp_line = f"{pitch_type}, {ns}"
                          else:
                              # Use location-aware description if available
                              zone = details.get('zone')
@@ -594,12 +598,18 @@ class NarrativeRenderer(GameRenderer):
                     elif code == 'S':
                          if event['count']['strikes'] == 2:
                              key = 'strike_swinging_three'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
                          else:
-                             # For swinging strikes, we usually just say "Swing and a miss" but could describe location
-                             # "Swing and a miss on a slider in the dirt"
                              key = 'strike_swinging'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+
+                         ns = self._get_narrative_string(key, context={'pitch_type': pitch_type.lower()}, rng=self.rng_pitch)
+                         # capitalise pitch_type if it is at start
+                         if ns.lower().startswith(pitch_type.lower()):
+                             ns = pitch_type.capitalize() + ns[len(pitch_type):]
+
+                         if pitch_type.lower() in ns.lower():
+                             pbp_line = ns
+                         else:
+                             pbp_line = f"{pitch_type}, {ns}"
 
                     elif code == 'B':
                          zone = details.get('zone')
