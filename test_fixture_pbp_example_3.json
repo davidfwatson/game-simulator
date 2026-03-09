@@ -2444,7 +2444,7 @@
             "inning": 2,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:08:30+00:00",
-            "endTime": "2025-09-27T23:08:50.0000300"
+            "endTime": "2025-09-27T23:08:50.00000311"
           },
           "count": {
             "balls": 2,
@@ -2503,7 +2503,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:08:30.000000Z"
+              "startTime": "2025-09-27T23:08:30.00000500Z"
             },
             {
               "index": 1,
@@ -2526,7 +2526,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:08:30.500000Z"
+              "startTime": "2025-09-27T23:08:30.00010800Z"
             },
             {
               "index": 2,
@@ -2543,13 +2543,13 @@
                   "code": "FF",
                   "description": "Fastball"
                 },
-                "zone": 14
+                "zone": 13
               },
               "pitchData": {
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:08:31.000000Z"
+              "startTime": "2025-09-27T23:08:31.00001000Z"
             },
             {
               "index": 3,
@@ -2575,7 +2575,9 @@
               "startTime": "2025-09-27T23:08:31.500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "left side (through infield)"
+                "location": "LS",
+                "launchSpeed": 98,
+                "launchAngle": -5
               }
             }
           ],
@@ -2620,7 +2622,7 @@
             "inning": 2,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:09:00+00:00",
-            "endTime": "2025-09-27T23:09:20.0000300"
+            "endTime": "2025-09-27T23:09:20.00000307"
           },
           "count": {
             "balls": 0,
@@ -2684,10 +2686,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:09:00.000000Z",
+              "startTime": "2025-09-27T23:09:00.00500000Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "LF shallow"
+                "location": "SL"
               }
             }
           ],
@@ -2753,7 +2755,7 @@
             "inning": 2,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:09:30+00:00",
-            "endTime": "2025-09-27T23:09:50.0000300"
+            "endTime": "2025-09-27T23:09:50.00000308"
           },
           "count": {
             "balls": 0,
@@ -2767,8 +2769,8 @@
               "link": "/api/v1/people/625207"
             },
             "batSide": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "pitcher": {
               "id": 645210,
@@ -3005,7 +3007,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:10:00.000000Z"
+              "startTime": "2025-09-27T23:10:00.00500800Z"
             },
             {
               "index": 1,
@@ -3028,7 +3030,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:10:00.500000Z"
+              "startTime": "2025-09-27T23:10:00.00000000Z"
             },
             {
               "index": 2,
@@ -3051,7 +3053,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:10:01.000000Z"
+              "startTime": "2025-09-27T23:10:01.00040000Z"
             }
           ],
           "runners": [
