@@ -30,6 +30,14 @@ markers. These are **renderer-level structural issues** that will be fixed in a
 later pass. Focus only on getting the right **words and phrases** selected via
 seeds and templates, even if they appear on different lines than the target.
 
+**The target text has transcription errors.** `pbp_example_3.txt` was transcribed
+from audio and contains garbled phrases like "Fastball low in a way ball one"
+(probably "low and away, ball one") or "Paints. The corner for a cold strike one"
+(probably "paints the corner for a called strike one"). **Do NOT add transcription
+errors to `commentary.py` templates.** Instead, use the closest clean phrasing
+that matches the intended meaning. Note suspected transcription errors in the
+progress table so they can be reviewed later.
+
 **Work one half-inning at a time.** Commit after each half-inning so other agents
 don't collide. Update the progress table at the bottom of this file.
 
