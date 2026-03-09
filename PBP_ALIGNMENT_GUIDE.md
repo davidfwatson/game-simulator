@@ -238,6 +238,29 @@ Each `set-choice`, `inspect-play`, or `search` should be its own simple call.
 5-gram, and identical-line thresholds in `test_examples_snapshot.py` to ratchet
 up to just below the new actual values.
 
+**`hitData` goes on the last pitch event, not the play level.** The renderer
+reads `launchSpeed`/`launchAngle` from `playEvents[last].hitData`, not from
+any play-level hitData. If `inspect-play` still shows the wrong category pool
+(e.g., `Single.default` instead of `Single.grounder`), you're putting the
+hitData in the wrong place.
+
+**"Righty against lefty" describes the batter-pitcher matchup, not a player's
+handedness.** The format is always "[batter hand] against [pitcher hand]". So
+"Righty against lefty" means the batter is right-handed and the pitcher is
+left-handed. Don't flip a pitcher's handedness based on a matchup description
+— check which player is batting and which is pitching.
+
+**Transition text belongs to the NEXT play, not the current one.** Text like
+"So first and second, nobody out for Joe Bill Silver" is the batter intro for
+Silver's play, not part of the previous play's outcome. The renderer generates
+these at the `play_start` seed point of the next play. Look in pools like
+`batter_intro_runners`, `batter_intro_leadoff`, etc.
+
+**Don't change player data globally for one play.** If a matchup looks wrong,
+it's almost certainly a `batSide` or `pitchHand` error in that specific play's
+`matchup` block — not a global player data issue. Fix it in the play's matchup,
+not in `gameData.players`.
+
 ## Task Loop (Per Half-Inning)
 
 ### 1. Identify the target text
