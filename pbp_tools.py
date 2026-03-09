@@ -256,9 +256,17 @@ def seed_to_fractional(seed, base_timestamp="2025-09-27T23:05:00"):
 
 def timestamp_to_seed(timestamp):
     """Extract the full packed seed from a timestamp's fractional seconds."""
-    parts = timestamp.split('.')
+    # Strip timezone suffix first
+    ts = timestamp
+    if ts.endswith('Z'):
+        ts = ts[:-1]
+    elif re.search(r'\+\d{2}:\d{2}$', ts):
+        ts = ts[:-6]
+    elif re.search(r'-\d{2}:\d{2}$', ts) and ts.count('-') > 2:
+        ts = ts[:-6]
+    parts = ts.split('.')
     if len(parts) > 1:
-        digits_str = parts[1].replace('Z', '').replace('+', '').split('-')[0]
+        digits_str = parts[1]
         return int(digits_str)
     return 0
 
@@ -996,12 +1004,19 @@ def cmd_set_choice(args):
 
     # Update the JSON
     old_ts = target_sp['timestamp']
-    base = old_ts.split('.')[0]
+    # Extract base (before fractional), fractional digits, and timezone suffix
+    # Handle timestamps like "2025-09-27T23:05:00+00:00" (no fractional)
+    # and "2025-09-27T23:05:00.500000Z" or "2025-09-27T23:05:20.0000300"
     tz_suffix = ''
-    if '+' in old_ts.split('.')[-1]:
-        tz_suffix = '+' + old_ts.split('.')[-1].split('+')[1]
-    elif old_ts.endswith('Z'):
+    if old_ts.endswith('Z'):
         tz_suffix = 'Z'
+        core = old_ts[:-1]
+    elif re.search(r'\+\d{2}:\d{2}$', old_ts):
+        tz_suffix = old_ts[-6:]  # e.g. "+00:00"
+        core = old_ts[:-6]
+    else:
+        core = old_ts
+    base = core.split('.')[0]
     new_ts = f"{base}.{new_packed:08d}{tz_suffix}"
 
     if not args.dry_run:

@@ -947,8 +947,8 @@
           "description": "Right"
         },
         "pitchHand": {
-          "code": "L",
-          "description": "Left"
+          "code": "R",
+          "description": "Right"
         },
         "strikeZoneTop": 3.5,
         "strikeZoneBottom": 1.5
@@ -1135,8 +1135,8 @@
             "isTopInning": true,
             "inning": 1,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:05:00+00:00",
-            "endTime": "2025-09-27T23:05:20.0000300"
+            "startTime": "2025-09-27T23:05:00.00100000+00:00",
+            "endTime": "2025-09-27T23:05:20.00000300"
           },
           "count": {
             "balls": 1,
@@ -1159,11 +1159,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -1195,7 +1195,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:05:00.000000Z"
+              "startTime": "2025-09-27T23:05:00.00080400Z"
             },
             {
               "index": 1,
@@ -1218,10 +1218,12 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:05:00.500000Z",
+              "startTime": "2025-09-27T23:05:00.00000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "LF"
+                "location": "LF",
+                "launchSpeed": 85,
+                "launchAngle": 20
               }
             }
           ],
@@ -1245,7 +1247,26 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": []
+              "credits": [
+                {
+                  "player": {
+                    "id": 545101,
+                    "fullName": "Gloveless Joe Topanga"
+                  },
+                  "credit": "f_fielded_ball",
+                  "position": {
+                    "abbreviation": "LF"
+                  }
+                }
+              ]
+            }
+          ],
+          "credits": [
+            {
+              "player": {
+                "id": 545101
+              },
+              "credit": "f_fielded_ball"
             }
           ]
         },
@@ -1266,7 +1287,7 @@
             "inning": 1,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:05:30+00:00",
-            "endTime": "2025-09-27T23:05:50.0000300"
+            "endTime": "2025-09-27T23:05:50.00000306"
           },
           "count": {
             "balls": 1,
@@ -1289,11 +1310,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -1330,7 +1351,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:05:30.000000Z"
+              "startTime": "2025-09-27T23:05:30.00002900Z"
             },
             {
               "index": 1,
@@ -1353,7 +1374,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:05:30.500000Z"
+              "startTime": "2025-09-27T23:05:30.00001100Z"
             },
             {
               "index": 2,
@@ -1376,7 +1397,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:05:31.000000Z",
+              "startTime": "2025-09-27T23:05:31.00010000Z",
               "hitData": {
                 "trajectory": "bunt",
                 "location": "3B"
@@ -1403,7 +1424,18 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": []
+              "credits": [
+                {
+                  "player": {
+                    "id": 545105,
+                    "fullName": "Billy De Jesus"
+                  },
+                  "credit": "f_fielded_ball",
+                  "position": {
+                    "abbreviation": "3B"
+                  }
+                }
+              ]
             },
             {
               "movement": {
@@ -1426,6 +1458,14 @@
               },
               "credits": []
             }
+          ],
+          "credits": [
+            {
+              "player": {
+                "id": 545105
+              },
+              "credit": "f_fielded_ball"
+            }
           ]
         },
         {
@@ -1445,7 +1485,7 @@
             "inning": 1,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:06:00+00:00",
-            "endTime": "2025-09-27T23:06:20.0000300"
+            "endTime": "2025-09-27T23:06:20.00000318"
           },
           "count": {
             "balls": 1,
@@ -1468,11 +1508,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -1509,7 +1549,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:06:00.000000Z"
+              "startTime": "2025-09-27T23:06:00.00010000Z"
             },
             {
               "index": 1,
@@ -1532,7 +1572,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:06:00.500000Z"
+              "startTime": "2025-09-27T23:06:00.00001600Z"
             },
             {
               "index": 2,
@@ -1586,11 +1626,22 @@
                 {
                   "player": {
                     "id": 545103,
-                    "link": "/api/v1/people/545103"
+                    "fullName": "Franklin Vega"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "CF"
+                  }
                 }
               ]
+            }
+          ],
+          "credits": [
+            {
+              "player": {
+                "id": 545103
+              },
+              "credit": "f_putout"
             }
           ]
         },
@@ -1610,8 +1661,8 @@
             "isTopInning": true,
             "inning": 1,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:06:30+00:00",
-            "endTime": "2025-09-27T23:06:50.0000300"
+            "startTime": "2025-09-27T23:06:30.00100000+00:00",
+            "endTime": "2025-09-27T23:06:50.00000307"
           },
           "count": {
             "balls": 2,
@@ -1634,11 +1685,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -1670,7 +1721,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:06:30.000000Z"
+              "startTime": "2025-09-27T23:06:30.00011100Z"
             },
             {
               "index": 1,
@@ -1693,7 +1744,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:06:30.500000Z"
+              "startTime": "2025-09-27T23:06:30.00001200Z"
             },
             {
               "index": 2,
@@ -1716,7 +1767,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:06:31.000000Z"
+              "startTime": "2025-09-27T23:06:31.00010800Z"
             },
             {
               "index": 3,
@@ -1819,6 +1870,14 @@
                 }
               ]
             }
+          ],
+          "credits": [
+            {
+              "player": {
+                "id": 545108
+              },
+              "credit": "f_fielded_ball"
+            }
           ]
         },
         {
@@ -1838,7 +1897,7 @@
             "inning": 1,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:07:00+00:00",
-            "endTime": "2025-09-27T23:07:20.0000300"
+            "endTime": "2025-09-27T23:07:20.00000331"
           },
           "count": {
             "balls": 1,
@@ -1852,8 +1911,8 @@
               "link": "/api/v1/people/545101"
             },
             "batSide": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "pitcher": {
               "id": 605110,
@@ -1861,11 +1920,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -1892,7 +1951,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:07:00.000000Z"
+              "startTime": "2025-09-27T23:07:00.00000800Z"
             },
             {
               "index": 1,
@@ -1915,7 +1974,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:07:00.500000Z"
+              "startTime": "2025-09-27T23:07:00.00003000Z"
             },
             {
               "index": 2,
@@ -1932,13 +1991,13 @@
                   "code": "FF",
                   "description": "Fastball"
                 },
-                "zone": 14
+                "zone": 11
               },
               "pitchData": {
                 "startSpeed": 92.5,
-                "zone": 14
+                "zone": 11
               },
-              "startTime": "2025-09-27T23:07:01.000000Z"
+              "startTime": "2025-09-27T23:07:01.00000100Z"
             },
             {
               "index": 3,
@@ -1992,18 +2051,22 @@
                 {
                   "player": {
                     "id": 625202,
-                    "link": "/api/v1/people/625202"
+                    "fullName": "Blaze Winterbottom"
                   },
-                  "credit": "f_assist"
-                },
-                {
-                  "player": {
-                    "id": 625206,
-                    "link": "/api/v1/people/625206"
-                  },
-                  "credit": "f_putout"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "2B"
+                  }
                 }
               ]
+            }
+          ],
+          "credits": [
+            {
+              "player": {
+                "id": 625202
+              },
+              "credit": "f_fielded_ball"
             }
           ]
         },
@@ -2038,8 +2101,8 @@
               "link": "/api/v1/people/545102"
             },
             "batSide": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "pitcher": {
               "id": 605110,
@@ -2047,11 +2110,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -2101,7 +2164,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:07:30.500000Z"
+              "startTime": "2025-09-27T23:07:30.00500600Z"
             },
             {
               "index": 2,
@@ -2124,7 +2187,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:07:31.000000Z"
+              "startTime": "2025-09-27T23:07:31.00001100Z"
             },
             {
               "index": 3,
@@ -2178,11 +2241,22 @@
                 {
                   "player": {
                     "id": 625206,
-                    "link": "/api/v1/people/625206"
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
+            }
+          ],
+          "credits": [
+            {
+              "player": {
+                "id": 625206
+              },
+              "credit": "f_putout"
             }
           ]
         },
@@ -2203,7 +2277,7 @@
             "inning": 1,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:08:00+00:00",
-            "endTime": "2025-09-27T23:08:20.0000300"
+            "endTime": "2025-09-27T23:08:20.00000332"
           },
           "count": {
             "balls": 0,
@@ -2217,8 +2291,8 @@
               "link": "/api/v1/people/545103"
             },
             "batSide": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "pitcher": {
               "id": 605110,
@@ -2226,11 +2300,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -2280,7 +2354,7 @@
                 "startSpeed": 83.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:08:00.500000Z"
+              "startTime": "2025-09-27T23:08:00.00500800Z"
             },
             {
               "index": 2,
@@ -2334,18 +2408,22 @@
                 {
                   "player": {
                     "id": 625208,
-                    "link": "/api/v1/people/625208"
+                    "fullName": "Tiny Howl"
                   },
-                  "credit": "f_assist"
-                },
-                {
-                  "player": {
-                    "id": 625206,
-                    "link": "/api/v1/people/625206"
-                  },
-                  "credit": "f_putout"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "SS"
+                  }
                 }
               ]
+            }
+          ],
+          "credits": [
+            {
+              "player": {
+                "id": 625208
+              },
+              "credit": "f_fielded_ball"
             }
           ]
         },
@@ -2389,11 +2467,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Men_On"
             },
@@ -2565,11 +2643,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -2698,11 +2776,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Men_On"
             },
@@ -2891,11 +2969,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -3040,11 +3118,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -3173,11 +3251,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -3329,11 +3407,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -3551,11 +3629,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -3746,11 +3824,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -3959,11 +4037,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -4125,11 +4203,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -4316,11 +4394,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -4483,11 +4561,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -4639,11 +4717,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -4848,11 +4926,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -4958,11 +5036,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -5111,11 +5189,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "RISP"
             },
@@ -5267,11 +5345,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -5421,11 +5499,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "RISP"
             },
@@ -5598,11 +5676,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -5725,11 +5803,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -5858,11 +5936,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6071,11 +6149,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6227,11 +6305,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -6380,11 +6458,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -6487,11 +6565,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6677,11 +6755,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6794,11 +6872,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6961,11 +7039,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7117,11 +7195,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7191,11 +7269,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7265,11 +7343,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -7339,11 +7417,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7456,11 +7534,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7619,11 +7697,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -7867,11 +7945,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -8020,11 +8098,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "RISP"
             },
@@ -8245,11 +8323,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -8424,11 +8502,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -8665,11 +8743,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -8904,11 +8982,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9083,11 +9161,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9223,11 +9301,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9666,11 +9744,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9845,11 +9923,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9989,11 +10067,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -10142,11 +10220,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -10888,11 +10966,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -11044,11 +11122,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -11223,11 +11301,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "splits": {
-              "batter": "vs_LHP",
+              "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }

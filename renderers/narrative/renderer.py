@@ -832,10 +832,26 @@ class NarrativeRenderer(GameRenderer):
                     if not primary_credit:
                         for c in out_credits:
                              if c['credit'] == 'putout': primary_credit = c; break
+                    if not primary_credit and out_credits:
+                        primary_credit = out_credits[0]
 
                     if primary_credit:
-                        fielder_pos = primary_credit['position']['abbreviation']
-                        fielder_name = primary_credit['player']['fullName'].split()[-1]
+                        # Get position from credit if available, else from player data
+                        if 'position' in primary_credit:
+                            fielder_pos = primary_credit['position']['abbreviation']
+                        else:
+                            player_id = f"ID{primary_credit['player']['id']}"
+                            player_data = self.gameday_data.get('gameData', {}).get('players', {}).get(player_id, {})
+                            fielder_pos = player_data.get('primaryPosition', {}).get('abbreviation')
+                        # Get fielder name (use lastName to handle multi-word names like "Del Greco")
+                        player_id = f"ID{primary_credit['player']['id']}"
+                        player_data = self.gameday_data.get('gameData', {}).get('players', {}).get(player_id, {})
+                        fielder_name = player_data.get('lastName', '')
+                        if not fielder_name:
+                            if 'fullName' in primary_credit.get('player', {}):
+                                fielder_name = primary_credit['player']['fullName'].split()[-1]
+                            else:
+                                fielder_name = player_data.get('fullName', 'the fielder').split()[-1]
 
                     ordinal = self._get_ordinal(inning)
                     inning_context = f" here in the {half.lower()} of the {ordinal}"
