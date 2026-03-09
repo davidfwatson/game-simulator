@@ -881,7 +881,7 @@ def cmd_inspect_play(args):
     # Actually, let's just find the batter's name in blocks
     batter_name = matchup['batter']['fullName']
     for i, block in enumerate(blocks):
-        if batter_name in block and any(kw in block for kw in ['leads off', 'steps in', 'comes to', 'will step', 'And here', 'Now batting']):
+        if batter_name in block and any(kw in block for kw in ['leads off', 'steps in', 'comes to', 'will step', 'And here', 'Now batting', 'So ']):
             print(block)
             break
     else:
