@@ -323,7 +323,7 @@ GAME_CONTEXT = {
                  "He takes a wild hack at a {pitch_type} in the dirt.",
                  "Chases a {pitch_type} in the dirt.",
             "Swing and a miss on a {pitch_type} in the dirt, and {batter_name} is down on strikes.",
-            "Swing and a miss on an outside {pitch_type} and {batter_name} strikes out {out_context_str}."
+            "Swing and a miss on a {pitch_type} and {batter_name} strikes out {out_context_str}."
              ],
              "looking": [
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
@@ -400,7 +400,7 @@ GAME_CONTEXT = {
         "strike_swinging_three": [
             "swung on and missed for strike three", "struck him out swinging",
             "swings through it for strike three", "fans him", "gets him swinging",
-            "he chases it for strike three", "Swing and a miss on an outside {pitch_type}"
+            "he chases it for strike three", "Swing and a miss on an {pitch_type}"
         ],
         "mound_visit": [
             "will stroll out to the mound to have a chat with",
