@@ -2443,8 +2443,8 @@
             "isTopInning": true,
             "inning": 2,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:08:30+00:00",
-            "endTime": "2025-09-27T23:08:50.0000300"
+            "startTime": "2025-09-27T23:08:30.00000000+00:00",
+            "endTime": "2025-09-27T23:08:50.00000105"
           },
           "count": {
             "balls": 2,
@@ -2503,7 +2503,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:08:30.000000Z"
+              "startTime": "2025-09-27T23:08:30.00001200Z"
             },
             {
               "index": 1,
@@ -2526,7 +2526,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:08:30.500000Z"
+              "startTime": "2025-09-27T23:08:30.00011200Z"
             },
             {
               "index": 2,
@@ -2549,7 +2549,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:08:31.000000Z"
+              "startTime": "2025-09-27T23:08:31.00031300Z"
             },
             {
               "index": 3,
@@ -2572,10 +2572,16 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:08:31.500000Z",
+              "startTime": "2025-09-27T23:08:31.00020000Z",
               "hitData": {
+                "launchSpeed": 96,
+                "launchAngle": -5,
                 "trajectory": "ground_ball",
-                "location": "left side (through infield)"
+                "location": "LS",
+                "coordinates": {
+                  "coordX": 100,
+                  "coordY": 100
+                }
               }
             }
           ],
@@ -2620,7 +2626,7 @@
             "inning": 2,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:09:00+00:00",
-            "endTime": "2025-09-27T23:09:20.0000300"
+            "endTime": "2025-09-27T23:09:20.00000314"
           },
           "count": {
             "balls": 0,
@@ -2686,8 +2692,10 @@
               },
               "startTime": "2025-09-27T23:09:00.000000Z",
               "hitData": {
+                "launchSpeed": 105,
+                "launchAngle": 5,
                 "trajectory": "line_drive",
-                "location": "LF shallow"
+                "location": "7"
               }
             }
           ],

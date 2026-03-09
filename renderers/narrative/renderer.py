@@ -342,7 +342,9 @@ class NarrativeRenderer(GameRenderer):
                      lines.append("[TTS SPLIT HERE DELAY:15.0s]")
 
                      if half == "Top":
-                         add_line(f"Top of the {self._get_ordinal(inning)} inning here at {venue}.")
+                         batter_name = play.get('matchup', {}).get('batter', {}).get('fullName', 'the batter')
+                         pitcher_name = play.get('matchup', {}).get('pitcher', {}).get('fullName', 'the pitcher')
+                         add_line(self._get_radio_string('inning_break_top_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'home_team_city': self.home_team.get('city', self.home_team['name'].split()[0]), 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning), 'network_name': network_name, 'batter_name': batter_name, 'pitcher_name': pitcher_name}))
                      else:
                          add_line(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning), 'network_name': network_name}))
                      lines.append("")

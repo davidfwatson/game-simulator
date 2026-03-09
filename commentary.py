@@ -870,6 +870,10 @@ GAME_CONTEXT = {
              "And we're back.",
              "Welcome back."
         ],
+        "inning_break_top_intro": [
+             "Top of the {inning_ordinal} inning here at {venue}.",
+             "Top of the {inning_ordinal} inning here on the banks of the Mississippi and {home_team_city}. No score as {batter_name} steps in against {pitcher_name}."
+        ],
         "score_update_lead": [
              "and the {team_name} take a {score_lead} lead",
              "and the {team_name} take a {score_lead} lead here in the {half} of the {inning}",
