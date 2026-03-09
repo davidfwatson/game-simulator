@@ -13,7 +13,8 @@ movements, and scoring (Bombers 3, Loons 0).
 the right game events but the wrong phrasing — all timestamps have seed=0,
 so every template pool picks index 0 every time.
 
-Current similarity: ~48% Jaccard, ~10% 5-gram, ~3% identical lines.
+Current similarity: ~52% Jaccard, ~13% 5-gram, ~3.6% identical lines.
+First inning (plays 0-6) is complete.
 
 ## Key Principles
 
@@ -197,17 +198,45 @@ For example, to get `Single.bloop`:
 ### RNG calls before the template choice:
 
 In `generate_play_description()` (`renderers/narrative/play_description.py`),
-several `rng_play` calls happen before the template `choice()`:
+the threshold checks (`random()`) now use `rng_flow`, not `rng_play`. This means
+`rng_play`'s first call is always the template `choice()`, so the `set-choice`
+call number for outcome templates is always `play:0:INDEX`.
 
-1. Possibly `rng_play.random()` for unassisted_1b check (if Groundout + 1B fielder)
-2. Possibly `rng_play.random()` for pitcher_groundout check (if Groundout + P fielder)
-3. `rng_play.random()` — the 80% check for using specific vs generic templates
-4. `rng_play.choice(specific_templates)` — the actual template selection
+## Gotchas (Lessons from Inning 1)
 
-These consume seed digits, so the `set-choice` call number for the template
-is typically `play:1:INDEX` (call 1, after the 80% check at call 0) but can
-vary if the special groundout checks fire first. Use `inspect-play -v` to
-see the exact call numbers.
+**The `zone` field that matters is `details.zone`, not `pitchData.zone`.**
+Both exist in the fixture JSON, but the renderer reads from
+`playEvents[N].details.zone`. If you change the zone to switch ball pools
+(e.g., `low_outside` → `high_inside`), update `details.zone`. Updating only
+`pitchData.zone` has no effect.
+
+**Fielder credits go on `play.runners[].credits`, not on the play itself.**
+The renderer resolves fielder names from credits on runner entries. Each credit
+needs at minimum `{ "player": { "id": PLAYER_ID }, "creditType": "TYPE" }`.
+Use `f_fielded_ball` as the credit type for the fielder who made the play.
+
+**Adding a template to a pool changes all existing seed selections for that pool.**
+When you add template at index N to a pool, the pool size changes from S to S+1.
+Every play using that pool where `seed % S != seed % (S+1)` will now render a
+different template. After adding templates, re-verify all completed innings that
+use the same pool. Use `inspect-play` to check.
+
+**Switch hitters: check the target text for bat side.** The target text often
+says "he'll bat left against [pitcher]" — use this to set the correct `batSide`
+in the matchup. For switch hitters vs RHP, batSide is typically `L`.
+
+**Multi-word last names are handled.** The renderer now uses the `lastName`
+field from player data (e.g., "Del Greco", "De Jesus") instead of `split()[-1]`.
+No special handling needed.
+
+**Use simple single-line pbp tool calls.** Don't write multiline bash commands.
+Each `set-choice`, `inspect-play`, or `search` should be its own simple call.
+
+**Work on a branch and create a PR.** Don't commit directly to main.
+
+**Bump test thresholds after each inning.** After alignment, update the Jaccard,
+5-gram, and identical-line thresholds in `test_examples_snapshot.py` to ratchet
+up to just below the new actual values.
 
 ## Task Loop (Per Half-Inning)
 
@@ -396,8 +425,8 @@ After completing each half-inning's phrasing alignment, update this table.
 | Half-Inning | Plays | Phase 2 (phrasing) |
 |-------------|-------|--------------------|
 | Pre-game    | —     | Not started        |
-| Top 1       | 0-3   | Not started        |
-| Bot 1       | 4-6   | Not started        |
+| Top 1       | 0-3   | Done. Transcription errors: "low in a way" (→ "low"), "cold strike" (→ "called strike") |
+| Bot 1       | 4-6   | Done. Transcription errors: "routine routine play" (→ "Routine play") |
 | Top 2       | 7-10  | Not started        |
 | Bot 2       | 11-14 | Not started        |
 | Top 3       | 15-17 | Not started        |
