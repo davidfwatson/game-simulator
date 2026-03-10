@@ -29,11 +29,16 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     la = hit_data.get('launchAngle')
     location_code = hit_data.get('location')
 
-    cat = renderer._get_batted_ball_category(outcome, ev, la)
+    # Normalize outcome for template lookup
+    template_outcome = outcome
+    if outcome == "Grounded Into Double Play":
+        template_outcome = "Double Play"
+
+    cat = renderer._get_batted_ball_category(template_outcome, ev, la)
 
     specific_templates = []
     if 'narrative_templates' in GAME_CONTEXT:
-        outcome_templates = GAME_CONTEXT['narrative_templates'].get(outcome, {})
+        outcome_templates = GAME_CONTEXT['narrative_templates'].get(template_outcome, {})
         specific_templates = outcome_templates.get(cat, [])
         if not specific_templates:
             specific_templates = outcome_templates.get('default', [])

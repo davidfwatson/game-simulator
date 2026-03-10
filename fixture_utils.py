@@ -187,7 +187,17 @@ if __name__ == "__main__":
         return kw
 
     if cmd == "show":
-        show_play_data(int(sys.argv[2]))
+        # Support ranges like "21-26" and multiple args like "21 22 23"
+        plays = []
+        for arg in sys.argv[2:]:
+            if '-' in arg:
+                start, end = arg.split('-')
+                plays.extend(range(int(start), int(end) + 1))
+            else:
+                plays.append(int(arg))
+        for p in plays:
+            show_play_data(p)
+            print()
     elif cmd == "event-seed":
         kw = parse_kwargs(sys.argv[4:])
         set_event_seed(int(sys.argv[2]), int(sys.argv[3]), **kw)

@@ -167,7 +167,8 @@ GAME_CONTEXT = {
                 "A little flare {direction} falls in.",
                 "Blooped into shallow {direction_noun}. That one drops in for a hit.",
                 "Blooped into shallow {direction_noun}. That one drops in for a hit.",
-                "Looper into shallow {direction_noun}. And that one falls in for a base hit."
+                "Looper into shallow {direction_noun}. And that one falls in for a base hit.",
+                "Hit in the air to shallow {direction_noun}. And that one will drop in for a hit."
             ],
             "grounder": [
                 "Hard grounder up the middle... and that one will squeeze through for a base hit.",
@@ -175,7 +176,8 @@ GAME_CONTEXT = {
                 "Finds a hole through the infield.",
                 "Seeing-eye single {direction}.",
                 "Hard grounder through the hole.",
-                "Hard grounder {direction}. And that one gets through the infield for a base hit."
+                "Hard grounder {direction}. And that one gets through the infield for a base hit.",
+                "Hard grounder {direction}. Past a diving {fielder_name}."
             ],
             "default": [
                 "Lined {direction}. That one drops in.",
@@ -295,7 +297,8 @@ GAME_CONTEXT = {
                 "Driven into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch {out_context_str}.",
                 "Lifted to {direction_noun}. {fielder_name} is calling for it, and he makes the catch {out_context_str}.",
                 "Lifted into {direction_noun}. {fielder_name} is there and he makes the catch {out_context_str}.",
-                "Fly ball into {direction_noun}. {fielder_name} calling for it. And he makes the catch {out_context_str}."
+                "Fly ball into {direction_noun}. {fielder_name} calling for it. And he makes the catch {out_context_str}.",
+                "Fly ball into {direction_noun}. {fielder_name} is there. And he makes the catch {out_context_str}."
             ],
             "deep": [
                 "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab on the warning track to haul it in {out_context_str}.",
