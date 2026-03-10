@@ -798,12 +798,34 @@ class NarrativeRenderer(GameRenderer):
             elif outcome == "Strikeout Double Play":
                 outcome_text = f"{batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play."
 
-            elif outcome == "Caught Stealing":
-                 runner_out = next((r for r in play['runners'] if r['movement']['isOut']), None)
-                 if runner_out:
-                     ob = runner_out['movement']['outBase']
-                     base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
-                     outcome_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
+            elif outcome == "Caught Stealing" or ("Caught Stealing" in outcome and "Single" in outcome):
+                 # Handle combined "Caught Stealing 2B / Single" outcomes
+                 if "Single" in outcome:
+                     x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
+                     if x_event:
+                         hit_data = x_event.get('hitData', {})
+                         pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed')}
+                         ordinal = self._get_ordinal(inning)
+                         inning_context = f" here in the {half.lower()} of the {ordinal}"
+                         is_leadoff = (len(self.plays_in_half_inning) == 0)
+                         single_text = self._generate_play_description("Single", hit_data, pitch_details, batter_name, connector=x_event_connector, is_leadoff=is_leadoff, inning_context=inning_context)
+                         if single_text:
+                             outcome_text = single_text
+                     runner_out = next((r for r in play['runners'] if r['movement']['isOut']), None)
+                     if runner_out:
+                         ob = runner_out['movement']['outBase']
+                         base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
+                         cs_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
+                         if outcome_text:
+                             outcome_text += "\n" + cs_text
+                         else:
+                             outcome_text = cs_text
+                 else:
+                     runner_out = next((r for r in play['runners'] if r['movement']['isOut']), None)
+                     if runner_out:
+                         ob = runner_out['movement']['outBase']
+                         base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
+                         outcome_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
 
             elif outcome == "Field Error":
                  err_credit = None

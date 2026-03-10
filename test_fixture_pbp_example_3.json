@@ -3853,13 +3853,13 @@
                   "code": "CU",
                   "description": "Curveball"
                 },
-                "zone": 14
+                "zone": 13
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:12:30.000000Z"
+              "startTime": "2025-09-27T23:12:30.00000700Z"
             },
             {
               "index": 1,
@@ -3905,7 +3905,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:12:31.000000Z"
+              "startTime": "2025-09-27T23:12:31.00001500Z"
             },
             {
               "index": 3,
@@ -3928,7 +3928,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:12:31.500000Z"
+              "startTime": "2025-09-27T23:12:31.00000200Z"
             },
             {
               "index": 4,
@@ -3951,7 +3951,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:12:32.000000Z"
+              "startTime": "2025-09-27T23:12:32.00000800Z"
             },
             {
               "index": 5,
@@ -3974,7 +3974,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:12:32.500000Z"
+              "startTime": "2025-09-27T23:12:32.00000400Z"
             }
           ],
           "runners": [
@@ -4018,7 +4018,7 @@
             "inning": 3,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:13:00+00:00",
-            "endTime": "2025-09-27T23:13:20.0000300"
+            "endTime": "2025-09-27T23:13:20.00000014"
           },
           "count": {
             "balls": 0,
@@ -4048,11 +4048,6 @@
               "batter": "vs_RHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
-            },
-            "postOnFirst": {
-              "id": 0,
-              "fullName": "Yamaguchi",
-              "link": "/api/v1/people/0"
             }
           },
           "playEvents": [
@@ -4077,7 +4072,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:13:00.000000Z"
+              "startTime": "2025-09-27T23:13:00.00001200Z"
             },
             {
               "index": 1,
@@ -4103,7 +4098,9 @@
               "startTime": "2025-09-27T23:13:00.500000Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "LF"
+                "location": "LF",
+                "launchSpeed": 103,
+                "launchAngle": 5
               }
             }
           ],
@@ -4134,7 +4131,7 @@
                 "originBase": "1B",
                 "start": "1B",
                 "end": null,
-                "outBase": null,
+                "outBase": "2B",
                 "isOut": true
               },
               "details": {
@@ -4151,17 +4148,23 @@
               "credits": [
                 {
                   "player": {
-                    "id": 0,
-                    "link": "/api/v1/people/0"
+                    "id": 625213,
+                    "fullName": "JP Primero"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "C"
+                  }
                 },
                 {
                   "player": {
-                    "id": 0,
-                    "link": "/api/v1/people/0"
+                    "id": 625214,
+                    "fullName": "Blaze Winterbottom"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "2B"
+                  }
                 }
               ]
             }
@@ -4184,7 +4187,7 @@
             "inning": 3,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:13:30+00:00",
-            "endTime": "2025-09-27T23:13:50.0000300"
+            "endTime": "2025-09-27T23:13:50.00000033"
           },
           "count": {
             "balls": 1,
@@ -4243,7 +4246,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:13:30.000000Z"
+              "startTime": "2025-09-27T23:13:30.00001000Z"
             },
             {
               "index": 1,
@@ -4260,13 +4263,13 @@
                   "code": "CU",
                   "description": "Curveball"
                 },
-                "zone": 14
+                "zone": 13
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:13:30.500000Z"
+              "startTime": "2025-09-27T23:13:30.00001200Z"
             },
             {
               "index": 2,
@@ -4289,7 +4292,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:13:31.000000Z"
+              "startTime": "2025-09-27T23:13:31.00000800Z"
             },
             {
               "index": 3,
@@ -4342,17 +4345,23 @@
               "credits": [
                 {
                   "player": {
-                    "id": 0,
-                    "link": "/api/v1/people/0"
+                    "id": 625210,
+                    "fullName": "Ford Stipe"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "SS"
+                  }
                 },
                 {
                   "player": {
-                    "id": 0,
-                    "link": "/api/v1/people/0"
+                    "id": 625206,
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }

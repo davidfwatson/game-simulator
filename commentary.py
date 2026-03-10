@@ -156,7 +156,8 @@ GAME_CONTEXT = {
                 "Line drive, {direction_noun}.",
                 "Lined into shallow {direction_noun}, and that one will drop in.",
                 "Lined into shallow {direction_noun}. That one drops in.",
-                "Hard liner {direction}. And that one drops in for a base hit."
+                "Hard liner {direction}. And that one drops in for a base hit.",
+                "Hammered {direction}. And that one drops in."
             ],
             "bloop": [
                 "Fly ball into shallow {direction_noun}. And that one drops in front of {fielder_name}.",
