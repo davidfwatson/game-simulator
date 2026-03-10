@@ -306,7 +306,9 @@ GAME_CONTEXT = {
                 "Fly ball, deep {direction_noun}. {fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
                 "{fielder_name} is racing after it... and he makes the catch on the warning track {out_context_str}.",
                 "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab to haul it in {out_context_str}.",
-                "Sent deep {direction}. {fielder_name} on the run... and he makes the catch {out_context_str}."
+                "Sent deep {direction}. {fielder_name} on the run... and he makes the catch {out_context_str}.",
+                "Driven into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch on the warning track {out_context_str}.",
+                "Fly ball into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch {out_context_str}."
             ]
         },
         "Pop Out": {

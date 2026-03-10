@@ -40,6 +40,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         template_outcome = "Double Play"
     elif template_outcome == "Reached on Error":
         template_outcome = "Groundout"
+    elif template_outcome == "Popout":
+        template_outcome = "Pop Out"
 
     cat = renderer._get_batted_ball_category(template_outcome, ev, la)
 
@@ -89,6 +91,15 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
          direction_noun = direction[13:]
     elif direction.startswith("into "):
          direction_noun = direction[5:]
+
+    # Strip "deep " prefix to avoid "deep deep center field" in templates
+    if direction_noun.startswith("deep "):
+        direction_noun = direction_noun[5:]
+
+    # Map infield positions to side names for pop-up templates
+    side_map = {"first": "right", "second": "right", "third": "left", "short": "left"}
+    if template_outcome in ["Pop Out"] and direction_noun in side_map:
+        direction_noun = side_map[direction_noun]
 
     orig_pitch_type = pitch_details.get('type', 'pitch')
     simple_pitch_type = simplify_pitch_type(orig_pitch_type, renderer.rng_pitch)

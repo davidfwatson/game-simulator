@@ -9095,8 +9095,8 @@
             "isTopInning": false,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:28:30+00:00",
-            "endTime": "2025-09-27T23:28:50.0000300"
+            "startTime": "2025-09-27T23:28:30.20000000+00:00",
+            "endTime": "2025-09-27T23:28:50.00000023"
           },
           "count": {
             "balls": 1,
@@ -9222,7 +9222,7 @@
               "startTime": "2025-09-27T23:28:31.500000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "left field"
+                "location": "LF"
               }
             }
           ],
@@ -9250,9 +9250,12 @@
                 {
                   "player": {
                     "id": 625207,
-                    "link": "/api/v1/people/625207"
+                    "fullName": "Joe Bill Silver"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "LF"
+                  }
                 }
               ]
             }
@@ -9274,8 +9277,8 @@
             "isTopInning": false,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:29:00+00:00",
-            "endTime": "2025-09-27T23:29:20.0000300"
+            "startTime": "2025-09-27T23:29:00.20000000+00:00",
+            "endTime": "2025-09-27T23:29:20.00000030"
           },
           "count": {
             "balls": 1,
@@ -9355,7 +9358,7 @@
               "startTime": "2025-09-27T23:29:00.500000Z",
               "hitData": {
                 "trajectory": "hard_chopper",
-                "location": "third base"
+                "location": "3B"
               }
             }
           ],
@@ -9383,16 +9386,22 @@
                 {
                   "player": {
                     "id": 625208,
-                    "link": "/api/v1/people/625208"
+                    "fullName": "Tiny Howl"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "3B"
+                  }
                 },
                 {
                   "player": {
                     "id": 625206,
-                    "link": "/api/v1/people/625206"
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
@@ -9414,8 +9423,8 @@
             "isTopInning": false,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:29:30+00:00",
-            "endTime": "2025-09-27T23:29:50.0000300"
+            "startTime": "2025-09-27T23:29:30.20000000+00:00",
+            "endTime": "2025-09-27T23:29:50.00000007"
           },
           "count": {
             "balls": 3,
@@ -9587,7 +9596,9 @@
               "startTime": "2025-09-27T23:29:32.500000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "deep center field"
+                "location": "DCF",
+                "launchSpeed": 105,
+                "launchAngle": 35
               }
             }
           ],
@@ -9615,9 +9626,12 @@
                 {
                   "player": {
                     "id": 625201,
-                    "link": "/api/v1/people/625201"
+                    "fullName": "Bugs Yamaguchi"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "CF"
+                  }
                 }
               ]
             }
@@ -9639,7 +9653,7 @@
             "isTopInning": true,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:30:00+00:00",
+            "startTime": "2025-09-27T23:30:00.20000000+00:00",
             "endTime": "2025-09-27T23:30:20.0000300"
           },
           "count": {
@@ -9857,8 +9871,8 @@
             "isTopInning": false,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:30:30+00:00",
-            "endTime": "2025-09-27T23:30:50.0000300"
+            "startTime": "2025-09-27T23:30:30.20000000+00:00",
+            "endTime": "2025-09-27T23:30:50.00000005"
           },
           "count": {
             "balls": 1,
@@ -9968,7 +9982,7 @@
                 "strikes": 2
               },
               "details": {
-                "code": "F",
+                "code": "X",
                 "description": "Foul",
                 "isStrike": true,
                 "type": {
@@ -9984,7 +9998,9 @@
               "startTime": "2025-09-27T23:30:31.500000Z",
               "hitData": {
                 "trajectory": "popup",
-                "location": "Right side, foul territory"
+                "location": "1B",
+                "launchSpeed": 75,
+                "launchAngle": 55
               }
             }
           ],
@@ -10012,9 +10028,12 @@
                 {
                   "player": {
                     "id": 625206,
-                    "link": "/api/v1/people/625206"
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
@@ -10036,7 +10055,7 @@
             "isTopInning": false,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:31:00+00:00",
+            "startTime": "2025-09-27T23:31:00.20000000+00:00",
             "endTime": "2025-09-27T23:31:20.0000300"
           },
           "count": {
@@ -10180,8 +10199,8 @@
             "isTopInning": false,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:31:30+00:00",
-            "endTime": "2025-09-27T23:31:50.0000300"
+            "startTime": "2025-09-27T23:31:30.20000000+00:00",
+            "endTime": "2025-09-27T23:31:50.00000003"
           },
           "count": {
             "balls": 0,
@@ -10273,7 +10292,7 @@
                 "strikes": 2
               },
               "details": {
-                "code": "H",
+                "code": "X",
                 "description": "In play, Double",
                 "isStrike": true,
                 "type": {
@@ -10289,7 +10308,7 @@
               "startTime": "2025-09-27T23:31:31.000000Z",
               "hitData": {
                 "trajectory": "line_drive_/_slice",
-                "location": "Right field line, corner"
+                "location": "RF"
               }
             }
           ],
@@ -10333,7 +10352,7 @@
             "isTopInning": false,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:32:00+00:00",
+            "startTime": "2025-09-27T23:32:00.20000000+00:00",
             "endTime": "2025-09-27T23:32:20.0000300"
           },
           "count": {
@@ -10528,8 +10547,8 @@
             "isTopInning": true,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:32:30+00:00",
-            "endTime": "2025-09-27T23:32:50.0000300"
+            "startTime": "2025-09-27T23:32:30.20000000+00:00",
+            "endTime": "2025-09-27T23:32:50.00000032"
           },
           "count": {
             "balls": 1,
@@ -10609,7 +10628,7 @@
               "startTime": "2025-09-27T23:32:30.500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "shortstop"
+                "location": "SS"
               }
             }
           ],
@@ -10637,16 +10656,22 @@
                 {
                   "player": {
                     "id": 545108,
-                    "link": "/api/v1/people/545108"
+                    "fullName": "Ford Stipe"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "SS"
+                  }
                 },
                 {
                   "player": {
-                    "id": 545108,
-                    "link": "/api/v1/people/545108"
+                    "id": 545107,
+                    "fullName": "Jose Sunderland"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
@@ -10668,8 +10693,8 @@
             "isTopInning": true,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:33:00+00:00",
-            "endTime": "2025-09-27T23:33:20.0000300"
+            "startTime": "2025-09-27T23:33:00.20000000+00:00",
+            "endTime": "2025-09-27T23:33:20.00000024"
           },
           "count": {
             "balls": 3,
@@ -10841,7 +10866,7 @@
               "startTime": "2025-09-27T23:33:02.500000Z",
               "hitData": {
                 "trajectory": "chopper",
-                "location": "shortstop"
+                "location": "SS"
               }
             }
           ],
@@ -10869,16 +10894,22 @@
                 {
                   "player": {
                     "id": 545108,
-                    "link": "/api/v1/people/545108"
+                    "fullName": "Ford Stipe"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "SS"
+                  }
                 },
                 {
                   "player": {
-                    "id": 545108,
-                    "link": "/api/v1/people/545108"
+                    "id": 545107,
+                    "fullName": "Jose Sunderland"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
@@ -10900,8 +10931,8 @@
             "isTopInning": true,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:33:30+00:00",
-            "endTime": "2025-09-27T23:33:50.0000300"
+            "startTime": "2025-09-27T23:33:30.20000000+00:00",
+            "endTime": "2025-09-27T23:33:50.00000010"
           },
           "count": {
             "balls": 2,
@@ -11027,7 +11058,7 @@
               "startTime": "2025-09-27T23:33:31.500000Z",
               "hitData": {
                 "trajectory": "pop_up",
-                "location": "infield left side"
+                "location": "3B"
               }
             }
           ],
@@ -11055,9 +11086,12 @@
                 {
                   "player": {
                     "id": 545105,
-                    "link": "/api/v1/people/545105"
+                    "fullName": "Billy De Jesus"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "3B"
+                  }
                 }
               ]
             }
@@ -11079,8 +11113,8 @@
             "isTopInning": false,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:34:00+00:00",
-            "endTime": "2025-09-27T23:34:20.0000300"
+            "startTime": "2025-09-27T23:34:00.20000000+00:00",
+            "endTime": "2025-09-27T23:34:20.00000006"
           },
           "count": {
             "balls": 0,
@@ -11183,7 +11217,9 @@
               "startTime": "2025-09-27T23:34:01.000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "deep center field / warning track"
+                "location": "DCF",
+                "launchSpeed": 105,
+                "launchAngle": 35
               }
             }
           ],
@@ -11211,9 +11247,12 @@
                 {
                   "player": {
                     "id": 625201,
-                    "link": "/api/v1/people/625201"
+                    "fullName": "Bugs Yamaguchi"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "CF"
+                  }
                 }
               ]
             }
@@ -11235,8 +11274,8 @@
             "isTopInning": false,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:34:30+00:00",
-            "endTime": "2025-09-27T23:34:50.0000300"
+            "startTime": "2025-09-27T23:34:30.20000000+00:00",
+            "endTime": "2025-09-27T23:34:50.00000011"
           },
           "count": {
             "balls": 2,
@@ -11362,7 +11401,7 @@
               "startTime": "2025-09-27T23:34:31.500000Z",
               "hitData": {
                 "trajectory": "pop_up",
-                "location": "infield right side"
+                "location": "1B"
               }
             }
           ],
@@ -11390,9 +11429,12 @@
                 {
                   "player": {
                     "id": 625206,
-                    "link": "/api/v1/people/625206"
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
@@ -11414,8 +11456,8 @@
             "isTopInning": false,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:35:00+00:00",
-            "endTime": "2025-09-27T23:35:20.0000300"
+            "startTime": "2025-09-27T23:35:00.20000000+00:00",
+            "endTime": "2025-09-27T23:35:20.00000001"
           },
           "count": {
             "balls": 2,
@@ -11541,7 +11583,7 @@
               "startTime": "2025-09-27T23:35:01.500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "first base"
+                "location": "1B"
               }
             }
           ],
@@ -11569,9 +11611,12 @@
                 {
                   "player": {
                     "id": 625206,
-                    "link": "/api/v1/people/625206"
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
