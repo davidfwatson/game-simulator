@@ -472,14 +472,27 @@ class NarrativeRenderer(GameRenderer):
                  self._add_to_buffer(intro_txt)
 
             if self.rng_color.random() < 0.2:
-                 bat_side = matchup['batSide']['code']
+                 bat_side_orig = matchup['batSide']['code']
+                 bat_side = bat_side_orig
                  pitch_hand = matchup['pitchHand']['code']
                  if bat_side == 'S': bat_side = 'R' if pitch_hand == 'L' else 'L'
                  matchup_txt = ""
-                 if bat_side == 'R' and pitch_hand == 'R': matchup_txt = "Righty against righty."
-                 elif bat_side == 'R' and pitch_hand == 'L': matchup_txt = "Righty against the lefty."
-                 elif bat_side == 'L' and pitch_hand == 'R': matchup_txt = "Lefty against the righty."
-                 elif bat_side == 'L' and pitch_hand == 'L': matchup_txt = "Lefty against the lefty."
+                 if bat_side_orig == 'S':
+                     effective = 'left' if bat_side == 'L' else 'right'
+                     pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
+                     matchup_txt = f"{batter_name} is a switch hitter and he'll bat {effective} against {pitcher_name}."
+                 elif bat_side == 'R' and pitch_hand == 'R':
+                     matchup_options = ["Righty against righty.", "A righty righty matchup."]
+                     matchup_txt = self.rng_color.choice(matchup_options)
+                 elif bat_side == 'R' and pitch_hand == 'L':
+                     matchup_options = ["Righty against the lefty.", "A righty lefty matchup."]
+                     matchup_txt = self.rng_color.choice(matchup_options)
+                 elif bat_side == 'L' and pitch_hand == 'R':
+                     matchup_options = ["Lefty against the righty.", "A righty lefty matchup."]
+                     matchup_txt = self.rng_color.choice(matchup_options)
+                 elif bat_side == 'L' and pitch_hand == 'L':
+                     matchup_options = ["Lefty against the lefty.", "A lefty lefty matchup."]
+                     matchup_txt = self.rng_color.choice(matchup_options)
 
                  if matchup_txt:
                      play_text_blocks.append(matchup_txt)
@@ -643,7 +656,7 @@ class NarrativeRenderer(GameRenderer):
                             if not suppress_count:
                                 if repeating_two_strikes:
                                     # Use special "count holds at..." logic
-                                    count_hold_str = self._get_narrative_string('count_remains_two_strikes', {'count_str': spoken_count}, rng=self.rng_flow)
+                                    count_hold_str = self._get_narrative_string('count_remains_two_strikes', {'count_str': spoken_count, 'batter_name': batter_name}, rng=self.rng_flow)
                                     if use_comma:
                                         # pbp_line already ends in comma
                                         # "Fouled back, and we'll do it again."

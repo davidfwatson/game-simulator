@@ -56,7 +56,9 @@ def set_play_start_seed(play_idx, play=0, pitch=0, flow=0, color=0):
     data = load()
     p = data["liveData"]["plays"]["allPlays"][play_idx]
     old_ts = p["about"]["startTime"]
-    base = old_ts.split(".")[0] if "." in old_ts else old_ts.rstrip("+00:00").rstrip("Z")
+    # Strip timezone suffix first, then fractional seconds
+    stripped = old_ts.replace("+00:00", "").rstrip("Z")
+    base = stripped.split(".")[0]
     # play_start uses +00:00 suffix format
     packed = pack_seed(play, pitch, flow, color)
     new_ts = f"{base}.{packed:08d}+00:00"
@@ -113,6 +115,28 @@ def set_pitch_hand(play_idx, code):
     matchup["pitchHand"]["description"] = desc
     save(data)
     print(f"play {play_idx}: pitchHand {old} → {code}")
+
+
+def set_pitch_type(play_idx, event_idx, pitch_type):
+    """Set the pitch type description on a pitch event."""
+    data = load()
+    ev = data["liveData"]["plays"]["allPlays"][play_idx]["playEvents"][event_idx]
+    old = ev["details"].get("type", {}).get("description", "")
+    if "type" not in ev["details"]:
+        ev["details"]["type"] = {}
+    ev["details"]["type"]["description"] = pitch_type
+    save(data)
+    print(f"play {play_idx} event_{event_idx}: pitch {old} → {pitch_type}")
+
+
+def set_pitch_code(play_idx, event_idx, code):
+    """Set the pitch event code (B/S/C/F/X)."""
+    data = load()
+    ev = data["liveData"]["plays"]["allPlays"][play_idx]["playEvents"][event_idx]
+    old = ev["details"].get("code", "")
+    ev["details"]["code"] = code
+    save(data)
+    print(f"play {play_idx} event_{event_idx}: code {old} → {code}")
 
 
 def show_play_data(play_idx):
@@ -186,6 +210,10 @@ if __name__ == "__main__":
         set_bat_side(int(sys.argv[2]), sys.argv[3])
     elif cmd == "pitch-hand":
         set_pitch_hand(int(sys.argv[2]), sys.argv[3])
+    elif cmd == "pitch-type":
+        set_pitch_type(int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])
+    elif cmd == "pitch-code":
+        set_pitch_code(int(sys.argv[2]), int(sys.argv[3]), sys.argv[4])
     else:
         print(f"Unknown command: {cmd}")
         sys.exit(1)

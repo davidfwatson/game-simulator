@@ -18,7 +18,8 @@ GAME_CONTEXT = {
                 "called a strike on the inside corner", "called strike", "a strike",
                 "paints the corner for a called strike",
                 "right down Main Street",
-                "caught the corner"
+                "caught the corner",
+                "in at the knees for a called strike"
             ]
         },
         "ball": {
@@ -59,13 +60,15 @@ GAME_CONTEXT = {
                 "runs a bit low", "in the dirt", "bounced in the dirt", "runs inside",
                 "a bit inside", "misses down and in",
                 "he bounces one in the dirt",
-                "down low"
+                "down low",
+                "low and inside"
             ],
             "low_outside": [
                 "low and away", "spikes before the plate", "misses low and outside",
                 "misses low", "misses a bit low", "runs a bit low", "in the dirt",
                 "bounced in the dirt", "just misses outside", "way outside", "misses outside",
-                "misses just a bit outside", "just off the plate", "misses away", "wide"
+                "misses just a bit outside", "just off the plate", "misses away", "wide",
+                "away", "down and away"
             ]
         },
         "foul": [
@@ -121,9 +124,9 @@ GAME_CONTEXT = {
         "2B": "to second",
         "3B": "to third",
         "SS": "to short",
-        "LF": "to left",
-        "CF": "to center",
-        "RF": "to right",
+        "LF": "to left field",
+        "CF": "to center field",
+        "RF": "to right field",
         "MI": "up the middle",
         "RS": "through the right side",
         "LS": "through the left side",
@@ -527,12 +530,13 @@ GAME_CONTEXT = {
             ", and the count is now full"
         ],
         "count_remains_two_strikes": [
-            ", and we'll do it again",
+            ", and {batter_name} stays alive",
             ", count holds at {count_str}",
             ", count remains {count_str}",
             ", still {count_str}",
-            ", so we'll do it again",
-            ", and the count stays at {count_str}"
+            ", and we'll do it again",
+            ", and the count stays at {count_str}",
+            ", so we'll do it again"
         ],
         "inning_end_123": [
              "{pitcher_name} sets them down in order.",
@@ -580,7 +584,8 @@ GAME_CONTEXT = {
             "Batting first and playing {position}, {batter_name}.",
             "And {batter_name} steps in to start the inning.",
             "{batter_name} digs in. He'll lead off.",
-            "And {batter_name} steps into the box against {pitcher_name}."
+            "And {batter_name} steps into the box against {pitcher_name}.",
+            "And {batter_name} will step in against {pitcher_name}."
         ],
         "batter_intro_empty": [
              "And {batter_name} will step in with {outs_str} and nobody on.",
@@ -591,7 +596,9 @@ GAME_CONTEXT = {
              "And {batter_name} will step in with {outs_str} and the bases empty.",
              "And {batter_name} will step in with {outs_str} and nobody on.",
              "Bases empty, {outs_str}, for {batter_name}.",
-             "And {batter_name} steps in against {pitcher_name}. {outs_str}, nobody on."
+             "And {batter_name} steps in against {pitcher_name}. {outs_str}, nobody on.",
+             "And {batter_name} checks in with {outs_str} and the bases empty.",
+             "And here's {batter_name} with {outs_str} and nobody aboard."
         ],
         "batter_intro_runners": [
              "And {batter_name} steps in with {runners_str}, {outs_str}.",
