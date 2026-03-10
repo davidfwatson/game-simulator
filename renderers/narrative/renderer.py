@@ -472,14 +472,27 @@ class NarrativeRenderer(GameRenderer):
                  self._add_to_buffer(intro_txt)
 
             if self.rng_color.random() < 0.2:
-                 bat_side = matchup['batSide']['code']
+                 bat_side_orig = matchup['batSide']['code']
+                 bat_side = bat_side_orig
                  pitch_hand = matchup['pitchHand']['code']
                  if bat_side == 'S': bat_side = 'R' if pitch_hand == 'L' else 'L'
                  matchup_txt = ""
-                 if bat_side == 'R' and pitch_hand == 'R': matchup_txt = "Righty against righty."
-                 elif bat_side == 'R' and pitch_hand == 'L': matchup_txt = "Righty against the lefty."
-                 elif bat_side == 'L' and pitch_hand == 'R': matchup_txt = "Lefty against the righty."
-                 elif bat_side == 'L' and pitch_hand == 'L': matchup_txt = "Lefty against the lefty."
+                 if bat_side_orig == 'S':
+                     effective = 'left' if bat_side == 'L' else 'right'
+                     pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
+                     matchup_txt = f"{batter_name} is a switch hitter and he'll bat {effective} against {pitcher_name}."
+                 elif bat_side == 'R' and pitch_hand == 'R':
+                     matchup_options = ["Righty against righty.", "A righty righty matchup."]
+                     matchup_txt = self.rng_color.choice(matchup_options)
+                 elif bat_side == 'R' and pitch_hand == 'L':
+                     matchup_options = ["Righty against the lefty.", "A righty lefty matchup."]
+                     matchup_txt = self.rng_color.choice(matchup_options)
+                 elif bat_side == 'L' and pitch_hand == 'R':
+                     matchup_options = ["Lefty against the righty.", "A righty lefty matchup."]
+                     matchup_txt = self.rng_color.choice(matchup_options)
+                 elif bat_side == 'L' and pitch_hand == 'L':
+                     matchup_options = ["Lefty against the lefty.", "A lefty lefty matchup."]
+                     matchup_txt = self.rng_color.choice(matchup_options)
 
                  if matchup_txt:
                      play_text_blocks.append(matchup_txt)
@@ -643,7 +656,7 @@ class NarrativeRenderer(GameRenderer):
                             if not suppress_count:
                                 if repeating_two_strikes:
                                     # Use special "count holds at..." logic
-                                    count_hold_str = self._get_narrative_string('count_remains_two_strikes', {'count_str': spoken_count}, rng=self.rng_flow)
+                                    count_hold_str = self._get_narrative_string('count_remains_two_strikes', {'count_str': spoken_count, 'batter_name': batter_name}, rng=self.rng_flow)
                                     if use_comma:
                                         # pbp_line already ends in comma
                                         # "Fouled back, and we'll do it again."
@@ -785,12 +798,34 @@ class NarrativeRenderer(GameRenderer):
             elif outcome == "Strikeout Double Play":
                 outcome_text = f"{batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play."
 
-            elif outcome == "Caught Stealing":
-                 runner_out = next((r for r in play['runners'] if r['movement']['isOut']), None)
-                 if runner_out:
-                     ob = runner_out['movement']['outBase']
-                     base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
-                     outcome_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
+            elif outcome == "Caught Stealing" or ("Caught Stealing" in outcome and "Single" in outcome):
+                 # Handle combined "Caught Stealing 2B / Single" outcomes
+                 if "Single" in outcome:
+                     x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
+                     if x_event:
+                         hit_data = x_event.get('hitData', {})
+                         pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed')}
+                         ordinal = self._get_ordinal(inning)
+                         inning_context = f" here in the {half.lower()} of the {ordinal}"
+                         is_leadoff = (len(self.plays_in_half_inning) == 0)
+                         single_text = self._generate_play_description("Single", hit_data, pitch_details, batter_name, connector=x_event_connector, is_leadoff=is_leadoff, inning_context=inning_context)
+                         if single_text:
+                             outcome_text = single_text
+                     runner_out = next((r for r in play['runners'] if r['movement']['isOut']), None)
+                     if runner_out:
+                         ob = runner_out['movement']['outBase']
+                         base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
+                         cs_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
+                         if outcome_text:
+                             outcome_text += "\n" + cs_text
+                         else:
+                             outcome_text = cs_text
+                 else:
+                     runner_out = next((r for r in play['runners'] if r['movement']['isOut']), None)
+                     if runner_out:
+                         ob = runner_out['movement']['outBase']
+                         base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
+                         outcome_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
 
             elif outcome == "Field Error":
                  err_credit = None

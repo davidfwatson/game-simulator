@@ -29,23 +29,37 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     la = hit_data.get('launchAngle')
     location_code = hit_data.get('location')
 
-    cat = renderer._get_batted_ball_category(outcome, ev, la)
+    # Normalize outcome for template lookup
+    # Strip parenthetical details and descriptive suffixes
+    template_outcome = outcome.split('(')[0].strip() if '(' in outcome else outcome
+    if template_outcome.startswith("Groundout"):
+        template_outcome = "Groundout"
+    elif template_outcome.startswith("Flyout"):
+        template_outcome = "Flyout"
+    elif template_outcome.lower().startswith("grounded into double play") or template_outcome == "Double Play":
+        template_outcome = "Double Play"
+    elif template_outcome == "Reached on Error":
+        template_outcome = "Groundout"
+    elif template_outcome == "Popout":
+        template_outcome = "Pop Out"
+
+    cat = renderer._get_batted_ball_category(template_outcome, ev, la)
 
     specific_templates = []
     if 'narrative_templates' in GAME_CONTEXT:
-        outcome_templates = GAME_CONTEXT['narrative_templates'].get(outcome, {})
+        outcome_templates = GAME_CONTEXT['narrative_templates'].get(template_outcome, {})
         specific_templates = outcome_templates.get(cat, [])
         if not specific_templates:
             specific_templates = outcome_templates.get('default', [])
 
         # Special handling for 1B unassisted groundouts
-        if outcome == "Groundout" and fielder_pos == "1B":
+        if template_outcome == "Groundout" and fielder_pos == "1B":
             unassisted_templates = outcome_templates.get('unassisted_1b', [])
             if unassisted_templates and renderer.rng_flow.random() < 0.5:
                 specific_templates = unassisted_templates
 
         # Special handling for Pitcher comebacker groundouts
-        if outcome == "Groundout" and fielder_pos == "P":
+        if template_outcome == "Groundout" and fielder_pos == "P":
             pitcher_templates = outcome_templates.get('pitcher_groundout', [])
             if pitcher_templates and renderer.rng_flow.random() < 0.5:
                 specific_templates = pitcher_templates
@@ -78,6 +92,15 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     elif direction.startswith("into "):
          direction_noun = direction[5:]
 
+    # Strip "deep " prefix to avoid "deep deep center field" in templates
+    if direction_noun.startswith("deep "):
+        direction_noun = direction_noun[5:]
+
+    # Map infield positions to side names for pop-up templates
+    side_map = {"first": "right", "second": "right", "third": "left", "short": "left"}
+    if template_outcome in ["Pop Out"] and direction_noun in side_map:
+        direction_noun = side_map[direction_noun]
+
     orig_pitch_type = pitch_details.get('type', 'pitch')
     simple_pitch_type = simplify_pitch_type(orig_pitch_type, renderer.rng_pitch)
 
@@ -103,7 +126,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     }
 
     prefix = f"{connector} " if connector else ""
-    force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout"]
+    force_narrative = template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play"]
 
     final_description = ""
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):

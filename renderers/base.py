@@ -37,7 +37,10 @@ class GameRenderer:
                 # Extract digits from fractional seconds. e.g., '2025-09-27T23:05:00.12345678Z' -> 12345678
                 parts = time_str.split('.')
                 if len(parts) > 1:
-                    digits_str = parts[1].replace('Z', '').replace('+', '').split('-')[0]
+                    frac_part = parts[1]
+                    # Strip timezone suffixes: Z, +00:00, -05:00, etc.
+                    import re
+                    digits_str = re.split(r'[Z+-]', frac_part)[0]
                     index = int(digits_str)
                 else:
                     index = 0
