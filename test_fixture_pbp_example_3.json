@@ -4484,7 +4484,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:14:01.000000Z"
+              "startTime": "2025-09-27T23:14:01.00000500Z"
             },
             {
               "index": 3,
@@ -4507,7 +4507,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:14:01.500000Z"
+              "startTime": "2025-09-27T23:14:01.00000600Z"
             }
           ],
           "runners": [
@@ -4550,8 +4550,8 @@
             "isTopInning": false,
             "inning": 3,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:14:30+00:00",
-            "endTime": "2025-09-27T23:14:50.0000300"
+            "startTime": "2025-09-27T23:14:30.00100000+00:00",
+            "endTime": "2025-09-27T23:14:50.00000005"
           },
           "count": {
             "balls": 0,
@@ -4605,7 +4605,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:14:30.000000Z"
+              "startTime": "2025-09-27T23:14:30.00001800Z"
             },
             {
               "index": 1,
@@ -4628,7 +4628,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:14:30.500000Z"
+              "startTime": "2025-09-27T23:14:30.00000600Z"
             },
             {
               "index": 2,
@@ -4681,10 +4681,13 @@
               "credits": [
                 {
                   "player": {
-                    "id": 0,
-                    "link": "/api/v1/people/0"
+                    "id": 625206,
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
@@ -4707,7 +4710,7 @@
             "inning": 3,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:15:00+00:00",
-            "endTime": "2025-09-27T23:15:20.0000300"
+            "endTime": "2025-09-27T23:15:20.00000035"
           },
           "count": {
             "balls": 2,
@@ -4761,7 +4764,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:15:00.000000Z"
+              "startTime": "2025-09-27T23:15:00.00001200Z"
             },
             {
               "index": 1,
@@ -4778,13 +4781,13 @@
                   "code": "CU",
                   "description": "Curveball"
                 },
-                "zone": 14
+                "zone": 13
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:15:00.500000Z"
+              "startTime": "2025-09-27T23:15:00.00001300Z"
             },
             {
               "index": 2,
@@ -4807,7 +4810,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:15:01.000000Z"
+              "startTime": "2025-09-27T23:15:01.00002100Z"
             },
             {
               "index": 3,
@@ -4830,7 +4833,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:15:01.500000Z"
+              "startTime": "2025-09-27T23:15:01.00001200Z"
             },
             {
               "index": 4,
@@ -4883,17 +4886,23 @@
               "credits": [
                 {
                   "player": {
-                    "id": 0,
-                    "link": "/api/v1/people/0"
+                    "id": 625208,
+                    "fullName": "Tiny Howl"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "SS"
+                  }
                 },
                 {
                   "player": {
-                    "id": 0,
-                    "link": "/api/v1/people/0"
+                    "id": 625206,
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }

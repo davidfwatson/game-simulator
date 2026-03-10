@@ -19,7 +19,8 @@ GAME_CONTEXT = {
                 "paints the corner for a called strike",
                 "right down Main Street",
                 "caught the corner",
-                "in at the knees for a called strike"
+                "in at the knees for a called strike",
+                "called a strike on the corner"
             ]
         },
         "ball": {
@@ -248,14 +249,16 @@ GAME_CONTEXT = {
                 "Bouncer to {direction_noun}. Routine play for {fielder_name}. And he scoops it up and flips to first to retire {batter_name} {out_context_str}.",
                 "Grounder to {direction_noun}. {fielder_name} has it and tosses over to first to retire {batter_name} {out_context_str}.",
                 "Chopper to {direction_noun}. {fielder_name} picks it up and fires to first in time to retire {batter_name} {out_context_str}.",
-                "Roller to {direction_noun}. {fielder_name} has it, and fires across to first to get {batter_name} {out_context_str}."
+                "Roller to {direction_noun}. {fielder_name} has it, and fires across to first to get {batter_name} {out_context_str}.",
+                "Grounder to {direction_noun}. {fielder_name} is up with it and he tosses to first to retire {batter_name} {out_context_str}."
             ],
             "unassisted_1b": [
                 "One hopper to first. {fielder_name} will have it unassisted. And he steps on the bag to retire {batter_name} {out_context_str}.",
                 "Roller to first. {fielder_name} will have it unassisted, and he steps on the bag {out_context_str}.",
                 "Bouncer to first. {fielder_name} takes it himself and steps on the bag {out_context_str}.",
                 "Grounder to first. {fielder_name} scoops it up and steps on the bag {out_context_str}.",
-                "Chopper at first. {fielder_name} will have it unassisted and he steps on the bag to retire {batter_name} {out_context_str}."
+                "Chopper at first. {fielder_name} will have it unassisted and he steps on the bag to retire {batter_name} {out_context_str}.",
+                "Bouncer to first. {fielder_name} will have it unassisted and he steps on the bag to retire {batter_name} {out_context_str}."
             ],
             "pitcher_groundout": [
                 "Comebacker to the mound. {fielder_name} handles it and tosses over to first {out_context_str}.",
