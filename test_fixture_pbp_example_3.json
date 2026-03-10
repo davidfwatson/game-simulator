@@ -7262,7 +7262,7 @@
             "isTopInning": true,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:23:00+00:00",
+            "startTime": "2025-09-27T23:23:00.20000000+00:00",
             "endTime": "2025-09-27T23:23:20.0000300"
           },
           "count": {
@@ -7336,7 +7336,7 @@
             "isTopInning": true,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:23:30+00:00",
+            "startTime": "2025-09-27T23:23:30.20000000+00:00",
             "endTime": "2025-09-27T23:23:50.0000300"
           },
           "count": {
@@ -7410,7 +7410,7 @@
             "isTopInning": true,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:24:00+00:00",
+            "startTime": "2025-09-27T23:24:00.20000000+00:00",
             "endTime": "2025-09-27T23:24:20.0000300"
           },
           "count": {
@@ -7484,7 +7484,7 @@
             "isTopInning": false,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:24:30+00:00",
+            "startTime": "2025-09-27T23:24:30.20000000+00:00",
             "endTime": "2025-09-27T23:24:50.0000300"
           },
           "count": {
@@ -7542,7 +7542,7 @@
               "startTime": "2025-09-27T23:24:30.000000Z",
               "hitData": {
                 "trajectory": "groundball",
-                "location": "pitcher"
+                "location": "P"
               }
             }
           ],
@@ -7569,17 +7569,23 @@
               "credits": [
                 {
                   "player": {
-                    "id": 625209,
-                    "link": "/api/v1/people/625209"
+                    "id": 605110,
+                    "fullName": "Scooter McKeever"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "P"
+                  }
                 },
                 {
                   "player": {
                     "id": 625206,
-                    "link": "/api/v1/people/625206"
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
@@ -7601,8 +7607,8 @@
             "isTopInning": false,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:25:00+00:00",
-            "endTime": "2025-09-27T23:25:20.0000300"
+            "startTime": "2025-09-27T23:25:00.20000000+00:00",
+            "endTime": "2025-09-27T23:25:20.00000034"
           },
           "count": {
             "balls": 1,
@@ -7705,7 +7711,7 @@
               "startTime": "2025-09-27T23:25:01.000000Z",
               "hitData": {
                 "trajectory": "groundball",
-                "location": "third base"
+                "location": "3B"
               }
             }
           ],
@@ -7733,16 +7739,22 @@
                 {
                   "player": {
                     "id": 625203,
-                    "link": "/api/v1/people/625203"
+                    "fullName": "Dieter Gomez"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "3B"
+                  }
                 },
                 {
                   "player": {
                     "id": 625206,
-                    "link": "/api/v1/people/625206"
+                    "fullName": "Manny Del Greco"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }
@@ -7764,8 +7776,8 @@
             "isTopInning": false,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:25:30+00:00",
-            "endTime": "2025-09-27T23:25:50.0000300"
+            "startTime": "2025-09-27T23:25:30.20000000+00:00",
+            "endTime": "2025-09-27T23:25:50.00000017"
           },
           "count": {
             "balls": 3,
@@ -7960,7 +7972,7 @@
               "startTime": "2025-09-27T23:25:33.000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "right field"
+                "location": "RF"
               }
             }
           ],
@@ -7987,10 +7999,13 @@
               "credits": [
                 {
                   "player": {
-                    "id": 545106,
-                    "link": "/api/v1/people/545106"
+                    "id": 625205,
+                    "fullName": "Buddy Lamont"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "LF"
+                  }
                 }
               ]
             }
@@ -8012,7 +8027,7 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:26:00+00:00",
+            "startTime": "2025-09-27T23:26:00.20000000+00:00",
             "endTime": "2025-09-27T23:26:20.0000300"
           },
           "count": {
@@ -8121,7 +8136,7 @@
               "startTime": "2025-09-27T23:26:01.000000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "shortstop"
+                "location": "SS"
               }
             }
           ],
@@ -8145,7 +8160,18 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": []
+              "credits": [
+                {
+                  "player": {
+                    "id": 545108,
+                    "fullName": "Ford Stipe"
+                  },
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "SS"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -8165,7 +8191,7 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:26:30+00:00",
+            "startTime": "2025-09-27T23:26:30.20000000+00:00",
             "endTime": "2025-09-27T23:26:50.0000300"
           },
           "count": {
@@ -8390,8 +8416,8 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:27:00+00:00",
-            "endTime": "2025-09-27T23:27:20.0000300"
+            "startTime": "2025-09-27T23:27:00.20000000+00:00",
+            "endTime": "2025-09-27T23:27:20.00000004"
           },
           "count": {
             "balls": 1,
@@ -8504,7 +8530,7 @@
               "startTime": "2025-09-27T23:27:01.000000Z",
               "hitData": {
                 "trajectory": "chopper",
-                "location": "first base"
+                "location": "1B"
               }
             }
           ],
@@ -8569,7 +8595,7 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": true,
-            "startTime": "2025-09-27T23:27:30+00:00",
+            "startTime": "2025-09-27T23:27:30.20000000+00:00",
             "endTime": "2025-09-27T23:27:50.0000300"
           },
           "count": {
@@ -8724,7 +8750,7 @@
               "startTime": "2025-09-27T23:27:32.000000Z",
               "hitData": {
                 "trajectory": "chopper",
-                "location": "through the mound to shortstop"
+                "location": "SS"
               }
             }
           ],
@@ -8790,7 +8816,18 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": []
+              "credits": [
+                {
+                  "player": {
+                    "id": 545108,
+                    "fullName": "Ford Stipe"
+                  },
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "SS"
+                  }
+                }
+              ]
             }
           ]
         },
@@ -8810,8 +8847,8 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:28:00+00:00",
-            "endTime": "2025-09-27T23:28:20.0000300"
+            "startTime": "2025-09-27T23:28:00.20000000+00:00",
+            "endTime": "2025-09-27T23:28:20.00000006"
           },
           "count": {
             "balls": 3,
@@ -8983,7 +9020,7 @@
               "startTime": "2025-09-27T23:28:02.500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "shortstop"
+                "location": "SS"
               }
             }
           ],
@@ -9011,23 +9048,32 @@
                 {
                   "player": {
                     "id": 545108,
-                    "link": "/api/v1/people/545108"
+                    "fullName": "Ford Stipe"
                   },
-                  "credit": "f_assist"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "SS"
+                  }
                 },
                 {
                   "player": {
-                    "id": 545102,
-                    "link": "/api/v1/people/545102"
+                    "id": 545106,
+                    "fullName": "Lamont Bradleys"
                   },
-                  "credit": "f_putout"
+                  "credit": "assist",
+                  "position": {
+                    "abbreviation": "2B"
+                  }
                 },
                 {
                   "player": {
-                    "id": 545104,
-                    "link": "/api/v1/people/545104"
+                    "id": 545107,
+                    "fullName": "Jose Sunderland"
                   },
-                  "credit": "f_putout"
+                  "credit": "putout",
+                  "position": {
+                    "abbreviation": "1B"
+                  }
                 }
               ]
             }

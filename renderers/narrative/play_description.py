@@ -30,9 +30,16 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     location_code = hit_data.get('location')
 
     # Normalize outcome for template lookup
-    template_outcome = outcome
-    if outcome == "Grounded Into Double Play":
+    # Strip parenthetical details and descriptive suffixes
+    template_outcome = outcome.split('(')[0].strip() if '(' in outcome else outcome
+    if template_outcome.startswith("Groundout"):
+        template_outcome = "Groundout"
+    elif template_outcome.startswith("Flyout"):
+        template_outcome = "Flyout"
+    elif template_outcome.lower().startswith("grounded into double play") or template_outcome == "Double Play":
         template_outcome = "Double Play"
+    elif template_outcome == "Reached on Error":
+        template_outcome = "Groundout"
 
     cat = renderer._get_batted_ball_category(template_outcome, ev, la)
 
@@ -44,13 +51,13 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             specific_templates = outcome_templates.get('default', [])
 
         # Special handling for 1B unassisted groundouts
-        if outcome == "Groundout" and fielder_pos == "1B":
+        if template_outcome == "Groundout" and fielder_pos == "1B":
             unassisted_templates = outcome_templates.get('unassisted_1b', [])
             if unassisted_templates and renderer.rng_flow.random() < 0.5:
                 specific_templates = unassisted_templates
 
         # Special handling for Pitcher comebacker groundouts
-        if outcome == "Groundout" and fielder_pos == "P":
+        if template_outcome == "Groundout" and fielder_pos == "P":
             pitcher_templates = outcome_templates.get('pitcher_groundout', [])
             if pitcher_templates and renderer.rng_flow.random() < 0.5:
                 specific_templates = pitcher_templates
@@ -108,7 +115,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     }
 
     prefix = f"{connector} " if connector else ""
-    force_narrative = outcome in ["Groundout", "Flyout", "Pop Out", "Lineout"]
+    force_narrative = template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play"]
 
     final_description = ""
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):
