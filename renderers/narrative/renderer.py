@@ -1,10 +1,9 @@
 import random
-from datetime import datetime
 from commentary import GAME_CONTEXT
 from gameday import GamedayData
 from ..base import GameRenderer
 from .helpers import (
-    estimate_duration, get_ordinal, get_number_word, get_spoken_count,
+    get_ordinal, get_number_word, get_spoken_count,
     get_spoken_score_string, simplify_pitch_type, get_pitch_description_for_location
 )
 
@@ -15,51 +14,16 @@ class NarrativeRenderer(GameRenderer):
         # use_bracketed_ui is ignored in new format as we don't print status lines
         self.last_foul_phrase = ""
 
-        # Timing state
-        self.last_event_end_time = None
-        self.pending_text_buffer = ""
-
-    def _estimate_duration(self, text):
-        return estimate_duration(text)
-
-    def _check_and_add_delay(self, current_end_time_iso, block_list, insert_at_index=-1, context='pitch'):
-        if not self.last_event_end_time or not current_end_time_iso:
-            if current_end_time_iso:
-                 self.last_event_end_time = datetime.fromisoformat(current_end_time_iso)
-            self.pending_text_buffer = ""
+    def _check_and_add_delay(self, block_list, insert_at_index=-1, context='pitch'):
+        DELAYS = {'batter': 11.5, 'first_pitch': 9.5, 'pitch': 8.5}
+        delay = DELAYS.get(context)
+        if delay is None:
             return
-
-        current_end = datetime.fromisoformat(current_end_time_iso)
-
-        if context == 'inning':
-            self.last_event_end_time = current_end
-            self.pending_text_buffer = ""
-            return
-
-        gap = (current_end - self.last_event_end_time).total_seconds()
-
-        spoken_duration = self._estimate_duration(self.pending_text_buffer)
-        raw_delay = gap - spoken_duration
-
-        final_delay = raw_delay
-        if context == 'pitch':
-             final_delay = raw_delay / 2
-        elif context == 'batter':
-             final_delay = raw_delay / 3
-
-        if final_delay > 1.0:
-            delay_line = f"[TTS SPLIT HERE DELAY:{final_delay:.1f}s]"
-            if insert_at_index >= 0:
-                block_list.insert(insert_at_index, delay_line)
-            else:
-                block_list.append(delay_line)
-
-        self.last_event_end_time = current_end
-        self.pending_text_buffer = ""
-
-    def _add_to_buffer(self, text):
-        if text:
-            self.pending_text_buffer += text + " "
+        delay_line = f"[TTS SPLIT HERE DELAY:{delay:.1f}s]"
+        if insert_at_index >= 0:
+            block_list.insert(insert_at_index, delay_line)
+        else:
+            block_list.append(delay_line)
 
     def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple, batter_hand='R'):
         return get_pitch_description_for_location(event_type, zone, pitch_type_simple, self.rng_pitch, batter_hand)
@@ -155,7 +119,7 @@ class NarrativeRenderer(GameRenderer):
 
         def add_line(text):
             lines.append(text)
-            self._add_to_buffer(text)
+
 
         network_name = GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network')
         add_line(self._get_radio_string('station_intro', {'network_name': network_name}))
@@ -335,7 +299,7 @@ class NarrativeRenderer(GameRenderer):
 
                      summary_text = " ".join(summary_lines)
                      lines.append(summary_text)
-                     self._add_to_buffer(summary_text)
+
                      lines.append("")
 
                      # Hardcoded 15s delay for inning break, placed between summary and welcome back
@@ -414,7 +378,7 @@ class NarrativeRenderer(GameRenderer):
                     pitcher_name=pitcher_name
                 )
                 play_text_blocks.append(intro_txt)
-                self._add_to_buffer(intro_txt)
+
             else:
                  if len(runners) == 3:
                      base_desc = "the bases loaded"
@@ -469,7 +433,7 @@ class NarrativeRenderer(GameRenderer):
                      pitcher_name=pitcher_name
                  )
                  play_text_blocks.append(intro_txt)
-                 self._add_to_buffer(intro_txt)
+ 
 
             if self.rng_color.random() < 0.2:
                  bat_side_orig = matchup['batSide']['code']
@@ -496,7 +460,6 @@ class NarrativeRenderer(GameRenderer):
 
                  if matchup_txt:
                      play_text_blocks.append(matchup_txt)
-                     self._add_to_buffer(matchup_txt)
 
             result = play['result']
             outcome = result['event']
@@ -534,17 +497,16 @@ class NarrativeRenderer(GameRenderer):
                 if 'startTime' in event:
                     self._reseed_from_timestamp(event['startTime'], "event")
 
-                # Timing check
-                insert_idx = 0 if i == 0 else -1
-
-                ctx = 'pitch'
+                # TTS delay markers between pitches/batters
                 if i == 0:
-                    if is_first_play_of_inning:
-                        ctx = 'inning'
-                    else:
-                        ctx = 'batter'
-
-                self._check_and_add_delay(event.get('endTime'), play_text_blocks, insert_at_index=insert_idx, context=ctx)
+                    if not is_first_play_of_inning:
+                        # 11.5s before batter intro (between at-bats)
+                        self._check_and_add_delay(play_text_blocks, insert_at_index=0, context='batter')
+                    # 9.5s after batter intro, before first pitch
+                    self._check_and_add_delay(play_text_blocks, context='first_pitch')
+                else:
+                    # 8.5s between pitches
+                    self._check_and_add_delay(play_text_blocks, context='pitch')
 
                 details = event['details']
                 desc = details['description']
@@ -696,21 +658,15 @@ class NarrativeRenderer(GameRenderer):
                         # Update last_pitch_context for the next iteration (important for de-duplication)
                         last_pitch_context = pbp_line.rstrip(".,")
                         play_text_blocks.append(pbp_line)
-                        self._add_to_buffer(pbp_line)
 
                         if is_steal_attempt:
                             steal_txt = self._render_steal_event(steal_event)
                             play_text_blocks.append(steal_txt)
-                            self._add_to_buffer(steal_txt)
-                            if steal_event.get('endTime'):
-                                 self.last_event_end_time = datetime.fromisoformat(steal_event['endTime'])
-                                 self.pending_text_buffer = ""
                             i += 1
                 else:
                     if code != 'X':
                          txt = f"{desc}."
                          play_text_blocks.append(txt)
-                         self._add_to_buffer(txt)
 
                 i += 1
 
@@ -896,7 +852,6 @@ class NarrativeRenderer(GameRenderer):
 
             if outcome_text:
                  play_text_blocks.append(outcome_text)
-                 self._add_to_buffer(outcome_text)
 
             new_away = result['awayScore']
             new_home = result['homeScore']
@@ -931,7 +886,6 @@ class NarrativeRenderer(GameRenderer):
                          score_lines.append(self._get_radio_string('score_update_lead', ctx))
 
                 score_update_text = " ".join(score_lines)
-                self._add_to_buffer(score_update_text)
 
                 if play_text_blocks:
                     last_block = play_text_blocks[-1]
