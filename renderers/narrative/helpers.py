@@ -1,13 +1,5 @@
 from commentary import GAME_CONTEXT
 
-def estimate_duration(text):
-    # Estimate 0.4 seconds per word (approx 150 wpm)
-    if not text: return 0.0
-    # Simple cleanup to avoid counting punctuation as words excessively
-    clean_text = text.replace('.', ' ').replace(',', ' ').replace('!', ' ').replace('?', ' ')
-    words = len(clean_text.split())
-    return words * 0.4
-
 def get_ordinal(n):
     words = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"]
     if 1 <= n <= 9: return words[n]
