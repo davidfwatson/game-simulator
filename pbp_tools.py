@@ -653,14 +653,74 @@ def cmd_diff(args):
             break
 
     # Summary statistics
-    target_lines = set(l.strip() for l in target_text.split('\n') if l.strip() and not l.strip().startswith('[TTS'))
-    rendered_lines = set(l.strip() for l in rendered_text.split('\n') if l.strip() and not l.strip().startswith('[TTS'))
-    identical = target_lines.intersection(rendered_lines)
+    target_content = [l.strip() for l in target_text.split('\n') if l.strip() and not l.strip().startswith('[TTS')]
+    rendered_content = [l.strip() for l in rendered_text.split('\n') if l.strip() and not l.strip().startswith('[TTS')]
+    target_set = set(target_content)
+    rendered_set = set(rendered_content)
+    identical = target_set.intersection(rendered_set)
+
+    # Fuzzy positional matching: for each target line, look for a close match
+    # near its proportional position in the rendered output
+    def line_similarity(a, b):
+        """Word-level Jaccard between two lines."""
+        wa = set(re.findall(r'\b\w+\b', a.lower()))
+        wb = set(re.findall(r'\b\w+\b', b.lower()))
+        if not wa and not wb:
+            return 1.0
+        if not wa or not wb:
+            return 0.0
+        return len(wa & wb) / len(wa | wb)
+
+    n_target = len(target_content)
+    n_rendered = len(rendered_content)
+    wiggle_pct = 0.08  # look within 8% of proportional position
+    wiggle_min = 5      # at least 5 lines of wiggle room
+
+    exact_positional = 0
+    near_matches_90 = 0   # ≥90% similar
+    near_matches_75 = 0   # ≥75% similar
+    rendered_used = set()  # track which rendered lines have been matched
+
+    for ti, tline in enumerate(target_content):
+        if not tline:
+            continue
+        # Proportional position in rendered
+        prop = ti / n_target if n_target > 0 else 0
+        center = int(prop * n_rendered)
+        wiggle = max(wiggle_min, int(wiggle_pct * n_rendered))
+        lo = max(0, center - wiggle)
+        hi = min(n_rendered, center + wiggle + 1)
+
+        best_sim = 0.0
+        best_ri = -1
+        for ri in range(lo, hi):
+            if ri in rendered_used:
+                continue
+            sim = line_similarity(tline, rendered_content[ri])
+            if sim > best_sim:
+                best_sim = sim
+                best_ri = ri
+
+        if best_sim == 1.0:
+            exact_positional += 1
+            rendered_used.add(best_ri)
+        elif best_sim >= 0.9:
+            near_matches_90 += 1
+            rendered_used.add(best_ri)
+        elif best_sim >= 0.75:
+            near_matches_75 += 1
+            rendered_used.add(best_ri)
 
     print(f"\n--- Summary ---")
-    print(f"Content lines in target: {len(target_lines)}")
-    print(f"Content lines in rendered: {len(rendered_lines)}")
-    print(f"Identical content lines: {len(identical)} ({100*len(identical)/len(target_lines):.1f}%)")
+    print(f"Content lines in target: {n_target}")
+    print(f"Content lines in rendered: {n_rendered}")
+    print(f"Identical content lines (any position): {len(identical)} ({100*len(identical)/n_target:.1f}%)")
+    print(f"\nPositional fuzzy matching (±{wiggle_pct:.0%} of file):")
+    print(f"  Exact match:  {exact_positional} ({100*exact_positional/n_target:.1f}%)")
+    print(f"  ≥90% similar: {near_matches_90} ({100*near_matches_90/n_target:.1f}%)")
+    print(f"  ≥75% similar: {near_matches_75} ({100*near_matches_75/n_target:.1f}%)")
+    total_good = exact_positional + near_matches_90 + near_matches_75
+    print(f"  Total ≥75%:   {total_good} ({100*total_good/n_target:.1f}%)")
 
     # Word-level Jaccard
     def get_words(s):
@@ -668,7 +728,7 @@ def cmd_diff(args):
     tw = get_words(target_text)
     rw = get_words(rendered_text)
     jaccard = len(tw & rw) / len(tw | rw) if tw | rw else 0
-    print(f"Word Jaccard similarity: {100*jaccard:.1f}%")
+    print(f"\nWord Jaccard similarity: {100*jaccard:.1f}%")
 
     if args.output:
         with open(args.output, 'w') as f:
