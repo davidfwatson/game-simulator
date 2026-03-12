@@ -1,0 +1,163 @@
+[
+  {
+    "inning": 9,
+    "isTopInning": true,
+    "batter": {"fullName": "Giovanni Gasparro", "battingOrder": 7},
+    "pitcher": {"fullName": "Royce Babcock"},
+    "result": {"event": "Double", "rbi": 0},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play, 0-1"},
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball, cut on and missed, 0-2"},
+      {"code": "B", "pitchType": "Changeup", "description": "Changeup runs high, 1-2"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider in the dirt, 2-2"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball runs inside, count runs full, 3-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "Lined down the third base line, fair, gets all the way to the wall. Leadoff double"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "left field line/wall"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Giovanni Gasparro", "start": "home", "end": "2B"}
+    ],
+    "notes": "Gasparro 0-for-3 entering. Full-count double down the left field line off the wall. Leadoff runner in scoring position, nobody out."
+  },
+  {
+    "inning": 9,
+    "isTopInning": true,
+    "batter": {"fullName": "Flipper Cortez", "battingOrder": 8},
+    "pitcher": {"fullName": "Royce Babcock"},
+    "result": {"event": "Lineout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Hard liner right into the glove of Castor at first"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "first base"},
+    "fielders": [
+      {"role": "putout", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "First-pitch lineout. Hard liner caught by Castor at first. One out, runner on second."
+  },
+  {
+    "inning": 9,
+    "isTopInning": true,
+    "batter": {"fullName": "Virgil Hughes", "battingOrder": 9},
+    "pitcher": {"fullName": "Royce Babcock"},
+    "result": {"event": "Walk", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball called strike one, 0-1"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider in the dirt, 1-1"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball high and tight, 2-1"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball runs inside, 3-1"},
+      {"code": "B", "pitchType": "Changeup", "description": "Changeup misses down and in, ball four"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Virgil Hughes", "start": "home", "end": "1B"}
+    ],
+    "notes": "Hughes draws a one-out walk. Babcock falls behind 3-1 and can't find the zone. Runners on first and second, one out."
+  },
+  {
+    "inning": 9,
+    "isTopInning": true,
+    "batter": {"fullName": "Pinky Slauson", "battingOrder": 1},
+    "pitcher": {"fullName": "Royce Babcock"},
+    "result": {"event": "Strikeout Looking", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball, called strike one, 0-1"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider misses low and away, 1-1"},
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball called a strike, 1-2"},
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball called strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Slauson 2-for-4 entering. Goes down looking on a called third strike. Two outs, runners still on first and second."
+  },
+  {
+    "inning": 9,
+    "isTopInning": true,
+    "batter": {"fullName": "Gabriel Palomar", "battingOrder": 2},
+    "pitcher": {"fullName": "Royce Babcock"},
+    "result": {"event": "Groundout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball misses low, 1-0"},
+      {"code": "F", "pitchType": "Unknown", "description": "Hammered foul down the third base line, 1-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Hard grounder to second. Ferguson is up with it and tosses to first to retire Palomar"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "second base"},
+    "fielders": [
+      {"role": "assist", "name": "Jesus Ferguson", "position": "2B"},
+      {"role": "putout", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Palomar 2-for-4 with a single in the 1st and a 2-run HR in the 7th. Grounds out 4-3 to end the inning. Cars strand two runners. Score remains Cadillac 4, Big Rapids 1."
+  },
+  {
+    "inning": 9,
+    "isTopInning": false,
+    "batter": {"fullName": "Dutch Moon", "battingOrder": 1},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Pop Out", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball called a strike, 0-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Pop fly, shallow right. Nakamura drifting back, makes the catch"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "shallow right field"},
+    "fielders": [
+      {"role": "putout", "name": "Philip Nakamura", "position": "RF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Moon at the top of the Timbers' order. Pop out to shallow right. One out, bases empty."
+  },
+  {
+    "inning": 9,
+    "isTopInning": false,
+    "batter": {"fullName": "Rio Nunez", "battingOrder": 2},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Pop Out", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball called a strike, 0-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Popped up on the infield. Cortez calling for it, makes the squeeze"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "infield"},
+    "fielders": [
+      {"role": "putout", "name": "Flipper Cortez", "position": "2B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Nunez pops out to Cortez on the infield. Two outs, bases empty."
+  },
+  {
+    "inning": 9,
+    "isTopInning": false,
+    "batter": {"fullName": "Keith Castor", "battingOrder": 4},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Double", "rbi": 0},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play, 0-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Line drive, right field! Drops into the gap. Castor hustles around first, slides in safely under the tag for a two-out double"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "right field gap"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Keith Castor", "start": "home", "end": "2B"}
+    ],
+    "notes": "Castor 0-for-3 entering. Two-out double to right field gap. Castor represents the tying run's on-deck circle. Runner on second, two outs."
+  },
+  {
+    "inning": 9,
+    "isTopInning": false,
+    "batter": {"fullName": "Randy Chang", "battingOrder": 5},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Groundout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Grounder to Cortez, tosses to first to retire Chang to end the ballgame"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "second base"},
+    "fielders": [
+      {"role": "assist", "name": "Flipper Cortez", "position": "2B"},
+      {"role": "putout", "name": "Gabriel Palomar", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Chang grounds out 4-3 to end the game. Virgil Hughes completes the game. Final score: Cadillac 4, Big Rapids 1. Hughes goes the distance. Von Neumann takes the loss."
+  }
+]

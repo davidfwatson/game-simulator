@@ -1,0 +1,130 @@
+[
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Giovanni Gasparro", "battingOrder": 7},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball low and outside, ball one"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball misses low, ball two"},
+      {"code": "F", "pitchType": "unknown", "description": "Hammered foul and into the stands, strike one"},
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball cut on and missed, strike two"},
+      {"code": "X", "pitchType": "unknown", "description": "Hit in the air to right-center, Chang makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "right-center field"},
+    "fielders": [{"role": "putout", "name": "Randy Chang", "position": "CF"}],
+    "runnerMovement": [],
+    "notes": "Count progression: 1-0, 2-0, 2-1, 2-2, then flyout. Gasparro flied out in the second. Chang drifts in for the catch, out number one."
+  },
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Flipper Cortez", "battingOrder": 8},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "unknown", "description": "Dribbled foul on the first base line, strike one"},
+      {"code": "B", "pitchType": "Curveball", "description": "Low curve, checked swing, ball one"},
+      {"code": "X", "pitchType": "unknown", "description": "Chopper to third, Rudderson fires to first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "third base"},
+    "fielders": [
+      {"role": "assist", "name": "Blink Rudderson", "position": "3B"},
+      {"role": "putout", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Count progression: 0-1, 1-1, then groundout. Cortez walked in the second. Rudderson fields and fires to first for out number two."
+  },
+  {
+    "inning": 4,
+    "isTopInning": true,
+    "batter": {"fullName": "Virgil Hughes", "battingOrder": 9},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Pop Out"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "unknown", "description": "Popped up, shallow right"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "shallow right field"},
+    "fielders": [{"role": "putout", "name": "Keith Castor", "position": "1B"}],
+    "runnerMovement": [],
+    "notes": "First-pitch popup. Castor calls for it and makes the catch to end the inning. One-two-three inning for Von Neumann. Hughes drew a walk in the second. Score remains Cadillac 1, Big Rapids 0."
+  },
+  {
+    "inning": 4,
+    "isTopInning": false,
+    "batter": {"fullName": "Rio Nunez", "battingOrder": 4},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball cut on and missed, strike one"},
+      {"code": "X", "pitchType": "unknown", "description": "Hard grounder up the middle, squeezes through for a base hit"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "up the middle"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Rio Nunez", "start": "home", "end": "1B"}
+    ],
+    "notes": "Count progression: 0-1, then single. Nunez popped out in the first. Leadoff single for the Timbers in the bottom of the fourth."
+  },
+  {
+    "inning": 4,
+    "isTopInning": false,
+    "batter": {"fullName": "Keith Castor", "battingOrder": 5},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "unknown", "description": "Called strike on the stolen base pitch, strike one"},
+      {"code": "X", "pitchType": "unknown", "description": "Slow roller to second, Cortez flips to first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "second base"},
+    "fielders": [
+      {"role": "assist", "name": "Flipper Cortez", "position": "2B"},
+      {"role": "putout", "name": "Philip Nakamura", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Rio Nunez", "start": "1B", "end": "2B", "note": "stolen base before this pitch"},
+      {"runner": "Rio Nunez", "start": "2B", "end": "3B", "note": "advances on groundout"},
+      {"runner": "Keith Castor", "start": "home", "end": "out at 1B"}
+    ],
+    "stolenBase": {"runner": "Rio Nunez", "base": "2B", "throwBy": "Giovanni Gasparro", "description": "Runner goes, Gasparro fires to second, Nunez slides in under the tag"},
+    "notes": "Stolen base by Nunez on the first pitch (called strike). Then on 0-1, slow roller to second moves Nunez to third. Castor struck out in the first. One out, runner on third."
+  },
+  {
+    "inning": 4,
+    "isTopInning": false,
+    "batter": {"fullName": "Randy Chang", "battingOrder": 6},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Groundout", "rbi": 1},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "unknown", "description": "Paints the corner for a called strike one"},
+      {"code": "X", "pitchType": "unknown", "description": "Low roller up the middle, Slauson fields it, no play at the plate, toss to first in time"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "up the middle"},
+    "fielders": [
+      {"role": "assist", "name": "Pinky Slauson", "position": "SS"},
+      {"role": "putout", "name": "Philip Nakamura", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Rio Nunez", "start": "3B", "end": "home", "scored": true},
+      {"runner": "Randy Chang", "start": "home", "end": "out at 1B"}
+    ],
+    "notes": "RBI groundout for Chang. Nunez scores from third to tie the game at one. Slauson fields up the middle, no play at the plate, retires Chang at first. Chang grounded out in the second. Two outs, bases empty."
+  },
+  {
+    "inning": 4,
+    "isTopInning": false,
+    "batter": {"fullName": "Brink Filbert", "battingOrder": 7},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "unknown", "description": "Fouled back and out of play, strike one"},
+      {"code": "F", "pitchType": "unknown", "description": "Fouls another one off, strike two"},
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball called strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Count progression: 0-1, 0-2, then called strike three on the curveball. Filbert struck out in the second. Ends the inning. Timbers score one run to tie it at 1-1 after four innings."
+  }
+]
