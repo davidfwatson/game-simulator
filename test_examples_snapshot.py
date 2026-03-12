@@ -168,5 +168,55 @@ class TestExampleSnapshots(unittest.TestCase):
             "The rendered output of test_fixture_pbp_example_3.json does not match test_fixture_pbp_example_3.txt. Note: If you see this failure after modifying test_fixture_pbp_example_3.json, it simply means you need to regenerate test_fixture_pbp_example_3.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_3.json --pbp-outfile test_fixture_pbp_example_3.txt`)."
         )
 
+    def test_pbp_example_1_match_percentage(self):
+        """Asserts that the output of test_fixture_pbp_example_1.json meets a minimum threshold of match with pbp_example_1.txt."""
+        import json
+        import re
+        from renderers.narrative.renderer import NarrativeRenderer
+
+        with open('pbp_example_1.txt', 'r') as f:
+            text = f.read()
+
+        with open('test_fixture_pbp_example_1.json', 'r') as f:
+            data = json.load(f)
+
+        renderer = NarrativeRenderer(data)
+        rendered = renderer.render()
+
+        def get_words(s):
+            return set(re.findall(r'\b\w+\b', s.lower()))
+
+        text_words = get_words(text)
+        rendered_words = get_words(rendered)
+
+        intersection = text_words.intersection(rendered_words)
+        union = text_words.union(rendered_words)
+        jaccard = len(intersection) / len(union) if union else 0
+
+        # Initial threshold - will increase as alignment improves
+        self.assertGreaterEqual(
+            jaccard, 0.30,
+            f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 30% threshold."
+        )
+
+    def test_pbp_example_1_draft_consistency(self):
+        """Asserts that the current output of rendering test_fixture_pbp_example_1.json matches test_fixture_pbp_example_1.txt."""
+        import json
+        from renderers.narrative.renderer import NarrativeRenderer
+
+        with open('test_fixture_pbp_example_1.json', 'r') as f:
+            data = json.load(f)
+
+        renderer = NarrativeRenderer(data)
+        rendered = renderer.render()
+
+        with open('test_fixture_pbp_example_1.txt', 'r') as f:
+            expected = f.read()
+
+        self.assertEqual(
+            rendered, expected,
+            "The rendered output of test_fixture_pbp_example_1.json does not match test_fixture_pbp_example_1.txt. Note: If you see this failure after modifying test_fixture_pbp_example_1.json, it simply means you need to regenerate test_fixture_pbp_example_1.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_1.json --pbp-outfile test_fixture_pbp_example_1.txt`)."
+        )
+
 if __name__ == "__main__":
     unittest.main()

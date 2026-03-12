@@ -1,0 +1,141 @@
+[
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Flipper Cortez", "battingOrder": 8},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Strikeout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "High fly ball, right field... knuckles foul into the stands, 0-1"},
+      {"code": "F", "pitchType": "Unknown", "description": "Tapped down the first base line, foul, 0-2"},
+      {"code": "S", "pitchType": "Fastball", "description": "Swing and a miss on a high heater, strikeout"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Cortez walked in the 2nd and grounded out in the 4th. Goes down on strikes on 3 pitches. One out, bases empty."
+  },
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Virgil Hughes", "battingOrder": 9},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Groundout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball, called a strike, 0-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Ground ball to third, Rudderson fires to first to retire Hughes"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "third base"},
+    "fielders": [
+      {"role": "assist", "name": "Blink Rudderson", "position": "3B"},
+      {"role": "putout", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Hughes walked in the 2nd and popped out in the 4th. Quick groundout 5-3. Two outs, bases empty."
+  },
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Pinky Slauson", "battingOrder": 1},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Single", "rbi": 0},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Lined sharply into right field, drops in for a base hit"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "right field"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Pinky Slauson", "start": "home", "end": "1B"}
+    ],
+    "notes": "Slauson is 1-for-3 with a double in the 5th. Two-out single, runner on first."
+  },
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Gabriel Palomar", "battingOrder": 2},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Home Run", "rbi": 2},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play, 0-1"},
+      {"code": "F", "pitchType": "Unknown", "description": "Chopped foul on the first base line, 0-2"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball misses low, 1-2"},
+      {"code": "X", "pitchType": "Fastball", "description": "Hit in the air to deep right field, sails over the wall for a home run"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "deep right field"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Pinky Slauson", "start": "1B", "end": "home", "scored": true},
+      {"runner": "Gabriel Palomar", "start": "home", "end": "home", "scored": true}
+    ],
+    "notes": "Two-run home run! Slauson scores from first. Cadillac now leads 4-1. Von Neumann pitching from the stretch. Chang raced after it but could not get there."
+  },
+  {
+    "inning": 7,
+    "isTopInning": true,
+    "batter": {"fullName": "Shiny Patterson", "battingOrder": 3},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Flyout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball runs inside, 1-0"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball low and inside, 2-0"},
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, center field. Moon makes the catch to end the inning"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "center field"},
+    "fielders": [
+      {"role": "putout", "name": "Dutch Moon", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Patterson flies out to center to end the top half. Cars added 2 runs this inning. Score: Cadillac 4, Big Rapids 1."
+  },
+  {
+    "inning": 7,
+    "isTopInning": false,
+    "batter": {"fullName": "Keith Castor", "battingOrder": 4},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Pop Out", "rbi": 0},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball runs high, 1-0"},
+      {"code": "S", "pitchType": "Curveball", "description": "Curveball, cut on and missed, 1-1"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses outside, 2-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Popped up, shallow left. Parker drifting in, makes the catch"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "shallow left field"},
+    "fielders": [
+      {"role": "putout", "name": "Gilligan Parker", "position": "LF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Castor 0-for-2 entering the AB. Pop out to shallow left. One out, bases empty."
+  },
+  {
+    "inning": 7,
+    "isTopInning": false,
+    "batter": {"fullName": "Randy Chang", "battingOrder": 5},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Flyout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, center field. Routine play for Ortega, makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "center field"},
+    "fielders": [
+      {"role": "putout", "name": "Fritz Ortega", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "First-pitch flyout to center. Two outs, bases empty."
+  },
+  {
+    "inning": 7,
+    "isTopInning": false,
+    "batter": {"fullName": "Brink Filbert", "battingOrder": 6},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Pop Out", "rbi": 0},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Popped up to short. Slauson camped under it, makes the catch"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "shortstop"},
+    "fielders": [
+      {"role": "putout", "name": "Pinky Slauson", "position": "SS"}
+    ],
+    "runnerMovement": [],
+    "notes": "Filbert with a pair of strikeouts entering this AB. First-pitch popup to short. Hughes sets them down in order. Score remains Cadillac 4, Big Rapids 1."
+  }
+]

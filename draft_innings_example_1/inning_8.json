@@ -1,0 +1,127 @@
+[
+  {
+    "inning": 8,
+    "isTopInning": true,
+    "batter": {"fullName": "Philip Nakamura", "battingOrder": 4},
+    "pitcher": {"fullName": "Royce Babcock"},
+    "result": {"event": "Groundout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball, cut on and missed, 0-1"},
+      {"code": "F", "pitchType": "Unknown", "description": "Chopped foul down the first base line, 0-2"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider in the dirt, 1-2"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball down and in, 2-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "Grounder to short. Nunez has it and fires to first to retire Nakamura"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "shortstop"},
+    "fielders": [
+      {"role": "assist", "name": "Rio Nunez", "position": "SS"},
+      {"role": "putout", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Babcock enters in relief for the Timbers. Lefty vs lefty matchup. Nakamura grounds out 6-3. One out, bases empty."
+  },
+  {
+    "inning": 8,
+    "isTopInning": true,
+    "batter": {"fullName": "Gilligan Parker", "battingOrder": 5},
+    "pitcher": {"fullName": "Royce Babcock"},
+    "result": {"event": "Strikeout Looking", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball, a strike, 0-1"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider runs inside, 1-1"},
+      {"code": "S", "pitchType": "Curveball", "description": "Curveball, cut on and missed, 1-2"},
+      {"code": "C", "pitchType": "Fastball", "description": "Looks at a fastball for called strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Parker is 1-for-3. Goes down looking on a called third strike fastball. Two outs, bases empty."
+  },
+  {
+    "inning": 8,
+    "isTopInning": true,
+    "batter": {"fullName": "Fritz Ortega", "battingOrder": 6},
+    "pitcher": {"fullName": "Royce Babcock"},
+    "result": {"event": "Flyout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, deep center. Moon racing back, makes the catch on the warning track"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "deep center field"},
+    "fielders": [
+      {"role": "putout", "name": "Dutch Moon", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Ortega 0-for-3 entering. First-pitch flyout to deep center, Moon makes the catch on the warning track. Babcock sets them down in order in relief. Score remains Cadillac 4, Big Rapids 1."
+  },
+  {
+    "inning": 8,
+    "isTopInning": false,
+    "batter": {"fullName": "Jesus Ferguson", "battingOrder": 7},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Single", "rbi": 0},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball up and in, 1-0"},
+      {"code": "X", "pitchType": "Unknown", "description": "Lined into left field, falls into the gap for a base hit"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "left field"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Jesus Ferguson", "start": "home", "end": "1B"}
+    ],
+    "notes": "Ferguson 0-for-2 entering. Leadoff single to left. Runner on first, nobody out."
+  },
+  {
+    "inning": 8,
+    "isTopInning": false,
+    "batter": {"fullName": "Blink Rudderson", "battingOrder": 8},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Flyout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball called a strike, 0-1"},
+      {"code": "S", "pitchType": "Curveball", "description": "Curveball, cut on and missed, 0-2"},
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, shallow center. Ortega racing in, makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "shallow center field"},
+    "fielders": [
+      {"role": "putout", "name": "Fritz Ortega", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Rudderson 1-for-2 entering. Fly ball to shallow center. Ferguson holds at first. One out, runner on first."
+  },
+  {
+    "inning": 8,
+    "isTopInning": false,
+    "batter": {"fullName": "Henny Oldman", "battingOrder": 9},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Flyout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play, 0-1"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses just outside, 1-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, center field. Ortega makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "center field"},
+    "fielders": [
+      {"role": "putout", "name": "Fritz Ortega", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Oldman has a man on first with one out. Flies out to center. Two outs, runner on first."
+  },
+  {
+    "inning": 8,
+    "isTopInning": false,
+    "batter": {"fullName": "Royce Babcock", "battingOrder": 0},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Groundout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball, called a strike, 0-1"},
+      {"code": "X", "pitchType": "Unknown", "description": "Roller back to the mound, Hughes tosses to first to retire Babcock"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "pitcher/mound"},
+    "fielders": [
+      {"role": "assist", "name": "Virgil Hughes", "position": "P"},
+      {"role": "putout", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Babcock batting for himself in the pitcher's spot. Batting .298 this season. Groundout 1-3. Timbers strand Ferguson at first. Inning over. Score remains Cadillac 4, Big Rapids 1."
+  }
+]

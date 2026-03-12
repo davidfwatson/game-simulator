@@ -1,0 +1,115 @@
+[
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Gilligan Parker", "battingOrder": 5},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Lineout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball up and in, ball one"},
+      {"code": "F", "pitchType": "unknown", "description": "Hammered foul and into the stands, strike one"},
+      {"code": "B", "pitchType": "Changeup", "description": "Changeup misses low, ball two"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider in the dirt, ball three"},
+      {"code": "X", "pitchType": "unknown", "description": "Line drive into center field, Moon makes the catch"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "center field"},
+    "fielders": [
+      {"role": "putout", "name": "Dutch Moon", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Count progression: 1-0, 1-1, 2-1, 3-1, then lineout. Parker is 1-for-2 with a hit in the first. Moon catches the liner for out number one."
+  },
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Fritz Ortega", "battingOrder": 6},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball runs high, ball one"},
+      {"code": "X", "pitchType": "unknown", "description": "Chopper to short, Nunez fires to first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "shortstop"},
+    "fielders": [
+      {"role": "assist", "name": "Rio Nunez", "position": "SS"},
+      {"role": "putout", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Count progression: 1-0, then groundout. Ortega has flied out in both previous appearances. Nunez fields the chopper and fires to first for out number two."
+  },
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Giovanni Gasparro", "battingOrder": 7},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses low, ball one"},
+      {"code": "F", "pitchType": "unknown", "description": "Fouled back and out of play, strike one"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider in the dirt, ball two"},
+      {"code": "X", "pitchType": "unknown", "description": "Fly ball to left field, Filbert makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "left field"},
+    "fielders": [
+      {"role": "putout", "name": "Brink Filbert", "position": "LF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Count progression: 1-0, 1-1, 2-1, then flyout. Gasparro is 0-for-2. Routine play for Filbert to end the inning. Von Neumann sets them down in order in the top of the sixth. Score remains Cars 2, Timbers 1."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Javier Von Neumann", "battingOrder": 9},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "unknown", "description": "Shows bunt, bunted foul on the first base line, strike one"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball runs inside, ball one"},
+      {"code": "X", "pitchType": "unknown", "description": "Line drive up the middle, gets through the infield for a base hit"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "up the middle"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Javier Von Neumann", "start": "home", "end": "1B"}
+    ],
+    "notes": "Count progression: 0-1 (bunt foul), 1-1, then single. Von Neumann grounded out in the third. Leadoff single in the bottom of the sixth."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Dutch Moon", "battingOrder": 1},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Double Play"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "unknown", "description": "Hard grounder to second, 4-6-3 double play"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "second base"},
+    "fielders": [
+      {"role": "assist", "name": "Flipper Cortez", "position": "2B"},
+      {"role": "assist", "name": "Pinky Slauson", "position": "SS"},
+      {"role": "putout", "name": "Philip Nakamura", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Javier Von Neumann", "start": "1B", "end": "out at 2B"},
+      {"runner": "Dutch Moon", "start": "home", "end": "out at 1B"}
+    ],
+    "notes": "First-pitch 4-6-3 double play. Moon is 0-for-2. Cortez to Slauson to Nakamura. Two outs, nobody on."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Rio Nunez", "battingOrder": 4},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Pop Out"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses low, ball one"},
+      {"code": "X", "pitchType": "unknown", "description": "Popped up, shallow right, Cortez calls for it and makes the catch"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "shallow right field"},
+    "fielders": [
+      {"role": "putout", "name": "Flipper Cortez", "position": "2B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Count progression: 1-0, then popup. Nunez is 1-for-2. Cortez calls for it and makes the catch to end the inning. Score remains Cadillac 2, Big Rapids 1 after six innings."
+  }
+]

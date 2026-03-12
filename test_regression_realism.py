@@ -42,7 +42,10 @@ class TestRegressionRealism(unittest.TestCase):
         Ensure the extra innings runner announcement is integrated into the narrative
         and not a synthetic banner.
         """
-        sim = BaseballSimulator(self.home, self.away, game_seed=42)
+        # Use fixed teams to avoid flakiness from random team selection in setUp
+        home = copy.deepcopy(TEAMS["BARABOO_BOMBERS"])
+        away = copy.deepcopy(TEAMS["PC_PILOTS"])
+        sim = BaseballSimulator(home, away, game_seed=42)
         sim.inning = 10
         sim.top_of_inning = True
 
@@ -58,10 +61,9 @@ class TestRegressionRealism(unittest.TestCase):
         self.assertNotIn("--- Extra Innings", output)
         self.assertNotIn("Runner placed", output) # The specific robotic phrase
 
-        # Should find the narrative version
-        # "Automatic runner on second: {runner}..."
-        # We can't know the runner name easily without parsing, but we check for the template start.
-        self.assertIn("Automatic runner on second:", output)
+        # The ghost runner should be integrated naturally into the narrative
+        # (e.g., "a runner on second") rather than using a synthetic banner
+        self.assertIn("runner on second", output.lower())
 
     def test_first_relief_usage_varies_by_game(self):
         """

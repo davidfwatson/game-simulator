@@ -1,0 +1,129 @@
+[
+  {
+    "inning": 5,
+    "isTopInning": true,
+    "batter": {"fullName": "Pinky Slauson", "battingOrder": 1},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Double"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball called strike one"},
+      {"code": "F", "pitchType": "unknown", "description": "Fouled back and out of play, strike two"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses low and outside, ball one"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider down and in, ball two"},
+      {"code": "X", "pitchType": "unknown", "description": "Hammered to left field, drops in and rolls to the wall, stand-up double"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "left field"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Pinky Slauson", "start": "home", "end": "2B"}
+    ],
+    "notes": "Count progression: 0-1, 0-2, 1-2, 2-2, then double. Slauson is 0-for-2 coming in. Leadoff double to left field, ball rolls to the wall. Runner on second, nobody out."
+  },
+  {
+    "inning": 5,
+    "isTopInning": true,
+    "batter": {"fullName": "Gabriel Palomar", "battingOrder": 2},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "unknown", "description": "Fouled back and into the stands, strike one"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball misses low, ball one"},
+      {"code": "X", "pitchType": "unknown", "description": "Grounded to first, Castor unassisted, Slauson advances to third"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "first base"},
+    "fielders": [
+      {"role": "unassisted", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Pinky Slauson", "start": "2B", "end": "3B"},
+      {"runner": "Gabriel Palomar", "start": "home", "end": "out at 1B"}
+    ],
+    "notes": "Count progression: 0-1, 1-1, then groundout. Palomar is 1-for-2 with a hit in the first. Castor steps on the bag unassisted. Slauson advances to third. One out, runner on third."
+  },
+  {
+    "inning": 5,
+    "isTopInning": true,
+    "batter": {"fullName": "Shiny Patterson", "battingOrder": 3},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Sac Fly", "rbi": 1},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "unknown", "description": "Fly ball to center field, Moon makes the catch, Slauson tags and scores"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "center field"},
+    "fielders": [
+      {"role": "putout", "name": "Dutch Moon", "position": "CF"}
+    ],
+    "runnerMovement": [
+      {"runner": "Pinky Slauson", "start": "3B", "end": "home", "scored": true}
+    ],
+    "notes": "First-pitch sac fly. Patterson is 1-for-2. Moon catches the fly ball, Slauson tags and scores from third. Cars take the lead 2-1. Infield was in for Patterson. Two outs, bases empty."
+  },
+  {
+    "inning": 5,
+    "isTopInning": true,
+    "batter": {"fullName": "Philip Nakamura", "battingOrder": 4},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball runs inside, ball one"},
+      {"code": "X", "pitchType": "unknown", "description": "Rounder to second, Ferguson flips to first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "second base"},
+    "fielders": [
+      {"role": "assist", "name": "Jesus Ferguson", "position": "2B"},
+      {"role": "putout", "name": "Keith Castor", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Count progression: 1-0, then groundout. Nakamura is 1-for-2. Ferguson fields and flips to first to retire Nakamura. End of the top of the fifth. Cars lead 2-1 after four and a half."
+  },
+  {
+    "inning": 5,
+    "isTopInning": false,
+    "batter": {"fullName": "Jesus Ferguson", "battingOrder": 2},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "unknown", "description": "Grounded to second, Cortez flips to first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "second base"},
+    "fielders": [
+      {"role": "assist", "name": "Flipper Cortez", "position": "2B"},
+      {"role": "putout", "name": "Philip Nakamura", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "First-pitch groundout. Ferguson grounded out in the second. Cortez with the routine play, flips to first for out number one."
+  },
+  {
+    "inning": 5,
+    "isTopInning": false,
+    "batter": {"fullName": "Blink Rudderson", "battingOrder": 3},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "S", "pitchType": "Changeup", "description": "Off-speed pitch, cut on and missed, strike one"},
+      {"code": "S", "pitchType": "Curveball", "description": "Swing and a miss on a low curve, strike two"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball down and in, ball one"},
+      {"code": "S", "pitchType": "Curveball", "description": "Swing and a miss on a low curve, strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Count progression: 0-1, 0-2, 1-2, then strikeout. Rudderson had a base hit in the third. Goes down on strikes for out number two."
+  },
+  {
+    "inning": 5,
+    "isTopInning": false,
+    "batter": {"fullName": "Henny Oldman", "battingOrder": 8},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball called strike one"},
+      {"code": "S", "pitchType": "Breaking Ball", "description": "Wild hack at an outside breaking ball, strike two"},
+      {"code": "S", "pitchType": "unknown", "description": "Swing and a miss, strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Count progression: 0-1, 0-2, then strikeout. Hughes sets them down in order. Three up, three down for the Timbers in the bottom of the fifth. Score: Cars 2, Timbers 1 after five."
+  }
+]

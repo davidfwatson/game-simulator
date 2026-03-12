@@ -1,0 +1,168 @@
+[
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Pinky Slauson", "battingOrder": 1},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball, called strike one"},
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball in the dirt"},
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, straightaway Center. Moon makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "CF"},
+    "fielders": [
+      {"role": "putout", "name": "Dutch Moon", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Leadoff flyout. Count was 1-2 when put in play. Righty vs righty."
+  },
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Gabriel Palomar", "battingOrder": 2},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball misses low and inside"},
+      {"code": "X", "pitchType": "Unknown", "description": "Lined into shallow right, drops in"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "RF"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Gabriel Palomar", "start": "batter", "end": "1B"}
+    ],
+    "notes": "One-out single to right. Count was 1-0 when put in play. Text says 'righty against the lefty' - Palomar bats lefty."
+  },
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Shiny Patterson", "battingOrder": 3},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "The ball misses low"},
+      {"code": "C", "pitchType": "Fastball", "description": "fastball is called a strike"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses low and inside"},
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball called a strike"},
+      {"code": "X", "pitchType": "Unknown", "description": "Blooped into shallow Center, drops in for a hit"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "CF"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Gabriel Palomar", "start": "1B", "end": "2B"},
+      {"runner": "Shiny Patterson", "start": "batter", "end": "1B"}
+    ],
+    "notes": "One-out single. Runners on first and second with one away. Count was 2-2 when put in play. Switch hitter batting left vs Von Neumann."
+  },
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Philip Nakamura", "battingOrder": 4},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Flyout", "rbi": 0},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball called a strike on the inside corner"},
+      {"code": "X", "pitchType": "Unknown", "description": "Hit in the air to right field. Chang makes the catch. Palomar tags and advances to third"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "RF"},
+    "fielders": [
+      {"role": "putout", "name": "Randy Chang", "position": "RF"}
+    ],
+    "runnerMovement": [
+      {"runner": "Gabriel Palomar", "start": "2B", "end": "3B"}
+    ],
+    "notes": "Sacrifice fly situation but no run scores - Palomar tags from 2B to 3B. Patterson holds at 1B. Two outs now. Count was 0-1 when put in play. Righty vs lefty."
+  },
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Gilligan Parker", "battingOrder": 5},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Single", "rbi": 1},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball misses inside"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball misses upstairs"},
+      {"code": "X", "pitchType": "Unknown", "description": "Line drive, right field. Base hit, Palomar scores"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "RF"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Gabriel Palomar", "start": "3B", "end": "home", "scored": true},
+      {"runner": "Shiny Patterson", "start": "1B", "end": "2B"},
+      {"runner": "Gilligan Parker", "start": "batter", "end": "1B"}
+    ],
+    "notes": "RBI single to right. Palomar scores from third. Cars take a 1-0 lead. Count was 2-1 when put in play. Parker bats lefty."
+  },
+  {
+    "inning": 1,
+    "isTopInning": true,
+    "batter": {"fullName": "Fritz Ortega", "battingOrder": 6},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball, swung on and missed"},
+      {"code": "F", "pitchType": "Unknown", "description": "Hammered foul and into the stands"},
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, center field. Moon makes the catch to end the inning"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "CF"},
+    "fielders": [
+      {"role": "putout", "name": "Dutch Moon", "position": "CF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Flyout to center ends the top of the first. Cars strand two runners. Count was 0-2 when put in play. Score: Cars 1, Timbers 0."
+  },
+  {
+    "inning": 1,
+    "isTopInning": false,
+    "batter": {"fullName": "Dutch Moon", "battingOrder": 1},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses low and inside"},
+      {"code": "X", "pitchType": "Unknown", "description": "Roller back to the mound. Hughes scoops it up and fires to first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "P"},
+    "fielders": [
+      {"role": "assist", "name": "Virgil Hughes", "position": "P"},
+      {"role": "putout", "name": "Philip Nakamura", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "1-3 groundout. Leadoff out. Count was 1-0 when put in play. Righty vs righty."
+  },
+  {
+    "inning": 1,
+    "isTopInning": false,
+    "batter": {"fullName": "Rio Nunez", "battingOrder": 2},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Pop Out"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Popped up, right side. Nakamura makes the catch in foul territory"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "1B"},
+    "fielders": [
+      {"role": "putout", "name": "Philip Nakamura", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "First-pitch popup in foul territory caught by Nakamura. Switch hitter batting left vs Hughes. Two outs."
+  },
+  {
+    "inning": 1,
+    "isTopInning": false,
+    "batter": {"fullName": "Keith Castor", "battingOrder": 3},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses low and outside"},
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play"},
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball, swung on and missed"},
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball called strike three"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Called strike three on a curveball. Hughes sets them down in order in the bottom of the first. Righty vs lefty (text says 'righty against the lefty'). Count was 1-2 going into final pitch. Score: Cars 1, Timbers 0 after 1."
+  }
+]

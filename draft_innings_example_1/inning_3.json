@@ -1,0 +1,141 @@
+[
+  {
+    "inning": 3,
+    "isTopInning": true,
+    "batter": {"fullName": "Shiny Patterson", "battingOrder": 3},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball called a strike"},
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, left-center. Filbert calling for it and makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "LCF"},
+    "fielders": [
+      {"role": "putout", "name": "Brink Filbert", "position": "LF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Leadoff flyout. Count was 0-1 when put in play. Patterson had a base hit in the first inning."
+  },
+  {
+    "inning": 3,
+    "isTopInning": true,
+    "batter": {"fullName": "Philip Nakamura", "battingOrder": 4},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball high and tight"},
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses just a bit outside"},
+      {"code": "B", "pitchType": "Slider", "description": "Slider in the dirt"},
+      {"code": "X", "pitchType": "Unknown", "description": "Hammered down the first base line. Fair ball, Nakamura is aboard"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "1B line"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Philip Nakamura", "start": "batter", "end": "1B"}
+    ],
+    "notes": "One-out single down the first base line. Count was 3-0 when put in play. Nakamura lined out in the first inning."
+  },
+  {
+    "inning": 3,
+    "isTopInning": true,
+    "batter": {"fullName": "Gilligan Parker", "battingOrder": 5},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Pop Out"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Chopped foul on the first base line"},
+      {"code": "X", "pitchType": "Unknown", "description": "Popped up on the infield. Ferguson is camped under it and makes the catch"}
+    ],
+    "hitData": {"trajectory": "popup", "location": "IF"},
+    "fielders": [
+      {"role": "putout", "name": "Jesus Ferguson", "position": "2B"}
+    ],
+    "runnerMovement": [],
+    "notes": "Infield popup caught by Ferguson. Count was 0-1 when put in play. Two outs, runner stays at first."
+  },
+  {
+    "inning": 3,
+    "isTopInning": true,
+    "batter": {"fullName": "Fritz Ortega", "battingOrder": 6},
+    "pitcher": {"fullName": "Javier Von Neumann"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, deep left-center. Filbert racing after it, makes the catch on the warning track"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "LCF"},
+    "fielders": [
+      {"role": "putout", "name": "Brink Filbert", "position": "LF"}
+    ],
+    "runnerMovement": [],
+    "notes": "Deep flyout to left-center, caught on the warning track by Filbert. First-pitch out. Ends the top of the third. Ortega flied out to center his first time up. Score remains Cars 1, Timbers 0 after 2.5 innings."
+  },
+  {
+    "inning": 3,
+    "isTopInning": false,
+    "batter": {"fullName": "Blink Rudderson", "battingOrder": 7},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Lined into shallow left, drops in for a base hit"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "LF"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Blink Rudderson", "start": "batter", "end": "1B"}
+    ],
+    "notes": "Leadoff single on first pitch. First base runner of the evening for the Timbers. Righty vs righty."
+  },
+  {
+    "inning": 3,
+    "isTopInning": false,
+    "batter": {"fullName": "Henny Oldman", "battingOrder": 8},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Grounder to short. Slauson backhands it. No play at second. Throw to first in time"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "SS"},
+    "fielders": [
+      {"role": "assist", "name": "Pinky Slauson", "position": "SS"},
+      {"role": "putout", "name": "Philip Nakamura", "position": "1B"}
+    ],
+    "runnerMovement": [
+      {"runner": "Blink Rudderson", "start": "1B", "end": "2B"}
+    ],
+    "notes": "6-3 groundout. No play at second so Rudderson advances to 2B. Fielder's choice not turned - just the out at first. One out, runner on second."
+  },
+  {
+    "inning": 3,
+    "isTopInning": false,
+    "batter": {"fullName": "Javier Von Neumann", "battingOrder": 9},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Groundout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball taken for a called strike one"},
+      {"code": "F", "pitchType": "Unknown", "description": "Flied foul and out of play"},
+      {"code": "X", "pitchType": "Unknown", "description": "Grounder to third. Patterson has it and fires to first"}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "3B"},
+    "fielders": [
+      {"role": "assist", "name": "Shiny Patterson", "position": "3B"},
+      {"role": "putout", "name": "Philip Nakamura", "position": "1B"}
+    ],
+    "runnerMovement": [],
+    "notes": "5-3 groundout. Count was 0-2 when put in play. Two outs, runner stays at second. Pitcher batting."
+  },
+  {
+    "inning": 3,
+    "isTopInning": false,
+    "batter": {"fullName": "Dutch Moon", "battingOrder": 1},
+    "pitcher": {"fullName": "Virgil Hughes"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play"},
+      {"code": "F", "pitchType": "Unknown", "description": "He fouls another one off"},
+      {"code": "S", "pitchType": "Curveball", "description": "Swing and a miss on a curveball in the dirt"}
+    ],
+    "hitData": null,
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "Strikeout swinging on curveball in the dirt. Count was 0-2. Strands Rudderson at second. Moon grounded out in the first inning. Score remains Cars 1, Timbers 0 after 3 full innings."
+  }
+]
