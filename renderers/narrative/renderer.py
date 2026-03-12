@@ -104,13 +104,91 @@ class NarrativeRenderer(GameRenderer):
         from .play_description import get_runner_status_string as grss
         return grss(outcome, batter_name, result_outs, is_leadoff, inning_context, self.rng_play)
 
-    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context=""):
+    def _generate_play_description(self, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context="", play=None):
         from .play_description import generate_play_description as gpd
-        return gpd(self, outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector, result_outs, is_leadoff, inning_context)
+        return gpd(self, outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector, result_outs, is_leadoff, inning_context, play)
 
     def _render_steal_event(self, event):
         from .play_description import render_steal_event as rse
         return rse(self, event)
+
+    def _get_city_from_team(self, team_name):
+        """Extract city from team name (e.g. 'Lake City Loons' -> 'Lake City')."""
+        parts = team_name.split()
+        if len(parts) > 1:
+            return ' '.join(parts[:-1])
+        return team_name
+
+    def _get_innings_word(self, completed_innings, half):
+        """Get phrase like 'one and a half', 'two', 'three and a half'."""
+        num_word = self._get_number_word(completed_innings)
+        if half == 'Bottom':
+            return f"{num_word} and a half"
+        return num_word
+
+    def _get_due_up_desc(self, plays, play, batting_team_key):
+        """Build 'the 2, 3, and 4 hitters' description from batting order."""
+        boxscore = self.gameday_data['liveData'].get('boxscore', {})
+        team_box = boxscore.get('teams', {}).get(batting_team_key, {})
+        batting_order = team_box.get('battingOrder', [])
+        if not batting_order:
+            return "the next three hitters"
+
+        batter_id = play['matchup']['batter']['id']
+        try:
+            idx = batting_order.index(batter_id)
+        except ValueError:
+            return "the next three hitters"
+
+        spots = []
+        for i in range(3):
+            spot = (idx + i) % len(batting_order) + 1
+            spots.append(str(spot))
+        return f"the {', '.join(spots[:-1])}, and {spots[-1]} hitters"
+
+    def _get_consecutive_retired(self):
+        """Count consecutive batters retired across recent half-innings."""
+        plays = self.gameday_data['liveData']['plays']['allPlays']
+        count = 0
+        for play in reversed(plays):
+            result = play['result']['event']
+            if result in ['Single', 'Double', 'Triple', 'Home Run', 'Walk', 'HBP',
+                          'Hit By Pitch', 'Field Error', 'Sac Fly']:
+                break
+            if result in ['Strikeout', 'Groundout', 'Flyout', 'Pop Out', 'Lineout',
+                          'Grounded Into DP', 'Double Play', 'Forceout',
+                          'Sacrifice Bunt', 'Bunt Ground Out', 'Caught Stealing',
+                          'Strikeout Double Play']:
+                outs = play['count'].get('outs', 1)
+                if result in ['Double Play', 'Grounded Into DP', 'Strikeout Double Play']:
+                    count += 2
+                else:
+                    count += 1
+            else:
+                break
+        return count
+
+    def _get_half_inning_stats(self):
+        """Get hits and LOB for the just-completed half-inning."""
+        hits = 0
+        lob = 0
+        for p in self.plays_in_half_inning:
+            event = p['result']['event']
+            if event in ['Single', 'Double', 'Triple', 'Home Run']:
+                hits += 1
+            # Count runners left on base at end
+        # LOB: runners on base at end of half-inning
+        for base in ['1B', '2B', '3B']:
+            if self.runners_on_base.get(base):
+                lob += 1
+        return hits, lob
+
+    def _get_score_context_phrase(self, score_away, score_home):
+        """Get a short score context like 'scoreless contest' or 'one-nothing lead'."""
+        if score_away == 0 and score_home == 0:
+            return "scoreless contest"
+        lead_team = self.away_team['name'] if score_away > score_home else self.home_team['name']
+        return f"{lead_team} lead"
 
     def render(self) -> str:
         lines = []
@@ -236,6 +314,7 @@ class NarrativeRenderer(GameRenderer):
         self.outs_tracker = 0
         self.runners_on_base = {'1B': None, '2B': None, '3B': None}
         self.current_score = (0, 0)
+        self._score_at_half_start = (0, 0)
         self.plays_in_half_inning = []
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
@@ -265,14 +344,42 @@ class NarrativeRenderer(GameRenderer):
                      pitching_team = 'home' if prev_half == 'Top' else 'away'
                      pitcher_name = self.current_pitcher_info[pitching_team]['name'].split()[-1] if self.current_pitcher_info[pitching_team] else "The pitcher"
 
-                     summary_lines = []
-                     if is_123:
-                         # 1-2-3 inning logic is part of game flow
-                         template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['inning_end_123'])
-                         summary_lines.append(template.format(pitcher_name=pitcher_name))
-
                      score_away, score_home = self.current_score
                      completed_innings = inning - 1 if half == 'Top' else inning
+                     prev_score_away, prev_score_home = getattr(self, '_score_at_half_start', (0, 0))
+                     runs_scored_this_half = 0
+                     if prev_half == 'Top':
+                         runs_scored_this_half = score_away - prev_score_away
+                     else:
+                         runs_scored_this_half = score_home - prev_score_home
+
+                     hits_in_inning, lob = self._get_half_inning_stats()
+                     city = self._get_city_from_team(self.home_team['name'])
+                     station_call = GAME_CONTEXT.get('station_call', 'KSLP')
+                     innings_word = self._get_innings_word(completed_innings, prev_half)
+                     batting_team_prev = self.away_team['name'] if prev_half == 'Top' else self.home_team['name']
+                     fielding_team_prev = self.home_team['name'] if prev_half == 'Top' else self.away_team['name']
+                     next_pitcher_name = play['matchup']['pitcher']['fullName'].split()[-1]
+                     next_batting_team_key = 'away' if about['isTopInning'] else 'home'
+                     next_batting_team = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
+                     due_up_desc = self._get_due_up_desc(plays, play, next_batting_team_key)
+
+                     runs_scored_word = self._get_number_word(runs_scored_this_half)
+                     hits_str = f"{self._get_number_word(hits_in_inning)} hit{'s' if hits_in_inning != 1 else ''}" if hits_in_inning > 0 else "no hits"
+                     lob_str = f"{'a man' if lob == 1 else self._get_number_word(lob) + ' men'} left" if lob > 0 else "nobody left"
+
+                     # Score string for templates
+                     if score_away == 0 and score_home == 0:
+                         score_str = "No score"
+                     elif score_away == score_home:
+                         score_str = f"tied at {self._get_number_word(score_away)}"
+                     else:
+                         lead_team = self.away_team['name'] if score_away > score_home else self.home_team['name']
+                         trail_team = self.home_team['name'] if score_away > score_home else self.away_team['name']
+                         score_str = f"{lead_team} {max(score_away, score_home)}, {trail_team} {min(score_away, score_home)}"
+
+                     weather_desc = "perfect night for a ball game"
+
                      ctx = {
                          'inning_ordinal': self._get_ordinal(completed_innings),
                          'inning_count_word': self._get_number_word(completed_innings),
@@ -285,35 +392,116 @@ class NarrativeRenderer(GameRenderer):
                          'score_lead': f"{max(score_away, score_home)}-{min(score_away, score_home)}",
                          'leading_score_val': max(score_away, score_home),
                          'score_trail': min(score_away, score_home),
-                         'score': score_away
+                         'score': self._get_number_word(score_away) if score_away == score_home else score_away,
+                         'city': city,
+                         'venue': venue,
+                         'innings_word': innings_word,
+                         'batting_team': batting_team_prev,
+                         'fielding_team': fielding_team_prev,
+                         'pitcher_name': pitcher_name,
+                         'hits_str': hits_str,
+                         'lob_str': lob_str,
+                         'runs_scored_word': runs_scored_word,
+                         'score_str': score_str,
+                         'score_recap': score_str,
+                         'next_inning_ordinal': self._get_ordinal(inning) if half == 'Top' else self._get_ordinal(inning + 1),
+                         'network_name': network_name,
+                         'station_call': station_call,
+                         'score_context': self._get_score_context_phrase(score_away, score_home),
+                         'consecutive_retired': self._get_consecutive_retired()
                      }
 
-                     if score_away == score_home:
-                         summary_lines.append(self._get_radio_string('inning_summary_tied', ctx))
-                     elif half == 'Top' and inning > 1:
-                         summary_lines.append(self._get_radio_string('inning_summary_score', ctx))
-                     else:
-                         summary_lines.append(self._get_radio_string('inning_summary_remains', ctx))
+                     summary_lines = []
 
-                     summary_lines.append(self._get_radio_string('inning_break_outro', {'next_inning_ordinal': self._get_ordinal(inning), 'network_name': network_name}))
+                     # --- OUTRO: what happened in the half-inning ---
+                     if is_123:
+                         template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['inning_end_123'])
+                         summary_lines.append(template.format(pitcher_name=pitcher_name, inning_ordinal=self._get_ordinal(completed_innings)))
+                     elif runs_scored_this_half == 0:
+                         # Check for consecutive retired streak (impressive enough to mention)
+                         consec = ctx['consecutive_retired']
+                         if consec >= 9 and self.rng_flow.random() < 0.7:
+                             summary_lines.append(self._get_radio_string('inning_outro_streak', ctx))
+                         elif self.rng_flow.random() < 0.5:
+                             summary_lines.append(self._get_radio_string('inning_outro_no_score', ctx))
+                     else:
+                         if self.rng_flow.random() < 0.5:
+                             summary_lines.append(self._get_radio_string('inning_outro_scored', ctx))
+
+                     # --- SCORE SUMMARY ---
+                     # Skip if outro already includes score info
+                     outro_text_so_far = " ".join(summary_lines)
+                     outro_mentions_score = (score_str.lower() in outro_text_so_far.lower()) or (f"{max(score_away, score_home)}" in outro_text_so_far and score_away != score_home)
+                     skip_score_summary = outro_mentions_score
+                     if not skip_score_summary:
+                         if score_away == score_home:
+                             if score_away == 0:
+                                 summary_lines.append(self._get_radio_string('inning_summary_scoreless', ctx))
+                             else:
+                                 summary_lines.append(self._get_radio_string('inning_summary_tied', ctx))
+                         elif half == 'Top' and completed_innings > 0:
+                             summary_lines.append(self._get_radio_string('inning_summary_score', ctx))
+                         else:
+                             summary_lines.append(self._get_radio_string('inning_summary_remains', ctx))
+
+                     # --- "WE'LL BE BACK" CLOSER ---
+                     if half == 'Top':
+                         # Full inning break (Bot→Top): use full closing with inning ordinal
+                         summary_lines.append(self._get_radio_string('inning_break_outro', ctx))
+                     else:
+                         # Mid-inning break (Top→Bot): simpler closing without "next inning"
+                         mid_closers = [
+                             "We'll be back in a moment with more baseball here on {network_name}.",
+                             "We'll be back with more baseball here on {network_name}.",
+                             "We'll be back with more baseball here on {station_call}, and {network_name}.",
+                             "We'll be back in a moment here on {station_call} and {network_name}."
+                         ]
+                         summary_lines.append(self.rng_color.choice(mid_closers).format(**ctx))
 
                      summary_text = " ".join(summary_lines)
                      lines.append(summary_text)
-
                      lines.append("")
 
-                     # Hardcoded 15s delay for inning break, placed between summary and welcome back
+                     # --- OPTIONAL COLOR / RETURN LINE ---
+                     # "Wally McCarthy and Producer Phil back with you..." style return
+                     if self.rng_color.random() < 0.15 and 3 <= inning <= 8:
+                         intro_ctx = {
+                             'venue': venue, 'city': city,
+                             'score_str': score_str,
+                             'weather_desc': weather_desc,
+                             'batting_team': next_batting_team,
+                             'due_up_desc': due_up_desc,
+                             'pitcher_name': next_pitcher_name
+                         }
+                         return_line = self._get_radio_string('inning_break_return', intro_ctx)
+                         lines.append(return_line)
+                         lines.append("")
+
+                     # Hardcoded 15s delay for inning break
                      lines.append("[TTS SPLIT HERE DELAY:15.0s]")
 
+                     # --- INNING INTRO ---
+                     intro_ctx = {
+                         'half': half, 'inning_ordinal': self._get_ordinal(inning),
+                         'venue': venue, 'city': city,
+                         'score_str': score_str, 'score_context': self._get_score_context_phrase(score_away, score_home),
+                         'batting_team': next_batting_team,
+                         'due_up_desc': due_up_desc,
+                         'pitcher_name': next_pitcher_name,
+                         'weather_desc': weather_desc
+                     }
                      if half == "Top":
-                         add_line(f"Top of the {self._get_ordinal(inning)} inning here at {venue}.")
+                         add_line(self._get_radio_string('inning_break_intro_top', intro_ctx))
                      else:
-                         add_line(self._get_radio_string('inning_break_intro', {'venue': venue, 'away_team_name': self.away_team['name'], 'home_team_name': self.home_team['name'], 'score_away': score_away, 'score_home': score_home, 'inning_half': half, 'inning_ordinal': self._get_ordinal(inning), 'network_name': network_name}))
+                         add_line(self._get_radio_string('inning_break_intro_bottom', intro_ctx))
                      lines.append("")
 
                 else:
                     add_line(f"{half} of the {self._get_ordinal(inning)} inning.")
                     lines.append("")
+
+                # Track score at start of new half-inning
+                self._score_at_half_start = self.current_score
 
                 self.plays_in_half_inning = []
                 self.runners_on_base = {'1B': None, '2B': None, '3B': None}
@@ -446,20 +634,23 @@ class NarrativeRenderer(GameRenderer):
                      pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
                      matchup_txt = f"{batter_name} is a switch hitter and he'll bat {effective} against {pitcher_name}."
                  elif bat_side == 'R' and pitch_hand == 'R':
-                     matchup_options = ["Righty against righty.", "A righty righty matchup."]
+                     matchup_options = ["righty against righty.", "A righty righty matchup."]
                      matchup_txt = self.rng_color.choice(matchup_options)
                  elif bat_side == 'R' and pitch_hand == 'L':
-                     matchup_options = ["Righty against the lefty.", "A righty lefty matchup."]
+                     matchup_options = ["righty against the lefty.", "A righty lefty matchup."]
                      matchup_txt = self.rng_color.choice(matchup_options)
                  elif bat_side == 'L' and pitch_hand == 'R':
-                     matchup_options = ["Lefty against the righty.", "A righty lefty matchup."]
+                     matchup_options = ["lefty against the righty.", "A righty lefty matchup."]
                      matchup_txt = self.rng_color.choice(matchup_options)
                  elif bat_side == 'L' and pitch_hand == 'L':
-                     matchup_options = ["Lefty against the lefty.", "A lefty lefty matchup."]
+                     matchup_options = ["lefty against the lefty.", "A lefty lefty matchup."]
                      matchup_txt = self.rng_color.choice(matchup_options)
 
                  if matchup_txt:
-                     play_text_blocks.append(matchup_txt)
+                     if play_text_blocks:
+                         play_text_blocks[-1] += " " + matchup_txt
+                     else:
+                         play_text_blocks.append(matchup_txt)
 
             result = play['result']
             outcome = result['event']
@@ -848,7 +1039,7 @@ class NarrativeRenderer(GameRenderer):
                     inning_context = f" here in the {half.lower()} of the {ordinal}"
                     is_leadoff = (len(self.plays_in_half_inning) == 0)
 
-                    outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context)
+                    outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context, play=play)
 
             if outcome_text:
                  play_text_blocks.append(outcome_text)

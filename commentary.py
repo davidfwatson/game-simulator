@@ -1,5 +1,6 @@
 GAME_CONTEXT = {
     "network_name": "The Pacific Sleep Baseball Network",
+    "station_call": "KSLP",
     "umpires": [
         "Chuck Thompson", "Larry Phillips", "Frank Rizzo", "Gus Morales", "Stan Friedman",
         "Bill Miller", "Dan Bellino", "Chris Guccione", "Mark Carlson", "Paul Emmel"
@@ -90,6 +91,7 @@ GAME_CONTEXT = {
             "chopped foul",
             "chopped foul down the first base line",
             "chopped foul and off to the right",
+            "chopped foul off to the right",
             "chopped foul and off to the left",
             "dribbled foul down the first base line",
             "tapped foul down the line",
@@ -103,6 +105,8 @@ GAME_CONTEXT = {
             "slashed out of play",
             "fisted foul and out of play",
             "hammered foul down the line",
+            "hammered foul off third",
+            "hammered foul down the third base line",
             "swung on and fouled off",
             "fouled up to the left",
             "high foul ball drifting into the stands",
@@ -381,9 +385,11 @@ GAME_CONTEXT = {
                  "Tailor-made double play ball to {direction_noun}. And they turn it {out_context_str}!",
                  "Hard grounder to {direction_noun}. Starts the double play {out_context_str}.",
                  "Bouncer to {direction_noun}, and they spin the double play {out_context_str}.",
-                 "Grounder to {direction_noun}. {fielder_name} to second for one, over to first in time. And that's a double play {out_context_str}.",
-                 "Bouncer to {direction_noun}. {fielder_name} to second for one, over to first just in time. And that's a double play {out_context_str}.",
-                 "One hopper to {direction_noun}. {fielder_name} steps on the bag for the force. He fires to second in time and that's a double play {out_context_str}."
+                 "Grounder to {direction_noun}. {fielder_name} to second for one, over to first in time. And that's a {dp_notation} double play {out_context_str}.",
+                 "Bouncer to {direction_noun}. {fielder_name} to second for one, over to first just in time. And that's a {dp_notation} double play {out_context_str}.",
+                 "One hopper to {direction_noun}. {fielder_name} steps on the bag for the force. He fires to second in time and that's a {dp_notation} double play {out_context_str}.",
+                 "{fielder_name} to second for one, over to first in time. And that's a {dp_notation} double play {out_context_str}.",
+                 "Grounder to {direction_noun}. {fielder_name} to second for one, over to first in time. And that's a double play {out_context_str}."
              ]
         },
         "Hit By Pitch": {
@@ -553,7 +559,10 @@ GAME_CONTEXT = {
              "{pitcher_name} retires the side in order.",
              "Three up, three down for {pitcher_name}.",
              "{pitcher_name} works a 1-2-3 inning.",
-             "{pitcher_name} sets down the side with ease."
+             "{pitcher_name} sets down the side with ease.",
+             "And that's another one, two, three inning for {pitcher_name}.",
+             "{pitcher_name} sets them down in order here in the {inning_ordinal}.",
+             "{pitcher_name} works a one-two-three inning here in the {inning_ordinal}."
         ],
         "walk_aboard": [
             "{batter_name} is aboard with a {outs_str} walk.",
@@ -898,12 +907,63 @@ GAME_CONTEXT = {
         "inning_break_outro": [
              "We'll be back with the {next_inning_ordinal} inning in a moment here on {network_name}.",
              "We'll be back with more baseball here on {network_name}.",
-             "We'll be back after these messages."
+             "We'll be back after these messages.",
+             "We'll be back with the {next_inning_ordinal} inning in a moment here on {station_call} and {network_name}.",
+             "We'll be back with more baseball here on {station_call}, and {network_name}.",
+             "We'll be back with the {next_inning_ordinal} inning after these words on {station_call} and {network_name}.",
+             "We'll be back in a moment with more baseball here on {network_name}.",
+             "As we go into the {next_inning_ordinal} inning in a moment here on {station_call} and {network_name}."
         ],
         "inning_break_intro": [
              "And welcome back with us here from {venue}.",
              "And we're back.",
              "Welcome back."
+        ],
+        "inning_break_intro_top": [
+             "{half} of the {inning_ordinal} inning here at {venue}.",
+             "{half} of the {inning_ordinal} inning here at {venue} in {city}.",
+             "{half} of the {inning_ordinal} at {venue}, as we continue our {score_context} here in {city}.",
+             "{half} of the {inning_ordinal} inning here at {venue}. {score_str} and {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
+             "{half} of the {inning_ordinal} inning here at {venue} in {city}. {score_str} and {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
+             "{half} of the {inning_ordinal} inning here in {city} at {venue}. {score_str} and they'll bring {due_up_desc} up against {pitcher_name}.",
+             "{half} of the {inning_ordinal} inning here in {city}. {score_str} as {due_up_desc} step up against {pitcher_name}."
+        ],
+        "inning_break_intro_bottom": [
+             "{half} of the {inning_ordinal}.",
+             "{half} of the {inning_ordinal}. {score_str}.",
+             "And welcome back with us here from {venue}.",
+             "And welcome back with us on this {weather_desc} here in {city}. {score_str}. {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
+             "And we're back from {venue} here in {city} for the {half} of the {inning_ordinal}."
+        ],
+        "inning_break_return": [
+             "Wally McCarthy and Producer Phil back with you, from {city}, for the",
+             "Wally McCarthy and Producer Phil back with you from {venue} here in {city}. {score_str}.",
+             "Wally McCarthy and Producer Phil back with you here on this {weather_desc} in {city}. {score_str}. {batting_team} will bring {due_up_desc} up to face {pitcher_name} here in the"
+        ],
+        "inning_outro_no_score": [
+             "{batting_team} do not score.",
+             "The {batting_team} do not score.",
+             "The {batting_team} do not score and after {innings_word}, {score_recap}.",
+             "No runs, {hits_str}, and {lob_str}.",
+             "{pitcher_name} wriggles into and out of a jam and the {batting_team} do not score.",
+             "The {batting_team} are retired in order."
+        ],
+        "inning_outro_scored": [
+             "But the {batting_team} break the ice, and after {innings_word}, it's {score_str}.",
+             "The {batting_team} push a run across.",
+             "The {batting_team} plate {runs_scored_word} in the {inning_ordinal}, and after {innings_word} it's {score_str}.",
+             "The {batting_team}, add another pair.",
+             "And the {batting_team} add to their lead.",
+             "The {batting_team} tack on {runs_scored_word} more."
+        ],
+        "inning_outro_hold": [
+             "The {fielding_team}, hold on to a {score_str} lead.",
+             "The {batting_team}, do not score and the {fielding_team}, hold on to a {score_str} lead."
+        ],
+        "inning_outro_streak": [
+             "And that's {consecutive_retired} in a row, sat down by {pitcher_name}.",
+             "And that's {consecutive_retired} in a row set down by {pitcher_name}.",
+             "{pitcher_name} has now retired {consecutive_retired} straight."
         ],
         "score_update_lead": [
              "and the {team_name} take a {score_lead} lead",
@@ -922,15 +982,27 @@ GAME_CONTEXT = {
         "inning_summary_score": [
             "And with {inning_count_word} in the books, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
             "It's {away_team_name} {score_away}, {home_team_name} {score_home} after {inning_count_word}.",
-            "{away_team_name} {score_away}, {home_team_name} {score_home}."
+            "{away_team_name} {score_away}, {home_team_name} {score_home}.",
+            "After {innings_word}, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
+            "And as we head into the {next_inning_ordinal}, it's {away_team_name} {score_away}, {home_team_name} {score_home}."
         ],
         "inning_summary_remains": [
             "And it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
-            "Score remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}."
+            "Score remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
+            "With {inning_count_word} in the books it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
+            "After {innings_word} it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
+            "And it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail} here in {city}."
         ],
         "inning_summary_tied": [
             "And we are tied at {score} apiece.",
             "Score is tied at {score}."
+        ],
+        "inning_summary_scoreless": [
+            "And with {inning_count_word} in the books, it remains a scoreless contest.",
+            "After {innings_word}, it remains a scoreless game here in {city}.",
+            "We are still scoreless, here in {city}.",
+            "Still a scoreless contest here at {venue}.",
+            "And we remain scoreless here at {venue}."
         ],
         "game_summary": [
             "For the victorious {win_team}, {win_runs} runs on {win_hits} hits, {win_errors} errors. And for the {lose_team}, {lose_runs} runs on {lose_hits} hits and {lose_errors} errors.",

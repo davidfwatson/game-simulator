@@ -1,6 +1,25 @@
 from commentary import GAME_CONTEXT
 from .helpers import simplify_pitch_type
 
+POS_NUMBERS = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
+
+def build_dp_notation(play):
+    """Build DP notation like '6-4-3' from runner credits."""
+    if not play:
+        return ""
+    for runner in play.get('runners', []):
+        credits = runner.get('credits', [])
+        if len(credits) >= 2:
+            positions = []
+            for c in credits:
+                pos_abbr = c.get('position', {}).get('abbreviation', '')
+                num = POS_NUMBERS.get(pos_abbr)
+                if num:
+                    positions.append(str(num))
+            if len(positions) >= 2:
+                return '-'.join(positions)
+    return ""
+
 def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play):
     key = None
     outcome_lower = outcome.lower()
@@ -24,7 +43,7 @@ def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inni
 
     return rng_play.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
 
-def generate_play_description(renderer, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context=""):
+def generate_play_description(renderer, outcome, hit_data, pitch_details, batter_name, fielder_pos=None, fielder_name=None, connector=None, result_outs=None, is_leadoff=False, inning_context="", play=None):
     ev = hit_data.get('launchSpeed')
     la = hit_data.get('launchAngle')
     location_code = hit_data.get('location')
@@ -112,6 +131,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if result_outs == 3:
         out_context_str = "to end the inning"
 
+    dp_notation = build_dp_notation(play) if play and template_outcome == "Double Play" else ""
+
     context = {
         'batter_name': batter_name,
         'direction': direction,
@@ -122,7 +143,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         'fielder_name': fielder_name or "the fielder",
         'result_outs': result_outs,
         'result_outs_word': result_outs_word,
-        'out_context_str': out_context_str
+        'out_context_str': out_context_str,
+        'dp_notation': dp_notation
     }
 
     prefix = f"{connector} " if connector else ""
@@ -132,6 +154,9 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):
          if not template: template = renderer.rng_play.choice(specific_templates)
          final_description = prefix + template.format(**context)
+         # Clean up double spaces when dp_notation is empty
+         if not dp_notation:
+             final_description = final_description.replace("a  double play", "a double play")
     else:
         phrase, phrase_type = renderer._get_batted_ball_verb(outcome, cat)
         if connector:
