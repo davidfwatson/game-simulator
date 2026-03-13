@@ -708,6 +708,11 @@ GAME_CONTEXT = {
             "Bunted foul off to the right",
             "Bunted foul along the third base line"
         ],
+        "runner_leads": [
+            "The runners take their leads, {runner_positions}.",
+            "{runner_positions}.",
+            "And {runner_positions}.",
+        ],
         "bunt_sac": [
             "  He gets the bunt down, a perfect sacrifice.",
             "  A successful sacrifice bunt moves the runners.",
@@ -853,8 +858,11 @@ GAME_CONTEXT = {
         "intro_away": [
             "Let's take a look at the Starting 9 for the visiting {team_name}."
         ],
+        "outro_away": [
+            "Those are the {away_team_name}."
+        ],
         "intro_home": [
-            "Those are the {away_team_name}. Here are the {home_team_name}."
+            "Here are the {home_team_name}."
         ],
         "manager_away": [
             "And the {team_name} are managed by veteran Skipper, Mick Jenkins."
@@ -863,26 +871,33 @@ GAME_CONTEXT = {
             "The {team_name} are managed by Manager Samuels."
         ],
         "batting_1": [
-            "{player_name} will lead off in {position}."
+            "{player_name} will lead off in {position_place}.",
+            "{position} {player_name} will lead off."
         ],
         "batting_2": [
-            "Batting second and playing {position}, {player_name}."
+            "Batting second and playing {position_place}, {player_name}.",
+            "Batting second, {position} {player_name}."
         ],
         "batting_3": [
             "{position} {player_name} will bat third."
         ],
         "batting_4": [
             "Catcher {player_name} will be in the cleanup spot this evening.",
-            "{position} {player_name} will be in the cleanup spot this evening."
+            "{position} {player_name} will be in the cleanup spot this evening.",
+            "In the cleanup spot this evening, {position} {player_name}."
         ],
         "batting_5": [
-            "Batting fifth, {position} {player_name}."
+            "Batting fifth, {position} {player_name}.",
+            "{position} {player_name} will bat fifth."
         ],
         "batting_6": [
-            "{position} {player_name}."
+            "Sixth, {position} {player_name}.",
+            "{position} {player_name}.",
+            "Batting sixth, {position} {player_name}."
         ],
         "batting_7": [
-            "Batting seventh, {position} {player_name}."
+            "Batting seventh, {position} {player_name}.",
+            "{position} {player_name} will bat seventh."
         ],
         "batting_8": [
             "The big man, the {position} {player_name},",
@@ -892,6 +907,29 @@ GAME_CONTEXT = {
         "batting_9": [
             "And batting ninth, {pitch_hand}-handed starting pitcher {player_name}.",
             "And batting ninth, {position} {player_name}."
+        ],
+        "batting_2_home": [
+            "Batting second, {position} {player_name}."
+        ],
+        "batting_4_home": [
+            "In the cleanup spot this evening, {position} {player_name}.",
+            "{position} {player_name} will be in the cleanup spot this evening."
+        ],
+        "batting_5_home": [
+            "{position} {player_name} will bat fifth.",
+            "Batting fifth, {position} {player_name}."
+        ],
+        "batting_6_home": [
+            "Batting sixth, {position} {player_name}.",
+            "{position} {player_name}."
+        ],
+        "batting_7_home": [
+            "{position} {player_name} will bat seventh.",
+            "Batting seventh, {position} {player_name}."
+        ],
+        "batting_8_home": [
+            "{position} {player_name} will bat eighth.",
+            "The big man, the {position} {player_name},"
         ]
     },
         "radio_strings": {
@@ -968,7 +1006,8 @@ GAME_CONTEXT = {
              "The {batting_team} plate {runs_scored_word} in the {inning_ordinal}, and after {innings_word} it's {score_str}.",
              "The {batting_team}, add another pair.",
              "And the {batting_team} add to their lead.",
-             "The {batting_team} tack on {runs_scored_word} more."
+             "The {batting_team} tack on {runs_scored_word} more.",
+             "{runs_scored_str}, {hits_str}, and {lob_str}."
         ],
         "inning_outro_hold": [
              "The {fielding_team}, hold on to a {score_str} lead.",
