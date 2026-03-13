@@ -95,7 +95,7 @@ GAME_CONTEXT = {
             "chopped foul and off to the left",
             "dribbled foul down the first base line",
             "tapped foul down the line",
-            "flied foul and out of play",
+            "lifted foul and out of play",
             "popped foul and out of play",
             "knuckles foul and lands into the stands",
             "just gets a piece of it",
@@ -109,6 +109,7 @@ GAME_CONTEXT = {
             "hammered foul down the third base line",
             "swung on and fouled off",
             "fouled up to the left",
+            "fouled off to the left",
             "high foul ball drifting into the stands",
             "foul"
         ]
@@ -143,7 +144,11 @@ GAME_CONTEXT = {
         "DL": "down the line",
         "DLF": "to deep left field",
         "DCF": "to deep center field",
-        "DRF": "to deep right field"
+        "DRF": "to deep right field",
+        "LCF": "to left-center",
+        "RCF": "to right-center",
+        "1BL": "down the first base line",
+        "3BL": "down the third base line"
     },
     "narrative_templates": {
         "Single": {
@@ -271,7 +276,8 @@ GAME_CONTEXT = {
                 "Bouncer back to the mound. {fielder_name} scoops it up and throws to first {out_context_str}.",
                 "Chopper back to the box. {fielder_name} fields it cleanly and fires to first {out_context_str}.",
                 "Chopper over the mound. {fielder_name} picks it up and fires to first {out_context_str}.",
-                "Bouncer back to the mound. {fielder_name} scoops it up and tosses to first {out_context_str}."
+                "Bouncer back to the mound. {fielder_name} scoops it up and tosses to first {out_context_str}.",
+                "Roller back to the mound. {fielder_name} scoops it up and fires to first to retire {batter_last_name} {out_context_str}."
             ]
         },
         "Flyout": {
@@ -322,7 +328,7 @@ GAME_CONTEXT = {
                  "Pop fly, {direction}. {fielder_name} drifting back... and he makes the catch {out_context_str}.",
                  "{fielder_name} calling for it... and he puts the squeeze on it {out_context_str}.",
                  "{fielder_name} drifting back... and he makes the catch {out_context_str}.",
-                 "Popped up, {direction_noun}. {fielder_name} is calling for it... he makes the catch {out_context_str}.",
+                 "Popped up, {direction_noun}. {fielder_name} is calling for it... and he makes the catch {out_context_str}.",
                  "Popped up on the infield. {fielder_name} is camped under it... and he makes the catch {out_context_str}.",
                  "{fielder_name} calling for it... and he makes the squeeze {out_context_str}.",
                  "Popped up on the infield, {direction_noun} side. {fielder_name} is under it, and he makes the catch {out_context_str}.",
@@ -411,6 +417,14 @@ GAME_CONTEXT = {
                  "Bunts {direction}, but {fielder_name} is there and throws to first {out_context_str}.",
                  "He bunts it {direction}. {fielder_name} fields it cleanly and retires the batter at first {out_context_str}.",
                  "A bunt attempt {direction}. {fielder_name} pounces on it and fires to first {out_context_str}."
+            ]
+        },
+        "Sac Fly": {
+            "default": [
+                "Fly ball {direction}. {fielder_name} is under it and he makes the catch.",
+                "Fly ball {direction}. {fielder_name} is there and he makes the catch.",
+                "Fly ball into {direction_noun}. {fielder_name} is under it and he makes the catch.",
+                "Fly ball {direction}. {fielder_name} drifts back and makes the catch."
             ]
         }
     },

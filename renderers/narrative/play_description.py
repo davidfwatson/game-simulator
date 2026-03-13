@@ -115,6 +115,10 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if direction_noun.startswith("deep "):
         direction_noun = direction_noun[5:]
 
+    # For Pop Outs, preserve "shallow" prefix from shallow outfield directions
+    if template_outcome in ["Pop Out"] and direction.startswith("into shallow "):
+        direction_noun = "shallow " + direction_noun
+
     # Map infield positions to side names for pop-up templates
     side_map = {"first": "right", "second": "right", "third": "left", "short": "left"}
     if template_outcome in ["Pop Out"] and direction_noun in side_map:
@@ -133,8 +137,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
 
     dp_notation = build_dp_notation(play) if play and template_outcome == "Double Play" else ""
 
+    batter_last_name = batter_name.split()[-1] if batter_name else "the batter"
+
     context = {
         'batter_name': batter_name,
+        'batter_last_name': batter_last_name,
         'direction': direction,
         'direction_noun': direction_noun,
         'pitch_type': simple_pitch_type,
@@ -148,7 +155,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     }
 
     prefix = f"{connector} " if connector else ""
-    force_narrative = template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play"]
+    force_narrative = template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play", "Sac Fly"]
 
     final_description = ""
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):

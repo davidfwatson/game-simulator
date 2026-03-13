@@ -13,6 +13,7 @@ class NarrativeRenderer(GameRenderer):
         self.verbose = verbose
         # use_bracketed_ui is ignored in new format as we don't print status lines
         self.last_foul_phrase = ""
+        self.consecutive_fouls = 0
 
     def _check_and_add_delay(self, block_list, insert_at_index=-1, context='pitch'):
         DELAYS = {'batter': 11.5, 'first_pitch': 9.5, 'pitch': 8.5}
@@ -29,6 +30,13 @@ class NarrativeRenderer(GameRenderer):
         return get_pitch_description_for_location(event_type, zone, pitch_type_simple, self.rng_pitch, batter_hand)
 
     def _get_foul_description(self):
+        # On 2nd+ consecutive foul, chance to say "he fouls another one off"
+        # TODO: To make this alignable via set-choice, refactor to use a small
+        # pool (e.g. ["he fouls another one off", None]) instead of random() < 0.3
+        if self.consecutive_fouls >= 1 and self.rng_pitch.random() < 0.3:
+            self.last_foul_phrase = 'he fouls another one off'
+            return 'he fouls another one off'
+
         options = GAME_CONTEXT['pitch_locations']['foul']
 
         for _ in range(10):
@@ -658,6 +666,7 @@ class NarrativeRenderer(GameRenderer):
             last_pitch_context = None
             i = 0
             x_event_connector = None
+            self.consecutive_fouls = 0
 
             is_inning_transition = False
             if (inning, half) != current_inning_state:
@@ -747,6 +756,7 @@ class NarrativeRenderer(GameRenderer):
                              pbp_line = choice
                         else:
                              pbp_line = self._get_foul_description()
+                        self.consecutive_fouls += 1
                     elif code == 'C':
                          if event['count']['strikes'] == 2:
                              key = 'strike_called_three'
@@ -774,6 +784,10 @@ class NarrativeRenderer(GameRenderer):
 
                          if event['count']['balls'] == 2 and event['count']['strikes'] == 2:
                              pbp_line += self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['count_full'])
+
+                    # Reset consecutive foul counter on non-foul events
+                    if code in ('B', 'C', 'S'):
+                        self.consecutive_fouls = 0
 
                     if pbp_line:
                         # Flow Improvement: Use a comma instead of a period, but only if it's not an ellipsis or exclamation
