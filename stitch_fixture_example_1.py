@@ -183,7 +183,7 @@ def make_play_events(pitch_sequence, event_name, base_time):
 
         # Generate timestamp for this pitch event
         pitch_time = base_time + timedelta(seconds=i * 0.5)
-        ts = pitch_time.strftime("%Y-%m-%dT%H:%M:%S.%f") + "Z"
+        ts = pitch_time.strftime("%Y-%m-%dT%H:%M:%S") + f".{pitch_time.microsecond:016d}Z"
 
         pt_code, pt_desc = PITCH_TYPE_MAP.get(pitch_type, ("FF", "Fastball"))
 
@@ -790,7 +790,7 @@ def build_fixture():
 
         start_ts = play_start.strftime("%Y-%m-%dT%H:%M:%S") + "+00:00"
         # End timestamp with seed in fractional seconds (seed=0 initially)
-        end_ts = play_end.strftime("%Y-%m-%dT%H:%M:%S") + ".0000300"
+        end_ts = play_end.strftime("%Y-%m-%dT%H:%M:%S") + ".0000000000030000"
 
         # Build playEvents from pitch sequence
         pitch_seq = draft_play.get("pitchSequence", [])

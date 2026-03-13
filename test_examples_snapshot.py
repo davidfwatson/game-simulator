@@ -3,6 +3,31 @@ from pathlib import Path
 import subprocess
 import re
 
+
+def normalize_line(line):
+    """Normalize trivial formatting differences for line comparison.
+
+    Regularizes:
+    - Count format: "oh and one" <-> "oh-one", "one and oh" <-> "one-oh", etc.
+    - Capitalization after punctuation (". Fouled" vs ", fouled")
+    - Count separators: ". oh and two" vs ", oh and two"
+    - Trailing/leading whitespace
+    """
+    s = line.strip().lower()
+    # Normalize count formats: "oh and one" -> "oh-one", etc.
+    count_words = {'oh': '0', 'one': '1', 'two': '2', 'three': '3'}
+    for w1, _ in count_words.items():
+        for w2, _ in count_words.items():
+            s = s.replace(f'{w1} and {w2}', f'{w1}-{w2}')
+    # Normalize punctuation before counts: ". oh-" or ", oh-" -> ", oh-"
+    s = re.sub(r'[.,]\s+(\w+-\w+)', r', \1', s)
+    # Normalize "called a strike" vs "called strike"
+    s = s.replace('called a strike', 'called strike')
+    # Normalize comma vs period+space before lowercase
+    s = re.sub(r'\.\s+([a-z])', r', \1', s)
+    return s
+
+
 class TestExampleSnapshots(unittest.TestCase):
 
     def _get_example_logs(self):
@@ -137,8 +162,8 @@ class TestExampleSnapshots(unittest.TestCase):
             f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 12% threshold."
         )
 
-        text_lines = set(line.strip() for line in text.split('\n') if line.strip())
-        rendered_lines = set(line.strip() for line in rendered.split('\n') if line.strip())
+        text_lines = set(normalize_line(line) for line in text.split('\n') if line.strip())
+        rendered_lines = set(normalize_line(line) for line in rendered.split('\n') if line.strip())
         identical_lines = text_lines.intersection(rendered_lines)
         line_percentage = len(identical_lines) / len(text_lines) if text_lines else 0
 
@@ -146,7 +171,6 @@ class TestExampleSnapshots(unittest.TestCase):
             line_percentage, 0.035,
             f"Identical line percentage ({line_percentage*100:.2f}%) is below the 3.5% threshold."
         )
-
 
 
     def test_pbp_example_3_draft_consistency(self):

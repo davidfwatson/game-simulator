@@ -64,16 +64,16 @@ class GameRenderer:
                     pass
 
             # Each stream gets its own independent portion of the fractional seconds.
-            # Fractional digits are split into 2-digit segments (base-100 values):
-            #   digits 0-1 (rightmost) → rng_play
-            #   digits 2-3             → rng_pitch
-            #   digits 4-5             → rng_flow
-            #   digits 6-7             → rng_color
-            # This prevents modular arithmetic conflicts between streams.
-            self.rng_play  = DirectRNG(index % 100)
-            self.rng_pitch = DirectRNG((index // 100) % 100)
-            self.rng_flow  = DirectRNG((index // 10000) % 100)
-            self.rng_color = DirectRNG((index // 1000000) % 100)
+            # Fractional digits are split into 4-digit segments (base-10000 values):
+            #   digits 0-3  (rightmost) → rng_play
+            #   digits 4-7              → rng_pitch
+            #   digits 8-11             → rng_flow
+            #   digits 12-15            → rng_color
+            # Each stream gets 2 controllable calls (4 digits / 2 digits per call).
+            self.rng_play  = DirectRNG(index % 10000)
+            self.rng_pitch = DirectRNG((index // 10000) % 10000)
+            self.rng_flow  = DirectRNG((index // 100000000) % 10000)
+            self.rng_color = DirectRNG((index // 1000000000000) % 10000)
             return
 
         # Combine base seed, timestamp, and salt to create a unique, deterministic hash

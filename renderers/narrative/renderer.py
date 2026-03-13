@@ -77,7 +77,7 @@ class NarrativeRenderer(GameRenderer):
             return self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['payoff_pitch'])
 
         count_str = self._get_spoken_count(balls, strikes, connector="-")
-        pitcher_last = pitcher_name.split()[-1] if pitcher_name else "The pitcher"
+        pitcher_last = ' '.join(pitcher_name.split()[1:]) if pitcher_name and len(pitcher_name.split()) > 1 else (pitcher_name or "The pitcher")
         batter_last = batter_name.split()[-1] if batter_name else "the batter"
 
         context = {
@@ -443,7 +443,7 @@ class NarrativeRenderer(GameRenderer):
 
                      prev_half = current_inning_state[1]
                      pitching_team = 'home' if prev_half == 'Top' else 'away'
-                     pitcher_name = self.current_pitcher_info[pitching_team]['name'].split()[-1] if self.current_pitcher_info[pitching_team] else "The pitcher"
+                     pitcher_name = ' '.join(self.current_pitcher_info[pitching_team]['name'].split()[1:]) if self.current_pitcher_info[pitching_team] and len(self.current_pitcher_info[pitching_team]['name'].split()) > 1 else "The pitcher"
 
                      score_away, score_home = self.current_score
                      completed_innings = inning - 1 if half == 'Top' else inning
@@ -460,7 +460,7 @@ class NarrativeRenderer(GameRenderer):
                      innings_word = self._get_innings_word(completed_innings, prev_half)
                      batting_team_prev = self.away_team['name'] if prev_half == 'Top' else self.home_team['name']
                      fielding_team_prev = self.home_team['name'] if prev_half == 'Top' else self.away_team['name']
-                     next_pitcher_name = play['matchup']['pitcher']['fullName'].split()[-1]
+                     next_pitcher_name = ' '.join(play['matchup']['pitcher']['fullName'].split()[1:])
                      next_batting_team_key = 'away' if about['isTopInning'] else 'home'
                      next_batting_team = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
                      due_up_desc = self._get_due_up_desc(plays, play, next_batting_team_key)

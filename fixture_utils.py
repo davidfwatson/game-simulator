@@ -17,8 +17,8 @@ def save(data):
 
 
 def pack_seed(play=0, pitch=0, flow=0, color=0):
-    """Pack per-stream seeds into an 8-digit fractional second value."""
-    return color * 1000000 + flow * 10000 + pitch * 100 + play
+    """Pack per-stream seeds into a 16-digit fractional second value."""
+    return color * 1000000000000 + flow * 100000000 + pitch * 10000 + play
 
 
 def set_event_seed(play_idx, event_idx, play=0, pitch=0, flow=0, color=0):
@@ -30,7 +30,7 @@ def set_event_seed(play_idx, event_idx, play=0, pitch=0, flow=0, color=0):
     old_ts = ev["startTime"]
     base = old_ts.split(".")[0] if "." in old_ts else old_ts.rstrip("Z").split("+")[0]
     packed = pack_seed(play, pitch, flow, color)
-    new_ts = f"{base}.{packed:08d}Z"
+    new_ts = f"{base}.{packed:016d}Z"
     ev["startTime"] = new_ts
     save(data)
     print(f"play {play_idx} event_{event_idx}: {old_ts} → {new_ts}")
@@ -44,7 +44,7 @@ def set_outcome_seed(play_idx, play=0, pitch=0, flow=0, color=0):
     old_ts = p["about"]["endTime"]
     base = old_ts.split(".")[0] if "." in old_ts else old_ts.rstrip("Z").split("+")[0]
     packed = pack_seed(play, pitch, flow, color)
-    new_ts = f"{base}.{packed:08d}"
+    new_ts = f"{base}.{packed:016d}"
     p["about"]["endTime"] = new_ts
     save(data)
     print(f"play {play_idx} outcome: {old_ts} → {new_ts}")
@@ -61,7 +61,7 @@ def set_play_start_seed(play_idx, play=0, pitch=0, flow=0, color=0):
     base = stripped.split(".")[0]
     # play_start uses +00:00 suffix format
     packed = pack_seed(play, pitch, flow, color)
-    new_ts = f"{base}.{packed:08d}+00:00"
+    new_ts = f"{base}.{packed:016d}+00:00"
     p["about"]["startTime"] = new_ts
     save(data)
     print(f"play {play_idx} start: {old_ts} → {new_ts}")
