@@ -198,6 +198,94 @@ class NarrativeRenderer(GameRenderer):
         lead_team = self.away_team['name'] if score_away > score_home else self.home_team['name']
         return f"{lead_team} lead"
 
+    def _get_batter_recap(self, batter_id, batter_last_name, variant=0):
+        """Return a sentence summarizing this batter's prior at-bats, or None.
+
+        variant controls phrasing for single prior AB:
+          0 = "his first time up" (or "in the Nth" if 2+ history)
+          1 = "in the {ordinal}"
+          2 = "in the {ordinal} inning"
+        """
+        history = self.batter_history.get(batter_id)
+        if not history:
+            return None
+
+        EVENT_VERBS = {
+            'Groundout': 'grounded out',
+            'Flyout': 'flied out',
+            'Strikeout': 'struck out',
+            'Pop Out': 'popped out',
+            'Lineout': 'lined out',
+            'Single': 'had a base hit',
+            'Double': 'had a double',
+            'Triple': 'tripled',
+            'Home Run': 'homered',
+            'Walk': 'walked',
+            'Double Play': 'grounded into a double play',
+            'Grounded Into DP': 'grounded into a double play',
+            'Hit By Pitch': 'was hit by a pitch',
+            'HBP': 'was hit by a pitch',
+            'Field Error': 'reached on an error',
+            'Sac Fly': 'flied out',
+            'Sacrifice Bunt': 'bunted',
+            'Bunt Ground Out': 'bunted',
+            'Forceout': 'grounded out',
+        }
+
+        def verb_for(entry):
+            v = EVENT_VERBS.get(entry['event'], 'reached')
+            if entry['scored'] and entry['event'] in ('Single', 'Double', 'Triple', 'Walk', 'Hit By Pitch', 'HBP', 'Field Error'):
+                v += ' and scored a run'
+            return v
+
+        entries = history[-2:]  # use most recent 2 at most
+
+        if len(entries) == 1:
+            e = entries[0]
+            v = verb_for(e)
+            ordinal = self._get_ordinal(e['inning'])
+            if len(history) == 1:
+                # First appearance: variant selects phrasing
+                if variant == 0:
+                    return f"{batter_last_name} {v} his first time up."
+                elif variant == 1:
+                    return f"{batter_last_name} {v} in the {ordinal}."
+                else:
+                    return f"{batter_last_name} {v} in the {ordinal} inning."
+            else:
+                # Multiple prior ABs but showing most recent one
+                if variant <= 1:
+                    return f"{batter_last_name} {v} in the {ordinal}."
+                else:
+                    return f"{batter_last_name} {v} in the {ordinal} inning."
+
+        # Two prior ABs
+        e1, e2 = entries
+        v1, v2 = verb_for(e1), verb_for(e2)
+        return f"{batter_last_name} {v1} in the {self._get_ordinal(e1['inning'])} and {v2} in the {self._get_ordinal(e2['inning'])}."
+
+    def _record_batter_history(self, play):
+        """Record a batter's at-bat result for recap purposes."""
+        batter_id = play['matchup']['batter']['id']
+        event = play['result']['event']
+        inning = play['about']['inning']
+
+        # Check if batter scored on this play
+        scored = False
+        for r in play.get('runners', []):
+            if r.get('details', {}).get('runner', {}).get('id') == batter_id:
+                if r.get('movement', {}).get('end') == 'score':
+                    scored = True
+                    break
+
+        if batter_id not in self.batter_history:
+            self.batter_history[batter_id] = []
+        self.batter_history[batter_id].append({
+            'event': event,
+            'inning': inning,
+            'scored': scored,
+        })
+
     def render(self) -> str:
         lines = []
 
@@ -324,6 +412,7 @@ class NarrativeRenderer(GameRenderer):
         self.current_score = (0, 0)
         self._score_at_half_start = (0, 0)
         self.plays_in_half_inning = []
+        self.batter_history = {}  # batter_id -> [{'event': str, 'inning': int, 'scored': bool}]
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
@@ -335,6 +424,10 @@ class NarrativeRenderer(GameRenderer):
 
             if 'startTime' in about:
                 self._reseed_from_timestamp(about['startTime'], "play_start")
+
+            # Capture recap value immediately after reseed, before inning
+            # transitions consume color digits
+            recap_val = self.rng_color.random()
 
             if (inning, half) != current_inning_state:
                 if current_inning_state[0] != 0:
@@ -629,7 +722,21 @@ class NarrativeRenderer(GameRenderer):
                      pitcher_name=pitcher_name
                  )
                  play_text_blocks.append(intro_txt)
- 
+
+            # Append prior at-bat recap after batter intro
+            # recap_val was captured right after reseed (before inning transitions)
+            # Uses a single rng_color value for both gate and phrase selection:
+            #   0-24: recap with "first time up" phrasing
+            #   25-49: recap with "in the {ordinal}" phrasing
+            #   50-69: recap with "in the {ordinal} inning" phrasing
+            #   70-99: no recap
+            batter_id = matchup['batter']['id']
+            batter_last_name = batter_name.split()[-1]
+            if recap_val < 0.7:
+                recap_variant = 0 if recap_val < 0.25 else (1 if recap_val < 0.50 else 2)
+                recap = self._get_batter_recap(batter_id, batter_last_name, recap_variant)
+                if recap:
+                    play_text_blocks.append(recap)
 
             if self.rng_color.random() < 0.2:
                  bat_side_orig = matchup['batSide']['code']
@@ -1115,6 +1222,7 @@ class NarrativeRenderer(GameRenderer):
             self.runners_on_base = post_bases
 
             self.plays_in_half_inning.append(play)
+            self._record_batter_history(play)
 
             lines.append("\n".join(play_text_blocks))
             lines.append("")
