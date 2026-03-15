@@ -28,6 +28,73 @@ def normalize_line(line):
     return s
 
 
+def _line_similarity(a, b):
+    """Word-level Jaccard between two lines (normalized)."""
+    wa = set(re.findall(r'\b\w+\b', normalize_line(a)))
+    wb = set(re.findall(r'\b\w+\b', normalize_line(b)))
+    if not wa and not wb:
+        return 1.0
+    if not wa or not wb:
+        return 0.0
+    return len(wa & wb) / len(wa | wb)
+
+
+def positional_line_match(target_text, rendered_text, wiggle_pct=0.08, wiggle_min=5):
+    """Positional fuzzy line matching.
+
+    For each target line at proportional position y%, looks for a match
+    within y ± wiggle_pct of the rendered file. Returns (exact, near90,
+    near75, n_target).
+    """
+    target_lines = [l for l in target_text.split('\n') if l.strip()]
+    rendered_lines = [l for l in rendered_text.split('\n') if l.strip()]
+    target_norm = [normalize_line(l) for l in target_lines]
+    rendered_norm = [normalize_line(l) for l in rendered_lines]
+    n_target = len(target_lines)
+    n_rendered = len(rendered_lines)
+
+    exact = 0
+    near90 = 0
+    near75 = 0
+    used = set()
+
+    for ti, tline in enumerate(target_lines):
+        if not tline:
+            continue
+        prop = ti / n_target if n_target > 0 else 0
+        center = int(prop * n_rendered)
+        wiggle = max(wiggle_min, int(wiggle_pct * n_rendered))
+        lo = max(0, center - wiggle)
+        hi = min(n_rendered, center + wiggle + 1)
+
+        best_sim = 0.0
+        best_ri = -1
+        tn = target_norm[ti]
+        for ri in range(lo, hi):
+            if ri in used:
+                continue
+            if rendered_norm[ri] == tn:
+                best_sim = 1.0
+                best_ri = ri
+                break
+            sim = _line_similarity(tline, rendered_lines[ri])
+            if sim > best_sim:
+                best_sim = sim
+                best_ri = ri
+
+        if best_sim == 1.0:
+            exact += 1
+            used.add(best_ri)
+        elif best_sim >= 0.9:
+            near90 += 1
+            used.add(best_ri)
+        elif best_sim >= 0.75:
+            near75 += 1
+            used.add(best_ri)
+
+    return exact, near90, near75, n_target
+
+
 class TestExampleSnapshots(unittest.TestCase):
 
     def _get_example_logs(self):
@@ -114,16 +181,15 @@ class TestExampleSnapshots(unittest.TestCase):
 
 
 
-    def test_pbp_example_3_match_percentage(self):
-        """Asserts that the output of test_fixture_pbp_example_3.json meets a minimum threshold of match with pbp_example_3.txt."""
+    def _assert_pbp_alignment(self, target_file, fixture_file, jaccard_min, ngram_min, line_exact_min):
+        """Shared alignment assertion for PBP examples."""
         import json
-        import re
         from renderers.narrative.renderer import NarrativeRenderer
 
-        with open('pbp_example_3.txt', 'r') as f:
+        with open(target_file, 'r') as f:
             text = f.read()
 
-        with open('test_fixture_pbp_example_3.json', 'r') as f:
+        with open(fixture_file, 'r') as f:
             data = json.load(f)
 
         renderer = NarrativeRenderer(data)
@@ -139,10 +205,9 @@ class TestExampleSnapshots(unittest.TestCase):
         union = text_words.union(rendered_words)
         jaccard = len(intersection) / len(union) if union else 0
 
-        # Let's ensure the Jaccard similarity is at least 50%
         self.assertGreaterEqual(
-            jaccard, 0.50,
-            f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 50% threshold."
+            jaccard, jaccard_min,
+            f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the {jaccard_min*100:.0f}% threshold."
         )
 
         def get_ngrams(s, n=5):
@@ -155,21 +220,24 @@ class TestExampleSnapshots(unittest.TestCase):
         intersection_ngrams = text_ngrams.intersection(rendered_ngrams)
         ngram_percentage = len(intersection_ngrams) / len(text_ngrams) if text_ngrams else 0
 
-
-        # Let's ensure at least 12% of 5-grams match
         self.assertGreaterEqual(
-            ngram_percentage, 0.12,
-            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the 12% threshold."
+            ngram_percentage, ngram_min,
+            f"5-gram match percentage ({ngram_percentage*100:.2f}%) is below the {ngram_min*100:.0f}% threshold."
         )
 
-        text_lines = set(normalize_line(line) for line in text.split('\n') if line.strip())
-        rendered_lines = set(normalize_line(line) for line in rendered.split('\n') if line.strip())
-        identical_lines = text_lines.intersection(rendered_lines)
-        line_percentage = len(identical_lines) / len(text_lines) if text_lines else 0
+        exact, near90, near75, n_target = positional_line_match(text, rendered)
+        exact_pct = exact / n_target if n_target else 0
 
         self.assertGreaterEqual(
-            line_percentage, 0.035,
-            f"Identical line percentage ({line_percentage*100:.2f}%) is below the 3.5% threshold."
+            exact_pct, line_exact_min,
+            f"Positional exact line match ({exact_pct*100:.1f}%) is below the {line_exact_min*100:.0f}% threshold."
+        )
+
+    def test_pbp_example_3_match_percentage(self):
+        """Asserts that the output of test_fixture_pbp_example_3.json meets a minimum threshold of match with pbp_example_3.txt."""
+        self._assert_pbp_alignment(
+            'pbp_example_3.txt', 'test_fixture_pbp_example_3.json',
+            jaccard_min=0.50, ngram_min=0.12, line_exact_min=0.40,
         )
 
 
@@ -194,33 +262,9 @@ class TestExampleSnapshots(unittest.TestCase):
 
     def test_pbp_example_1_match_percentage(self):
         """Asserts that the output of test_fixture_pbp_example_1.json meets a minimum threshold of match with pbp_example_1.txt."""
-        import json
-        import re
-        from renderers.narrative.renderer import NarrativeRenderer
-
-        with open('pbp_example_1.txt', 'r') as f:
-            text = f.read()
-
-        with open('test_fixture_pbp_example_1.json', 'r') as f:
-            data = json.load(f)
-
-        renderer = NarrativeRenderer(data)
-        rendered = renderer.render()
-
-        def get_words(s):
-            return set(re.findall(r'\b\w+\b', s.lower()))
-
-        text_words = get_words(text)
-        rendered_words = get_words(rendered)
-
-        intersection = text_words.intersection(rendered_words)
-        union = text_words.union(rendered_words)
-        jaccard = len(intersection) / len(union) if union else 0
-
-        # Initial threshold - will increase as alignment improves
-        self.assertGreaterEqual(
-            jaccard, 0.30,
-            f"Jaccard similarity of words ({jaccard*100:.2f}%) is below the 30% threshold."
+        self._assert_pbp_alignment(
+            'pbp_example_1.txt', 'test_fixture_pbp_example_1.json',
+            jaccard_min=0.50, ngram_min=0.12, line_exact_min=0.45,
         )
 
     def test_pbp_example_1_draft_consistency(self):
@@ -240,6 +284,32 @@ class TestExampleSnapshots(unittest.TestCase):
         self.assertEqual(
             rendered, expected,
             "The rendered output of test_fixture_pbp_example_1.json does not match test_fixture_pbp_example_1.txt. Note: If you see this failure after modifying test_fixture_pbp_example_1.json, it simply means you need to regenerate test_fixture_pbp_example_1.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_1.json --pbp-outfile test_fixture_pbp_example_1.txt`)."
+        )
+
+    def test_pbp_example_2_match_percentage(self):
+        """Asserts that the output of test_fixture_pbp_example_2.json meets a minimum threshold of match with pbp_example_2.txt."""
+        self._assert_pbp_alignment(
+            'pbp_example_2.txt', 'test_fixture_pbp_example_2.json',
+            jaccard_min=0.50, ngram_min=0.12, line_exact_min=0.40,
+        )
+
+    def test_pbp_example_2_draft_consistency(self):
+        """Asserts that the current output of rendering test_fixture_pbp_example_2.json matches test_fixture_pbp_example_2.txt."""
+        import json
+        from renderers.narrative.renderer import NarrativeRenderer
+
+        with open('test_fixture_pbp_example_2.json', 'r') as f:
+            data = json.load(f)
+
+        renderer = NarrativeRenderer(data)
+        rendered = renderer.render()
+
+        with open('test_fixture_pbp_example_2.txt', 'r') as f:
+            expected = f.read()
+
+        self.assertEqual(
+            rendered, expected,
+            "The rendered output of test_fixture_pbp_example_2.json does not match test_fixture_pbp_example_2.txt. Note: If you see this failure after modifying test_fixture_pbp_example_2.json, it simply means you need to regenerate test_fixture_pbp_example_2.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_2.json --pbp-outfile test_fixture_pbp_example_2.txt`)."
         )
 
 if __name__ == "__main__":
