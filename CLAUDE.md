@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Dependency Pinning - CRITICAL
+
+**All Python dependencies are pinned to exact versions (2026-03-17) due to active supply chain attacks.**
+
+- **NEVER** run `pip install <package>` without explicit user approval
+- **NEVER** unpin or upgrade versions in requirements files or constraints.txt
+- The venv's `pip.conf` enforces `constraints.txt` automatically
+- If a new dependency is truly needed, ask the user first and manually verify
+  the package on PyPI (release date, maintainer, changelog)
+
 ## Project Overview
 
 This is a realistic MLB game simulator that generates play-by-play logs indistinguishable from real baseball broadcasts. The engine models pitch-by-pitch sequences, bullpen management, and situational events while respecting modern MLB rules (DH rule, ghost runner in extras).
