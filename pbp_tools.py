@@ -11,18 +11,19 @@ This module provides utilities for:
 ## Key Concepts
 
 The NarrativeRenderer uses DirectRNG in "directMode". Each timestamp encodes
-per-stream seeds in its fractional seconds (8 digits):
+per-stream seeds in its fractional seconds (16 digits):
 
-    "2025-09-27T23:05:19.03050267" → play=67, pitch=02, flow=05, color=03
+    "2025-09-27T23:05:19.0003000500020067" → play=0067, pitch=0002, flow=0005, color=0003
 
-The fractional seconds are split into 2-digit segments, one per stream:
-    digits 0-1 (rightmost) → rng_play
-    digits 2-3             → rng_pitch
-    digits 4-5             → rng_flow
-    digits 6-7             → rng_color
+The fractional seconds are split into 4-digit segments, one per stream:
+    digits 0-3  (rightmost) → rng_play
+    digits 4-7              → rng_pitch
+    digits 8-11             → rng_flow
+    digits 12-15            → rng_color
 
-Each stream independently consumes its seed via choice():
-    choice(pool) → pool[seed % len(pool)]
+Each stream gets 2 controllable calls (4 digits / 2 digits per call):
+    call 0: pool[seed % len(pool)], then seed //= 100
+    call 1: pool[seed % len(pool)], then seed //= 100
 
 Because streams are independent, setting one never conflicts with another.
 
@@ -154,10 +155,10 @@ class TracingRenderer:
                 index = 0
 
             # Split index into per-stream seeds (matching base.py)
-            play = TracingDirectRNG(index % 100, 'play')
-            pitch = TracingDirectRNG((index // 100) % 100, 'pitch')
-            flow = TracingDirectRNG((index // 10000) % 100, 'flow')
-            color = TracingDirectRNG((index // 1000000) % 100, 'color')
+            play = TracingDirectRNG(index % 10000, 'play')
+            pitch = TracingDirectRNG((index // 10000) % 10000, 'pitch')
+            flow = TracingDirectRNG((index // 100000000) % 10000, 'flow')
+            color = TracingDirectRNG((index // 1000000000000) % 10000, 'color')
 
             self.renderer.rng_play = play
             self.renderer.rng_pitch = pitch
@@ -222,36 +223,36 @@ def solve_seed(constraints):
 
 
 # Stream offsets in the fractional seconds (matching base.py split):
-#   play  = index % 100           (digits 0-1, rightmost)
-#   pitch = (index // 100) % 100  (digits 2-3)
-#   flow  = (index // 10000) % 100 (digits 4-5)
-#   color = (index // 1000000) % 100 (digits 6-7)
+#   play  = index % 10000                    (digits 0-3, rightmost)
+#   pitch = (index // 10000) % 10000         (digits 4-7)
+#   flow  = (index // 100000000) % 10000     (digits 8-11)
+#   color = (index // 1000000000000) % 10000 (digits 12-15)
 STREAM_OFFSETS = {
-    'play':  (1, 100),        # multiplier to pack into fractional
-    'pitch': (100, 100),
-    'flow':  (10000, 100),
-    'color': (1000000, 100),
+    'play':  (1, 10000),        # multiplier to pack into fractional
+    'pitch': (10000, 10000),
+    'flow':  (100000000, 10000),
+    'color': (1000000000000, 10000),
 }
 
 
 def pack_stream_seeds(play=0, pitch=0, flow=0, color=0):
     """Pack per-stream seeds into a single fractional-seconds integer."""
-    return (play % 100) + (pitch % 100) * 100 + (flow % 100) * 10000 + (color % 100) * 1000000
+    return (play % 10000) + (pitch % 10000) * 10000 + (flow % 10000) * 100000000 + (color % 10000) * 1000000000000
 
 
 def unpack_stream_seeds(index):
     """Unpack a fractional-seconds integer into per-stream seeds."""
     return {
-        'play':  index % 100,
-        'pitch': (index // 100) % 100,
-        'flow':  (index // 10000) % 100,
-        'color': (index // 1000000) % 100,
+        'play':  index % 10000,
+        'pitch': (index // 10000) % 10000,
+        'flow':  (index // 100000000) % 10000,
+        'color': (index // 1000000000000) % 10000,
     }
 
 
 def seed_to_fractional(seed, base_timestamp="2025-09-27T23:05:00"):
     """Convert a packed seed to a timestamp with the seed encoded in fractional seconds."""
-    return f"{base_timestamp}.{seed:08d}"
+    return f"{base_timestamp}.{seed:016d}"
 
 
 def timestamp_to_seed(timestamp):
@@ -565,7 +566,7 @@ def cmd_solve(args):
         ts = seed_to_fractional(seed, args.timestamp)
         print(f"\nTimestamp: {ts}")
     else:
-        print(f"\nFractional seconds: .{seed:07d}")
+        print(f"\nFractional seconds: .{seed:016d}")
 
 
 def cmd_search(args):
@@ -653,18 +654,31 @@ def cmd_diff(args):
             break
 
     # Summary statistics
+    def normalize_line(line):
+        """Normalize trivial formatting differences for comparison."""
+        s = line.strip().lower()
+        for w1 in ('oh', 'one', 'two', 'three'):
+            for w2 in ('oh', 'one', 'two', 'three'):
+                s = s.replace(f'{w1} and {w2}', f'{w1}-{w2}')
+        s = re.sub(r'[.,]\s+(\w+-\w+)', r', \1', s)
+        s = s.replace('called a strike', 'called strike')
+        s = re.sub(r'\.\s+([a-z])', r', \1', s)
+        return s
+
     target_content = [l.strip() for l in target_text.split('\n') if l.strip() and not l.strip().startswith('[TTS')]
     rendered_content = [l.strip() for l in rendered_text.split('\n') if l.strip() and not l.strip().startswith('[TTS')]
-    target_set = set(target_content)
-    rendered_set = set(rendered_content)
-    identical = target_set.intersection(rendered_set)
+
+    target_normalized = [normalize_line(l) for l in target_content]
+    rendered_normalized = [normalize_line(l) for l in rendered_content]
+    identical = set(target_normalized).intersection(set(rendered_normalized))
+    identical_raw = set(target_content).intersection(set(rendered_content))
 
     # Fuzzy positional matching: for each target line, look for a close match
     # near its proportional position in the rendered output
     def line_similarity(a, b):
-        """Word-level Jaccard between two lines."""
-        wa = set(re.findall(r'\b\w+\b', a.lower()))
-        wb = set(re.findall(r'\b\w+\b', b.lower()))
+        """Word-level Jaccard between two normalized lines."""
+        wa = set(re.findall(r'\b\w+\b', normalize_line(a)))
+        wb = set(re.findall(r'\b\w+\b', normalize_line(b)))
         if not wa and not wb:
             return 1.0
         if not wa or not wb:
@@ -693,9 +707,15 @@ def cmd_diff(args):
 
         best_sim = 0.0
         best_ri = -1
+        tn = target_normalized[ti]
         for ri in range(lo, hi):
             if ri in rendered_used:
                 continue
+            # Check normalized exact match first
+            if rendered_normalized[ri] == tn:
+                best_sim = 1.0
+                best_ri = ri
+                break
             sim = line_similarity(tline, rendered_content[ri])
             if sim > best_sim:
                 best_sim = sim
@@ -714,7 +734,8 @@ def cmd_diff(args):
     print(f"\n--- Summary ---")
     print(f"Content lines in target: {n_target}")
     print(f"Content lines in rendered: {n_rendered}")
-    print(f"Identical content lines (any position): {len(identical)} ({100*len(identical)/n_target:.1f}%)")
+    print(f"Identical content lines (raw): {len(identical_raw)} ({100*len(identical_raw)/n_target:.1f}%)")
+    print(f"Identical content lines (normalized): {len(identical)} ({100*len(identical)/n_target:.1f}%)")
     print(f"\nPositional fuzzy matching (±{wiggle_pct:.0%} of file):")
     print(f"  Exact match:  {exact_positional} ({100*exact_positional/n_target:.1f}%)")
     print(f"  ≥90% similar: {near_matches_90} ({100*near_matches_90/n_target:.1f}%)")
@@ -1038,25 +1059,47 @@ def cmd_set_choice(args):
             continue
 
         call = rng.calls[call_num]
-        if call_num > 0:
-            print(f"Warning: {stream_name} call {call_num} > 0. With split-stream encoding, "
-                  f"each stream only has 2 digits (1 meaningful call). Call {call_num} "
+        if call_num > 1:
+            print(f"Warning: {stream_name} call {call_num} > 1. With split-stream encoding, "
+                  f"each stream only has 4 digits (2 meaningful calls). Call {call_num} "
                   f"would require a larger seed allocation.")
             continue
 
         if call['type'] == 'choice':
             pool_size = call['pool_size']
-            # Find a 2-digit value where value % pool_size == desired_idx
-            found = False
-            for candidate in range(100):
-                if candidate % pool_size == desired_idx:
-                    new_streams[stream_name] = candidate
-                    found = True
-                    break
-            if not found:
-                print(f"Error: no value 0-99 satisfies {stream_name} % {pool_size} == {desired_idx}")
+            current_stream_val = new_streams[stream_name]
+            if call_num == 0:
+                # Find a 4-digit value where value % pool_size == desired_idx
+                # Preserve upper 2 digits (call 1's value)
+                upper = current_stream_val // 100
+                found = False
+                for candidate in range(100):
+                    if candidate % pool_size == desired_idx:
+                        new_streams[stream_name] = upper * 100 + candidate
+                        found = True
+                        break
+                if not found:
+                    print(f"Error: no value 0-99 satisfies {stream_name} % {pool_size} == {desired_idx}")
+            elif call_num == 1:
+                # Find upper 2 digits where (value // 100) % pool_size == desired_idx
+                # Preserve lower 2 digits (call 0's value)
+                lower = current_stream_val % 100
+                found = False
+                for candidate in range(100):
+                    if candidate % pool_size == desired_idx:
+                        new_streams[stream_name] = candidate * 100 + lower
+                        found = True
+                        break
+                if not found:
+                    print(f"Error: no value 0-99 satisfies {stream_name} call 1 % {pool_size} == {desired_idx}")
         elif call['type'] == 'random':
-            new_streams[stream_name] = desired_idx
+            current_stream_val = new_streams[stream_name]
+            if call_num == 0:
+                upper = current_stream_val // 100
+                new_streams[stream_name] = upper * 100 + desired_idx
+            elif call_num == 1:
+                lower = current_stream_val % 100
+                new_streams[stream_name] = desired_idx * 100 + lower
 
     new_packed = pack_stream_seeds(**new_streams)
     print(f"New per-stream: play={new_streams['play']}, pitch={new_streams['pitch']}, flow={new_streams['flow']}, color={new_streams['color']}")
@@ -1077,7 +1120,7 @@ def cmd_set_choice(args):
     else:
         core = old_ts
     base = core.split('.')[0]
-    new_ts = f"{base}.{new_packed:08d}{tz_suffix}"
+    new_ts = f"{base}.{new_packed:016d}{tz_suffix}"
 
     if not args.dry_run:
         path = target_sp['json_path']
