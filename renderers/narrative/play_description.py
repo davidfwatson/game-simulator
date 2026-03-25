@@ -83,9 +83,13 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             if pitcher_templates and renderer.rng_flow.random() < 0.5:
                 specific_templates = pitcher_templates
 
+        # Filter Pop Out templates: "on the infield" only for infield fielders
+        if template_outcome == "Pop Out" and fielder_pos in ("LF", "CF", "RF"):
+            specific_templates = [t for t in specific_templates if "on the infield" not in t]
+            if not specific_templates:
+                specific_templates = outcome_templates.get('default', [])
+
     template = None
-    if specific_templates and renderer.rng_flow.random() < 0.8:
-        template = renderer.rng_play.choice(specific_templates)
 
     direction = ""
     if location_code:
@@ -123,6 +127,20 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     side_map = {"first": "right", "second": "right", "third": "left", "short": "left"}
     if template_outcome in ["Pop Out"] and direction_noun in side_map:
         direction_noun = side_map[direction_noun]
+
+    # Filter out templates with hardcoded directions that contradict the actual direction
+    if direction and specific_templates:
+        is_middle = direction in ("up the middle", "to second", "to short")
+        filtered = [t for t in specific_templates
+                    if "up the middle" not in t or is_middle]
+        # Also filter "down the line" templates for non-line directions
+        if direction not in ("down the line", "down the first base line", "down the third base line"):
+            filtered = [t for t in filtered if "down the" not in t.lower() or "{direction" in t]
+        if filtered:
+            specific_templates = filtered
+
+    if specific_templates and renderer.rng_flow.random() < 0.8:
+        template = renderer.rng_play.choice(specific_templates)
 
     orig_pitch_type = pitch_details.get('type', 'pitch')
     simple_pitch_type = simplify_pitch_type(orig_pitch_type, renderer.rng_pitch)

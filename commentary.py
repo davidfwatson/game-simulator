@@ -421,10 +421,10 @@ GAME_CONTEXT = {
         },
         "Sac Fly": {
             "default": [
-                "Fly ball {direction}. {fielder_name} is under it and he makes the catch.",
-                "Fly ball {direction}. {fielder_name} is there and he makes the catch.",
-                "Fly ball into {direction_noun}. {fielder_name} is under it and he makes the catch.",
-                "Fly ball {direction}. {fielder_name} drifts back and makes the catch."
+                "Fly ball {direction}. {fielder_name} is under it and he makes the catch. The runner tags and scores.",
+                "Fly ball {direction}. {fielder_name} is there and he makes the catch. The runner will tag up and score.",
+                "Fly ball into {direction_noun}. {fielder_name} is under it and he makes the catch. And the runner tags and scores on the sacrifice fly.",
+                "Fly ball {direction}. {fielder_name} drifts back and makes the catch. The runner tags and scores."
             ]
         }
     },
@@ -617,7 +617,8 @@ GAME_CONTEXT = {
             "And {batter_name} steps in to start the inning.",
             "{batter_name} digs in. He'll lead off.",
             "And {batter_name} steps into the box against {pitcher_name}.",
-            "And {batter_name} will step in against {pitcher_name}."
+            "And {batter_name} will step in against {pitcher_name}.",
+            "And {batter_name} checks in against {pitcher_name}."
         ],
         "batter_intro_empty": [
              "And {batter_name} will step in with {outs_str} and nobody on.",
@@ -630,7 +631,9 @@ GAME_CONTEXT = {
              "Bases empty, {outs_str}, for {batter_name}.",
              "And {batter_name} steps in against {pitcher_name}. {outs_str}, nobody on.",
              "And {batter_name} checks in with {outs_str} and the bases empty.",
-             "And here's {batter_name} with {outs_str} and nobody aboard."
+             "And here's {batter_name} with {outs_str} and nobody aboard.",
+             "And here's {batter_name} with {outs_str} and nobody on.",
+             "So, bases empty, {outs_str} for {batter_name}."
         ],
         "batter_intro_runners": [
              "And {batter_name} steps in with {runners_str}, {outs_str}.",
@@ -643,7 +646,10 @@ GAME_CONTEXT = {
              "So a runner on {runners_str} and {outs_str} for {batter_name}.",
              "{runners_str}, {outs_str}. {batter_name} at the plate.",
              "And {batter_name} steps in against {pitcher_name}. {runners_str}, {outs_str}.",
-             "And here's {batter_name} with {runners_str} and {outs_str}."
+             "And here's {batter_name} with {runners_str} and {outs_str}.",
+             "So, {runners_str} and {outs_str} for {batter_name}.",
+             "So, {runners_str} now, {outs_str} for {batter_name}.",
+             "And {batter_name} steps in with {outs_str} and {runners_str}."
         ],
         "pitch_connectors": [
             "And the {count_str}...",
@@ -865,10 +871,13 @@ GAME_CONTEXT = {
             "Here are the {home_team_name}."
         ],
         "manager_away": [
-            "And the {team_name} are managed by veteran Skipper, Mick Jenkins."
+            "And the {team_name} are managed by {manager_name}.",
+            "And the {team_name} are managed by veteran skipper {manager_name}.",
+            "And the {team_name} are managed by notorious hot head {manager_name}.",
         ],
         "manager_home": [
-            "The {team_name} are managed by Manager Samuels."
+            "The {team_name} are managed by {manager_name}.",
+            "And the {team_name} are managed by veteran skipper {manager_name}.",
         ],
         "batting_1": [
             "{player_name} will lead off in {position_place}.",
@@ -882,7 +891,7 @@ GAME_CONTEXT = {
             "{position} {player_name} will bat third."
         ],
         "batting_4": [
-            "Catcher {player_name} will be in the cleanup spot this evening.",
+            "{position} {player_name} will be in the cleanup spot this evening.",
             "{position} {player_name} will be in the cleanup spot this evening.",
             "In the cleanup spot this evening, {position} {player_name}."
         ],
@@ -901,7 +910,7 @@ GAME_CONTEXT = {
         ],
         "batting_8": [
             "The big man, the {position} {player_name},",
-            "Shortstop {player_name} will bat eighth.",
+            "{position} {player_name} will bat eighth.",
             "{position} {player_name} will bat eighth."
         ],
         "batting_9": [
@@ -978,14 +987,21 @@ GAME_CONTEXT = {
              "{half} of the {inning_ordinal} inning here at {venue}. {score_str} and {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
              "{half} of the {inning_ordinal} inning here at {venue} in {city}. {score_str} and {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
              "{half} of the {inning_ordinal} inning here in {city} at {venue}. {score_str} and they'll bring {due_up_desc} up against {pitcher_name}.",
-             "{half} of the {inning_ordinal} inning here in {city}. {score_str} as {due_up_desc} step up against {pitcher_name}."
+             "{half} of the {inning_ordinal} inning here in {city}. {score_str} as {due_up_desc} step up against {pitcher_name}.",
+             "{half} of the {inning_ordinal} here at {venue} in {city}. It's {score_phrase}.",
+             "{half} of the {inning_ordinal} here at {venue}. {score_phrase} as {due_up_desc} step up against {pitcher_name}.",
+             "{half} of the {inning_ordinal} here in {city}. {score_phrase}.",
+             "{half} of the {inning_ordinal} here at {venue}. Still {score_phrase} and {batting_team} will bring {due_up_desc} up against {pitcher_name}."
         ],
         "inning_break_intro_bottom": [
              "{half} of the {inning_ordinal}.",
              "{half} of the {inning_ordinal}. {score_str}.",
              "And welcome back with us here from {venue}.",
              "And welcome back with us on this {weather_desc} here in {city}. {score_str}. {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
-             "And we're back from {venue} here in {city} for the {half} of the {inning_ordinal}."
+             "And we're back from {venue} here in {city} for the {half} of the {inning_ordinal}.",
+             "The {half_lower} of the {inning_ordinal} inning here in {city} at {venue}. It's {score_phrase} and {due_up_desc} are due up against {pitcher_name}.",
+             "Still {score_phrase} here at {venue} as we enter the {half_lower} of the {inning_ordinal}.",
+             "{half} of the {inning_ordinal} here at {venue}. {score_phrase} and {batting_team} will bring {due_up_desc} up against {pitcher_name}."
         ],
         "inning_break_return": [
              "Wally McCarthy and Producer Phil back with you, from {city}, for the",
@@ -997,17 +1013,30 @@ GAME_CONTEXT = {
              "The {batting_team} do not score.",
              "The {batting_team} do not score and after {innings_word}, {score_recap}.",
              "No runs, {hits_str}, and {lob_str}.",
+        ],
+        "inning_outro_no_score_jam": [
              "{pitcher_name} wriggles into and out of a jam and the {batting_team} do not score.",
-             "The {batting_team} are retired in order."
+             "The {batting_team} strand {lob_str} and they do not score.",
+        ],
+        "inning_outro_no_score_order": [
+             "The {batting_team} are retired in order.",
         ],
         "inning_outro_scored": [
+             "The {batting_team} push a run across.",
+             "The {batting_team} plate {runs_scored_word} in the {inning_ordinal}, and after {innings_word} it's {score_str}.",
+             "{runs_scored_str}, {hits_str}, and {lob_str}.",
+        ],
+        "inning_outro_scored_first": [
              "But the {batting_team} break the ice, and after {innings_word}, it's {score_str}.",
              "The {batting_team} push a run across.",
              "The {batting_team} plate {runs_scored_word} in the {inning_ordinal}, and after {innings_word} it's {score_str}.",
+        ],
+        "inning_outro_scored_pair": [
              "The {batting_team}, add another pair.",
+        ],
+        "inning_outro_scored_extend": [
              "And the {batting_team} add to their lead.",
              "The {batting_team} tack on {runs_scored_word} more.",
-             "{runs_scored_str}, {hits_str}, and {lob_str}."
         ],
         "inning_outro_hold": [
              "The {fielding_team}, hold on to a {score_str} lead.",
