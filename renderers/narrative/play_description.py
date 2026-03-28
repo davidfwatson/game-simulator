@@ -62,7 +62,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     elif template_outcome == "Popout":
         template_outcome = "Pop Out"
 
-    cat = renderer._get_batted_ball_category(template_outcome, ev, la)
+    cat_override = hit_data.get('categoryOverride')
+    if cat_override:
+        cat = cat_override
+    else:
+        cat = renderer._get_batted_ball_category(template_outcome, ev, la)
 
     specific_templates = []
     if 'narrative_templates' in GAME_CONTEXT:

@@ -435,6 +435,7 @@ class NarrativeRenderer(GameRenderer):
 
     def render(self) -> str:
         lines = []
+        self._play_line_map = {}
 
         venue = self.gameday_data['gameData'].get('venue', 'the ballpark')
 
@@ -634,6 +635,7 @@ class NarrativeRenderer(GameRenderer):
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
         for play_idx, play in enumerate(plays):
+            play_start_line = len(lines)
             about = play['about']
             matchup = play['matchup']
             inning = about['inning']
@@ -1579,6 +1581,7 @@ class NarrativeRenderer(GameRenderer):
 
             lines.append("\n".join(collapsed))
             lines.append("")
+            self._play_line_map[play_idx] = (play_start_line, len(lines))
 
         # --- GAME SUMMARY ---
         linescore_teams = self.gameday_data['liveData']['linescore']['teams']
