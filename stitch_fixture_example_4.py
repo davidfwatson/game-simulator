@@ -607,6 +607,8 @@ def build_game_data():
                 "name": "Lake City Loons",
                 "teamName": "Loons",
                 "abbreviation": "LCL",
+                "locationName": "Lake City",
+                "state": "Minnesota",
                 "manager": "Manager Samuels",
             },
             "home": {
@@ -614,6 +616,8 @@ def build_game_data():
                 "name": "Cadillac Cars",
                 "teamName": "Cars",
                 "abbreviation": "CAD",
+                "locationName": "Cadillac",
+                "state": "Michigan",
                 "manager": "Mick Jenkins",
             },
         },

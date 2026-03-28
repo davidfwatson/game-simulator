@@ -20,10 +20,14 @@ def main():
     data['gameData']['teams']['home']['name'] = 'Lake City Loons'
     data['gameData']['teams']['home']['teamName'] = 'Loons'
     data['gameData']['teams']['home']['abbreviation'] = 'LCL'
+    data['gameData']['teams']['home']['locationName'] = 'Lake City'
+    data['gameData']['teams']['home']['state'] = 'Minnesota'
 
     data['gameData']['teams']['away']['name'] = 'Baraboo Bombers'
     data['gameData']['teams']['away']['teamName'] = 'Bombers'
     data['gameData']['teams']['away']['abbreviation'] = 'BAR'
+    data['gameData']['teams']['away']['locationName'] = 'Baraboo'
+    data['gameData']['teams']['away']['state'] = 'Wisconsin'
 
     # Modify venue and weather
     data['gameData']['venue'] = 'Goodhue Field'

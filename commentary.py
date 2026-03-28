@@ -438,6 +438,18 @@ GAME_CONTEXT = {
             "called a strike on the inside corner", "called strike", "a strike",
             "paints the corner for a called strike"
         ],
+        "strike_called_one": [
+            "called strike one", "in there for strike one", "strike one called",
+            "taken for a called strike", "paints the corner for strike one",
+            "catches the black", "called a strike", "a strike",
+            "in there for a called strike"
+        ],
+        "strike_called_two": [
+            "called strike two", "in there for strike two", "strike two",
+            "called a strike", "taken for a called strike",
+            "paints the corner for a called strike", "catches the black",
+            "in there for a called strike", "a strike"
+        ],
         "strike_called_three": [
             "called strike three", "caught looking at strike three", "strike three called",
             "in there for strike three", "rings him up", "got him looking",
@@ -880,7 +892,8 @@ GAME_CONTEXT = {
             "Let's take a look at the Starting 9 for the visiting {team_name}."
         ],
         "outro_away": [
-            "Those are the {away_team_name}."
+            "Those are the {away_team_name}.",
+            "Those are the {away_short}."
         ],
         "intro_home": [
             "Here are the {home_team_name}."
@@ -998,7 +1011,9 @@ GAME_CONTEXT = {
         "inning_break_intro_top": [
              "{half} of the {inning_ordinal} inning here at {venue}.",
              "{half} of the {inning_ordinal} inning here at {venue} in {city}.",
+             "{half} of the {inning_ordinal} inning here at {venue} in {city}, {state}.",
              "{half} of the {inning_ordinal} at {venue}, as we continue our {score_context} here in {city}.",
+             "{half} of the {inning_ordinal} at {venue} in {city}, {state}, as we continue our {score_context}.",
              "{half} of the {inning_ordinal} inning here at {venue}. {score_str} and {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
              "{half} of the {inning_ordinal} inning here at {venue} in {city}. {score_str} and {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
              "{half} of the {inning_ordinal} inning here in {city} at {venue}. {score_str} and they'll bring {due_up_desc} up against {pitcher_name}.",
@@ -1014,6 +1029,7 @@ GAME_CONTEXT = {
              "And welcome back with us here from {venue}.",
              "And welcome back with us on this {weather_desc} here in {city}. {score_str}. {batting_team} will bring {due_up_desc} up against {pitcher_name}.",
              "And we're back from {venue} here in {city} for the {half} of the {inning_ordinal}.",
+             "And we're back from {venue} here in {city}, {state} for the {half} of the {inning_ordinal}.",
              "The {half_lower} of the {inning_ordinal} inning here in {city} at {venue}. It's {score_phrase} and {due_up_desc} are due up against {pitcher_name}.",
              "Still {score_phrase} here at {venue} as we enter the {half_lower} of the {inning_ordinal}.",
              "{half} of the {inning_ordinal} here at {venue}. {score_phrase} and {batting_team} will bring {due_up_desc} up against {pitcher_name}."
@@ -1028,34 +1044,43 @@ GAME_CONTEXT = {
              "The {batting_team} do not score.",
              "The {batting_team} do not score and after {innings_word}, {score_recap}.",
              "No runs, {hits_str}, and {lob_str}.",
+             "The {batting_team_short} do not score.",
+             "{batting_team_short} do not score.",
         ],
         "inning_outro_no_score_jam": [
              "{pitcher_name} wriggles into and out of a jam and the {batting_team} do not score.",
              "The {batting_team} strand {lob_str} and they do not score.",
+             "{pitcher_name} wriggles into and out of a jam and the {batting_team_short} do not score.",
         ],
         "inning_outro_no_score_order": [
              "The {batting_team} are retired in order.",
+             "The {batting_team_short} are retired in order.",
         ],
         "inning_outro_scored": [
              "The {batting_team} push a run across.",
              "The {batting_team} plate {runs_scored_word} in the {inning_ordinal}, and after {innings_word} it's {score_str}.",
              "{runs_scored_str}, {hits_str}, and {lob_str}.",
+             "The {batting_team_short} push a run across.",
         ],
         "inning_outro_scored_first": [
              "But the {batting_team} break the ice, and after {innings_word}, it's {score_str}.",
              "The {batting_team} push a run across.",
              "The {batting_team} plate {runs_scored_word} in the {inning_ordinal}, and after {innings_word} it's {score_str}.",
+             "But the {batting_team_short} break the ice, and after {innings_word}, it's {score_str}.",
         ],
         "inning_outro_scored_pair": [
              "The {batting_team}, add another pair.",
+             "The {batting_team_short}, add another pair.",
         ],
         "inning_outro_scored_extend": [
              "And the {batting_team} add to their lead.",
              "The {batting_team} tack on {runs_scored_word} more.",
+             "And the {batting_team_short} add to their lead.",
         ],
         "inning_outro_hold": [
              "The {fielding_team}, hold on to a {score_str} lead.",
-             "The {batting_team}, do not score and the {fielding_team}, hold on to a {score_str} lead."
+             "The {batting_team}, do not score and the {fielding_team}, hold on to a {score_str} lead.",
+             "The {fielding_team_short}, hold on to a {score_str} lead.",
         ],
         "inning_outro_streak": [
              "And that's {consecutive_retired} in a row, sat down by {pitcher_name}.",
@@ -1065,7 +1090,8 @@ GAME_CONTEXT = {
         "score_update_lead": [
              "and the {team_name} take a {score_lead} lead",
              "and the {team_name} take a {score_lead} lead here in the {half} of the {inning}",
-             "and the {team_name} move out in front, {score_lead}"
+             "and the {team_name} move out in front, {score_lead}",
+             "and the {team_name_short} take a {score_lead} lead",
         ],
         "score_update_tied": [
              "and this game is now tied at {score}",
@@ -1074,21 +1100,29 @@ GAME_CONTEXT = {
         "score_update_extend": [
              "and the {team_name} extend their lead to {score_lead}",
              "and the {team_name} now lead {score_lead}",
-             "and the {team_name} now lead {score_lead} here in the {half} of the {inning}"
+             "and the {team_name} now lead {score_lead} here in the {half} of the {inning}",
+             "and the {team_name_short} extend their lead to {score_lead}",
         ],
         "inning_summary_score": [
             "And with {inning_count_word} in the books, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
             "It's {away_team_name} {score_away}, {home_team_name} {score_home} after {inning_count_word}.",
             "{away_team_name} {score_away}, {home_team_name} {score_home}.",
             "After {innings_word}, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
-            "And as we head into the {next_inning_ordinal}, it's {away_team_name} {score_away}, {home_team_name} {score_home}."
+            "And as we head into the {next_inning_ordinal}, it's {away_team_name} {score_away}, {home_team_name} {score_home}.",
+            "And with {inning_count_word} in the books, it's {away_short} {score_away}, {home_short} {score_home}.",
+            "It's {away_short} {score_away}, {home_short} {score_home} after {inning_count_word}.",
+            "{away_short} {score_away}, {home_short} {score_home}.",
+            "After {innings_word}, it's {away_short} {score_away}, {home_short} {score_home}.",
         ],
         "inning_summary_remains": [
             "And it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
             "Score remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
             "With {inning_count_word} in the books it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
             "After {innings_word} it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail}.",
-            "And it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail} here in {city}."
+            "And it remains {leading_team} {leading_score_val}, {trailing_team} {score_trail} here in {city}.",
+            "And it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+            "Score remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+            "After {innings_word} it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
         ],
         "inning_summary_tied": [
             "And we are tied at {score} apiece.",

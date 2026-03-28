@@ -406,7 +406,9 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                         'id': our_team['id'],
                         'name': our_team['name'],
                         'abbreviation': our_team['abbreviation'],
-                        'teamName': our_team['teamName']
+                        'teamName': our_team['teamName'],
+                        'locationName': our_team.get('locationName', ''),
+                        'state': our_team.get('state', ''),
                     }
 
         # Context: Venue, Weather, Umpires

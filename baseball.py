@@ -153,13 +153,17 @@ class BaseballSimulator:
                         "id": self.team2_data["id"],
                         "name": self.team2_data["name"],
                         "abbreviation": self.team2_data["abbreviation"],
-                        "teamName": self.team2_data["teamName"]
+                        "teamName": self.team2_data["teamName"],
+                        "locationName": self.team2_data.get("locationName", ""),
+                        "state": self.team2_data.get("state", ""),
                     },
                     "home": {
                         "id": self.team1_data["id"],
                         "name": self.team1_data["name"],
                         "abbreviation": self.team1_data["abbreviation"],
-                        "teamName": self.team1_data["teamName"]
+                        "teamName": self.team1_data["teamName"],
+                        "locationName": self.team1_data.get("locationName", ""),
+                        "state": self.team1_data.get("state", ""),
                     }
                 }
             },

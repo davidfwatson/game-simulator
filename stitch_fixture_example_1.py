@@ -616,6 +616,8 @@ def build_game_data():
                 "name": "Cadillac Cars",
                 "teamName": "Cars",
                 "abbreviation": "CAD",
+                "locationName": "Cadillac",
+                "state": "Michigan",
                 "link": "/api/v1/teams/800",
             },
             "home": {
@@ -623,6 +625,8 @@ def build_game_data():
                 "name": "Big Rapids Timbers",
                 "teamName": "Timbers",
                 "abbreviation": "BRT",
+                "locationName": "Big Rapids",
+                "state": "Michigan",
                 "link": "/api/v1/teams/801",
             },
         },

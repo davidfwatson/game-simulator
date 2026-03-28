@@ -153,6 +153,17 @@ class NarrativeRenderer(GameRenderer):
             return ' '.join(parts[:-1])
         return team_name
 
+    def _get_short_team_name(self, team_dict):
+        """Extract short team name (e.g. 'Cadillac Cars' -> 'Cars').
+
+        Uses the teamName field if available, otherwise extracts the last word.
+        """
+        if isinstance(team_dict, dict) and 'teamName' in team_dict:
+            return team_dict['teamName']
+        name = team_dict if isinstance(team_dict, str) else team_dict.get('name', '')
+        parts = name.split()
+        return parts[-1] if parts else name
+
     def _get_innings_word(self, completed_innings, half):
         """Get phrase like 'one and a half', 'two', 'three and a half'."""
         num_word = self._get_number_word(completed_innings)
@@ -436,10 +447,26 @@ class NarrativeRenderer(GameRenderer):
         station_call = broadcast.get('station_call') or GAME_CONTEXT.get('station_call', 'KSLP')
         self._network_name = network_name
         self._station_call = station_call
-        city = self._get_city_from_team(self.home_team['name'])
+        city = self.home_team.get('locationName') or self._get_city_from_team(self.home_team['name'])
+        state = self.home_team.get('state', '')
+        away_city = self.away_team.get('locationName') or self._get_city_from_team(self.away_team['name'])
+        away_state = self.away_team.get('state', '')
         add_line(self._get_radio_string('station_intro', {'network_name': network_name}))
         welcome = self._get_radio_string('welcome_intro')
-        add_line(f"Tonight, from {venue}, it's the {self.home_team['name']} hosting the {self.away_team['name']}. {welcome}")
+        # Build venue intro with city/state when available
+        if state:
+            venue_loc = f"{venue} in {city}, {state}"
+        elif city:
+            venue_loc = f"{venue} in {city}"
+        else:
+            venue_loc = venue
+        if away_state:
+            away_loc = f" of {away_city}, {away_state}"
+        elif away_city:
+            away_loc = f" of {away_city}"
+        else:
+            away_loc = ""
+        add_line(f"Tonight, from {venue_loc}, it's the {self.home_team['name']} hosting the {self.away_team['name']}{away_loc}. {welcome}")
 
         weather = self.gameday_data['gameData'].get('weather')
         if weather:
@@ -491,7 +518,10 @@ class NarrativeRenderer(GameRenderer):
                     # Away outro ("Those are the Bombers.") on its own line
                     away_name = self.away_team['name']
                     outro_templates = lineup_strings.get('outro_away', ["Those are the {away_team_name}."])
-                    add_line(self.rng_color.choice(outro_templates).format(away_team_name=away_name))
+                    add_line(self.rng_color.choice(outro_templates).format(
+                        away_team_name=away_name,
+                        away_short=self._get_short_team_name(self.away_team)
+                    ))
                     add_line("")  # blank line between teams
                     # Home intro on its own line
                     intro_template = self.rng_color.choice(lineup_strings.get('intro_home', ["Here are the {home_team_name}."]))
@@ -647,7 +677,8 @@ class NarrativeRenderer(GameRenderer):
                          runs_scored_this_half = score_home - prev_score_home
 
                      hits_in_inning, lob = self._get_half_inning_stats()
-                     city = self._get_city_from_team(self.home_team['name'])
+                     city = self.home_team.get('locationName') or self._get_city_from_team(self.home_team['name'])
+                     state = self.home_team.get('state', '')
                      station_call = self._station_call
                      innings_word = self._get_innings_word(completed_innings, prev_half)
                      batting_team_prev = self.away_team['name'] if prev_half == 'Top' else self.home_team['name']
@@ -674,24 +705,37 @@ class NarrativeRenderer(GameRenderer):
 
                      weather_desc = "perfect night for a ball game"
 
+                     away_short = self._get_short_team_name(self.away_team)
+                     home_short = self._get_short_team_name(self.home_team)
+                     batting_team_short = away_short if prev_half == 'Top' else home_short
+                     fielding_team_short = home_short if prev_half == 'Top' else away_short
+                     leading_short = away_short if score_away > score_home else home_short
+                     trailing_short = home_short if score_away > score_home else away_short
+
                      ctx = {
                          'inning_ordinal': self._get_ordinal(completed_innings),
                          'inning_count_word': self._get_number_word(completed_innings),
                          'away_team_name': self.away_team['name'],
                          'home_team_name': self.home_team['name'],
+                         'away_short': away_short,
+                         'home_short': home_short,
                          'score_away': score_away,
                          'score_home': score_home,
                          'leading_team': self.away_team['name'] if score_away > score_home else self.home_team['name'],
                          'trailing_team': self.home_team['name'] if score_away > score_home else self.away_team['name'],
+                         'leading_short': leading_short,
+                         'trailing_short': trailing_short,
                          'score_lead': f"{max(score_away, score_home)}-{min(score_away, score_home)}",
                          'leading_score_val': max(score_away, score_home),
                          'score_trail': min(score_away, score_home),
                          'score': self._get_number_word(score_away) if score_away == score_home else score_away,
-                         'city': city,
+                         'city': city, 'state': state,
                          'venue': venue,
                          'innings_word': innings_word,
                          'batting_team': batting_team_prev,
                          'fielding_team': fielding_team_prev,
+                         'batting_team_short': batting_team_short,
+                         'fielding_team_short': fielding_team_short,
                          'pitcher_name': pitcher_name,
                          'hits_str': hits_str,
                          'lob_str': lob_str,
@@ -787,7 +831,7 @@ class NarrativeRenderer(GameRenderer):
                      # "Wally McCarthy and Producer Phil back with you..." style return
                      if self.rng_color.random() < 0.15 and 3 <= inning <= 8:
                          intro_ctx = {
-                             'venue': venue, 'city': city,
+                             'venue': venue, 'city': city, 'state': state,
                              'score_str': score_str,
                              'weather_desc': weather_desc,
                              'batting_team': next_batting_team,
@@ -803,13 +847,15 @@ class NarrativeRenderer(GameRenderer):
 
                      # --- INNING INTRO ---
                      score_phrase = self._get_natural_score_phrase(score_away, score_home)
+                     next_batting_team_short = self._get_short_team_name(self.away_team) if about['isTopInning'] else self._get_short_team_name(self.home_team)
                      intro_ctx = {
                          'half': half, 'half_lower': half.lower(),
                          'inning_ordinal': self._get_ordinal(inning),
-                         'venue': venue, 'city': city,
+                         'venue': venue, 'city': city, 'state': state,
                          'score_str': score_str, 'score_context': self._get_score_context_phrase(score_away, score_home),
                          'score_phrase': score_phrase,
                          'batting_team': next_batting_team,
+                         'batting_team_short': next_batting_team_short,
                          'due_up_desc': due_up_desc,
                          'pitcher_name': next_pitcher_name,
                          'weather_desc': weather_desc
@@ -830,14 +876,16 @@ class NarrativeRenderer(GameRenderer):
                         next_batting_team_key = 'away' if about['isTopInning'] else 'home'
                         next_batting_team = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
                         due_up_desc = self._get_due_up_desc(plays, play, next_batting_team_key)
+                        next_batting_team_short = self._get_short_team_name(self.away_team) if about['isTopInning'] else self._get_short_team_name(self.home_team)
                         intro_ctx = {
                             'half': half, 'half_lower': half.lower(),
                             'inning_ordinal': self._get_ordinal(inning),
-                            'venue': venue, 'city': city,
+                            'venue': venue, 'city': city, 'state': state,
                             'score_phrase': score_phrase,
                             'score_str': f"It's {score_phrase}",
                             'score_context': self._get_score_context_phrase(score_away, score_home),
                             'batting_team': next_batting_team,
+                            'batting_team_short': next_batting_team_short,
                             'due_up_desc': due_up_desc,
                             'pitcher_name': next_pitcher_name,
                             'weather_desc': "perfect night for a ball game"
@@ -1134,10 +1182,13 @@ class NarrativeRenderer(GameRenderer):
                              key = 'strike_called_three'
                              pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
                          else:
-                             # Use location-aware description if available
-                             zone = details.get('zone')
-                             desc = self._get_pitch_description_for_location('C', zone, pitch_type, matchup['batSide']['code'])
-                             pbp_line = f"{pitch_type}, {desc}"
+                             # Use strike-numbered pools based on resulting strike count
+                             strikes_before = event['count']['strikes']
+                             if strikes_before == 0:
+                                 key = 'strike_called_one'
+                             else:
+                                 key = 'strike_called_two'
+                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
 
                     elif code == 'S':
                          if event['count']['strikes'] == 2:
@@ -1464,8 +1515,10 @@ class NarrativeRenderer(GameRenderer):
                      if new_away < len(nums) and new_away > 0: score_tied_str = nums[new_away]
                      else: score_tied_str = str(new_away)
 
+                lead_team_short = self._get_short_team_name(self.away_team) if new_away > new_home else self._get_short_team_name(self.home_team)
                 ctx = {
                     'team_name': lead_team,
+                    'team_name_short': lead_team_short,
                     'score_lead': score_lead_str,
                     'score': score_tied_str,
                     'inning': self._get_ordinal(inning),
