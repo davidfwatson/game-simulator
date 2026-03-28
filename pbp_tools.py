@@ -923,10 +923,14 @@ def cmd_inspect_play(args):
                 continue
 
             for call in rng.calls:
+                ctrl_label = "[controllable]" if call['digit_pos'] <= 1 else "[fixed]"
                 if call['type'] == 'choice':
-                    print(f"  [{stream_name} #{call['digit_pos']}] choice(pool_size={call['pool_size']})")
+                    print(f"  [{stream_name} #{call['digit_pos']}] {ctrl_label} choice(pool_size={call['pool_size']})")
                     print(f"    {call['digit_value']} % {call['pool_size']} = {call['selected_index']}")
-                    print(f"    → {repr(call['selected_value'][:100])}")
+                    if call['digit_pos'] > 1:
+                        print(f"    → {repr(call['selected_value'][:100])} (cannot be changed via set-choice)")
+                    else:
+                        print(f"    → {repr(call['selected_value'][:100])}")
                     if args.verbose:
                         for i, opt in enumerate(call['pool']):
                             marker = " >>>" if i == call['selected_index'] else "    "
@@ -944,33 +948,37 @@ def cmd_inspect_play(args):
                         threshold_info = " (>= 0.6: comma=False, < 0.8: use_template=True)"
                     else:
                         threshold_info = " (>= 0.8: use_template=False)"
-                    print(f"  [{stream_name} #{call['digit_pos']}] random() = {call['result']:.2f}{threshold_info}")
+                    extra = ""
+                    if call['digit_pos'] > 1:
+                        extra = " (cannot be changed via set-choice)"
+                    print(f"  [{stream_name} #{call['digit_pos']}] {ctrl_label} random() = {call['result']:.2f}{threshold_info}{extra}")
 
     # Show the rendered output for this play
     rendered_lines = rendered.split('\n')
-    # Find the output block for this play by looking at empty-line-separated blocks
-    blocks = rendered.split('\n\n')
-    # The pre-game takes several blocks, then each play is its own block
-    # A rough heuristic: count plays to find the right block
 
     print(f"\n{'='*70}")
     print(f"RENDERED OUTPUT FOR THIS PLAY")
     print(f"{'='*70}")
 
-    # Count non-empty blocks to find plays
-    # Pre-game is blocks 0, then inning headers, then plays...
-    # Actually, let's just find the batter's name in blocks
-    batter_name = matchup['batter']['fullName']
-    for i, block in enumerate(blocks):
-        if batter_name in block and any(kw in block for kw in ['leads off', 'steps in', 'comes to', 'will step', 'And here', 'Now batting']):
-            print(block)
-            break
+    # Use the line map if available (precise line ranges from renderer)
+    line_map = getattr(tracer.renderer, '_play_line_map', None)
+    if line_map and play_index in line_map:
+        start, end = line_map[play_index]
+        for line in rendered_lines[start:end]:
+            print(line)
     else:
-        # Fallback: search for any block mentioning the batter
-        for block in blocks:
-            if batter_name in block:
+        # Fallback: heuristic search by batter name in double-newline blocks
+        blocks = rendered.split('\n\n')
+        batter_name = matchup['batter']['fullName']
+        for i, block in enumerate(blocks):
+            if batter_name in block and any(kw in block for kw in ['leads off', 'steps in', 'comes to', 'will step', 'And here', 'Now batting']):
                 print(block)
                 break
+        else:
+            for block in blocks:
+                if batter_name in block:
+                    print(block)
+                    break
 
 
 def cmd_set_choice(args):
@@ -1161,6 +1169,293 @@ def cmd_set_choice(args):
                     print(f"  {stream}#{call_num}: [{call['selected_index']}] {repr(old_val[:60])} → [{desired_idx}] {repr(new_val[:60])}")
 
 
+def cmd_set_gate(args):
+    """
+    Update a seed so a random() gate passes above or below a threshold.
+
+    random() returns (digit_value % 100) / 100.0, so digit value 10 -> 0.10.
+    --below T: set digit to int(T * 100) // 2  (safely below threshold)
+    --above T: set digit to int(T * 100) + (100 - int(T * 100)) // 2  (safely above)
+    """
+    with open(args.json_file) as f:
+        data = json.load(f)
+
+    play_index = args.play
+    point_type = args.seed_point
+    stream_name = args.stream
+    call_num = args.call
+
+    if call_num > 1:
+        print(f"Error: call {call_num} > 1. Only calls 0 and 1 are controllable.")
+        return
+
+    # Compute the desired digit value
+    if args.below is not None:
+        threshold = args.below
+        desired_digit = int(threshold * 100) // 2
+        direction = f"below {threshold}"
+    elif args.above is not None:
+        threshold = args.above
+        t_int = int(threshold * 100)
+        desired_digit = t_int + (100 - t_int) // 2
+        direction = f"above {threshold}"
+    else:
+        print("Error: must specify --below or --above")
+        return
+
+    print(f"Setting {stream_name} call {call_num} to digit {desired_digit} -> random() = {desired_digit / 100.0:.2f} ({direction})")
+
+    # Find the seed point
+    seed_points = get_play_seed_points(data, play_index)
+    target_sp = None
+    for sp in seed_points:
+        if sp['point_type'] == point_type:
+            target_sp = sp
+            break
+
+    if not target_sp:
+        print(f"Seed point '{point_type}' not found for play {play_index}")
+        print(f"Available: {[sp['point_type'] for sp in seed_points]}")
+        return
+
+    # Unpack current stream seeds
+    old_packed = target_sp['seed']
+    old_streams = unpack_stream_seeds(old_packed)
+    new_streams = dict(old_streams)
+
+    current_stream_val = new_streams[stream_name]
+    if call_num == 0:
+        upper = current_stream_val // 100
+        new_streams[stream_name] = upper * 100 + desired_digit
+    elif call_num == 1:
+        lower = current_stream_val % 100
+        new_streams[stream_name] = desired_digit * 100 + lower
+
+    new_packed = pack_stream_seeds(**new_streams)
+
+    print(f"Old per-stream: play={old_streams['play']}, pitch={old_streams['pitch']}, flow={old_streams['flow']}, color={old_streams['color']}")
+    print(f"New per-stream: play={new_streams['play']}, pitch={new_streams['pitch']}, flow={new_streams['flow']}, color={new_streams['color']}")
+
+    # Update the JSON timestamp
+    old_ts = target_sp['timestamp']
+    tz_suffix = ''
+    if old_ts.endswith('Z'):
+        tz_suffix = 'Z'
+        core = old_ts[:-1]
+    elif re.search(r'\+\d{2}:\d{2}$', old_ts):
+        tz_suffix = old_ts[-6:]
+        core = old_ts[:-6]
+    else:
+        core = old_ts
+    base = core.split('.')[0]
+    new_ts = f"{base}.{new_packed:016d}{tz_suffix}"
+
+    # Write to JSON
+    path = target_sp['json_path']
+    parts_parsed = re.findall(r'(\w+)|\[(\d+)\]', path)
+    obj = data
+    for i, (key, idx) in enumerate(parts_parsed[:-1]):
+        if key:
+            obj = obj[key]
+        elif idx:
+            obj = obj[int(idx)]
+
+    last_key, last_idx = parts_parsed[-1]
+    if last_key:
+        obj[last_key] = new_ts
+    elif last_idx:
+        obj[int(last_idx)] = new_ts
+
+    with open(args.json_file, 'w') as f:
+        json.dump(data, f, indent=2)
+
+    print(f"\nUpdated {target_sp['json_path']}:")
+    print(f"  Old: {old_ts}")
+    print(f"  New: {new_ts}")
+
+
+def cmd_set_zone(args):
+    """
+    Set the pitch zone for a specific event in a play.
+
+    Zone mapping (from catcher's perspective):
+        11 = high-left,  12 = high-right
+        13 = low-left,   14 = low-right
+    For RHB: left=inside, right=outside
+    For LHB: flipped
+    """
+    with open(args.json_file) as f:
+        data = json.load(f)
+
+    play_index = args.play
+    event_index = args.event
+
+    plays = data['liveData']['plays']['allPlays']
+    if play_index >= len(plays):
+        print(f"Play index {play_index} out of range (0-{len(plays)-1})")
+        return
+
+    play = plays[play_index]
+    events = play['playEvents']
+    if event_index >= len(events):
+        print(f"Event index {event_index} out of range (0-{len(events)-1})")
+        return
+
+    # Resolve zone: either numeric or named
+    zone_input = args.zone
+    try:
+        zone_num = int(zone_input)
+    except ValueError:
+        # Named zone -- resolve using batter handedness
+        batter_hand = play['matchup'].get('batSide', {}).get('code', 'R')
+        zone_names_rhb = {
+            'high_inside': 11, 'high_outside': 12,
+            'low_inside': 13, 'low_outside': 14,
+        }
+        zone_names_lhb = {
+            'high_outside': 11, 'high_inside': 12,
+            'low_outside': 13, 'low_inside': 14,
+        }
+        zone_map = zone_names_rhb if batter_hand == 'R' else zone_names_lhb
+        if zone_input not in zone_map:
+            print(f"Unknown zone name '{zone_input}'. Valid names: {list(zone_names_rhb.keys())}")
+            return
+        zone_num = zone_map[zone_input]
+        print(f"Batter is {batter_hand}HB -> '{zone_input}' resolves to zone {zone_num}")
+
+    # Update the zone
+    event = events[event_index]
+    old_zone = event.get('details', {}).get('zone')
+    if 'details' not in event:
+        event['details'] = {}
+    event['details']['zone'] = zone_num
+
+    print(f"Play {play_index}, Event {event_index}: zone {old_zone} -> {zone_num}")
+
+    # Show the pool that this zone maps to
+    event_type = event.get('details', {}).get('code', event.get('details', {}).get('type', {}).get('code', ''))
+    batter_hand = play['matchup'].get('batSide', {}).get('code', 'R')
+
+    if event_type == 'B':
+        base_key = 'ball'
+    elif event_type in ('C', 'S'):
+        base_key = 'strike'
+    else:
+        base_key = None
+
+    if base_key:
+        # Determine category from zone (matching helpers.py logic)
+        if base_key == 'ball':
+            if batter_hand == 'R':
+                zone_to_cat = {11: 'high_inside', 12: 'high_outside', 13: 'low_inside', 14: 'low_outside'}
+            else:
+                zone_to_cat = {11: 'high_outside', 12: 'high_inside', 13: 'low_outside', 14: 'low_inside'}
+            category = zone_to_cat.get(zone_num, 'default')
+        else:
+            category = 'default'
+
+        pool_path = f"pitch_locations.{base_key}.{category}"
+        pool_items = list_pool(pool_path)
+        if pool_items:
+            print(f"\nPool: {pool_path} ({len(pool_items)} templates)")
+            for idx, template in pool_items[:5]:
+                print(f"  [{idx}] {repr(template)}")
+            if len(pool_items) > 5:
+                print(f"  ... and {len(pool_items) - 5} more")
+
+    with open(args.json_file, 'w') as f:
+        json.dump(data, f, indent=2)
+
+    print(f"\nSaved {args.json_file}")
+
+
+def cmd_set_category(args):
+    """
+    Set categoryOverride on a play's X event hitData to route to a specific template sub-pool.
+
+    Valid categories depend on the outcome:
+        Single:   default, bloop, liner, grounder
+        Double:   default, liner, wall
+        Home Run: default, screamer, moonshot
+        Groundout: default, soft, hard, unassisted_1b, pitcher_groundout
+        Flyout:   default, deep
+        Pop Out:  default
+        Lineout:  default
+    """
+    with open(args.json_file) as f:
+        data = json.load(f)
+
+    play_index = args.play
+    category = args.category
+
+    plays = data['liveData']['plays']['allPlays']
+    if play_index >= len(plays):
+        print(f"Play index {play_index} out of range (0-{len(plays)-1})")
+        return
+
+    play = plays[play_index]
+    outcome = play['result']['event']
+
+    # Find the X event (batted ball in play)
+    x_event = None
+    x_event_idx = None
+    for idx, event in enumerate(play['playEvents']):
+        if event['details'].get('code') == 'X':
+            x_event = event
+            x_event_idx = idx
+            break
+
+    if x_event is None:
+        print(f"No X event (ball in play) found in play {play_index} (outcome: {outcome})")
+        print("This command only works on plays with a batted ball in play.")
+        return
+
+    # Set the categoryOverride in hitData
+    if 'hitData' not in x_event:
+        x_event['hitData'] = {}
+    old_cat = x_event['hitData'].get('categoryOverride')
+    x_event['hitData']['categoryOverride'] = category
+
+    print(f"Play {play_index}: {play['matchup']['batter']['fullName']} - {outcome}")
+    print(f"Event {x_event_idx} (X): categoryOverride {repr(old_cat)} -> {repr(category)}")
+
+    # Normalize outcome for template lookup (same logic as play_description.py)
+    template_outcome = outcome.split('(')[0].strip() if '(' in outcome else outcome
+    if template_outcome.startswith("Groundout"):
+        template_outcome = "Groundout"
+    elif template_outcome.startswith("Flyout"):
+        template_outcome = "Flyout"
+    elif template_outcome.lower().startswith("grounded into double play") or template_outcome == "Double Play":
+        template_outcome = "Double Play"
+    elif template_outcome == "Reached on Error":
+        template_outcome = "Groundout"
+    elif template_outcome == "Popout":
+        template_outcome = "Pop Out"
+
+    # Show the resulting template pool
+    outcome_templates = GAME_CONTEXT.get('narrative_templates', {}).get(template_outcome, {})
+    pool = outcome_templates.get(category, [])
+    fallback_used = False
+    if not pool:
+        pool = outcome_templates.get('default', [])
+        fallback_used = True
+
+    if pool:
+        if fallback_used:
+            print(f"\nNo '{category}' sub-pool for {template_outcome}; will fall back to 'default' ({len(pool)} templates)")
+        else:
+            print(f"\nTemplate pool: narrative_templates.{template_outcome}.{category} ({len(pool)} templates)")
+        for idx, template in enumerate(pool):
+            print(f"  [{idx}] {repr(template)}")
+    else:
+        print(f"\nNo templates found for {template_outcome} (neither '{category}' nor 'default')")
+
+    with open(args.json_file, 'w') as f:
+        json.dump(data, f, indent=2)
+
+    print(f"\nSaved {args.json_file}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description='Tools for aligning PBP output with target text',
@@ -1222,6 +1517,34 @@ def main():
                        help='stream:call_number:desired_index (can repeat)')
     p_set.add_argument('--dry-run', action='store_true', help='Show what would change without writing')
 
+    # set-gate
+    p_gate = subparsers.add_parser('set-gate', help='Set a random() gate above or below a threshold')
+    p_gate.add_argument('json_file', help='Gameday JSON fixture file')
+    p_gate.add_argument('--play', type=int, required=True, help='Play index')
+    p_gate.add_argument('--seed-point', required=True,
+                        help='Seed point type: play_start, event_N (e.g., event_0), play_outcome')
+    p_gate.add_argument('--stream', required=True, choices=['play', 'pitch', 'flow', 'color'],
+                        help='RNG stream name')
+    p_gate.add_argument('--call', type=int, required=True, help='Call index (0 or 1)')
+    gate_group = p_gate.add_mutually_exclusive_group(required=True)
+    gate_group.add_argument('--below', type=float, help='Set digit so random() < threshold')
+    gate_group.add_argument('--above', type=float, help='Set digit so random() >= threshold')
+
+    # set-category
+    p_cat = subparsers.add_parser('set-category', help='Set batted ball category override for a play')
+    p_cat.add_argument('json_file', help='Gameday JSON fixture file')
+    p_cat.add_argument('--play', type=int, required=True, help='Play index')
+    p_cat.add_argument('--category', required=True,
+                       help='Category name (e.g., liner, bloop, grounder, wall, screamer, moonshot, deep, soft, hard, unassisted_1b, pitcher_groundout)')
+
+    # set-zone
+    p_zone = subparsers.add_parser('set-zone', help='Set pitch zone for a play event')
+    p_zone.add_argument('json_file', help='Gameday JSON fixture file')
+    p_zone.add_argument('--play', type=int, required=True, help='Play index')
+    p_zone.add_argument('--event', type=int, required=True, help='Event index within the play')
+    p_zone.add_argument('--zone', required=True,
+                        help='Zone number (11-14) or name (high_inside, high_outside, low_inside, low_outside)')
+
     args = parser.parse_args()
 
     if args.command == 'trace':
@@ -1240,6 +1563,12 @@ def main():
         cmd_inspect_play(args)
     elif args.command == 'set-choice':
         cmd_set_choice(args)
+    elif args.command == 'set-gate':
+        cmd_set_gate(args)
+    elif args.command == 'set-category':
+        cmd_set_category(args)
+    elif args.command == 'set-zone':
+        cmd_set_zone(args)
     else:
         parser.print_help()
 
