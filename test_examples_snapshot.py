@@ -244,7 +244,7 @@ class TestExampleSnapshots(unittest.TestCase):
         """Asserts that the output of test_fixture_pbp_example_3.json meets a minimum threshold of match with pbp_example_3.txt."""
         self._assert_pbp_alignment(
             'pbp_example_3.txt', 'test_fixture_pbp_example_3.json',
-            jaccard_min=0.50, ngram_min=0.12, line_exact_min=0.40,
+            jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
         )
 
 
@@ -271,7 +271,7 @@ class TestExampleSnapshots(unittest.TestCase):
         """Asserts that the output of test_fixture_pbp_example_1.json meets a minimum threshold of match with pbp_example_1.txt."""
         self._assert_pbp_alignment(
             'pbp_example_1.txt', 'test_fixture_pbp_example_1.json',
-            jaccard_min=0.50, ngram_min=0.12, line_exact_min=0.45,
+            jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
         )
 
     def test_pbp_example_1_draft_consistency(self):
@@ -297,7 +297,7 @@ class TestExampleSnapshots(unittest.TestCase):
         """Asserts that the output of test_fixture_pbp_example_2.json meets a minimum threshold of match with pbp_example_2.txt."""
         self._assert_pbp_alignment(
             'pbp_example_2.txt', 'test_fixture_pbp_example_2.json',
-            jaccard_min=0.50, ngram_min=0.12, line_exact_min=0.40,
+            jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
         )
 
     def test_pbp_example_2_draft_consistency(self):

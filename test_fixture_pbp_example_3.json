@@ -14,31 +14,33 @@
         "name": "Baraboo Bombers",
         "abbreviation": "BAR",
         "teamName": "Bombers",
-        "manager": "Mick Jenkins"
+        "locationName": "Baraboo",
+        "state": "Wisconsin"
       },
       "home": {
         "id": 133,
         "name": "Lake City Loons",
         "abbreviation": "LCL",
         "teamName": "Loons",
-        "manager": "Manager Samuels"
+        "locationName": "Lake City",
+        "state": "Minnesota"
       }
     },
     "umpires": [
-      "Bartolo Simpson",
+      "Stan Friedman",
       "Gus Morales",
       "Mark Carlson",
       "Larry Phillips"
     ],
-    "weather": "66 degrees at game time. With a breeze blowing in from center field, And currently whipping the mosquitoes into what might be called a subdued Frenzy.",
+    "weather": "66 degrees at game time. With a breeze blowing in from center field...",
     "venue": "Goodhue Field",
     "players": {
       "ID545101": {
         "id": 545101,
-        "fullName": "Gloveless Joe Topanga",
+        "fullName": "Leo Vance",
         "link": "/api/v1/people/545101",
-        "firstName": "Gloveless",
-        "lastName": "Topanga",
+        "firstName": "Leo",
+        "lastName": "Vance",
         "primaryNumber": "1",
         "birthDate": "1998-09-10",
         "currentAge": 27,
@@ -49,14 +51,14 @@
         "weight": 197,
         "active": true,
         "primaryPosition": {
-          "code": "7",
-          "name": "Left Field",
+          "code": "8",
+          "name": "Center Field",
           "abbreviation": "CF"
         },
-        "useName": "Gloveless Joe",
+        "useName": "Leo",
         "useLastName": "Vance",
         "middleName": "",
-        "boxscoreName": "Yamaguchi",
+        "boxscoreName": "Vance",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -75,10 +77,10 @@
       },
       "ID545102": {
         "id": 545102,
-        "fullName": "Nate Colbert",
+        "fullName": "Marcus Thorne",
         "link": "/api/v1/people/545102",
-        "firstName": "Nate",
-        "lastName": "Colbert",
+        "firstName": "Marcus",
+        "lastName": "Thorne",
         "primaryNumber": "2",
         "birthDate": "2003-07-05",
         "currentAge": 22,
@@ -89,14 +91,14 @@
         "weight": 191,
         "active": true,
         "primaryPosition": {
-          "code": "4",
-          "name": "Second Base",
+          "code": "9",
+          "name": "Right Field",
           "abbreviation": "RF"
         },
-        "useName": "Nate",
+        "useName": "Marcus",
         "useLastName": "Thorne",
         "middleName": "",
-        "boxscoreName": "Winterbottom",
+        "boxscoreName": "Thorne",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -115,10 +117,10 @@
       },
       "ID545103": {
         "id": 545103,
-        "fullName": "Franklin Vega",
+        "fullName": "Sam Decker",
         "link": "/api/v1/people/545103",
-        "firstName": "Franklin",
-        "lastName": "Vega",
+        "firstName": "Sam",
+        "lastName": "Decker",
         "primaryNumber": "3",
         "birthDate": "1996-10-12",
         "currentAge": 29,
@@ -129,14 +131,14 @@
         "weight": 206,
         "active": true,
         "primaryPosition": {
-          "code": "8",
-          "name": "Third Base",
+          "code": "2",
+          "name": "Catcher",
           "abbreviation": "C"
         },
-        "useName": "Franklin",
+        "useName": "Sam",
         "useLastName": "Decker",
         "middleName": "",
-        "boxscoreName": "Gomez",
+        "boxscoreName": "Decker",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -155,10 +157,10 @@
       },
       "ID545104": {
         "id": 545104,
-        "fullName": "JP Primero",
+        "fullName": "Jackson Riley",
         "link": "/api/v1/people/545104",
-        "firstName": "JP",
-        "lastName": "Primero",
+        "firstName": "Jackson",
+        "lastName": "Riley",
         "primaryNumber": "4",
         "birthDate": "1997-09-11",
         "currentAge": 28,
@@ -169,14 +171,14 @@
         "weight": 184,
         "active": true,
         "primaryPosition": {
-          "code": "3",
-          "name": "Catcher",
+          "code": "D",
+          "name": "Designated Hitter",
           "abbreviation": "DH"
         },
-        "useName": "JP",
+        "useName": "Jax",
         "useLastName": "Riley",
         "middleName": "",
-        "boxscoreName": "Norton",
+        "boxscoreName": "Riley",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -195,10 +197,10 @@
       },
       "ID545105": {
         "id": 545105,
-        "fullName": "Billy De Jesus",
+        "fullName": "Caleb Jones",
         "link": "/api/v1/people/545105",
-        "firstName": "Billy",
-        "lastName": "De Jesus",
+        "firstName": "Caleb",
+        "lastName": "Jones",
         "primaryNumber": "5",
         "birthDate": "2002-08-13",
         "currentAge": 23,
@@ -209,14 +211,14 @@
         "weight": 181,
         "active": true,
         "primaryPosition": {
-          "code": "5",
-          "name": "Right Field",
+          "code": "6",
+          "name": "Shortstop",
           "abbreviation": "SS"
         },
-        "useName": "Billy",
+        "useName": "Caleb",
         "useLastName": "Jones",
         "middleName": "",
-        "boxscoreName": "Lamont",
+        "boxscoreName": "Jones",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -235,10 +237,10 @@
       },
       "ID545106": {
         "id": 545106,
-        "fullName": "Lamont Bradleys",
+        "fullName": "Nate Diaz",
         "link": "/api/v1/people/545106",
-        "firstName": "Lamont",
-        "lastName": "Bradleys",
+        "firstName": "Nate",
+        "lastName": "Diaz",
         "primaryNumber": "6",
         "birthDate": "1995-01-24",
         "currentAge": 30,
@@ -249,14 +251,14 @@
         "weight": 220,
         "active": true,
         "primaryPosition": {
-          "code": "9",
-          "name": "First Base",
+          "code": "4",
+          "name": "Second Base",
           "abbreviation": "2B"
         },
-        "useName": "Lamont",
+        "useName": "Kid",
         "useLastName": "Diaz",
         "middleName": "",
-        "boxscoreName": "Greco",
+        "boxscoreName": "Diaz",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -275,10 +277,10 @@
       },
       "ID545107": {
         "id": 545107,
-        "fullName": "Jose Sunderland",
+        "fullName": "Owen Chen",
         "link": "/api/v1/people/545107",
-        "firstName": "Jose",
-        "lastName": "Sunderland",
+        "firstName": "Owen",
+        "lastName": "Chen",
         "primaryNumber": "7",
         "birthDate": "2003-12-13",
         "currentAge": 22,
@@ -289,14 +291,14 @@
         "weight": 210,
         "active": true,
         "primaryPosition": {
-          "code": "2",
-          "name": "Left Field",
+          "code": "3",
+          "name": "First Base",
           "abbreviation": "1B"
         },
-        "useName": "Jose",
+        "useName": "Big Duck",
         "useLastName": "Chen",
         "middleName": "",
-        "boxscoreName": "Silver",
+        "boxscoreName": "Chen",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -315,10 +317,10 @@
       },
       "ID545108": {
         "id": 545108,
-        "fullName": "Ford Stipe",
+        "fullName": "Miles Corbin",
         "link": "/api/v1/people/545108",
-        "firstName": "Ford",
-        "lastName": "Stipe",
+        "firstName": "Miles",
+        "lastName": "Corbin",
         "primaryNumber": "8",
         "birthDate": "2003-03-17",
         "currentAge": 22,
@@ -329,14 +331,14 @@
         "weight": 238,
         "active": true,
         "primaryPosition": {
-          "code": "6",
-          "name": "Shortstop",
+          "code": "5",
+          "name": "Third Base",
           "abbreviation": "3B"
         },
-        "useName": "Ford",
+        "useName": "Miles",
         "useLastName": "Corbin",
         "middleName": "",
-        "boxscoreName": "Howl",
+        "boxscoreName": "Corbin",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -355,10 +357,10 @@
       },
       "ID545109": {
         "id": 545109,
-        "fullName": "Butch Flores",
+        "fullName": "Grant Fisher",
         "link": "/api/v1/people/545109",
-        "firstName": "Butch",
-        "lastName": "Flores",
+        "firstName": "Grant",
+        "lastName": "Fisher",
         "primaryNumber": "9",
         "birthDate": "2002-12-05",
         "currentAge": 23,
@@ -369,14 +371,14 @@
         "weight": 222,
         "active": true,
         "primaryPosition": {
-          "code": "1",
-          "name": "Pitcher",
+          "code": "7",
+          "name": "Left Field",
           "abbreviation": "LF"
         },
-        "useName": "Butch",
+        "useName": "Grant",
         "useLastName": "Fisher",
         "middleName": "",
-        "boxscoreName": "Johnson",
+        "boxscoreName": "Fisher",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -395,10 +397,10 @@
       },
       "ID605110": {
         "id": 605110,
-        "fullName": "Scooter McKeever",
+        "fullName": "Joe Gibson",
         "link": "/api/v1/people/605110",
         "firstName": "Joe",
-        "lastName": "McKeever",
+        "lastName": "Gibson",
         "primaryNumber": "10",
         "birthDate": "2003-11-13",
         "currentAge": 22,
@@ -413,10 +415,10 @@
           "name": "Pitcher",
           "abbreviation": "P"
         },
-        "useName": "Scooter",
+        "useName": "Smokey",
         "useLastName": "Gibson",
         "middleName": "",
-        "boxscoreName": "McKeever",
+        "boxscoreName": "Gibson",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -435,10 +437,10 @@
       },
       "ID605111": {
         "id": 605111,
-        "fullName": "Scooter McKeever",
+        "fullName": "Colin Miller",
         "link": "/api/v1/people/605111",
         "firstName": "Colin",
-        "lastName": "McKeever",
+        "lastName": "Miller",
         "primaryNumber": "11",
         "birthDate": "2001-04-25",
         "currentAge": 24,
@@ -453,10 +455,10 @@
           "name": "Pitcher",
           "abbreviation": "P"
         },
-        "useName": "Scooter",
+        "useName": "Cyclone",
         "useLastName": "Miller",
         "middleName": "",
-        "boxscoreName": "McKeever",
+        "boxscoreName": "Miller",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -475,10 +477,10 @@
       },
       "ID605112": {
         "id": 605112,
-        "fullName": "Chad Rosario",
+        "fullName": "Adam Adams",
         "link": "/api/v1/people/605112",
         "firstName": "Adam",
-        "lastName": "Rosario",
+        "lastName": "Adams",
         "primaryNumber": "12",
         "birthDate": "1998-08-24",
         "currentAge": 27,
@@ -493,10 +495,10 @@
           "name": "Pitcher",
           "abbreviation": "P"
         },
-        "useName": "Chad",
+        "useName": "Ace",
         "useLastName": "Adams",
         "middleName": "",
-        "boxscoreName": "Rosario",
+        "boxscoreName": "Adams",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -515,10 +517,10 @@
       },
       "ID605113": {
         "id": 605113,
-        "fullName": "Chad Rosario",
+        "fullName": "Victor Stone",
         "link": "/api/v1/people/605113",
         "firstName": "Victor",
-        "lastName": "Rosario",
+        "lastName": "Stone",
         "primaryNumber": "13",
         "birthDate": "1998-12-20",
         "currentAge": 27,
@@ -533,10 +535,10 @@
           "name": "Pitcher",
           "abbreviation": "P"
         },
-        "useName": "Chad",
+        "useName": "The Vulture",
         "useLastName": "Stone",
         "middleName": "",
-        "boxscoreName": "Rosario",
+        "boxscoreName": "Stone",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -555,10 +557,10 @@
       },
       "ID625201": {
         "id": 625201,
-        "fullName": "Bugs Yamaguchi",
+        "fullName": "Alex Chase",
         "link": "/api/v1/people/625201",
-        "firstName": "Bugs",
-        "lastName": "Yamaguchi",
+        "firstName": "Alex",
+        "lastName": "Chase",
         "primaryNumber": "1",
         "birthDate": "1996-07-11",
         "currentAge": 29,
@@ -569,14 +571,14 @@
         "weight": 239,
         "active": true,
         "primaryPosition": {
-          "code": "8",
-          "name": "Left Field",
+          "code": "4",
+          "name": "Second Base",
           "abbreviation": "2B"
         },
-        "useName": "Bugs",
+        "useName": "Alex",
         "useLastName": "Chase",
         "middleName": "",
-        "boxscoreName": "Topanga",
+        "boxscoreName": "Chase",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -595,10 +597,10 @@
       },
       "ID625202": {
         "id": 625202,
-        "fullName": "Blaze Winterbottom",
+        "fullName": "Kevin Webb",
         "link": "/api/v1/people/625202",
-        "firstName": "Blaze",
-        "lastName": "Winterbottom",
+        "firstName": "Kevin",
+        "lastName": "Webb",
         "primaryNumber": "2",
         "birthDate": "1997-11-08",
         "currentAge": 28,
@@ -609,14 +611,14 @@
         "weight": 217,
         "active": true,
         "primaryPosition": {
-          "code": "4",
-          "name": "Second Base",
+          "code": "8",
+          "name": "Center Field",
           "abbreviation": "CF"
         },
-        "useName": "Blaze",
+        "useName": "Spider",
         "useLastName": "Webb",
         "middleName": "",
-        "boxscoreName": "Colbert",
+        "boxscoreName": "Webb",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -635,10 +637,10 @@
       },
       "ID625203": {
         "id": 625203,
-        "fullName": "Dieter Gomez",
+        "fullName": "Omar Ramirez",
         "link": "/api/v1/people/625203",
-        "firstName": "Dieter",
-        "lastName": "Gomez",
+        "firstName": "Omar",
+        "lastName": "Ramirez",
         "primaryNumber": "3",
         "birthDate": "1999-04-16",
         "currentAge": 26,
@@ -650,13 +652,13 @@
         "active": true,
         "primaryPosition": {
           "code": "5",
-          "name": "Center Field",
+          "name": "Third Base",
           "abbreviation": "3B"
         },
-        "useName": "Dieter",
+        "useName": "Cookie",
         "useLastName": "Ramirez",
         "middleName": "",
-        "boxscoreName": "Vega",
+        "boxscoreName": "Ramirez",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -675,10 +677,10 @@
       },
       "ID625204": {
         "id": 625204,
-        "fullName": "Buzz Norton",
+        "fullName": "Rex Power",
         "link": "/api/v1/people/625204",
-        "firstName": "Buzz",
-        "lastName": "Norton",
+        "firstName": "Rex",
+        "lastName": "Power",
         "primaryNumber": "4",
         "birthDate": "1997-09-20",
         "currentAge": 28,
@@ -689,14 +691,14 @@
         "weight": 201,
         "active": true,
         "primaryPosition": {
-          "code": "2",
-          "name": "First Base",
+          "code": "D",
+          "name": "Designated Hitter",
           "abbreviation": "DH"
         },
         "useName": "Buzz",
         "useLastName": "Power",
         "middleName": "",
-        "boxscoreName": "Primero",
+        "boxscoreName": "Power",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -715,10 +717,10 @@
       },
       "ID625205": {
         "id": 625205,
-        "fullName": "Buddy Lamont",
+        "fullName": "Evan Reed",
         "link": "/api/v1/people/625205",
-        "firstName": "Buddy",
-        "lastName": "Lamont",
+        "firstName": "Evan",
+        "lastName": "Reed",
         "primaryNumber": "5",
         "birthDate": "1996-03-08",
         "currentAge": 29,
@@ -729,14 +731,14 @@
         "weight": 179,
         "active": true,
         "primaryPosition": {
-          "code": "9",
-          "name": "Third Base",
+          "code": "7",
+          "name": "Left Field",
           "abbreviation": "LF"
         },
-        "useName": "Buddy",
+        "useName": "Evan",
         "useLastName": "Reed",
         "middleName": "",
-        "boxscoreName": "Jesus",
+        "boxscoreName": "Reed",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -755,10 +757,10 @@
       },
       "ID625206": {
         "id": 625206,
-        "fullName": "Manny Del Greco",
+        "fullName": "Felix Washington",
         "link": "/api/v1/people/625206",
-        "firstName": "Manny",
-        "lastName": "Del Greco",
+        "firstName": "Felix",
+        "lastName": "Washington",
         "primaryNumber": "6",
         "birthDate": "2001-07-13",
         "currentAge": 24,
@@ -770,13 +772,13 @@
         "active": true,
         "primaryPosition": {
           "code": "3",
-          "name": "Right Field",
+          "name": "First Base",
           "abbreviation": "1B"
         },
-        "useName": "Manny",
+        "useName": "Nine",
         "useLastName": "Washington",
         "middleName": "",
-        "boxscoreName": "Bradleys",
+        "boxscoreName": "Washington",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -795,10 +797,10 @@
       },
       "ID625207": {
         "id": 625207,
-        "fullName": "Joe Bill Silver",
+        "fullName": "Hank Barrett",
         "link": "/api/v1/people/625207",
-        "firstName": "Joe",
-        "lastName": "Silver",
+        "firstName": "Hank",
+        "lastName": "Barrett",
         "primaryNumber": "7",
         "birthDate": "2002-01-23",
         "currentAge": 23,
@@ -809,14 +811,14 @@
         "weight": 222,
         "active": true,
         "primaryPosition": {
-          "code": "7",
+          "code": "2",
           "name": "Catcher",
           "abbreviation": "C"
         },
-        "useName": "Joe Bill",
+        "useName": "Hank",
         "useLastName": "Barrett",
         "middleName": "",
-        "boxscoreName": "Sunderland",
+        "boxscoreName": "Barrett",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -835,10 +837,10 @@
       },
       "ID625208": {
         "id": 625208,
-        "fullName": "Tiny Howl",
+        "fullName": "Wes Griffin",
         "link": "/api/v1/people/625208",
-        "firstName": "Tiny",
-        "lastName": "Howl",
+        "firstName": "Wes",
+        "lastName": "Griffin",
         "primaryNumber": "8",
         "birthDate": "1999-04-04",
         "currentAge": 26,
@@ -853,10 +855,10 @@
           "name": "Shortstop",
           "abbreviation": "SS"
         },
-        "useName": "Tiny",
+        "useName": "Wes",
         "useLastName": "Griffin",
         "middleName": "",
-        "boxscoreName": "Stipe",
+        "boxscoreName": "Griffin",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -875,10 +877,10 @@
       },
       "ID625209": {
         "id": 625209,
-        "fullName": "Scooter McKeever",
+        "fullName": "TJ Hawkins",
         "link": "/api/v1/people/625209",
-        "firstName": "Scooter",
-        "lastName": "McKeever",
+        "firstName": "TJ",
+        "lastName": "Hawkins",
         "primaryNumber": "9",
         "birthDate": "2000-05-05",
         "currentAge": 25,
@@ -889,14 +891,14 @@
         "weight": 181,
         "active": true,
         "primaryPosition": {
-          "code": "1",
-          "name": "Pitcher",
+          "code": "9",
+          "name": "Right Field",
           "abbreviation": "RF"
         },
-        "useName": "Scooter",
+        "useName": "TJ",
         "useLastName": "Hawkins",
         "middleName": "",
-        "boxscoreName": "Loon",
+        "boxscoreName": "Hawkins",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -915,10 +917,10 @@
       },
       "ID645210": {
         "id": 645210,
-        "fullName": "Butch Flores",
+        "fullName": "Miguel Garcia",
         "link": "/api/v1/people/645210",
         "firstName": "Miguel",
-        "lastName": "Flores",
+        "lastName": "Garcia",
         "primaryNumber": "10",
         "birthDate": "2003-06-28",
         "currentAge": 22,
@@ -933,10 +935,10 @@
           "name": "Pitcher",
           "abbreviation": "P"
         },
-        "useName": "Butch",
+        "useName": "Lefty",
         "useLastName": "Garcia",
         "middleName": "",
-        "boxscoreName": "Flores",
+        "boxscoreName": "Garcia",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -947,18 +949,18 @@
           "description": "Right"
         },
         "pitchHand": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "strikeZoneTop": 3.5,
         "strikeZoneBottom": 1.5
       },
       "ID645211": {
         "id": 645211,
-        "fullName": "Butch Flores",
+        "fullName": "Ben Logan",
         "link": "/api/v1/people/645211",
         "firstName": "Ben",
-        "lastName": "Flores",
+        "lastName": "Logan",
         "primaryNumber": "11",
         "birthDate": "2003-01-26",
         "currentAge": 22,
@@ -973,10 +975,10 @@
           "name": "Pitcher",
           "abbreviation": "P"
         },
-        "useName": "Butch",
+        "useName": "Chief",
         "useLastName": "Logan",
         "middleName": "",
-        "boxscoreName": "Flores",
+        "boxscoreName": "Logan",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -995,10 +997,10 @@
       },
       "ID645212": {
         "id": 645212,
-        "fullName": "Butch Flores",
+        "fullName": "Rollie Malone",
         "link": "/api/v1/people/645212",
         "firstName": "Rollie",
-        "lastName": "Flores",
+        "lastName": "Malone",
         "primaryNumber": "12",
         "birthDate": "1995-12-28",
         "currentAge": 30,
@@ -1013,10 +1015,10 @@
           "name": "Pitcher",
           "abbreviation": "P"
         },
-        "useName": "Butch",
+        "useName": "Fingers",
         "useLastName": "Malone",
         "middleName": "",
-        "boxscoreName": "Flores",
+        "boxscoreName": "Malone",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -1035,10 +1037,10 @@
       },
       "ID645213": {
         "id": 645213,
-        "fullName": "Butch Flores",
+        "fullName": "Dennis Thompson",
         "link": "/api/v1/people/645213",
         "firstName": "Dennis",
-        "lastName": "Flores",
+        "lastName": "Thompson",
         "primaryNumber": "13",
         "birthDate": "2001-04-11",
         "currentAge": 24,
@@ -1053,10 +1055,10 @@
           "name": "Pitcher",
           "abbreviation": "P"
         },
-        "useName": "Butch",
+        "useName": "Eck",
         "useLastName": "Thompson",
         "middleName": "",
-        "boxscoreName": "Flores",
+        "boxscoreName": "Thompson",
         "gender": "M",
         "isPlayer": true,
         "isVerified": false,
@@ -1159,11 +1161,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -1218,12 +1220,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:05:00.0000000000000000Z",
+              "startTime": "2025-09-27T23:05:00.0000000000500000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "LF",
-                "launchSpeed": 85,
-                "launchAngle": 20
+                "location": "LF"
               }
             }
           ],
@@ -1247,26 +1247,7 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": [
-                {
-                  "player": {
-                    "id": 545101,
-                    "fullName": "Gloveless Joe Topanga"
-                  },
-                  "credit": "f_fielded_ball",
-                  "position": {
-                    "abbreviation": "LF"
-                  }
-                }
-              ]
-            }
-          ],
-          "credits": [
-            {
-              "player": {
-                "id": 545101
-              },
-              "credit": "f_fielded_ball"
+              "credits": []
             }
           ]
         },
@@ -1310,11 +1291,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -1351,7 +1332,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:05:30.0000000000310000Z"
+              "startTime": "2025-09-27T23:05:30.0000000000320000Z"
             },
             {
               "index": 1,
@@ -1374,7 +1355,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:05:30.0000000000110000Z"
+              "startTime": "2025-09-27T23:05:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -1424,18 +1405,7 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": [
-                {
-                  "player": {
-                    "id": 545105,
-                    "fullName": "Billy De Jesus"
-                  },
-                  "credit": "f_fielded_ball",
-                  "position": {
-                    "abbreviation": "3B"
-                  }
-                }
-              ]
+              "credits": []
             },
             {
               "movement": {
@@ -1457,14 +1427,6 @@
                 "isScoringEvent": false
               },
               "credits": []
-            }
-          ],
-          "credits": [
-            {
-              "player": {
-                "id": 545105
-              },
-              "credit": "f_fielded_ball"
             }
           ]
         },
@@ -1508,11 +1470,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -1549,7 +1511,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:06:00.0000010100000000Z"
+              "startTime": "2025-09-27T23:06:00.0000000000000000Z"
             },
             {
               "index": 1,
@@ -1572,7 +1534,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:06:00.0000000000170000Z"
+              "startTime": "2025-09-27T23:06:00.0000000000180000Z"
             },
             {
               "index": 2,
@@ -1626,22 +1588,11 @@
                 {
                   "player": {
                     "id": 545103,
-                    "fullName": "Franklin Vega"
+                    "link": "/api/v1/people/545103"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "CF"
-                  }
+                  "credit": "f_putout"
                 }
               ]
-            }
-          ],
-          "credits": [
-            {
-              "player": {
-                "id": 545103
-              },
-              "credit": "f_putout"
             }
           ]
         },
@@ -1685,11 +1636,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -1721,7 +1672,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:06:30.0000010100110000Z"
+              "startTime": "2025-09-27T23:06:30.0000010000110000Z"
             },
             {
               "index": 1,
@@ -1744,7 +1695,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:06:30.0000000000120000Z"
+              "startTime": "2025-09-27T23:06:30.0000000000210000Z"
             },
             {
               "index": 2,
@@ -1767,7 +1718,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:06:31.0000000100080000Z"
+              "startTime": "2025-09-27T23:06:31.0000000100000000Z"
             },
             {
               "index": 3,
@@ -1790,7 +1741,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:06:31.0000000000000000Z",
+              "startTime": "2025-09-27T23:06:31.0000000000500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
                 "location": "SS"
@@ -1870,14 +1821,6 @@
                 }
               ]
             }
-          ],
-          "credits": [
-            {
-              "player": {
-                "id": 545108
-              },
-              "credit": "f_fielded_ball"
-            }
           ]
         },
         {
@@ -1911,8 +1854,8 @@
               "link": "/api/v1/people/545101"
             },
             "batSide": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "pitcher": {
               "id": 605110,
@@ -1920,11 +1863,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -1951,7 +1894,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:07:00.0000000000080000Z"
+              "startTime": "2025-09-27T23:07:00.0000000000060000Z"
             },
             {
               "index": 1,
@@ -1974,7 +1917,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:07:00.0000000000330000Z"
+              "startTime": "2025-09-27T23:07:00.0000000000340000Z"
             },
             {
               "index": 2,
@@ -1991,13 +1934,13 @@
                   "code": "FF",
                   "description": "Fastball"
                 },
-                "zone": 11
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 92.5,
-                "zone": 11
+                "zone": 14
               },
-              "startTime": "2025-09-27T23:07:01.0000000000010000Z"
+              "startTime": "2025-09-27T23:07:01.0000000100000000Z"
             },
             {
               "index": 3,
@@ -2020,7 +1963,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:07:01.0000000000000000Z",
+              "startTime": "2025-09-27T23:07:01.0000000000500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
                 "location": "2B"
@@ -2051,22 +1994,18 @@
                 {
                   "player": {
                     "id": 625202,
-                    "fullName": "Blaze Winterbottom"
+                    "link": "/api/v1/people/625202"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "2B"
-                  }
+                  "credit": "f_assist"
+                },
+                {
+                  "player": {
+                    "id": 625206,
+                    "link": "/api/v1/people/625206"
+                  },
+                  "credit": "f_putout"
                 }
               ]
-            }
-          ],
-          "credits": [
-            {
-              "player": {
-                "id": 625202
-              },
-              "credit": "f_fielded_ball"
             }
           ]
         },
@@ -2101,8 +2040,8 @@
               "link": "/api/v1/people/545102"
             },
             "batSide": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "pitcher": {
               "id": 605110,
@@ -2110,11 +2049,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -2141,7 +2080,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:07:30.0000000000000000Z"
+              "startTime": "2025-09-27T23:07:30.0000000000040000Z"
             },
             {
               "index": 1,
@@ -2187,7 +2126,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:07:31.0000000000110000Z"
+              "startTime": "2025-09-27T23:07:31.0000000100000000Z"
             },
             {
               "index": 3,
@@ -2210,7 +2149,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:07:31.0000000000000000Z",
+              "startTime": "2025-09-27T23:07:31.0000000000500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
                 "location": "1B"
@@ -2241,22 +2180,11 @@
                 {
                   "player": {
                     "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "link": "/api/v1/people/625206"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
-            }
-          ],
-          "credits": [
-            {
-              "player": {
-                "id": 625206
-              },
-              "credit": "f_putout"
             }
           ]
         },
@@ -2276,7 +2204,7 @@
             "isTopInning": false,
             "inning": 1,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:08:00+00:00",
+            "startTime": "2025-09-27T23:08:00.0000001000000000+00:00",
             "endTime": "2025-09-27T23:08:20.0000000000030032"
           },
           "count": {
@@ -2291,8 +2219,8 @@
               "link": "/api/v1/people/545103"
             },
             "batSide": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "pitcher": {
               "id": 605110,
@@ -2300,11 +2228,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -2354,7 +2282,7 @@
                 "startSpeed": 83.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:08:00.0000000000080000Z"
+              "startTime": "2025-09-27T23:08:00.0000000000030000Z"
             },
             {
               "index": 2,
@@ -2408,22 +2336,18 @@
                 {
                   "player": {
                     "id": 625208,
-                    "fullName": "Tiny Howl"
+                    "link": "/api/v1/people/625208"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
+                  "credit": "f_assist"
+                },
+                {
+                  "player": {
+                    "id": 625206,
+                    "link": "/api/v1/people/625206"
+                  },
+                  "credit": "f_putout"
                 }
               ]
-            }
-          ],
-          "credits": [
-            {
-              "player": {
-                "id": 625208
-              },
-              "credit": "f_fielded_ball"
             }
           ]
         },
@@ -2444,7 +2368,7 @@
             "inning": 2,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:08:30+00:00",
-            "endTime": "2025-09-27T23:08:50.0000000000030005"
+            "endTime": "2025-09-27T23:08:50.0000000000030000"
           },
           "count": {
             "balls": 2,
@@ -2467,11 +2391,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Men_On"
             },
@@ -2503,7 +2427,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:08:30.0000000000050000Z"
+              "startTime": "2025-09-27T23:08:30.0000000000000000Z"
             },
             {
               "index": 1,
@@ -2526,7 +2450,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:08:30.0000000100080000Z"
+              "startTime": "2025-09-27T23:08:30.0000000100060000Z"
             },
             {
               "index": 2,
@@ -2543,13 +2467,13 @@
                   "code": "FF",
                   "description": "Fastball"
                 },
-                "zone": 13
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:08:31.0000000000100000Z"
+              "startTime": "2025-09-27T23:08:31.0000000000000000Z"
             },
             {
               "index": 3,
@@ -2572,12 +2496,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:08:31.0000005000000000Z",
+              "startTime": "2025-09-27T23:08:31.0000000100500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "LS",
-                "launchSpeed": 98,
-                "launchAngle": -5
+                "location": "left side (through infield)"
               }
             }
           ],
@@ -2645,11 +2567,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -2686,10 +2608,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:09:00.0000005000000000Z",
+              "startTime": "2025-09-27T23:09:00.0000000000000000Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "SL"
+                "location": "LF shallow"
               }
             }
           ],
@@ -2769,8 +2691,8 @@
               "link": "/api/v1/people/625207"
             },
             "batSide": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "pitcher": {
               "id": 645210,
@@ -2778,11 +2700,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Men_On"
             },
@@ -2971,11 +2893,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -3007,7 +2929,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:10:00.0000005000080000Z"
+              "startTime": "2025-09-27T23:10:00.0000000000000000Z"
             },
             {
               "index": 1,
@@ -3030,7 +2952,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:10:00.0000000000000000Z"
+              "startTime": "2025-09-27T23:10:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -3053,7 +2975,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:10:01.0000000400000000Z"
+              "startTime": "2025-09-27T23:10:01.0000000000000000Z"
             }
           ],
           "runners": [
@@ -3096,7 +3018,7 @@
             "isTopInning": false,
             "inning": 2,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:10:30.0000001100000000+00:00",
+            "startTime": "2025-09-27T23:10:30.0000110000000000+00:00",
             "endTime": "2025-09-27T23:10:50.0000000000030000"
           },
           "count": {
@@ -3120,11 +3042,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -3151,7 +3073,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:10:30.0000000000270000Z"
+              "startTime": "2025-09-27T23:10:30.0000000000290000Z"
             },
             {
               "index": 1,
@@ -3174,12 +3096,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:10:30.0000005000000000Z",
+              "startTime": "2025-09-27T23:10:30.0000000000500000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "RF",
-                "launchSpeed": 103,
-                "launchAngle": 35
+                "location": "RF (warning track)"
               }
             }
           ],
@@ -3232,7 +3152,7 @@
             "inning": 2,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:11:00.0000000900000000+00:00",
-            "endTime": "2025-09-27T23:11:20.0000000000000020"
+            "endTime": "2025-09-27T23:11:20.0000000000030020"
           },
           "count": {
             "balls": 1,
@@ -3246,8 +3166,8 @@
               "link": "/api/v1/people/545105"
             },
             "batSide": {
-              "code": "S",
-              "description": "Switch"
+              "code": "R",
+              "description": "Right"
             },
             "pitcher": {
               "id": 605110,
@@ -3255,11 +3175,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -3286,7 +3206,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:11:00.0000000000080000Z"
+              "startTime": "2025-09-27T23:11:00.0000000000060000Z"
             },
             {
               "index": 1,
@@ -3309,7 +3229,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:11:00.0000000000050000Z"
+              "startTime": "2025-09-27T23:11:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -3332,10 +3252,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:11:01.0000000000000000Z",
+              "startTime": "2025-09-27T23:11:01.0000000100000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "SC"
+                "location": "CF shallow"
               }
             }
           ],
@@ -3388,7 +3308,7 @@
             "inning": 2,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:11:30.0000001000000000+00:00",
-            "endTime": "2025-09-27T23:11:50.0000000000000004"
+            "endTime": "2025-09-27T23:11:50.0000000000030004"
           },
           "count": {
             "balls": 2,
@@ -3402,8 +3322,8 @@
               "link": "/api/v1/people/545106"
             },
             "batSide": {
-              "code": "L",
-              "description": "Left"
+              "code": "R",
+              "description": "Right"
             },
             "pitcher": {
               "id": 605110,
@@ -3411,11 +3331,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -3485,15 +3405,15 @@
                 "isStrike": false,
                 "type": {
                   "code": "CU",
-                  "description": "Fastball"
+                  "description": "Curveball"
                 },
-                "zone": 13
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:11:31.0000000000150000Z"
+              "startTime": "2025-09-27T23:11:31.0000000100000000Z"
             },
             {
               "index": 3,
@@ -3508,15 +3428,15 @@
                 "isStrike": false,
                 "type": {
                   "code": "CU",
-                  "description": "Breaking ball"
+                  "description": "Curveball"
                 },
-                "zone": 13
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:11:31.0000000000160000Z"
+              "startTime": "2025-09-27T23:11:31.0000000000500000Z"
             },
             {
               "index": 4,
@@ -3539,7 +3459,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:11:32.0000000600040000Z"
+              "startTime": "2025-09-27T23:11:32.0000000000040000Z"
             },
             {
               "index": 5,
@@ -3562,10 +3482,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:11:32.0000005000000000Z",
+              "startTime": "2025-09-27T23:11:32.0000000000500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "RF"
+                "location": "RF (down the line / toward wall)"
               }
             }
           ],
@@ -3609,7 +3529,7 @@
             "isTopInning": false,
             "inning": 2,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:12:00.0000000700000000+00:00",
+            "startTime": "2025-09-27T23:12:00+00:00",
             "endTime": "2025-09-27T23:12:20.0000000000030000"
           },
           "count": {
@@ -3633,11 +3553,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -3669,7 +3589,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:12:00.0000000000170000Z"
+              "startTime": "2025-09-27T23:12:00.0000000000000000Z"
             },
             {
               "index": 1,
@@ -3692,7 +3612,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:12:00.0000000000050000Z"
+              "startTime": "2025-09-27T23:12:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -3707,7 +3627,7 @@
                 "isStrike": true,
                 "type": {
                   "code": "CU",
-                  "description": "Fastball"
+                  "description": "Curveball"
                 },
                 "zone": 5
               },
@@ -3715,7 +3635,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:12:01.0000000000010000Z"
+              "startTime": "2025-09-27T23:12:01.0000000000000000Z"
             },
             {
               "index": 3,
@@ -3732,13 +3652,13 @@
                   "code": "FF",
                   "description": "Fastball"
                 },
-                "zone": 13
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:12:01.0000000000120000Z"
+              "startTime": "2025-09-27T23:12:01.0000000000500000Z"
             },
             {
               "index": 4,
@@ -3828,11 +3748,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -3853,13 +3773,13 @@
                   "code": "CU",
                   "description": "Curveball"
                 },
-                "zone": 13
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:12:30.0000000000070000Z"
+              "startTime": "2025-09-27T23:12:30.0000000000000000Z"
             },
             {
               "index": 1,
@@ -3882,7 +3802,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:12:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:12:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -3905,7 +3825,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:12:31.0000000000150000Z"
+              "startTime": "2025-09-27T23:12:31.0000000100000000Z"
             },
             {
               "index": 3,
@@ -3928,7 +3848,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:12:31.0000000000020000Z"
+              "startTime": "2025-09-27T23:12:31.0000000000500000Z"
             },
             {
               "index": 4,
@@ -3951,7 +3871,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:12:32.0000000000080000Z"
+              "startTime": "2025-09-27T23:12:32.0000000000000000Z"
             },
             {
               "index": 5,
@@ -3974,7 +3894,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:12:32.0000000000040000Z"
+              "startTime": "2025-09-27T23:12:32.0000000000500000Z"
             }
           ],
           "runners": [
@@ -4017,8 +3937,8 @@
             "isTopInning": true,
             "inning": 3,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:13:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:13:20.0000000000000014"
+            "startTime": "2025-09-27T23:13:00+00:00",
+            "endTime": "2025-09-27T23:13:20.0000000000030000"
           },
           "count": {
             "balls": 0,
@@ -4041,13 +3961,18 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
+            },
+            "postOnFirst": {
+              "id": 0,
+              "fullName": "Yamaguchi",
+              "link": "/api/v1/people/0"
             }
           },
           "playEvents": [
@@ -4072,7 +3997,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:13:00.0000000000120000Z"
+              "startTime": "2025-09-27T23:13:00.0000000000000000Z"
             },
             {
               "index": 1,
@@ -4095,12 +4020,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:13:00.0000005000000000Z",
+              "startTime": "2025-09-27T23:13:00.0000000000500000Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "LF",
-                "launchSpeed": 103,
-                "launchAngle": 5
+                "location": "LF"
               }
             }
           ],
@@ -4131,7 +4054,7 @@
                 "originBase": "1B",
                 "start": "1B",
                 "end": null,
-                "outBase": "2B",
+                "outBase": null,
                 "isOut": true
               },
               "details": {
@@ -4148,23 +4071,17 @@
               "credits": [
                 {
                   "player": {
-                    "id": 625213,
-                    "fullName": "JP Primero"
+                    "id": 0,
+                    "link": "/api/v1/people/0"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "C"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 625214,
-                    "fullName": "Blaze Winterbottom"
+                    "id": 0,
+                    "link": "/api/v1/people/0"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "2B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -4186,8 +4103,8 @@
             "isTopInning": true,
             "inning": 3,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:13:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:13:50.0000000000000033"
+            "startTime": "2025-09-27T23:13:30+00:00",
+            "endTime": "2025-09-27T23:13:50.0000000000030000"
           },
           "count": {
             "balls": 1,
@@ -4210,11 +4127,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -4246,7 +4163,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:13:30.0000000000100000Z"
+              "startTime": "2025-09-27T23:13:30.0000000000000000Z"
             },
             {
               "index": 1,
@@ -4263,13 +4180,13 @@
                   "code": "CU",
                   "description": "Curveball"
                 },
-                "zone": 13
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:13:30.0000000000120000Z"
+              "startTime": "2025-09-27T23:13:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -4292,7 +4209,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:13:31.0000000000080000Z"
+              "startTime": "2025-09-27T23:13:31.0000000000000000Z"
             },
             {
               "index": 3,
@@ -4315,7 +4232,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:13:31.0000005000000000Z",
+              "startTime": "2025-09-27T23:13:31.0000000000500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
                 "location": "SS"
@@ -4345,23 +4262,17 @@
               "credits": [
                 {
                   "player": {
-                    "id": 625210,
-                    "fullName": "Ford Stipe"
+                    "id": 0,
+                    "link": "/api/v1/people/0"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "id": 0,
+                    "link": "/api/v1/people/0"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -4407,11 +4318,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -4461,7 +4372,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:14:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:14:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -4484,7 +4395,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:14:01.0000000000050000Z"
+              "startTime": "2025-09-27T23:14:01.0000000000000000Z"
             },
             {
               "index": 3,
@@ -4551,7 +4462,7 @@
             "inning": 3,
             "isScoringPlay": false,
             "startTime": "2025-09-27T23:14:30.0000001000000000+00:00",
-            "endTime": "2025-09-27T23:14:50.0000000000000005"
+            "endTime": "2025-09-27T23:14:50.0000000000030000"
           },
           "count": {
             "balls": 0,
@@ -4574,11 +4485,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -4605,7 +4516,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:14:30.0000000000180000Z"
+              "startTime": "2025-09-27T23:14:30.0000000000000000Z"
             },
             {
               "index": 1,
@@ -4681,13 +4592,10 @@
               "credits": [
                 {
                   "player": {
-                    "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "id": 0,
+                    "link": "/api/v1/people/0"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -4709,8 +4617,8 @@
             "isTopInning": false,
             "inning": 3,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:15:00.0050000000000000+00:00",
-            "endTime": "2025-09-27T23:15:20.0000000000000035"
+            "startTime": "2025-09-27T23:15:00+00:00",
+            "endTime": "2025-09-27T23:15:20.0000000000030035"
           },
           "count": {
             "balls": 2,
@@ -4733,11 +4641,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -4764,7 +4672,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:15:00.0000000000120000Z"
+              "startTime": "2025-09-27T23:15:00.0000000000000000Z"
             },
             {
               "index": 1,
@@ -4781,13 +4689,13 @@
                   "code": "CU",
                   "description": "Curveball"
                 },
-                "zone": 13
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:15:00.0000000000130000Z"
+              "startTime": "2025-09-27T23:15:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -4810,7 +4718,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:15:01.0000000000210000Z"
+              "startTime": "2025-09-27T23:15:01.0000000100230000Z"
             },
             {
               "index": 3,
@@ -4833,7 +4741,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:15:01.0000000000120000Z"
+              "startTime": "2025-09-27T23:15:01.0000000000500000Z"
             },
             {
               "index": 4,
@@ -4856,7 +4764,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:15:02.0000000000000000Z",
+              "startTime": "2025-09-27T23:15:02.0000000100000000Z",
               "hitData": {
                 "trajectory": "ground_ball",
                 "location": "SS"
@@ -4886,23 +4794,17 @@
               "credits": [
                 {
                   "player": {
-                    "id": 625208,
-                    "fullName": "Tiny Howl"
+                    "id": 0,
+                    "link": "/api/v1/people/0"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "id": 0,
+                    "link": "/api/v1/people/0"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -4924,8 +4826,8 @@
             "isTopInning": true,
             "inning": 4,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:15:30.0070000000000000+00:00",
-            "endTime": "2025-09-27T23:15:50.0000000000000009"
+            "startTime": "2025-09-27T23:15:30+00:00",
+            "endTime": "2025-09-27T23:15:50.0000000000030009"
           },
           "count": {
             "balls": 0,
@@ -4948,11 +4850,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -4979,7 +4881,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:15:30.0000000000000000Z",
+              "startTime": "2025-09-27T23:15:30.0000000800000000Z",
               "hitData": {
                 "trajectory": "popup",
                 "location": "infield"
@@ -5034,8 +4936,8 @@
             "isTopInning": true,
             "inning": 4,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:16:00.0000000000000000+00:00",
-            "endTime": "2025-09-27T23:16:20.0000000000000013"
+            "startTime": "2025-09-27T23:16:00+00:00",
+            "endTime": "2025-09-27T23:16:20.0000000000030000"
           },
           "count": {
             "balls": 1,
@@ -5058,11 +4960,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -5094,7 +4996,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:16:00.0000000000150000Z"
+              "startTime": "2025-09-27T23:16:00.0000000000000000Z"
             },
             {
               "index": 1,
@@ -5117,7 +5019,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:16:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:16:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -5140,12 +5042,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:16:01.0000000000000000Z",
+              "startTime": "2025-09-27T23:16:01.0000000100000000Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "MI",
-                "launchSpeed": 103,
-                "launchAngle": 5
+                "location": "center field / up the middle"
               }
             }
           ],
@@ -5189,8 +5089,8 @@
             "isTopInning": true,
             "inning": 4,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:16:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:16:50.0000000000000007"
+            "startTime": "2025-09-27T23:16:30+00:00",
+            "endTime": "2025-09-27T23:16:50.0000000000030000"
           },
           "count": {
             "balls": 0,
@@ -5213,11 +5113,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "RISP"
             },
@@ -5277,12 +5177,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:16:30.0000005000000000Z",
+              "startTime": "2025-09-27T23:16:30.0000000000500000Z",
               "hitData": {
                 "trajectory": "flare_/_bloop",
-                "location": "SL",
-                "launchSpeed": 82,
-                "launchAngle": 22
+                "location": "shallow left field"
               }
             }
           ],
@@ -5347,8 +5245,8 @@
             "isTopInning": true,
             "inning": 4,
             "isScoringPlay": true,
-            "startTime": "2025-09-27T23:17:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:17:20.0000000000000006"
+            "startTime": "2025-09-27T23:17:00+00:00",
+            "endTime": "2025-09-27T23:17:20.0000000000030000"
           },
           "count": {
             "balls": 0,
@@ -5371,11 +5269,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -5415,9 +5313,7 @@
               "startTime": "2025-09-27T23:17:00.0000000000000000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "MI",
-                "launchSpeed": 98,
-                "launchAngle": -5
+                "location": "up the middle"
               }
             }
           ],
@@ -5483,18 +5379,7 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": [
-                {
-                  "player": {
-                    "id": 545102,
-                    "fullName": "Nate Colbert"
-                  },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
-                }
-              ]
+              "credits": []
             }
           ]
         },
@@ -5514,7 +5399,7 @@
             "isTopInning": true,
             "inning": 4,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:17:30.0070000000000000+00:00",
+            "startTime": "2025-09-27T23:17:30+00:00",
             "endTime": "2025-09-27T23:17:50.0000000000030000"
           },
           "count": {
@@ -5538,11 +5423,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "RISP"
             },
@@ -5589,7 +5474,7 @@
                 "strikes": 0
               },
               "details": {
-                "code": "C",
+                "code": "S",
                 "description": "Swinging Strike",
                 "isStrike": true,
                 "type": {
@@ -5602,7 +5487,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:17:30.0000000000090000Z"
+              "startTime": "2025-09-27T23:17:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -5625,7 +5510,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:17:31.0000000000160000Z"
+              "startTime": "2025-09-27T23:17:31.0000000100170000Z"
             },
             {
               "index": 3,
@@ -5648,7 +5533,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:17:31.0000005000000000Z"
+              "startTime": "2025-09-27T23:17:31.0000000000500000Z"
             }
           ],
           "runners": [
@@ -5691,8 +5576,8 @@
             "isTopInning": true,
             "inning": 4,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:18:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:18:20.0000000000000004"
+            "startTime": "2025-09-27T23:18:00.0000001000000000+00:00",
+            "endTime": "2025-09-27T23:18:20.0000000000030000"
           },
           "count": {
             "balls": 0,
@@ -5715,11 +5600,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -5786,23 +5671,17 @@
               "credits": [
                 {
                   "player": {
-                    "id": 645210,
-                    "fullName": "Butch Flores"
+                    "id": 545109,
+                    "link": "/api/v1/people/545109"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "P"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545107,
-                    "fullName": "Jose Sunderland"
+                    "id": 545104,
+                    "link": "/api/v1/people/545104"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -5824,8 +5703,8 @@
             "isTopInning": false,
             "inning": 4,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:18:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:18:50.0000000000000019"
+            "startTime": "2025-09-27T23:18:30+00:00",
+            "endTime": "2025-09-27T23:18:50.0000000000030019"
           },
           "count": {
             "balls": 0,
@@ -5848,11 +5727,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -5866,7 +5745,7 @@
                 "strikes": 0
               },
               "details": {
-                "code": "C",
+                "code": "S",
                 "description": "Swinging Strike",
                 "isStrike": true,
                 "type": {
@@ -5902,10 +5781,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:18:30.0000005000000000Z",
+              "startTime": "2025-09-27T23:18:30.0000000000500000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "RF"
+                "location": "right field"
               }
             }
           ],
@@ -5933,12 +5812,9 @@
                 {
                   "player": {
                     "id": 625205,
-                    "fullName": "Buddy Lamont"
+                    "link": "/api/v1/people/625205"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "LF"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -5960,7 +5836,7 @@
             "isTopInning": false,
             "inning": 4,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:19:00.0025000000000000+00:00",
+            "startTime": "2025-09-27T23:19:00.0000000100000000+00:00",
             "endTime": "2025-09-27T23:19:20.0000000000030000"
           },
           "count": {
@@ -5984,11 +5860,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6032,13 +5908,13 @@
                   "code": "SL",
                   "description": "Slider"
                 },
-                "zone": 13
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:19:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:19:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -6061,7 +5937,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:19:01.0000000000010000Z"
+              "startTime": "2025-09-27T23:19:01.0000000100000000Z"
             },
             {
               "index": 3,
@@ -6078,13 +5954,13 @@
                   "code": "CH",
                   "description": "Changeup"
                 },
-                "zone": 12
+                "zone": 14
               },
               "pitchData": {
                 "startSpeed": 83.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:19:01.0000005000000000Z"
+              "startTime": "2025-09-27T23:19:01.0000000000500000Z"
             },
             {
               "index": 4,
@@ -6117,7 +5993,7 @@
                 "strikes": 2
               },
               "details": {
-                "code": "C",
+                "code": "S",
                 "description": "Swinging Strike",
                 "isStrike": true,
                 "type": {
@@ -6130,7 +6006,7 @@
                 "startSpeed": 83.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:19:02.0000005000000000Z"
+              "startTime": "2025-09-27T23:19:02.0000000000500000Z"
             }
           ],
           "runners": [
@@ -6173,8 +6049,8 @@
             "isTopInning": false,
             "inning": 4,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:19:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:19:50.0000000000000025"
+            "startTime": "2025-09-27T23:19:30.0000001100000000+00:00",
+            "endTime": "2025-09-27T23:19:50.0000000000030025"
           },
           "count": {
             "balls": 0,
@@ -6197,11 +6073,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6215,7 +6091,7 @@
                 "strikes": 0
               },
               "details": {
-                "code": "C",
+                "code": "S",
                 "description": "Swinging Strike",
                 "isStrike": true,
                 "type": {
@@ -6238,7 +6114,7 @@
                 "strikes": 1
               },
               "details": {
-                "code": "C",
+                "code": "S",
                 "description": "Swinging Strike",
                 "isStrike": true,
                 "type": {
@@ -6251,7 +6127,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:19:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:19:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -6274,10 +6150,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:19:31.0000000000000000Z",
+              "startTime": "2025-09-27T23:19:31.0000000100000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "LC"
+                "location": "left center field"
               }
             }
           ],
@@ -6305,12 +6181,9 @@
                 {
                   "player": {
                     "id": 625201,
-                    "fullName": "Bugs Yamaguchi"
+                    "link": "/api/v1/people/625201"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "CF"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -6332,8 +6205,8 @@
             "isTopInning": true,
             "inning": 5,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:20:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:20:20.0000000000000006"
+            "startTime": "2025-09-27T23:20:00+00:00",
+            "endTime": "2025-09-27T23:20:20.0000000000030000"
           },
           "count": {
             "balls": 0,
@@ -6356,11 +6229,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -6415,7 +6288,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:20:00.0000000000100000Z"
+              "startTime": "2025-09-27T23:20:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -6425,7 +6298,7 @@
                 "strikes": 2
               },
               "details": {
-                "code": "X",
+                "code": "D",
                 "description": "In play, Single",
                 "isStrike": true,
                 "type": {
@@ -6441,9 +6314,7 @@
               "startTime": "2025-09-27T23:20:01.0000000000000000Z",
               "hitData": {
                 "trajectory": "looper",
-                "location": "SL",
-                "launchSpeed": 82,
-                "launchAngle": 20
+                "location": "Shallow Left Field"
               }
             }
           ],
@@ -6487,8 +6358,8 @@
             "isTopInning": true,
             "inning": 5,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:20:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:20:50.0000000000000026"
+            "startTime": "2025-09-27T23:20:30+00:00",
+            "endTime": "2025-09-27T23:20:50.0000000000030026"
           },
           "count": {
             "balls": 0,
@@ -6511,11 +6382,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -6550,7 +6421,7 @@
               "startTime": "2025-09-27T23:20:30.0000000000000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "LC"
+                "location": "Left-Center Field"
               }
             }
           ],
@@ -6574,18 +6445,7 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": [
-                {
-                  "player": {
-                    "id": 545103,
-                    "fullName": "Franklin Vega"
-                  },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "C"
-                  }
-                }
-              ]
+              "credits": []
             }
           ]
         },
@@ -6605,8 +6465,8 @@
             "isTopInning": true,
             "inning": 5,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:21:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:21:20.0000000000000006"
+            "startTime": "2025-09-27T23:21:00.0000001000000000+00:00",
+            "endTime": "2025-09-27T23:21:20.0000000000030006"
           },
           "count": {
             "balls": 1,
@@ -6629,11 +6489,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6683,10 +6543,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:21:00.0000005000000000Z",
+              "startTime": "2025-09-27T23:21:00.0000000000500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "SS"
+                "location": "Shortstop"
               }
             }
           ],
@@ -6714,32 +6574,23 @@
                 {
                   "player": {
                     "id": 545108,
-                    "fullName": "Ford Stipe"
+                    "link": "/api/v1/people/545108"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545106,
-                    "fullName": "Lamont Bradleys"
+                    "id": 545102,
+                    "link": "/api/v1/people/545102"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "2B"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545107,
-                    "fullName": "Jose Sunderland"
+                    "id": 545104,
+                    "link": "/api/v1/people/545104"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             },
@@ -6766,32 +6617,23 @@
                 {
                   "player": {
                     "id": 545108,
-                    "fullName": "Ford Stipe"
+                    "link": "/api/v1/people/545108"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545106,
-                    "fullName": "Lamont Bradleys"
+                    "id": 545102,
+                    "link": "/api/v1/people/545102"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "2B"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545107,
-                    "fullName": "Jose Sunderland"
+                    "id": 545104,
+                    "link": "/api/v1/people/545104"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -6813,8 +6655,8 @@
             "isTopInning": false,
             "inning": 5,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:21:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:21:50.0000000000000026"
+            "startTime": "2025-09-27T23:21:30+00:00",
+            "endTime": "2025-09-27T23:21:50.0000000000030025"
           },
           "count": {
             "balls": 0,
@@ -6837,11 +6679,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -6871,7 +6713,7 @@
               "startTime": "2025-09-27T23:21:30.0000000000000000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "3B"
+                "location": "Third Base"
               }
             }
           ],
@@ -6899,22 +6741,16 @@
                 {
                   "player": {
                     "id": 625203,
-                    "fullName": "Dieter Gomez"
+                    "link": "/api/v1/people/625203"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "3B"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545107,
-                    "fullName": "Jose Sunderland"
+                    "id": 625206,
+                    "link": "/api/v1/people/625206"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -6936,7 +6772,7 @@
             "isTopInning": false,
             "inning": 5,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:22:00.0000000000000000+00:00",
+            "startTime": "2025-09-27T23:22:00+00:00",
             "endTime": "2025-09-27T23:22:20.0000000000030000"
           },
           "count": {
@@ -6960,11 +6796,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7014,7 +6850,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:22:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:22:00.0000000000060000Z"
             },
             {
               "index": 2,
@@ -7037,7 +6873,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:22:01.0000000000000000Z"
+              "startTime": "2025-09-27T23:22:01.0000000100000000Z"
             },
             {
               "index": 3,
@@ -7060,7 +6896,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:22:01.0000005000000000Z"
+              "startTime": "2025-09-27T23:22:01.0000000000500000Z"
             }
           ],
           "runners": [
@@ -7103,8 +6939,8 @@
             "isTopInning": false,
             "inning": 5,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:22:30.0050000000000000+00:00",
-            "endTime": "2025-09-27T23:22:50.0000000000000024"
+            "startTime": "2025-09-27T23:22:30.0000001000000000+00:00",
+            "endTime": "2025-09-27T23:22:50.0000000000030024"
           },
           "count": {
             "balls": 1,
@@ -7127,11 +6963,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7181,7 +7017,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:22:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:22:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -7204,10 +7040,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:22:31.0000000000000000Z",
+              "startTime": "2025-09-27T23:22:31.0000000100000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "CF"
+                "location": "Center Field"
               }
             }
           ],
@@ -7235,12 +7071,9 @@
                 {
                   "player": {
                     "id": 625201,
-                    "fullName": "Bugs Yamaguchi"
+                    "link": "/api/v1/people/625201"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "CF"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -7262,7 +7095,7 @@
             "isTopInning": true,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:23:00.0070000000000000+00:00",
+            "startTime": "2025-09-27T23:23:00+00:00",
             "endTime": "2025-09-27T23:23:20.0000000000030000"
           },
           "count": {
@@ -7286,11 +7119,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7336,7 +7169,7 @@
             "isTopInning": true,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:23:30.0000000000000000+00:00",
+            "startTime": "2025-09-27T23:23:30+00:00",
             "endTime": "2025-09-27T23:23:50.0000000000030000"
           },
           "count": {
@@ -7360,11 +7193,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7410,7 +7243,7 @@
             "isTopInning": true,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:24:00.0025000000000000+00:00",
+            "startTime": "2025-09-27T23:24:00+00:00",
             "endTime": "2025-09-27T23:24:20.0000000000030000"
           },
           "count": {
@@ -7434,11 +7267,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -7484,7 +7317,7 @@
             "isTopInning": false,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:24:30.0025000000000000+00:00",
+            "startTime": "2025-09-27T23:24:30+00:00",
             "endTime": "2025-09-27T23:24:50.0000000000030000"
           },
           "count": {
@@ -7508,11 +7341,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7539,10 +7372,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:24:30.0000000000000000Z",
+              "startTime": "2025-09-27T23:24:30.0000000200000000Z",
               "hitData": {
                 "trajectory": "groundball",
-                "location": "P"
+                "location": "pitcher"
               }
             }
           ],
@@ -7569,23 +7402,17 @@
               "credits": [
                 {
                   "player": {
-                    "id": 605110,
-                    "fullName": "Scooter McKeever"
+                    "id": 625209,
+                    "link": "/api/v1/people/625209"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "P"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
                     "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "link": "/api/v1/people/625206"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -7607,8 +7434,8 @@
             "isTopInning": false,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:25:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:25:20.0000000000000034"
+            "startTime": "2025-09-27T23:25:00.0000001000000000+00:00",
+            "endTime": "2025-09-27T23:25:20.0000000000030033"
           },
           "count": {
             "balls": 1,
@@ -7631,11 +7458,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -7685,7 +7512,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:25:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:25:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -7708,10 +7535,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:25:01.0000000000000000Z",
+              "startTime": "2025-09-27T23:25:01.0000000100000000Z",
               "hitData": {
                 "trajectory": "groundball",
-                "location": "3B"
+                "location": "third base"
               }
             }
           ],
@@ -7739,22 +7566,16 @@
                 {
                   "player": {
                     "id": 625203,
-                    "fullName": "Dieter Gomez"
+                    "link": "/api/v1/people/625203"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "3B"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
                     "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "link": "/api/v1/people/625206"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -7776,8 +7597,8 @@
             "isTopInning": false,
             "inning": 6,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:25:30.0050000000000000+00:00",
-            "endTime": "2025-09-27T23:25:50.0000000000000017"
+            "startTime": "2025-09-27T23:25:30.0000001400000000+00:00",
+            "endTime": "2025-09-27T23:25:50.0000000000030000"
           },
           "count": {
             "balls": 3,
@@ -7800,11 +7621,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -7854,7 +7675,7 @@
                 "startSpeed": 83.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:25:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:25:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -7877,7 +7698,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:25:31.0000000000350000Z"
+              "startTime": "2025-09-27T23:25:31.0000000000000000Z"
             },
             {
               "index": 3,
@@ -7900,7 +7721,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:25:31.0000005000000000Z"
+              "startTime": "2025-09-27T23:25:31.0000000000500000Z"
             },
             {
               "index": 4,
@@ -7923,7 +7744,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:25:32.0000000000000000Z"
+              "startTime": "2025-09-27T23:25:32.0000000100000000Z"
             },
             {
               "index": 5,
@@ -7946,7 +7767,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:25:32.0000005000000000Z"
+              "startTime": "2025-09-27T23:25:32.0000000000500000Z"
             },
             {
               "index": 6,
@@ -7972,7 +7793,7 @@
               "startTime": "2025-09-27T23:25:33.0000000000000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "RF"
+                "location": "right field"
               }
             }
           ],
@@ -7999,13 +7820,10 @@
               "credits": [
                 {
                   "player": {
-                    "id": 625205,
-                    "fullName": "Buddy Lamont"
+                    "id": 545106,
+                    "link": "/api/v1/people/545106"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "LF"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -8027,7 +7845,7 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:26:00.0025000000000000+00:00",
+            "startTime": "2025-09-27T23:26:00+00:00",
             "endTime": "2025-09-27T23:26:20.0000000000030000"
           },
           "count": {
@@ -8051,11 +7869,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -8110,7 +7928,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:26:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:26:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -8136,7 +7954,7 @@
               "startTime": "2025-09-27T23:26:01.0000000000000000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "SS"
+                "location": "shortstop"
               }
             }
           ],
@@ -8160,18 +7978,7 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": [
-                {
-                  "player": {
-                    "id": 545108,
-                    "fullName": "Ford Stipe"
-                  },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
-                }
-              ]
+              "credits": []
             }
           ]
         },
@@ -8191,8 +7998,8 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:26:30.0070000000000000+00:00",
-            "endTime": "2025-09-27T23:26:50.0000000000030000"
+            "startTime": "2025-09-27T23:26:30+00:00",
+            "endTime": "2025-09-27T23:26:50.0000000000030008"
           },
           "count": {
             "balls": 2,
@@ -8215,11 +8022,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "RISP"
             },
@@ -8256,7 +8063,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:26:30.0000000000000000Z"
+              "startTime": "2025-09-27T23:26:30.0000000000330000Z"
             },
             {
               "index": 1,
@@ -8279,7 +8086,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:26:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:26:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -8302,7 +8109,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:26:31.0000000000000000Z"
+              "startTime": "2025-09-27T23:26:31.0000000400000000Z"
             },
             {
               "index": 3,
@@ -8325,7 +8132,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:26:31.0000005000000000Z"
+              "startTime": "2025-09-27T23:26:31.0000000100500000Z"
             },
             {
               "index": 4,
@@ -8416,8 +8223,8 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:27:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:27:20.0000000000000004"
+            "startTime": "2025-09-27T23:27:00+00:00",
+            "endTime": "2025-09-27T23:27:20.0000000000030000"
           },
           "count": {
             "balls": 1,
@@ -8440,11 +8247,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -8504,7 +8311,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:27:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:27:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -8527,10 +8334,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:27:01.0000000000000000Z",
+              "startTime": "2025-09-27T23:27:01.0000000100000000Z",
               "hitData": {
                 "trajectory": "chopper",
-                "location": "1B"
+                "location": "first base"
               }
             }
           ],
@@ -8595,7 +8402,7 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": true,
-            "startTime": "2025-09-27T23:27:30.0025000000000000+00:00",
+            "startTime": "2025-09-27T23:27:30+00:00",
             "endTime": "2025-09-27T23:27:50.0000000000030000"
           },
           "count": {
@@ -8619,11 +8426,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Men_On"
             },
@@ -8678,7 +8485,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:27:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:27:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -8701,7 +8508,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:27:31.0000000000000000Z"
+              "startTime": "2025-09-27T23:27:31.0000000100000000Z"
             },
             {
               "index": 3,
@@ -8724,7 +8531,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:27:31.0000005000000000Z"
+              "startTime": "2025-09-27T23:27:31.0000000000500000Z"
             },
             {
               "index": 4,
@@ -8747,10 +8554,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:27:32.0000000000000000Z",
+              "startTime": "2025-09-27T23:27:32.0000000100000000Z",
               "hitData": {
                 "trajectory": "chopper",
-                "location": "SS"
+                "location": "through the mound to shortstop"
               }
             }
           ],
@@ -8816,18 +8623,7 @@
                 },
                 "isScoringEvent": false
               },
-              "credits": [
-                {
-                  "player": {
-                    "id": 545108,
-                    "fullName": "Ford Stipe"
-                  },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
-                }
-              ]
+              "credits": []
             }
           ]
         },
@@ -8847,8 +8643,8 @@
             "isTopInning": true,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:28:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:28:20.0000000000000006"
+            "startTime": "2025-09-27T23:28:00+00:00",
+            "endTime": "2025-09-27T23:28:20.0000000000030006"
           },
           "count": {
             "balls": 3,
@@ -8871,11 +8667,11 @@
               "link": "/api/v1/people/645210"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -8925,7 +8721,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:28:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:28:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -8948,7 +8744,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:28:01.0000000000000000Z"
+              "startTime": "2025-09-27T23:28:01.0000000400000000Z"
             },
             {
               "index": 3,
@@ -8971,7 +8767,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:28:01.0000005000000000Z"
+              "startTime": "2025-09-27T23:28:01.0000000000500000Z"
             },
             {
               "index": 4,
@@ -8994,7 +8790,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:28:02.0000000000000000Z"
+              "startTime": "2025-09-27T23:28:02.0000000100000000Z"
             },
             {
               "index": 5,
@@ -9017,10 +8813,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:28:02.0000005000000000Z",
+              "startTime": "2025-09-27T23:28:02.0000000000500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "SS"
+                "location": "shortstop"
               }
             }
           ],
@@ -9048,32 +8844,23 @@
                 {
                   "player": {
                     "id": 545108,
-                    "fullName": "Ford Stipe"
+                    "link": "/api/v1/people/545108"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545106,
-                    "fullName": "Lamont Bradleys"
+                    "id": 545102,
+                    "link": "/api/v1/people/545102"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "2B"
-                  }
+                  "credit": "f_putout"
                 },
                 {
                   "player": {
-                    "id": 545107,
-                    "fullName": "Jose Sunderland"
+                    "id": 545104,
+                    "link": "/api/v1/people/545104"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -9095,8 +8882,8 @@
             "isTopInning": false,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:28:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:28:50.0000000000000023"
+            "startTime": "2025-09-27T23:28:30+00:00",
+            "endTime": "2025-09-27T23:28:50.0000000000030023"
           },
           "count": {
             "balls": 1,
@@ -9119,11 +8906,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9150,7 +8937,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:28:30.0000000000000000Z"
+              "startTime": "2025-09-27T23:28:30.0000000200000000Z"
             },
             {
               "index": 1,
@@ -9173,7 +8960,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:28:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:28:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -9196,7 +8983,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:28:31.0000000000000000Z"
+              "startTime": "2025-09-27T23:28:31.0000000100000000Z"
             },
             {
               "index": 3,
@@ -9219,10 +9006,10 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:28:31.0000005000000000Z",
+              "startTime": "2025-09-27T23:28:31.0000000000500000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "LF"
+                "location": "left field"
               }
             }
           ],
@@ -9250,12 +9037,9 @@
                 {
                   "player": {
                     "id": 625207,
-                    "fullName": "Joe Bill Silver"
+                    "link": "/api/v1/people/625207"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "LF"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -9277,8 +9061,8 @@
             "isTopInning": false,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:29:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:29:20.0000000000000030"
+            "startTime": "2025-09-27T23:29:00.0000001000000000+00:00",
+            "endTime": "2025-09-27T23:29:20.0000000000030029"
           },
           "count": {
             "balls": 1,
@@ -9301,11 +9085,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9355,10 +9139,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:29:00.0000005000000000Z",
+              "startTime": "2025-09-27T23:29:00.0000000000500000Z",
               "hitData": {
                 "trajectory": "hard_chopper",
-                "location": "3B"
+                "location": "third base"
               }
             }
           ],
@@ -9386,22 +9170,16 @@
                 {
                   "player": {
                     "id": 625208,
-                    "fullName": "Tiny Howl"
+                    "link": "/api/v1/people/625208"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "3B"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
                     "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "link": "/api/v1/people/625206"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -9423,8 +9201,8 @@
             "isTopInning": false,
             "inning": 7,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:29:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:29:50.0000000000000007"
+            "startTime": "2025-09-27T23:29:30+00:00",
+            "endTime": "2025-09-27T23:29:50.0000000000030022"
           },
           "count": {
             "balls": 3,
@@ -9447,11 +9225,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9501,7 +9279,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:29:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:29:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -9524,7 +9302,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:29:31.0000000000000000Z"
+              "startTime": "2025-09-27T23:29:31.0000000100000000Z"
             },
             {
               "index": 3,
@@ -9547,7 +9325,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:29:31.0000005000000000Z"
+              "startTime": "2025-09-27T23:29:31.0000000000500000Z"
             },
             {
               "index": 4,
@@ -9593,12 +9371,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:29:32.0000005000000000Z",
+              "startTime": "2025-09-27T23:29:32.0000000000500000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "DCF",
-                "launchSpeed": 105,
-                "launchAngle": 35
+                "location": "deep center field"
               }
             }
           ],
@@ -9626,12 +9402,9 @@
                 {
                   "player": {
                     "id": 625201,
-                    "fullName": "Bugs Yamaguchi"
+                    "link": "/api/v1/people/625201"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "CF"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -9653,7 +9426,7 @@
             "isTopInning": true,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:30:00.0025000000000000+00:00",
+            "startTime": "2025-09-27T23:30:00+00:00",
             "endTime": "2025-09-27T23:30:20.0000000000030000"
           },
           "count": {
@@ -9736,7 +9509,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:30:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:30:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -9759,7 +9532,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:30:01.0000000000000000Z"
+              "startTime": "2025-09-27T23:30:01.0000000100000000Z"
             },
             {
               "index": 3,
@@ -9782,7 +9555,7 @@
                 "startSpeed": 83.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:30:01.0000005000000000Z"
+              "startTime": "2025-09-27T23:30:01.0000000000500000Z"
             },
             {
               "index": 4,
@@ -9805,7 +9578,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:30:02.0000000000000000Z"
+              "startTime": "2025-09-27T23:30:02.0000000100000000Z"
             },
             {
               "index": 5,
@@ -9828,7 +9601,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:30:02.0000005000000000Z"
+              "startTime": "2025-09-27T23:30:02.0000000000500000Z"
             }
           ],
           "runners": [
@@ -9871,8 +9644,8 @@
             "isTopInning": false,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:30:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:30:50.0000000000000005"
+            "startTime": "2025-09-27T23:30:30+00:00",
+            "endTime": "2025-09-27T23:30:50.0000000000030000"
           },
           "count": {
             "balls": 1,
@@ -9895,11 +9668,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -9949,7 +9722,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:30:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:30:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -9972,7 +9745,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:30:31.0000000000000000Z"
+              "startTime": "2025-09-27T23:30:31.0000000100000000Z"
             },
             {
               "index": 3,
@@ -9982,7 +9755,7 @@
                 "strikes": 2
               },
               "details": {
-                "code": "X",
+                "code": "F",
                 "description": "Foul",
                 "isStrike": true,
                 "type": {
@@ -9995,12 +9768,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:30:31.0000005000000000Z",
+              "startTime": "2025-09-27T23:30:31.0000000000500000Z",
               "hitData": {
                 "trajectory": "popup",
-                "location": "1B",
-                "launchSpeed": 75,
-                "launchAngle": 55
+                "location": "Right side, foul territory"
               }
             }
           ],
@@ -10028,12 +9799,9 @@
                 {
                   "player": {
                     "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "link": "/api/v1/people/625206"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -10055,7 +9823,7 @@
             "isTopInning": false,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:31:00.0000000000000000+00:00",
+            "startTime": "2025-09-27T23:31:00.0000001000000000+00:00",
             "endTime": "2025-09-27T23:31:20.0000000000030000"
           },
           "count": {
@@ -10079,11 +9847,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -10110,7 +9878,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:31:00.0000000000000000Z"
+              "startTime": "2025-09-27T23:31:00.0000000000100000Z"
             },
             {
               "index": 1,
@@ -10133,7 +9901,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:31:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:31:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -10156,7 +9924,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:31:01.0000000000000000Z"
+              "startTime": "2025-09-27T23:31:01.0000000400000000Z"
             }
           ],
           "runners": [
@@ -10199,8 +9967,8 @@
             "isTopInning": false,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:31:30.0050000000000000+00:00",
-            "endTime": "2025-09-27T23:31:50.0000000000000003"
+            "startTime": "2025-09-27T23:31:30+00:00",
+            "endTime": "2025-09-27T23:31:50.0000000000030000"
           },
           "count": {
             "balls": 0,
@@ -10223,11 +9991,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -10282,7 +10050,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:31:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:31:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -10292,7 +10060,7 @@
                 "strikes": 2
               },
               "details": {
-                "code": "X",
+                "code": "H",
                 "description": "In play, Double",
                 "isStrike": true,
                 "type": {
@@ -10305,10 +10073,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:31:31.0000000000000000Z",
+              "startTime": "2025-09-27T23:31:31.0000000100000000Z",
               "hitData": {
                 "trajectory": "line_drive_/_slice",
-                "location": "RF"
+                "location": "Right field line, corner"
               }
             }
           ],
@@ -10352,7 +10120,7 @@
             "isTopInning": false,
             "inning": 8,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:32:00.0025000000000000+00:00",
+            "startTime": "2025-09-27T23:32:00+00:00",
             "endTime": "2025-09-27T23:32:20.0000000000030000"
           },
           "count": {
@@ -10376,11 +10144,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "RISP"
             },
@@ -10435,7 +10203,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:32:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:32:00.0000000100500000Z"
             },
             {
               "index": 2,
@@ -10481,7 +10249,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:32:01.0000005000000000Z"
+              "startTime": "2025-09-27T23:32:01.0000000400500000Z"
             },
             {
               "index": 4,
@@ -10547,8 +10315,8 @@
             "isTopInning": true,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:32:30.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:32:50.0000000000000032"
+            "startTime": "2025-09-27T23:32:30.0000130000000000+00:00",
+            "endTime": "2025-09-27T23:32:50.0000000000030031"
           },
           "count": {
             "balls": 1,
@@ -10602,7 +10370,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:32:30.0000000000000000Z"
+              "startTime": "2025-09-27T23:32:30.0000000200000000Z"
             },
             {
               "index": 1,
@@ -10625,10 +10393,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:32:30.0000005000000000Z",
+              "startTime": "2025-09-27T23:32:30.0000000000500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "SS"
+                "location": "shortstop"
               }
             }
           ],
@@ -10656,22 +10424,16 @@
                 {
                   "player": {
                     "id": 545108,
-                    "fullName": "Ford Stipe"
+                    "link": "/api/v1/people/545108"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545107,
-                    "fullName": "Jose Sunderland"
+                    "id": 545108,
+                    "link": "/api/v1/people/545108"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -10693,8 +10455,8 @@
             "isTopInning": true,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:33:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:33:20.0000000000000024"
+            "startTime": "2025-09-27T23:33:00.0000001000000000+00:00",
+            "endTime": "2025-09-27T23:33:20.0000000000030023"
           },
           "count": {
             "balls": 3,
@@ -10748,7 +10510,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:33:00.0000000000000000Z"
+              "startTime": "2025-09-27T23:33:00.0000000200000000Z"
             },
             {
               "index": 1,
@@ -10771,7 +10533,7 @@
                 "startSpeed": 85.0,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:33:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:33:00.0000000000500000Z"
             },
             {
               "index": 2,
@@ -10794,7 +10556,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:33:01.0000000000000000Z"
+              "startTime": "2025-09-27T23:33:01.0000000400000000Z"
             },
             {
               "index": 3,
@@ -10817,7 +10579,7 @@
                 "startSpeed": 92.5,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:33:01.0000005000000000Z"
+              "startTime": "2025-09-27T23:33:01.0000000100500000Z"
             },
             {
               "index": 4,
@@ -10863,10 +10625,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:33:02.0000005000000000Z",
+              "startTime": "2025-09-27T23:33:02.0000000000500000Z",
               "hitData": {
                 "trajectory": "chopper",
-                "location": "SS"
+                "location": "shortstop"
               }
             }
           ],
@@ -10894,22 +10656,16 @@
                 {
                   "player": {
                     "id": 545108,
-                    "fullName": "Ford Stipe"
+                    "link": "/api/v1/people/545108"
                   },
-                  "credit": "assist",
-                  "position": {
-                    "abbreviation": "SS"
-                  }
+                  "credit": "f_assist"
                 },
                 {
                   "player": {
-                    "id": 545107,
-                    "fullName": "Jose Sunderland"
+                    "id": 545108,
+                    "link": "/api/v1/people/545108"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -10931,8 +10687,8 @@
             "isTopInning": true,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:33:30.0070000000000000+00:00",
-            "endTime": "2025-09-27T23:33:50.0000000000000010"
+            "startTime": "2025-09-27T23:33:30+00:00",
+            "endTime": "2025-09-27T23:33:50.0000000000030010"
           },
           "count": {
             "balls": 2,
@@ -11009,7 +10765,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:33:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:33:30.0000000400500000Z"
             },
             {
               "index": 2,
@@ -11055,10 +10811,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:33:31.0000005000000000Z",
+              "startTime": "2025-09-27T23:33:31.0000000100500000Z",
               "hitData": {
                 "trajectory": "pop_up",
-                "location": "3B"
+                "location": "infield left side"
               }
             }
           ],
@@ -11086,12 +10842,9 @@
                 {
                   "player": {
                     "id": 545105,
-                    "fullName": "Billy De Jesus"
+                    "link": "/api/v1/people/545105"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "3B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -11113,8 +10866,8 @@
             "isTopInning": false,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:34:00.0020000000000000+00:00",
-            "endTime": "2025-09-27T23:34:20.0000000000000006"
+            "startTime": "2025-09-27T23:34:00+00:00",
+            "endTime": "2025-09-27T23:34:20.0000000000030022"
           },
           "count": {
             "balls": 0,
@@ -11137,11 +10890,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -11191,7 +10944,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:34:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:34:00.0000000000370000Z"
             },
             {
               "index": 2,
@@ -11214,12 +10967,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:34:01.0000000000000000Z",
+              "startTime": "2025-09-27T23:34:01.0000000100000000Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "DCF",
-                "launchSpeed": 105,
-                "launchAngle": 35
+                "location": "deep center field / warning track"
               }
             }
           ],
@@ -11247,12 +10998,9 @@
                 {
                   "player": {
                     "id": 625201,
-                    "fullName": "Bugs Yamaguchi"
+                    "link": "/api/v1/people/625201"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "CF"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -11274,8 +11022,8 @@
             "isTopInning": false,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:34:30.0050000000000000+00:00",
-            "endTime": "2025-09-27T23:34:50.0000000000000011"
+            "startTime": "2025-09-27T23:34:30+00:00",
+            "endTime": "2025-09-27T23:34:50.0000000000030011"
           },
           "count": {
             "balls": 2,
@@ -11298,11 +11046,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_LHB",
               "menOnBase": "Empty"
             }
@@ -11329,7 +11077,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:34:30.0000000000000000Z"
+              "startTime": "2025-09-27T23:34:30.0000000000200000Z"
             },
             {
               "index": 1,
@@ -11352,7 +11100,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:34:30.0000005000000000Z"
+              "startTime": "2025-09-27T23:34:30.0000000000500000Z"
             },
             {
               "index": 2,
@@ -11375,7 +11123,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:34:31.0000000000000000Z"
+              "startTime": "2025-09-27T23:34:31.0000000400000000Z"
             },
             {
               "index": 3,
@@ -11398,10 +11146,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:34:31.0000005000000000Z",
+              "startTime": "2025-09-27T23:34:31.0000000000500000Z",
               "hitData": {
                 "trajectory": "pop_up",
-                "location": "1B"
+                "location": "infield right side"
               }
             }
           ],
@@ -11429,12 +11177,9 @@
                 {
                   "player": {
                     "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "link": "/api/v1/people/625206"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -11456,8 +11201,8 @@
             "isTopInning": false,
             "inning": 9,
             "isScoringPlay": false,
-            "startTime": "2025-09-27T23:35:00.0025000000000000+00:00",
-            "endTime": "2025-09-27T23:35:20.0000000000000001"
+            "startTime": "2025-09-27T23:35:00+00:00",
+            "endTime": "2025-09-27T23:35:20.0000000000030001"
           },
           "count": {
             "balls": 2,
@@ -11480,11 +11225,11 @@
               "link": "/api/v1/people/605110"
             },
             "pitchHand": {
-              "code": "R",
-              "description": "Right"
+              "code": "L",
+              "description": "Left"
             },
             "splits": {
-              "batter": "vs_RHP",
+              "batter": "vs_LHP",
               "pitcher": "vs_RHB",
               "menOnBase": "Empty"
             }
@@ -11534,7 +11279,7 @@
                 "startSpeed": 85.0,
                 "zone": 14
               },
-              "startTime": "2025-09-27T23:35:00.0000005000000000Z"
+              "startTime": "2025-09-27T23:35:00.0000000400500000Z"
             },
             {
               "index": 2,
@@ -11557,7 +11302,7 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:35:01.0000000000000000Z"
+              "startTime": "2025-09-27T23:35:01.0000000400000000Z"
             },
             {
               "index": 3,
@@ -11580,10 +11325,10 @@
                 "startSpeed": 92.5,
                 "zone": 5
               },
-              "startTime": "2025-09-27T23:35:01.0000005000000000Z",
+              "startTime": "2025-09-27T23:35:01.0000000100500000Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "1B"
+                "location": "first base"
               }
             }
           ],
@@ -11611,12 +11356,9 @@
                 {
                   "player": {
                     "id": 625206,
-                    "fullName": "Manny Del Greco"
+                    "link": "/api/v1/people/625206"
                   },
-                  "credit": "putout",
-                  "position": {
-                    "abbreviation": "1B"
-                  }
+                  "credit": "f_putout"
                 }
               ]
             }
@@ -11732,9 +11474,9 @@
         "away": {
           "team": {
             "id": 134,
-            "name": "Baraboo Bombers",
-            "abbreviation": "BAR",
-            "teamName": "Bombers"
+            "name": "Pacific City Pilots",
+            "abbreviation": "PCP",
+            "teamName": "Pilots"
           },
           "teamStats": {
             "batting": {
@@ -13214,9 +12956,9 @@
         "home": {
           "team": {
             "id": 133,
-            "name": "Lake City Loons",
-            "abbreviation": "LCL",
-            "teamName": "Loons"
+            "name": "Bay Area Bombers",
+            "abbreviation": "BAY",
+            "teamName": "Bombers"
           },
           "teamStats": {
             "batting": {
