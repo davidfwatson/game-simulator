@@ -47,7 +47,7 @@ GAME_CONTEXT = {
                 "high and tight", "high and inside", "runs high", "misses high",
                 "misses upstairs", "up in the eyes", "over the head", "way upstairs",
                 "runs inside", "a bit inside", "nearly hits him", "brushes him back",
-                "fastball high and tight"
+                "fastball high and tight", "up and in", "misses very high"
             ],
             "high_outside": [
                 "sails over the letters", "misses high and wide", "runs high",
@@ -55,7 +55,7 @@ GAME_CONTEXT = {
                 "just misses outside", "way outside", "misses outside",
                 "misses just a bit outside", "just off the plate", "misses away", "wide",
                 "gets away from him and that one misses way outside",
-                "misses just outside"
+                "misses just outside", "misses very high"
             ],
             "low_inside": [
                 "misses low and inside", "down and in", "misses low", "misses a bit low",
@@ -63,14 +63,16 @@ GAME_CONTEXT = {
                 "a bit inside", "misses down and in",
                 "he bounces one in the dirt",
                 "down low",
-                "low and inside"
+                "low and inside",
+                "just misses low"
             ],
             "low_outside": [
                 "low and away", "spikes before the plate", "misses low and outside",
                 "misses low", "misses a bit low", "runs a bit low", "in the dirt",
                 "bounced in the dirt", "just misses outside", "way outside", "misses outside",
                 "misses just a bit outside", "just off the plate", "misses away", "wide",
-                "away", "down and away"
+                "away", "down and away", "just misses low", "misses low and away",
+                "low and outside", "runs wide", "off the plate"
             ]
         },
         "foul": [
@@ -89,6 +91,7 @@ GAME_CONTEXT = {
             "hit foul down the line",
             "fouled down the line",
             "chopped foul",
+            "chopped foul and out of play",
             "chopped foul down the first base line",
             "chopped foul and off to the right",
             "chopped foul off to the right",
@@ -618,7 +621,8 @@ GAME_CONTEXT = {
             "{batter_name} digs in. He'll lead off.",
             "And {batter_name} steps into the box against {pitcher_name}.",
             "And {batter_name} will step in against {pitcher_name}.",
-            "And {batter_name} checks in against {pitcher_name}."
+            "And {batter_name} checks in against {pitcher_name}.",
+            "And {batter_name} checks in."
         ],
         "batter_intro_empty": [
              "And {batter_name} will step in with {outs_str} and nobody on.",
@@ -633,7 +637,14 @@ GAME_CONTEXT = {
              "And {batter_name} checks in with {outs_str} and the bases empty.",
              "And here's {batter_name} with {outs_str} and nobody aboard.",
              "And here's {batter_name} with {outs_str} and nobody on.",
-             "So, bases empty, {outs_str} for {batter_name}."
+             "So, bases empty, {outs_str} for {batter_name}.",
+             "And {batter_name} steps in.",
+             "And {batter_name} checks in."
+        ],
+        "batter_intro_bases_cleared": [
+             "Bases cleared, {outs_str} for {batter_name}.",
+             "And with the bases now empty, {outs_str}, {batter_name} steps in.",
+             "Bases cleared. And {batter_name} will step in with {outs_str} and nobody on."
         ],
         "batter_intro_runners": [
              "And {batter_name} steps in with {runners_str}, {outs_str}.",
@@ -649,7 +660,9 @@ GAME_CONTEXT = {
              "And here's {batter_name} with {runners_str} and {outs_str}.",
              "So, {runners_str} and {outs_str} for {batter_name}.",
              "So, {runners_str} now, {outs_str} for {batter_name}.",
-             "And {batter_name} steps in with {outs_str} and {runners_str}."
+             "And {batter_name} steps in with {outs_str} and {runners_str}.",
+             "And here's {batter_name} with {outs_str} and {runners_str}.",
+             "And {batter_name} checks in with {runners_str} and {outs_str}."
         ],
         "pitch_connectors": [
             "And the {count_str}...",
@@ -663,7 +676,8 @@ GAME_CONTEXT = {
             "And {pitcher_name_last} delivers...",
             "{pitcher_name_last} kicks and delivers...",
             "And the pitch...",
-            "Here is the {count_str}..."
+            "Here is the {count_str}...",
+            "And the {count_str_and}..."
         ],
         "pitch_connectors_00": [
             "And the pitch...",
@@ -681,7 +695,8 @@ GAME_CONTEXT = {
              "And the pitch...",
              "And {pitcher_name_last} deals...",
              "And {pitcher_name_last} comes to the plate...",
-             "From the belt, the pitch..."
+             "From the belt, the pitch...",
+             "And {pitcher_name_last}'s pitch..."
         ],
         "batter_matchup_handedness": [
             "Righty against righty.",

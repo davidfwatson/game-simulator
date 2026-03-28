@@ -77,12 +77,15 @@ class NarrativeRenderer(GameRenderer):
             return self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['payoff_pitch'])
 
         count_str = self._get_spoken_count(balls, strikes, connector="-")
+        count_str_and = self._get_spoken_count(balls, strikes, connector="and")
         pitcher_last = ' '.join(pitcher_name.split()[1:]) if pitcher_name and len(pitcher_name.split()) > 1 else (pitcher_name or "The pitcher")
         batter_last = batter_name.split()[-1] if batter_name else "the batter"
 
         context = {
             'count_str': count_str,
+            'count_str_and': count_str_and,
             'count_str_cap': count_str.capitalize(),
+            'count_str_and_cap': count_str_and.capitalize(),
             'pitcher_name_last': pitcher_last,
             'batter_name_last': batter_last
         }
@@ -600,7 +603,7 @@ class NarrativeRenderer(GameRenderer):
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
-        for play in plays:
+        for play_idx, play in enumerate(plays):
             about = play['about']
             matchup = play['matchup']
             inning = about['inning']
@@ -891,9 +894,17 @@ class NarrativeRenderer(GameRenderer):
             if bases_dict.get('3B'): runners.append("third")
 
             intro_template = ""
+            prev_play_event = plays[play_idx - 1]['result'].get('event', '') if play_idx > 0 else ''
+            prev_same_half = (play_idx > 0 and
+                              plays[play_idx - 1]['about'].get('inning') == inning and
+                              plays[play_idx - 1]['about'].get('isTopInning') == about['isTopInning'])
+            bases_just_cleared = (prev_same_half and prev_play_event == 'Home Run'
+                                  and len(runners) == 0 and self.outs_tracker > 0)
             if len(runners) == 0:
                 if self.outs_tracker == 0:
                      intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_leadoff'])
+                elif bases_just_cleared:
+                     intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('batter_intro_bases_cleared', GAME_CONTEXT['narrative_strings']['batter_intro_empty']))
                 else:
                      intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_empty'])
 
@@ -998,7 +1009,8 @@ class NarrativeRenderer(GameRenderer):
                  if bat_side_orig == 'S':
                      effective = 'left' if bat_side == 'L' else 'right'
                      pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
-                     matchup_txt = f"{batter_name} is a switch hitter and he'll bat {effective} against {pitcher_name}."
+                     pitcher_last = pitcher_name.split()[-1] if ' ' in pitcher_name else pitcher_name
+                     matchup_txt = f"{batter_last_name} is a switch hitter and he'll bat {effective} against {pitcher_last}."
                  elif bat_side == 'R' and pitch_hand == 'R':
                      matchup_options = ["a righty-righty matchup.", "righty against righty."]
                      if getattr(self, '_prev_matchup_key', None) == 'RR':
@@ -1180,8 +1192,20 @@ class NarrativeRenderer(GameRenderer):
                             if code == 'F' and s == 2 and event['count']['strikes'] == 2:
                                 repeating_two_strikes = True
 
+                            reaches_full = (b == 3 and s == 2 and
+                                            not (event['count']['balls'] == 3 and event['count']['strikes'] == 2))
+
                             if not suppress_count:
-                                if repeating_two_strikes:
+                                if reaches_full and self.rng_flow.random() < 0.4:
+                                    full_str = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['count_full'])
+                                    if use_comma:
+                                        full_str = full_str.lstrip(", ")
+                                        pbp_line += f" {full_str}."
+                                    else:
+                                        clean = full_str.strip(", ")
+                                        clean = clean[0].upper() + clean[1:]
+                                        pbp_line += f" {clean}."
+                                elif repeating_two_strikes:
                                     # Use special "count holds at..." logic
                                     count_hold_str = self._get_narrative_string('count_remains_two_strikes', {'count_str': spoken_count, 'batter_name': batter_name}, rng=self.rng_flow)
                                     if use_comma:

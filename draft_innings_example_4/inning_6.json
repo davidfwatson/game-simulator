@@ -1,0 +1,181 @@
+[
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Lamont Bradleys", "battingOrder": 1},
+    "pitcher": {"fullName": "Rolando Padolina"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Slider", "description": "Slider, called strike"},
+      {"code": "X", "pitchType": "Unknown", "description": "Slow bouncer to short, tough play for Slauson, fires to first not in time. Bradleys is aboard with a single."}
+    ],
+    "hitData": {"trajectory": "ground_ball", "location": "SS"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Lamont Bradleys", "start": "batter", "end": "1B"}
+    ],
+    "notes": "2-pitch AB, infield single on a slow bouncer to short. Count was 0-1 when put in play. Righty vs righty. Slauson's throw not in time."
+  },
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "JP Primero", "battingOrder": 2},
+    "pitcher": {"fullName": "Rolando Padolina"},
+    "result": {"event": "Strikeout"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play"},
+      {"code": "S", "pitchType": "Fastball", "description": "Fastball swung on and missed"},
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball rings him up, called strike three"}
+    ],
+    "hitData": {},
+    "fielders": [],
+    "runnerMovement": [],
+    "notes": "3-pitch AB, strikeout looking on a called third strike fastball. Count was 0-2 when struck out. Righty vs righty."
+  },
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Billy De Jesus", "battingOrder": 3},
+    "pitcher": {"fullName": "Rolando Padolina"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Curveball", "description": "Curveball misses low"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball up and in"},
+      {"code": "F", "pitchType": "Unknown", "description": "Ripped foul and out of play"},
+      {"code": "F", "pitchType": "Unknown", "description": "Driven to deep right field, Palomar racing over, hooks foul into the stands"},
+      {"code": "X", "pitchType": "Unknown", "description": "Hit in the air to shallow left, Cortez backing up and makes the catch"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "LF"},
+    "fielders": [
+      {"role": "putout", "name": "Flipper Cortez", "position": "2B"}
+    ],
+    "runnerMovement": [],
+    "notes": "5-pitch AB, flyout to Cortez in shallow left. Count was 2-2 when put in play. Switch hitter bats left vs RHP Padolina. Note: text says Cortez (2B) backing up in shallow left to make the catch."
+  },
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Nate Colbert", "battingOrder": 4},
+    "pitcher": {"fullName": "Rolando Padolina"},
+    "result": {"event": "Single"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Breaking ball", "description": "Breaking ball misses high"},
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play"},
+      {"code": "F", "pitchType": "Unknown", "description": "And he fouls another one off"},
+      {"code": "B", "pitchType": "Unknown", "description": "Stolen base by Bradleys; Gasparro fires to second, not in time"},
+      {"code": "X", "pitchType": "Unknown", "description": "Lined into shallow right, falls in for a hit. Bradleys scores from second. RBI single for Colbert."}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "RF"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Lamont Bradleys", "start": "1B", "end": "2B", "event": "Stolen Base (during AB, after pitch 4)"},
+      {"runner": "Lamont Bradleys", "start": "2B", "end": "scored"},
+      {"runner": "Nate Colbert", "start": "batter", "end": "1B"}
+    ],
+    "notes": "5-pitch AB (including a pitch where Bradleys steals second). RBI single to shallow right. Count was 2-2 when put in play. Switch hitter bats left vs RHP Padolina. Bradleys scores from second. Score now 5-2."
+  },
+  {
+    "inning": 6,
+    "isTopInning": true,
+    "batter": {"fullName": "Franklin Vega", "battingOrder": 5},
+    "pitcher": {"fullName": "Rolando Padolina"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Fastball", "description": "Fastball called a strike"},
+      {"code": "C", "pitchType": "Curveball", "description": "Curveball called strike two"},
+      {"code": "X", "pitchType": "Unknown", "description": "Fly ball, deep left field. Parker drifting back, makes the catch on the warning track to end the inning."}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "LF"},
+    "fielders": [
+      {"role": "putout", "name": "Gilligan Parker", "position": "LF"}
+    ],
+    "runnerMovement": [],
+    "notes": "3-pitch AB, flyout to Parker on the warning track in deep left. Count was 0-2 when put in play. Switch hitter bats left vs RHP Padolina. Loons score one run in the inning. Score now 5-2."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Flipper Cortez", "battingOrder": 3},
+    "pitcher": {"fullName": "Curtis Sanborn"},
+    "result": {"event": "Flyout"},
+    "pitchSequence": [
+      {"code": "X", "pitchType": "Unknown", "description": "Hit in the air to left field. Bradleys is under it and makes the catch."}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "LF"},
+    "fielders": [
+      {"role": "putout", "name": "Lamont Bradleys", "position": "LF"}
+    ],
+    "runnerMovement": [],
+    "notes": "1-pitch AB, flyout to left field. Put in play on the first pitch. Switch hitter bats right vs RHP Sanborn. Note: text says Bradleys (RF in lineup) makes the catch in LF."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Shiny Patterson", "battingOrder": 4},
+    "pitcher": {"fullName": "Curtis Sanborn"},
+    "result": {"event": "Hit By Pitch"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball high and tight"},
+      {"code": "B", "pitchType": "Unknown", "description": "Plunks Patterson on the back of the leg, hit by pitch"}
+    ],
+    "hitData": {},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Shiny Patterson", "start": "batter", "end": "1B"}
+    ],
+    "notes": "2-pitch AB, hit by pitch. Count was 1-0 when hit. Switch hitter bats left vs RHP Sanborn. Patterson had a double and a home run earlier."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Philip Nakamura", "battingOrder": 5},
+    "pitcher": {"fullName": "Curtis Sanborn"},
+    "result": {"event": "Home Run"},
+    "pitchSequence": [
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball, one and oh"},
+      {"code": "X", "pitchType": "Unknown", "description": "Driven to deep right field, sails over the wall for a two-run homer"}
+    ],
+    "hitData": {"trajectory": "fly_ball", "location": "RF"},
+    "fielders": [],
+    "runnerMovement": [
+      {"runner": "Shiny Patterson", "start": "1B", "end": "scored"},
+      {"runner": "Philip Nakamura", "start": "batter", "end": "scored"}
+    ],
+    "notes": "2-pitch AB, two-run home run to deep right field. Count was 1-0 when put in play. Righty vs righty. Patterson scores from first. Score now 7-2 Cars."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Giovanni Gasparro", "battingOrder": 6},
+    "pitcher": {"fullName": "Curtis Sanborn"},
+    "result": {"event": "Lineout"},
+    "pitchSequence": [
+      {"code": "C", "pitchType": "Breaking ball", "description": "Breaking ball called strike one"},
+      {"code": "B", "pitchType": "Fastball", "description": "Fastball misses low"},
+      {"code": "X", "pitchType": "Unknown", "description": "Lined right into the glove of Colbert at second"}
+    ],
+    "hitData": {"trajectory": "line_drive", "location": "2B"},
+    "fielders": [
+      {"role": "putout", "name": "Nate Colbert", "position": "2B"}
+    ],
+    "runnerMovement": [],
+    "notes": "3-pitch AB, lineout to Colbert at second base. Count was 1-1 when put in play. Righty vs righty."
+  },
+  {
+    "inning": 6,
+    "isTopInning": false,
+    "batter": {"fullName": "Gabriel Palomar", "battingOrder": 7},
+    "pitcher": {"fullName": "Curtis Sanborn"},
+    "result": {"event": "Pop Out"},
+    "pitchSequence": [
+      {"code": "F", "pitchType": "Unknown", "description": "Fouled back and out of play"},
+      {"code": "X", "pitchType": "Unknown", "description": "Popped up on the infield. Stipe is calling for it and makes the catch to end the inning."}
+    ],
+    "hitData": {"trajectory": "popup", "location": "SS"},
+    "fielders": [
+      {"role": "putout", "name": "Ford Stipe", "position": "SS"}
+    ],
+    "runnerMovement": [],
+    "notes": "2-pitch AB, pop out to Stipe at shortstop. Count was 0-1 when put in play. Cars score two runs in the inning on Nakamura's two-run homer. Score now 7-2 Cars."
+  }
+]
