@@ -95,6 +95,13 @@ def positional_line_match(target_text, rendered_text, wiggle_pct=0.08, wiggle_mi
     return exact, near90, near75, n_target
 
 
+def positional_line_match_content(target_text, rendered_text, wiggle_pct=0.08, wiggle_min=5):
+    """Like positional_line_match but excludes TTS delay markers."""
+    def strip_tts(text):
+        return '\n'.join(l for l in text.split('\n') if not l.strip().startswith('[TTS SPLIT'))
+    return positional_line_match(strip_tts(target_text), strip_tts(rendered_text), wiggle_pct, wiggle_min)
+
+
 class TestExampleSnapshots(unittest.TestCase):
 
     def _get_example_logs(self):
