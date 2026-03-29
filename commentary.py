@@ -114,7 +114,16 @@ GAME_CONTEXT = {
             "fouled up to the left",
             "fouled off to the left",
             "high foul ball drifting into the stands",
-            "foul"
+            "foul",
+            "slashed foul and out of play",
+            "slashed foul into the stands",
+            "slashed foul off to the right",
+            "skied foul and out of play",
+            "skied foul and into the stands",
+            "flied foul and out of play",
+            "hooked foul down the left field line",
+            "lifted foul off third",
+            "popped foul off first and into the stands"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -180,7 +189,9 @@ GAME_CONTEXT = {
                 "Blooped into shallow {direction_noun}. That one drops in for a hit.",
                 "Blooped into shallow {direction_noun}. That one drops in for a hit.",
                 "Looper into shallow {direction_noun}. And that one falls in for a base hit.",
-                "Hit in the air to shallow {direction_noun}. And that one will drop in for a hit."
+                "Hit in the air to shallow {direction_noun}. And that one will drop in for a hit.",
+                "Poked into shallow {direction_noun}. And that one lands in front of {fielder_name}.",
+                "Flared into shallow {direction_noun}. And that one drops in for a hit."
             ],
             "grounder": [
                 "Hard grounder up the middle... and that one will squeeze through for a base hit.",
@@ -189,7 +200,9 @@ GAME_CONTEXT = {
                 "Seeing-eye single {direction}.",
                 "Hard grounder through the hole.",
                 "Hard grounder {direction}. And that one gets through the infield for a base hit.",
-                "Hard grounder {direction}. Past a diving {fielder_name}."
+                "Hard grounder {direction}. Past a diving {fielder_name}.",
+                "Hard grounder {direction}. And that one squeaks through the infield for a base hit.",
+                "Chopped through the hole. And that one will skip into {direction_noun} for a base hit."
             ],
             "default": [
                 "Lined {direction}. That one drops in.",
@@ -264,7 +277,10 @@ GAME_CONTEXT = {
                 "Grounder to {direction_noun}. {fielder_name} has it and tosses over to first to retire {batter_name} {out_context_str}.",
                 "Chopper to {direction_noun}. {fielder_name} picks it up and fires to first in time to retire {batter_name} {out_context_str}.",
                 "Roller to {direction_noun}. {fielder_name} has it, and fires across to first to get {batter_name} {out_context_str}.",
-                "Grounder to {direction_noun}. {fielder_name} is up with it and he tosses to first to retire {batter_name} {out_context_str}."
+                "Grounder to {direction_noun}. {fielder_name} is up with it and he tosses to first to retire {batter_name} {out_context_str}.",
+                "Tapper to {direction_noun}. {fielder_name} charges and fires to first {out_context_str}.",
+                "Bouncer to {direction_noun}. {fielder_name} handles it and flips to first to retire {batter_name} {out_context_str}.",
+                "{fielder_name} scoops it up and flips to first to retire {batter_name} {out_context_str}."
             ],
             "unassisted_1b": [
                 "One hopper to first. {fielder_name} will have it unassisted. And he steps on the bag to retire {batter_name} {out_context_str}.",

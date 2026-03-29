@@ -1207,9 +1207,6 @@ class NarrativeRenderer(GameRenderer):
                          desc = self._get_pitch_description_for_location('B', zone, pitch_type, matchup['batSide']['code'])
                          pbp_line = f"{pitch_type} {desc}"
 
-                         if event['count']['balls'] == 2 and event['count']['strikes'] == 2:
-                             pbp_line += self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['count_full'])
-
                     # Reset consecutive foul counter on non-foul events
                     if code in ('B', 'C', 'S'):
                         self.consecutive_fouls = 0
