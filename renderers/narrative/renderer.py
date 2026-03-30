@@ -1182,7 +1182,7 @@ class NarrativeRenderer(GameRenderer):
                     elif code == 'C':
                          if event['count']['strikes'] == 2:
                              key = 'strike_called_three'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                             pbp_line = f"{pitch_type} {self._get_narrative_string(key, rng=self.rng_pitch)}"
                          else:
                              # Use strike-numbered pools based on resulting strike count
                              strikes_before = event['count']['strikes']
@@ -1190,17 +1190,17 @@ class NarrativeRenderer(GameRenderer):
                                  key = 'strike_called_one'
                              else:
                                  key = 'strike_called_two'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                             pbp_line = f"{pitch_type} {self._get_narrative_string(key, rng=self.rng_pitch)}"
 
                     elif code == 'S':
                          if event['count']['strikes'] == 2:
                              key = 'strike_swinging_three'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                             pbp_line = f"{pitch_type} {self._get_narrative_string(key, rng=self.rng_pitch)}"
                          else:
                              # For swinging strikes, we usually just say "Swing and a miss" but could describe location
                              # "Swing and a miss on a slider in the dirt"
                              key = 'strike_swinging'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                             pbp_line = f"{pitch_type} {self._get_narrative_string(key, rng=self.rng_pitch)}"
 
                     elif code == 'B':
                          zone = details.get('zone')
