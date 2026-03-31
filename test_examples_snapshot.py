@@ -188,19 +188,24 @@ class TestExampleSnapshots(unittest.TestCase):
 
 
 
-    def _assert_pbp_alignment(self, target_file, fixture_file, jaccard_min, ngram_min, line_exact_min):
-        """Shared alignment assertion for PBP examples."""
+    def _assert_pbp_alignment(self, target_file, fixture_file, jaccard_min, ngram_min, line_exact_min,
+                              target_skip=0, rendered_skip=0):
+        """Shared alignment assertion for PBP examples.
+
+        target_skip / rendered_skip: number of lines to skip from the start
+        of each file (to exclude pregame chatter from comparison).
+        """
         import json
         from renderers.narrative.renderer import NarrativeRenderer
 
         with open(target_file, 'r') as f:
-            text = f.read()
+            text = '\n'.join(f.read().splitlines()[target_skip:])
 
         with open(fixture_file, 'r') as f:
             data = json.load(f)
 
         renderer = NarrativeRenderer(data)
-        rendered = renderer.render()
+        rendered = '\n'.join(renderer.render().splitlines()[rendered_skip:])
 
         def get_words(s):
             return set(re.findall(r'\b\w+\b', s.lower()))
@@ -245,6 +250,7 @@ class TestExampleSnapshots(unittest.TestCase):
         self._assert_pbp_alignment(
             'pbp_example_3.txt', 'test_fixture_pbp_example_3.json',
             jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
+            target_skip=33, rendered_skip=30,
         )
 
 
@@ -272,6 +278,7 @@ class TestExampleSnapshots(unittest.TestCase):
         self._assert_pbp_alignment(
             'pbp_example_1.txt', 'test_fixture_pbp_example_1.json',
             jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
+            target_skip=28, rendered_skip=30,
         )
 
     def test_pbp_example_1_draft_consistency(self):
@@ -298,6 +305,7 @@ class TestExampleSnapshots(unittest.TestCase):
         self._assert_pbp_alignment(
             'pbp_example_2.txt', 'test_fixture_pbp_example_2.json',
             jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
+            target_skip=35, rendered_skip=30,
         )
 
     def test_pbp_example_2_draft_consistency(self):
@@ -317,6 +325,33 @@ class TestExampleSnapshots(unittest.TestCase):
         self.assertEqual(
             rendered, expected,
             "The rendered output of test_fixture_pbp_example_2.json does not match test_fixture_pbp_example_2.txt. Note: If you see this failure after modifying test_fixture_pbp_example_2.json, it simply means you need to regenerate test_fixture_pbp_example_2.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_2.json --pbp-outfile test_fixture_pbp_example_2.txt`)."
+        )
+
+    def test_pbp_example_4_match_percentage(self):
+        """Asserts that the output of test_fixture_pbp_example_4.json meets a minimum threshold of match with pbp_example_4.txt."""
+        self._assert_pbp_alignment(
+            'pbp_example_4.txt', 'test_fixture_pbp_example_4.json',
+            jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
+            target_skip=27, rendered_skip=30,
+        )
+
+    def test_pbp_example_4_draft_consistency(self):
+        """Asserts that the current output of rendering test_fixture_pbp_example_4.json matches test_fixture_pbp_example_4.txt."""
+        import json
+        from renderers.narrative.renderer import NarrativeRenderer
+
+        with open('test_fixture_pbp_example_4.json', 'r') as f:
+            data = json.load(f)
+
+        renderer = NarrativeRenderer(data)
+        rendered = renderer.render()
+
+        with open('test_fixture_pbp_example_4.txt', 'r') as f:
+            expected = f.read()
+
+        self.assertEqual(
+            rendered, expected,
+            "The rendered output of test_fixture_pbp_example_4.json does not match test_fixture_pbp_example_4.txt. Note: If you see this failure after modifying test_fixture_pbp_example_4.json, it simply means you need to regenerate test_fixture_pbp_example_4.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_4.json --pbp-outfile test_fixture_pbp_example_4.txt`)."
         )
 
 if __name__ == "__main__":
