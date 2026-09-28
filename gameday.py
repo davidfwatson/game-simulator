@@ -39,6 +39,10 @@ class TeamInfo(TypedDict):
     name: str
     abbreviation: str
     teamName: str
+    locationName: NotRequired[str]
+    state: NotRequired[str]
+    spokenLocation: NotRequired[str]
+    spokenLocationWithState: NotRequired[str]
 
 
 class GameTeams(TypedDict):

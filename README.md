@@ -60,6 +60,16 @@ The `examples/` directory tracks ten seeded, deterministic game logs in multiple
 
 The file `pbp_example_1.txt` is a manually-written example of the target announcing style for the `narrative` commentary mode. It is not a direct output from the simulator. It serves as a stylistic reference for the tone, pacing, and descriptive detail that the simulation aims to emulate. This file should not be updated or regenerated, as it is a fixed benchmark for the desired "old-timey radio broadcast" feel.
 
+Team definitions may specify `spokenLocation` and `spokenLocationWithState` for
+geographic references in dialogue. These are noun phrases without prepositions:
+the Bay Area Bombers use `the Bay Area` and `California's Bay Area`, while their
+canonical `name` and `locationName` stay unchanged. Without overrides, narration
+uses `locationName` (or the location inferred from the team name) and appends
+`state` when available. Set both spoken forms for regions that do not fit the
+usual city/state wording. The simulator and anonymizer preserve these optional
+fields in Gameday team data; older saved games need the fields added or their
+data regenerated to use the new regional phrasing.
+
 ## Project Structure
 
 * `baseball.py` – core simulation engine and CLI entry point

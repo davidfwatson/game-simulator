@@ -17,6 +17,8 @@ TEAMS = {
         "teamName": "Bombers",
         "locationName": "Bay Area",
         "state": "California",
+        "spokenLocation": "the Bay Area",
+        "spokenLocationWithState": "California's Bay Area",
         "venue": "Waterfront Park",
         "fielding_prowess": 0.982,
         "double_play_rate": 0.42,

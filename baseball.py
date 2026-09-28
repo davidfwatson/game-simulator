@@ -159,6 +159,8 @@ class BaseballSimulator:
                         "teamName": self.team2_data["teamName"],
                         "locationName": self.team2_data.get("locationName", ""),
                         "state": self.team2_data.get("state", ""),
+                        **{key: self.team2_data[key] for key in ("spokenLocation", "spokenLocationWithState")
+                           if key in self.team2_data},
                     },
                     "home": {
                         "id": self.team1_data["id"],
@@ -167,6 +169,8 @@ class BaseballSimulator:
                         "teamName": self.team1_data["teamName"],
                         "locationName": self.team1_data.get("locationName", ""),
                         "state": self.team1_data.get("state", ""),
+                        **{key: self.team1_data[key] for key in ("spokenLocation", "spokenLocationWithState")
+                           if key in self.team1_data},
                     }
                 }
             },
