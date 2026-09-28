@@ -56,6 +56,26 @@ TRANSCRIPT_CASE_MINIMUMS = {
     39: 5, 41: 5, 45: 5, 46: 5, 49: 5, 50: 5, 51: 5, 52: 5, 53: 5,
 }
 
+# Whole-broadcast reconstructions include every observed appearance segment and
+# delivered pitch. The two interrupted broadcasts retain their partial endings.
+# Phrase recall and ordered words are approximate comparisons, not claims of
+# verbatim recreation of announcer banter or the complete broadcast.
+FULL_TRANSCRIPT_MINIMUMS = {
+    episode: dict(appearances=appearances, pitches=pitches,
+                  ngram=ngram, mean_play_word_coverage=coverage)
+    for episode, appearances, pitches, ngram, coverage in (
+        (1, 73, 254, .10, .44), (5, 73, 270, .15, .58),
+        (11, 50, 198, .16, .61), (13, 70, 295, .19, .64),
+        (20, 67, 223, .22, .67), (29, 68, 217, .21, .63),
+        (35, 63, 207, .24, .65), (37, 64, 220, .25, .71),
+        (39, 68, 224, .26, .69), (41, 62, 199, .27, .69),
+        (45, 72, 237, .25, .66), (46, 76, 254, .31, .70),
+        (49, 63, 214, .28, .72), (50, 66, 170, .28, .67),
+        (51, 47, 152, .22, .64), (52, 62, 200, .24, .65),
+        (53, 62, 193, .26, .66),
+    )
+}
+
 
 def validate_transcript_counts(counts, minimums=TRANSCRIPT_CASE_MINIMUMS):
     if set(counts) != set(minimums):

@@ -61,14 +61,17 @@ class StatcastRenderer(GameRenderer):
 
                 outcome_text = ""
                 if code == 'C': outcome_text = "called strike"
+                elif code == 'U': outcome_text = 'strike' if details.get('isStrike') else 'pitch'
                 elif code == 'P' or (code == 'B' and 'pitchout' in desc.casefold()): outcome_text = "pitchout"
                 elif code == 'B': outcome_text = "ball"
+                elif code == 'H': outcome_text = "hit by pitch"
                 elif code == 'S': outcome_text = "missed bunt" if is_bunt_pitch else "swinging strike"
                 elif code == 'F': outcome_text = "foul bunt" if is_bunt_pitch else "foul"
                 elif code == 'X': outcome_text = "in play"
 
                 if outcome_text:
-                     lines.append(f"  {outcome_text.capitalize()}: {pitch_velo} mph {pitch_selection}")
+                     pitch_label = f"{pitch_velo} mph {pitch_selection}" if pitch_velo is not None else pitch_selection
+                     lines.append(f"  {outcome_text.capitalize()}: {pitch_label}")
 
             self._reseed_for_point(play, "play_outcome", about.get('endTime', ''),
                                    f"play:{play_idx}:outcome")
@@ -106,7 +109,19 @@ class StatcastRenderer(GameRenderer):
                 elif m['end'] and m['start'] != m['end']:
                     pass
 
-            if was_error:
+            if outcome == 'Incomplete':
+                result_line = 'Plate appearance unfinished.'
+            elif outcome == 'Reached Base':
+                destination = self._batter_safe_destination(play)
+                if destination == 'home':
+                    result_line = f'{batter_name} comes around to score.'
+                elif destination:
+                    result_line = f'{batter_name} reaches {destination} safely.'
+                else:
+                    result_line = f'{batter_name} reaches safely.'
+            elif outcome == 'Hit':
+                result_line = f'{batter_name} gets a base hit.'
+            elif was_error:
                 result_line = self._format_statcast_template('Error', {'display_outcome': outcome, 'adv_str': "; ".join(advances), 'batter_name': batter_name})
             elif outcome == 'Intentional Walk':
                 result_line = f"{batter_name} is intentionally walked."
@@ -123,6 +138,8 @@ class StatcastRenderer(GameRenderer):
                     result_line = f"{batter_name} strikes out on a foul bunt."
                 elif is_bunt and last_code == 'S':
                     result_line = f"{batter_name} strikes out on a missed bunt."
+                elif last_code not in ('C', 'S'):
+                    result_line = f"{batter_name} strikes out."
                 else:
                     k_type = "looking" if last_code == 'C' else "swinging"
                     result_line = f"{batter_name} {self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])}."
@@ -146,6 +163,11 @@ class StatcastRenderer(GameRenderer):
 
             outs = play['count']['outs']
             lines.append(f" | Outs: {outs} | Score: {self.home_team['name']}: {result['homeScore']}, {self.away_team['name']}: {result['awayScore']}\n")
+
+        if self.gameday_data['gameData'].get('broadcast', {}).get('complete') is False:
+            teams = self.gameday_data['liveData']['linescore']['teams']
+            lines.append(f"Score at the end of our coverage: {self.home_team['name']} {teams['home']['runs']} - {self.away_team['name']} {teams['away']['runs']}")
+            return '\n'.join(lines)
 
         lines.append("=" * 20 + " GAME OVER " + "=" * 20)
         final_home = self.gameday_data['liveData']['linescore']['teams']['home']['runs']

@@ -1,0 +1,165 @@
+# Full broadcast event ledgers
+
+These reviewed ledgers reconstruct every observed baseball appearance and pitch
+in the 17 source episodes under [`transcripts/sleep_baseball/`](../transcripts/sleep_baseball/README.md).
+The catalog contains 1,106 appearance records, 3,727 pitches, and 29 nonpitch
+actions. Appearance records include interrupted or incomplete at-bats; the total
+is not an official plate-appearance statistic.
+
+The matching JSON and text under `examples/transcript_games/` are generated
+artifacts. Their narration is an approximate wording baseline, including
+pregame and inning transitions, rather than a verbatim recreation of all radio
+banter. The original four `pbp_example_N.txt` comparisons and the 78 focused
+cases in `transcript_cases/` remain separate regression layers.
+
+## Source facts and boundaries
+
+Keep the cleaned source text unchanged. Each ledger identifies `source_file`,
+and each play and pitch points to its source lines. Preserve disagreements
+between a recap and the narrated events in `notes`, with the relevant evidence.
+Use `gaps` for missing intervals instead of manufacturing the expected inning,
+at-bat, or pitch sequence.
+
+`complete` means the broadcast reaches the game's conclusion. Episode 001 ends
+during the top of the ninth and omits an earlier half-inning; episode 051 ends
+at a rain delay after the top of the sixth. Both have `complete: false` and an
+`ending_reason`. They must not acquire a winner or a fabricated resumption.
+`postgame_start`, when known, records the source boundary after the final play.
+Other completed broadcasts can still contain documented intervals without pitch
+detail. A complete broadcast is not evidence for unseen pitches.
+
+## Ledger fields
+
+| Field | Meaning |
+|---|---|
+| `episode`, `source_file` | Episode number and unchanged source filename. |
+| `game` | Known teams, venue, starting lineups, pitchers, and optional managers. Omit unknown handedness. |
+| `plays` | Ordered observed appearances, including partial appearances. |
+| `inning`, `top` | Inning number and whether the visiting team is batting. |
+| `batter`, `pitcher`, `outcome` | Identified participants and observed result; use `Incomplete` when the appearance does not finish. |
+| `source_start`, `source_end` | One-based inclusive source range for the appearance. Ranges may share a line that contains consecutive events. |
+| `outs`, `score` | Outs after the appearance and the known score as `[away, home]`. |
+| `pitches` | Ordered observed pitches and nonpitch actions, each with a one-based `line`. |
+| `hit` | Known batted-ball location, trajectory, and source-supported category or situation facts. |
+| `fielders`, `runners` | Fielding sequence and runner movements needed to describe the actual play. |
+| `initial_count`, pitch `count` | Known count before an appearance or particular pitch when earlier pitches were not narrated. |
+| `notes`, `gaps`, `ending_reason` | Provenance and unresolved ambiguity, not narration overrides. |
+
+Pitch codes are `B` (ball), `C` (called strike), `S` (swinging strike), `F`
+(foul), `X` (in play), `P` (pitchout), and `H` (hit by pitch). Use `U` for an
+observed pitch whose type of result is unspecified; `isStrike: true` can record
+a known strike without claiming it was called or swung at. Use `A` for a
+nonpitch action, with a factual `eventType` such as `caught_stealing`,
+`stolen_base`, `pickoff`, or `wild_pitch` and the known runner movements.
+Do not turn a pickoff attempt into an extra pitch or invent an omitted pitch to
+complete the count. Separate events can legitimately refer to the same line.
+
+A runner movement records `name`, `start`, `end`, and optional `out`. Use
+`1B`, `2B`, `3B`, or `score` for known destinations. Preserve the order of outs
+on double plays and tags. Explicitly record discretionary advances and unusual
+safe arrivals; the compiler may derive forced advances from baseball rules.
+
+### Verbal locations and hit categories
+
+A pitch's `location` describes the source's words, not tracking coordinates:
+
+```json
+{"code": "B", "type": "Fastball", "line": 78, "location": "outside"}
+```
+
+Supported ball locations include `high`, `low`, `inside`, `outside`, `dirt`,
+`high_inside`, `high_outside`, `low_inside`, and `low_outside`. Called strikes
+can use `outside_corner`, `inside_corner`, `corner`, `middle`, or `low`.
+The compiler copies this to `playEvents[N].details.location`. Omit unknown
+locations. Existing numeric `zone` data remains supported, but do not invent a
+zone or batter handedness from a verbal call.
+
+For an explicitly described bloop single to left, the appearance can contain:
+
+```json
+"hit": {
+  "location": "LF",
+  "trajectory": "fly_ball",
+  "categoryOverride": "bloop"
+}
+```
+
+The compiler copies `hit` into the in-play event's `hitData`. Use only
+source-supported categories. A throwing error, ground-rule double, walkoff,
+forceout, or unusual double play also needs the corresponding outcome, runner,
+and fielder facts. Do not add arbitrary velocity, exit-speed, launch-angle, or
+pitch-coordinate values to reach a preferred wording pool.
+
+`annotate_transcript_locations.py` is an optional authoring helper for explicit
+verbal locations. It edits ledgers, preserves existing annotations, and skips
+lines containing multiple pitches. Review its changes against the source;
+ambiguous lines still need manual interpretation.
+
+## Compile, fit, and compare
+
+Run commands from the repository root:
+
+```bash
+python transcript_game_fixtures.py
+python fit_transcript_games.py
+python full_transcript_comparison.py --check
+python full_transcript_comparison.py 49 50 --gaps 5
+python full_transcript_comparison.py 49 --json
+python pbp_match_report.py --check
+```
+
+The compiler writes ordinary Gameday JSON and an initial rendering for every
+ledger. The fitter recompiles every ledger, searches choices actually offered
+by production rendering, and saves explicit integer `commentaryRng` lists with
+the resulting text. It verifies that ordinary `NarrativeRenderer` replay
+matches its fitted output. Source prose is never injected into production
+narration. The source path, hash, and line references are provenance.
+
+Both commands overwrite `examples/transcript_games/episode_NNN.json` and `.txt`.
+Refitting deliberately selects draws again, so it replaces manual draw edits
+made only to those generated files. Keep durable factual changes in the ledger
+and review the generated changes before committing them.
+
+`full_transcript_comparison.py` reports whole-broadcast word overlap, source
+5-gram recall, content-only exact lines, and mean per-appearance ordered-word
+coverage. `--gaps N` shows the N weakest appearances for each selected episode;
+`--json` includes their source ranges, target text, and rendered text. Ordered
+coverage preserves word order; vocabulary overlap alone does not establish a
+match. Source banter and differences in line layout affect these measurements,
+so use the local source/rendered comparison to diagnose an actual gap.
+
+With no episode arguments, `--check` also validates the complete source,
+ledger, fixture, and snapshot catalog against `FULL_TRANSCRIPT_MINIMUMS` in
+`pbp_comparison.py`. Appearance and pitch counts are exact coverage requirements;
+wording has reviewed minimums. `pbp_match_report.py --check` without original
+example numbers checks these 17 broadcasts, the four original references, and
+all 78 focused cases. Measure current results rather than copying a percentage
+from an old report.
+
+## Follow up on a wording gap
+
+1. Read the cited source range and ledger first. Correct baseball facts and
+   preserve ambiguities before changing a wording choice.
+2. Inspect the compiled play with
+   `python pbp_tools.py inspect-play examples/transcript_games/episode_049.json --play 0 -v`.
+   Search existing pools with `python pbp_tools.py search "foul back"`.
+3. Add a reusable template only to a route whose facts support it. Append it to
+   preserve existing selected indices. Keep source provenance in
+   `transcript_pitch_additions.json` or `transcript_play_additions.json` and
+   exercise the actual renderer helper or event route in a regression test.
+4. Refit, inspect the resulting JSON/text diff, and run comparison and replay
+   checks. Adjust reviewed wording minimums only after measuring the intended
+   result; do not reduce factual coverage to make a check pass.
+
+The latest source-mining pass appended 366 templates: 188 pitch/delivery
+variants and 178 play/transition variants. The source catalogs can also retain
+entries that were already available; their row counts are not necessarily the
+number of newly inserted templates.
+
+```bash
+python -m unittest test_transcript_games test_transcript_comparison test_transcript_phrase_additions
+python pbp_match_report.py --check
+```
+
+See [PBP_ALIGNMENT_GUIDE.md](../PBP_ALIGNMENT_GUIDE.md) for draw editing and the
+historical example-3 alignment checklist.

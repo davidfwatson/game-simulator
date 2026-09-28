@@ -1,0 +1,2204 @@
+{
+  "episode": 51,
+  "source_file": "episode_051.txt",
+  "game": {
+    "away": "Cadillac Cars",
+    "home": "Lake City Loons",
+    "venue": "Goodhue Field",
+    "away_lineup": [
+      {
+        "name": "Flipper Cortez",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Pinky Slauson",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Beans Sorensen",
+        "position": "P",
+        "bat_side": "R"
+      },
+      {
+        "name": "Bronson Nubbins",
+        "position": "CF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Eddie Kincaid",
+        "position": "1B",
+        "bat_side": "L"
+      },
+      {
+        "name": "Gabriel Palomar",
+        "position": "RF"
+      },
+      {
+        "name": "Shiny Patterson",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Giovanni Gasparro",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Gilligan Parker",
+        "position": "LF",
+        "bat_side": "L"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Gloveless Joe Topanga",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Nate Colbert",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Billy De Jesus",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "JP Primero",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Lamont Bradleys",
+        "position": "RF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Ford Stipe",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Jose Sunderland",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Franklin Vega",
+        "position": "CF"
+      },
+      {
+        "name": "Ben Torres",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "away_pitcher": "Beans Sorensen",
+    "home_pitcher": "Ben Torres",
+    "away_manager": "Bud Powell",
+    "home_manager": "Sam Chalmers"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Flipper Cortez",
+      "pitcher": "Ben Torres",
+      "outcome": "Strikeout",
+      "source_start": 60,
+      "source_end": 66,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 62,
+          "location": "corner"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 63
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 64,
+          "location": "low_outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 65,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 66
+        }
+      ],
+      "notes": "Foul tip into catcher’s glove at63 is recorded as a foul strike; source explicitly says count0-2.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Pinky Slauson",
+      "pitcher": "Ben Torres",
+      "outcome": "Strikeout",
+      "source_start": 67,
+      "source_end": 70,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 68
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 69
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 70
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Beans Sorensen",
+      "pitcher": "Ben Torres",
+      "outcome": "Pop Out",
+      "source_start": 71,
+      "source_end": 72,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 72
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ford Stipe",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Gloveless Joe Topanga",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Flyout",
+      "source_start": 77,
+      "source_end": 81,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 80,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 81
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Bronson Nubbins",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Nate Colbert",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Walk",
+      "source_start": 82,
+      "source_end": 87,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 83,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 84,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Knuckleball",
+          "line": 85
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 86,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 87,
+          "location": "dirt"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Billy De Jesus",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Strikeout",
+      "source_start": 88,
+      "source_end": 92,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 89
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 90
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 91,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 92
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "JP Primero",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Incomplete",
+      "source_start": 93,
+      "source_end": 96,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 94
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 95
+        },
+        {
+          "code": "A",
+          "type": "pitch",
+          "line": 96,
+          "eventType": "caught_stealing",
+          "description": "Colbert, already on the move, the throw to second, and Colbert will be caught stealing to end the inning.",
+          "runners": [
+            {
+              "name": "Nate Colbert",
+              "start": "1B",
+              "end": "2B",
+              "out": true
+            }
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "Nate Colbert",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ],
+      "notes": "Incomplete plate appearance: Colbert is caught stealing to end the inning. Primero returns with a fresh count next inning. Line95 abruptly follows a narrated foul with “Instead, a toss over to first”; retained the foul clause but its relation to the subsequent pickoff/caught stealing is ambiguous.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Bronson Nubbins",
+      "pitcher": "Ben Torres",
+      "outcome": "Groundout",
+      "source_start": 101,
+      "source_end": 105,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 102,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 103
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 104
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 105
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ben Torres",
+          "position": "P"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Eddie Kincaid",
+      "pitcher": "Ben Torres",
+      "outcome": "Flyout",
+      "source_start": 106,
+      "source_end": 108,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 107
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 108
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lamont Bradleys",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Ben Torres",
+      "outcome": "Flyout",
+      "source_start": 109,
+      "source_end": 112,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 110,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 111
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 112
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gloveless Joe Topanga",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "JP Primero",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Field Error",
+      "source_start": 116,
+      "source_end": 119,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 117
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 118
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Beans Sorensen",
+          "position": "P"
+        }
+      ],
+      "runners": [
+        {
+          "name": "JP Primero",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Throwing error by Beans Sorensen, explicitly E1.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Lamont Bradleys",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Double",
+      "source_start": 120,
+      "source_end": 125,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Knuckleball",
+          "line": 121
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 122,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 123
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 124
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "JP Primero",
+          "start": "1B",
+          "end": "3B"
+        },
+        {
+          "name": "Lamont Bradleys",
+          "start": null,
+          "end": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Ford Stipe",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Fielders Choice",
+      "source_start": 126,
+      "source_end": 128,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 127
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 128
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lamont Bradleys",
+          "start": "2B",
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Ford Stipe",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Bradleys tagged by shortstop after moving on contact; nonforce fielder’s-choice out, Primero remains on third.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Jose Sunderland",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Strikeout",
+      "source_start": 129,
+      "source_end": 132,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 130
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 131
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 132
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Franklin Vega",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Walk",
+      "source_start": 133,
+      "source_end": 139,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 134,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 135
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 136,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 137,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 138
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 139,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ford Stipe",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Ben Torres",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Forceout",
+      "source_start": 145,
+      "source_end": 150,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 146
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 147,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 148,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 149
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 150
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ford Stipe",
+          "start": "2B",
+          "end": "3B",
+          "out": true
+        },
+        {
+          "name": "Ben Torres",
+          "start": null,
+          "end": null
+        }
+      ],
+      "notes": "Bases-loaded force at third retires Stipe for the third out; no run scores. Torres’s terminal base is not narrated once the third out is made; end remains unknown rather than inventing a safe arrival at occupied first.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Shiny Patterson",
+      "pitcher": "Ben Torres",
+      "outcome": "Flyout",
+      "source_start": 154,
+      "source_end": 156,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 156
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lamont Bradleys",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Ben Torres",
+      "outcome": "Strikeout",
+      "source_start": 157,
+      "source_end": 161,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 158,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 159
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 160
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 161
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Gilligan Parker",
+      "pitcher": "Ben Torres",
+      "outcome": "Groundout",
+      "source_start": 162,
+      "source_end": 164,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 163
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 164
+        }
+      ],
+      "hit": {
+        "location": "C",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jose Sunderland",
+          "position": "C"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Gloveless Joe Topanga",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Flyout",
+      "source_start": 170,
+      "source_end": 177,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Knuckleball",
+          "line": 172
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 173,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 174,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 175
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 176
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 177
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Nate Colbert",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Walk",
+      "source_start": 178,
+      "source_end": 183,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 179
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 180,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 181,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 182,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 183,
+          "location": "outside"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Billy De Jesus",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Pop Out",
+      "source_start": 184,
+      "source_end": 187,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 185
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 186,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 187
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "JP Primero",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Single",
+      "source_start": 188,
+      "source_end": 190,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 189
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 190
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Nate Colbert",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "JP Primero",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Lamont Bradleys",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Forceout",
+      "source_start": 191,
+      "source_end": 194,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 192,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 193
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 194
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball",
+        "forceMechanism": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "runners": [
+        {
+          "name": "JP Primero",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Lamont Bradleys",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Unassisted force at second ends the inning.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Flipper Cortez",
+      "pitcher": "Ben Torres",
+      "outcome": "Strikeout",
+      "source_start": 198,
+      "source_end": 204,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 200,
+          "isBunt": true
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 201
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 202
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 203,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 204
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Pinky Slauson",
+      "pitcher": "Ben Torres",
+      "outcome": "Strikeout",
+      "source_start": 205,
+      "source_end": 209,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 206
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 207,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 208
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 209
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Beans Sorensen",
+      "pitcher": "Ben Torres",
+      "outcome": "Flyout",
+      "source_start": 210,
+      "source_end": 211,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 211
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gloveless Joe Topanga",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Ford Stipe",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Single",
+      "source_start": 216,
+      "source_end": 221,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 217
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 218,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 219,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 220
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 221
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Jose Sunderland",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Lineout",
+      "source_start": 222,
+      "source_end": 227,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 223,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 224,
+          "location": "low_inside"
+        },
+        {
+          "code": "C",
+          "type": "Knuckleball",
+          "line": 225
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 226
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 227
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Gilligan Parker",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Franklin Vega",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Home Run",
+      "source_start": 228,
+      "source_end": 233,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 229,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 230,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 231
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 232
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Ford Stipe",
+          "start": "1B",
+          "end": "score"
+        },
+        {
+          "name": "Franklin Vega",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Ben Torres",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Double",
+      "source_start": 234,
+      "source_end": 239,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 235
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 236
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 237,
+          "location": "high_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 238
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Gloveless Joe Topanga",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Flyout",
+      "source_start": 239,
+      "source_end": 244,
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 241
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 242
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 243
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ben Torres",
+          "start": "2B",
+          "end": "3B"
+        }
+      ],
+      "notes": "Source239 contains the end of Torres’s double and introduction of Topanga; source ranges share that line.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Nate Colbert",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Double",
+      "source_start": 245,
+      "source_end": 249,
+      "outs": 2,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 246
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 247,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 248
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Ben Torres",
+          "start": "3B",
+          "end": "score"
+        },
+        {
+          "name": "Nate Colbert",
+          "start": null,
+          "end": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Billy De Jesus",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Double",
+      "source_start": 253,
+      "source_end": 258,
+      "outs": 2,
+      "score": [
+        0,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 254
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 255
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 256
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Nate Colbert",
+          "start": "2B",
+          "end": "score"
+        },
+        {
+          "name": "Billy De Jesus",
+          "start": null,
+          "end": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "JP Primero",
+      "pitcher": "Beans Sorensen",
+      "outcome": "Field Error",
+      "source_start": 260,
+      "source_end": 266,
+      "outs": 2,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 261
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 262
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 263
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Beans Sorensen",
+          "position": "P"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy De Jesus",
+          "start": "2B",
+          "end": "score"
+        },
+        {
+          "name": "JP Primero",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Second explicit E1 throwing error. Sorensen is removed and ejected after this play, lines267-275.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Lamont Bradleys",
+      "pitcher": "Rolando Petalina",
+      "outcome": "Hit By Pitch",
+      "source_start": 278,
+      "source_end": 279,
+      "outs": 2,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "H",
+          "type": "Curveball",
+          "line": 279
+        }
+      ],
+      "runners": [
+        {
+          "name": "JP Primero",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "notes": "Rolando Petalina replaces Sorensen in relief; first pitch hits Bradleys on the arm.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Ford Stipe",
+      "pitcher": "Rolando Petalina",
+      "outcome": "Pop Out",
+      "source_start": 280,
+      "source_end": 282,
+      "outs": 3,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 281,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 282
+        }
+      ],
+      "hit": {
+        "location": "C",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Giovanni Gasparro",
+          "position": "C"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Bronson Nubbins",
+      "pitcher": "Ben Torres",
+      "outcome": "Strikeout",
+      "source_start": 287,
+      "source_end": 292,
+      "outs": 1,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 288
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 289,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 290,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 291,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 292
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Eddie Kincaid",
+      "pitcher": "Ben Torres",
+      "outcome": "Flyout",
+      "source_start": 293,
+      "source_end": 298,
+      "outs": 2,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 294
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 295,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 296,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 297,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 298
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Franklin Vega",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Ben Torres",
+      "outcome": "Groundout",
+      "source_start": 299,
+      "source_end": 300,
+      "outs": 3,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 300
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy De Jesus",
+          "position": "3B"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Jose Sunderland",
+      "pitcher": "Rolando Petalina",
+      "outcome": "Flyout",
+      "source_start": 305,
+      "source_end": 308,
+      "outs": 1,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 306
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 307
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 308
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Franklin Vega",
+      "pitcher": "Rolando Petalina",
+      "outcome": "Strikeout",
+      "source_start": 309,
+      "source_end": 314,
+      "outs": 2,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 310
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 311,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 312,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 313
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 314
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Ben Torres",
+      "pitcher": "Rolando Petalina",
+      "outcome": "Groundout",
+      "source_start": 315,
+      "source_end": 318,
+      "outs": 3,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 316
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 317,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 318
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Eddie Kincaid",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Shiny Patterson",
+      "pitcher": "Ben Torres",
+      "outcome": "Double",
+      "source_start": 323,
+      "source_end": 327,
+      "outs": 0,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 324,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 325
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 326
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Ben Torres",
+      "outcome": "Strikeout",
+      "source_start": 328,
+      "source_end": 331,
+      "outs": 1,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 329
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 330
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 331
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Gilligan Parker",
+      "pitcher": "Ben Torres",
+      "outcome": "Hit By Pitch",
+      "source_start": 332,
+      "source_end": 333,
+      "outs": 1,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "H",
+          "type": "Fastball",
+          "line": 333
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Flipper Cortez",
+      "pitcher": "Ben Torres",
+      "outcome": "Double Play",
+      "source_start": 334,
+      "source_end": 335,
+      "outs": 3,
+      "score": [
+        0,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 335
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ford Stipe",
+          "position": "SS"
+        },
+        {
+          "name": "Nate Colbert",
+          "position": "2B"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Flipper Cortez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "pitch_hand": "R"
+    }
+  ],
+  "complete": false,
+  "postgame_start": null,
+  "ending_reason": "Broadcast ends during a rain delay after the top of the sixth, Lake City leading5-0. No resumption or final game result is supplied.",
+  "gaps": [
+    {
+      "start": 339,
+      "end": 346,
+      "reason": "Rain-delay broadcast ending; bottom6 and any later baseball are not observed."
+    }
+  ]
+}

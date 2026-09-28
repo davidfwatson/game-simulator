@@ -5,14 +5,23 @@ Cleaned play-by-play transcripts of the *Northwoods Baseball Sleep Radio* podcas
 <https://rss.buzzsprout.com/1915447.rss>), the show the `pbp_example_*.txt`
 targets come from. This directory is reference material for mining announcer
 turns of phrase, such as pitch calls, count phrasing, batter intros and inning
-transitions, to add to the narrative renderer's templates. The comparison tests now read
-every episode through the reviewed cases in the repository-root `transcript_cases/` directory; see the repository README for
-the compilation and replay workflow.
+transitions, to add to the narrative renderer's templates.
 
-These are **not full-game** alignment targets. The 78 source-linked cases
-check representative phrases and situations through production renderer methods. They have no `[TTS SPLIT ...]` markers and
-no gameday fixtures. To promote one to a `pbp_example_N.txt`, follow the
-example-4 pipeline (PR #195) and `PBP_ALIGNMENT_GUIDE.md`.
+All 17 episodes now have reviewed full-broadcast event ledgers in
+[`transcript_games/`](../../transcript_games/README.md), with ordinary Gameday
+JSON and rendered text in `examples/transcript_games/`. These retain every
+observed appearance and pitch, while documenting unbroadcast intervals and
+source ambiguities. Episodes 001 and 051 remain incomplete. The renderer uses
+recorded baseball facts and integer commentary draws; it does not read these
+transcripts to narrate a game or replay their banter verbatim.
+
+A separate set of 78 source-linked cases in `transcript_cases/` checks specific
+phrases and situations through production renderer helpers. Both layers are
+covered by `python pbp_match_report.py --check`, alongside the original four
+PBP references. Use `python full_transcript_comparison.py --gaps 5` for the
+full-broadcast wording report, and [PBP_ALIGNMENT_GUIDE.md](../../PBP_ALIGNMENT_GUIDE.md)
+for the alignment tools. Preserve these source texts when improving ledgers,
+wording pools, or snapshots.
 
 ## Episodes
 

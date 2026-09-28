@@ -58,7 +58,7 @@ def simplify_pitch_type(pitch_type: str, rng_pitch, capitalize=False) -> str:
         return simplified.capitalize()
     return simplified
 
-def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R'):
+def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R', location=None):
     # Helper to get description based on zone
     if event_type == 'B':
         base_key = 'ball'
@@ -86,6 +86,8 @@ def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_
             elif zone == 13: category = 'low_outside'
             elif zone == 14: category = 'low_inside'
 
+    if location in location_data:
+        category = location
     options = location_data.get(category, location_data.get('default', []))
     if not options:
         options = location_data.get('default', [])

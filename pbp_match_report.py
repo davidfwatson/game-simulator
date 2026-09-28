@@ -55,6 +55,18 @@ def main(argv=None):
             results.append({'transcript_episode': episode, 'passing_cases': count, 'failures': []})
         if not args.json:
             print(f'Transcripts: all {sum(counts.values())} source-linked cases pass across {len(counts)} episodes.')
+        from full_transcript_comparison import check_full_transcripts
+        try:
+            full_games = check_full_transcripts()
+        except ValueError as error:
+            parser.error(str(error))
+        for game in full_games:
+            results.append({key: value for key, value in game.items() if key != 'plays'})
+            if not args.json:
+                print(f"episode_{game['episode']:03d}: {game['appearances']} appearances, {game['pitches']} pitches; "
+                      f"5-gram recall {game['ngram']:.1%}, ordered words per play {game['mean_play_word_coverage']:.1%}")
+                for failure in game['failures']:
+                    print('  BELOW MINIMUM: ' + failure)
     if args.json:
         print(json.dumps(results, indent=2))
     return int(args.check and any(result["failures"] for result in results))

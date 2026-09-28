@@ -1,0 +1,2785 @@
+{
+  "episode": 52,
+  "source_file": "episode_052.txt",
+  "game": {
+    "away": "Baraboo Bombers",
+    "home": "South Haven Ravens",
+    "venue": "Sylvan Field",
+    "away_lineup": [
+      {
+        "name": "Buddy Lamont",
+        "position": "RF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Dieter Gomez",
+        "position": "3B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Manny Del Greco",
+        "position": "1B"
+      },
+      {
+        "name": "Joe Bill Silver",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Buzz Norton",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Blaze Winterbottom",
+        "position": "2B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Tiny Howl",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Bugs Yamaguchi",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Whitey Flatbush",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Jerry Durante",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Hector Piña",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Shecky Washington",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Brandon Carlisle",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Sherman Hawkins",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Steve McDykel",
+        "position": "RF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Hep Bronswell",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Joshua Gonzalez",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Max Fannin",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "away_pitcher": "Whitey Flatbush",
+    "home_pitcher": "Max Fannin",
+    "away_manager": "Mick Jenkins",
+    "home_manager": "Hep Bronswell"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Buddy Lamont",
+      "pitcher": "Max Fannin",
+      "outcome": "Strikeout",
+      "source_start": 44,
+      "source_end": 47,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 45
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 46
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 47
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Dieter Gomez",
+      "pitcher": "Max Fannin",
+      "outcome": "Flyout",
+      "source_start": 48,
+      "source_end": 52,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 49,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 50
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 51
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 52
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ],
+      "notes": "Source locates the fly in right field but names roster center fielder Durante; retained both rather than inventing a position switch.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Manny Del Greco",
+      "pitcher": "Max Fannin",
+      "outcome": "Strikeout",
+      "source_start": 53,
+      "source_end": 57,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 54
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 55
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 56,
+          "location": "low_outside"
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 57
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 62,
+      "source_end": 66,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 63,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 64,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 65
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Hector Piña",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Single",
+      "source_start": 67,
+      "source_end": 70,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 68
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 69,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 70
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "ground_ball"
+      },
+      "notes": "Source alternates Howl and Howell for the same Baraboo shortstop; lineup spelling Tiny Howl retained.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Shecky Washington",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 71,
+      "source_end": 77,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 72,
+          "location": "dirt"
+        },
+        {
+          "code": "A",
+          "type": "Slider",
+          "line": 72,
+          "eventType": "wild_pitch",
+          "description": "And Flatbush from the stretch... Slider in the dirt, and that one gets away from Norton. Piña will take second on the wild pitch.",
+          "runners": [
+            {
+              "name": "Hector Piña",
+              "start": "1B",
+              "end": "2B"
+            }
+          ]
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 73
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 74,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 75
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 76
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": "1B",
+          "end": "3B"
+        }
+      ],
+      "notes": "Piña advances first-to-second on the explicit wild pitch at72, then second-to-third on the groundout at76-77.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Single",
+      "source_start": 78,
+      "source_end": 81,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 79,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 80
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 81
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": "3B",
+          "end": "score"
+        },
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 82,
+      "source_end": 85,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 83
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 84,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 85
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Max Fannin",
+      "outcome": "Groundout",
+      "source_start": 90,
+      "source_end": 93,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 91
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 92,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 93
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Buzz Norton",
+      "pitcher": "Max Fannin",
+      "outcome": "Single",
+      "source_start": 94,
+      "source_end": 95,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 95
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "ground_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Max Fannin",
+      "outcome": "Strikeout",
+      "source_start": 96,
+      "source_end": 99,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 97
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 98
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 99
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Tiny Howl",
+      "pitcher": "Max Fannin",
+      "outcome": "Field Error",
+      "source_start": 100,
+      "source_end": 103,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 101
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 102,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 103
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Tiny Howl",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Explicit E4 fielding error; both runners safe.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Max Fannin",
+      "outcome": "Strikeout",
+      "source_start": 104,
+      "source_end": 109,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 105
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 106,
+          "location": "high_inside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 107
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 108,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 109
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Steve McDykel",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Flyout",
+      "source_start": 114,
+      "source_end": 117,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 115
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 116
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 117
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Hep Bronswell",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 118,
+      "source_end": 119,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 119
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Single",
+      "source_start": 120,
+      "source_end": 122,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 121,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 122
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Max Fannin",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Strikeout",
+      "source_start": 123,
+      "source_end": 127,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 124
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 125,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 126
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 127
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Whitey Flatbush",
+      "pitcher": "Max Fannin",
+      "outcome": "Strikeout",
+      "source_start": 132,
+      "source_end": 136,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 133
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 134
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 135,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 136
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Buddy Lamont",
+      "pitcher": "Max Fannin",
+      "outcome": "Groundout",
+      "source_start": 137,
+      "source_end": 138,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 138
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Dieter Gomez",
+      "pitcher": "Max Fannin",
+      "outcome": "Groundout",
+      "source_start": 139,
+      "source_end": 142,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 140
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 141
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 142
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Strikeout",
+      "source_start": 147,
+      "source_end": 153,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 149
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 150,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 151,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 152
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 153
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Hector Piña",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Strikeout",
+      "source_start": 154,
+      "source_end": 159,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 155
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 156
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 157,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 158,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 159
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Shecky Washington",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Walk",
+      "source_start": 160,
+      "source_end": 165,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 161
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 162,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 163,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 164,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 165,
+          "location": "low"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 166,
+      "source_end": 167,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 167
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Manny Del Greco",
+      "pitcher": "Max Fannin",
+      "outcome": "Groundout",
+      "source_start": 171,
+      "source_end": 176,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 172,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 173,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 174
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 175,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 176
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Max Fannin",
+      "outcome": "Single",
+      "source_start": 177,
+      "source_end": 179,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 178
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 179
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Buzz Norton",
+      "pitcher": "Max Fannin",
+      "outcome": "Flyout",
+      "source_start": 180,
+      "source_end": 182,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 181
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 182
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Max Fannin",
+      "outcome": "Flyout",
+      "source_start": 183,
+      "source_end": 188,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 184,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 185
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 186
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 187
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Single",
+      "source_start": 192,
+      "source_end": 194,
+      "outs": 0,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 193,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 194
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Steve McDykel",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Single",
+      "source_start": 195,
+      "source_end": 197,
+      "outs": 0,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 196
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": "1B",
+          "end": "3B"
+        },
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Hep Bronswell",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Pop Out",
+      "source_start": 198,
+      "source_end": 200,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 199,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 200
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Strikeout",
+      "source_start": 201,
+      "source_end": 207,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 202,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 203,
+          "isBunt": true
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 204,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 205,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 206
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 207
+        },
+        {
+          "code": "A",
+          "type": "pitch",
+          "line": 207,
+          "eventType": "caught_stealing",
+          "description": "The payoff pitch... And the runner goes. Swing and a miss. The throw to second — Hawkins heading for home — the throw to third as Hawkins heads back, and he's tagged out heading back to third. So Gonzalez strikes out swinging, and Hawkins is caught stealing to end the inning.",
+          "runners": [
+            {
+              "name": "Sherman Hawkins",
+              "start": "3B",
+              "end": "3B",
+              "out": true
+            }
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joshua Gonzalez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Sherman Hawkins",
+          "start": "3B",
+          "end": "3B",
+          "out": true
+        }
+      ],
+      "notes": "Strikeout is out2. Hawkins breaks for home on the throw toward second and is tagged retreating to third for out3. McDykel’s final destination is not specified; inning ends. No run scores.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Tiny Howl",
+      "pitcher": "Max Fannin",
+      "outcome": "Strikeout",
+      "source_start": 211,
+      "source_end": 216,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 212
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 213
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 214,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 215,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 216
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Max Fannin",
+      "outcome": "Strikeout",
+      "source_start": 217,
+      "source_end": 220,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 218
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 219
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 220
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Whitey Flatbush",
+      "pitcher": "Max Fannin",
+      "outcome": "Pop Out",
+      "source_start": 221,
+      "source_end": 224,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 222,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 223
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 224
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Max Fannin",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 236,
+      "source_end": 241,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 237,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 238,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 239
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 240,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 241
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Whitey Flatbush",
+          "position": "P"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Strikeout",
+      "source_start": 242,
+      "source_end": 245,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 243
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 244
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 245
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Hector Piña",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Flyout",
+      "source_start": 246,
+      "source_end": 247,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 247
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Buddy Lamont",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Buddy Lamont",
+      "pitcher": "Max Fannin",
+      "outcome": "Pop Out",
+      "source_start": 251,
+      "source_end": 255,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 252,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 253,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 254
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 255
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Dieter Gomez",
+      "pitcher": "Max Fannin",
+      "outcome": "Groundout",
+      "source_start": 256,
+      "source_end": 258,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 257
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 258
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Max Fannin",
+          "position": "P"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Manny Del Greco",
+      "pitcher": "Max Fannin",
+      "outcome": "Flyout",
+      "source_start": 259,
+      "source_end": 260,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 260
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Shecky Washington",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 265,
+      "source_end": 268,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 266,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 267
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 268
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tiny Howl",
+          "position": "SS"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 269,
+      "source_end": 272,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 270
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 271,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 272
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 273,
+      "source_end": 277,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 274,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 275
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 276
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 277
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Max Fannin",
+      "outcome": "Flyout",
+      "source_start": 282,
+      "source_end": 285,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 283,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 284,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 285
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Buzz Norton",
+      "pitcher": "Max Fannin",
+      "outcome": "Single",
+      "source_start": 286,
+      "source_end": 289,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 287
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 288
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 289
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Max Fannin",
+      "outcome": "Double Play",
+      "source_start": 290,
+      "source_end": 294,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 291
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 292,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 293,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 294
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Steve McDykel",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Strikeout",
+      "source_start": 299,
+      "source_end": 304,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 300
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 301,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 302
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 303,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 304
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Hep Bronswell",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Single",
+      "source_start": 305,
+      "source_end": 307,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 306
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 307
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Strikeout",
+      "source_start": 308,
+      "source_end": 311,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 309
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 310
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 311
+        }
+      ],
+      "notes": "Intro says prior strikeout was in third; it occurred in fourth at207.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Chance Quintero",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Home Run",
+      "source_start": 312,
+      "source_end": 318,
+      "outs": 2,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 313
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 314,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 315,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 316,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 317
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 318
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": "1B",
+          "end": "score"
+        },
+        {
+          "name": "Chance Quintero",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "notes": "Left-handed pinch hitter Chance Quintero bats for Max Fannin in ninth lineup spot.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Whitey Flatbush",
+      "outcome": "Groundout",
+      "source_start": 319,
+      "source_end": 322,
+      "outs": 3,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 320
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 321
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 322
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Tiny Howl",
+      "pitcher": "Dom Fuller",
+      "outcome": "Strikeout",
+      "source_start": 326,
+      "source_end": 329,
+      "outs": 1,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 327
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 328
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 329
+        }
+      ],
+      "notes": "Dom Fuller enters in relief for South Haven.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Dom Fuller",
+      "outcome": "Strikeout",
+      "source_start": 330,
+      "source_end": 335,
+      "outs": 2,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 331
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 332
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 333,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 334,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 335
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Sparky Ventura",
+      "pitcher": "Dom Fuller",
+      "outcome": "Single",
+      "source_start": 336,
+      "source_end": 338,
+      "outs": 2,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 337
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 338
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "notes": "Sparky Ventura pinch-hits for Whitey Flatbush in ninth lineup spot.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Buddy Lamont",
+      "pitcher": "Dom Fuller",
+      "outcome": "Groundout",
+      "source_start": 339,
+      "source_end": 341,
+      "outs": 3,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 340
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 341
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Hector Piña",
+      "pitcher": "Stretch Parsons",
+      "outcome": "Pop Out",
+      "source_start": 345,
+      "source_end": 349,
+      "outs": 1,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 346,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 347
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 348,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 349
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        }
+      ],
+      "notes": "Stretch Parsons replaces Flatbush in relief.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Shecky Washington",
+      "pitcher": "Stretch Parsons",
+      "outcome": "Groundout",
+      "source_start": 350,
+      "source_end": 353,
+      "outs": 2,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 351
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 352
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 353
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tiny Howl",
+          "position": "SS"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "notes": "Intro says one-for-two, but narrated ledger has two groundouts and a walk before this AB. No unbroadcast hit has been invented.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Stretch Parsons",
+      "outcome": "Strikeout",
+      "source_start": 354,
+      "source_end": 358,
+      "outs": 3,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 355,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 356
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 357
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 358
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Dieter Gomez",
+      "pitcher": "Masaki Harrington",
+      "outcome": "Groundout",
+      "source_start": 363,
+      "source_end": 365,
+      "outs": 1,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 364,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 365
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "notes": "Closer Masaki Harrington enters for ninth inning.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Manny Del Greco",
+      "pitcher": "Masaki Harrington",
+      "outcome": "Pop Out",
+      "source_start": 366,
+      "source_end": 369,
+      "outs": 2,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 367,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 368
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 369
+        }
+      ],
+      "hit": {
+        "location": "C",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hep Bronswell",
+          "position": "C"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Masaki Harrington",
+      "outcome": "Strikeout",
+      "source_start": 370,
+      "source_end": 375,
+      "outs": 3,
+      "score": [
+        0,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 371
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 372,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 373
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 374
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 375
+        }
+      ],
+      "pitch_hand": "R"
+    }
+  ],
+  "complete": true,
+  "postgame_start": 376
+}

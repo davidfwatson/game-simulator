@@ -1,0 +1,3796 @@
+{
+  "episode": 13,
+  "source_file": "episode_013.txt",
+  "game": {
+    "away": "Tomah Tigers",
+    "home": "Big Rapids Timbers",
+    "venue": "Evergreen Field",
+    "away_lineup": [
+      {
+        "name": "Schmitty Diaz",
+        "position": "CF"
+      },
+      {
+        "name": "Von Kramer",
+        "position": "2B"
+      },
+      {
+        "name": "Ted Brown",
+        "position": "C"
+      },
+      {
+        "name": "Burke Sessions",
+        "position": "3B"
+      },
+      {
+        "name": "Bruford Kosinski",
+        "position": "RF"
+      },
+      {
+        "name": "Ernesto Stern",
+        "position": "1B"
+      },
+      {
+        "name": "Prudence Jefferson",
+        "position": "LF"
+      },
+      {
+        "name": "Ozzie Stardust",
+        "position": "SS"
+      },
+      {
+        "name": "Hiroki Nomo",
+        "position": "P"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Rio Nunez",
+        "position": "SS"
+      },
+      {
+        "name": "Dutch Moon",
+        "position": "CF"
+      },
+      {
+        "name": "Blink Rudderson",
+        "position": "3B"
+      },
+      {
+        "name": "Brink Filbert",
+        "position": "LF"
+      },
+      {
+        "name": "Keith Castor",
+        "position": "1B"
+      },
+      {
+        "name": "Jesus Ferguson",
+        "position": "2B"
+      },
+      {
+        "name": "Randy Chang",
+        "position": "RF"
+      },
+      {
+        "name": "Henny Oldman",
+        "position": "C"
+      },
+      {
+        "name": "Blinky Malone",
+        "position": "P"
+      }
+    ],
+    "away_pitcher": "Hiroki Nomo",
+    "home_pitcher": "Blinky Malone"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "source_start": 36,
+      "source_end": 40,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 37
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 38,
+          "location": "high_outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 39
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 40
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "source_start": 41,
+      "source_end": 48,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 42,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 43,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Changeup",
+          "line": 44
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 45,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 46,
+          "location": "middle"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 47
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 48
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Ted Brown",
+      "pitcher": "Blinky Malone",
+      "outcome": "Single",
+      "source_start": 49,
+      "source_end": 52,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 50
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 51,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 52
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Ted Brown",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Blinky Malone",
+      "outcome": "Double",
+      "source_start": 53,
+      "source_end": 55,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 54
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": "2B",
+          "out": false
+        },
+        {
+          "name": "Ted Brown",
+          "start": "1B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "source_start": 56,
+      "source_end": 61,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 57
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 58,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 59
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 60,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 61
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Rio Nunez",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 68,
+      "source_end": 74,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 69,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 70
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 71
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 72,
+          "location": "high_outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 73
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 74
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Dutch Moon",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 75,
+      "source_end": 80,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 76,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Changeup",
+          "line": 77
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 78,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 79
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 80
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Dutch Moon",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bruford Kosinski",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Blink Rudderson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Walk",
+      "source_start": 81,
+      "source_end": 86,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 82
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 83,
+          "location": "high_outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 84,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 85,
+          "location": "high_outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 86,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Brink Filbert",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 87,
+      "source_end": 90,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 88
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 89
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 90
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Brink Filbert",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "source_start": 95,
+      "source_end": 102,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 97,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 98,
+          "location": "high_outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 99,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 100
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 101
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 102
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "source_start": 103,
+      "source_end": 107,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 104
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 105,
+          "location": "middle"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 106,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 107
+        }
+      ],
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Ozzie Stardust",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "source_start": 108,
+      "source_end": 113,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 109,
+          "location": "low_outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 110,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Changeup",
+          "line": 111,
+          "location": "corner"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 112
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 113
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ozzie Stardust",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Keith Castor",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 121,
+      "source_end": 124,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 122,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 123,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 124
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Keith Castor",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Hit By Pitch",
+      "source_start": 125,
+      "source_end": 130,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 126,
+          "location": "high_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 127
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 128
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 129
+        },
+        {
+          "code": "H",
+          "type": "Slider",
+          "line": 130
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jesus Ferguson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Randy Chang",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 131,
+      "source_end": 134,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 132
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 133
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 134
+        }
+      ],
+      "runners": [
+        {
+          "name": "Randy Chang",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Henny Oldman",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 135,
+      "source_end": 138,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 136
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 137
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 138
+        }
+      ],
+      "runners": [
+        {
+          "name": "Henny Oldman",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Hiroki Nomo",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "source_start": 143,
+      "source_end": 150,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 144
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 145
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 146,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 147,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 148
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 149,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 150
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Hiroki Nomo",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "source_start": 151,
+      "source_end": 155,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 153,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 154
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 155
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Blinky Malone",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Blinky Malone",
+      "outcome": "Flyout",
+      "source_start": 156,
+      "source_end": 159,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 157,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 158
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 159
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Randy Chang",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Blinky Malone",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 164,
+      "source_end": 168,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 165,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 166
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 167
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 168
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blinky Malone",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Rio Nunez",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 169,
+      "source_end": 174,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 171,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 172
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 173
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 174
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Dutch Moon",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 175,
+      "source_end": 180,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 176
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 177
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 178
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 179
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dutch Moon",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Ted Brown",
+      "pitcher": "Blinky Malone",
+      "outcome": "Double",
+      "source_start": 185,
+      "source_end": 192,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 187
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 188
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 189,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 190,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 191
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 192
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive",
+        "categoryOverride": "ground_rule"
+      },
+      "runners": [
+        {
+          "name": "Ted Brown",
+          "start": null,
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "notes": "Ground-rule double: the broadcast explicitly says the ball bounces over the wall."
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Blinky Malone",
+      "outcome": "Double",
+      "source_start": 193,
+      "source_end": 200,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 195
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 196,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 197
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 198,
+          "location": "high_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 199
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": "2B",
+          "out": false
+        },
+        {
+          "name": "Ted Brown",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Dutch Moon",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "source_start": 201,
+      "source_end": 204,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 203
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 204
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Ted Brown",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Burke Sessions",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Blinky Malone",
+      "outcome": "Home Run",
+      "source_start": 205,
+      "source_end": 211,
+      "outs": 1,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 207,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 208,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 209
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 210
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 211
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Burke Sessions",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "source_start": 212,
+      "source_end": 216,
+      "outs": 2,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 214,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 215
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 216
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Ozzie Stardust",
+      "pitcher": "Blinky Malone",
+      "outcome": "Pop Out",
+      "source_start": 217,
+      "source_end": 219,
+      "outs": 3,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 218,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 219
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Ozzie Stardust",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Blink Rudderson",
+          "position": "3B"
+        }
+      ],
+      "notes": "Catch in foul territory by Rudderson."
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Blink Rudderson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 225,
+      "source_end": 232,
+      "outs": 1,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 227
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 228
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 229,
+          "location": "low_outside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 230
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Brink Filbert",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 233,
+      "source_end": 235,
+      "outs": 2,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 234
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 235
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Brink Filbert",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        }
+      ],
+      "notes": "Source says \"Line to third\" but explicitly describes Sessions throwing to first to retire Filbert, so recorded as groundout rather than an invented catch."
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Keith Castor",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 236,
+      "source_end": 244,
+      "outs": 3,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 237,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 238
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 239
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 240,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 241
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 242
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 243,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 244,
+          "location": "middle"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Keith Castor",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Hiroki Nomo",
+      "pitcher": "Blinky Malone",
+      "outcome": "Walk",
+      "source_start": 251,
+      "source_end": 258,
+      "outs": 0,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 253,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 254
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 255
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 256,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 257,
+          "location": "high_outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 258,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hiroki Nomo",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "source_start": 259,
+      "source_end": 263,
+      "outs": 1,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 261
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 262
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 263
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "source_start": 264,
+      "source_end": 267,
+      "outs": 2,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 265
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 266,
+          "location": "middle"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 267
+        }
+      ],
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Ted Brown",
+      "pitcher": "Blinky Malone",
+      "outcome": "Single",
+      "source_start": 268,
+      "source_end": 274,
+      "outs": 2,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 270,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 271
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 272
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 273
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 274
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Ted Brown",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Hiroki Nomo",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Blinky Malone",
+      "outcome": "Single",
+      "source_start": 275,
+      "source_end": 280,
+      "outs": 2,
+      "score": [
+        4,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 277,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 278,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 279
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 280
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Hiroki Nomo",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        },
+        {
+          "name": "Ted Brown",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Blinky Malone",
+      "outcome": "Triple",
+      "source_start": 281,
+      "source_end": 290,
+      "outs": 2,
+      "score": [
+        7,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 286
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 287,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 288
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 289
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "3B",
+          "out": false
+        },
+        {
+          "name": "Hiroki Nomo",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Ted Brown",
+          "start": "2B",
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Burke Sessions",
+          "start": "1B",
+          "end": "score",
+          "out": false
+        }
+      ],
+      "notes": "Right-center gap; all three existing runners explicitly score."
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Blinky Malone",
+      "outcome": "Single",
+      "source_start": 291,
+      "source_end": 299,
+      "outs": 2,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 294
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 295,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 296
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 297,
+          "location": "high_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 298
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Bruford Kosinski",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "source_start": 300,
+      "source_end": 304,
+      "outs": 3,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 301,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 302
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 303
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 304
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        },
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 312,
+      "source_end": 318,
+      "outs": 1,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 314
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 315
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 316,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 317
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jesus Ferguson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Randy Chang",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 327,
+      "source_end": 331,
+      "outs": 2,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 328,
+          "location": "high_outside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 329
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 330
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 331
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Randy Chang",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Henny Oldman",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 332,
+      "source_end": 337,
+      "outs": 3,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 333,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 334
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 335
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 336,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 337
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Henny Oldman",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ozzie Stardust",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Ozzie Stardust",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Groundout",
+      "source_start": 344,
+      "source_end": 347,
+      "outs": 1,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 345
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 346,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 347
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Ozzie Stardust",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Hiroki Nomo",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Strikeout",
+      "source_start": 348,
+      "source_end": 352,
+      "outs": 2,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 350
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 351
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 352
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hiroki Nomo",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Strikeout",
+      "source_start": 353,
+      "source_end": 357,
+      "outs": 3,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 354
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 355,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 356
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 357
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Wayne Hensley",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 363,
+      "source_end": 367,
+      "outs": 1,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 364
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 365
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 366
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 367
+        }
+      ],
+      "runners": [
+        {
+          "name": "Wayne Hensley",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Rio Nunez",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Walk",
+      "source_start": 368,
+      "source_end": 375,
+      "outs": 1,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 370
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 371,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 372,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 373,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 374
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 375,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Dutch Moon",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 376,
+      "source_end": 382,
+      "outs": 2,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 377,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 378
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 379,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 380
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 381,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 382
+        },
+        {
+          "code": "A",
+          "line": 382,
+          "eventType": "stolen_base",
+          "description": "Rio Nunez steals second on the swinging third strike to Dutch Moon.",
+          "runners": [
+            {
+              "name": "Rio Nunez",
+              "start": "1B",
+              "end": "2B",
+              "out": false
+            }
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dutch Moon",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Rio Nunez",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Blink Rudderson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Walk",
+      "source_start": 383,
+      "source_end": 389,
+      "outs": 2,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 385
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 386,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 387,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 388,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 389,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Brink Filbert",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Lineout",
+      "source_start": 390,
+      "source_end": 394,
+      "outs": 3,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 391
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 392
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 393,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 394
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Brink Filbert",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ozzie Stardust",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Groundout",
+      "source_start": 400,
+      "source_end": 404,
+      "outs": 1,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 402
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 403
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 404
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Blink Rudderson",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Ted Brown",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Flyout",
+      "source_start": 405,
+      "source_end": 412,
+      "outs": 2,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 407,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 408
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 409
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 410,
+          "location": "high_inside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 411,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 412
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Ted Brown",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Randy Chang",
+          "position": "RF"
+        }
+      ],
+      "notes": "Right-center catch near wall by Randy Chang."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Strikeout",
+      "source_start": 413,
+      "source_end": 418,
+      "outs": 3,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 414
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 415,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 416,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 417
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 418
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Keith Castor",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 425,
+      "source_end": 433,
+      "outs": 1,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 428,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 429,
+          "location": "high_outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 430
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 431
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 432
+        }
+      ],
+      "runners": [
+        {
+          "name": "Keith Castor",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 434,
+      "source_end": 436,
+      "outs": 2,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 435
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 436
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Jesus Ferguson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Randy Chang",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 437,
+      "source_end": 441,
+      "outs": 3,
+      "score": [
+        8,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 439,
+          "location": "high_inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 440,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 441
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Randy Chang",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Home Run",
+      "source_start": 449,
+      "source_end": 453,
+      "outs": 0,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 450
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 451
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "score",
+          "out": false
+        }
+      ],
+      "notes": "Right-center home run. Source calls this Kosinski fifth RBI, but observed earlier run events imply his fifth correctly (one RBI groundout plus three-run triple plus solo homer)."
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Strikeout",
+      "source_start": 454,
+      "source_end": 459,
+      "outs": 1,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 456
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 457
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 458,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 459
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Retrospective source calls Stern earlier homer three-run; live fourth-inning call was two-run and score advanced2-0 to4-0. Live scoring retained."
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Strikeout",
+      "source_start": 460,
+      "source_end": 465,
+      "outs": 2,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 462
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 463
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 464,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 465
+        }
+      ],
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Ozzie Stardust",
+      "pitcher": "Wayne Hensley",
+      "outcome": "Strikeout",
+      "source_start": 466,
+      "source_end": 472,
+      "outs": 3,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 467
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 468,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 469
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 470
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 471,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 472
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ozzie Stardust",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Henny Oldman",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 480,
+      "source_end": 484,
+      "outs": 1,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 482
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 483
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 484
+        }
+      ],
+      "runners": [
+        {
+          "name": "Henny Oldman",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Hank Bartok",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 485,
+      "source_end": 487,
+      "outs": 2,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 486,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 487
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Hank Bartok",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        }
+      ],
+      "notes": "Pinch hitter for Wayne Hensley."
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Rio Nunez",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Walk",
+      "source_start": 488,
+      "source_end": 494,
+      "outs": 2,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 489
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 490,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 491,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 492,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 493
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 494,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Dutch Moon",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 495,
+      "source_end": 501,
+      "outs": 3,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 496
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 497,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 498
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 499
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 500,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 501
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Dutch Moon",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bruford Kosinski",
+          "position": "RF"
+        }
+      ],
+      "notes": "Sliced ball caught on a dive by Kosinski; broadcast does not specify launch trajectory beyond sliced."
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Hiroki Nomo",
+      "pitcher": "Brocktune Shemper",
+      "outcome": "Flyout",
+      "source_start": 509,
+      "source_end": 511,
+      "outs": 1,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 511
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Hiroki Nomo",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Dutch Moon",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Brocktune Shemper",
+      "outcome": "Strikeout",
+      "source_start": 512,
+      "source_end": 519,
+      "outs": 2,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 514
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 515,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 516,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 517
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 518,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 519
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Brocktune Shemper",
+      "outcome": "Pop Out",
+      "source_start": 520,
+      "source_end": 524,
+      "outs": 3,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 522
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 523
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 524
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Randy Chang",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Blink Rudderson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 531,
+      "source_end": 538,
+      "outs": 1,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 533,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 534,
+          "location": "inside_corner"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 535,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 536
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 537
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Brink Filbert",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 539,
+      "source_end": 544,
+      "outs": 2,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 540,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 541
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 542,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 543
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 544
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Brink Filbert",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Keith Castor",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 545,
+      "source_end": 558,
+      "outs": 3,
+      "score": [
+        9,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 548
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 549
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 550,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 551,
+          "location": "high_outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 552
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 553
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Keith Castor",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        },
+        {
+          "name": "Hiroki Nomo",
+          "position": "P"
+        }
+      ]
+    }
+  ],
+  "gaps": [],
+  "complete": true
+}

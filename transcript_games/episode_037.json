@@ -1,0 +1,3585 @@
+{
+  "episode": 37,
+  "source_file": "episode_037.txt",
+  "complete": true,
+  "game": {
+    "away": "South Haven Ravens",
+    "home": "Big Rapids Timbers",
+    "venue": "Evergreen Field",
+    "away_lineup": [
+      {
+        "name": "Sherman Hawkins",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Hector Piña",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Steve McDykel",
+        "position": "RF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Hep Bronswell",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Shecky Washington",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Jerry Durante",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Brandon Carlisle",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Ricky Corrado",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Frank Gibson",
+        "position": "P",
+        "bat_side": "L"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Brink Filbert",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Rio Nunez",
+        "position": "SS",
+        "bat_side": "S"
+      },
+      {
+        "name": "Keith Castor",
+        "position": "1B",
+        "bat_side": "L"
+      },
+      {
+        "name": "Blink Rudderson",
+        "position": "3B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Randy Chang",
+        "position": "RF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Henny Oldman",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Jesus Ferguson",
+        "position": "2B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Dutch Moon",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Brocktune Shemper",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "away_pitcher": "Frank Gibson",
+    "home_pitcher": "Brocktune Shemper"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 44,
+      "source_end": 49,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 45,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 46,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 47
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 48,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 49,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 50,
+      "source_end": 54,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 51
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 52
+        },
+        {
+          "code": "A",
+          "line": 53,
+          "eventType": "pickoff_attempt",
+          "description": "Pickoff attempt at first; Sherman Hawkins returns safely.",
+          "runners": [
+            {
+              "name": "Sherman Hawkins",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 54
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 55,
+      "source_end": 59,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 56
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 57
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 58,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 59
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Brink Filbert",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 64,
+      "source_end": 66,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 65,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 66
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brink Filbert",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Rio Nunez",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 67,
+      "source_end": 71,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 68
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 69
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 70,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 71
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brink Filbert",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Rio Nunez",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      }
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Keith Castor",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Double Play",
+      "source_start": 72,
+      "source_end": 73,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 73
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Keith Castor",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Brink Filbert",
+          "start": "2B",
+          "end": "3B"
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Frank Gibson",
+          "position": "P"
+        },
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Blink Rudderson",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Walk",
+      "source_start": 74,
+      "source_end": 80,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 75,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 76
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 77,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 78
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 79,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 80,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Randy Chang",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Forceout",
+      "source_start": 81,
+      "source_end": 83,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 82
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 83
+        }
+      ],
+      "runners": [
+        {
+          "name": "Randy Chang",
+          "start": null,
+          "end": "1B"
+        },
+        {
+          "name": "Blink Rudderson",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball",
+        "forceMechanism": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 87,
+      "source_end": 88,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 88
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive",
+        "categoryOverride": "liner"
+      },
+      "fielders": [
+        {
+          "name": "Brocktune Shemper",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 89,
+      "source_end": 92,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 90
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 91
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 92
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        },
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 93,
+      "source_end": 99,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 94
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 95,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 96
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 97,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 98,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 99,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 100,
+      "source_end": 103,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 101
+        },
+        {
+          "code": "B",
+          "type": "Offspeed",
+          "line": 102,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 103
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brink Filbert",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Henny Oldman",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Lineout",
+      "source_start": 108,
+      "source_end": 110,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 109,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 110
+        }
+      ],
+      "runners": [
+        {
+          "name": "Henny Oldman",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ],
+      "notes": "The contact is described as a line into shallow left; the later recap calls it a flyout. Retain the directly narrated line drive and diving catch."
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 111,
+      "source_end": 116,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 112,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 113,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 114
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 115,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 116
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jesus Ferguson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Dutch Moon",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 117,
+      "source_end": 119,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 118
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 119
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dutch Moon",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Ricky Corrado",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 123,
+      "source_end": 124,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 124
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ricky Corrado",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "deep"
+      },
+      "fielders": [
+        {
+          "name": "Randy Chang",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 125,
+      "source_end": 131,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 126,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 127,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 128
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 129
+        },
+        {
+          "code": "B",
+          "type": "Sinker",
+          "line": 130,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 131
+        }
+      ],
+      "runners": [
+        {
+          "name": "Frank Gibson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 132,
+      "source_end": 137,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 133
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 134
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 135,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 136
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 137
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Brocktune Shemper",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 142,
+      "source_end": 145,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Breaking Ball",
+          "line": 143
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 144
+        },
+        {
+          "code": "S",
+          "type": "Sinker",
+          "line": 145
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brocktune Shemper",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Brink Filbert",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 146,
+      "source_end": 150,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 147
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 148
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 149,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 150
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brink Filbert",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Rio Nunez",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 151,
+      "source_end": 155,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 152
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 153,
+          "isBunt": true
+        },
+        {
+          "code": "B",
+          "type": "Sinker",
+          "line": 154,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 155
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 160,
+      "source_end": 163,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Breaking Ball",
+          "line": 161
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 162,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 163
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dutch Moon",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 164,
+      "source_end": 169,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 165
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 166,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 167
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 168,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 169
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 170,
+      "source_end": 173,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 172,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 173
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive",
+        "categoryOverride": "liner"
+      }
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 174,
+      "source_end": 175,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 175
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      },
+      "fielders": [
+        {
+          "name": "Brocktune Shemper",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Hit By Pitch",
+      "source_start": 176,
+      "source_end": 178,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 177
+        },
+        {
+          "code": "H",
+          "type": "Curveball",
+          "line": 178
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": "1B"
+        },
+        {
+          "name": "Shecky Washington",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Hep Bronswell",
+          "start": "2B",
+          "end": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 179,
+      "source_end": 185,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 180,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 181,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 182
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 183
+        },
+        {
+          "code": "B",
+          "type": "Breaking Ball",
+          "line": 184,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 185,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": "1B"
+        },
+        {
+          "name": "Jerry Durante",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "start": "2B",
+          "end": "3B"
+        },
+        {
+          "name": "Hep Bronswell",
+          "start": "3B",
+          "end": "score"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Ricky Corrado",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 188,
+      "source_end": 194,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 189,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 190
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 191
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 192,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 193,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 194
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ricky Corrado",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Keith Castor",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 199,
+      "source_end": 201,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 200
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 201
+        }
+      ],
+      "runners": [
+        {
+          "name": "Keith Castor",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "deep"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Blink Rudderson",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Walk",
+      "source_start": 202,
+      "source_end": 206,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 203,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 204,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 205,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Breaking Ball",
+          "line": 206,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Randy Chang",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 207,
+      "source_end": 209,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 208,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 209
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Randy Chang",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive",
+        "categoryOverride": "liner"
+      }
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Henny Oldman",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Pop Out",
+      "source_start": 210,
+      "source_end": 212,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 212
+        }
+      ],
+      "runners": [
+        {
+          "name": "Henny Oldman",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        },
+        {
+          "name": "Frank Gibson",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 213,
+      "source_end": 217,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 214
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 215
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 216,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 217
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jesus Ferguson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 222,
+      "source_end": 223,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 223
+        }
+      ],
+      "runners": [
+        {
+          "name": "Frank Gibson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        },
+        {
+          "name": "Brocktune Shemper",
+          "position": "P"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 224,
+      "source_end": 228,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 225,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 226
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 227
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 228
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blink Rudderson",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 229,
+      "source_end": 232,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 230
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 231
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 232
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Randy Chang",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Dutch Moon",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 252,
+      "source_end": 256,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 253,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 254
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 255,
+          "isBunt": true
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 256
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dutch Moon",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Brocktune Shemper",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 257,
+      "source_end": 260,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 258,
+          "isBunt": true
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 259
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 260
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brocktune Shemper",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Brink Filbert",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 261,
+      "source_end": 265,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 262,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 263
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 264
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 265
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brink Filbert",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 271,
+      "source_end": 276,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 272,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 273,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 274
+        },
+        {
+          "code": "B",
+          "type": "Breaking Ball",
+          "line": 275,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Sinker",
+          "line": 276,
+          "zone": 14,
+          "location": "low_outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 277,
+      "source_end": 278,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 278
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        },
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 279,
+      "source_end": 283,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 280
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 281,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 282,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 283
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brink Filbert",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Rio Nunez",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 287,
+      "source_end": 291,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 288
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 289,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 290,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 291
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Keith Castor",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 292,
+      "source_end": 298,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 293
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 294,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 295,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 296
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 297,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 298
+        }
+      ],
+      "runners": [
+        {
+          "name": "Keith Castor",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Blink Rudderson",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 299,
+      "source_end": 300,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 300
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 305,
+      "source_end": 311,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 306,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 307,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 308
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 309
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 310,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 311
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      },
+      "fielders": [
+        {
+          "name": "Blink Rudderson",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 312,
+      "source_end": 313,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 313
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Jerry Durante",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        },
+        {
+          "name": "Brocktune Shemper",
+          "position": "P"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Ricky Corrado",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 314,
+      "source_end": 319,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 315
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 316,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 317
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 318
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 319
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ricky Corrado",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Jerry Durante",
+          "start": "2B",
+          "end": "3B"
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ],
+      "notes": "Line 317 describes another hung curve and gives a two-and-one count; this is a ball, with no more precise location stated."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 320,
+      "source_end": 324,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 321
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 322,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 323
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 324
+        }
+      ],
+      "runners": [
+        {
+          "name": "Frank Gibson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Randy Chang",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Randy Chang",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 328,
+      "source_end": 334,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 329,
+          "zone": 11,
+          "location": "high_inside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 330,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 331,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 332,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 333
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 334
+        }
+      ],
+      "runners": [
+        {
+          "name": "Randy Chang",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Henny Oldman",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 335,
+      "source_end": 340,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 336
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 337,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 338
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 339,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 340
+        }
+      ],
+      "runners": [
+        {
+          "name": "Henny Oldman",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      },
+      "fielders": [
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Double Play",
+      "source_start": 341,
+      "source_end": 343,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 342,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 343
+        }
+      ],
+      "runners": [
+        {
+          "name": "Henny Oldman",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Jesus Ferguson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        },
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 348,
+      "source_end": 349,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 349
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        },
+        {
+          "name": "Brocktune Shemper",
+          "position": "P"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 350,
+      "source_end": 354,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 351,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 352
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 353
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 354
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 355,
+      "source_end": 360,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 356,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 357
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 358
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 359,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 360
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Brocktune Shemper",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 361,
+      "source_end": 362,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 362
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blink Rudderson",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Dutch Moon",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 367,
+      "source_end": 372,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 368,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 369,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 370,
+          "location": "corner"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 371
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 372
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dutch Moon",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Royce Babcock",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 373,
+      "source_end": 377,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 374,
+          "zone": 12,
+          "location": "high_outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 375
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 376
+        }
+      ],
+      "runners": [
+        {
+          "name": "Royce Babcock",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      },
+      "bat_side": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Brink Filbert",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Home Run",
+      "source_start": 378,
+      "source_end": 382,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 379
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 380,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 381
+        }
+      ],
+      "runners": [
+        {
+          "name": "Royce Babcock",
+          "start": "1B",
+          "end": "score"
+        },
+        {
+          "name": "Brink Filbert",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Rio Nunez",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Hit By Pitch",
+      "source_start": 383,
+      "source_end": 385,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 384,
+          "location": "low"
+        },
+        {
+          "code": "H",
+          "type": "pitch",
+          "line": 385
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Keith Castor",
+      "pitcher": "Frank Gibson",
+      "pitch_hand": "L",
+      "outcome": "Double Play",
+      "source_start": 386,
+      "source_end": 390,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 387
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 388,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 389,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 390
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Keith Castor",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        },
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Buddy Dwyer",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 394,
+      "source_end": 398,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 395
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 396
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 397,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 398
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Buddy Dwyer replaces Brocktune Shemper to begin the ninth."
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Buddy Dwyer",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 399,
+      "source_end": 403,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 400,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 401
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 402,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 403
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Buddy Dwyer",
+          "position": "P"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Buddy Dwyer",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 404,
+      "source_end": 409,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 405
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 406,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 407
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 408,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 409
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "start": 234,
+      "end": 248,
+      "reason": "Between-inning mascot race and commotion; no baseball plate appearance or pitch is narrated."
+    }
+  ]
+}
