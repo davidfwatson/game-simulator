@@ -44,4 +44,3 @@ class ChoiceRNG:
         fallback = self.fallback.random()
         draw = self._draw()
         return fallback if draw is None else (draw % 100) / 100.0
-
