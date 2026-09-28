@@ -178,15 +178,15 @@ def classify(segment):
     steal = STEAL_RE.search(text)
     if steal and steal.end() < ellipsis:
         # "And the pitch and there he goes! Slider misses low. The throw
-        # down... not in time!" -- the pitch arrives after "there he goes!",
-        # and the "..." is the catcher's throw reaching second.
-        pitch_at, result = steal.end(), text[steal.end():ellipsis]
-        cues.append(("mitt", ellipsis, 0.0))
+        # down... not in time!" -- a mitt pop anywhere in here lands next to
+        # "there he goes" or the throw and reads as the wrong event, so a
+        # steal line carries no contact sound.
+        pitch_at = steal.end()
     else:
-        pitch_at, result = ellipsis, text[ellipsis:]
-    kind = contact(result)
-    if kind:
-        cues.append((kind, pitch_at, 0.0))
+        pitch_at = ellipsis
+        kind = contact(text[ellipsis:])
+        if kind:
+            cues.append((kind, pitch_at, 0.0))
 
     after = text[pitch_at:]
     home_batting = segment.half == "bottom"
@@ -204,7 +204,7 @@ def classify(segment):
 # -3 dBFS and crowd clips to -23 LUFS, so gains are relative to those. The
 # announcer is normalised to -19 LUFS.
 SFX = {
-    "mitt": [("mitt_1.mp3", -12), ("mitt_3.mp3", -13), ("mitt_2.mp3", -12)],
+    "mitt": [("mitt_1.mp3", -12), ("mitt_2.mp3", -12), ("mitt_3.mp3", -12), ("mitt_4.mp3", -12)],
     "bat": [("bat_1.mp3", -9), ("bat_3.mp3", -9), ("bat_2.mp3", -9), ("bat_4.mp3", -9)],
     "foul": [("bat_2.mp3", -15), ("bat_4.mp3", -15), ("bat_3.mp3", -15)],
     "cheer": [("cheer_1.mp3", -6), ("cheer_2.mp3", -6)],
@@ -215,6 +215,10 @@ SFX = {
 # Two crowd loops of different lengths, layered, so the repeat point drifts
 # and never lines up; low-passed so the crowd sits far behind the booth.
 BEDS = [("bed_1.mp3", -9), ("bed_2.mp3", -12)]
+# Contact sounds are close-miked studio recordings; a short slapback and a
+# gentle top cut put them out on the field instead of in the booth.
+POINT_KINDS = {"mitt", "bat", "foul"}
+FIELD_FX = "aecho=0.8:0.4:35|85:0.22|0.12,lowpass=f=7000"
 BED_LOWPASS_HZ = 5000
 
 
@@ -298,12 +302,12 @@ def build_timeline(segments, tts_dir):
             counters[kind] = n + 1
             fname, gain = options[n % len(options)]
             at = t + pause_time(seg, wav, char_index) + offset
-            cues.append((at, SFX_DIR / fname, gain))
+            cues.append((at, SFX_DIR / fname, gain, FIELD_FX if kind in POINT_KINDS else None))
         t += dur
     return voice, cues, t + TAIL
 
 
-def mix(voice, cues, total, out_path):
+def mix(voice, cues, total, out_path, beds=BEDS):
     """Mix voice + cues + looping crowd bed into one file with ffmpeg."""
     inputs, filters = [], []
 
@@ -325,7 +329,7 @@ def mix(voice, cues, total, out_path):
     # Crowd bed: each loop repeated to length, layered, gently ducked under
     # the announcer.
     blabels = []
-    for n, (fname, gain) in enumerate(BEDS):
+    for n, (fname, gain) in enumerate(beds):
         i = add_input(SFX_DIR / fname)
         filters.append(f"[{i}:a]aresample={SAMPLE_RATE},aformat=channel_layouts=mono,"
                        f"aloop=loop=-1:size=2147483647,atrim=0:{total},volume={gain}dB[b{n}]")
@@ -336,9 +340,10 @@ def mix(voice, cues, total, out_path):
 
     # Cues.
     clabels = []
-    for n, (t, path, gain) in enumerate(cues):
+    for n, (t, path, gain, fx) in enumerate(cues):
         i = add_input(path)
-        filters.append(f"[{i}:a]aresample={SAMPLE_RATE},aformat=channel_layouts=mono,"
+        fx = f"{fx}," if fx else ""
+        filters.append(f"[{i}:a]aresample={SAMPLE_RATE},aformat=channel_layouts=mono,{fx}"
                        f"volume={gain}dB,adelay={int(t * 1000)}:all=1[c{n}]")
         clabels.append(f"[c{n}]")
     if clabels:
@@ -372,12 +377,20 @@ def main():
     ap.add_argument("--voice", help="Gemini prebuilt voice (default in tts_gemini.py)")
     ap.add_argument("--tts-remote", help="ssh host to run TTS on (e.g. user@host)")
     ap.add_argument("--tts-remote-env", help=".env file on the remote host holding GEMINI_API_KEY")
+    ap.add_argument("--bed", action="append", metavar="FILE:GAIN_DB",
+                    help="crowd bed loop (repeatable), path relative to audio/sfx/; replaces the default beds")
+    ap.add_argument("--max-lines", type=int, help="only the first N lines (for quick samples)")
     ap.add_argument("--script-only", action="store_true", help="print segments and cues, no audio")
     args = ap.parse_args()
 
     segments = extract_inning(render_game(args.game), args.inning)
+    if args.max_lines:
+        segments = segments[:args.max_lines]
     for seg in segments:
         seg.cues = classify(seg)
+    beds = BEDS
+    if args.bed:
+        beds = [(f.rsplit(":", 1)[0], float(f.rsplit(":", 1)[1])) for f in args.bed]
 
     if args.script_only:
         for seg in segments:
@@ -385,11 +398,13 @@ def main():
             print(f"[{seg.half} +{seg.pause:>4.1f}s] {seg.text}" + (f"   <{cues}>" if cues else ""))
         return
 
-    voice_name = args.voice or "default"
-    tts_dir = Path(args.cache) / voice_name
+    import tts_gemini
+    voice_name = args.voice or tts_gemini.VOICE
+    style_key = hashlib.sha1(tts_gemini.STYLE.encode()).hexdigest()[:8]
+    tts_dir = Path(args.cache) / f"{voice_name}-{style_key}"
     run_tts(segments, tts_dir, args.tts_remote, args.tts_remote_env, args.voice)
     voice, cues, total = build_timeline(segments, tts_dir)
-    mix(voice, cues, total, args.out)
+    mix(voice, cues, total, args.out, beds)
     print(f"Wrote {args.out} ({total / 60:.1f} min, {len(voice)} lines, {len(cues)} cues)")
 
 

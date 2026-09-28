@@ -12,9 +12,10 @@ CC BY clips need the credit line kept wherever the audio is published.
 | `bat_2.mp3` | [162866](https://freesound.org/s/162866/) | Bat Hit 5 FF099.aif | martinimeniscus | CC0 | 0–0.63 |
 | `bat_3.mp3` | [162867](https://freesound.org/s/162867/) | Bat Hit 4 FF100.aif | martinimeniscus | CC0 | 0–0.8 |
 | `bat_4.mp3` | [162862](https://freesound.org/s/162862/) | Bat Hit 2 FF102.aif | martinimeniscus | CC0 | 0–0.5 |
-| `mitt_1.mp3` | [164499](https://freesound.org/s/164499/) | Glove Catch 1 FF014.aif | martinimeniscus | CC0 | 0–0.83 |
-| `mitt_2.mp3` | [813394](https://freesound.org/s/813394/) | Catching a baseball glove | Luisa_Sanchez | CC0 | 0–0.9 |
-| `mitt_3.mp3` | [816984](https://freesound.org/s/816984/) | catching a baseball glove | Luisa_Sanchez | CC0 | 0–0.44 |
+| `mitt_1.mp3` | [164528](https://freesound.org/s/164528/) | Glove Catch 4 FF011.aif | martinimeniscus | CC0 | whole clip |
+| `mitt_2.mp3` | [164529](https://freesound.org/s/164529/) | Glove Catch 5 FF010.aif | martinimeniscus | CC0 | whole clip |
+| `mitt_3.mp3` | [164527](https://freesound.org/s/164527/) | Glove Catch 3 FF012.aif | martinimeniscus | CC0 | whole clip |
+| `mitt_4.mp3` | [164533](https://freesound.org/s/164533/) | Glove Catch 9 FF006.aif | martinimeniscus | CC0 | whole clip |
 | `cheer_1.mp3` | [191916](https://freesound.org/s/191916/) | WALLA Ballpark Cheer Short Foul | AshFox | CC BY 3.0 | 5.2–13 |
 | `cheer_2.mp3` | [354056](https://freesound.org/s/354056/) | BaseballGameApplause.wav | eeease | CC0 | 5–10.5 |
 | `cheer_big.mp3` | [130568](https://freesound.org/s/130568/) | RoaringCrowd.wav | benfree | CC0 | 0–8 |

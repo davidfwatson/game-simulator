@@ -26,13 +26,14 @@ ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/interactions"
 
 # Every segment carries the same voice and style so the announcer sounds like
 # one person across ~40 separate calls.
-VOICE = "Algieba"
+VOICE = "Rasalgethi"
 STYLE = (
-    "A calm, soothing late-night radio baseball announcer. Speaks softly, slowly "
-    "and warmly, relaxed and unhurried, like reading a bedtime story to a "
-    "listener drifting off to sleep. Gentle even on exciting plays: a small, "
-    "pleased lift in the voice at most, never shouting. Lets ellipses breathe "
-    "as a relaxed pause while the pitch is on its way."
+    "A warm, relaxed veteran radio baseball announcer calling a quiet late-night "
+    "game. Natural, full speaking voice at normal conversational volume: not "
+    "whispering, not breathy, not hushed. Easygoing, unhurried pace and a "
+    "friendly, homey tone. Understated on big plays, a little more energy but "
+    "never shouting. A short natural pause at each ellipsis while the pitch is "
+    "on its way."
 )
 
 
