@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Assemble one inning of a simulated game into broadcast audio.
 
-    python audio/assemble_inning.py --game 1 --inning 1 --out inning.mp3
+    python audio/assemble_inning.py --game 1 --innings 1-2 --out innings.mp3
 
 Pipeline:
   1. Render the example game's narrative play-by-play.
@@ -64,6 +64,17 @@ class Segment:
 def render_game(game_index):
     from example_games import EXAMPLE_GAMES
     return EXAMPLE_GAMES[game_index - 1].render("narrative")
+
+
+def extract_innings(text, first, last):
+    """Segments for innings first..last, joined across the between-inning breaks."""
+    segments = []
+    for inning in range(first, last + 1):
+        segs = extract_inning(text, inning)
+        if segments and segs:
+            segs[0].pause = BREAK_PAUSE
+        segments += segs
+    return segments
 
 
 def extract_inning(text, inning):
@@ -132,7 +143,7 @@ def clean_line(text, half, inning, venue):
 # Sound cues
 # --------------------------------------------------------------------------
 
-FOUL_WORDS = ("foul", "fouls", "fouled", "tipped", "tips")
+FOUL_WORDS = ("foul", "fouls", "fouled", "tipped", "tips", "piece of it")
 IN_PLAY_WORDS = (
     "grounded", "ground ball", "grounder", "lined", "liner", "line drive", "lifted",
     "fly ball", "flied", "popped", "pop up", "chopped", "bounced", "bouncer",
@@ -141,6 +152,8 @@ IN_PLAY_WORDS = (
     "base hit", "single", "double", "triple", "home run", "gone", "swung on and hit",
     "chopper", "comebacker", "hopper", "one hopper", "dribbler", "tapper", "grounder",
     "sharply", "in the air", "high fly", "bloop", "slapped", "rolled",
+    "softly hit", "on the infield", "scoops", "fields it", "throws to first",
+    "tosses to first", "makes the catch", "hit to", "hit on",
 )
 NO_CONTACT_SOUND = ("hit by", "plunk", "hits him", "wears it", "in the dirt")
 HIT_WORDS = ("single", "double", "triple", "drops in", "base hit", "base knock")
@@ -217,8 +230,10 @@ SFX = {
     "applause": [("applause_1.mp3", -8), ("applause_3.mp3", -8), ("applause_2.mp3", -8)],
     "groan": [("groan_1.mp3", -9), ("groan_2.mp3", -9)],
 }
-# Two crowd loops of different lengths, layered, so the repeat point drifts
-# and never lines up; low-passed so the crowd sits far behind the booth.
+# Two steady crowd murmurs of different lengths (115s, 91s), layered so the
+# repeat point drifts. Neither has music, PA or chants: any landmark sound in
+# a loop makes the repeat obvious. High-passed to drop rumble/hum, low-passed
+# so the crowd sits behind the booth.
 BEDS = [("bed_1.mp3", -9), ("bed_2.mp3", -12)]
 # Contact sounds are close-miked studio recordings; a short slapback and a
 # gentle top cut put them out on the field instead of in the booth.
@@ -265,6 +280,16 @@ def duration(path):
     return float(out)
 
 
+VOICE_LUFS = -19.0
+
+
+def loudness(path):
+    out = subprocess.run(
+        ["ffmpeg", "-hide_banner", "-nostats", "-i", str(path), "-af", "ebur128", "-f", "null", "-"],
+        capture_output=True, text=True).stderr
+    return float(re.findall(r"I:\s+(-?[\d.]+) LUFS", out)[-1])
+
+
 def silences(path, noise_db=-40, min_dur=0.25):
     out = subprocess.run(
         ["ffmpeg", "-hide_banner", "-nostats", "-i", str(path), "-af",
@@ -300,7 +325,7 @@ def build_timeline(segments, tts_dir):
         wav = tts_dir / f"{seg.id}.wav"
         t += seg.pause
         dur = duration(wav)
-        voice.append((t, wav))
+        voice.append((t, wav, VOICE_LUFS - loudness(wav)))
         for kind, char_index, offset in seg.cues:
             options = SFX[kind]
             n = counters.get(kind, 0)
@@ -322,13 +347,15 @@ def mix(voice, cues, total, out_path, beds=BEDS):
 
     # Voice track: each line delayed to its slot, then summed.
     vlabels = []
-    for n, (t, wav) in enumerate(voice):
+    # Each line is levelled to VOICE_LUFS on its own: Gemini's lines vary by
+    # ~8 dB, and a whole-track loudnorm would pump the gaps instead.
+    for n, (t, wav, gain) in enumerate(voice):
         i = add_input(wav)
         filters.append(f"[{i}:a]aresample={SAMPLE_RATE},aformat=channel_layouts=mono,"
-                       f"adelay={int(t * 1000)}:all=1[v{n}]")
+                       f"volume={gain:.2f}dB,adelay={int(t * 1000)}:all=1[v{n}]")
         vlabels.append(f"[v{n}]")
     filters.append(f"{''.join(vlabels)}amix=inputs={len(vlabels)}:normalize=0:dropout_transition=0,"
-                   f"loudnorm=I=-19:TP=-2:LRA=11,apad=whole_dur={total}[voice]")
+                   f"apad=whole_dur={total}[voice]")
     filters.append("[voice]asplit=2[voice_out][voice_sc]")
 
     # Crowd bed: each loop repeated to length, layered, gently ducked under
@@ -339,7 +366,7 @@ def mix(voice, cues, total, out_path, beds=BEDS):
         filters.append(f"[{i}:a]aresample={SAMPLE_RATE},aformat=channel_layouts=mono,"
                        f"aloop=loop=-1:size=2147483647,atrim=0:{total},volume={gain}dB[b{n}]")
         blabels.append(f"[b{n}]")
-    filters.append(f"{''.join(blabels)}amix=inputs={len(blabels)}:normalize=0,lowpass=f={BED_LOWPASS_HZ},"
+    filters.append(f"{''.join(blabels)}amix=inputs={len(blabels)}:normalize=0,highpass=f=100,lowpass=f={BED_LOWPASS_HZ},"
                    f"afade=t=in:d=3,afade=t=out:st={total - 4:.2f}:d=4[bedraw]")
     filters.append("[bedraw][voice_sc]sidechaincompress=threshold=0.05:ratio=2.5:attack=200:release=1500[bed]")
 
@@ -358,7 +385,7 @@ def mix(voice, cues, total, out_path, beds=BEDS):
     else:
         final_inputs, count = "[voice_out][bed]", 2
     filters.append(f"{final_inputs}amix=inputs={count}:normalize=0:duration=first,"
-                   f"alimiter=limit=0.89[out]")
+                   f"volume=2dB,alimiter=limit=0.79:level=0[out]")
 
     with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as f:
         f.write(";\n".join(filters))
@@ -376,7 +403,7 @@ def mix(voice, cues, total, out_path, beds=BEDS):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--game", type=int, default=1, help="example game index (1-10)")
-    ap.add_argument("--inning", type=int, default=1)
+    ap.add_argument("--innings", default="1", help="inning or range, e.g. 1 or 1-2")
     ap.add_argument("--out", default="inning.mp3")
     ap.add_argument("--cache", default=str(DEFAULT_CACHE), help="TTS cache directory")
     ap.add_argument("--voice", help="Gemini prebuilt voice (default in tts_gemini.py)")
@@ -388,7 +415,8 @@ def main():
     ap.add_argument("--script-only", action="store_true", help="print segments and cues, no audio")
     args = ap.parse_args()
 
-    segments = extract_inning(render_game(args.game), args.inning)
+    first, _, last = args.innings.partition("-")
+    segments = extract_innings(render_game(args.game), int(first), int(last or first))
     if args.max_lines:
         segments = segments[:args.max_lines]
     for seg in segments:

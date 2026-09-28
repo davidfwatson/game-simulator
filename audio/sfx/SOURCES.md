@@ -6,8 +6,8 @@ CC BY clips need the credit line kept wherever the audio is published.
 
 | File | Freesound | Name | Author | License | Trim (s) |
 |---|---|---|---|---|---|
-| `bed_1.mp3` | [381367](https://freesound.org/s/381367/) | Cacophony and People Talking Stadium 2.mp3 | (see link) | CC0 | 100–140 |
-| `bed_2.mp3` | [506454](https://freesound.org/s/506454/) | Sports Hall Ambience, Walla | (see link) | CC0 | 35–85 |
+| `bed_1.mp3` | [316718](https://freesound.org/s/316718/) | Large crowd, sports competition, athletics, audience buzzing before the events | YleArkisto | CC BY 4.0 | whole clip |
+| `bed_2.mp3` | [360699](https://freesound.org/s/360699/) | Large_crowd_from_above_stereo.wav | eguobyte | CC0 | whole clip |
 | `bat_1.mp3` | [162863](https://freesound.org/s/162863/) | Bat Hit 1 FF103.aif | martinimeniscus | CC0 | 0–1.16 |
 | `bat_2.mp3` | [162866](https://freesound.org/s/162866/) | Bat Hit 5 FF099.aif | martinimeniscus | CC0 | 0–0.63 |
 | `bat_3.mp3` | [162867](https://freesound.org/s/162867/) | Bat Hit 4 FF100.aif | martinimeniscus | CC0 | 0–0.8 |
