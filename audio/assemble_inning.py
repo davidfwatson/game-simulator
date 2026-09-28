@@ -69,8 +69,9 @@ def render_game(game_index):
 def extract_inning(text, inning):
     """Return the Segments for one full inning of rendered narrative text."""
     lines = text.split("\n")
-    start = next(i for i, l in enumerate(lines) if l.startswith("So, we are underway"))
-    venue = re.search(r"underway here at (.+?)\.", lines[start]).group(1)
+    start = next(i for i, l in enumerate(lines) if "we are underway" in l)
+    venue_match = re.search(r"\bfrom (.+?) in [A-Z]", text) or re.search(r"underway here at (.+?)\.", text)
+    venue = venue_match.group(1) if venue_match else None
 
     # Half innings are separated by the renderer's hardcoded 15s break marker.
     halves, current = [], []
@@ -111,7 +112,7 @@ def extract_inning(text, inning):
 
 
 WELCOME_BACK_RE = re.compile(r"^(And )?(welcome back|we're back)\b", re.I)
-WE_LL_BE_BACK_RE = re.compile(r"\s*We'll be back\b[^.]*\.")
+WE_LL_BE_BACK_RE = re.compile(r"\s*(And )?[Ww]e'll be back\b[^.]*\.")
 
 
 def clean_line(text, half, inning, venue):
@@ -122,7 +123,8 @@ def clean_line(text, half, inning, venue):
                    6: "sixth", 7: "seventh", 8: "eighth", 9: "ninth"}.get(inning, f"{inning}th")
         first_sentence_end = text.find(". ")
         rest = text[first_sentence_end + 2:] if first_sentence_end >= 0 else ""
-        text = f"{half.capitalize()} of the {ordinal} here at {venue}. {rest}".strip()
+        where = f" here at {venue}" if venue else ""
+        text = f"{half.capitalize()} of the {ordinal}{where}. {rest}".strip()
     return text
 
 
@@ -137,17 +139,20 @@ IN_PLAY_WORDS = (
     "bunt", "roller", "blooper", "flare", "drive", "drilled", "smoked", "hammered",
     "hit in the air", "into left", "into right", "into center", "up the middle",
     "base hit", "single", "double", "triple", "home run", "gone", "swung on and hit",
+    "chopper", "comebacker", "hopper", "one hopper", "dribbler", "tapper", "grounder",
+    "sharply", "in the air", "high fly", "bloop", "slapped", "rolled",
 )
 NO_CONTACT_SOUND = ("hit by", "plunk", "hits him", "wears it", "in the dirt")
 HIT_WORDS = ("single", "double", "triple", "drops in", "base hit", "base knock")
 HOMER_WORDS = ("home run", "gone", "out of here", "homer")
 STRIKEOUT_WORDS = ("strikes out", "rings him up", "fans him", "strike three", "goes down swinging",
+                   "gets him swinging", "goes down looking", "goes down for out",
                    "struck out", "punch out", "caught looking")
 INNING_OVER_WORDS = ("end the inning", "to end the", "retire the side", "side retired")
 RUN_WORDS = ("scores", "comes home", "comes in to score", "run scores", "runs score")
 
 
-STEAL_RE = re.compile(r"there he goes!", re.I)
+STEAL_RE = re.compile(r"(there he goes|the runner breaks|runner goes|and he's going)!", re.I)
 
 
 def classify(segment):
@@ -177,8 +182,8 @@ def classify(segment):
 
     steal = STEAL_RE.search(text)
     if steal and steal.end() < ellipsis:
-        # "And the pitch and there he goes! Slider misses low. The throw
-        # down... not in time!" -- a mitt pop anywhere in here lands next to
+        # "Here's the one-oh pitch and the runner breaks! Slider downstairs.
+        # The throw down... not in time!" -- a mitt pop anywhere in here lands next to
         # "there he goes" or the throw and reads as the wrong event, so a
         # steal line carries no contact sound.
         pitch_at = steal.end()
