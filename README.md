@@ -120,3 +120,35 @@ thresholds. The tests fail if any example is missing or unregistered.
 Run `python pbp_match_report.py --check` to check all examples, or add `--json`
 for machine-readable results. Content-only exact matching prevents repeated
 TTS markers from masking wording regressions.
+
+
+## Transcript-derived comparison cases
+
+The 17 cleaned episodes in `transcripts/sleep_baseball/` now have 78 reviewed
+comparison cases in `transcript_cases/`. Each case cites an exact source line
+and supplies the baseball context needed to reproduce a particular phrase.
+Compiled fixtures in `examples/transcript_cases/` store ordinary commentary
+draw lists and corresponding text snapshots. Tests replay those lists through
+the production renderer methods and require the source phrase's words in order.
+They also fail when a source episode, case, fixture, or snapshot goes missing.
+The per-episode case minimums are registered in `pbp_comparison.py`, and
+`python pbp_match_report.py --check` also verifies this entire corpus.
+
+These are representative situation comparisons, **not full-game reconstructions
+or whole-transcript similarity scores**. The four existing full-game PBP
+alignment fixtures keep their original minimums. Numeric pitch metrics in a
+case are scenario inputs used to exercise the intended category, not measured
+statistics from the broadcast.
+
+```bash
+python transcript_comparison.py             # Report all 17 episodes / 78 cases
+python update_transcript_examples.py --check # Verify saved fixtures and snapshots
+python update_transcript_examples.py         # Recompile after reviewing a change
+```
+
+Use `source_line`, `source_text`, `expected`, `kind`, `pool`, `template`, and
+`inputs` in each authoring case. Add new wording only to a pool consistent with
+its facts: bunt singles require bunt data; intentional walks require an
+intentional-walk result; a strikeout reach requires the batter's safe movement
+to the stated base, and wild-pitch wording requires the corresponding event. Keep expected
+phrases grounded in the transcript and review regenerated snapshots.

@@ -5,10 +5,12 @@ Cleaned play-by-play transcripts of the *Northwoods Baseball Sleep Radio* podcas
 <https://rss.buzzsprout.com/1915447.rss>), the show the `pbp_example_*.txt`
 targets come from. This directory is reference material for mining announcer
 turns of phrase, such as pitch calls, count phrasing, batter intros and inning
-transitions, to add to the narrative renderer's templates. Nothing in the test
-suite reads these files.
+transitions, to add to the narrative renderer's templates. The comparison tests now read
+every episode through the reviewed cases in the repository-root `transcript_cases/` directory; see the repository README for
+the compilation and replay workflow.
 
-These are **not** alignment targets. They have no `[TTS SPLIT ...]` markers and
+These are **not full-game** alignment targets. The 78 source-linked cases
+check representative phrases and situations through production renderer methods. They have no `[TTS SPLIT ...]` markers and
 no gameday fixtures. To promote one to a `pbp_example_N.txt`, follow the
 example-4 pipeline (PR #195) and `PBP_ALIGNMENT_GUIDE.md`.
 

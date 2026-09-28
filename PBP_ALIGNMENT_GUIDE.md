@@ -515,3 +515,16 @@ After completing each half-inning's phrasing alignment, update this table.
 | Top 9       | 55-57 | Not started        |
 | Bot 9       | 58-60 | Not started        |
 | Post-game   | —     | Not started        |
+
+
+## Broader transcript corpus
+
+The 17 episodes under `transcripts/sleep_baseball/` are covered by a separate
+catalog of 78 representative phrase/situation cases. Use
+`python transcript_comparison.py` for its report. Each case has a cited source
+line, realistic input context, persisted `commentaryRng` draws, and a rendered
+snapshot. The test requires the expected source phrase in order and exact
+snapshot replay; it does not calculate a misleading full-game similarity score
+for a partial transcript. Follow `examples/transcript_cases/README.md` when
+adding episodes or cases. Whole-game promotion still requires a complete,
+reviewed Gameday fixture and the PBP catalog entries described above.

@@ -40,6 +40,30 @@ class GameRenderer:
     def render(self) -> str:
         raise NotImplementedError
 
+    @staticmethod
+    def _batter_safe_destination(play):
+        """Return the batter's final safe base, including multistage advances."""
+        batter_id = play['matchup']['batter'].get('id')
+        if batter_id is None:
+            return None
+        destinations = {'1B': 'first', '2B': 'second', '3B': 'third', 'score': 'home'}
+        movements = []
+        for index, runner in enumerate(play.get('runners', [])):
+            details = runner.get('details', {})
+            if details.get('runner', {}).get('id') != batter_id:
+                continue
+            # Gameday can list multiple movements for one runner, sometimes
+            # out of event order. With no event index, retain document order.
+            event_index = details.get('playIndex')
+            order = event_index if type(event_index) is int else index
+            movements.append((order, index, runner.get('movement', {})))
+        if not movements:
+            return None
+        _, _, final_movement = max(movements, key=lambda item: item[:2])
+        if final_movement.get('isOut', False):
+            return None
+        return destinations.get(final_movement.get('end'))
+
     def _get_batted_ball_category(self, outcome, ev, la):
         cat = 'default'
         if ev is not None and la is not None:

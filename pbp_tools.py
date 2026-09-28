@@ -19,10 +19,10 @@ Examples::
 """
 
 import json
-import re
 import argparse
 import math
 from commentary import GAME_CONTEXT
+from pbp_comparison import compare_transcripts, normalize_line
 from renderers.randomness import STREAM_NAMES
 
 
@@ -328,103 +328,33 @@ def cmd_diff(args):
                 print(f"... and {remaining} more mismatches. Use --all to see all.")
             break
 
-    # Summary statistics
-    def normalize_line(line):
-        """Normalize trivial formatting differences for comparison."""
-        s = line.strip().lower()
-        for w1 in ('oh', 'one', 'two', 'three'):
-            for w2 in ('oh', 'one', 'two', 'three'):
-                s = s.replace(f'{w1} and {w2}', f'{w1}-{w2}')
-        s = re.sub(r'[.,]\s+(\w+-\w+)', r', \1', s)
-        s = s.replace('called a strike', 'called strike')
-        s = re.sub(r'\.\s+([a-z])', r', \1', s)
-        return s
-
-    target_content = [l.strip() for l in target_text.split('\n') if l.strip() and not l.strip().startswith('[TTS')]
-    rendered_content = [l.strip() for l in rendered_text.split('\n') if l.strip() and not l.strip().startswith('[TTS')]
-
-    target_normalized = [normalize_line(l) for l in target_content]
-    rendered_normalized = [normalize_line(l) for l in rendered_content]
-    identical = set(target_normalized).intersection(set(rendered_normalized))
-    identical_raw = set(target_content).intersection(set(rendered_content))
-
-    # Fuzzy positional matching: for each target line, look for a close match
-    # near its proportional position in the rendered output
-    def line_similarity(a, b):
-        """Word-level Jaccard between two normalized lines."""
-        wa = set(re.findall(r'\b\w+\b', normalize_line(a)))
-        wb = set(re.findall(r'\b\w+\b', normalize_line(b)))
-        if not wa and not wb:
-            return 1.0
-        if not wa or not wb:
-            return 0.0
-        return len(wa & wb) / len(wa | wb)
-
-    n_target = len(target_content)
+    # Use the same ordered exact-match logic as regression tests and reports.
+    # Word overlap alone cannot distinguish "runner beats ball" from its reverse.
+    target_content = [line.strip() for line in target_text.splitlines()
+                      if line.strip() and not line.strip().startswith('[TTS SPLIT')]
+    rendered_content = [line.strip() for line in rendered_text.splitlines()
+                        if line.strip() and not line.strip().startswith('[TTS SPLIT')]
+    identical = set(map(normalize_line, target_content)).intersection(
+        map(normalize_line, rendered_content))
+    identical_raw = set(target_content).intersection(rendered_content)
+    scores = compare_transcripts(target_text, rendered_text)
+    content = scores.content_lines
+    n_target = content.total
     n_rendered = len(rendered_content)
-    wiggle_pct = 0.08  # look within 8% of proportional position
-    wiggle_min = 5      # at least 5 lines of wiggle room
+    denominator = n_target or 1
+    total_good = content.exact + content.near90 + content.near75
 
-    exact_positional = 0
-    near_matches_90 = 0   # ≥90% similar
-    near_matches_75 = 0   # ≥75% similar
-    rendered_used = set()  # track which rendered lines have been matched
-
-    for ti, tline in enumerate(target_content):
-        if not tline:
-            continue
-        # Proportional position in rendered
-        prop = ti / n_target if n_target > 0 else 0
-        center = int(prop * n_rendered)
-        wiggle = max(wiggle_min, int(wiggle_pct * n_rendered))
-        lo = max(0, center - wiggle)
-        hi = min(n_rendered, center + wiggle + 1)
-
-        best_sim = 0.0
-        best_ri = -1
-        tn = target_normalized[ti]
-        for ri in range(lo, hi):
-            if ri in rendered_used:
-                continue
-            # Check normalized exact match first
-            if rendered_normalized[ri] == tn:
-                best_sim = 1.0
-                best_ri = ri
-                break
-            sim = line_similarity(tline, rendered_content[ri])
-            if sim > best_sim:
-                best_sim = sim
-                best_ri = ri
-
-        if best_sim == 1.0:
-            exact_positional += 1
-            rendered_used.add(best_ri)
-        elif best_sim >= 0.9:
-            near_matches_90 += 1
-            rendered_used.add(best_ri)
-        elif best_sim >= 0.75:
-            near_matches_75 += 1
-            rendered_used.add(best_ri)
-
-    print(f"\n--- Summary ---")
+    print("\n--- Summary ---")
     print(f"Content lines in target: {n_target}")
     print(f"Content lines in rendered: {n_rendered}")
-    print(f"Identical content lines (raw): {len(identical_raw)} ({100*len(identical_raw)/(n_target or 1):.1f}%)")
-    print(f"Identical content lines (normalized): {len(identical)} ({100*len(identical)/(n_target or 1):.1f}%)")
-    print(f"\nPositional fuzzy matching (±{wiggle_pct:.0%} of file):")
-    print(f"  Exact match:  {exact_positional} ({100*exact_positional/(n_target or 1):.1f}%)")
-    print(f"  ≥90% similar: {near_matches_90} ({100*near_matches_90/(n_target or 1):.1f}%)")
-    print(f"  ≥75% similar: {near_matches_75} ({100*near_matches_75/(n_target or 1):.1f}%)")
-    total_good = exact_positional + near_matches_90 + near_matches_75
-    print(f"  Total ≥75%:   {total_good} ({100*total_good/(n_target or 1):.1f}%)")
-
-    # Word-level Jaccard
-    def get_words(s):
-        return set(re.findall(r'\b\w+\b', s.lower()))
-    tw = get_words(target_text)
-    rw = get_words(rendered_text)
-    jaccard = len(tw & rw) / len(tw | rw) if tw | rw else 0
-    print(f"\nWord Jaccard similarity: {100*jaccard:.1f}%")
+    print(f"Identical content lines (raw): {len(identical_raw)} ({100*len(identical_raw)/denominator:.1f}%)")
+    print(f"Identical content lines (normalized): {len(identical)} ({100*len(identical)/denominator:.1f}%)")
+    print("\nPositional fuzzy matching (±8% of file):")
+    print(f"  Exact match:  {content.exact} ({100*content.exact/denominator:.1f}%)")
+    print(f"  ≥90% similar: {content.near90} ({100*content.near90/denominator:.1f}%)")
+    print(f"  ≥75% similar: {content.near75} ({100*content.near75/denominator:.1f}%)")
+    print(f"  Total ≥75%:   {total_good} ({100*total_good/denominator:.1f}%)")
+    print(f"\nWord Jaccard similarity: {100*scores.jaccard:.1f}%")
 
     if args.output:
         with open(args.output, 'w') as f:

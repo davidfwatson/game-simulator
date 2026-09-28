@@ -1,4 +1,4 @@
-"""Regression coverage for explicit commentary randomness and legacy replay."""
+"""Regression coverage for explicit commentary randomness and deterministic replay."""
 import copy
 import json
 from pathlib import Path

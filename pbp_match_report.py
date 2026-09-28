@@ -5,7 +5,7 @@ import argparse
 from dataclasses import asdict
 import json
 
-from pbp_comparison import compare_example, discover_pbp_examples, render_example
+from pbp_comparison import check_transcript_examples, compare_example, discover_pbp_examples, render_example
 
 
 def main(argv=None):
@@ -46,6 +46,15 @@ def main(argv=None):
             for failure in failures:
                 print(f"  BELOW MINIMUM: {failure}")
             print()
+    if not args.examples:
+        try:
+            counts = check_transcript_examples()
+        except ValueError as error:
+            parser.error(str(error))
+        for episode, count in counts.items():
+            results.append({'transcript_episode': episode, 'passing_cases': count, 'failures': []})
+        if not args.json:
+            print(f'Transcripts: all {sum(counts.values())} source-linked cases pass across {len(counts)} episodes.')
     if args.json:
         print(json.dumps(results, indent=2))
     return int(args.check and any(result["failures"] for result in results))

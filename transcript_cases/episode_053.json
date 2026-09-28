@@ -1,0 +1,85 @@
+{
+  "episode": "episode_053.txt",
+  "cases": [
+    {
+      "id": "episode_053_comes_set_and_delivers",
+      "source_line": 85,
+      "source_text": "Hughes comes set and delivers... Fastball, called strike one.",
+      "expected": "Hughes comes set and delivers...",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.pitch_connectors_00",
+      "template": "{pitcher_name_last} comes set and delivers...",
+      "inputs": {
+        "balls": 0,
+        "strikes": 0,
+        "pitcher_name": "Virgil Hughes",
+        "batter_name": "Joe Topanga",
+        "runners_on_base": false
+      }
+    },
+    {
+      "id": "episode_053_knuckling_foul_out_of_play",
+      "source_line": 198,
+      "source_text": "And the one-one... Driven to deep left. That one is knuckling foul and out of play.",
+      "expected": "That one is knuckling foul and out of play.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "that one is knuckling foul and out of play",
+      "inputs": {}
+    },
+    {
+      "id": "episode_053_slider_just_off_corner",
+      "source_line": 274,
+      "source_text": "And the one-oh, slider just off the corner. Two and oh.",
+      "expected": "just off the corner",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_outside",
+      "template": "just off the corner",
+      "inputs": {
+        "event_type": "B",
+        "zone": 14,
+        "pitch_type_simple": "slider",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "episode_053_speared_spins_fires",
+      "source_line": 293,
+      "source_text": "And the one-two, grounder up the middle, speared by Colbert, who spins and fires to first, just in time to retire Gasparro to end the inning.",
+      "expected": "grounder up the middle, speared by Colbert, who spins and fires to first, just in time to retire Gasparro to end the inning.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.default",
+      "template": "Grounder {direction}, speared by {fielder_name}, who spins and fires to first, just in time to retire {batter_name} {out_context_str}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "MI"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Gasparro",
+        "fielder_name": "Colbert",
+        "fielder_pos": "2B",
+        "result_outs": 3
+      }
+    },
+    {
+      "id": "episode_053_safe_with_leadoff_double",
+      "source_line": 257,
+      "source_text": "And the two-one... Swung on and hit in the air to deep right. Palomar racing back. And that one's going to bounce off the wall in right. Primero heading for second, and he'll be aboard safely with a leadoff double here in the top of the seventh.",
+      "expected": "Primero heading for second, and he'll be aboard safely with a leadoff double here in the top of the seventh.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.leadoff_double",
+      "template": "{batter_name} heading for second, and he'll be aboard safely with a leadoff double{inning_context}.",
+      "inputs": {
+        "outcome": "Double",
+        "batter_name": "Primero",
+        "result_outs": 0,
+        "is_leadoff": true,
+        "inning_context": " here in the top of the seventh"
+      }
+    }
+  ]
+}

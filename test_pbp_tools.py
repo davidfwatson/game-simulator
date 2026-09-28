@@ -232,6 +232,33 @@ class TestPbpTools(unittest.TestCase):
             pbp_tools.cmd_diff(args)
         self.assertIn('Content lines in target: 0', output.getvalue())
 
+    def test_diff_does_not_report_reordered_or_repeated_words_as_exact(self):
+        target = Path(self.tempdir.name) / 'target.txt'
+        args = SimpleNamespace(json_file=self.path, target_file=target,
+                               verbose=False, all=False, output=None)
+        for source, rendered in (('runner beats ball', 'ball beats runner'),
+                                 ('ball ball strike', 'ball strike strike')):
+            with self.subTest(source=source):
+                target.write_text(source)
+                output = io.StringIO()
+                with patch.object(NarrativeRenderer, 'render', return_value=rendered), redirect_stdout(output):
+                    pbp_tools.cmd_diff(args)
+                self.assertIn('Exact match:  0 (0.0%)', output.getvalue())
+                self.assertIn('≥90% similar: 1 (100.0%)', output.getvalue())
+
+    def test_diff_normalizes_counts_and_excludes_delay_markers(self):
+        target = Path(self.tempdir.name) / 'target.txt'
+        target.write_text('The one and two pitch\n[TTS SPLIT HERE DELAY:8.5s]\n')
+        args = SimpleNamespace(json_file=self.path, target_file=target,
+                               verbose=False, all=False, output=None)
+        output = io.StringIO()
+        rendered = 'The one-two pitch\n[TTS SPLIT HERE DELAY:9.5s]\n'
+        with patch.object(NarrativeRenderer, 'render', return_value=rendered), redirect_stdout(output):
+            pbp_tools.cmd_diff(args)
+        self.assertIn('Content lines in target: 1', output.getvalue())
+        self.assertIn('Content lines in rendered: 1', output.getvalue())
+        self.assertIn('Exact match:  1 (100.0%)', output.getvalue())
+
 
 if __name__ == '__main__':
     unittest.main()

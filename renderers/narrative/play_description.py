@@ -62,9 +62,14 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     elif template_outcome == "Popout":
         template_outcome = "Pop Out"
 
-    cat_override = hit_data.get('categoryOverride')
+    is_bunt = (pitch_details.get('isBunt', False)
+               or str(hit_data.get('trajectory', '')).lower().startswith('bunt'))
+    cat_override = 'bunt' if template_outcome == 'Single' and is_bunt else hit_data.get('categoryOverride')
     if cat_override:
         cat = cat_override
+    elif (template_outcome == 'Single' and hit_data.get('trajectory') == 'line_drive'
+          and ev is not None and ev < 90):
+        cat = 'soft_liner'
     else:
         cat = renderer._get_batted_ball_category(template_outcome, ev, la)
 
@@ -140,10 +145,17 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         # Also filter "down the line" templates for non-line directions
         if direction not in ("down the line", "down the first base line", "down the third base line"):
             filtered = [t for t in filtered if "down the" not in t.lower() or "{direction" in t]
+        # Line directions are already prepositional phrases, not field names.
+        # Keep "deep down the line" templates, but avoid "deep to down the
+        # line" and "to deep down the line" from field-noun templates.
+        if direction.startswith("down "):
+            filtered = [t for t in filtered
+                        if "deep to {direction_noun}" not in t
+                        and "deep {direction_noun}" not in t]
         if filtered:
             specific_templates = filtered
 
-    if specific_templates and renderer.rng_flow.random() < 0.8:
+    if specific_templates and (cat == "bunt" or renderer.rng_flow.random() < 0.8):
         template = renderer.rng_play.choice(specific_templates)
 
     orig_pitch_type = pitch_details.get('type', 'pitch')

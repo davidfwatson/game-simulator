@@ -57,12 +57,14 @@ class StatcastRenderer(GameRenderer):
                 code = details.get('code', '')
                 pitch_velo = event.get('pitchData', {}).get('startSpeed')
                 pitch_selection = details.get('type', {}).get('description', 'pitch')
+                is_bunt_pitch = event.get('isBunt', False) or 'bunt' in desc.casefold()
 
                 outcome_text = ""
                 if code == 'C': outcome_text = "called strike"
+                elif code == 'P' or (code == 'B' and 'pitchout' in desc.casefold()): outcome_text = "pitchout"
                 elif code == 'B': outcome_text = "ball"
-                elif code == 'S': outcome_text = "swinging strike"
-                elif code == 'F': outcome_text = "foul"
+                elif code == 'S': outcome_text = "missed bunt" if is_bunt_pitch else "swinging strike"
+                elif code == 'F': outcome_text = "foul bunt" if is_bunt_pitch else "foul"
                 elif code == 'X': outcome_text = "in play"
 
                 if outcome_text:
@@ -73,6 +75,9 @@ class StatcastRenderer(GameRenderer):
 
             result = play['result']
             outcome = result['event']
+            if (outcome in ('Intent Walk', 'Intentional Walk')
+                    or result.get('eventType') in ('intent_walk', 'intentional_walk')):
+                outcome = 'Intentional Walk'
             batter_name = play['matchup']['batter']['fullName']
 
             x_event = next((e for e in pitch_events if e['details'].get('code') == 'X'), None)
@@ -103,9 +108,27 @@ class StatcastRenderer(GameRenderer):
 
             if was_error:
                 result_line = self._format_statcast_template('Error', {'display_outcome': outcome, 'adv_str': "; ".join(advances), 'batter_name': batter_name})
+            elif outcome == 'Intentional Walk':
+                result_line = f"{batter_name} is intentionally walked."
             elif outcome == "Strikeout":
-                k_type = "looking" if last_pitch_event.get('details', {}).get('code') == 'C' else "swinging"
-                result_line = f"{batter_name} {self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])}."
+                destination = self._batter_safe_destination(play)
+                last_details = last_pitch_event.get('details', {})
+                last_code = last_details.get('code')
+                is_bunt = last_pitch_event.get('isBunt', False) or 'bunt' in last_details.get('description', '').casefold()
+                if destination == 'home':
+                    result_line = f"{batter_name} strikes out but comes around to score."
+                elif destination:
+                    result_line = f"{batter_name} strikes out but reaches {destination} safely."
+                elif is_bunt and last_code == 'F':
+                    result_line = f"{batter_name} strikes out on a foul bunt."
+                elif is_bunt and last_code == 'S':
+                    result_line = f"{batter_name} strikes out on a missed bunt."
+                else:
+                    k_type = "looking" if last_code == 'C' else "swinging"
+                    result_line = f"{batter_name} {self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])}."
+            elif (outcome == 'Single' and x_event
+                  and (x_event.get('isBunt') or str(x_event.get('hitData', {}).get('trajectory', '')).startswith('bunt'))):
+                result_line = f"{batter_name} reaches on a bunt single."
             elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
                 cat = self._get_batted_ball_category(outcome, pitch_info.get('ev'), pitch_info.get('la'))
                 phrase, phrase_type = self._get_batted_ball_verb(outcome, cat)

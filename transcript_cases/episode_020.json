@@ -1,0 +1,82 @@
+{
+  "episode": "episode_020.txt",
+  "cases": [
+    {
+      "id": "taken_up_away",
+      "source_line": 99,
+      "source_text": "And the pitch... Taken up and away for ball one.",
+      "expected": "Taken up and away",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.high_outside",
+      "template": "taken up and away",
+      "inputs": {
+        "event_type": "B",
+        "zone": 12,
+        "pitch_type_simple": "Fastball",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "ground_single_squeaks_through",
+      "source_line": 52,
+      "source_text": "And the one-two pitch... Hit on the ground, and that one will squeak through the infield, and that's a two-out base hit for Bugs Yamaguchi.",
+      "expected": "Hit on the ground, and that one will squeak through the infield",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.grounder",
+      "template": "Hit on the ground, and that one will squeak through the infield.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "grounder",
+          "location": "MI"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Bugs Yamaguchi",
+        "result_outs": null
+      }
+    },
+    {
+      "id": "one_out_double_inning_context",
+      "source_line": 314,
+      "source_text": "And the two-two pitch... And that's hit down the line, and that one will end up all the way in the corner. And that's going to be a one-out double for Buzz Norton here in the top of the seventh.",
+      "expected": "And that's going to be a one-out double for Buzz Norton here in the top of the seventh.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.double_one_out",
+      "template": "And that's going to be a one-out double for {batter_name}{inning_context}.",
+      "inputs": {
+        "outcome": "Double",
+        "batter_name": "Buzz Norton",
+        "result_outs": 1,
+        "is_leadoff": false,
+        "inning_context": " here in the top of the seventh"
+      }
+    },
+    {
+      "id": "shallow_right_routine_catch",
+      "source_line": 47,
+      "source_text": "And the one-two pitch... Lifted to shallow right. Routine play for Palomar, and he makes the catch for out number two.",
+      "expected": "Lifted to shallow right. Routine play for Palomar, and he makes the catch for out number two.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Flyout.default",
+      "template": "Lifted to shallow {direction_noun}. Routine play for {fielder_name}, and he makes the catch {out_context_str}.",
+      "inputs": {
+        "outcome": "Flyout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "SR"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Tiny Howl",
+        "result_outs": 2,
+        "fielder_pos": "RF",
+        "fielder_name": "Palomar"
+      }
+    }
+  ]
+}

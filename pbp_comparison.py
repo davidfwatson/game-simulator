@@ -49,6 +49,29 @@ PBP_EXAMPLES = (
     PBPExample(4, target_skip=27, content_exact_min=0.12),
 )
 
+# Each transcript case must pass an ordered source-phrase comparison and exact
+# snapshot replay. Preserve the reviewed per-episode coverage as pools grow.
+TRANSCRIPT_CASE_MINIMUMS = {
+    1: 4, 5: 5, 11: 4, 13: 4, 20: 4, 29: 4, 35: 4, 37: 4,
+    39: 5, 41: 5, 45: 5, 46: 5, 49: 5, 50: 5, 51: 5, 52: 5, 53: 5,
+}
+
+
+def validate_transcript_counts(counts, minimums=TRANSCRIPT_CASE_MINIMUMS):
+    if set(counts) != set(minimums):
+        raise ValueError('Transcript episodes differ from the reviewed catalog in pbp_comparison.py')
+    for episode, minimum in minimums.items():
+        if counts[episode] < minimum:
+            raise ValueError(f'episode_{episode:03d}: {counts[episode]} cases is below the {minimum}-case minimum')
+
+
+def check_transcript_examples():
+    from transcript_comparison import check_catalog
+
+    counts = check_catalog()
+    validate_transcript_counts(counts)
+    return counts
+
 
 def discover_pbp_examples(
     root: Path = REPOSITORY_ROOT,

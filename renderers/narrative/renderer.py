@@ -637,7 +637,7 @@ class NarrativeRenderer(GameRenderer):
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
         for play_idx, play in enumerate(plays):
-            play_start_line = len(lines)
+            play_start_line = sum(line.count('\n') + 1 for line in lines)
             about = play['about']
             matchup = play['matchup']
             inning = about['inning']
@@ -1035,7 +1035,7 @@ class NarrativeRenderer(GameRenderer):
             # recap_val was captured right after reseed (before inning transitions)
             # Call 0 (recap_val): gate (0-69 = recap, 70-99 = no recap)
             # Call 1 (recap_format_val): format selection when recap fires
-            batter_id = matchup['batter']['id']
+            batter_id = matchup['batter'].get('id')
             batter_last_name = batter_name.split()[-1]
             recap_format_val = self.rng_color.random()
             recap_score_context_val = self.rng_flow.random()
@@ -1087,9 +1087,15 @@ class NarrativeRenderer(GameRenderer):
 
             result = play['result']
             outcome = result['event']
+            if (outcome in ('Intent Walk', 'Intentional Walk')
+                    or result.get('eventType') in ('intent_walk', 'intentional_walk')):
+                outcome = 'Intentional Walk'
             play_events = play['playEvents']
             pitch_events = [event for event in play_events if event.get('isPitch', True)]
             last_pitch_event = pitch_events[-1] if pitch_events else {}
+            last_pitch_index = max((index for index, event in enumerate(play_events)
+                                    if event.get('isPitch', True)), default=-1)
+            post_outcome_text = []
             last_pitch_context = None
             i = 0
             x_event_connector = None
@@ -1137,6 +1143,19 @@ class NarrativeRenderer(GameRenderer):
                 details = event['details']
                 desc = details['description']
                 code = details.get('code', '')
+                if event.get('isPitch') is False:
+                    if details.get('eventType') in ('stolen_base', 'caught_stealing'):
+                        action_text = self._render_steal_event(event)
+                    elif desc:
+                        action_text = desc.rstrip('.') + '.'
+                    else:
+                        action_text = ''
+                    if action_text:
+                        destination = post_outcome_text if i > last_pitch_index else play_text_blocks
+                        destination.append(action_text)
+                    i += 1
+                    continue
+                is_bunt_pitch = (event.get('isBunt', False) or 'bunt' in desc.lower())
 
                 is_steal_attempt = False
                 steal_event = None
@@ -1168,7 +1187,7 @@ class NarrativeRenderer(GameRenderer):
                         connector = f"{connector.rstrip('...')} {self.rng_play.choice(GAME_CONTEXT['narrative_strings']['runner_goes'])}"
 
                     if code == 'F':
-                        if "Bunt" in desc:
+                        if is_bunt_pitch:
                              # Handle repeated bunt fouls
                              options = GAME_CONTEXT['narrative_strings']['bunt_foul']
                              choice = self.rng_pitch.choice(options).strip().rstrip('.')
@@ -1197,7 +1216,9 @@ class NarrativeRenderer(GameRenderer):
                              pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
 
                     elif code == 'S':
-                         if event['count']['strikes'] == 2:
+                         if is_bunt_pitch:
+                             pbp_line = self._get_narrative_string('bunt_missed', rng=self.rng_pitch)
+                         elif event['count']['strikes'] == 2:
                              key = 'strike_swinging_three'
                              pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
                          else:
@@ -1206,13 +1227,16 @@ class NarrativeRenderer(GameRenderer):
                              key = 'strike_swinging'
                              pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
 
-                    elif code == 'B':
-                         zone = details.get('zone')
-                         desc = self._get_pitch_description_for_location('B', zone, pitch_type, matchup['batSide']['code'])
-                         pbp_line = f"{pitch_type} {desc}"
+                    elif code in ('B', 'P'):
+                         if code == 'P' or 'pitchout' in desc.lower():
+                             pbp_line = self._get_narrative_string('pitchout', rng=self.rng_pitch)
+                         else:
+                             zone = details.get('zone')
+                             desc = self._get_pitch_description_for_location('B', zone, pitch_type, matchup['batSide']['code'])
+                             pbp_line = f"{pitch_type} {desc}"
 
                     # Reset consecutive foul counter on non-foul events
-                    if code in ('B', 'C', 'S'):
+                    if code in ('B', 'P', 'C', 'S'):
                         self.consecutive_fouls = 0
 
                     if pbp_line:
@@ -1227,9 +1251,9 @@ class NarrativeRenderer(GameRenderer):
 
                         c = event['count']
                         b, s = c['balls'], c['strikes']
-                        if code == 'B': b += 1
+                        if code in ('B', 'P'): b += 1
                         elif code in ['C', 'S', 'F']:
-                            if not (code == 'F' and s == 2): s += 1
+                            if not (code == 'F' and s == 2 and not is_bunt_pitch): s += 1
 
                         if b < 4 and s < 3:
                             spoken_count = self._get_spoken_count(b, s, connector="and")
@@ -1292,9 +1316,12 @@ class NarrativeRenderer(GameRenderer):
                                  # If count suppressed but we used a comma, switch to period
                                  pbp_line = pbp_line.rstrip(',') + "."
 
-                        is_final_event = (event == play_events[-1])
+                        is_final_event = (event is last_pitch_event)
                         if is_final_event and outcome in ["Strikeout", "Walk"]:
                             last_pitch_context = pbp_line.rstrip(".,")
+                            if is_steal_attempt:
+                                post_outcome_text.append(self._render_steal_event(steal_event))
+                                i += 1
                             i += 1
                             continue
 
@@ -1325,10 +1352,35 @@ class NarrativeRenderer(GameRenderer):
                                    f"play:{play_idx}:outcome")
 
             outcome_text = ""
-            if outcome == "Strikeout":
+            batter_id = matchup['batter']['id']
+            batter_destination = self._batter_safe_destination(play)
+            if outcome == "Intentional Walk":
+                outcome_text = self._get_narrative_string('intentional_walk', {'batter_name': batter_name})
+            elif outcome == "Strikeout" and batter_destination:
+                wild_pitch = any(event.get('details', {}).get('eventType') == 'wild_pitch'
+                                 for event in play_events[max(last_pitch_index, 0):])
+                key = 'strikeout_reaches_wild_pitch' if wild_pitch else 'strikeout_reaches'
+                if batter_destination == 'home':
+                    key = 'strikeout_reaches_and_scores'
+                elif batter_destination != 'first':
+                    key = 'strikeout_reaches_extra_base'
+                outcome_text = self._get_narrative_string(key, {'batter_name': batter_name,
+                                                               'base': batter_destination})
+            elif (outcome == "Strikeout" and (last_pitch_event.get('isBunt')
+                  or 'bunt' in last_pitch_event.get('details', {}).get('description', '').lower())
+                  and last_pitch_event.get('details', {}).get('code') in ('F', 'S')):
+                key = ('strikeout_bunt' if last_pitch_event['details']['code'] == 'F'
+                       else 'strikeout_bunt_missed')
+                outcome_text = self._get_narrative_string(key, {'batter_name': batter_name})
+            elif outcome == "Strikeout":
                 k_type = "looking" if last_pitch_event.get('details', {}).get('code') == 'C' else "swinging"
 
-                result_outs = play['count']['outs']
+                batter_runner = next((runner for runner in play.get('runners', [])
+                                      if runner.get('details', {}).get('runner', {}).get('id') == batter_id), {})
+                other_outs = sum(bool(runner.get('movement', {}).get('isOut'))
+                                 for runner in play.get('runners', [])
+                                 if runner.get('details', {}).get('runner', {}).get('id') != batter_id)
+                result_outs = batter_runner.get('movement', {}).get('outNumber') or max(1, play['count']['outs'] - other_outs)
                 result_outs_word = "one"
                 if result_outs == 2: result_outs_word = "two"
                 elif result_outs == 3: result_outs_word = "three"
@@ -1411,7 +1463,7 @@ class NarrativeRenderer(GameRenderer):
                      x_event = next((e for e in pitch_events if e['details'].get('code') == 'X'), None)
                      if x_event:
                          hit_data = x_event.get('hitData', {})
-                         pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed')}
+                         pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed'), 'isBunt': x_event.get('isBunt', False)}
                          ordinal = self._get_ordinal(inning)
                          inning_context = f" here in the {half.lower()} of the {ordinal}"
                          is_leadoff = (len(self.plays_in_half_inning) == 0)
@@ -1453,7 +1505,7 @@ class NarrativeRenderer(GameRenderer):
                 x_event = next((e for e in pitch_events if e['details'].get('code') == 'X'), None)
                 if x_event:
                     hit_data = x_event.get('hitData', {})
-                    pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed')}
+                    pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed'), 'isBunt': x_event.get('isBunt', False)}
 
                     fielder_pos = None
                     fielder_name = None
@@ -1503,6 +1555,7 @@ class NarrativeRenderer(GameRenderer):
 
             if outcome_text:
                  play_text_blocks.append(outcome_text)
+            play_text_blocks.extend(post_outcome_text)
 
             new_away = result['awayScore']
             new_home = result['homeScore']
@@ -1582,7 +1635,8 @@ class NarrativeRenderer(GameRenderer):
 
             lines.append("\n".join(collapsed))
             lines.append("")
-            self._play_line_map[play_idx] = (play_start_line, len(lines))
+            self._play_line_map[play_idx] = (
+                play_start_line, sum(line.count('\n') + 1 for line in lines))
 
         # --- GAME SUMMARY ---
         linescore_teams = self.gameday_data['liveData']['linescore']['teams']
