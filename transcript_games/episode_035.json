@@ -1,0 +1,3231 @@
+{
+  "episode": 35,
+  "source_file": "episode_035.txt",
+  "game": {
+    "away": "South Haven Ravens",
+    "home": "Tomah Tigers",
+    "venue": "Kittamori Park",
+    "away_lineup": [
+      {
+        "name": "Jerry Durante",
+        "position": "CF"
+      },
+      {
+        "name": "Hector Piña",
+        "position": "2B"
+      },
+      {
+        "name": "Sherman Hawkins",
+        "position": "LF"
+      },
+      {
+        "name": "Brandon Carlisle",
+        "position": "3B"
+      },
+      {
+        "name": "Steve McDykel",
+        "position": "RF"
+      },
+      {
+        "name": "Shecky Washington",
+        "position": "1B"
+      },
+      {
+        "name": "Hep Bronswell",
+        "position": "C"
+      },
+      {
+        "name": "Ricky Corrado",
+        "position": "SS"
+      },
+      {
+        "name": "Frank Gibson",
+        "position": "P"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Von Kramer",
+        "position": "2B"
+      },
+      {
+        "name": "Shorty Bush",
+        "position": "SS"
+      },
+      {
+        "name": "Schmitty Diaz",
+        "position": "CF"
+      },
+      {
+        "name": "Prudence Jefferson",
+        "position": "LF"
+      },
+      {
+        "name": "Bruford Kosinski",
+        "position": "RF"
+      },
+      {
+        "name": "Ernesto Stern",
+        "position": "1B"
+      },
+      {
+        "name": "Clifton Santiago",
+        "position": "C"
+      },
+      {
+        "name": "Burke Sessions",
+        "position": "3B"
+      },
+      {
+        "name": "Hiroki Nomo",
+        "position": "P"
+      }
+    ],
+    "away_pitcher": "Frank Gibson",
+    "home_pitcher": "Hiroki Nomo"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 37,
+      "source_end": 41,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 38
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 39,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 40
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 41
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 42,
+      "source_end": 44,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 43,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 44
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Pop Out",
+      "source_start": 45,
+      "source_end": 47,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 46
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 47
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Von Kramer",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 51,
+      "source_end": 53,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 52,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 53
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        }
+      ],
+      "notes": "Line53 calls a line drive to short but explicitly says Corrado throws to first for the out; later137 calls this a groundout. Preserve the thrown first-base out."
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Shorty Bush",
+      "pitcher": "Frank Gibson",
+      "outcome": "Strikeout",
+      "source_start": 54,
+      "source_end": 58,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 55,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 56
+        },
+        {
+          "code": "C",
+          "type": "Breaking ball",
+          "line": 57
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 58
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 59,
+      "source_end": 63,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 60
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 61,
+          "location": "low_inside"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 62
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 63
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 68,
+      "source_end": 72,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 69
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 70,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 71
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 72
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 73,
+      "source_end": 74,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 74
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 75,
+      "source_end": 78,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 76
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 77,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 78
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ],
+      "notes": "Opening lineup places Washington sixth and Bronswell seventh, but live order places Bronswell sixth throughout the game. Preserve observed Bronswell appearance rather than substituting a batter."
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Frank Gibson",
+      "outcome": "Home Run",
+      "source_start": 82,
+      "source_end": 84,
+      "outs": 0,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 83
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": "score",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Frank Gibson",
+      "outcome": "Strikeout",
+      "source_start": 85,
+      "source_end": 90,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 86
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 87,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 88,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 89
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 90
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Ernesto Stern",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 91,
+      "source_end": 94,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 92
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 93
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 94
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Clifton Santiago",
+      "pitcher": "Frank Gibson",
+      "outcome": "Single",
+      "source_start": 95,
+      "source_end": 99,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 97,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 98
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 99
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Burke Sessions",
+      "pitcher": "Frank Gibson",
+      "outcome": "Pop Out",
+      "source_start": 100,
+      "source_end": 101,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 101
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        },
+        {
+          "name": "Frank Gibson",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Walk",
+      "source_start": 106,
+      "source_end": 112,
+      "outs": 0,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 107
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 108
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 109,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 110,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 111,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 112,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "notes": "Washington bats seventh in the live sequence, following Bronswell, although the opening lineup placed him sixth."
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Ricky Corrado",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 113,
+      "source_end": 117,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 114,
+          "isBunt": true
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 115,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 116
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Ricky Corrado",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Shecky Washington",
+          "start": "1B",
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bruford Kosinski",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 118,
+      "source_end": 122,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 119
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 120,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 121
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 122
+        }
+      ],
+      "runners": [
+        {
+          "name": "Frank Gibson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 123,
+      "source_end": 127,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 124,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 125,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 126
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 127
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Hiroki Nomo",
+      "pitcher": "Frank Gibson",
+      "outcome": "Strikeout",
+      "source_start": 133,
+      "source_end": 136,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 134
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 135
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 136
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hiroki Nomo",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Von Kramer",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 137,
+      "source_end": 139,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 138,
+          "location": "high_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 139
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Shorty Bush",
+      "pitcher": "Frank Gibson",
+      "outcome": "Single",
+      "source_start": 140,
+      "source_end": 143,
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 141
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 142,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 143
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 144,
+      "source_end": 148,
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 145,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 146,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 147
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 148
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ],
+      "notes": "Source gives a deep right-field catch by Hawkins, whose announced position is left field. Retain voiced direction and named fielder without inventing a position change."
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Double",
+      "source_start": 153,
+      "source_end": 157,
+      "outs": 0,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 154,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 155
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 156
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 157
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bruford Kosinski",
+          "position": "RF"
+        }
+      ],
+      "notes": "Source identifies deep left-field ball pursued by Kosinski, whose announced position is right field. Retain source direction and named fielder without inventing a switch."
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Pop Out",
+      "source_start": 158,
+      "source_end": 163,
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 159,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 160
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 161
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 162
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Hector Piña",
+          "start": "2B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Single",
+      "source_start": 164,
+      "source_end": 166,
+      "outs": 1,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 165
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Hector Piña",
+          "start": "2B",
+          "end": "score",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Double Play",
+      "source_start": 167,
+      "source_end": 169,
+      "outs": 3,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 168,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 169
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        }
+      ],
+      "notes": "Final throw is described as getting Carlisle at first, but McDykel is the batter and Carlisle the forced runner at second. Encode the explicitly announced4-6-3 double play with those runner identities."
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Frank Gibson",
+      "outcome": "Double",
+      "source_start": 173,
+      "source_end": 176,
+      "outs": 0,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 174
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 175
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 176
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 177,
+      "source_end": 178,
+      "outs": 1,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 178
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Prudence Jefferson",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Frank Gibson",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Ernesto Stern",
+      "pitcher": "Frank Gibson",
+      "outcome": "Sac Fly",
+      "source_start": 179,
+      "source_end": 182,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 180
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Prudence Jefferson",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        },
+        {
+          "name": "Frank Gibson",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Clifton Santiago",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 183,
+      "source_end": 186,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 184
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 185,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 186
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 192,
+      "source_end": 195,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 193,
+          "location": "corner"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 194
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 195
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 196,
+      "source_end": 202,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 197
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 198,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 199,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 200
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 201,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 202
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Ricky Corrado",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 203,
+      "source_end": 207,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 204,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 205
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 206,
+          "location": "corner"
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 207
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ricky Corrado",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Burke Sessions",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 213,
+      "source_end": 217,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 214
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 215,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 216,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 217
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Hiroki Nomo",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 218,
+      "source_end": 220,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 219
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 220
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Hiroki Nomo",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Von Kramer",
+      "pitcher": "Frank Gibson",
+      "outcome": "Single",
+      "source_start": 221,
+      "source_end": 227,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 222
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 223,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 224
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 225,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 226,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 227
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Shorty Bush",
+      "pitcher": "Frank Gibson",
+      "outcome": "Strikeout",
+      "source_start": 228,
+      "source_end": 232,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 229,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 230
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 231
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 232
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 236,
+      "source_end": 240,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 237
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 238
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 239,
+          "location": "low_outside"
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 240
+        }
+      ],
+      "runners": [
+        {
+          "name": "Frank Gibson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 241,
+      "source_end": 246,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 242,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 243,
+          "location": "high_outside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 244,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 245,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 246
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Walk",
+      "source_start": 247,
+      "source_end": 252,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 248
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 249,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 250,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 251,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 252,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Groundout",
+      "source_start": 253,
+      "source_end": 254,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 254
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Hiroki Nomo",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 260,
+      "source_end": 262,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 261,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 262
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Frank Gibson",
+      "outcome": "Single",
+      "source_start": 263,
+      "source_end": 265,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 264
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Frank Gibson",
+      "outcome": "Single",
+      "source_start": 266,
+      "source_end": 270,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 267,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 268
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 269
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Prudence Jefferson",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Ernesto Stern",
+      "pitcher": "Frank Gibson",
+      "outcome": "Double Play",
+      "source_start": 271,
+      "source_end": 273,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 272
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Frank Gibson",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 276,
+      "source_end": 282,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 278,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 279
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 280
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 281,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 282
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 283,
+      "source_end": 287,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 284,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 285
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 286
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 287
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 288,
+      "source_end": 293,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 289
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 290,
+          "location": "low_outside"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 291
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 292,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 293
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Clifton Santiago",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 298,
+      "source_end": 302,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Off-speed pitch",
+          "line": 299,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 300
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 301,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 302
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Burke Sessions",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 303,
+      "source_end": 305,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 304
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 305
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Hiroki Nomo",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 306,
+      "source_end": 308,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 308
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Hiroki Nomo",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ricky Corrado",
+          "position": "SS"
+        },
+        {
+          "name": "Frank Gibson",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Reached Base",
+      "source_start": 313,
+      "source_end": 325,
+      "outs": 0,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 314,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 315
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 316,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 317
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Hiroki Nomo",
+          "position": "P"
+        }
+      ],
+      "notes": "Washington is explicitly safe at first on the infield roller; no error or hit credit is announced. Broadcast final line400 reports four Ravens hits, although five safe batted-ball arrivals appear in live action including this one. Preserve the safe arrival without inventing an error or official hit credit."
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Ricky Corrado",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Double Play",
+      "source_start": 326,
+      "source_end": 330,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 327
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 328
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 329
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Ricky Corrado",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Benny Standingbear",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Single",
+      "source_start": 331,
+      "source_end": 334,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 332,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 333
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Benny Standingbear",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "notes": "Pinch hitter for Frank Gibson."
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Walk",
+      "source_start": 335,
+      "source_end": 340,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 336,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 337
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 338,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 339,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 340,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Benny Standingbear",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Forceout",
+      "source_start": 341,
+      "source_end": 344,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 342
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 343
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 344
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "throw"
+      },
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Jerry Durante",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        }
+      ],
+      "notes": "Source explicitly forces Durante at second; Piña is not retired at first."
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Von Kramer",
+      "pitcher": "Bruce Starling",
+      "outcome": "Flyout",
+      "source_start": 350,
+      "source_end": 354,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 351,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 352
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 353,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 354
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Shorty Bush",
+      "pitcher": "Bruce Starling",
+      "outcome": "Strikeout",
+      "source_start": 355,
+      "source_end": 360,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 356
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 357
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 358,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 359,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 360
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Bruce Starling",
+      "outcome": "Single",
+      "source_start": 361,
+      "source_end": 368,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 362
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 363,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 364
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 365,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 366,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 367
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Bruce Starling",
+      "outcome": "Flyout",
+      "source_start": 369,
+      "source_end": 370,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 370
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Single",
+      "source_start": 377,
+      "source_end": 384,
+      "outs": 0,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 378,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 379
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 380,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 381
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 382,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 383
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Strikeout",
+      "source_start": 385,
+      "source_end": 392,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 386,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 387,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 388
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 389,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 390
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 391
+        },
+        {
+          "code": "A",
+          "line": 391,
+          "eventType": "caught_stealing",
+          "description": "Hawkins breaks for second on strike three; the throw tags him out for the second out of the inning.",
+          "runners": [
+            {
+              "name": "Sherman Hawkins",
+              "start": "1B",
+              "end": "2B",
+              "out": true
+            }
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Sherman Hawkins",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Hiroki Nomo",
+      "outcome": "Flyout",
+      "source_start": 393,
+      "source_end": 398,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 396
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 397
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 398
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bruford Kosinski",
+          "position": "RF"
+        }
+      ]
+    }
+  ],
+  "gaps": [],
+  "complete": true
+}

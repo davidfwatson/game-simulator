@@ -63,7 +63,8 @@ The file `pbp_example_1.txt` is a manually-written example of the target announc
 ## Project Structure
 
 * `baseball.py` – core simulation engine and CLI entry point
-* `teams.py` – fictional rosters, player attributes, and ambient context (umpires, weather, venues)
+* `teams.py` – fictional rosters and player attributes
+* `commentary.py` – shared wording pools for pitches, plays, transitions, and radio commentary
 * `gameday.py` – type definitions for gameday JSON output format
 * `example_games.py` – deterministic example definitions used for snapshot testing and documentation
 * `examples/` – checked-in play-by-play logs generated from fixed seeds (narrative, statcast, and gameday formats)
@@ -74,10 +75,12 @@ Feel free to modify the team definitions or extend the rules engine. When adding
 
 ## Testing Play-by-Play Generation
 
-This repository uses two distinct snapshot files for different purposes, which should not be confused:
+Snapshots belong to different inputs and must be regenerated through the matching workflow. For example:
 
 1. `examples/gameday_snapshot.json`: The canonical snapshot of the core simulator structure for structural tests (`test_gameday_snapshot.py`). This file is auto-generated and should not be manually tweaked. Use `python update_gameday_snapshot.py` to regenerate it.
-2. `test_fixture_pbp_example_3.json`: A manually constructed/tweaked JSON fixture used specifically for testing NarrativeRenderer similarity against the target text (`pbp_example_3.txt`). It stores explicit commentary draws to select specific wording and should NOT be synced with `examples/gameday_snapshot.json`.
+2. `test_fixture_pbp_example_3.json`: A manually constructed JSON fixture for NarrativeRenderer comparison against `pbp_example_3.txt`. It stores explicit commentary draws and is independent of the simulator snapshot. The same fixture/reference/snapshot pattern applies to examples 1–4.
+3. `examples/transcript_games/episode_NNN.json` and `.txt`: Full broadcast fixtures compiled and fitted from reviewed event ledgers in `transcript_games/`.
+4. `examples/transcript_cases/episode_NNN.json` and `.txt`: Focused helper cases compiled from `transcript_cases/`.
 
 If you modify `test_fixture_pbp_example_3.json`, you must also update the generated test output `test_fixture_pbp_example_3.txt`.
 
@@ -117,38 +120,66 @@ See [PBP_ALIGNMENT_GUIDE.md](PBP_ALIGNMENT_GUIDE.md) for the workflow.
 Register new `pbp_example_N.txt` references in `pbp_comparison.py`, together with
 a matching JSON fixture, rendered text snapshot, and reviewed comparison
 thresholds. The tests fail if any example is missing or unregistered.
-Run `python pbp_match_report.py --check` to check all examples, or add `--json`
-for machine-readable results. Content-only exact matching prevents repeated
-TTS markers from masking wording regressions.
+Run `python pbp_match_report.py --check` without example numbers to check the
+original four references, all 78 representative cases, and all 17 full broadcast
+fixtures. Add `--json` for machine-readable results. Passing example numbers
+limits that command to the selected original references. Content-only exact
+matching prevents repeated TTS markers from masking wording regressions.
 
 
-## Transcript-derived comparison cases
+## Full broadcast fixtures
 
-The 17 cleaned episodes in `transcripts/sleep_baseball/` now have 78 reviewed
-comparison cases in `transcript_cases/`. Each case cites an exact source line
-and supplies the baseball context needed to reproduce a particular phrase.
-Compiled fixtures in `examples/transcript_cases/` store ordinary commentary
-draw lists and corresponding text snapshots. Tests replay those lists through
-the production renderer methods and require the source phrase's words in order.
-They also fail when a source episode, case, fixture, or snapshot goes missing.
-The per-episode case minimums are registered in `pbp_comparison.py`, and
-`python pbp_match_report.py --check` also verifies this entire corpus.
+All 17 cleaned episodes in `transcripts/sleep_baseball/` have reviewed event
+ledgers in `transcript_games/` and ordinary Gameday JSON/text fixtures in
+`examples/transcript_games/`. They cover 1,106 observed appearance records,
+3,727 pitches, and 29 nonpitch actions. Episodes 001 and 051 remain incomplete:
+the first fades out during the ninth, and the second ends during a rain delay.
+Missing innings and unbroadcast pitches are documented rather than filled in.
 
-These are representative situation comparisons, **not full-game reconstructions
-or whole-transcript similarity scores**. The four existing full-game PBP
-alignment fixtures keep their original minimums. Numeric pitch metrics in a
-case are scenario inputs used to exercise the intended category, not measured
-statistics from the broadcast.
+The full-game wording is an approximate comparison baseline. It reproduces the
+recorded baseball events through the production renderer; it does not reproduce
+every anecdote or line of announcer banter verbatim. Source ranges, ambiguity
+notes, and completion flags distinguish observed facts from gaps. Verbal pitch
+locations and source-supported hit categories do not require invented tracking
+coordinates, velocities, or launch angles.
+
+The latest corpus pass appended 366 templates: 188 pitch/delivery templates and
+178 play/transition templates. Their source references are retained in
+`transcript_pitch_additions.json` and `transcript_play_additions.json`.
+
+```bash
+python transcript_game_fixtures.py            # Compile reviewed facts; writes JSON and text
+python fit_transcript_games.py                 # Recompile and fit ordinary commentaryRng draws
+python full_transcript_comparison.py --check   # Compare all 17 broadcasts and per-play wording
+python full_transcript_comparison.py 1 51 --gaps 5
+python full_transcript_comparison.py --json
+python pbp_match_report.py --check              # Check all three comparison catalogs
+```
+
+Both compiler and fitter overwrite `examples/transcript_games/`. The fitter is
+an offline authoring tool: it selects reachable production phrases, saves their
+integer draws, and verifies replay with `NarrativeRenderer`. It does not inject
+source prose into generated narration. Review the resulting JSON/text changes
+before updating comparison minimums. See [transcript_games/README.md](transcript_games/README.md)
+for the ledger schema, focused follow-up loop, and factual checks.
+
+## Representative transcript cases
+
+The 78 reviewed cases in `transcript_cases/` remain a separate, focused layer.
+Each cites an exact source line and supplies the context for a particular
+renderer helper. Their compiled fixtures in `examples/transcript_cases/` replay
+saved draw lists through production methods, require the expected words in
+order, and compare exact text snapshots. Catalog checks catch missing episodes,
+cases, fixtures, and snapshots.
 
 ```bash
 python transcript_comparison.py             # Report all 17 episodes / 78 cases
-python update_transcript_examples.py --check # Verify saved fixtures and snapshots
-python update_transcript_examples.py         # Recompile after reviewing a change
+python update_transcript_examples.py --check # Verify saved cases and snapshots
+python update_transcript_examples.py         # Recompile reviewed helper cases
 ```
 
 Use `source_line`, `source_text`, `expected`, `kind`, `pool`, `template`, and
-`inputs` in each authoring case. Add new wording only to a pool consistent with
-its facts: bunt singles require bunt data; intentional walks require an
-intentional-walk result; a strikeout reach requires the batter's safe movement
-to the stated base, and wild-pitch wording requires the corresponding event. Keep expected
-phrases grounded in the transcript and review regenerated snapshots.
+`inputs` in each authoring case. Numeric pitch metrics in older helper cases are
+synthetic scenario inputs, not measurements from the broadcasts. New full-game
+ledgers preserve the source's verbal facts instead. Add wording only to pools
+whose required situation is present, and test the actual helper or event route.

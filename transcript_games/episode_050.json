@@ -1,0 +1,2820 @@
+{
+  "episode": 50,
+  "source_file": "episode_050.txt",
+  "game": {
+    "away": "South Haven Ravens",
+    "home": "Manistee Eagles",
+    "venue": "Sam Nolan Field",
+    "away_lineup": [
+      {
+        "name": "Jerry Durante",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Hector Piña",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Shecky Washington",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Sherman Hawkins",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Steve McDykel",
+        "position": "RF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Brandon Carlisle",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Hep Bronswell",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Joshua Gonzalez",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Frank Gibson",
+        "position": "P",
+        "bat_side": "L"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Ali Nunez",
+        "position": "3B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Rodrigo Maryhue",
+        "position": "2B",
+        "bat_side": "L"
+      },
+      {
+        "name": "Billy Joe Rickson",
+        "position": "RF",
+        "bat_side": "S"
+      },
+      {
+        "name": "Gian Haggerty",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Lincoln Smathers",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "J.B. Gantry",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Mickey Navarro",
+        "position": "LF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Tito McCaskill",
+        "position": "SS",
+        "bat_side": "S"
+      },
+      {
+        "name": "Billy the Boroughbrello",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "away_pitcher": "Frank Gibson",
+    "home_pitcher": "Billy the Boroughbrello",
+    "away_manager": "Hep Bronswell",
+    "home_manager": "Ray Chandler"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 42,
+      "source_end": 45,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 43
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 44
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 45
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Maryhue",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 46,
+      "source_end": 50,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 47,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 48
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 49
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 50
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy Joe Rickson",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Double",
+      "source_start": 51,
+      "source_end": 52,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 52
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Single",
+      "source_start": 53,
+      "source_end": 55,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 54
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 55
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": "2B",
+          "end": "score"
+        },
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 56,
+      "source_end": 58,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 57
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 58
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Maryhue",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Ali Nunez",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 62,
+      "source_end": 63,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 63
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 63
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "notes": "Line63 compresses two distinct pitches: a called strike, then a groundout. The second pitch type is unspecified.",
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Rodrigo Maryhue",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 65,
+      "source_end": 68,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 66,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 67
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 68
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 69,
+      "source_end": 70,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 70
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 75,
+      "source_end": 77,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 76
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 77
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 78,
+      "source_end": 84,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 79,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 80
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 81,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 82,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 83
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 84
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Double",
+      "source_start": 85,
+      "source_end": 87,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 86,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 87
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 88,
+      "source_end": 90,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 89
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 90
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Maryhue",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Gian Haggerty",
+      "pitcher": "Frank Gibson",
+      "outcome": "Home Run",
+      "source_start": 95,
+      "source_end": 97,
+      "outs": 0,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 96
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 98,
+      "source_end": 101,
+      "outs": 1,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "Fastball",
+          "line": 99
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 100,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 101
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "J.B. Gantry",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 102,
+      "source_end": 103,
+      "outs": 2,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 103
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Mickey Navarro",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 104,
+      "source_end": 107,
+      "outs": 3,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 105
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 106
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 107
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 112,
+      "source_end": 113,
+      "outs": 1,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 113
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Maryhue",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 114,
+      "source_end": 116,
+      "outs": 2,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 115
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 116
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy the Boroughbrello",
+          "position": "P"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 117,
+      "source_end": 119,
+      "outs": 3,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 118
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 119
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy Joe Rickson",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Tito McCaskill",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 124,
+      "source_end": 126,
+      "outs": 1,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 125
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 126
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Billy the Boroughbrello",
+      "pitcher": "Frank Gibson",
+      "outcome": "Double",
+      "source_start": 127,
+      "source_end": 129,
+      "outs": 1,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 128
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 129
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "ground_ball"
+      },
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Ali Nunez",
+      "pitcher": "Frank Gibson",
+      "outcome": "Fielders Choice",
+      "source_start": 130,
+      "source_end": 133,
+      "outs": 2,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 131,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 132
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 133
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        },
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy the Boroughbrello",
+          "start": "2B",
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Boroughbrello tagged out in a5-6-5 rundown; batter reaches on fielder’s choice. This is not a force on the runner from second.",
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Rodrigo Maryhue",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 134,
+      "source_end": 137,
+      "outs": 3,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 135,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 136,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 137
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Single",
+      "source_start": 141,
+      "source_end": 143,
+      "outs": 0,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 142
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 143
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "ground_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Home Run",
+      "source_start": 144,
+      "source_end": 147,
+      "outs": 0,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 145
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 146
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 147
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": "1B",
+          "end": "score"
+        },
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 148,
+      "source_end": 150,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 149
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 150
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 151,
+      "source_end": 155,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 152,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 153,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 154
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 155
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Walk",
+      "source_start": 156,
+      "source_end": 161,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 157,
+          "location": "low_outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 158,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 159
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 160,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 161,
+          "location": "outside"
+        }
+      ],
+      "notes": "The introduction calls his earlier double a first-inning hit; it occurred in the second per lines85-87.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 162,
+      "source_end": 163,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 163
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ali Nunez",
+          "position": "3B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 168,
+      "source_end": 171,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 169
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 170,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 171
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Gian Haggerty",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 172,
+      "source_end": 175,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 173,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 174
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 175
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 176,
+      "source_end": 177,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 177
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 181,
+      "source_end": 187,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 182
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 183,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 184,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 185
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 186,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 187
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Pop Out",
+      "source_start": 188,
+      "source_end": 189,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 189
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "notes": "Foul-territory catch by first baseman Haggerty.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 190,
+      "source_end": 191,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 191
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "J.B. Gantry",
+      "pitcher": "Frank Gibson",
+      "outcome": "Single",
+      "source_start": 196,
+      "source_end": 199,
+      "outs": 0,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 197,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 198
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 199
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "ground_ball"
+      },
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Mickey Navarro",
+      "pitcher": "Frank Gibson",
+      "outcome": "Pop Out",
+      "source_start": 201,
+      "source_end": 204,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 202
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 203,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 204
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Tito McCaskill",
+      "pitcher": "Frank Gibson",
+      "outcome": "Double Play",
+      "source_start": 205,
+      "source_end": 206,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 206
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 210,
+      "source_end": 213,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 211
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 212,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 213
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 214,
+      "source_end": 215,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 215
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tito McCaskill",
+          "position": "SS"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Single",
+      "source_start": 216,
+      "source_end": 218,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 217
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 218
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Groundout",
+      "source_start": 219,
+      "source_end": 220,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 220
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Maryhue",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Billy the Boroughbrello",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 224,
+      "source_end": 226,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 225
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 226
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Ali Nunez",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 227,
+      "source_end": 229,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 228,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 229
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Rodrigo Maryhue",
+      "pitcher": "Frank Gibson",
+      "outcome": "Strikeout",
+      "source_start": 230,
+      "source_end": 233,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 231
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 232
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 233
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Pop Out",
+      "source_start": 237,
+      "source_end": 241,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 238
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 239
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 240,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 241
+        }
+      ],
+      "hit": {
+        "location": "C",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "J.B. Gantry",
+          "position": "C"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Strikeout",
+      "source_start": 242,
+      "source_end": 247,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 243,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 244,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 245
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 246
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 247
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Jerry Durante",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 248,
+      "source_end": 251,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 249
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 250,
+          "location": "high_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 251
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Mickey Navarro",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 256,
+      "source_end": 258,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 257
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 258
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Gian Haggerty",
+      "pitcher": "Frank Gibson",
+      "outcome": "Single",
+      "source_start": 259,
+      "source_end": 264,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 260,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 261
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 262,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 263
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 264
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Frank Gibson",
+      "outcome": "Double Play",
+      "source_start": 265,
+      "source_end": 266,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 266
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Hector Piña",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Single",
+      "source_start": 270,
+      "source_end": 274,
+      "outs": 0,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 271
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 272
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 273,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 274
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "ground_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Shecky Washington",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 275,
+      "source_end": 276,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 276
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy Joe Rickson",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Pop Out",
+      "source_start": 277,
+      "source_end": 279,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 278,
+          "location": "high_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 279
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Maryhue",
+          "position": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Steve McDykel",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Strikeout",
+      "source_start": 280,
+      "source_end": 283,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 281
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 282
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 283
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "J.B. Gantry",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 287,
+      "source_end": 290,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 288
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 289
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 290
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Mickey Navarro",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 291,
+      "source_end": 292,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 292
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Tito McCaskill",
+      "pitcher": "Frank Gibson",
+      "outcome": "Groundout",
+      "source_start": 293,
+      "source_end": 295,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 294
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 295
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brandon Carlisle",
+          "position": "3B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Strikeout",
+      "source_start": 299,
+      "source_end": 303,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 300
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 301
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 302,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 303
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Hep Bronswell",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Flyout",
+      "source_start": 304,
+      "source_end": 306,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 305,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 306
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Mickey Navarro",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Field Error",
+      "source_start": 307,
+      "source_end": 309,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 308,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 309
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Maryhue",
+          "position": "2B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joshua Gonzalez",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Explicit E4 on Rodrigo Maryhue.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Frank Gibson",
+      "pitcher": "Billy the Boroughbrello",
+      "outcome": "Strikeout",
+      "source_start": 310,
+      "source_end": 314,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 311
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 312,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 313
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 314
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Stuart Camacho",
+      "pitcher": "Frank Gibson",
+      "outcome": "Walk",
+      "source_start": 318,
+      "source_end": 324,
+      "outs": 0,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 319,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 320,
+          "location": "high_inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 321
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 322
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 323,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 324,
+          "location": "dirt"
+        }
+      ],
+      "notes": "Stuart Camacho pinch-hits for Billy the Boroughbrello in the ninth lineup spot.",
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Ali Nunez",
+      "pitcher": "Frank Gibson",
+      "outcome": "Strikeout",
+      "source_start": 325,
+      "source_end": 329,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 326,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 327
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 328
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 329
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Rodrigo Maryhue",
+      "pitcher": "Frank Gibson",
+      "outcome": "Pop Out",
+      "source_start": 330,
+      "source_end": 333,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 331,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 332
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 333
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Frank Gibson",
+      "outcome": "Flyout",
+      "source_start": 334,
+      "source_end": 337,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 335
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 336,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 337
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "L"
+    }
+  ],
+  "complete": true,
+  "postgame_start": 338
+}

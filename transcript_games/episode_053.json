@@ -1,0 +1,2834 @@
+{
+  "episode": 53,
+  "source_file": "episode_053.txt",
+  "game": {
+    "away": "Lake City Loons",
+    "home": "Cadillac Cars",
+    "venue": "Foghorn Field",
+    "away_lineup": [
+      {
+        "name": "Ford Stipe",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Lamont Bradleys",
+        "position": "RF",
+        "bat_side": "L"
+      },
+      {
+        "name": "JP Primero",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Billy De Jesus",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Gloveless Joe Topanga",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Nate Colbert",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Jose Sunderland",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Franklin Vega",
+        "position": "CF",
+        "bat_side": "S"
+      },
+      {
+        "name": "Butch Flores",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Pinky Slauson",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Gilligan Parker",
+        "position": "LF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Philip Nakamura",
+        "position": "1B",
+        "bat_side": "L"
+      },
+      {
+        "name": "Shiny Patterson",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Giovanni Gasparro",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Fritz Ortega",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Gabriel Palomar",
+        "position": "RF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Flipper Cortez",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Virgil Hughes",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "away_pitcher": "Butch Flores",
+    "home_pitcher": "Virgil Hughes",
+    "away_manager": "Sam Chalmers",
+    "home_manager": "Merlin Buffins"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Ford Stipe",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 49,
+      "source_end": 51,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 50,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 51
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Lamont Bradleys",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 52,
+      "source_end": 54,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 53,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 54
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gilligan Parker",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "JP Primero",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 55,
+      "source_end": 56,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 56
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 61,
+      "source_end": 66,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 62
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 63
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 64,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 65,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 66
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 67,
+      "source_end": 70,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 68
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 69
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 70
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Butch Flores",
+      "outcome": "Flyout",
+      "source_start": 71,
+      "source_end": 74,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 72,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 73,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 74
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gloveless Joe Topanga",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Billy De Jesus",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 79,
+      "source_end": 83,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 80
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 81,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 82
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 83
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Gloveless Joe Topanga",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 84,
+      "source_end": 86,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 85
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 86
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Nate Colbert",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 87,
+      "source_end": 90,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 88
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 89,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 90
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "notes": "Source calls the ball a grounder to short but names third baseman Patterson; preserved named fielder and reported location.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 95,
+      "source_end": 100,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 96
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 97,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 98,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 99
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 100
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy De Jesus",
+          "position": "3B"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 101,
+      "source_end": 103,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 102,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 103
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Butch Flores",
+      "outcome": "Single",
+      "source_start": 104,
+      "source_end": 107,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 105
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 106,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 107
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 107,
+      "source_end": 110,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 108,
+          "location": "low"
+        },
+        {
+          "code": "A",
+          "type": "pitch",
+          "line": 109,
+          "eventType": "pickoff_attempt",
+          "description": "And the one-oh, and instead, a toss over to first, but Ortega's back in safely.",
+          "runners": [
+            {
+              "name": "Fritz Ortega",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 110
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Nate Colbert",
+          "position": "2B"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "notes": "Source107 ends Ortega’s single and introduces Palomar. At109 pitcher throws to first instead of delivering a pitch; Ortega returns safely.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Jose Sunderland",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 115,
+      "source_end": 116,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 116
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Virgil Hughes",
+          "position": "P"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Franklin Vega",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 117,
+      "source_end": 121,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 118
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 119,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 120,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 121
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Butch Flores",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 122,
+      "source_end": 124,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 123
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 124
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Virgil Hughes",
+          "position": "P"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Flipper Cortez",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 129,
+      "source_end": 133,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 130,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 131
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 132
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 133
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Virgil Hughes",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 134,
+      "source_end": 138,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 135
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 136
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 137,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 138
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 139,
+      "source_end": 143,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 140,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 141,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 142
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 143
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ford Stipe",
+          "position": "SS"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Ford Stipe",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 148,
+      "source_end": 151,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 149,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 150
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 151
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Lamont Bradleys",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 152,
+      "source_end": 156,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 153,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 154
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 155
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 156
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "JP Primero",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 157,
+      "source_end": 158,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 158
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Butch Flores",
+      "outcome": "Double",
+      "source_start": 162,
+      "source_end": 163,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 163
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "lost_in_lights"
+      },
+      "notes": "Center fielder loses fly in lights; source explicitly awards stand-up double, not an error.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 164,
+      "source_end": 167,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 165,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 166
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 167
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Nate Colbert",
+          "position": "2B"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": "2B",
+          "end": "3B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 168,
+      "source_end": 172,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 169
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 170
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 171,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 172
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 173,
+      "source_end": 178,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 174,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 175,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 176
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 177
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 178
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Billy De Jesus",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Single",
+      "source_start": 183,
+      "source_end": 188,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 184
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 185
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 186,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 187,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 188
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "ground_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Gloveless Joe Topanga",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Pop Out",
+      "source_start": 189,
+      "source_end": 190,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 190
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Nate Colbert",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Double Play",
+      "source_start": 191,
+      "source_end": 192,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 192
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        },
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy De Jesus",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Nate Colbert",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Butch Flores",
+      "outcome": "Lineout",
+      "source_start": 195,
+      "source_end": 201,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 196,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 197
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 198
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 199,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 200,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 201
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Ford Stipe",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 202,
+      "source_end": 206,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 203
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 204,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 205,
+          "location": "corner"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 206
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Flipper Cortez",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 207,
+      "source_end": 210,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 208
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 209
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 210
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Jose Sunderland",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 213,
+      "source_end": 217,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 214
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 215,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 216,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 217
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Franklin Vega",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Single",
+      "source_start": 218,
+      "source_end": 220,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 219
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 220
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Butch Flores",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Sacrifice Bunt",
+      "source_start": 221,
+      "source_end": 223,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 222,
+          "isBunt": true
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 223,
+          "isBunt": true
+        }
+      ],
+      "hit": {
+        "location": "C",
+        "trajectory": "bunt"
+      },
+      "fielders": [
+        {
+          "name": "Giovanni Gasparro",
+          "position": "C"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Franklin Vega",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Ford Stipe",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Double",
+      "source_start": 224,
+      "source_end": 228,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 225,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 226,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 227
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 228
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Franklin Vega",
+          "start": "2B",
+          "end": "score"
+        },
+        {
+          "name": "Ford Stipe",
+          "start": null,
+          "end": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Lamont Bradleys",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 229,
+      "source_end": 231,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 230
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 231
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Virgil Hughes",
+      "pitcher": "Butch Flores",
+      "outcome": "Single",
+      "source_start": 236,
+      "source_end": 237,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 237
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Butch Flores",
+      "outcome": "Double Play",
+      "source_start": 238,
+      "source_end": 243,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 239,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 240
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 241
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 242
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 243
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ford Stipe",
+          "position": "SS"
+        },
+        {
+          "name": "Nate Colbert",
+          "position": "2B"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Virgil Hughes",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Pinky Slauson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Butch Flores",
+      "outcome": "Flyout",
+      "source_start": 244,
+      "source_end": 249,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 245,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 246,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 247
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 248,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 249
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lamont Bradleys",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "JP Primero",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Double",
+      "source_start": 253,
+      "source_end": 257,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 254,
+          "location": "low_outside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 255,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 256
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 257
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Billy De Jesus",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Single",
+      "source_start": 258,
+      "source_end": 259,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 259
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "JP Primero",
+          "start": "2B",
+          "end": "3B"
+        },
+        {
+          "name": "Billy De Jesus",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Gloveless Joe Topanga",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 259,
+      "source_end": 266,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 263,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 264
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 265
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 266
+        }
+      ],
+      "notes": "Source259 introduces Topanga after De Jesus’s single. Beans Sorensen is ejected during a mound visit although he is not pitching; Hughes remains the active pitcher.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Nate Colbert",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Single",
+      "source_start": 267,
+      "source_end": 271,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 268,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 269
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 270
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 271
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball",
+        "categoryOverride": "infield_knockdown"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "runners": [
+        {
+          "name": "JP Primero",
+          "start": "3B",
+          "end": "score"
+        },
+        {
+          "name": "Billy De Jesus",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Nate Colbert",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Hard grounder knocked down by Slauson with no play; no error is announced, treated as the narrated base hit.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Jose Sunderland",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Double Play",
+      "source_start": 272,
+      "source_end": 277,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 273,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 274
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 275
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 276
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 277
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Nate Colbert",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Jose Sunderland",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 282,
+      "source_end": 286,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 283,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 284,
+          "location": "corner"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 285
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 286
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Butch Flores",
+      "outcome": "Flyout",
+      "source_start": 287,
+      "source_end": 288,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 288
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lamont Bradleys",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 289,
+      "source_end": 293,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 290
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 291,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 292
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 293
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Nate Colbert",
+          "position": "2B"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Franklin Vega",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 298,
+      "source_end": 300,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 299
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 300
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Butch Flores",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 301,
+      "source_end": 303,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 302,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 303
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "notes": "Intro says Flores’s sixth-inning sac bunt scored a run, but actual sixth-inning sequence advances Vega to second and Stipe’s subsequent double scores him; no RBI assigned to the bunt.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Ford Stipe",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 304,
+      "source_end": 309,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 305
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 306
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 307,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 308,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 309
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 314,
+      "source_end": 320,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 315
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 316
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 317,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 318,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 319,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 320
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 321,
+      "source_end": 325,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 322
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 323,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 324
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 325
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ford Stipe",
+          "position": "SS"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Flipper Cortez",
+      "pitcher": "Butch Flores",
+      "outcome": "Single",
+      "source_start": 326,
+      "source_end": 331,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 327
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 328
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 329
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 330,
+          "location": "high_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 331
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Eddie Kincaid",
+      "pitcher": "Butch Flores",
+      "outcome": "Forceout",
+      "source_start": 332,
+      "source_end": 334,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 333,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 334
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball",
+        "forceMechanism": "throw"
+      },
+      "fielders": [
+        {
+          "name": "Ford Stipe",
+          "position": "SS"
+        },
+        {
+          "name": "Nate Colbert",
+          "position": "2B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Flipper Cortez",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Eddie Kincaid",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "Eddie Kincaid pinch-hits for Virgil Hughes in ninth spot; grounder results in force at second, not a batter putout.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Lamont Bradleys",
+      "pitcher": "Belden Inohosa",
+      "outcome": "Strikeout",
+      "source_start": 339,
+      "source_end": 342,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 340
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 341
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 342
+        }
+      ],
+      "notes": "Left-handed Belden Inohosa replaces Hughes for ninth inning; spelling follows transcript.",
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "JP Primero",
+      "pitcher": "Belden Inohosa",
+      "outcome": "Double",
+      "source_start": 343,
+      "source_end": 345,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 344
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 345
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Billy De Jesus",
+      "pitcher": "Belden Inohosa",
+      "outcome": "Strikeout",
+      "source_start": 346,
+      "source_end": 349,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 347,
+          "location": "corner"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 348
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 349
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Gloveless Joe Topanga",
+      "pitcher": "Belden Inohosa",
+      "outcome": "Pop Out",
+      "source_start": 350,
+      "source_end": 353,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 351,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 352
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 353
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "L"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Butch Flores",
+      "outcome": "Lineout",
+      "source_start": 357,
+      "source_end": 359,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 359
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Lamont Bradleys",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Butch Flores",
+      "outcome": "Groundout",
+      "source_start": 360,
+      "source_end": 362,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 361
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 362
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy De Jesus",
+          "position": "3B"
+        },
+        {
+          "name": "JP Primero",
+          "position": "1B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Butch Flores",
+      "outcome": "Strikeout",
+      "source_start": 363,
+      "source_end": 367,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 364
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 365,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 366
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 367
+        }
+      ],
+      "notes": "Final recap reports six Loons hits, but seven are narrated: De Jesus2singles, Vega single, Stipe double, Primero2doubles, and Colbert single. Score2-0 agrees with the ledger.",
+      "pitch_hand": "R"
+    }
+  ],
+  "complete": true,
+  "postgame_start": 368
+}
