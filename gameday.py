@@ -7,6 +7,22 @@ from typing import List, Literal, Optional, TypedDict, Dict
 from typing_extensions import NotRequired
 
 
+class CommentaryStreams(TypedDict, total=False):
+    """Independent, unlimited lists of integer draws for fixture wording."""
+
+    play: List[int]
+    pitch: List[int]
+    flow: List[int]
+    color: List[int]
+
+
+class CommentaryRNG(TypedDict, total=False):
+    init: CommentaryStreams
+    play_start: CommentaryStreams
+    event: CommentaryStreams
+    play_outcome: CommentaryStreams
+
+
 # Player/Team Structures
 class PlayerReference(TypedDict):
     id: int
@@ -82,6 +98,8 @@ class GameData(TypedDict):
     weather: str
     umpires: List[str]
     datetime: NotRequired[GameDatetime]
+    commentaryRng: NotRequired[CommentaryRNG]
+    commentarySeed: NotRequired[int]
 
 
 # Linescore Structures
@@ -199,6 +217,7 @@ class PlayEvent(TypedDict):
     endTime: str
     isPitch: bool
     type: NotRequired[str]
+    commentaryRng: NotRequired[CommentaryRNG]
 
 
 class PlayResult(TypedDict):
@@ -264,6 +283,7 @@ class Play(TypedDict):
     matchup: Matchup
     playEvents: List[PlayEvent]
     runners: List[Runner]
+    commentaryRng: NotRequired[CommentaryRNG]
 
 
 class Plays(TypedDict):

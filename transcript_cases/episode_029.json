@@ -1,0 +1,62 @@
+{
+  "episode": "episode_029.txt",
+  "cases": [
+    {
+      "id": "slider_downstairs",
+      "source_line": 46,
+      "source_text": "And the one-two pitch... Slider misses downstairs. Two and two.",
+      "expected": "misses downstairs",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_inside",
+      "template": "misses downstairs",
+      "inputs": {
+        "event_type": "B",
+        "zone": 13,
+        "pitch_type_simple": "Slider",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "smacked_foul_off_first",
+      "source_line": 158,
+      "source_text": "The one-one pitch... And he smacks that one foul off first. One and two.",
+      "expected": "And he smacks that one foul off first.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "and he smacks that one foul off first",
+      "inputs": {}
+    },
+    {
+      "id": "on_the_one_two_connector",
+      "source_line": 106,
+      "source_text": "And on the one-two, swing and a miss on a looping curveball, and Mullins is down on strikes for out number one.",
+      "expected": "And on the one-two",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.pitch_connectors",
+      "template": "And on the {count_str}...",
+      "inputs": {
+        "balls": 1,
+        "strikes": 2,
+        "pitcher_name": "Philip Jeffries",
+        "batter_name": "Giorgio Mullins",
+        "runners_on_base": false
+      }
+    },
+    {
+      "id": "leadoff_double_inning_context",
+      "source_line": 325,
+      "source_text": "The one-one pitch... Hard-hit ball down the third base line. That one is fair, and it gets past a diving Lozano. Diaz hustling for second, and he cruises in standing up. And that's a leadoff double for Schmitty Diaz here in the top of the seventh.",
+      "expected": "And that's a leadoff double for Schmitty Diaz here in the top of the seventh.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.leadoff_double",
+      "template": "And that's a leadoff double for {batter_name}{inning_context}.",
+      "inputs": {
+        "outcome": "Double",
+        "batter_name": "Schmitty Diaz",
+        "result_outs": 0,
+        "is_leadoff": true,
+        "inning_context": " here in the top of the seventh"
+      }
+    }
+  ]
+}

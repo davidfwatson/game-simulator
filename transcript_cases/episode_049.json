@@ -1,0 +1,93 @@
+{
+  "episode": "episode_049.txt",
+  "cases": [
+    {
+      "id": "episode_049_ripped_foul_third_baseline",
+      "source_line": 249,
+      "source_text": "Ripped foul down the third base line. Oh and two.",
+      "expected": "Ripped foul down the third base line.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "ripped foul down the third base line",
+      "inputs": {}
+    },
+    {
+      "id": "episode_049_just_misses_a_bit_outside",
+      "source_line": 231,
+      "source_text": "The two-oh pitch... Fastball just misses a bit outside, and Shemper falls behind, three and oh.",
+      "expected": "just misses a bit outside",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.high_outside",
+      "template": "just misses a bit outside",
+      "inputs": {
+        "event_type": "B",
+        "zone": 12,
+        "pitch_type_simple": "fastball",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "episode_049_grounder_squeaks_through",
+      "source_line": 204,
+      "source_text": "The one-two pitch... Grounder up the middle, and that one squeaks through the infield, and Filbert is aboard with a leadoff single here in the fourth.",
+      "expected": "Grounder up the middle, and that one squeaks through the infield",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.grounder",
+      "template": "Grounder {direction}, and that one squeaks through the infield.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "grounder",
+          "location": "MI"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Brink Filbert"
+      }
+    },
+    {
+      "id": "episode_049_double_rolls_to_wall",
+      "source_line": 331,
+      "source_text": "And the pitch... Lifted to left center. That one will drop in for a hit, and it'll roll all the way to the wall. Sessions, heading for second, and he'll be aboard safely. And that's a stand-up double for Burke Sessions.",
+      "expected": "That one will drop in for a hit, and it'll roll all the way to the wall.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Double.default",
+      "template": "Lifted to {direction_noun}. That one will drop in for a hit, and it'll roll all the way to the wall.",
+      "inputs": {
+        "outcome": "Double",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "LCF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Burke Sessions"
+      }
+    },
+    {
+      "id": "episode_049_leaping_warning_track_catch",
+      "source_line": 327,
+      "source_text": "And the pitch... Hammered to deep center field, Moon drifting back, and he makes a leaping catch on the warning track for out number one.",
+      "expected": "Moon drifting back, and he makes a leaping catch on the warning track for out number one.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Flyout.deep",
+      "template": "{fielder_name} drifting back, and he makes a leaping catch on the warning track {out_context_str}.",
+      "inputs": {
+        "outcome": "Flyout",
+        "hit_data": {
+          "categoryOverride": "deep",
+          "location": "DCF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Bruford Kosinski",
+        "fielder_name": "Moon",
+        "fielder_pos": "CF",
+        "result_outs": 1
+      }
+    }
+  ]
+}

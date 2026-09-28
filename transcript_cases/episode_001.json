@@ -1,0 +1,68 @@
+{
+  "episode": "episode_001.txt",
+  "cases": [
+    {
+      "id": "touch_high",
+      "source_line": 42,
+      "source_text": "The pitch. Just a touch high. Ball two. Two and one.",
+      "expected": "Just a touch high",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.high_inside",
+      "template": "just a touch high",
+      "inputs": {
+        "event_type": "B",
+        "zone": 11,
+        "pitch_type_simple": "Curveball",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "first_base_line_stroked_foul",
+      "source_line": 244,
+      "source_text": "The oh-one pitch to Malone. That one stroked foul down the first base line. It's oh and two.",
+      "expected": "That one stroked foul down the first base line.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "that one stroked foul down the first base line",
+      "inputs": {}
+    },
+    {
+      "id": "one_oh_delivery",
+      "source_line": 199,
+      "source_text": "And the one-oh delivery. That's in there for a strike. One and one.",
+      "expected": "And the one-oh delivery.",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.pitch_connectors",
+      "template": "And the {count_str} delivery.",
+      "inputs": {
+        "balls": 1,
+        "strikes": 0,
+        "pitcher_name": "Javier Von Newman",
+        "batter_name": "Gilligan Parker",
+        "runners_on_base": false
+      }
+    },
+    {
+      "id": "squibber_single",
+      "source_line": 74,
+      "source_text": "And now the oh-one. And Rudderson slaps that one right past the shortstop for a base hit. Just a little squibber that squeaked through the infield.",
+      "expected": "Just a little squibber that squeaked through the infield.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.grounder",
+      "template": "Just a little squibber that squeaked through the infield.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "grounder",
+          "location": "SS"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Blink Rudderson",
+        "result_outs": null
+      }
+    }
+  ]
+}

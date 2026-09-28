@@ -1,3 +1,12 @@
+"""Commentary phrase pools shared by renderers and fixture alignment tools.
+
+Keep phrases within the facts supplied by their category; a generic pool should
+not invent a pitch location, runner, fielding play, or scoring situation.
+Verb pools contain present-tense predicates that can follow a batter's name;
+noun pools contain noun phrases that can follow "hits" or "gets". Location
+descriptions omit the pitch type because the renderer supplies it separately.
+"""
+
 GAME_CONTEXT = {
     "network_name": "The Pacific Sleep Baseball Network",
     "station_call": "KSLP",
@@ -44,35 +53,91 @@ GAME_CONTEXT = {
                 "gets away from him and that one misses way outside"
             ],
             "high_inside": [
-                "high and tight", "high and inside", "runs high", "misses high",
-                "misses upstairs", "up in the eyes", "over the head", "way upstairs",
-                "runs inside", "a bit inside", "nearly hits him", "brushes him back",
-                "fastball high and tight", "up and in", "misses very high"
+                "high and tight",
+                "high and inside",
+                "runs high",
+                "misses high",
+                "misses upstairs",
+                "up in the eyes",
+                "over the head",
+                "way upstairs",
+                "runs inside",
+                "a bit inside",
+                "nearly hits him",
+                "brushes him back",
+                "misses up and in",
+                "up and in",
+                "misses very high",
+                "just a touch high",
+                "misses just inside"
             ],
             "high_outside": [
-                "sails over the letters", "misses high and wide", "runs high",
-                "misses upstairs", "misses high", "up in the eyes", "way upstairs",
-                "just misses outside", "way outside", "misses outside",
-                "misses just a bit outside", "just off the plate", "misses away", "wide",
+                "sails over the letters",
+                "misses high and wide",
+                "runs high",
+                "misses upstairs",
+                "misses high",
+                "up in the eyes",
+                "way upstairs",
+                "just misses outside",
+                "way outside",
+                "misses outside",
+                "misses just a bit outside",
+                "just off the plate",
+                "misses away",
+                "wide",
                 "gets away from him and that one misses way outside",
-                "misses just outside", "misses very high"
+                "misses just outside",
+                "misses very high",
+                "misses way outside",
+                "taken up and away",
+                "just misses a bit outside"
             ],
             "low_inside": [
-                "misses low and inside", "down and in", "misses low", "misses a bit low",
-                "runs a bit low", "in the dirt", "bounced in the dirt", "runs inside",
-                "a bit inside", "misses down and in",
+                "misses low and inside",
+                "down and in",
+                "misses low",
+                "misses a bit low",
+                "runs a bit low",
+                "in the dirt",
+                "bounced in the dirt",
+                "runs inside",
+                "a bit inside",
+                "misses down and in",
                 "he bounces one in the dirt",
                 "down low",
                 "low and inside",
-                "just misses low"
+                "just misses low",
+                "bounces in the dirt in front of the plate",
+                "misses downstairs",
+                "downstairs",
+                "bounces in front of the plate"
             ],
             "low_outside": [
-                "low and away", "spikes before the plate", "misses low and outside",
-                "misses low", "misses a bit low", "runs a bit low", "in the dirt",
-                "bounced in the dirt", "just misses outside", "way outside", "misses outside",
-                "misses just a bit outside", "just off the plate", "misses away", "wide",
-                "away", "down and away", "just misses low", "misses low and away",
-                "low and outside", "runs wide", "off the plate"
+                "low and away",
+                "spikes before the plate",
+                "misses low and outside",
+                "misses low",
+                "misses a bit low",
+                "runs a bit low",
+                "in the dirt",
+                "bounced in the dirt",
+                "just misses outside",
+                "way outside",
+                "misses outside",
+                "misses just a bit outside",
+                "just off the plate",
+                "misses away",
+                "wide",
+                "away",
+                "down and away",
+                "just misses low",
+                "misses low and away",
+                "low and outside",
+                "runs wide",
+                "off the plate",
+                "off the outside corner",
+                "just off the corner"
             ]
         },
         "foul": [
@@ -123,7 +188,25 @@ GAME_CONTEXT = {
             "flied foul and out of play",
             "hooked foul down the left field line",
             "lifted foul off third",
-            "popped foul off first and into the stands"
+            "popped foul off first and into the stands",
+            "that one stroked foul down the first base line",
+            "fouled off to the right and out of play",
+            "chopped softly foul on the first-base line",
+            "fouled down the left field line and into the stands",
+            "and he smacks that one foul off first",
+            "dribbled foul down the third base line",
+            "sliced foul down the third base line",
+            "popped up into foul territory, and that one will knuckle into the stands",
+            "smashed foul into the stands",
+            "hammered foul on the first base line",
+            "pulled foul and out of play",
+            "slashed foul past third base",
+            "fisted foul off to the right",
+            "ripped foul down the third base line",
+            "chopper, foul down the third base line",
+            "sliced foul right side",
+            "smashed foul down the right field line",
+            "that one is knuckling foul and out of play"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -164,6 +247,17 @@ GAME_CONTEXT = {
     },
     "narrative_templates": {
         "Single": {
+            "soft_liner": [
+                "A soft liner over the head of a leaping {fielder_name}.",
+                "Softly lined {direction}. That one drops in for a base hit.",
+                "A soft line drive {direction}, and that one falls in."
+            ],
+            "bunt": [
+                "Bunted along {direction_noun}. {fielder_name} is in. And he will not have a play on that perfectly executed bunt.",
+                "{batter_name} lays down a bunt, perfectly executed for a bunt single.",
+                "Bunted towards {direction_noun}, {fielder_name} racing in, and he will not have a play.",
+                "{batter_name} lays down a bunt, and he is going to be safe at first."
+            ],
             "liner": [
                 "Lined {direction}. That one drops in.",
                 "Lined {direction}, and that one will drop in for a base hit.",
@@ -191,7 +285,8 @@ GAME_CONTEXT = {
                 "Looper into shallow {direction_noun}. And that one falls in for a base hit.",
                 "Hit in the air to shallow {direction_noun}. And that one will drop in for a hit.",
                 "Poked into shallow {direction_noun}. And that one lands in front of {fielder_name}.",
-                "Flared into shallow {direction_noun}. And that one drops in for a hit."
+                "Flared into shallow {direction_noun}. And that one drops in for a hit.",
+                "And that's a little looper into shallow {direction_noun}, and that one falls in for a base hit."
             ],
             "grounder": [
                 "Hard grounder up the middle... and that one will squeeze through for a base hit.",
@@ -202,7 +297,13 @@ GAME_CONTEXT = {
                 "Hard grounder {direction}. And that one gets through the infield for a base hit.",
                 "Hard grounder {direction}. Past a diving {fielder_name}.",
                 "Hard grounder {direction}. And that one squeaks through the infield for a base hit.",
-                "Chopped through the hole. And that one will skip into {direction_noun} for a base hit."
+                "Chopped through the hole. And that one will skip into {direction_noun} for a base hit.",
+                "Just a little squibber that squeaked through the infield.",
+                "Bounced off the plate {direction}. {fielder_name} will not get there.",
+                "Hit on the ground, and that one will squeak through the infield.",
+                "Grounder {direction}, and that one squeaks through the infield.",
+                "Hard grounder {direction}, and that one skips through the infield for a base hit.",
+                "Tough play for {fielder_name}. The throw is not in time."
             ],
             "default": [
                 "Lined {direction}. That one drops in.",
@@ -211,24 +312,32 @@ GAME_CONTEXT = {
                 "Lined into shallow {direction_noun}, and that one will drop in.",
                 "Line drive, {direction_noun}.",
                 "That one drops in.",
-                "Bunted along {direction_noun}. {fielder_name} is in. And he will not have a play on that perfectly executed bunt.",
+                "Hit {direction}. And that one falls in for a base hit.",
                 "Line into shallow {direction_noun}. And that one falls in for a base hit.",
                 "Tapped into shallow {direction_noun}. And that one drops in for a base hit."
             ]
         },
         "Double": {
             "default": [
-                 "Lined {direction}! That one is fair and that one will get all the way to the wall.",
-                 "Hammered {direction}! That one will drop in for a hit and roll all the way to the wall.",
-                 "Hammered to {direction_noun}! That one will drop in for a hit and roll all the way to the wall.",
-                 "Sliced down the {direction_noun} line. That one falls in for a hit, and that one will roll all the way into the corner.",
-                 "Pulled into {direction_noun}. That one's going to fall in. And that's going to roll all the way to the wall."
+                "Lined {direction}! That one is fair and that one will get all the way to the wall.",
+                "Hammered {direction}! That one will drop in for a hit and roll all the way to the wall.",
+                "Hammered to {direction_noun}! That one will drop in for a hit and roll all the way to the wall.",
+                "Sliced down the {direction_noun} line. That one falls in for a hit, and that one will roll all the way into the corner.",
+                "Pulled into {direction_noun}. That one's going to fall in. And that's going to roll all the way to the wall.",
+                "Driven {direction}, and that will be good for two bases.",
+                "A base hit {direction}. {batter_name} is on his way to second with a double.",
+                "Hit {direction}, and {batter_name} makes it into second with a double.",
+                "Lifted to {direction_noun}. That one will drop in for a hit, and it'll roll all the way to the wall.",
+                "Hit into deep {direction_noun}. That one drops in and bounces off the wall."
             ]
         },
         "Triple": {
              "default": [
                  "Hit deep into the gap! {batter_name} racing around second... and he's in safely at third with a triple.",
-                 "A drive into the gap! {batter_name} on his way to third... and he slides in safely."
+                 "A drive into the gap! {batter_name} on his way to third... and he slides in safely.",
+                 "Driven {direction}. {batter_name} is around second and into third with a triple.",
+                 "A drive {direction}! {batter_name} keeps running, and he makes it to third with a triple.",
+                 "That will be three bases for {batter_name}, who makes it safely into third.",
              ]
         },
         "Home Run": {
@@ -237,7 +346,9 @@ GAME_CONTEXT = {
                  "Sails over the wall for a long, lazy home run!",
                  "Hit in the air {direction}! {fielder_name} racing after it... he will not get there!",
                  "Deep fly ball {direction}... back, back... gone! A home run for {batter_name}!",
-                 "High fly ball {direction}... and that one is gone!"
+                 "High fly ball {direction}... and that one is gone!",
+                 "Swung on, a high drive deep to {direction_noun}, and that one is going to sail over the wall.",
+                 "Hit in the air to deep {direction_noun}. {fielder_name} racing back, and he'll run out of room as that one sails over the wall."
              ]
         },
         "Groundout": {
@@ -280,7 +391,10 @@ GAME_CONTEXT = {
                 "Grounder to {direction_noun}. {fielder_name} is up with it and he tosses to first to retire {batter_name} {out_context_str}.",
                 "Tapper to {direction_noun}. {fielder_name} charges and fires to first {out_context_str}.",
                 "Bouncer to {direction_noun}. {fielder_name} handles it and flips to first to retire {batter_name} {out_context_str}.",
-                "{fielder_name} scoops it up and flips to first to retire {batter_name} {out_context_str}."
+                "{fielder_name} scoops it up and flips to first to retire {batter_name} {out_context_str}.",
+                "Roller to {fielder_name}, he's up with it, and flips to first to retire {batter_name} {out_context_str}.",
+                "Grounder {direction}, backhanded by {fielder_name}, and he fires across in time to retire {batter_name} {out_context_str}.",
+                "Grounder {direction}, speared by {fielder_name}, who spins and fires to first, just in time to retire {batter_name} {out_context_str}."
             ],
             "unassisted_1b": [
                 "One hopper to first. {fielder_name} will have it unassisted. And he steps on the bag to retire {batter_name} {out_context_str}.",
@@ -288,7 +402,9 @@ GAME_CONTEXT = {
                 "Bouncer to first. {fielder_name} takes it himself and steps on the bag {out_context_str}.",
                 "Grounder to first. {fielder_name} scoops it up and steps on the bag {out_context_str}.",
                 "Chopper at first. {fielder_name} will have it unassisted and he steps on the bag to retire {batter_name} {out_context_str}.",
-                "Bouncer to first. {fielder_name} will have it unassisted and he steps on the bag to retire {batter_name} {out_context_str}."
+                "Bouncer to first. {fielder_name} will have it unassisted and he steps on the bag to retire {batter_name} {out_context_str}.",
+                "That's a slow hopper to first. {fielder_name} gingerly scoops it up and steps on the bag to retire {batter_name}.",
+                "Hard grounder to first, {fielder_name} spears it, and he steps on the bag to retire {batter_name} {out_context_str}."
             ],
             "pitcher_groundout": [
                 "Comebacker to the mound. {fielder_name} handles it and tosses over to first {out_context_str}.",
@@ -296,7 +412,10 @@ GAME_CONTEXT = {
                 "Chopper back to the box. {fielder_name} fields it cleanly and fires to first {out_context_str}.",
                 "Chopper over the mound. {fielder_name} picks it up and fires to first {out_context_str}.",
                 "Bouncer back to the mound. {fielder_name} scoops it up and tosses to first {out_context_str}.",
-                "Roller back to the mound. {fielder_name} scoops it up and fires to first to retire {batter_last_name} {out_context_str}."
+                "Roller back to the mound. {fielder_name} scoops it up and fires to first to retire {batter_last_name} {out_context_str}.",
+                "And that's dribbled right back to {fielder_name}, who tosses to first in time {out_context_str}.",
+                "Chopper back to the mound. {fielder_name} picks it up and tosses to first to retire {batter_name}.",
+                "Dribbler back to the mound. {fielder_name} has it, and he tosses to first to retire {batter_name} {out_context_str}."
             ]
         },
         "Flyout": {
@@ -327,7 +446,12 @@ GAME_CONTEXT = {
                 "Lifted to {direction_noun}. {fielder_name} is calling for it, and he makes the catch {out_context_str}.",
                 "Lifted into {direction_noun}. {fielder_name} is there and he makes the catch {out_context_str}.",
                 "Fly ball into {direction_noun}. {fielder_name} calling for it. And he makes the catch {out_context_str}.",
-                "Fly ball into {direction_noun}. {fielder_name} is there. And he makes the catch {out_context_str}."
+                "Fly ball into {direction_noun}. {fielder_name} is there. And he makes the catch {out_context_str}.",
+                "Lifted to shallow {direction_noun}. Routine play for {fielder_name}, and he makes the catch {out_context_str}.",
+                "{fielder_name} racing after it, and he makes a diving catch {out_context_str}.",
+                "{fielder_name} racing over, and he makes a diving catch {out_context_str}.",
+                "Skied into shallow {direction_noun}. {fielder_name} is camped under it, and he puts the squeeze on it {out_context_str}.",
+                "{fielder_name} drifting back, and he puts the squeeze on it {out_context_str}."
             ],
             "deep": [
                 "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab on the warning track to haul it in {out_context_str}.",
@@ -337,7 +461,8 @@ GAME_CONTEXT = {
                 "Hit in the air to deep {direction_noun}. {fielder_name} racing back. And he makes a leaping grab to haul it in {out_context_str}.",
                 "Sent deep {direction}. {fielder_name} on the run... and he makes the catch {out_context_str}.",
                 "Driven into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch on the warning track {out_context_str}.",
-                "Fly ball into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch {out_context_str}."
+                "Fly ball into deep {direction_noun}. {fielder_name} drifting back. And he makes the catch {out_context_str}.",
+                "{fielder_name} drifting back, and he makes a leaping catch on the warning track {out_context_str}."
             ]
         },
         "Pop Out": {
@@ -353,7 +478,8 @@ GAME_CONTEXT = {
                  "Popped up on the infield, {direction_noun} side. {fielder_name} is under it, and he makes the catch {out_context_str}.",
                  "Popped up on the infield. {fielder_name} is under it. And he makes the catch {out_context_str}.",
                  "Popped up on the infield, {direction_noun} side. {fielder_name} calling for it, and he makes the catch {out_context_str}.",
-                 "Up on the infield, {direction_noun} side. {fielder_name} is under it. And he makes the catch {out_context_str}."
+                 "Up on the infield, {direction_noun} side. {fielder_name} is under it. And he makes the catch {out_context_str}.",
+                 "Popped up softly {direction}, {fielder_name} is under it, and he makes the catch {out_context_str}."
              ]
         },
         "Lineout": {
@@ -362,7 +488,10 @@ GAME_CONTEXT = {
                  "Lined sharply to {fielder_name} {out_context_str}.",
                  "A screaming liner to {fielder_name}, caught {out_context_str}.",
                  "Lined into the glove of {fielder_name} {out_context_str}.",
-                 "Hard liner captured by {fielder_name} {out_context_str}."
+                 "Hard liner captured by {fielder_name} {out_context_str}.",
+                 "Lined right at {fielder_name}, who makes the catch {out_context_str}.",
+                 "A line drive, and {fielder_name} is there to snare it {out_context_str}.",
+                 "{fielder_name} catches the liner {out_context_str}.",
              ]
         },
         "Strikeout": {
@@ -399,7 +528,11 @@ GAME_CONTEXT = {
                  "{last_pitch_context}, and {batter_name} draws a walk.",
                  "{last_pitch_context}, and {batter_name} is aboard with a walk.",
                  "{last_pitch_context}, and {batter_name} is aboard with a {outs_str} walk.",
-                 "{batter_name} draws a walk."
+                 "{batter_name} draws a walk.",
+                 "{last_pitch_context}, and that will put {batter_name} aboard on a walk.",
+                 "{last_pitch_context}. A {outs_str} walk for {batter_name}.",
+                 "{batter_name} takes his base on a walk.",
+                 "A {outs_str} walk puts {batter_name} aboard.",
              ]
         },
         "Double Play": {
@@ -420,7 +553,11 @@ GAME_CONTEXT = {
         "Hit By Pitch": {
              "default": [
                  "{batter_name} is hit by the pitch.",
-                 "{batter_name} takes one for the team."
+                 "{batter_name} takes one for the team.",
+                 "The pitch hits {batter_name}, and he will take first base.",
+                 "{batter_name} is aboard after being hit by the pitch.",
+                 "That one catches him. He is awarded first base.",
+                 "Hit by the pitch, {batter_name} heads down to first.",
              ]
         },
         "Sacrifice Bunt": {
@@ -428,14 +565,18 @@ GAME_CONTEXT = {
                 "He lays down a sacrifice bunt {direction}. {fielder_name} fields it and throws to first {out_context_str}.",
                 "Bunted {direction}. {fielder_name} scoops it up and fires to first {out_context_str}.",
                 "Squares around and bunts it {direction}. {fielder_name} charges and throws to first {out_context_str}.",
-                "A well-placed bunt {direction}. {fielder_name} to first {out_context_str}."
+                "A well-placed bunt {direction}. {fielder_name} to first {out_context_str}.",
+                "The sacrifice is down {direction}. {fielder_name} throws to first {out_context_str}.",
+                "Bunted {direction}. {fielder_name} makes the play at first {out_context_str}, and the sacrifice does its job.",
             ]
         },
         "Bunt Ground Out": {
             "default": [
                  "Bunts {direction}, but {fielder_name} is there and throws to first {out_context_str}.",
                  "He bunts it {direction}. {fielder_name} fields it cleanly and retires the batter at first {out_context_str}.",
-                 "A bunt attempt {direction}. {fielder_name} pounces on it and fires to first {out_context_str}."
+                 "A bunt attempt {direction}. {fielder_name} pounces on it and fires to first {out_context_str}.",
+                 "Bunted {direction}. {fielder_name} gets to it and throws out {batter_name} {out_context_str}.",
+                 "{batter_name} lays down a bunt {direction}. {fielder_name} makes the play at first {out_context_str}.",
             ]
         },
         "Sac Fly": {
@@ -443,7 +584,26 @@ GAME_CONTEXT = {
                 "Fly ball {direction}. {fielder_name} is under it and he makes the catch. The runner tags and scores.",
                 "Fly ball {direction}. {fielder_name} is there and he makes the catch. The runner will tag up and score.",
                 "Fly ball into {direction_noun}. {fielder_name} is under it and he makes the catch. And the runner tags and scores on the sacrifice fly.",
-                "Fly ball {direction}. {fielder_name} drifts back and makes the catch. The runner tags and scores."
+                "Fly ball {direction}. {fielder_name} drifts back and makes the catch. The runner tags and scores.",
+                "Lifted {direction}. {fielder_name} makes the catch, and the runner comes home on the sacrifice fly.",
+                "Hit in the air {direction}. {fielder_name} catches it, but the runner tags and scores.",
+                "{fielder_name} takes the fly ball {direction}. The runner tags and comes home to score.",
+            ]
+        },
+        "Field Error": {
+            "default": [
+                "{batter_name} reaches on an error.",
+                "An error allows {batter_name} to reach base.",
+                "{batter_name} is aboard, and that will go down as an error.",
+                "The play results in an error, and {batter_name} reaches safely."
+            ]
+        },
+        "Forceout": {
+            "default": [
+                "They get the force {out_context_str}. {batter_name} reaches on a fielder's choice.",
+                "The defense records a forceout {out_context_str}, with {batter_name} reaching on a fielder's choice.",
+                "A force play {out_context_str}. That goes down as a fielder's choice for {batter_name}.",
+                "They take the force {out_context_str}, and it's a fielder's choice for {batter_name}."
             ]
         }
     },
@@ -455,32 +615,53 @@ GAME_CONTEXT = {
             "paints the corner for a called strike"
         ],
         "strike_called_one": [
-            "called strike one", "in there for strike one", "strike one called",
-            "taken for a called strike", "paints the corner for strike one",
-            "catches the black", "called a strike", "a strike",
-            "in there for a called strike"
+            "called strike one",
+            "in there for strike one",
+            "strike one called",
+            "taken for a called strike",
+            "paints the corner for strike one",
+            "catches the black",
+            "called a strike",
+            "a strike",
+            "in there for a called strike",
+            "takes it for strike one",
+            "in for a strike",
+            "a called first strike",
+            "finds the zone for a called strike"
         ],
         "strike_called_two": [
             "called strike two", "in there for strike two", "strike two",
             "called a strike", "taken for a called strike",
             "paints the corner for a called strike", "catches the black",
-            "in there for a called strike", "a strike"
+            "in there for a called strike", "a strike",
+            "takes it for strike two",
+            "in for the second strike",
+            "a called second strike",
         ],
         "strike_called_three": [
             "called strike three", "caught looking at strike three", "strike three called",
             "in there for strike three", "rings him up", "got him looking",
-            "paints the corner for a called strike three"
+            "paints the corner for a called strike three",
+            "takes strike three",
+            "called third strike",
+            "strike three taken",
         ],
         "strike_swinging": [
             "swung on and missed", "cut on and missed", "a big swing and a miss",
             "he hacks at it and misses", "comes up empty",
             "he takes an awkward hack at the pitch",
-            "he takes a wild hack at the pitch"
+            "he takes a wild hack at the pitch",
+            "swings right through it",
+            "he swings and comes up empty",
+            "a cut and a miss",
         ],
         "strike_swinging_three": [
             "swung on and missed for strike three", "struck him out swinging",
             "swings through it for strike three", "fans him", "gets him swinging",
-            "he chases it for strike three"
+            "he chases it for strike three",
+            "swings and misses for strike three",
+            "a swing and a miss for the third strike",
+            "comes up empty for strike three",
         ],
         "mound_visit": [
             "will stroll out to the mound to have a chat with",
@@ -496,12 +677,16 @@ GAME_CONTEXT = {
             "{batter_name} is aboard with a leadoff single{inning_context}.",
             "The inning starts with a base hit from {batter_name}.",
             "A leadoff single for {batter_name} to get things going{inning_context}.",
-            "{batter_name} starts the inning with a base hit."
+            "{batter_name} starts the inning with a base hit.",
+            "{batter_name} is aboard with a single to lead off the inning."
         ],
         "leadoff_double": [
             "{batter_name} starts the inning with a stand-up double{inning_context}.",
             "A leadoff double for {batter_name}, and the offense is in business.",
-            "{batter_name} is aboard with a leadoff double{inning_context}."
+            "{batter_name} is aboard with a leadoff double{inning_context}.",
+            "And that's a leadoff double for {batter_name}{inning_context}.",
+            "{batter_name} will be aboard with a stand-up double{inning_context}.",
+            "{batter_name} heading for second, and he'll be aboard safely with a leadoff double{inning_context}."
         ],
         "leadoff_triple": [
             "{batter_name} starts the inning with a triple{inning_context}!",
@@ -510,7 +695,9 @@ GAME_CONTEXT = {
         ],
         "leadoff_walk": [
             "{batter_name} draws a leadoff walk{inning_context}.",
-            "The inning begins with a walk to {batter_name}."
+            "The inning begins with a walk to {batter_name}.",
+            "{batter_name} is on with a leadoff walk{inning_context}.",
+            "A walk to {batter_name} starts the inning.",
         ],
         "single_nobody_out": [
             "{batter_name} is aboard with a single.",
@@ -524,7 +711,9 @@ GAME_CONTEXT = {
         ],
         "triple_nobody_out": [
             "{batter_name} is aboard with a triple.",
-            "And {batter_name} stands at third with a triple{inning_context}."
+            "And {batter_name} stands at third with a triple{inning_context}.",
+            "{batter_name} reaches third with nobody out{inning_context}.",
+            "A triple puts {batter_name} at third with nobody away.",
         ],
         "single_one_out": [
             "{batter_name} is aboard with a one-out single{inning_context}.",
@@ -538,7 +727,9 @@ GAME_CONTEXT = {
             "A one-out double for {batter_name}.",
             "{batter_name} doubles with one away.",
             "That's going to be a stand-up double for {batter_name}{inning_context}.",
-            "{batter_name} coasts into second with a double."
+            "{batter_name} coasts into second with a double.",
+            "And that's going to be a one-out double for {batter_name}{inning_context}.",
+            "{batter_name} will be aboard with a stand-up double."
         ],
         "triple_one_out": [
             "{batter_name} is aboard with a one-out triple{inning_context}.",
@@ -548,7 +739,8 @@ GAME_CONTEXT = {
         "two_out_single": [
             "{batter_name} keeps the inning alive with a two-out single{inning_context}.",
             "A two-out base hit for {batter_name}.",
-            "{batter_name} is aboard with a two-out single{inning_context}."
+            "{batter_name} is aboard with a two-out single{inning_context}.",
+            "And that's going to be a two-out single for {batter_name}."
         ],
         "two_out_double": [
             "A two-out double for {batter_name}!",
@@ -557,10 +749,15 @@ GAME_CONTEXT = {
         ],
         "two_out_triple": [
             "A two-out triple for {batter_name}!",
-            "{batter_name} is aboard with a two-out triple{inning_context}."
+            "{batter_name} is aboard with a two-out triple{inning_context}.",
+            "{batter_name} reaches third with a two-out triple{inning_context}.",
+            "A triple for {batter_name} with two away.",
         ],
         "two_out_walk": [
-            "{batter_name} extends the inning with a two-out walk."
+            "{batter_name} extends the inning with a two-out walk.",
+            "A two-out walk puts {batter_name} aboard{inning_context}.",
+            "{batter_name} takes a walk with two away.",
+            "{batter_name} draws a two-out walk{inning_context}.",
         ],
         "runners_in_scoring_position": [
             "The tying run is on second.",
@@ -581,13 +778,19 @@ GAME_CONTEXT = {
             "And the payoff pitch...",
             "The payoff pitch...",
             "Full count, here's the pitch...",
-            "And the 3-2 pitch..."
+            "And the 3-2 pitch...",
+            "Here comes the payoff...",
+            "Three and two, the pitch...",
+            "And now the payoff pitch..."
         ],
         "count_full": [
             ", and the count runs full",
             ", count is full",
             ", brings the count to 3-2",
-            ", and the count is now full"
+            ", and the count is now full",
+            ", and now a full count",
+            ", three balls and two strikes",
+            ", that fills the count",
         ],
         "count_remains_two_strikes": [
             ", and {batter_name} stays alive",
@@ -596,7 +799,11 @@ GAME_CONTEXT = {
             ", still {count_str}",
             ", and we'll do it again",
             ", and the count stays at {count_str}",
-            ", so we'll do it again"
+            ", so we'll do it again",
+            ", and the at-bat continues",
+            ", {batter_name} keeps the at-bat going",
+            ", and it remains {count_str}",
+            ", one more pitch coming at {count_str}",
         ],
         "inning_end_123": [
              "{pitcher_name} sets them down in order.",
@@ -617,12 +824,18 @@ GAME_CONTEXT = {
         "throw_outcome_safe": [
             "The throw down... not in time!",
             "Throw to {base} is not in time.",
-            "The throw is late!"
+            "The throw is late!",
+            "The throw arrives too late.",
+            "Safe at {base}!",
+            "He beats the throw to {base}.",
         ],
         "throw_outcome_out": [
             "The throw down... he got him!",
             "Throw to {base} is in time!",
-            "And they got him at {base}!"
+            "And they got him at {base}!",
+            "The throw beats him to {base}!",
+            "Out at {base}!",
+            "The tag is there in time!",
         ],
         "stolen_base": [
             "{runner_name} takes off for second... and he's in there with a stolen base!",
@@ -653,21 +866,22 @@ GAME_CONTEXT = {
             "And {batter_name} checks in."
         ],
         "batter_intro_empty": [
-             "And {batter_name} will step in with {outs_str} and nobody on.",
-             "And {batter_name} steps in with {outs_str} and the bases empty.",
-             "And that will bring {batter_name} to the plate with {outs_str} and the bases empty.",
-             "{batter_name} steps to the plate. {outs_str}, bases empty.",
-             "And {batter_name} is due up. {outs_str}, bases empty.",
-             "And {batter_name} will step in with {outs_str} and the bases empty.",
-             "And {batter_name} will step in with {outs_str} and nobody on.",
-             "Bases empty, {outs_str}, for {batter_name}.",
-             "And {batter_name} steps in against {pitcher_name}. {outs_str}, nobody on.",
-             "And {batter_name} checks in with {outs_str} and the bases empty.",
-             "And here's {batter_name} with {outs_str} and nobody aboard.",
-             "And here's {batter_name} with {outs_str} and nobody on.",
-             "So, bases empty, {outs_str} for {batter_name}.",
-             "And {batter_name} steps in.",
-             "And {batter_name} checks in."
+            "And {batter_name} will step in with {outs_str} and nobody on.",
+            "And {batter_name} steps in with {outs_str} and the bases empty.",
+            "And that will bring {batter_name} to the plate with {outs_str} and the bases empty.",
+            "{batter_name} steps to the plate. {outs_str}, bases empty.",
+            "And {batter_name} is due up. {outs_str}, bases empty.",
+            "And {batter_name} will step in with {outs_str} and the bases empty.",
+            "And {batter_name} will step in with {outs_str} and nobody on.",
+            "Bases empty, {outs_str}, for {batter_name}.",
+            "And {batter_name} steps in against {pitcher_name}. {outs_str}, nobody on.",
+            "And {batter_name} checks in with {outs_str} and the bases empty.",
+            "And here's {batter_name} with {outs_str} and nobody aboard.",
+            "And here's {batter_name} with {outs_str} and nobody on.",
+            "So, bases empty, {outs_str} for {batter_name}.",
+            "And {batter_name} steps in.",
+            "And {batter_name} checks in.",
+            "And here's {batter_name} with the bases empty and {outs_str}."
         ],
         "batter_intro_bases_cleared": [
              "Bases cleared, {outs_str} for {batter_name}.",
@@ -705,7 +919,9 @@ GAME_CONTEXT = {
             "{pitcher_name_last} kicks and delivers...",
             "And the pitch...",
             "Here is the {count_str}...",
-            "And the {count_str_and}..."
+            "And the {count_str_and}...",
+            "And the {count_str} delivery.",
+            "And on the {count_str}..."
         ],
         "pitch_connectors_00": [
             "And the pitch...",
@@ -716,7 +932,10 @@ GAME_CONTEXT = {
             "{pitcher_name_last} winds and fires...",
             "Here's the pitch...",
             "And {pitcher_name_last} deals...",
-            "And {pitcher_name_last} kicks and delivers..."
+            "And {pitcher_name_last} kicks and delivers...",
+            "{pitcher_name_last} comes set and the pitch...",
+            "The pitch from {pitcher_name_last}...",
+            "{pitcher_name_last} comes set and delivers..."
         ],
         "pitch_connectors_stretch": [
              "And {pitcher_name_last} from the stretch...",
@@ -767,8 +986,49 @@ GAME_CONTEXT = {
             "  A successful sacrifice bunt moves the runners.",
             "  He lays down the bunt, doing his job."
         ],
+        "intentional_walk": [
+            "And they're going to intentionally walk {batter_name}.",
+            "{batter_name} is given an intentional base on balls.",
+            "They'll put {batter_name} on intentionally.",
+            "An intentional walk sends {batter_name} to first.",
+            "And now they're going to intentionally walk {batter_name}."
+        ],
+        "strikeout_reaches": [
+            "Strike three, but {batter_name} is safe at first.",
+            "{batter_name} strikes out but reaches first safely.",
+            "A strikeout, but {batter_name} is aboard."
+        ],
+        "strikeout_reaches_wild_pitch": [
+            "So, strikeout on a wild pitch, and {batter_name} is aboard.",
+            "{batter_name} strikes out, but reaches first on the wild pitch.",
+            "Strike three gets away for a wild pitch, and {batter_name} is safe at first."
+        ],
+        "strikeout_reaches_extra_base": [
+            "Strike three, but {batter_name} reaches {base} safely.",
+            "{batter_name} strikes out but makes it safely to {base}."
+        ],
+        "strikeout_reaches_and_scores": [
+            "{batter_name} strikes out but reaches safely and comes around to score.",
+            "A strikeout, but {batter_name} reaches base and makes it all the way home."
+        ],
+        "strikeout_bunt": [
+            "Bunted foul with two strikes, and {batter_name} is out.",
+            "The bunt rolls foul for strike three. {batter_name} is retired."
+        ],
+        "strikeout_bunt_missed": [
+            "{batter_name} misses the bunt for strike three. He strikes out.",
+            "The bunt attempt comes up empty, and {batter_name} strikes out.",
+            "{batter_name} strikes out trying to bunt."
+        ],
+        "pitchout": [
+            "And that's a pitchout",
+            "A pitchout",
+            "They pitch out"
+        ],
         "bunt_missed": [
-            "  He offers at the bunt, but misses"
+            "He offers at the bunt, but misses",
+            "He squares to bunt and misses",
+            "The bunt attempt comes up empty"
         ]
     },
     "statcast_verbs": {
@@ -792,13 +1052,13 @@ GAME_CONTEXT = {
             "verbs": {
                 "default": ["singles", "lines a clean single", "gets one to drop in", "pokes a single", "rips a base hit"],
                 "bloop": ["singles on a bloop", "bloops one in", "flares one", "muscles one", "fists one"],
-                "liner": ["lines a single", "a sharp single", "lined sharply into the outfield", "lines one", "loops one", "drives a base hit"],
-                "grounder": ["grounds a single through the infield", "squeezes a grounder through"]
+                "liner": ["lines a single", "rifles a single", "lines one sharply", "lines one", "smokes a single", "drives a base hit"],
+                "grounder": ["hits a ground ball single", "squeezes a single"]
             },
             "nouns": {
                 "default": ["a base hit", "a base knock"],
                 "bloop": ["a bloop single", "a little flare"],
-                "liner": ["a rope to the outfield", "a sharp single that drops in"],
+                "liner": ["a line drive single", "a sharp single that drops in"],
                 "grounder": ["a ground ball single", "a hard grounder that gets through"]
             }
         },
@@ -827,11 +1087,11 @@ GAME_CONTEXT = {
         "Home Run": {
             "verbs": {
                 "default": ["homers", "sails one over the wall", "goes yard", "deposits one in the seats"],
-                "screamer": ["homers on a liner", "a laser over the fence"],
-                "moonshot": ["homers on a fly ball", "hits one a mile in the air", "a high, majestic blast"]
+                "screamer": ["homers on a liner", "drives a laser over the fence"],
+                "moonshot": ["homers on a fly ball", "hits one a mile in the air", "hits a high, majestic blast"]
             },
             "nouns": {
-                "default": ["a long home run", "a solo shot"],
+                "default": ["a long home run", "a home run"],
                 "screamer": ["a line drive home run"],
                 "moonshot": ["a towering home run", "a long, lazy home run"]
             }
@@ -851,16 +1111,16 @@ GAME_CONTEXT = {
         "Flyout": {
             "verbs": {
                 "default": ["flies out", "lifts a fly ball", "skies one"],
-                "deep": ["flies out deep", "drives him to the track, but he makes the catch", "racing after it... and he makes the catch", "drifting in... and he makes the catch"]
+                "deep": ["flies out deep", "lifts a deep fly ball", "drives a fly ball", "hits a long fly ball"]
             },
             "nouns": {
-                "default": ["a routine fly ball", "a fly ball", "hit in the air", "a can of corn", "a high fly ball", "a lazy fly"],
+                "default": ["a routine fly ball", "a fly ball", "a fly", "a can of corn", "a high fly ball", "a lazy fly"],
                 "deep": ["a long fly ball", "a drive to the warning track"]
             }
         },
         "Pop Out": {
             "verbs": { "default": ["pops out"] },
-            "nouns": { "default": ["an infield fly", "a high pop up"] }
+            "nouns": { "default": ["a pop fly", "a high pop up"] }
         },
         "Lineout": {
             "verbs": { "default": ["lines out"] },
@@ -883,8 +1143,8 @@ GAME_CONTEXT = {
             "nouns": { "default": ["a sacrifice fly"] }
         },
         "Strikeout": {
-            "swinging": ["strikes out swinging", "down on strikes", "goes down swinging", "a big cut and a miss for strike three", "swings through it for strike three", "is set down swinging"],
-            "looking": ["strikes out looking", "caught looking", "frozen on a pitch right down the middle", "watches strike three go by", "knew it was a strike", "is rung up"]
+            "swinging": ["strikes out swinging", "is down on strikes", "goes down swinging", "takes a big cut and misses for strike three", "swings through it for strike three", "is set down swinging"],
+            "looking": ["strikes out looking", "is caught looking", "is frozen by strike three", "watches strike three go by", "takes a called third strike", "is rung up"]
         }
     },
     "statcast_templates": {

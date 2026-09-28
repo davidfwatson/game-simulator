@@ -1,0 +1,85 @@
+{
+  "episode": "episode_041.txt",
+  "cases": [
+    {
+      "id": "episode_041_soft_liner_over_infielder",
+      "source_line": 65,
+      "source_text": "The one-one pitch... And that's a soft liner over the head of a leaping Kramer, and Ortega is aboard with a leadoff single here in the bottom of the first.",
+      "expected": "a soft liner over the head of a leaping Kramer",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.soft_liner",
+      "template": "A soft liner over the head of a leaping {fielder_name}.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "soft_liner",
+          "location": "2B",
+          "trajectory": "line_drive",
+          "launchSpeed": 80,
+          "launchAngle": 15
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Ortega",
+        "fielder_name": "Kramer",
+        "fielder_pos": "2B"
+      }
+    },
+    {
+      "id": "episode_041_smashed_foul_into_stands",
+      "source_line": 356,
+      "source_text": "The one-oh pitch... Smashed foul into the stands. One and one.",
+      "expected": "Smashed foul into the stands.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "smashed foul into the stands",
+      "inputs": {}
+    },
+    {
+      "id": "episode_041_intentional_walk",
+      "source_line": 179,
+      "source_text": "And now they're going to intentionally walk Kosinski.",
+      "expected": "And now they're going to intentionally walk Kosinski.",
+      "kind": "narrative_string",
+      "pool": "narrative_strings.intentional_walk",
+      "template": "And now they're going to intentionally walk {batter_name}.",
+      "inputs": {
+        "key": "intentional_walk",
+        "context": {
+          "batter_name": "Kosinski"
+        }
+      }
+    },
+    {
+      "id": "episode_041_high_drive_clears_wall",
+      "source_line": 280,
+      "source_text": "The two-oh pitch... Swung on, a high drive deep to left field, and that one is going to sail over the wall, and that's a lazy two-run homer for Gilligan Parker, and the Cars pull ahead, two to one.",
+      "expected": "Swung on, a high drive deep to left field, and that one is going to sail over the wall",
+      "kind": "play_description",
+      "pool": "narrative_templates.Home Run.default",
+      "template": "Swung on, a high drive deep to {direction_noun}, and that one is going to sail over the wall.",
+      "inputs": {
+        "outcome": "Home Run",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "DLF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Gilligan Parker"
+      }
+    },
+    {
+      "id": "episode_041_hammered_foul_first_baseline",
+      "source_line": 274,
+      "source_text": "The two-one pitch... Hammered foul on the first base line. Two and two.",
+      "expected": "Hammered foul on the first base line.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "hammered foul on the first base line",
+      "inputs": {}
+    }
+  ]
+}

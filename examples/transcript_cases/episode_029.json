@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "episode": 29,
+  "source_file": "episode_029.txt",
+  "source_sha256": "53af440a0ce4da0f48c08e3153346e821122d28146bfc08bd9620126600c8557",
+  "cases": [
+    {
+      "id": "slider_downstairs",
+      "source_line": 46,
+      "expected": "misses downstairs",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_inside",
+      "template": "misses downstairs",
+      "inputs": {
+        "event_type": "B",
+        "zone": 13,
+        "pitch_type_simple": "Slider",
+        "batter_hand": "R"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            15
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "smacked_foul_off_first",
+      "source_line": 158,
+      "expected": "And he smacks that one foul off first.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "and he smacks that one foul off first",
+      "inputs": {},
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            52
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "on_the_one_two_connector",
+      "source_line": 106,
+      "expected": "And on the one-two",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.pitch_connectors",
+      "template": "And on the {count_str}...",
+      "inputs": {
+        "balls": 1,
+        "strikes": 2,
+        "pitcher_name": "Philip Jeffries",
+        "batter_name": "Giorgio Mullins",
+        "runners_on_base": false
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [],
+          "flow": [
+            14
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "leadoff_double_inning_context",
+      "source_line": 325,
+      "expected": "And that's a leadoff double for Schmitty Diaz here in the top of the seventh.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.leadoff_double",
+      "template": "And that's a leadoff double for {batter_name}{inning_context}.",
+      "inputs": {
+        "outcome": "Double",
+        "batter_name": "Schmitty Diaz",
+        "result_outs": 0,
+        "is_leadoff": true,
+        "inning_context": " here in the top of the seventh"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            3
+          ],
+          "pitch": [],
+          "flow": [],
+          "color": []
+        }
+      }
+    }
+  ]
+}

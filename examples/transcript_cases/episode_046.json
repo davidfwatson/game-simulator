@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "episode": 46,
+  "source_file": "episode_046.txt",
+  "source_sha256": "30abf8617ba1b150ce1a745bd3b0463bdb463b7b66ae4034d3de5396ef50e99c",
+  "cases": [
+    {
+      "id": "episode_046_slashed_foul_past_third",
+      "source_line": 129,
+      "expected": "slashed foul past third base",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "slashed foul past third base",
+      "inputs": {},
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            59
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_046_slider_misses_downstairs",
+      "source_line": 314,
+      "expected": "misses downstairs",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_inside",
+      "template": "misses downstairs",
+      "inputs": {
+        "event_type": "B",
+        "zone": 13,
+        "pitch_type_simple": "slider",
+        "batter_hand": "R"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            15
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_046_skied_shallow_center",
+      "source_line": 191,
+      "expected": "Skied into shallow center. Smathers is camped under it, and he puts the squeeze on it to end the inning.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Flyout.default",
+      "template": "Skied into shallow {direction_noun}. {fielder_name} is camped under it, and he puts the squeeze on it {out_context_str}.",
+      "inputs": {
+        "outcome": "Flyout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "SC"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Steve McDykel",
+        "fielder_name": "Smathers",
+        "fielder_pos": "CF",
+        "result_outs": 3
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            30
+          ],
+          "pitch": [],
+          "flow": [
+            0
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_046_intentional_walk",
+      "source_line": 168,
+      "expected": "And they're going to intentionally walk Navarro.",
+      "kind": "narrative_string",
+      "pool": "narrative_strings.intentional_walk",
+      "template": "And they're going to intentionally walk {batter_name}.",
+      "inputs": {
+        "key": "intentional_walk",
+        "context": {
+          "batter_name": "Navarro"
+        }
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            0
+          ],
+          "pitch": [],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_046_fisted_foul_right",
+      "source_line": 432,
+      "expected": "fisted foul off to the right",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "fisted foul off to the right",
+      "inputs": {},
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            60
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    }
+  ]
+}

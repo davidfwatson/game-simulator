@@ -1,0 +1,90 @@
+{
+  "episode": "episode_045.txt",
+  "cases": [
+    {
+      "id": "episode_045_pulled_foul",
+      "source_line": 103,
+      "source_text": "The one-one... Pulled foul and out of play, one and two.",
+      "expected": "Pulled foul and out of play",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "pulled foul and out of play",
+      "inputs": {}
+    },
+    {
+      "id": "episode_045_strikeout_reaches_wild_pitch",
+      "source_line": 269,
+      "source_text": "So, strikeout on a wild pitch, and Slauson is aboard.",
+      "expected": "So, strikeout on a wild pitch, and Slauson is aboard.",
+      "kind": "narrative_string",
+      "pool": "narrative_strings.strikeout_reaches_wild_pitch",
+      "template": "So, strikeout on a wild pitch, and {batter_name} is aboard.",
+      "inputs": {
+        "key": "strikeout_reaches_wild_pitch",
+        "context": {
+          "batter_name": "Slauson"
+        }
+      }
+    },
+    {
+      "id": "episode_045_bunt_single_no_play",
+      "source_line": 443,
+      "source_text": "And Von Neumann's pitch... Bunted towards third, Rudderson racing in, and he will not have a play.",
+      "expected": "Bunted towards third, Rudderson racing in, and he will not have a play.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.bunt",
+      "template": "Bunted towards {direction_noun}, {fielder_name} racing in, and he will not have a play.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "trajectory": "bunt_grounder",
+          "location": "3B"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Shiny Patterson",
+        "fielder_name": "Rudderson",
+        "fielder_pos": "3B"
+      }
+    },
+    {
+      "id": "episode_045_knuckler_off_plate",
+      "source_line": 302,
+      "source_text": "And the oh-one... Knuckler off the plate, one and one.",
+      "expected": "off the plate",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_outside",
+      "template": "off the plate",
+      "inputs": {
+        "event_type": "B",
+        "zone": 14,
+        "pitch_type_simple": "knuckler",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "episode_045_racing_over_diving_catch",
+      "source_line": 404,
+      "source_text": "The two-oh pitch... Hit in the air to right field. Chang racing over, and he makes a diving catch to end the inning.",
+      "expected": "Chang racing over, and he makes a diving catch to end the inning.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Flyout.default",
+      "template": "{fielder_name} racing over, and he makes a diving catch {out_context_str}.",
+      "inputs": {
+        "outcome": "Flyout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "RF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Flipper Cortez",
+        "fielder_name": "Chang",
+        "fielder_pos": "RF",
+        "result_outs": 3
+      }
+    }
+  ]
+}

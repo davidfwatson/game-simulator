@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "episode": 51,
+  "source_file": "episode_051.txt",
+  "source_sha256": "0f457922d4392e210bd33570437e244a7b229037a428a993a0a4725556bda1f9",
+  "cases": [
+    {
+      "id": "episode_051_knuckler_finds_zone",
+      "source_line": 225,
+      "expected": "finds the zone for a called strike",
+      "kind": "narrative_string",
+      "pool": "narrative_strings.strike_called_one",
+      "template": "finds the zone for a called strike",
+      "inputs": {
+        "key": "strike_called_one"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            12
+          ],
+          "pitch": [],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_051_curve_bounces_in_front",
+      "source_line": 219,
+      "expected": "bounces in front of the plate",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_inside",
+      "template": "bounces in front of the plate",
+      "inputs": {
+        "event_type": "B",
+        "zone": 13,
+        "pitch_type_simple": "curveball",
+        "batter_hand": "R"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            17
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_051_sliced_foul_right_side",
+      "source_line": 235,
+      "expected": "Sliced foul right side.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "sliced foul right side",
+      "inputs": {},
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            63
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_051_infield_single_throw_late",
+      "source_line": 221,
+      "expected": "Tough play for Patterson. The throw is not in time",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.grounder",
+      "template": "Tough play for {fielder_name}. The throw is not in time.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "grounder",
+          "location": "3B"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Ford Stipe",
+        "fielder_name": "Patterson",
+        "fielder_pos": "3B"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            13
+          ],
+          "pitch": [],
+          "flow": [
+            0
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_051_one_out_standup_double",
+      "source_line": 239,
+      "expected": "Torres will be aboard with a stand-up double.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.double_one_out",
+      "template": "{batter_name} will be aboard with a stand-up double.",
+      "inputs": {
+        "outcome": "Double",
+        "batter_name": "Torres",
+        "result_outs": 1,
+        "is_leadoff": false,
+        "inning_context": ""
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            6
+          ],
+          "pitch": [],
+          "flow": [],
+          "color": []
+        }
+      }
+    }
+  ]
+}

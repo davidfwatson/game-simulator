@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "episode": 5,
+  "source_file": "episode_005.txt",
+  "source_sha256": "2b98b9371c51551bc67bc9b80f9ff5fb5d0197e6d3020096c74996162e9084d6",
+  "cases": [
+    {
+      "id": "foul_right_out_of_play",
+      "source_line": 129,
+      "expected": "fouled off to the right and out of play",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "fouled off to the right and out of play",
+      "inputs": {},
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            49
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "pitcher_dribbler_ends_inning",
+      "source_line": 96,
+      "expected": "And that's dribbled right back to Niedermeier, who tosses to first in time to end the inning.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.pitcher_groundout",
+      "template": "And that's dribbled right back to {fielder_name}, who tosses to first in time {out_context_str}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "pitcher_groundout",
+          "location": "P"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Todd Gonzalez",
+        "result_outs": 3,
+        "fielder_pos": "P",
+        "fielder_name": "Niedermeier"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            6
+          ],
+          "pitch": [],
+          "flow": [
+            0,
+            0
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "two_out_single_announcement",
+      "source_line": 117,
+      "expected": "And that's going to be a two-out single for Bruford Kosinski.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.two_out_single",
+      "template": "And that's going to be a two-out single for {batter_name}.",
+      "inputs": {
+        "outcome": "Single",
+        "batter_name": "Bruford Kosinski",
+        "result_outs": 2,
+        "is_leadoff": false,
+        "inning_context": ""
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            3
+          ],
+          "pitch": [],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "ball_bounces_before_plate",
+      "source_line": 47,
+      "expected": "bounces in the dirt in front of the plate",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_inside",
+      "template": "bounces in the dirt in front of the plate",
+      "inputs": {
+        "event_type": "B",
+        "zone": 13,
+        "pitch_type_simple": "Curveball",
+        "batter_hand": "R"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            14
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "perfectly_executed_bunt_single",
+      "source_line": 88,
+      "expected": "Santiago lays down a bunt, perfectly executed for a bunt single.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.bunt",
+      "template": "{batter_name} lays down a bunt, perfectly executed for a bunt single.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "bunt",
+          "location": "1BL"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78,
+          "isBunt": true
+        },
+        "batter_name": "Santiago",
+        "result_outs": null
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            1
+          ],
+          "pitch": [],
+          "flow": [],
+          "color": []
+        }
+      }
+    }
+  ]
+}

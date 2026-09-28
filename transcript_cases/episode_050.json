@@ -1,0 +1,100 @@
+{
+  "episode": "episode_050.txt",
+  "cases": [
+    {
+      "id": "episode_050_double_bounces_off_wall",
+      "source_line": 52,
+      "source_text": "Hit into deep left field. That one drops in and bounces off the wall, Washington heading for second and he'll reach standing up. And that's a two-out double for Shecky Washington, here in the first.",
+      "expected": "That one drops in and bounces off the wall",
+      "kind": "play_description",
+      "pool": "narrative_templates.Double.default",
+      "template": "Hit into deep {direction_noun}. That one drops in and bounces off the wall.",
+      "inputs": {
+        "outcome": "Double",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "DLF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Shecky Washington"
+      }
+    },
+    {
+      "id": "episode_050_grounder_skips_through",
+      "source_line": 199,
+      "source_text": "The one-one pitch... Hard grounder, left side, and that one skips through the infield for a base hit. And Gantry is aboard with a leadoff single.",
+      "expected": "that one skips through the infield for a base hit",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.grounder",
+      "template": "Hard grounder {direction}, and that one skips through the infield for a base hit.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "grounder",
+          "location": "LS"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "J.B. Gantry"
+      }
+    },
+    {
+      "id": "episode_050_outfielder_runs_out_of_room",
+      "source_line": 147,
+      "source_text": "The oh-two pitch... Hit in the air to deep right field. Rickson racing back, and he'll run out of room as that one sails over the wall. And that's a two-run homer for Steve McDykel. And the Ravens now lead 3 to 1.",
+      "expected": "Rickson racing back, and he'll run out of room as that one sails over the wall.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Home Run.default",
+      "template": "Hit in the air to deep {direction_noun}. {fielder_name} racing back, and he'll run out of room as that one sails over the wall.",
+      "inputs": {
+        "outcome": "Home Run",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "DRF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Steve McDykel",
+        "fielder_name": "Rickson",
+        "fielder_pos": "RF"
+      }
+    },
+    {
+      "id": "episode_050_chopper_foul_third_baseline",
+      "source_line": 185,
+      "source_text": "The two-one pitch... Chopper, foul down the third base line. Two and two.",
+      "expected": "Chopper, foul down the third base line",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "chopper, foul down the third base line",
+      "inputs": {}
+    },
+    {
+      "id": "episode_050_drifting_back_squeeze",
+      "source_line": 50,
+      "source_text": "The one-two pitch... Hit in the air to right center, Rickson drifting back, and he puts the squeeze on it for out number two.",
+      "expected": "Rickson drifting back, and he puts the squeeze on it for out number two.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Flyout.default",
+      "template": "{fielder_name} drifting back, and he puts the squeeze on it {out_context_str}.",
+      "inputs": {
+        "outcome": "Flyout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "RCF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Joshua Gonzalez",
+        "fielder_name": "Rickson",
+        "fielder_pos": "RF",
+        "result_outs": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "episode": 37,
+  "source_file": "episode_037.txt",
+  "source_sha256": "e7cd65d0e2248f3c749bab41883437b015abfed23e12848e5dcf39b1df8a7827",
+  "cases": [
+    {
+      "id": "just_inside_fastball",
+      "source_line": 58,
+      "expected": "misses just inside",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.high_inside",
+      "template": "misses just inside",
+      "inputs": {
+        "event_type": "B",
+        "zone": 11,
+        "pitch_type_simple": "Fastball",
+        "batter_hand": "R"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            16
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "now_payoff_connector",
+      "source_line": 80,
+      "expected": "And now the payoff pitch...",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.payoff_pitch",
+      "template": "And now the payoff pitch...",
+      "inputs": {
+        "balls": 3,
+        "strikes": 2,
+        "pitcher_name": "Frank Gibson",
+        "batter_name": "Blink Rudderson",
+        "runners_on_base": true
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [],
+          "flow": [
+            6
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "sliced_third_base_foul",
+      "source_line": 101,
+      "expected": "Sliced foul down the third base line.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "sliced foul down the third base line",
+      "inputs": {},
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            54
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "fielder_named_roller",
+      "source_line": 131,
+      "expected": "Roller to Ferguson, he's up with it, and flips to first to retire Gibson for out number two.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.default",
+      "template": "Roller to {fielder_name}, he's up with it, and flips to first to retire {batter_name} {out_context_str}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "2B"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Gibson",
+        "result_outs": 2,
+        "fielder_pos": "2B",
+        "fielder_name": "Ferguson"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            39
+          ],
+          "pitch": [],
+          "flow": [
+            0
+          ],
+          "color": []
+        }
+      }
+    }
+  ]
+}

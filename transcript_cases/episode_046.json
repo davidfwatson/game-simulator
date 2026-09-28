@@ -1,0 +1,78 @@
+{
+  "episode": "episode_046.txt",
+  "cases": [
+    {
+      "id": "episode_046_slashed_foul_past_third",
+      "source_line": 129,
+      "source_text": "And the one-oh, slashed foul past third base. One and one.",
+      "expected": "slashed foul past third base",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "slashed foul past third base",
+      "inputs": {}
+    },
+    {
+      "id": "episode_046_slider_misses_downstairs",
+      "source_line": 314,
+      "source_text": "And the one-oh, another slider misses downstairs. Two and oh.",
+      "expected": "misses downstairs",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_inside",
+      "template": "misses downstairs",
+      "inputs": {
+        "event_type": "B",
+        "zone": 13,
+        "pitch_type_simple": "slider",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "episode_046_skied_shallow_center",
+      "source_line": 191,
+      "source_text": "And the one-oh... Skied into shallow center. Smathers is camped under it, and he puts the squeeze on it to end the inning.",
+      "expected": "Skied into shallow center. Smathers is camped under it, and he puts the squeeze on it to end the inning.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Flyout.default",
+      "template": "Skied into shallow {direction_noun}. {fielder_name} is camped under it, and he puts the squeeze on it {out_context_str}.",
+      "inputs": {
+        "outcome": "Flyout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "SC"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Steve McDykel",
+        "fielder_name": "Smathers",
+        "fielder_pos": "CF",
+        "result_outs": 3
+      }
+    },
+    {
+      "id": "episode_046_intentional_walk",
+      "source_line": 168,
+      "source_text": "And they're going to intentionally walk Navarro.",
+      "expected": "And they're going to intentionally walk Navarro.",
+      "kind": "narrative_string",
+      "pool": "narrative_strings.intentional_walk",
+      "template": "And they're going to intentionally walk {batter_name}.",
+      "inputs": {
+        "key": "intentional_walk",
+        "context": {
+          "batter_name": "Navarro"
+        }
+      }
+    },
+    {
+      "id": "episode_046_fisted_foul_right",
+      "source_line": 432,
+      "source_text": "The two-one, fisted foul off to the right. Two and two.",
+      "expected": "fisted foul off to the right",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "fisted foul off to the right",
+      "inputs": {}
+    }
+  ]
+}

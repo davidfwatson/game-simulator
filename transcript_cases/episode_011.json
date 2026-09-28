@@ -1,0 +1,78 @@
+{
+  "episode": "episode_011.txt",
+  "cases": [
+    {
+      "id": "wide_knuckleball",
+      "source_line": 221,
+      "source_text": "And the pitch... Knuckleball misses way outside. One and oh.",
+      "expected": "misses way outside",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.high_outside",
+      "template": "misses way outside",
+      "inputs": {
+        "event_type": "B",
+        "zone": 12,
+        "pitch_type_simple": "Knuckleball",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "softly_chopped_first_base_foul",
+      "source_line": 236,
+      "source_text": "The two-one pitch... And that's chopped softly foul on the first-base line. Count even at two and two.",
+      "expected": "chopped softly foul on the first-base line",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "chopped softly foul on the first-base line",
+      "inputs": {}
+    },
+    {
+      "id": "soft_pop_to_third",
+      "source_line": 57,
+      "source_text": "The one-one pitch... Popped up softly to third, Velasquez is under it, and he makes the catch for out number two.",
+      "expected": "Popped up softly to third, Velasquez is under it, and he makes the catch for out number two.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Pop Out.default",
+      "template": "Popped up softly {direction}, {fielder_name} is under it, and he makes the catch {out_context_str}.",
+      "inputs": {
+        "outcome": "Pop Out",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "3B"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Bobby the Fink Thomas",
+        "result_outs": 2,
+        "fielder_pos": "3B",
+        "fielder_name": "Velasquez"
+      }
+    },
+    {
+      "id": "slow_hopper_unassisted",
+      "source_line": 52,
+      "source_text": "The two-two pitch... That's a slow hopper to first. Hauser gingerly scoops it up and steps on the bag to retire Gleason.",
+      "expected": "That's a slow hopper to first. Hauser gingerly scoops it up and steps on the bag to retire Gleason.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.unassisted_1b",
+      "template": "That's a slow hopper to first. {fielder_name} gingerly scoops it up and steps on the bag to retire {batter_name}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "unassisted_1b",
+          "location": "1B"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Gleason",
+        "result_outs": 1,
+        "fielder_pos": "1B",
+        "fielder_name": "Hauser"
+      }
+    }
+  ]
+}
