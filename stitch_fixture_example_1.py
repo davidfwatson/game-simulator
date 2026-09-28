@@ -183,7 +183,7 @@ def make_play_events(pitch_sequence, event_name, base_time):
 
         # Generate timestamp for this pitch event
         pitch_time = base_time + timedelta(seconds=i * 0.5)
-        ts = pitch_time.strftime("%Y-%m-%dT%H:%M:%S") + f".{pitch_time.microsecond:016d}Z"
+        ts = pitch_time.isoformat(timespec="seconds") + "Z"
 
         pt_code, pt_desc = PITCH_TYPE_MAP.get(pitch_type, ("FF", "Fastball"))
 
@@ -633,7 +633,7 @@ def build_game_data():
         "players": players,
         "venue": "Evergreen Field",
         "weather": "71 degrees at game time. With a gentle breeze blowing in from left field.",
-        "directMode": True,
+        "commentarySeed": 0,
     }
 
     return game_data
@@ -793,8 +793,8 @@ def build_fixture():
         play_end = play_start + timedelta(seconds=20)
 
         start_ts = play_start.strftime("%Y-%m-%dT%H:%M:%S") + "+00:00"
-        # End timestamp with seed in fractional seconds (seed=0 initially)
-        end_ts = play_end.strftime("%Y-%m-%dT%H:%M:%S") + ".0000000000030000"
+        # Timestamps record game timing; commentary uses independent draws.
+        end_ts = play_end.isoformat(timespec="seconds") + "Z"
 
         # Build playEvents from pitch sequence
         pitch_seq = draft_play.get("pitchSequence", [])

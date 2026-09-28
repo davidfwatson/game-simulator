@@ -1,275 +1,115 @@
 #!/usr/bin/env python3
-"""
-Tools for aligning PBP narrative output with target text (e.g., Sleep Baseball transcripts).
+"""Tools for tracing, editing, searching, and comparing PBP commentary.
 
-This module provides utilities for:
-1. TRACING: See every RNG choice the renderer makes, organized by seed point
-2. SOLVING: Compute a timestamp seed that produces desired template selections
-3. SEARCHING: Find phrases in template pools, or identify missing ones
-4. DIFFING: Line-by-line comparison of rendered output vs target text
+Commentary draws live in ``owner["commentaryRng"][point][stream]``. Each
+nonnegative integer selects ``draw % len(pool)`` for a choice, or
+``(draw % 100) / 100`` for a probability gate. Lists can contain any number
+of draws. Game initialization belongs to gameData; play_start/play_outcome
+belong to the play; event belongs to the pitch event. Timestamps stay intact.
 
-## Key Concepts
+Examples::
 
-The NarrativeRenderer uses DirectRNG in "directMode". Each timestamp encodes
-per-stream seeds in its fractional seconds (16 digits):
-
-    "2025-09-27T23:05:19.0003000500020067" → play=0067, pitch=0002, flow=0005, color=0003
-
-The fractional seconds are split into 4-digit segments, one per stream:
-    digits 0-3  (rightmost) → rng_play
-    digits 4-7              → rng_pitch
-    digits 8-11             → rng_flow
-    digits 12-15            → rng_color
-
-Each stream gets 2 controllable calls (4 digits / 2 digits per call):
-    call 0: pool[seed % len(pool)], then seed //= 100
-    call 1: pool[seed % len(pool)], then seed //= 100
-
-Because streams are independent, setting one never conflicts with another.
-
-Reseeds happen at:
-    - play.startTime  → controls batter intro, matchup text
-    - event.startTime → controls pitch descriptions, connectors
-    - play.endTime    → controls outcome description, runner status
-
-## Usage
-
-    # Trace all RNG choices for play 0
-    python pbp_tools.py trace test_fixture_pbp_example_3.json --play 0
-
-    # Trace all plays (summary mode)
-    python pbp_tools.py trace test_fixture_pbp_example_3.json
-
-    # Search for a phrase across all template pools
+    python pbp_tools.py trace fixture.json --play 0
+    python pbp_tools.py inspect-play fixture.json --play 0 -v
+    python pbp_tools.py set-choice fixture.json --play 0 --point event_0 --set pitch:3:12
+    python pbp_tools.py set-choice fixture.json --point init --set color:4:2 --dry-run
+    python pbp_tools.py set-gate fixture.json --play 0 --point play_start --stream color --call 2 --below .2
     python pbp_tools.py search "misses a bit low"
-
-    # Search only in a specific outcome's templates
-    python pbp_tools.py search "Fly ball" --outcome Single
-
-    # Solve for a seed that selects specific templates
-    python pbp_tools.py solve --constraints '[{"flow": [10, 0], "color": [100, 19]}, {"pitch": [21, 15]}]'
-
-    # Diff rendered output vs target
-    python pbp_tools.py diff test_fixture_pbp_example_3.json pbp_example_3.txt
-
-    # Diff a single play
-    python pbp_tools.py diff test_fixture_pbp_example_3.json pbp_example_3.txt --play 0
+    python pbp_tools.py diff fixture.json transcript.txt
 """
 
 import json
-import sys
 import re
 import argparse
-from collections import defaultdict
+import math
 from commentary import GAME_CONTEXT
+from renderers.randomness import STREAM_NAMES
 
 
-# ===========================================================================
-# TracingDirectRNG: Drop-in replacement that logs every call
-# ===========================================================================
+class TracingRNG:
+    """Record the installed RNG without changing the values it produces."""
 
-class TracingDirectRNG:
-    """DirectRNG that logs every choice/random call for debugging."""
-
-    def __init__(self, start_idx, name=""):
-        self.idx = start_idx
-        self.start_idx = start_idx
+    def __init__(self, rng, name=""):
+        self.rng = rng
         self.name = name
         self.calls = []
-        self.call_count = 0
 
     def choice(self, seq):
         if not seq:
             raise IndexError("Cannot choose from an empty sequence")
-        digit_pos = self.call_count
-        digit_value = self.idx % 100
-        selected_index = self.idx % len(seq)
-        val = seq[selected_index]
-
+        # Ask for an index so duplicate values in a pool remain distinguishable.
+        selected_index = self.rng.choice(range(len(seq)))
+        value = seq[selected_index]
         self.calls.append({
             'type': 'choice',
-            'digit_pos': digit_pos,
-            'digit_value': digit_value,
+            'call_index': len(self.calls),
+            'draw': selected_index,
             'pool_size': len(seq),
             'selected_index': selected_index,
-            'selected_value': val if isinstance(val, str) else str(val),
-            'pool': [s if isinstance(s, str) else str(s) for s in seq],
-            'stream': self.name
+            'selected_value': value if isinstance(value, str) else str(value),
+            'pool': [item if isinstance(item, str) else str(item) for item in seq],
+            'stream': self.name,
         })
-
-        self.idx = self.idx // 100
-        self.call_count += 1
-        return val
+        return value
 
     def random(self):
-        digit_pos = self.call_count
-        digit_value = self.idx % 100
-        val = digit_value / 100.0
-
+        value = self.rng.random()
+        # Explicit replay supports hundredths; floor preserves the side of all
+        # hundredth-aligned comparison thresholds used by commentary gates.
+        digit = min(99, math.floor(value * 100 + 1e-12))
         self.calls.append({
             'type': 'random',
-            'digit_pos': digit_pos,
-            'digit_value': digit_value,
-            'result': val,
-            'stream': self.name
+            'call_index': len(self.calls),
+            'draw': digit,
+            'result': value,
+            'stream': self.name,
         })
-
-        self.idx = self.idx // 100
-        self.call_count += 1
-        return val
-
-    def seed(self, *args, **kwargs):
-        pass
-
-
-# ===========================================================================
-# TracingRenderer: NarrativeRenderer with instrumented RNG
-# ===========================================================================
+        return value
 
 class TracingRenderer:
-    """Wraps NarrativeRenderer to intercept all RNG calls and log them."""
+    """Instrument every stable point, including constructor initialization."""
 
-    def __init__(self, gameday_data):
-        # Import here to avoid circular imports
+    def __init__(self, gameday_data, seed=None):
         from renderers.narrative.renderer import NarrativeRenderer
 
         self.gameday_data = gameday_data
-        self.seed_log = []  # List of {timestamp, salt, seed, rngs: {name: TracingDirectRNG}}
+        self.seed_log = []
+        seed_log = self.seed_log
 
-        # Create the real renderer
-        self.renderer = NarrativeRenderer(gameday_data)
+        class InstrumentedRenderer(NarrativeRenderer):
+            def _reseed_for_point(renderer, owner, point, timestamp, key):
+                super()._reseed_for_point(owner, point, timestamp, key)
+                rngs = {}
+                for name in STREAM_NAMES:
+                    rngs[name] = TracingRNG(getattr(renderer, f'rng_{name}'), name)
+                    setattr(renderer, f'rng_{name}', rngs[name])
+                renderer.rng = renderer.rng_play
+                seed_log.append({
+                    'key': key,
+                    'point': point,
+                    'owner': owner,
+                    'timestamp': timestamp,
+                    'rngs': rngs,
+                })
 
-        # Monkey-patch _reseed_from_timestamp
-        original_reseed = self.renderer._reseed_from_timestamp
-
-        def tracing_reseed(time_str, salt=""):
-            parts = time_str.split('.')
-            if len(parts) > 1:
-                # Strip timezone: Z, +HH:MM, -HH:MM
-                frac = parts[1]
-                frac = re.sub(r'[Zz]$', '', frac)
-                frac = re.sub(r'[+-]\d{2}:\d{2}$', '', frac)
-                frac = re.sub(r'[+-]\d{2}$', '', frac)
-                index = int(frac) if frac else 0
-            else:
-                index = 0
-
-            # Split index into per-stream seeds (matching base.py)
-            play = TracingDirectRNG(index % 10000, 'play')
-            pitch = TracingDirectRNG((index // 10000) % 10000, 'pitch')
-            flow = TracingDirectRNG((index // 100000000) % 10000, 'flow')
-            color = TracingDirectRNG((index // 1000000000000) % 10000, 'color')
-
-            self.renderer.rng_play = play
-            self.renderer.rng_pitch = pitch
-            self.renderer.rng_flow = flow
-            self.renderer.rng_color = color
-            self.renderer.rng = play
-
-            self.seed_log.append({
-                'timestamp': time_str,
-                'salt': salt,
-                'seed': index,
-                'rngs': {'play': play, 'pitch': pitch, 'flow': flow, 'color': color}
-            })
-
-        self.renderer._reseed_from_timestamp = tracing_reseed
+        self.renderer = InstrumentedRenderer(gameday_data, seed=seed)
 
     def render(self):
+        self.seed_log.clear()
         return self.renderer.render()
 
 
-# ===========================================================================
-# Seed Solver
-# ===========================================================================
-
-def solve_seed(constraints):
-    """
-    Compute a seed value that satisfies all constraints.
-
-    With the split-stream encoding, each stream has its own independent 2-digit
-    portion of the fractional seconds. No cross-stream conflicts are possible.
-
-    Args:
-        constraints: list of dicts, one per base-100 digit position.
-            Each dict maps stream names to (pool_size, desired_index) tuples.
-
-    Returns:
-        (seed, success, conflicts)
-    """
-    seed = 0
-    conflicts = []
-
-    for digit_pos, digit_constraints in enumerate(constraints):
-        found = False
-        for candidate in range(100):
-            if all(candidate % ps == di for ps, di in digit_constraints.values()):
-                seed += candidate * (100 ** digit_pos)
-                found = True
-                break
-
-        if not found:
-            conflicts.append((digit_pos, dict(digit_constraints)))
-            best = 0
-            best_score = 0
-            for candidate in range(100):
-                score = sum(1 for ps, di in digit_constraints.values() if candidate % ps == di)
-                if score > best_score:
-                    best_score = score
-                    best = candidate
-            seed += best * (100 ** digit_pos)
-
-    return seed, len(conflicts) == 0, conflicts
-
-
-# Stream offsets in the fractional seconds (matching base.py split):
-#   play  = index % 10000                    (digits 0-3, rightmost)
-#   pitch = (index // 10000) % 10000         (digits 4-7)
-#   flow  = (index // 100000000) % 10000     (digits 8-11)
-#   color = (index // 1000000000000) % 10000 (digits 12-15)
-STREAM_OFFSETS = {
-    'play':  (1, 10000),        # multiplier to pack into fractional
-    'pitch': (10000, 10000),
-    'flow':  (100000000, 10000),
-    'color': (1000000000000, 10000),
-}
-
-
-def pack_stream_seeds(play=0, pitch=0, flow=0, color=0):
-    """Pack per-stream seeds into a single fractional-seconds integer."""
-    return (play % 10000) + (pitch % 10000) * 10000 + (flow % 10000) * 100000000 + (color % 10000) * 1000000000000
-
-
-def unpack_stream_seeds(index):
-    """Unpack a fractional-seconds integer into per-stream seeds."""
-    return {
-        'play':  index % 10000,
-        'pitch': (index // 10000) % 10000,
-        'flow':  (index // 100000000) % 10000,
-        'color': (index // 1000000000000) % 10000,
-    }
-
-
-def seed_to_fractional(seed, base_timestamp="2025-09-27T23:05:00"):
-    """Convert a packed seed to a timestamp with the seed encoded in fractional seconds."""
-    return f"{base_timestamp}.{seed:016d}"
-
-
-def timestamp_to_seed(timestamp):
-    """Extract the full packed seed from a timestamp's fractional seconds."""
-    # Strip timezone suffix first
-    ts = timestamp
-    if ts.endswith('Z'):
-        ts = ts[:-1]
-    elif re.search(r'\+\d{2}:\d{2}$', ts):
-        ts = ts[:-6]
-    elif re.search(r'-\d{2}:\d{2}$', ts) and ts.count('-') > 2:
-        ts = ts[:-6]
-    parts = ts.split('.')
-    if len(parts) > 1:
-        digits_str = parts[1]
-        return int(digits_str)
-    return 0
+def materialize_trace_entry(entry):
+    """Store every observed draw at one point, preserving unused explicit draws."""
+    points = entry['owner'].setdefault('commentaryRng', {})
+    previous = points.get(entry['point'], {})
+    draws = {}
+    for name, rng in entry['rngs'].items():
+        observed = [call['draw'] for call in rng.calls]
+        # Keep explicit draws beyond the rendered branch for future edits.
+        draws[name] = observed + list(previous.get(name, []))[len(observed):]
+    points[entry['point']] = draws
+    return draws
 
 
 # ===========================================================================
@@ -277,122 +117,30 @@ def timestamp_to_seed(timestamp):
 # ===========================================================================
 
 def search_all_pools(phrase, outcome=None):
-    """
-    Search all template pools for a phrase.
+    """Search every string pool, including newly added nested categories.
 
-    Args:
-        phrase: text to search for (case-insensitive substring match)
-        outcome: optional, restrict to specific outcome type (e.g., "Single", "Groundout")
-
-    Returns:
-        list of dicts with pool, index, total, template
+    When outcome is supplied, restrict outcome-specific pools while retaining
+    shared pitch, lineup, and transition phrases.
     """
     results = []
+    needle = phrase.casefold()
+    outcome_groups = {'narrative_templates', 'statcast_verbs', 'statcast_templates'}
 
-    # Search narrative_templates
-    for out_type, categories in GAME_CONTEXT.get('narrative_templates', {}).items():
-        if outcome and out_type != outcome:
-            continue
-        for cat, templates in categories.items():
-            for idx, template in enumerate(templates):
-                if phrase.lower() in template.lower():
-                    results.append({
-                        'pool': f'narrative_templates.{out_type}.{cat}',
-                        'index': idx,
-                        'total': len(templates),
-                        'template': template
-                    })
-
-    # Search narrative_strings
-    for key, strings in GAME_CONTEXT.get('narrative_strings', {}).items():
-        if not isinstance(strings, list):
-            continue
-        for idx, s in enumerate(strings):
-            if phrase.lower() in s.lower():
-                results.append({
-                    'pool': f'narrative_strings.{key}',
-                    'index': idx,
-                    'total': len(strings),
-                    'template': s
-                })
-
-    # Search radio_strings
-    for key, strings in GAME_CONTEXT.get('radio_strings', {}).items():
-        if not isinstance(strings, list):
-            continue
-        for idx, s in enumerate(strings):
-            if phrase.lower() in s.lower():
-                results.append({
-                    'pool': f'radio_strings.{key}',
-                    'index': idx,
-                    'total': len(strings),
-                    'template': s
-                })
-
-    # Search pitch_locations
-    for key, val in GAME_CONTEXT.get('pitch_locations', {}).items():
-        if isinstance(val, dict):
-            for subkey, strings in val.items():
-                if not isinstance(strings, list):
+    def visit(value, path):
+        if isinstance(value, dict):
+            for key, child in value.items():
+                if outcome and path in outcome_groups and key != outcome:
                     continue
-                for idx, s in enumerate(strings):
-                    if phrase.lower() in s.lower():
-                        results.append({
-                            'pool': f'pitch_locations.{key}.{subkey}',
-                            'index': idx,
-                            'total': len(strings),
-                            'template': s
-                        })
-        elif isinstance(val, list):
-            for idx, s in enumerate(val):
-                if phrase.lower() in s.lower():
-                    results.append({
-                        'pool': f'pitch_locations.{key}',
-                        'index': idx,
-                        'total': len(val),
-                        'template': s
-                    })
+                visit(child, f'{path}.{key}' if path else key)
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                if isinstance(item, str) and needle in item.casefold():
+                    results.append({'pool': path, 'index': index,
+                                    'total': len(value), 'template': item})
+                elif isinstance(item, (dict, list)):
+                    visit(item, f'{path}.{index}')
 
-    # Search statcast_verbs
-    for out_type, type_data in GAME_CONTEXT.get('statcast_verbs', {}).items():
-        if outcome and out_type != outcome:
-            continue
-        for phrase_type, categories in type_data.items():
-            if isinstance(categories, dict):
-                for cat, strings in categories.items():
-                    if not isinstance(strings, list):
-                        continue
-                    for idx, s in enumerate(strings):
-                        if phrase.lower() in s.lower():
-                            results.append({
-                                'pool': f'statcast_verbs.{out_type}.{phrase_type}.{cat}',
-                                'index': idx,
-                                'total': len(strings),
-                                'template': s
-                            })
-            elif isinstance(categories, list):
-                for idx, s in enumerate(categories):
-                    if phrase.lower() in s.lower():
-                        results.append({
-                            'pool': f'statcast_verbs.{out_type}.{phrase_type}',
-                            'index': idx,
-                            'total': len(categories),
-                            'template': s
-                        })
-
-    # Search lineup_strings
-    for key, strings in GAME_CONTEXT.get('lineup_strings', {}).items():
-        if not isinstance(strings, list):
-            continue
-        for idx, s in enumerate(strings):
-            if phrase.lower() in s.lower():
-                results.append({
-                    'pool': f'lineup_strings.{key}',
-                    'index': idx,
-                    'total': len(strings),
-                    'template': s
-                })
-
+    visit(GAME_CONTEXT, '')
     return results
 
 
@@ -425,7 +173,7 @@ def list_pool(pool_path):
 # Diff Tool
 # ===========================================================================
 
-def diff_rendered_vs_target(rendered_text, target_text, context_lines=0):
+def diff_rendered_vs_target(rendered_text, target_text):
     """
     Compare rendered output to target text line by line.
 
@@ -463,110 +211,42 @@ def diff_rendered_vs_target(rendered_text, target_text, context_lines=0):
 # CLI
 # ===========================================================================
 
+def _print_trace_entry(entry, verbose=False):
+    print(f"\nPOINT: {entry['key']} ({entry['point']})")
+    print(f"  Timestamp: {entry['timestamp']}")
+    for stream_name in STREAM_NAMES:
+        for call in entry['rngs'][stream_name].calls:
+            prefix = f"  [{stream_name} #{call['call_index']}]"
+            if call['type'] == 'choice':
+                print(f"{prefix} choice(pool_size={call['pool_size']}), index={call['selected_index']}")
+                print(f"    → {call['selected_value']!r}")
+                if verbose:
+                    for i, option in enumerate(call['pool']):
+                        marker = '>>>' if i == call['selected_index'] else '   '
+                        print(f"    {marker} [{i}] {option!r}")
+            else:
+                print(f"{prefix} random() = {call['result']:.6g}, replay draw={call['draw']}")
+
+
 def cmd_trace(args):
-    """Trace RNG calls for a play or all plays."""
+    """Trace the actual renderer RNGs, optionally filtering by stable play key."""
     with open(args.json_file) as f:
         data = json.load(f)
-
+    if args.play is not None:
+        get_play_rng_points(data, args.play)  # Validate before rendering.
     tracer = TracingRenderer(data)
     rendered = tracer.render()
-
-    plays = data['liveData']['plays']['allPlays']
-
-    # Group seed_log entries by play context
-    # Each seed_log entry has salt: "init", "play_start", "event", "play_outcome"
-    print(f"Total seed points: {len(tracer.seed_log)}")
-    print(f"Total plays: {len(plays)}")
-    print()
-
-    for entry in tracer.seed_log:
-        salt = entry['salt']
-        seed = entry['seed']
-        ts = entry['timestamp']
-
-        # Filter by play index if specified
-        if args.play is not None and salt not in ('init',):
-            # We need to figure out which play this seed point belongs to
-            # For now, print all and let the user filter visually
-            pass
-
-        # Collect all calls across streams
-        all_calls = []
-        for stream_name, rng in entry['rngs'].items():
-            for call in rng.calls:
-                all_calls.append(call)
-
-        if not all_calls and not args.verbose:
-            continue
-
-        print(f"{'='*70}")
-        print(f"SEED POINT: salt={salt}, seed={seed}, timestamp={ts}")
-        print(f"{'='*70}")
-
-        for stream_name in ['flow', 'pitch', 'play', 'color']:
-            rng = entry['rngs'][stream_name]
-            if not rng.calls:
-                continue
-
-            for call in rng.calls:
-                if call['type'] == 'choice':
-                    print(f"  [{stream_name} #{call['digit_pos']}] choice(pool_size={call['pool_size']})")
-                    print(f"    digit_value={call['digit_value']}, {call['digit_value']} % {call['pool_size']} = {call['selected_index']}")
-                    print(f"    → {repr(call['selected_value'][:80])}")
-                    if args.verbose:
-                        for i, opt in enumerate(call['pool']):
-                            marker = " >>>" if i == call['selected_index'] else "    "
-                            print(f"    {marker} [{i}] {repr(opt[:80])}")
-                elif call['type'] == 'random':
-                    print(f"  [{stream_name} #{call['digit_pos']}] random()")
-                    print(f"    digit_value={call['digit_value']}, result={call['result']:.2f}")
-
-        print()
-
+    entries = tracer.seed_log
+    if args.play is not None:
+        entries = [entry for entry in entries if entry['key'].startswith(f'play:{args.play}:')]
+    print(f"Total RNG points: {len(entries)}")
+    for entry in entries:
+        if args.verbose or any(rng.calls for rng in entry['rngs'].values()):
+            _print_trace_entry(entry, args.verbose)
     if args.output:
         with open(args.output, 'w') as f:
             f.write(rendered)
-        print(f"Rendered output written to {args.output}")
-
-
-def cmd_solve(args):
-    """Solve for a seed given constraints."""
-    constraints = json.loads(args.constraints)
-
-    # constraints should be a list of dicts: [{"stream": [pool_size, desired_idx]}, ...]
-    parsed = []
-    for digit_constraints in constraints:
-        parsed_digit = {}
-        for stream, (pool_size, desired_idx) in digit_constraints.items():
-            parsed_digit[stream] = (pool_size, desired_idx)
-        parsed.append(parsed_digit)
-
-    seed, success, conflicts = solve_seed(parsed)
-
-    print(f"Seed: {seed}")
-    print(f"Success: {success}")
-
-    if conflicts:
-        print(f"\nConflicts at {len(conflicts)} digit position(s):")
-        for pos, cons in conflicts:
-            print(f"  Digit {pos}: {cons}")
-            print(f"    No value 0-99 satisfies all constraints simultaneously.")
-
-    # Show verification
-    print(f"\nVerification:")
-    for digit_pos, digit_constraints in enumerate(parsed):
-        digit_value = (seed // (100 ** digit_pos)) % 100
-        print(f"  Digit {digit_pos} = {digit_value}:")
-        for stream, (pool_size, desired_idx) in digit_constraints.items():
-            actual = digit_value % pool_size
-            ok = "OK" if actual == desired_idx else "MISMATCH"
-            print(f"    {stream}: {digit_value} % {pool_size} = {actual} (wanted {desired_idx}) [{ok}]")
-
-    if args.timestamp:
-        ts = seed_to_fractional(seed, args.timestamp)
-        print(f"\nTimestamp: {ts}")
-    else:
-        print(f"\nFractional seconds: .{seed:016d}")
+        print(f"\nRendered output written to {args.output}")
 
 
 def cmd_search(args):
@@ -620,11 +300,6 @@ def cmd_diff(args):
     mismatches = [r for r in results if not r['match']]
 
     print(f"Line comparison: {matches}/{total} lines match ({100*matches/total:.1f}%)\n")
-
-    if args.play is not None:
-        # Show all lines around a specific play block
-        # For now, show all mismatches
-        pass
 
     # Show mismatches (skip empty line mismatches unless verbose)
     shown = 0
@@ -734,14 +409,14 @@ def cmd_diff(args):
     print(f"\n--- Summary ---")
     print(f"Content lines in target: {n_target}")
     print(f"Content lines in rendered: {n_rendered}")
-    print(f"Identical content lines (raw): {len(identical_raw)} ({100*len(identical_raw)/n_target:.1f}%)")
-    print(f"Identical content lines (normalized): {len(identical)} ({100*len(identical)/n_target:.1f}%)")
+    print(f"Identical content lines (raw): {len(identical_raw)} ({100*len(identical_raw)/(n_target or 1):.1f}%)")
+    print(f"Identical content lines (normalized): {len(identical)} ({100*len(identical)/(n_target or 1):.1f}%)")
     print(f"\nPositional fuzzy matching (±{wiggle_pct:.0%} of file):")
-    print(f"  Exact match:  {exact_positional} ({100*exact_positional/n_target:.1f}%)")
-    print(f"  ≥90% similar: {near_matches_90} ({100*near_matches_90/n_target:.1f}%)")
-    print(f"  ≥75% similar: {near_matches_75} ({100*near_matches_75/n_target:.1f}%)")
+    print(f"  Exact match:  {exact_positional} ({100*exact_positional/(n_target or 1):.1f}%)")
+    print(f"  ≥90% similar: {near_matches_90} ({100*near_matches_90/(n_target or 1):.1f}%)")
+    print(f"  ≥75% similar: {near_matches_75} ({100*near_matches_75/(n_target or 1):.1f}%)")
     total_good = exact_positional + near_matches_90 + near_matches_75
-    print(f"  Total ≥75%:   {total_good} ({100*total_good/n_target:.1f}%)")
+    print(f"  Total ≥75%:   {total_good} ({100*total_good/(n_target or 1):.1f}%)")
 
     # Word-level Jaccard
     def get_words(s):
@@ -757,521 +432,166 @@ def cmd_diff(args):
         print(f"\nRendered output written to {args.output}")
 
 
-def cmd_whatif(args):
-    """
-    Show what a specific seed would select from a pool.
-
-    Example:
-        python pbp_tools.py whatif 300 narrative_templates.Single.default
-        python pbp_tools.py whatif 300 narrative_strings.batter_intro_leadoff
-    """
-    seed = int(args.seed)
-    items = list_pool(args.pool)
-
-    if not items:
-        print(f"Pool '{args.pool}' not found or empty.")
-        return
-
-    pool_size = len(items)
-    selected_idx = seed % pool_size
-    remaining = seed // 100
-
-    print(f"Seed: {seed}")
-    print(f"Pool: {args.pool} ({pool_size} items)")
-    print(f"Selection: {seed} % {pool_size} = {selected_idx}")
-    print(f"Remaining seed after consumption: {remaining}")
-    print()
-
-    for idx, template in items:
-        marker = " >>>" if idx == selected_idx else "    "
-        print(f"  {marker} [{idx}] {repr(template)}")
-
-    # Show which seeds (0-99) would select each index
-    print(f"\n--- Seed values (0-99) that select each index ---")
-    for idx, template in items:
-        values = [v for v in range(100) if v % pool_size == idx]
-        print(f"  [{idx}] values: {values[:10]}{'...' if len(values) > 10 else ''}")
-
-
-def get_play_seed_points(gameday_data, play_index):
-    """
-    Get all seed points for a specific play, in order.
-
-    Returns list of dicts:
-        - point_type: 'play_start', 'event_N', 'play_outcome'
-        - timestamp: the timestamp string
-        - seed: the extracted seed
-        - json_path: how to find/update this in the JSON
-    """
-    play = gameday_data['liveData']['plays']['allPlays'][play_index]
-    points = []
-
-    if 'startTime' in play['about']:
-        ts = play['about']['startTime']
+def get_play_rng_points(gameday_data, play_index):
+    """Locate RNG points by structural position, regardless of timestamps."""
+    plays = gameday_data['liveData']['plays']['allPlays']
+    if play_index is None or not 0 <= play_index < len(plays):
+        raise ValueError(f"Play index {play_index} out of range (0-{len(plays) - 1})")
+    play = plays[play_index]
+    prefix = f"liveData.plays.allPlays[{play_index}]"
+    about = play.get('about', {})
+    points = [{
+        'point_type': 'play_start', 'point': 'play_start', 'owner': play,
+        'key': f'play:{play_index}:start',
+        'timestamp': about.get('startTime', ''),
+        'json_path': f'{prefix}.commentaryRng.play_start',
+    }]
+    for i, event in enumerate(play.get('playEvents', [])):
         points.append({
-            'point_type': 'play_start',
-            'timestamp': ts,
-            'seed': timestamp_to_seed(ts),
-            'json_path': f"liveData.plays.allPlays[{play_index}].about.startTime"
+            'point_type': f'event_{i}', 'point': 'event', 'owner': event,
+            'key': f'play:{play_index}:event:{i}',
+            'timestamp': event.get('startTime', ''),
+            'json_path': f'{prefix}.playEvents[{i}].commentaryRng.event',
         })
-
-    for i, event in enumerate(play['playEvents']):
-        if 'startTime' in event:
-            ts = event['startTime']
-            points.append({
-                'point_type': f'event_{i}',
-                'timestamp': ts,
-                'seed': timestamp_to_seed(ts),
-                'json_path': f"liveData.plays.allPlays[{play_index}].playEvents[{i}].startTime"
-            })
-
-    if 'endTime' in play['about']:
-        ts = play['about']['endTime']
-        points.append({
-            'point_type': 'play_outcome',
-            'timestamp': ts,
-            'seed': timestamp_to_seed(ts),
-            'json_path': f"liveData.plays.allPlays[{play_index}].about.endTime"
-        })
-
+    points.append({
+        'point_type': 'play_outcome', 'point': 'play_outcome', 'owner': play,
+        'key': f'play:{play_index}:outcome',
+        'timestamp': about.get('endTime', ''),
+        'json_path': f'{prefix}.commentaryRng.play_outcome',
+    })
     return points
 
 
+def get_rng_point(gameday_data, play_index, point_type):
+    if point_type == 'init':
+        owner = gameday_data['gameData']
+        return {
+            'point_type': 'init', 'point': 'init', 'owner': owner, 'key': 'init',
+            'timestamp': owner.get('datetime', {}).get('dateTime', ''),
+            'json_path': 'gameData.commentaryRng.init',
+        }
+    points = get_play_rng_points(gameday_data, play_index)
+    for point in points:
+        if point['point_type'] == point_type:
+            return point
+    raise ValueError(f"Unknown point {point_type!r}; choose init or one of "
+                     f"{[point['point_type'] for point in points]}")
+
+
 def cmd_inspect_play(args):
-    """
-    Inspect a single play: show all seed points, RNG choices, and current output.
-    """
+    """Show a play's explicit draws, available selections, and rendered lines."""
     with open(args.json_file) as f:
         data = json.load(f)
-
-    play_index = args.play
-    plays = data['liveData']['plays']['allPlays']
-    if play_index >= len(plays):
-        print(f"Play index {play_index} out of range (0-{len(plays)-1})")
-        return
-
-    play = plays[play_index]
+    points = get_play_rng_points(data, args.play)
+    play = data['liveData']['plays']['allPlays'][args.play]
     matchup = play['matchup']
-    result = play['result']
-
-    print(f"{'='*70}")
-    print(f"PLAY {play_index}: {matchup['batter']['fullName']} vs {matchup['pitcher']['fullName']}")
-    print(f"Result: {result['event']} | Score: {result['awayScore']}-{result['homeScore']}")
-    print(f"Inning: {'Top' if play['about']['isTopInning'] else 'Bot'} {play['about']['inning']}")
-    print(f"{'='*70}")
-
-    seed_points = get_play_seed_points(data, play_index)
-
-    for sp in seed_points:
-        print(f"\n--- {sp['point_type']} (seed={sp['seed']}) ---")
-        print(f"  Timestamp: {sp['timestamp']}")
-        print(f"  JSON path: {sp['json_path']}")
-
-        # Show what each stream would select at different digit positions
-        seed = sp['seed']
-        print(f"  Base-100 digits: ", end="")
-        temp = seed
-        digits = []
-        for _ in range(5):
-            digits.append(temp % 100)
-            temp //= 100
-        print(" | ".join(f"d{i}={d}" for i, d in enumerate(digits)))
-
-    # Now trace the full render and extract just this play's seed points
+    print(f"PLAY {args.play}: {matchup['batter']['fullName']} vs {matchup['pitcher']['fullName']}")
+    print(f"Result: {play['result']['event']}")
+    for point in points:
+        draws = point['owner'].get('commentaryRng', {}).get(point['point'])
+        print(f"\n{point['json_path']}: {draws if draws is not None else '(fallback RNG)'}")
     tracer = TracingRenderer(data)
     rendered = tracer.render()
-
-    # Map seed_log entries to plays by sequential order.
-    # Seed log order: init, then for each play: play_start, event*N, play_outcome
-    # We scan the log and group entries between consecutive play_start entries.
-    play_entries = []  # list of lists, one per play
-    current_play_entries = []
-    seen_init = False
-    play_counter = -1
-
     for entry in tracer.seed_log:
-        salt = entry['salt']
-        if salt == 'init':
-            seen_init = True
-            continue
-        if salt == 'play_start':
-            if current_play_entries:
-                play_entries.append(current_play_entries)
-            current_play_entries = [entry]
-            play_counter += 1
-        else:
-            current_play_entries.append(entry)
-    if current_play_entries:
-        play_entries.append(current_play_entries)
+        if entry['key'].startswith(f'play:{args.play}:'):
+            _print_trace_entry(entry, args.verbose)
+    line_map = getattr(tracer.renderer, '_play_line_map', {})
+    if args.play in line_map:
+        start, end = line_map[args.play]
+        print("\nRENDERED OUTPUT FOR THIS PLAY")
+        print('\n'.join(rendered.split('\n')[start:end]))
 
-    if play_index >= len(play_entries):
-        print(f"\nCould not find trace entries for play {play_index}")
-        return
 
-    my_entries = play_entries[play_index]
+def edit_commentary_draws(data, play_index, point_type, overrides, expected_type=None):
+    """Validate and edit arbitrary observed calls at one stable RNG point.
 
-    print(f"\n{'='*70}")
-    print(f"RNG CALLS FOR THIS PLAY ({len(my_entries)} seed points)")
-    print(f"{'='*70}")
+    ``overrides`` maps (stream, zero-based call index) to a choice index or
+    probability digit. All current calls at this point are materialized first,
+    so editing a late call preserves earlier selections in the same stream.
+    """
+    point = get_rng_point(data, play_index, point_type)
+    tracer = TracingRenderer(data)
+    tracer.render()
+    entry = next((item for item in tracer.seed_log if item['key'] == point['key']), None)
+    if entry is None:
+        raise ValueError(f"Point {point['key']} was not reached during rendering")
+    if not overrides:
+        raise ValueError('Specify at least one draw override')
+    for (stream, call_index), value in overrides.items():
+        if stream not in STREAM_NAMES:
+            raise ValueError(f"Unknown RNG stream {stream!r}; choose {', '.join(STREAM_NAMES)}")
+        calls = entry['rngs'][stream].calls
+        if not isinstance(call_index, int) or not 0 <= call_index < len(calls):
+            raise ValueError(f"{stream} call {call_index} not found at {point['key']} "
+                             f"({len(calls)} observed calls)")
+        call = calls[call_index]
+        if expected_type and call['type'] != expected_type:
+            raise ValueError(f"{stream} call {call_index} is {call['type']}(), "
+                             f"expected {expected_type}()")
+        limit = call['pool_size'] if call['type'] == 'choice' else 100
+        if type(value) is not int or not 0 <= value < limit:
+            raise ValueError(f"{stream} call {call_index}: value must be an integer "
+                             f"in 0-{limit - 1}, got {value!r}")
+    draws = materialize_trace_entry(entry)
+    for (stream, call_index), value in overrides.items():
+        draws[stream][call_index] = value
+    return point, entry, draws
 
-    for entry in my_entries:
-        print(f"\n--- {entry['salt']} (seed={entry['seed']}, ts={entry['timestamp']}) ---")
 
-        for stream_name in ['flow', 'pitch', 'play', 'color']:
-            rng = entry['rngs'][stream_name]
-            if not rng.calls:
-                continue
-
-            for call in rng.calls:
-                ctrl_label = "[controllable]" if call['digit_pos'] <= 1 else "[fixed]"
-                if call['type'] == 'choice':
-                    print(f"  [{stream_name} #{call['digit_pos']}] {ctrl_label} choice(pool_size={call['pool_size']})")
-                    print(f"    {call['digit_value']} % {call['pool_size']} = {call['selected_index']}")
-                    if call['digit_pos'] > 1:
-                        print(f"    → {repr(call['selected_value'][:100])} (cannot be changed via set-choice)")
-                    else:
-                        print(f"    → {repr(call['selected_value'][:100])}")
-                    if args.verbose:
-                        for i, opt in enumerate(call['pool']):
-                            marker = " >>>" if i == call['selected_index'] else "    "
-                            print(f"    {marker} [{i}] {repr(opt[:100])}")
-                elif call['type'] == 'random':
-                    threshold_info = ""
-                    # Common thresholds
-                    if call['result'] < 0.2:
-                        threshold_info = " (< 0.2: matchup=True, < 0.5: runners_stretch=True, < 0.6: comma=True, verb=True)"
-                    elif call['result'] < 0.5:
-                        threshold_info = " (>= 0.2: matchup=False, < 0.5: runners_stretch=True, < 0.6: comma=True, verb=True)"
-                    elif call['result'] < 0.6:
-                        threshold_info = " (>= 0.5: stretch=False, < 0.6: comma=True, verb=True)"
-                    elif call['result'] < 0.8:
-                        threshold_info = " (>= 0.6: comma=False, < 0.8: use_template=True)"
-                    else:
-                        threshold_info = " (>= 0.8: use_template=False)"
-                    extra = ""
-                    if call['digit_pos'] > 1:
-                        extra = " (cannot be changed via set-choice)"
-                    print(f"  [{stream_name} #{call['digit_pos']}] {ctrl_label} random() = {call['result']:.2f}{threshold_info}{extra}")
-
-    # Show the rendered output for this play
-    rendered_lines = rendered.split('\n')
-
-    print(f"\n{'='*70}")
-    print(f"RENDERED OUTPUT FOR THIS PLAY")
-    print(f"{'='*70}")
-
-    # Use the line map if available (precise line ranges from renderer)
-    line_map = getattr(tracer.renderer, '_play_line_map', None)
-    if line_map and play_index in line_map:
-        start, end = line_map[play_index]
-        for line in rendered_lines[start:end]:
-            print(line)
-    else:
-        # Fallback: heuristic search by batter name in double-newline blocks
-        blocks = rendered.split('\n\n')
-        batter_name = matchup['batter']['fullName']
-        for i, block in enumerate(blocks):
-            if batter_name in block and any(kw in block for kw in ['leads off', 'steps in', 'comes to', 'will step', 'And here', 'Now batting']):
-                print(block)
-                break
-        else:
-            for block in blocks:
-                if batter_name in block:
-                    print(block)
-                    break
+def _save_draw_edit(args, data, point, draws):
+    prefix = '[DRY RUN] Would update' if getattr(args, 'dry_run', False) else 'Updated'
+    if not getattr(args, 'dry_run', False):
+        with open(args.json_file, 'w') as f:
+            json.dump(data, f, indent=2)
+            f.write('\n')
+    print(f"{prefix} {point['json_path']}:")
+    print(json.dumps(draws, indent=2))
 
 
 def cmd_set_choice(args):
-    """
-    Update a seed in the fixture JSON so a specific template is selected.
-
-    This command:
-    1. Traces the current rendering at the specified seed point
-    2. Preserves all existing selections as constraints
-    3. Overrides the specified selection(s)
-    4. Solves for a new seed
-    5. Updates the JSON file
-
-    Usage:
-        # Change play 0's outcome to select index 2 from rng_play's first choice
-        python pbp_tools.py set-choice fixture.json --play 0 --point play_outcome \\
-            --set play:1:3
-
-        # --set format is stream:call_number:desired_index
-        # Multiple --set flags can be used
-    """
+    """Store explicit draws while preserving other observed calls and timestamps."""
     with open(args.json_file) as f:
         data = json.load(f)
-
-    play_index = args.play
-    point_type = args.point
     overrides = {}
-
-    for s in args.set:
-        parts = s.split(':')
-        if len(parts) != 3:
-            print(f"Invalid --set format '{s}'. Expected stream:call_number:desired_index")
-            return
-        stream, call_num, desired_idx = parts[0], int(parts[1]), int(parts[2])
-        overrides[(stream, call_num)] = desired_idx
-
-    # Find the seed point in the JSON
-    seed_points = get_play_seed_points(data, play_index)
-    target_sp = None
-    for sp in seed_points:
-        if sp['point_type'] == point_type:
-            target_sp = sp
-            break
-
-    if not target_sp:
-        print(f"Seed point '{point_type}' not found for play {play_index}")
-        print(f"Available: {[sp['point_type'] for sp in seed_points]}")
-        return
-
-    # Trace the render to get current selections at this seed point
-    tracer = TracingRenderer(data)
-    tracer.render()
-
-    # Find the trace entry for this seed point
-    target_entry = None
-    for entry in tracer.seed_log:
-        if entry['timestamp'] == target_sp['timestamp'] and entry['salt'] == point_type.replace('event_', 'event').replace('play_start', 'play_start').replace('play_outcome', 'play_outcome'):
-            target_entry = entry
-            break
-
-    if not target_entry:
-        # Try matching by timestamp only
-        for entry in tracer.seed_log:
-            if entry['timestamp'] == target_sp['timestamp']:
-                target_entry = entry
-                break
-
-    if not target_entry:
-        print(f"Could not find trace entry for {point_type} at {target_sp['timestamp']}")
-        return
-
-    # With split-stream encoding, each stream has its own 2-digit seed.
-    # We solve each stream independently — no cross-stream conflicts possible.
-    old_packed = target_sp['seed']
-    old_streams = unpack_stream_seeds(old_packed)
-
-    print(f"Old packed seed: {old_packed}")
-    print(f"Old per-stream: play={old_streams['play']}, pitch={old_streams['pitch']}, flow={old_streams['flow']}, color={old_streams['color']}")
-
-    new_streams = dict(old_streams)
-
-    for (stream_name, call_num), desired_idx in overrides.items():
-        rng = target_entry['rngs'].get(stream_name)
-        if not rng or call_num >= len(rng.calls):
-            print(f"Warning: {stream_name} call {call_num} not found in trace")
-            continue
-
-        call = rng.calls[call_num]
-        if call_num > 1:
-            print(f"Warning: {stream_name} call {call_num} > 1. With split-stream encoding, "
-                  f"each stream only has 4 digits (2 meaningful calls). Call {call_num} "
-                  f"would require a larger seed allocation.")
-            continue
-
+    for spec in args.set:
+        try:
+            stream, call_number, desired_index = spec.split(':')
+            overrides[(stream, int(call_number))] = int(desired_index)
+        except ValueError as error:
+            raise ValueError(f"Invalid --set {spec!r}; expected stream:call_number:desired_index") from error
+    point, entry, draws = edit_commentary_draws(data, args.play, args.point, overrides)
+    _save_draw_edit(args, data, point, draws)
+    for (stream, call_number), value in overrides.items():
+        call = entry['rngs'][stream].calls[call_number]
         if call['type'] == 'choice':
-            pool_size = call['pool_size']
-            current_stream_val = new_streams[stream_name]
-            if call_num == 0:
-                # Find a 4-digit value where value % pool_size == desired_idx
-                # Preserve upper 2 digits (call 1's value)
-                upper = current_stream_val // 100
-                found = False
-                for candidate in range(100):
-                    if candidate % pool_size == desired_idx:
-                        new_streams[stream_name] = upper * 100 + candidate
-                        found = True
-                        break
-                if not found:
-                    print(f"Error: no value 0-99 satisfies {stream_name} % {pool_size} == {desired_idx}")
-            elif call_num == 1:
-                # Find upper 2 digits where (value // 100) % pool_size == desired_idx
-                # Preserve lower 2 digits (call 0's value)
-                lower = current_stream_val % 100
-                found = False
-                for candidate in range(100):
-                    if candidate % pool_size == desired_idx:
-                        new_streams[stream_name] = candidate * 100 + lower
-                        found = True
-                        break
-                if not found:
-                    print(f"Error: no value 0-99 satisfies {stream_name} call 1 % {pool_size} == {desired_idx}")
-        elif call['type'] == 'random':
-            current_stream_val = new_streams[stream_name]
-            if call_num == 0:
-                upper = current_stream_val // 100
-                new_streams[stream_name] = upper * 100 + desired_idx
-            elif call_num == 1:
-                lower = current_stream_val % 100
-                new_streams[stream_name] = desired_idx * 100 + lower
-
-    new_packed = pack_stream_seeds(**new_streams)
-    print(f"New per-stream: play={new_streams['play']}, pitch={new_streams['pitch']}, flow={new_streams['flow']}, color={new_streams['color']}")
-    print(f"New packed seed: {new_packed}")
-
-    # Update the JSON
-    old_ts = target_sp['timestamp']
-    # Extract base (before fractional), fractional digits, and timezone suffix
-    # Handle timestamps like "2025-09-27T23:05:00+00:00" (no fractional)
-    # and "2025-09-27T23:05:00.500000Z" or "2025-09-27T23:05:20.0000300"
-    tz_suffix = ''
-    if old_ts.endswith('Z'):
-        tz_suffix = 'Z'
-        core = old_ts[:-1]
-    elif re.search(r'\+\d{2}:\d{2}$', old_ts):
-        tz_suffix = old_ts[-6:]  # e.g. "+00:00"
-        core = old_ts[:-6]
-    else:
-        core = old_ts
-    base = core.split('.')[0]
-    new_ts = f"{base}.{new_packed:016d}{tz_suffix}"
-
-    if not args.dry_run:
-        path = target_sp['json_path']
-        parts = re.findall(r'(\w+)|\[(\d+)\]', path)
-        obj = data
-        for i, (key, idx) in enumerate(parts[:-1]):
-            if key:
-                obj = obj[key]
-            elif idx:
-                obj = obj[int(idx)]
-
-        last_key, last_idx = parts[-1]
-        if last_key:
-            obj[last_key] = new_ts
-        elif last_idx:
-            obj[int(last_idx)] = new_ts
-
-        with open(args.json_file, 'w') as f:
-            json.dump(data, f, indent=2)
-
-        print(f"\nUpdated {target_sp['json_path']}:")
-        print(f"  Old: {old_ts}")
-        print(f"  New: {new_ts}")
-    else:
-        print(f"\n[DRY RUN] Would update {target_sp['json_path']}")
-        print(f"  Old: {old_ts}")
-        print(f"  New: {new_ts}")
-
-    # Show what the overridden selections would produce
-    print(f"\nOverrides applied:")
-    for (stream, call_num), desired_idx in overrides.items():
-        for rng_name, rng in target_entry['rngs'].items():
-            if rng_name == stream and call_num < len(rng.calls):
-                call = rng.calls[call_num]
-                if call['type'] == 'choice':
-                    old_val = call['selected_value']
-                    new_val = call['pool'][desired_idx] if desired_idx < len(call['pool']) else '???'
-                    print(f"  {stream}#{call_num}: [{call['selected_index']}] {repr(old_val[:60])} → [{desired_idx}] {repr(new_val[:60])}")
+            print(f"{stream}#{call_number}: [{call['selected_index']}] {call['selected_value']!r} "
+                  f"→ [{value}] {call['pool'][value]!r}")
+        else:
+            print(f"{stream}#{call_number}: {call['result']:.6g} → {value / 100:.2f}")
 
 
 def cmd_set_gate(args):
-    """
-    Update a seed so a random() gate passes above or below a threshold.
-
-    random() returns (digit_value % 100) / 100.0, so digit value 10 -> 0.10.
-    --below T: set digit to int(T * 100) // 2  (safely below threshold)
-    --above T: set digit to int(T * 100) + (100 - int(T * 100)) // 2  (safely above)
-    """
+    """Set any observed random() call to a hundredth satisfying the threshold."""
     with open(args.json_file) as f:
         data = json.load(f)
-
-    play_index = args.play
-    point_type = args.seed_point
-    stream_name = args.stream
-    call_num = args.call
-
-    if call_num > 1:
-        print(f"Error: call {call_num} > 1. Only calls 0 and 1 are controllable.")
-        return
-
-    # Compute the desired digit value
+    threshold = args.below if args.below is not None else args.above
+    if threshold is None or not math.isfinite(threshold) or not 0 <= threshold <= 1:
+        raise ValueError('Gate threshold must be between 0 and 1')
     if args.below is not None:
-        threshold = args.below
-        desired_digit = int(threshold * 100) // 2
-        direction = f"below {threshold}"
-    elif args.above is not None:
-        threshold = args.above
-        t_int = int(threshold * 100)
-        desired_digit = t_int + (100 - t_int) // 2
-        direction = f"above {threshold}"
+        candidates = [digit for digit in range(100) if digit / 100 < threshold]
+        direction = f'below {threshold}'
     else:
-        print("Error: must specify --below or --above")
-        return
-
-    print(f"Setting {stream_name} call {call_num} to digit {desired_digit} -> random() = {desired_digit / 100.0:.2f} ({direction})")
-
-    # Find the seed point
-    seed_points = get_play_seed_points(data, play_index)
-    target_sp = None
-    for sp in seed_points:
-        if sp['point_type'] == point_type:
-            target_sp = sp
-            break
-
-    if not target_sp:
-        print(f"Seed point '{point_type}' not found for play {play_index}")
-        print(f"Available: {[sp['point_type'] for sp in seed_points]}")
-        return
-
-    # Unpack current stream seeds
-    old_packed = target_sp['seed']
-    old_streams = unpack_stream_seeds(old_packed)
-    new_streams = dict(old_streams)
-
-    current_stream_val = new_streams[stream_name]
-    if call_num == 0:
-        upper = current_stream_val // 100
-        new_streams[stream_name] = upper * 100 + desired_digit
-    elif call_num == 1:
-        lower = current_stream_val % 100
-        new_streams[stream_name] = desired_digit * 100 + lower
-
-    new_packed = pack_stream_seeds(**new_streams)
-
-    print(f"Old per-stream: play={old_streams['play']}, pitch={old_streams['pitch']}, flow={old_streams['flow']}, color={old_streams['color']}")
-    print(f"New per-stream: play={new_streams['play']}, pitch={new_streams['pitch']}, flow={new_streams['flow']}, color={new_streams['color']}")
-
-    # Update the JSON timestamp
-    old_ts = target_sp['timestamp']
-    tz_suffix = ''
-    if old_ts.endswith('Z'):
-        tz_suffix = 'Z'
-        core = old_ts[:-1]
-    elif re.search(r'\+\d{2}:\d{2}$', old_ts):
-        tz_suffix = old_ts[-6:]
-        core = old_ts[:-6]
-    else:
-        core = old_ts
-    base = core.split('.')[0]
-    new_ts = f"{base}.{new_packed:016d}{tz_suffix}"
-
-    # Write to JSON
-    path = target_sp['json_path']
-    parts_parsed = re.findall(r'(\w+)|\[(\d+)\]', path)
-    obj = data
-    for i, (key, idx) in enumerate(parts_parsed[:-1]):
-        if key:
-            obj = obj[key]
-        elif idx:
-            obj = obj[int(idx)]
-
-    last_key, last_idx = parts_parsed[-1]
-    if last_key:
-        obj[last_key] = new_ts
-    elif last_idx:
-        obj[int(last_idx)] = new_ts
-
-    with open(args.json_file, 'w') as f:
-        json.dump(data, f, indent=2)
-
-    print(f"\nUpdated {target_sp['json_path']}:")
-    print(f"  Old: {old_ts}")
-    print(f"  New: {new_ts}")
+        candidates = [digit for digit in range(100) if digit / 100 >= threshold]
+        direction = f'at or above {threshold}'
+    if not candidates:
+        raise ValueError(f'No hundredth-valued draw is {direction}')
+    digit = candidates[len(candidates) // 2]
+    point, _, draws = edit_commentary_draws(
+        data, args.play, args.point, {(args.stream, args.call): digit},
+        expected_type='random',
+    )
+    _save_draw_edit(args, data, point, draws)
+    print(f"{args.stream}#{args.call}: random() = {digit / 100:.2f} ({direction})")
 
 
 def cmd_set_zone(args):
@@ -1291,15 +611,13 @@ def cmd_set_zone(args):
     event_index = args.event
 
     plays = data['liveData']['plays']['allPlays']
-    if play_index >= len(plays):
-        print(f"Play index {play_index} out of range (0-{len(plays)-1})")
-        return
+    if not 0 <= play_index < len(plays):
+        raise ValueError(f"Play index {play_index} out of range (0-{len(plays)-1})")
 
     play = plays[play_index]
     events = play['playEvents']
-    if event_index >= len(events):
-        print(f"Event index {event_index} out of range (0-{len(events)-1})")
-        return
+    if not 0 <= event_index < len(events):
+        raise ValueError(f"Event index {event_index} out of range (0-{len(events)-1})")
 
     # Resolve zone: either numeric or named
     zone_input = args.zone
@@ -1389,9 +707,8 @@ def cmd_set_category(args):
     category = args.category
 
     plays = data['liveData']['plays']['allPlays']
-    if play_index >= len(plays):
-        print(f"Play index {play_index} out of range (0-{len(plays)-1})")
-        return
+    if not 0 <= play_index < len(plays):
+        raise ValueError(f"Play index {play_index} out of range (0-{len(plays)-1})")
 
     play = plays[play_index]
     outcome = play['result']['event']
@@ -1471,13 +788,6 @@ def main():
     p_trace.add_argument('--verbose', '-v', action='store_true', help='Show full option pools')
     p_trace.add_argument('--output', '-o', help='Write rendered text to file')
 
-    # solve
-    p_solve = subparsers.add_parser('solve', help='Solve for a seed from constraints')
-    p_solve.add_argument('--constraints', '-c', required=True,
-                         help='JSON: list of dicts mapping stream names to [pool_size, desired_index]')
-    p_solve.add_argument('--timestamp', '-t', default=None,
-                         help='Base timestamp to encode seed into (e.g., "2025-09-27T23:05:00")')
-
     # search
     p_search = subparsers.add_parser('search', help='Search template pools for a phrase')
     p_search.add_argument('phrase', help='Phrase to search for (case-insensitive)')
@@ -1491,15 +801,9 @@ def main():
     p_diff = subparsers.add_parser('diff', help='Diff rendered output vs target text')
     p_diff.add_argument('json_file', help='Gameday JSON fixture file')
     p_diff.add_argument('target_file', help='Target text file (e.g., pbp_example_3.txt)')
-    p_diff.add_argument('--play', type=int, default=None, help='Focus on a specific play')
     p_diff.add_argument('--verbose', '-v', action='store_true', help='Show all mismatches including TTS')
     p_diff.add_argument('--all', action='store_true', help='Show all mismatches (no limit)')
     p_diff.add_argument('--output', '-o', help='Write rendered text to file')
-
-    # whatif
-    p_whatif = subparsers.add_parser('whatif', help='Show what a seed selects from a pool')
-    p_whatif.add_argument('seed', help='Seed value to test')
-    p_whatif.add_argument('pool', help='Dotted pool path')
 
     # inspect-play
     p_inspect = subparsers.add_parser('inspect-play', help='Inspect a single play in detail')
@@ -1508,11 +812,11 @@ def main():
     p_inspect.add_argument('--verbose', '-v', action='store_true', help='Show full option pools')
 
     # set-choice
-    p_set = subparsers.add_parser('set-choice', help='Update a seed to select specific templates')
+    p_set = subparsers.add_parser('set-choice', help='Store explicit draws to select specific templates')
     p_set.add_argument('json_file', help='Gameday JSON fixture file')
-    p_set.add_argument('--play', type=int, required=True, help='Play index')
+    p_set.add_argument('--play', type=int, help='Play index (omit for init)')
     p_set.add_argument('--point', required=True,
-                       help='Seed point type: play_start, event_N (e.g., event_0), play_outcome')
+                       help='Point: init, play_start, event_N (e.g., event_0), play_outcome')
     p_set.add_argument('--set', action='append', required=True,
                        help='stream:call_number:desired_index (can repeat)')
     p_set.add_argument('--dry-run', action='store_true', help='Show what would change without writing')
@@ -1520,12 +824,13 @@ def main():
     # set-gate
     p_gate = subparsers.add_parser('set-gate', help='Set a random() gate above or below a threshold')
     p_gate.add_argument('json_file', help='Gameday JSON fixture file')
-    p_gate.add_argument('--play', type=int, required=True, help='Play index')
-    p_gate.add_argument('--seed-point', required=True,
-                        help='Seed point type: play_start, event_N (e.g., event_0), play_outcome')
+    p_gate.add_argument('--play', type=int, help='Play index (omit for init)')
+    p_gate.add_argument('--point', required=True,
+                        help='Point: init, play_start, event_N (e.g., event_0), play_outcome')
     p_gate.add_argument('--stream', required=True, choices=['play', 'pitch', 'flow', 'color'],
                         help='RNG stream name')
-    p_gate.add_argument('--call', type=int, required=True, help='Call index (0 or 1)')
+    p_gate.add_argument('--call', type=int, required=True, help='Zero-based call index (any observed call)')
+    p_gate.add_argument('--dry-run', action='store_true', help='Preview without writing')
     gate_group = p_gate.add_mutually_exclusive_group(required=True)
     gate_group.add_argument('--below', type=float, help='Set digit so random() < threshold')
     gate_group.add_argument('--above', type=float, help='Set digit so random() >= threshold')
@@ -1547,30 +852,20 @@ def main():
 
     args = parser.parse_args()
 
-    if args.command == 'trace':
-        cmd_trace(args)
-    elif args.command == 'solve':
-        cmd_solve(args)
-    elif args.command == 'search':
-        cmd_search(args)
-    elif args.command == 'list-pool':
-        cmd_list_pool(args)
-    elif args.command == 'diff':
-        cmd_diff(args)
-    elif args.command == 'whatif':
-        cmd_whatif(args)
-    elif args.command == 'inspect-play':
-        cmd_inspect_play(args)
-    elif args.command == 'set-choice':
-        cmd_set_choice(args)
-    elif args.command == 'set-gate':
-        cmd_set_gate(args)
-    elif args.command == 'set-category':
-        cmd_set_category(args)
-    elif args.command == 'set-zone':
-        cmd_set_zone(args)
-    else:
+    commands = {
+        'trace': cmd_trace, 'search': cmd_search,
+        'list-pool': cmd_list_pool, 'diff': cmd_diff,
+        'inspect-play': cmd_inspect_play, 'set-choice': cmd_set_choice,
+        'set-gate': cmd_set_gate, 'set-category': cmd_set_category,
+        'set-zone': cmd_set_zone,
+    }
+    if args.command is None:
         parser.print_help()
+        return
+    try:
+        commands[args.command](args)
+    except ValueError as error:
+        parser.error(str(error))
 
 
 if __name__ == '__main__':

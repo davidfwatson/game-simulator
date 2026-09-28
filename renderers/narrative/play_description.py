@@ -55,10 +55,10 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         template_outcome = "Groundout"
     elif template_outcome.startswith("Flyout"):
         template_outcome = "Flyout"
-    elif template_outcome.lower().startswith("grounded into double play") or template_outcome == "Double Play":
+    elif template_outcome.lower().startswith("grounded into double play") or template_outcome in ("Double Play", "Grounded Into DP"):
         template_outcome = "Double Play"
-    elif template_outcome == "Reached on Error":
-        template_outcome = "Groundout"
+    elif template_outcome in ("Reached on Error", "Field Error", "Error"):
+        template_outcome = "Field Error"
     elif template_outcome == "Popout":
         template_outcome = "Pop Out"
 
@@ -177,7 +177,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     }
 
     prefix = f"{connector} " if connector else ""
-    force_narrative = template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play", "Sac Fly"]
+    force_narrative = template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play", "Sac Fly", "Field Error", "Forceout"]
 
     final_description = ""
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):
@@ -187,30 +187,22 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
          if not dp_notation:
              final_description = final_description.replace("a  double play", "a double play")
     else:
-        phrase, phrase_type = renderer._get_batted_ball_verb(outcome, cat)
-        if connector:
-            if phrase_type == 'verbs':
-                template = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-                context['verb'] = phrase
-                context['verb_capitalized'] = phrase.capitalize()
-            else:
-                template = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
-                context['noun'] = phrase
-                context['noun_capitalized'] = phrase.capitalize()
+        phrase, phrase_type = renderer._get_batted_ball_verb(template_outcome, cat)
+        if phrase_type == 'verbs':
+            template = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
+            context['verb'] = phrase
+            context['verb_capitalized'] = phrase.capitalize()
         else:
-            if phrase_type == 'verbs':
-                template = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
-                context['verb'] = phrase
-                context['verb_capitalized'] = phrase.capitalize()
-            else:
-                template = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
-                context['noun'] = phrase
-                context['noun_capitalized'] = phrase.capitalize()
+            template = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_noun_templates'])
+            context['noun'] = phrase
+            context['noun_capitalized'] = phrase.capitalize()
         final_description = prefix + template.format(**context)
 
     if outcome in ["Single", "Double", "Triple"]:
          status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play)
          if status_str:
+             if batter_name in final_description and status_str.startswith(batter_name):
+                 status_str = "He" + status_str[len(batter_name):]
              final_description += " " + status_str
 
     return final_description
@@ -229,9 +221,9 @@ def render_steal_event(renderer, event):
         prev_base = "2B"
     elif "2B" in desc:
         pass
-    elif "Home" in desc:
+    elif "home" in desc.lower():
         base_target = "home"
-        base_key = "score"
+        base_key = None
         prev_base = "3B"
 
     runner_name = renderer.runners_on_base.get(prev_base)
@@ -239,7 +231,8 @@ def render_steal_event(renderer, event):
          runner_name = "The runner"
 
     if outcome == 'stolen_base':
-        renderer.runners_on_base[base_key] = runner_name
+        if base_key is not None:
+            renderer.runners_on_base[base_key] = runner_name
         renderer.runners_on_base[prev_base] = None
         throw_desc = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['throw_outcome_safe']).format(base=base_target)
         return f"{throw_desc} {runner_name} steals {base_target}."

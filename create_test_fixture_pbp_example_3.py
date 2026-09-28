@@ -13,9 +13,6 @@ def main():
 
     data = sim.gameday_data
 
-    # Enable direct mode
-    data['gameData']['directMode'] = True
-
     # Modify team names to match the desired output
     data['gameData']['teams']['home']['name'] = 'Lake City Loons'
     data['gameData']['teams']['home']['teamName'] = 'Loons'

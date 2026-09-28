@@ -1,4 +1,3 @@
-import random
 from commentary import GAME_CONTEXT
 from gameday import GamedayData
 from ..base import GameRenderer
@@ -31,8 +30,7 @@ class NarrativeRenderer(GameRenderer):
 
     def _get_foul_description(self):
         # On 2nd+ consecutive foul, chance to say "he fouls another one off"
-        # TODO: To make this alignable via set-choice, refactor to use a small
-        # pool (e.g. ["he fouls another one off", None]) instead of random() < 0.3
+        # Both the probability gate and phrase draws can be controlled in fixtures.
         if self.consecutive_fouls >= 1 and self.rng_pitch.random() < 0.3:
             self.last_foul_phrase = 'he fouls another one off'
             return 'he fouls another one off'
@@ -434,6 +432,10 @@ class NarrativeRenderer(GameRenderer):
         })
 
     def render(self) -> str:
+        self._reset_render_state()
+        self.last_foul_phrase = ""
+        self.consecutive_fouls = 0
+        self._prev_matchup_key = None
         lines = []
         self._play_line_map = {}
 
@@ -641,8 +643,8 @@ class NarrativeRenderer(GameRenderer):
             inning = about['inning']
             half = "Top" if about['isTopInning'] else "Bottom"
 
-            if 'startTime' in about:
-                self._reseed_from_timestamp(about['startTime'], "play_start")
+            self._reseed_for_point(play, "play_start", about.get('startTime', ''),
+                                   f"play:{play_idx}:start")
 
             # Capture recap value immediately after reseed, before inning
             # transitions consume color digits
@@ -1086,6 +1088,8 @@ class NarrativeRenderer(GameRenderer):
             result = play['result']
             outcome = result['event']
             play_events = play['playEvents']
+            pitch_events = [event for event in play_events if event.get('isPitch', True)]
+            last_pitch_event = pitch_events[-1] if pitch_events else {}
             last_pitch_context = None
             i = 0
             x_event_connector = None
@@ -1117,8 +1121,8 @@ class NarrativeRenderer(GameRenderer):
             while i < len(play_events):
                 event = play_events[i]
 
-                if 'startTime' in event:
-                    self._reseed_from_timestamp(event['startTime'], "event")
+                self._reseed_for_point(event, "event", event.get('startTime', ''),
+                                       f"play:{play_idx}:event:{i}")
 
                 # TTS delay markers between pitches/batters
                 if i == 0:
@@ -1305,7 +1309,7 @@ class NarrativeRenderer(GameRenderer):
 
                         # Optionally insert runner-status line between pitches
                         if not is_steal_attempt and any(self.runners_on_base.values()):
-                            is_final_pitch = (event == play_events[-1])
+                            is_final_pitch = (event is last_pitch_event)
                             if not is_final_pitch and i > 1 and self.rng_flow.random() < 0.20:
                                 leads_line = self._get_runner_leads_line()
                                 if leads_line:
@@ -1317,12 +1321,12 @@ class NarrativeRenderer(GameRenderer):
 
                 i += 1
 
-            if 'endTime' in about:
-                self._reseed_from_timestamp(about['endTime'], "play_outcome")
+            self._reseed_for_point(play, "play_outcome", about.get('endTime', ''),
+                                   f"play:{play_idx}:outcome")
 
             outcome_text = ""
             if outcome == "Strikeout":
-                k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
+                k_type = "looking" if last_pitch_event.get('details', {}).get('code') == 'C' else "swinging"
 
                 result_outs = play['count']['outs']
                 result_outs_word = "one"
@@ -1344,7 +1348,7 @@ class NarrativeRenderer(GameRenderer):
                             "Chases a {pitch_type} in the dirt."
                         ]
                         if self.rng_play.random() < 0.7:
-                            last_event = play_events[-1]
+                            last_event = last_pitch_event
                             orig_p_type = last_event['details'].get('type', {}).get('description', 'pitch')
                             simple_p_type = self._simplify_pitch_type(orig_p_type)
                             outcome_text = self.rng_play.choice(dirt_templates).format(pitch_type=simple_p_type, batter_name=batter_name)
@@ -1404,7 +1408,7 @@ class NarrativeRenderer(GameRenderer):
             elif outcome == "Caught Stealing" or ("Caught Stealing" in outcome and "Single" in outcome):
                  # Handle combined "Caught Stealing 2B / Single" outcomes
                  if "Single" in outcome:
-                     x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
+                     x_event = next((e for e in pitch_events if e['details'].get('code') == 'X'), None)
                      if x_event:
                          hit_data = x_event.get('hitData', {})
                          pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed')}
@@ -1446,7 +1450,7 @@ class NarrativeRenderer(GameRenderer):
                  else:
                      outcome_text = "The batter reaches on a fielding error."
             else:
-                x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
+                x_event = next((e for e in pitch_events if e['details'].get('code') == 'X'), None)
                 if x_event:
                     hit_data = x_event.get('hitData', {})
                     pitch_details = {'type': x_event['details'].get('type', {}).get('description', 'pitch'), 'velo': x_event.get('pitchData', {}).get('startSpeed')}

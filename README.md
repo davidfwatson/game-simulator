@@ -8,7 +8,7 @@ This repository contains a command line play-by-play simulator that aims to prod
 
 * Python 3.9 or newer
 
-Install the Python dependencies (only the standard library is required) and run the simulator directly:
+Install the pinned Python dependencies with `python -m pip install -r requirements.txt`, then run the simulator:
 
 ```bash
 python baseball.py
@@ -77,6 +77,46 @@ Feel free to modify the team definitions or extend the rules engine. When adding
 This repository uses two distinct snapshot files for different purposes, which should not be confused:
 
 1. `examples/gameday_snapshot.json`: The canonical snapshot of the core simulator structure for structural tests (`test_gameday_snapshot.py`). This file is auto-generated and should not be manually tweaked. Use `python update_gameday_snapshot.py` to regenerate it.
-2. `test_fixture_pbp_example_3.json`: A manually constructed/tweaked JSON fixture used specifically for testing NarrativeRenderer similarity against the target text (`pbp_example_3.txt`). It is intentionally modified to hit specific RNG outputs and should NOT be synced with `examples/gameday_snapshot.json`.
+2. `test_fixture_pbp_example_3.json`: A manually constructed/tweaked JSON fixture used specifically for testing NarrativeRenderer similarity against the target text (`pbp_example_3.txt`). It stores explicit commentary draws to select specific wording and should NOT be synced with `examples/gameday_snapshot.json`.
 
 If you modify `test_fixture_pbp_example_3.json`, you must also update the generated test output `test_fixture_pbp_example_3.txt`.
+
+
+## Commentary randomness and alignment
+
+Randomness for wording is separate from game timing and game outcomes.
+`gameData.commentarySeed` stores the default rendering seed; `--commentary-seed`
+overrides it (including zero). A fixed seed and event sequence reproduce the
+same wording even after timestamp corrections. Four independent streams control
+plays, pitches, flow, and color commentary.
+
+Curated fixtures can override any number of draws with `commentaryRng`:
+
+```json
+{
+  "commentaryRng": {
+    "play_outcome": {
+      "play": [3, 12, 1],
+      "flow": [25]
+    }
+  }
+}
+```
+
+Store `init` under `gameData`, `play_start` and `play_outcome` on the play,
+and `event` on a pitch/event. Each list entry controls one call: `choice()` uses
+an index modulo the pool size, and `random()` uses the last two digits as
+hundredths. Missing or exhausted lists continue with the seeded stream; they do
+not become a repeating zero. There is no packed timestamp format or direct mode.
+
+Use `python pbp_tools.py inspect-play FIXTURE --play N -v` to inspect draws and
+`set-choice FIXTURE --play N --point event_0 --set pitch:3:7` to select wording.
+The tooling edits commentary metadata without changing timestamps.
+See [PBP_ALIGNMENT_GUIDE.md](PBP_ALIGNMENT_GUIDE.md) for the workflow.
+
+Register new `pbp_example_N.txt` references in `pbp_comparison.py`, together with
+a matching JSON fixture, rendered text snapshot, and reviewed comparison
+thresholds. The tests fail if any example is missing or unregistered.
+Run `python pbp_match_report.py --check` to check all examples, or add `--json`
+for machine-readable results. Content-only exact matching prevents repeated
+TTS markers from masking wording regressions.

@@ -4,6 +4,7 @@ from .base import GameRenderer
 
 class StatcastRenderer(GameRenderer):
     def render(self) -> str:
+        self._reset_render_state()
         lines = []
 
         lines.append("=" * 20 + " GAME START " + "=" * 20)
@@ -19,13 +20,13 @@ class StatcastRenderer(GameRenderer):
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
-        for play in plays:
+        for play_idx, play in enumerate(plays):
             about = play['about']
             inning = about['inning']
             half = "Top" if about['isTopInning'] else "Bottom"
 
-            if 'startTime' in about:
-                self._reseed_from_timestamp(about['startTime'], "play_start")
+            self._reseed_for_point(play, "play_start", about.get('startTime', ''),
+                                   f"play:{play_idx}:start")
 
             if (inning, half) != current_inning_state:
                 team_name = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
@@ -42,12 +43,17 @@ class StatcastRenderer(GameRenderer):
             self.current_pitcher_info[pitching_team_key] = {'id': pitcher_id, 'name': play['matchup']['pitcher']['fullName']}
 
             play_events = play['playEvents']
-            for event in play_events:
-                if 'startTime' in event:
-                    self._reseed_from_timestamp(event['startTime'], "event")
+            pitch_events = [event for event in play_events if event.get('isPitch', True)]
+            last_pitch_event = pitch_events[-1] if pitch_events else {}
+            for event_idx, event in enumerate(play_events):
+                self._reseed_for_point(event, "event", event.get('startTime', ''),
+                                       f"play:{play_idx}:event:{event_idx}")
 
                 details = event['details']
                 desc = details['description']
+                if event.get('isPitch') is False:
+                    lines.append(f"  Action: {desc}")
+                    continue
                 code = details.get('code', '')
                 pitch_velo = event.get('pitchData', {}).get('startSpeed')
                 pitch_selection = details.get('type', {}).get('description', 'pitch')
@@ -62,14 +68,14 @@ class StatcastRenderer(GameRenderer):
                 if outcome_text:
                      lines.append(f"  {outcome_text.capitalize()}: {pitch_velo} mph {pitch_selection}")
 
-            if 'endTime' in about:
-                self._reseed_from_timestamp(about['endTime'], "play_outcome")
+            self._reseed_for_point(play, "play_outcome", about.get('endTime', ''),
+                                   f"play:{play_idx}:outcome")
 
             result = play['result']
             outcome = result['event']
             batter_name = play['matchup']['batter']['fullName']
 
-            x_event = next((e for e in play_events if e['details'].get('code') == 'X'), None)
+            x_event = next((e for e in pitch_events if e['details'].get('code') == 'X'), None)
             pitch_info = {}
             if x_event:
                 hit_data = x_event.get('hitData', {})
@@ -98,11 +104,13 @@ class StatcastRenderer(GameRenderer):
             if was_error:
                 result_line = self._format_statcast_template('Error', {'display_outcome': outcome, 'adv_str': "; ".join(advances), 'batter_name': batter_name})
             elif outcome == "Strikeout":
-                k_type = "looking" if play_events[-1]['details']['code'] == 'C' else "swinging"
+                k_type = "looking" if last_pitch_event.get('details', {}).get('code') == 'C' else "swinging"
                 result_line = f"{batter_name} {self.rng_play.choice(GAME_CONTEXT['statcast_verbs']['Strikeout'][k_type])}."
             elif outcome in GAME_CONTEXT['statcast_verbs'] and outcome not in ['Flyout', 'Groundout']:
                 cat = self._get_batted_ball_category(outcome, pitch_info.get('ev'), pitch_info.get('la'))
-                phrase, _ = self._get_batted_ball_verb(outcome, cat)
+                phrase, phrase_type = self._get_batted_ball_verb(outcome, cat)
+                if phrase_type == 'nouns':
+                    phrase = f"hits {phrase}"
                 direction = self._get_hit_location(outcome, pitch_info.get('ev'), pitch_info.get('la'), pitch_info.get('location'))
                 tmpl = self._format_statcast_template(outcome, {'batter_name': batter_name, 'verb': phrase, 'runs': rbis, 'direction': direction})
                 result_line = tmpl if tmpl else f"{batter_name} {phrase}."

@@ -5,16 +5,11 @@ This guide describes the workflow for aligning the rendered output of
 
 ## Current Status
 
-**Phase 1 (game events) is COMPLETE.** The fixture JSON has the correct 61 plays
-matching the target game: correct batters, pitchers, pitch sequences, runner
-movements, and scoring (Bombers 3, Loons 0).
-
-**Phase 2 (phrasing alignment) is the current work.** The rendered output uses
-the right game events but the wrong phrasing — all timestamps have seed=0,
-so every template pool picks index 0 every time.
-
-Current similarity: ~52% Jaccard, ~13% 5-gram, ~3.6% identical lines.
-First inning (plays 0-6) is complete.
+Examples 1–4 have registered reference texts, structured fixtures, and rendered
+snapshots. Run `python pbp_match_report.py --check` for current measurements.
+Wording choices live in `commentaryRng` lists; timestamps only represent timing.
+Add new references to the catalog in `pbp_comparison.py` with their own reviewed
+comparison thresholds and matching fixture/snapshot files.
 
 ## Key Principles
 
@@ -29,7 +24,7 @@ is always `pbp_example_3.txt` and `draft_innings/inning_N.json`. Don't ask — f
 one line. The renderer puts each pitch on its own line and doesn't emit TTS
 markers. These are **renderer-level structural issues** that will be fixed in a
 later pass. Focus only on getting the right **words and phrases** selected via
-seeds and templates, even if they appear on different lines than the target.
+draws and templates, even if they appear on different lines than the target.
 
 **The target text has been cleaned but may still have minor errors.** The
 transcript was cleaned of major speech-to-text errors, but some ambiguous
@@ -70,84 +65,62 @@ All tools live in `pbp_tools.py`. Key commands:
 | Command | What it does |
 |---------|-------------|
 | `inspect-play FILE --play N [-v]` | Shows all seed points and RNG choices for play N. Use `-v` to see the full list of options at each choice point. |
-| `set-choice FILE --play N --point POINT --set STREAM:CALL:INDEX` | Updates the JSON timestamp at a seed point so a specific template is selected. Preserves other selections at the same seed point. |
+| `set-choice FILE --play N --point POINT --set STREAM:CALL:INDEX` | Updates the commentary draw list at a point so a specific template is selected. Preserves other selections at the same seed point. |
 | `search "phrase"` | Searches all template pools for a substring match. |
 | `list-pool POOL_PATH` | Lists all templates in a pool (e.g., `narrative_templates.Single.default`). |
-| `whatif SEED POOL_PATH` | Shows what a given seed would select from a pool. |
 | `diff FILE TARGET_FILE` | Shows line-by-line mismatches and similarity stats. |
 
-## How DirectRNG Works
+## How Commentary Draws Work
 
-Each timestamp in the JSON encodes **per-stream seeds** in its fractional
-seconds (8 digits):
+The renderer uses the persisted `gameData.commentarySeed` (default zero) or an
+explicit renderer/CLI seed. Each point and stream gets a deterministic seed
+based on its identity, independent of timestamps. The four streams are `play`,
+`pitch`, `flow`, and `color`.
 
-    "2025-09-27T23:05:19.03050267"
-                          ││││││└─ play  = 67  (digits 0-1, rightmost)
-                          ││││└─── pitch = 02  (digits 2-3)
-                          ││└───── flow  = 05  (digits 4-5)
-                          └─────── color = 03  (digits 6-7)
+A fixture may store an unlimited list of nonnegative integer draws per stream:
 
-Each stream gets its own independent 2-digit seed (0-99). A `choice(pool)`
-call uses:
+```json
+"commentaryRng": {
+  "play_outcome": {
+    "play": [3, 12, 1],
+    "pitch": [],
+    "flow": [25],
+    "color": []
+  }
+}
+```
 
-    choice(pool) → pool[seed % len(pool)]
+Each call consumes one whole integer. `choice(pool)` selects
+`pool[draw % len(pool)]`; `random()` returns `(draw % 100) / 100`.
+Calls do not share digits. Missing or exhausted lists use normal seeded
+randomness, so long sequences retain variation. Input lists are never mutated.
 
-**Because streams are independent, setting one never conflicts with another.**
-This is the key advantage — you never need to duplicate pool entries or work
-around modular arithmetic conflicts between streams.
+| Point | Metadata owner | Controls |
+|-------|----------------|----------|
+| `init` | `gameData.commentaryRng.init` | Pregame, lineups, welcome |
+| `play_start` | `play.commentaryRng.play_start` | Batter intro, matchup, transitions |
+| `event_N` | `play.playEvents[N].commentaryRng.event` | Connector, pitch, count |
+| `play_outcome` | `play.commentaryRng.play_outcome` | Hit/out description, runner status |
 
-**Reseeds happen at these points:**
+`inspect-play` shows the observed calls; `set-choice` can edit any observed
+call, including calls after the second and pools larger than 100 entries.
+Use `--point init` for pregame choices. `set-gate` controls probability draws.
+These commands materialize observed choices before editing, preserving the
+other selections at the point. Editing a gate can change which later calls
+occur, so inspect the resulting text and realign those calls when needed.
 
-| Seed point | JSON field | Controls |
-|-----------|-----------|----------|
-| `init` | `gameData.datetime.dateTime` | Pre-game text (see below) |
-| `play_start` | `about.startTime` | Batter intro template, matchup text |
-| `event_N` | `playEvents[N].startTime` | Pitch connector, pitch description, foul text, count format |
-| `play_outcome` | `about.endTime` | Outcome template (hit/out description), runner status |
-
-Because each seed point is independent, changing one timestamp only affects
-the choices at that specific point. And because each stream within a seed point
-is independent, changing one stream's seed doesn't affect the others.
-
-### Example: setting a specific template
-
-If `inspect-play` shows that `rng_flow` picks from a pool of 8 templates and
-you want index 5, you need `flow_seed % 8 == 5`. Any value like 5, 13, 21, 29,
-37, 45... works. Set `flow=5` in digits 4-5 of the fractional seconds, leaving
-play/pitch/color digits unchanged.
+Use stable list indices by appending new templates. Stored selected indices
+continue choosing the same existing template when a pool grows. Reordering or
+removing templates, or inserting RNG calls into a stream, requires reviewing
+and rebuilding affected fixture selections. Generated output can change as
+pools grow; refresh its snapshots after reviewing the changes.
 
 ## Pre-Game Text
 
-The pre-game section (station intro, welcome, weather, lineups, fishbowl,
-"and we are underway") **IS controlled by DirectRNG** — specifically by the
-`rng_color` stream seeded from `gameData.datetime.dateTime`.
-
-The pre-game consumes many `rng_color.choice()` calls from the init seed:
-1. `station_intro` radio string (1 call)
-2. `welcome_intro` radio string (1 call)
-3. Away lineup intro (1 call)
-4. 9 away batting position templates (9 calls)
-5. Away manager string (1 call)
-6. Home lineup intro (1 call)
-7. 9 home batting position templates (9 calls)
-8. Home manager string (1 call)
-9. `rng_color.random()` coin flip for pregame_color (1 call)
-10. Possibly `pregame_color` radio string (1 call if coin flip < 0.5)
-
-**To align pre-game phrasing**, change the `color` digits (6-7) in the
-fractional seconds of `gameData.datetime.dateTime`. Since there are 24+
-`rng_color` calls but only 2 digits (1 meaningful call), only the first
-`rng_color.choice()` is controllable — subsequent calls will use seed=0.
-The `pbp_tools.py` `trace` command shows all init seed point calls, but
-`set-choice` does NOT support the init seed point — you'll need to manually
-set the fractional seconds.
-
-**Some pre-game lines are NOT template-controlled:**
-- `"Tonight, from {venue}, it's the {home} hosting the {away}."` — hardcoded format
-- `"And it is a perfect night for a ball game: {weather}."` — uses the `weather`
-  string from `gameData.weather` verbatim
-
-To match the target's weather text, edit `gameData.weather` directly.
+Pregame uses the `color` stream at `init`. All calls are controllable, including
+each lineup slot; there is no two-call limit. Station and welcome introductions,
+lineups, manager text and pregame color come from these draws. Weather still
+comes directly from `gameData.weather`; team and venue facts come from game data.
 
 ## Hit Category System (How Outcome Templates Are Selected)
 
@@ -167,7 +140,7 @@ fixture), the category is always `'default'`.
 | Outcome | Category | Condition |
 |---------|----------|-----------|
 | Single | `bloop` | ev < 90 AND 10 < la < 30 |
-| Single | `liner` | ev > 100 AND la < 10 |
+| Single | `liner` | ev > 100 AND 0 <= la < 10 |
 | Single | `grounder` | ev > 95 AND la < 0 |
 | Single | `default` | anything else (or ev/la missing) |
 | Double | `liner` | ev > 100 AND la < 15 |
@@ -305,11 +278,10 @@ The renderer resolves fielder names from credits on runner entries. Each credit
 needs at minimum `{ "player": { "id": PLAYER_ID }, "creditType": "TYPE" }`.
 Use `f_fielded_ball` as the credit type for the fielder who made the play.
 
-**Adding a template to a pool changes all existing seed selections for that pool.**
-When you add template at index N to a pool, the pool size changes from S to S+1.
-Every play using that pool where `seed % S != seed % (S+1)` will now render a
-different template. After adding templates, re-verify all completed innings that
-use the same pool. Use `inspect-play` to check.
+**Append templates and review their context.** Stored choice indices preserve
+existing selections when a pool grows. Reordering entries changes their meaning;
+a new branch or call can also shift later draws. Review rendered fixture changes
+and generated snapshots after any wording change.
 
 **Switch hitters: check the target text for bat side.** The target text often
 says "he'll bat left against [pitcher]" — use this to set the correct `batSide`
@@ -325,7 +297,7 @@ Each `set-choice`, `inspect-play`, or `search` should be its own simple call.
 **Work on a branch and create a PR.** Don't commit directly to main.
 
 **Bump test thresholds after each inning.** After alignment, update the Jaccard,
-5-gram, and identical-line thresholds in `test_examples_snapshot.py` to ratchet
+5-gram, and identical-line thresholds in `pbp_comparison.py` to ratchet
 up to just below the new actual values.
 
 **`hitData` goes on the last pitch event, not the play level.** The renderer
@@ -402,13 +374,11 @@ When a target phrase has no matching template:
 2. Add the template to `commentary.py` in the appropriate list. **Add it at
    the end** of the list to minimize disruption.
 
-3. **IMPORTANT**: Adding a template changes the pool size, which can break
-   existing seed selections in other plays. After adding, re-run
-   `inspect-play` for all plays in already-completed innings that use the
-   same pool, and verify they still render correctly. If not, use `set-choice`
-   to fix them.
+3. Re-run the comparison tests. Appended templates preserve explicit existing
+   indices, but new rendering branches can change call order and require
+   reviewing affected fixtures with `inspect-play` and `set-choice`.
 
-#### e) Set the seed to select the right template
+#### e) Set the draw to select the right template
 
 ```bash
 python pbp_tools.py set-choice test_fixture_pbp_example_3.json \
@@ -443,7 +413,7 @@ Some mismatches aren't template issues — they're wrong data in the fixture JSO
 
 Edit `test_fixture_pbp_example_3.json` directly for these. You can also
 re-run `stitch_fixture.py` after updating the relevant `draft_innings/inning_N.json`
-file, but be aware this regenerates ALL plays and resets all seed timestamps.
+file, but be aware this regenerates ALL plays and resets the plays’ explicit commentary draws.
 
 #### g) Verify
 
