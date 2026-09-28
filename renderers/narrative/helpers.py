@@ -1,5 +1,21 @@
 from commentary import GAME_CONTEXT
 
+def get_location_phrases(team):
+    """Return geographic noun phrases for speech without changing team labels.
+
+    Regions can supply short and state-qualified forms, including articles.
+    Legacy/city data keeps the usual locationName and "city, state" wording.
+    """
+    location = team.get('spokenLocation') or team.get('locationName')
+    if not location:
+        parts = team.get('name', '').split()
+        location = ' '.join(parts[:-1]) if len(parts) > 1 else ' '.join(parts)
+    state = team.get('state')
+    location_with_state = team.get('spokenLocationWithState') or ', '.join(
+        part for part in (location, state) if part
+    )
+    return {'location': location, 'location_with_state': location_with_state}
+
 def get_ordinal(n):
     words = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"]
     if 1 <= n <= 9: return words[n]

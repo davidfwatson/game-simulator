@@ -592,7 +592,7 @@
   },
   {
     "pool": "radio_strings.inning_break_intro_top",
-    "template": "And welcome back with us at {venue} in {city}, {state}.",
+    "template": "And welcome back with us at {venue} in {location_with_state}.",
     "episode": 5,
     "line": 42,
     "expected": "And welcome back with us at",
@@ -600,7 +600,7 @@
   },
   {
     "pool": "radio_strings.inning_break_intro_bottom",
-    "template": "And welcome back with us here in {city}, {state}, at {venue}.",
+    "template": "And welcome back with us here in {location_with_state}, at {venue}.",
     "episode": 5,
     "line": 99,
     "expected": "And welcome back with us here in",
@@ -608,7 +608,7 @@
   },
   {
     "pool": "radio_strings.inning_break_intro_top",
-    "template": "And we're back at {venue} here in {city}, {state}.",
+    "template": "And we're back at {venue} here in {location_with_state}.",
     "episode": 5,
     "line": 225,
     "expected": "And we're back at",
@@ -616,7 +616,7 @@
   },
   {
     "pool": "radio_strings.inning_break_intro_bottom",
-    "template": "And welcome back, friends, to {venue} here in {city}, {state}.",
+    "template": "And welcome back, friends, to {venue} here in {location_with_state}.",
     "episode": 5,
     "line": 244,
     "expected": "And welcome back, friends, to",
@@ -624,7 +624,7 @@
   },
   {
     "pool": "radio_strings.inning_break_intro_top",
-    "template": "And greetings again, from {venue} here in {city}, {state}.",
+    "template": "And greetings again, from {venue} here in {location_with_state}.",
     "episode": 39,
     "line": 420,
     "expected": "And greetings again, from",
@@ -632,7 +632,7 @@
   },
   {
     "pool": "radio_strings.inning_break_intro_bottom",
-    "template": "{half} half of the {inning_ordinal} inning here at {venue} in {city}. {score_str}.",
+    "template": "{half} half of the {inning_ordinal} inning here at {venue} in {location}. {score_str}.",
     "episode": 37,
     "line": 287,
     "expected": "half of the",
@@ -640,7 +640,7 @@
   },
   {
     "pool": "radio_strings.inning_summary_scoreless",
-    "template": "At the end of {innings_word}, we're scoreless here in {city}.",
+    "template": "At the end of {innings_word}, we're scoreless here in {location}.",
     "episode": 1,
     "line": 46,
     "expected": "we're scoreless here in",
@@ -648,7 +648,7 @@
   },
   {
     "pool": "radio_strings.inning_summary_scoreless",
-    "template": "We are scoreless here in {city} after {innings_word}.",
+    "template": "We are scoreless here in {location} after {innings_word}.",
     "episode": 5,
     "line": 68,
     "expected": "We are scoreless here in",
@@ -704,7 +704,7 @@
   },
   {
     "pool": "radio_strings.inning_summary_tied",
-    "template": "And we're still tied at {score} here in {city}.",
+    "template": "And we're still tied at {score} here in {location}.",
     "episode": 50,
     "line": 120,
     "expected": "we're still tied at",

@@ -3,7 +3,8 @@ from gameday import GamedayData
 from ..base import GameRenderer
 from .helpers import (
     get_ordinal, get_number_word, get_spoken_count,
-    get_spoken_score_string, simplify_pitch_type, get_pitch_description_for_location
+    get_spoken_score_string, simplify_pitch_type, get_pitch_description_for_location,
+    get_location_phrases
 )
 
 class NarrativeRenderer(GameRenderer):
@@ -143,13 +144,6 @@ class NarrativeRenderer(GameRenderer):
                 "{runner_positions}.",
             ])
         return self.rng_flow.choice(templates).format(runner_positions=runner_positions)
-
-    def _get_city_from_team(self, team_name):
-        """Extract city from team name (e.g. 'Lake City Loons' -> 'Lake City')."""
-        parts = team_name.split()
-        if len(parts) > 1:
-            return ' '.join(parts[:-1])
-        return team_name
 
     def _get_short_team_name(self, team_dict):
         """Extract short team name (e.g. 'Cadillac Cars' -> 'Cars').
@@ -452,25 +446,13 @@ class NarrativeRenderer(GameRenderer):
         station_call = broadcast.get('station_call') or GAME_CONTEXT.get('station_call', 'KSLP')
         self._network_name = network_name
         self._station_call = station_call
-        city = self.home_team.get('locationName') or self._get_city_from_team(self.home_team['name'])
-        state = self.home_team.get('state', '')
-        away_city = self.away_team.get('locationName') or self._get_city_from_team(self.away_team['name'])
-        away_state = self.away_team.get('state', '')
+        location_context = get_location_phrases(self.home_team)
+        home_location = location_context['location_with_state']
+        away_location = get_location_phrases(self.away_team)['location_with_state']
         add_line(self._get_radio_string('station_intro', {'network_name': network_name}))
         welcome = self._get_radio_string('welcome_intro')
-        # Build venue intro with city/state when available
-        if state:
-            venue_loc = f"{venue} in {city}, {state}"
-        elif city:
-            venue_loc = f"{venue} in {city}"
-        else:
-            venue_loc = venue
-        if away_state:
-            away_loc = f" of {away_city}, {away_state}"
-        elif away_city:
-            away_loc = f" of {away_city}"
-        else:
-            away_loc = ""
+        venue_loc = f"{venue} in {home_location}" if home_location else venue
+        away_loc = f" of {away_location}" if away_location else ""
         add_line(f"Tonight, from {venue_loc}, it's the {self.home_team['name']} hosting the {self.away_team['name']}{away_loc}. {welcome}")
 
         weather = self.gameday_data['gameData'].get('weather')
@@ -690,8 +672,6 @@ class NarrativeRenderer(GameRenderer):
                          runs_scored_this_half = score_home - prev_score_home
 
                      hits_in_inning, lob = self._get_half_inning_stats()
-                     city = self.home_team.get('locationName') or self._get_city_from_team(self.home_team['name'])
-                     state = self.home_team.get('state', '')
                      station_call = self._station_call
                      innings_word = self._get_innings_word(completed_innings, prev_half)
                      batting_team_prev = self.away_team['name'] if prev_half == 'Top' else self.home_team['name']
@@ -742,7 +722,7 @@ class NarrativeRenderer(GameRenderer):
                          'leading_score_val': max(score_away, score_home),
                          'score_trail': min(score_away, score_home),
                          'score': self._get_number_word(score_away) if score_away == score_home else score_away,
-                         'city': city, 'state': state,
+                         **location_context,
                          'venue': venue,
                          'innings_word': innings_word,
                          'batting_team': batting_team_prev,
@@ -869,7 +849,7 @@ class NarrativeRenderer(GameRenderer):
                      # "Wally McCarthy and Producer Phil back with you..." style return
                      if self.rng_color.random() < 0.15 and 3 <= inning <= 8:
                          intro_ctx = {
-                             'venue': venue, 'city': city, 'state': state,
+                             'venue': venue, **location_context,
                              'score_str': score_str,
                              'weather_desc': weather_desc,
                              'batting_team': next_batting_team,
@@ -889,7 +869,7 @@ class NarrativeRenderer(GameRenderer):
                      intro_ctx = {
                          'half': half, 'half_lower': half.lower(),
                          'inning_ordinal': self._get_ordinal(inning),
-                         'venue': venue, 'city': city, 'state': state,
+                         'venue': venue, **location_context,
                          'score_str': score_str, 'score_context': self._get_score_context_phrase(score_away, score_home),
                          'score_phrase': score_phrase,
                          'batting_team': next_batting_team,
@@ -918,7 +898,7 @@ class NarrativeRenderer(GameRenderer):
                         intro_ctx = {
                             'half': half, 'half_lower': half.lower(),
                             'inning_ordinal': self._get_ordinal(inning),
-                            'venue': venue, 'city': city, 'state': state,
+                            'venue': venue, **location_context,
                             'score_phrase': score_phrase,
                             'score_str': f"It's {score_phrase}",
                             'score_context': self._get_score_context_phrase(score_away, score_home),

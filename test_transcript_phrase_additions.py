@@ -204,7 +204,7 @@ class TestTranscriptPlayAdditions(unittest.TestCase):
         'inning_ordinal', 'inning_count_word', 'away_team_name', 'home_team_name',
         'away_short', 'home_short', 'score_away', 'score_home', 'leading_team',
         'trailing_team', 'leading_short', 'trailing_short', 'score_lead',
-        'leading_score_val', 'score_trail', 'score', 'city', 'state', 'venue',
+        'leading_score_val', 'score_trail', 'score', 'location', 'location_with_state', 'venue',
         'innings_word', 'batting_team', 'fielding_team', 'batting_team_short',
         'fielding_team_short', 'pitcher_name', 'hits_str', 'lob_str',
         'runs_scored_word', 'runs_scored_str', 'score_str', 'score_recap',
@@ -212,7 +212,7 @@ class TestTranscriptPlayAdditions(unittest.TestCase):
         'consecutive_retired',
     }
     INNING_INTRO_FIELDS = {
-        'half', 'half_lower', 'inning_ordinal', 'venue', 'city', 'state',
+        'half', 'half_lower', 'inning_ordinal', 'venue', 'location', 'location_with_state',
         'score_str', 'score_context', 'score_phrase', 'batting_team',
         'batting_team_short', 'due_up_desc', 'pitcher_name', 'weather_desc',
     }
