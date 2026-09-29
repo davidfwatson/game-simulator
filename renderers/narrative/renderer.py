@@ -44,7 +44,16 @@ class NarrativeRenderer(GameRenderer):
             block_list.append(delay_line)
 
     def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple, batter_hand='R', location=None):
-        return get_pitch_description_for_location(event_type, zone, pitch_type_simple, self.rng_pitch, batter_hand, location)
+        # Only the canned-sounding case is avoided: the same pitch type with the
+        # same phrase on back-to-back pitches of one at-bat ("Four-seam fastball
+        # runs inside... Four-seam fastball runs inside"). Real broadcasts do
+        # reuse phrases otherwise, and the transcript fixtures rely on it.
+        previous = getattr(self, 'last_location_pitch', None)
+        avoid = previous[1] if previous and previous[0] == pitch_type_simple else None
+        desc = get_pitch_description_for_location(event_type, zone, pitch_type_simple, self.rng_pitch, batter_hand,
+                                                  location, avoid=avoid)
+        self.last_location_pitch = (pitch_type_simple, desc)
+        return desc
 
     def _get_foul_description(self):
         # On 2nd+ consecutive foul, chance to say "he fouls another one off"
@@ -651,6 +660,7 @@ class NarrativeRenderer(GameRenderer):
             inning = about['inning']
             half = "Top" if about['isTopInning'] else "Bottom"
 
+            self.last_location_pitch = None
             self._reseed_for_point(play, "play_start", about.get('startTime', ''),
                                    f"play:{play_idx}:start")
 
@@ -1303,6 +1313,8 @@ class NarrativeRenderer(GameRenderer):
                     # Reset consecutive foul counter on non-foul events
                     if code in ('B', 'P', 'C', 'S'):
                         self.consecutive_fouls = 0
+                    if code not in ('B', 'C'):
+                        self.last_location_pitch = None
 
                     if pbp_line:
                         # Flow Improvement: Use a comma instead of a period, but only if it's not an ellipsis or exclamation

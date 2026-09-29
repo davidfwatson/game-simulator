@@ -74,7 +74,7 @@ def simplify_pitch_type(pitch_type: str, rng_pitch, capitalize=False) -> str:
         return simplified.capitalize()
     return simplified
 
-def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R', location=None):
+def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R', location=None, avoid=None):
     # Helper to get description based on zone
     if event_type == 'B':
         base_key = 'ball'
@@ -108,4 +108,12 @@ def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_
     if not options:
         options = location_data.get('default', [])
 
-    return rng_pitch.choice(options)
+    choice = rng_pitch.choice(options)
+    if choice == avoid and any(option != avoid for option in options):
+        # Two pitches in a row with the same phrase ("runs inside", "runs
+        # inside") sounds canned. Step to the next different phrase instead
+        # of drawing again, so fixture draw streams stay aligned.
+        index = options.index(choice)
+        choice = next(options[(index + k) % len(options)] for k in range(1, len(options) + 1)
+                      if options[(index + k) % len(options)] != avoid)
+    return choice

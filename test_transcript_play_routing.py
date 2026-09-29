@@ -146,6 +146,18 @@ class TestTranscriptPlayRouting(unittest.TestCase):
         self.assertNotIn('four-pitch walk', render([record(outcome='Walk', end=3, initial_count=[1, 0], pitches=pitches[:3])]))
         self.assertNotIn('four-pitch walk', render([record(outcome='Intentional Walk')]))
 
+    def test_location_phrase_steps_past_an_immediate_repeat(self):
+        from renderers.narrative.helpers import get_pitch_description_for_location
+        from commentary import GAME_CONTEXT
+        class First:
+            def choice(self, seq):
+                return seq[0]
+        pool = GAME_CONTEXT['pitch_locations']['ball']['default']
+        self.assertEqual(get_pitch_description_for_location('B', None, 'Fastball', First()), pool[0])
+        repeat_avoided = get_pitch_description_for_location('B', None, 'Fastball', First(), avoid=pool[0])
+        self.assertNotEqual(repeat_avoided, pool[0])
+        self.assertIn(repeat_avoided, pool)
+
     def test_terminal_pitch_call_survives_summary_templates(self):
         # A walk or strikeout template that doesn't embed {last_pitch_context}
         # must not swallow the final pitch call: the at-bat would jump from
