@@ -146,6 +146,21 @@ class TestTranscriptPlayRouting(unittest.TestCase):
         self.assertNotIn('four-pitch walk', render([record(outcome='Walk', end=3, initial_count=[1, 0], pitches=pitches[:3])]))
         self.assertNotIn('four-pitch walk', render([record(outcome='Intentional Walk')]))
 
+    def test_terminal_pitch_call_survives_summary_templates(self):
+        # A walk or strikeout template that doesn't embed {last_pitch_context}
+        # must not swallow the final pitch call: the at-bat would jump from
+        # the three-oh count straight to "That's a four-pitch walk".
+        pitches = [{'code': 'B', 'line': n} for n in range(1, 5)]
+        text = render([record(outcome='Walk', end=4, pitches=pitches)])
+        walk_line = next(line for line in text.splitlines() if 'four-pitch walk' in line)
+        self.assertIn('...', walk_line.split('four-pitch walk')[0])
+        for code in ('S', 'C'):
+            with self.subTest(code=code):
+                text = render([record(outcome='Strikeout', outs=1, initial_count=[0, 2],
+                                      pitches=[{'code': code, 'line': 1, 'type': 'Slider'}])])
+                out_line = next(line for line in text.splitlines() if 'out number' in line or 'strike three' in line.lower())
+                self.assertIn('...', out_line)
+
     def test_groundout_bunt_reaches_pitcher_specific_pool(self):
         p = record(outcome='Groundout', outs=1, pitches=[{'code': 'X', 'line': 1, 'isBunt': True}], hit={'trajectory': 'bunt', 'location': 'P'}, fielders=[{'name': 'Home Pitcher', 'position': 'P'}, {'name': 'First Fielder', 'position': '1B'}])
         self.assertIn('Bunted back to the mound. Pitcher scoops it up', render([p]))

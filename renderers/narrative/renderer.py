@@ -15,6 +15,23 @@ class NarrativeRenderer(GameRenderer):
         self.last_foul_phrase = ""
         self.consecutive_fouls = 0
 
+    @staticmethod
+    def _with_pitch_lead_in(last_pitch_context, outcome_text):
+        """Prefix a terminal-pitch template with the pitch call's lead-in.
+
+        The final pitch of a strikeout is held back as last_pitch_context
+        ("And the two-two... Slider in the dirt"); a template that describes
+        the pitch itself replaces the result but must keep "And the two-two...",
+        or the at-bat skips straight from the previous pitch to the out.
+        """
+        if not last_pitch_context or "..." not in last_pitch_context:
+            return outcome_text
+        lead_in = last_pitch_context.split("...", 1)[0].rstrip()
+        if not lead_in:
+            return outcome_text
+        body = outcome_text[:1].upper() + outcome_text[1:]
+        return f"{lead_in}... {body}"
+
     def _check_and_add_delay(self, block_list, insert_at_index=-1, context='pitch'):
         DELAYS = {'batter': 11.5, 'first_pitch': 9.5, 'pitch': 8.5}
         delay = DELAYS.get(context)
@@ -1470,10 +1487,10 @@ class NarrativeRenderer(GameRenderer):
                     templates = strikeout_templates(pool_key, terminal_details, matchup.get('batSide', {}).get('code'))
                     if templates and not post_outcome_text and self.rng_play.random() < 0.65:
                         pitch_type = self._simplify_pitch_type(terminal_details.get('type', {}).get('description', 'pitch'))
-                        outcome_text = self.rng_play.choice(templates).format(
+                        outcome_text = self._with_pitch_lead_in(last_pitch_context, self.rng_play.choice(templates).format(
                             batter_name=batter_name, pitch_type=pitch_type,
                             out_context_str=out_context_str, result_outs_word=result_outs_word,
-                            result_outs=result_outs, batter_last_name=batter_name.split()[-1])
+                            result_outs=result_outs, batter_last_name=batter_name.split()[-1]))
                         template_found = True
                 if not template_found and last_pitch_context and k_type == 'swinging':
                     last_pitch_lower = last_pitch_context.lower()
@@ -1487,7 +1504,7 @@ class NarrativeRenderer(GameRenderer):
                             last_event = last_pitch_event
                             orig_p_type = last_event['details'].get('type', {}).get('description', 'pitch')
                             simple_p_type = self._simplify_pitch_type(orig_p_type)
-                            outcome_text = self.rng_play.choice(dirt_templates).format(pitch_type=simple_p_type, batter_name=batter_name)
+                            outcome_text = self._with_pitch_lead_in(last_pitch_context, self.rng_play.choice(dirt_templates).format(pitch_type=simple_p_type, batter_name=batter_name))
                             template_found = True
 
                 if not template_found:
@@ -1556,7 +1573,13 @@ class NarrativeRenderer(GameRenderer):
                  valid_templates = [t for t in templates if not ("{last_pitch_context}" in t and not last_pitch_context)]
                  if not valid_templates: valid_templates = ["{batter_name} draws a walk."]
 
-                 outcome_text = self.rng_play.choice(valid_templates).format(**walk_context)
+                 chosen = self.rng_play.choice(valid_templates)
+                 outcome_text = chosen.format(**walk_context)
+                 if last_pitch_context and "{last_pitch_context}" not in chosen:
+                     # A summary like "That's a four-pitch walk for X." must
+                     # still follow the ball-four call, which the final-pitch
+                     # branch held back for {last_pitch_context}.
+                     outcome_text = f"{last_pitch_context}. {outcome_text}"
 
             elif outcome in ["HBP", "Hit By Pitch"]:
                 templates = GAME_CONTEXT['narrative_templates'].get('Hit By Pitch', {}).get('default', [])
