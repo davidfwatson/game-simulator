@@ -127,19 +127,27 @@ def extract_inning(text, inning):
 
 
 WELCOME_BACK_RE = re.compile(r"^(And )?(welcome back|we're back)\b", re.I)
-WE_LL_BE_BACK_RE = re.compile(r"\s*(And )?[Ww]e'll be back\b[^.]*\.")
+WE_LL_BE_BACK_RE = re.compile(r"\s*(And )?[Ww]e'll be (right )?back\b[^.]*\.")
+# Station tag that trails a "we'll be back" line: "Here on The ... Network."
+STATION_TAG_RE = re.compile(r"\s*Here on [^.]*\bNetwork\.")
 
 
 def clean_line(text, half, inning, venue):
     """Strip commercial-break phrasing that makes no sense without the break."""
-    text = WE_LL_BE_BACK_RE.sub("", text).strip()
+    text = WE_LL_BE_BACK_RE.sub("", text)
+    text = STATION_TAG_RE.sub("", text).strip()
     if WELCOME_BACK_RE.match(text):
         ordinal = {1: "first", 2: "second", 3: "third", 4: "fourth", 5: "fifth",
                    6: "sixth", 7: "seventh", 8: "eighth", 9: "ninth"}.get(inning, f"{inning}th")
         first_sentence_end = text.find(". ")
         rest = text[first_sentence_end + 2:] if first_sentence_end >= 0 else ""
-        where = f" here at {venue}" if venue else ""
-        text = f"{half.capitalize()} of the {ordinal}{where}. {rest}".strip()
+        if f"of the {ordinal}" in rest.lower():
+            # "We're about to kick off the bottom of the first inning." already
+            # says where we are; don't announce it twice.
+            text = rest.strip()
+        else:
+            where = f" here at {venue}" if venue else ""
+            text = f"{half.capitalize()} of the {ordinal}{where}. {rest}".strip()
     return text
 
 
