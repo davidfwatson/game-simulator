@@ -28,12 +28,10 @@ ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/interactions"
 # one person across ~40 separate calls.
 VOICE = "Rasalgethi"
 STYLE = (
-    "A warm, relaxed veteran radio baseball announcer calling a quiet late-night "
-    "game. Natural, full speaking voice at normal conversational volume: not "
-    "whispering, not breathy, not hushed. Easygoing, unhurried pace and a "
-    "friendly, homey tone. Understated on big plays, a little more energy but "
-    "never shouting. A short natural pause at each ellipsis while the pitch is "
-    "on its way."
+    "A warm, relaxed veteran radio baseball announcer calling a game. Easygoing, "
+    "unhurried pace and a friendly, homey tone. Understated on big plays, always "
+    "an even tone. A short natural pause at each ellipsis while the pitch is on "
+    "its way."
 )
 
 

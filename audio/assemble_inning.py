@@ -20,6 +20,7 @@ import argparse
 import hashlib
 import json
 import os
+import random
 import re
 import shutil
 import subprocess
@@ -61,9 +62,12 @@ class Segment:
         return hashlib.sha1(self.text.encode()).hexdigest()[:16]
 
 
-def render_game(game_index):
-    from example_games import EXAMPLE_GAMES
-    return EXAMPLE_GAMES[game_index - 1].render("narrative")
+def render_game(game_index=None, seed=None):
+    """Narrative text for a catalogued example game, or a fresh game from seed."""
+    from example_games import EXAMPLE_GAMES, ExampleGame
+    if game_index:
+        return EXAMPLE_GAMES[game_index - 1].render("narrative")
+    return ExampleGame(game_seed=seed, commentary_seed=seed).render("narrative")
 
 
 def extract_innings(text, first, last):
@@ -402,7 +406,8 @@ def mix(voice, cues, total, out_path, beds=BEDS):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--game", type=int, default=1, help="example game index (1-10)")
+    ap.add_argument("--game", type=int, help="catalogued example game (1-10) instead of a seeded one")
+    ap.add_argument("--seed", type=int, help="game seed (default: a new random game every run)")
     ap.add_argument("--innings", default="1", help="inning or range, e.g. 1 or 1-2")
     ap.add_argument("--out", default="inning.mp3")
     ap.add_argument("--cache", default=str(DEFAULT_CACHE), help="TTS cache directory")
@@ -416,7 +421,11 @@ def main():
     args = ap.parse_args()
 
     first, _, last = args.innings.partition("-")
-    segments = extract_innings(render_game(args.game), int(first), int(last or first))
+    if not args.game and args.seed is None:
+        args.seed = random.SystemRandom().randrange(1, 10**6)
+    if not args.game:
+        print(f"Game seed {args.seed}", file=sys.stderr)
+    segments = extract_innings(render_game(args.game, args.seed), int(first), int(last or first))
     if args.max_lines:
         segments = segments[:args.max_lines]
     for seg in segments:
