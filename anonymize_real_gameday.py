@@ -599,6 +599,33 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
 
                         anonymized_play['playEvents'].append(filtered_event)
 
+                # Baserunning outs/advances recorded only on a pitch's runner
+                # movement (an inning-ending caught stealing often has no action
+                # event of its own): add the action right after that pitch, or
+                # the inning ends mid at-bat with nothing said.
+                covered = {e.get('index') for e in anonymized_play.get('playEvents', []) if not e.get('isPitch')}
+                pitch_at = {e.get('index'): i for i, e in enumerate(anonymized_play.get('playEvents', [])) if e.get('isPitch')}
+                extra = {}
+                for r in play.get('runners', []):
+                    rd, mv = r.get('details', {}), r.get('movement', {})
+                    kind = next((ours for prefix, ours in ACTION_TYPES if (rd.get('eventType') or '').startswith(prefix)), None)
+                    idx = rd.get('playIndex')
+                    if not kind or idx in covered or idx not in pitch_at or not rd.get('runner'):
+                        continue
+                    mapped = id_mapping.get(rd['runner'].get('id'))
+                    extra.setdefault(idx, (kind, []))[1].append({
+                        'runner': {'id': mapped['id'] if mapped else rd['runner'].get('id'),
+                                   'fullName': mapped['legal_name'] if mapped else rd['runner'].get('fullName')},
+                        'fromBase': mv.get('start') or mv.get('originBase'),
+                        'toBase': mv.get('end') or mv.get('outBase'), 'isOut': bool(mv.get('isOut'))})
+                for idx in sorted(extra, key=lambda i: pitch_at[i], reverse=True):
+                    kind, movements = extra[idx]
+                    ev = anonymized_play['playEvents'][pitch_at[idx]]
+                    anonymized_play['playEvents'].insert(pitch_at[idx] + 1, {
+                        'isPitch': False, 'index': idx, 'count': dict(ev.get('count', {})),
+                        'details': {'eventType': kind, 'description': kind.replace('_', ' ').title(),
+                                    'code': '', 'runners': movements}})
+
                 # Handle runners
                 if 'runners' in play:
                     anonymized_play['runners'] = [simplify_runner(r, id_mapping, schema) for r in play['runners']]
