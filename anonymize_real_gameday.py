@@ -31,6 +31,12 @@ IGNORED_EVENT_TYPES = {
 
 # Keep a conservative pitch code list (adjust to match your generator’s behavior)
 PITCH_CODE_WHITELIST = {'B', 'C', 'S', 'X', 'F', 'D'}
+# MLB pitch codes our generator never emits, folded onto the ones it does.
+# Dropping them instead loses pitches mid-at-bat (a strikeout on a foul tip
+# vanished; a run-scoring ball in play 'E' left the at-bat with no result).
+# Hit-by-pitch ('H') stays dropped: the generator narrates no HBP pitch either.
+PITCH_CODE_MAP = {'T': 'S', 'W': 'S', 'M': 'S', 'Q': 'S', 'O': 'S',
+                  'L': 'F', 'R': 'F', 'E': 'X', 'D': 'X', '*B': 'B', 'V': 'B', 'I': 'B', 'P': 'B'}
 
 def is_pitch_like(ev: dict) -> bool:
     d = (ev.get('details') or {})
@@ -41,7 +47,7 @@ def is_pitch_like(ev: dict) -> bool:
         return False
     # If a code exists, clamp to a small set your generator would produce
     code = d.get('code')
-    return code in PITCH_CODE_WHITELIST if code else True
+    return (PITCH_CODE_MAP.get(code, code) in PITCH_CODE_WHITELIST) if code else True
 
 
 def normalize_unicode(text):
@@ -501,12 +507,16 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                     # Optional: keep only terminal pitch to look even more generated:
                     # events = events[-1:]
                     anonymized_play['playEvents'] = []
+                    # MLB records the count AFTER each pitch; our generator and
+                    # renderer use the count the pitch was thrown in. Shift by one.
+                    count_before = {'balls': 0, 'strikes': 0}
                     for event in events:
-                        filtered_event = {}
+                        filtered_event = {'isPitch': True}
                         if 'index' in event:
                             filtered_event['index'] = event['index']
+                        filtered_event['count'] = dict(count_before)
                         if 'count' in event:
-                            filtered_event['count'] = filter_dict(event['count'], ['balls', 'strikes'])
+                            count_before = filter_dict(event['count'], ['balls', 'strikes'])
                         if 'details' in event:
                             details = {}
                             for field in ['code', 'description', 'isStrike']:
@@ -514,6 +524,8 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                                     val = event['details'][field]
                                     if field == 'description':
                                         val = anonymize_description(val, name_mapping)
+                                    elif field == 'code':
+                                        val = PITCH_CODE_MAP.get(val, val)
                                     details[field] = val
                             # Remove MLB taxonomy fields that can leak lifecycle/type details
                             details.pop('eventType', None)
