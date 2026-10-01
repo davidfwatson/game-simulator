@@ -14,6 +14,8 @@ CONTACT_BOOST = 0.085         # added to each batter's contact rating
 CHASE_CONTACT_FACTOR = 0.75   # contact multiplier on pitches outside the zone
 FOUL_SHARE_OF_CONTACT = 0.48  # contact that goes foul rather than in play
 ZONE_RATE_OFFSET = 0.10       # subtracted from pitcher control to get zone rate
+PICKOFF_THROW_RATE = 0.11     # per pitch, runner alone on first
+BUNT_RATE_FACTOR = 0.2        # sac bunts were ~1.5/game; MLB is ~0.3
 
 
 class BaseballSimulator:
@@ -710,13 +712,19 @@ class BaseballSimulator:
         elif (balls == 2 and strikes == 0) or (balls == 3 and strikes == 0) or (balls == 3 and strikes == 1):
             count_modifier = 0.8
         outs_modifier = 1.5 if self.outs == 2 else 1.0
+        if abs(self.team1_score - self.team2_score) >= 4:
+            # Down big the base doesn't matter; up big it's bad form.
+            return None
 
         if self.bases[1] and not self.bases[2]:
             runner_name = self.bases[1]
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
                 # Multiplier adjusted to 1.4
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.4 * count_modifier * outs_modifier
+                # Third with two outs gains little (a single scores him from
+                # second anyway), so it's rarely tried.
+                third_modifier = 0.25 if self.outs == 2 else 1.0
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.4 * count_modifier * third_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 3
 
@@ -730,6 +738,29 @@ class BaseballSimulator:
                     return 2
 
         return None
+
+    def _record_pickoff_throw(self, play_events, balls, strikes):
+        """A throw over to first; the runner gets back. Real pitchers do this
+        about six times a game, and a game without any reads as generated."""
+        batting_lineup = self.team1_lineup if not self.top_of_inning else self.team2_lineup
+        runner_name = self.bases[0]
+        runner = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
+        start_time = self.current_time.isoformat()
+        self.current_time += timedelta(seconds=self.time_rng.uniform(4.0, 8.0))
+        play_events.append({
+            'index': self._pitch_event_seq,
+            'startTime': start_time,
+            'endTime': self.current_time.isoformat(),
+            'isPitch': False,
+            'count': {'balls': balls, 'strikes': strikes},
+            'details': {
+                'description': 'Pickoff Attempt 1B', 'code': '', 'isStrike': False,
+                'type': {'code': 'PO', 'description': 'Pickoff'}, 'eventType': 'pickoff_attempt',
+                'runners': [{'runner': {'id': runner['id'] if runner else None, 'fullName': runner_name},
+                             'fromBase': '1B', 'toBase': '1B', 'isOut': False}],
+            },
+        })
+        self._pitch_event_seq += 1
 
     def _resolve_steal_attempt(self, base_to_steal, play_events: list[PlayEvent], balls, strikes):
         is_home_team_batting = not self.top_of_inning
@@ -811,11 +842,18 @@ class BaseballSimulator:
             return "Hit By Pitch", None, play_events
 
         bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
-        bunt_situation = self.outs < 2 and any(self.bases) and not self.bases[2]
-        is_bunting = bunt_situation and self.game_rng.random() < bunt_propensity
+        # Sacrifice only when a single run matters: not down 9-4.
+        bunt_situation = (self.outs < 2 and any(self.bases) and not self.bases[2]
+                          and abs(self.team1_score - self.team2_score) <= 2)
+        is_bunting = bunt_situation and self.game_rng.random() < bunt_propensity * BUNT_RATE_FACTOR
 
         while balls < 4 and strikes < 3:
             pitch_start_time = self.current_time.isoformat()
+            # Batters give up the bunt with two strikes: a foul bunt there is
+            # strike three, so only the rare (pitcher-ish) bunter keeps it on.
+            bunting_now = is_bunting and (strikes < 2 or self.game_rng.random() < 0.1)
+            if self.bases[0] and not self.bases[1] and self.game_rng.random() < PICKOFF_THROW_RATE:
+                self._record_pickoff_throw(play_events, balls, strikes)
 
             # Advance time for the pitch (median ~20.4s)
             time_between_pitches = self.time_rng.uniform(18.0, 26.0)
@@ -838,12 +876,12 @@ class BaseballSimulator:
             is_in_play = False
             hit_result = None
 
-            swing = self._simulate_bat_swing(batter, is_strike_loc) or is_bunting
+            swing = self._simulate_bat_swing(batter, is_strike_loc) or bunting_now
             # Boost contact rate slightly to reduce strikeouts (adjusted to 0.063)
             contact_prob = batter['batting_profile']['contact'] + CONTACT_BOOST
             if not is_strike_loc:
                 contact_prob *= CHASE_CONTACT_FACTOR
-            contact = self.game_rng.random() < contact_prob or (is_bunting and is_strike_loc)
+            contact = self.game_rng.random() < contact_prob or (bunting_now and is_strike_loc)
 
             play_event: PlayEvent = {
                 'index': self._pitch_event_seq,
@@ -852,7 +890,7 @@ class BaseballSimulator:
                 'isPitch': True,
                 'count': {'balls': pre_pitch_balls, 'strikes': pre_pitch_strikes}
             }
-            if is_bunting:
+            if bunting_now:
                 play_event['isBunt'] = True
 
             if not swing:
@@ -872,17 +910,17 @@ class BaseballSimulator:
                 else: # Contact
                     is_foul = self.game_rng.random() < FOUL_SHARE_OF_CONTACT
                     if is_foul:
-                        if strikes < 2: strikes += 1
+                        if strikes < 2 or bunting_now: strikes += 1
                         pitch_outcome_text = "foul"
                         event_details = {'code': 'F', 'description': 'Foul', 'isStrike': True}
                         self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
-                        if is_bunting:
+                        if bunting_now:
                             event_details['description'] = 'Foul Bunt'
                             if strikes == 3: # Foul bunt with 2 strikes is a strikeout
                                 pitch_outcome_text = "strikeout"
                     else: # In Play
                         is_in_play = True
-                        if is_bunting:
+                        if bunting_now:
                             batted_ball_data = self._simulate_bunt_physics()
                             hit_result = "Sacrifice Bunt"
                         else:
@@ -924,7 +962,8 @@ class BaseballSimulator:
 
             # If the ball is not in play, now we resolve the steal attempt.
             if steal_attempt_base:
-                if pitch_outcome_text == "foul":
+                if pitch_outcome_text == "foul" or balls == 4:
+                    # On ball four the runner is waved down (or forced): no steal.
                     pass
                 else:
                     caught_stealing = self._resolve_steal_attempt(steal_attempt_base, play_events, balls, strikes)
@@ -1121,6 +1160,18 @@ class BaseballSimulator:
 
                 return 0, False, 0, credits, credits_batter, credits_runner, True, "Double Play", runner_out
 
+            # Bases loaded, fewer than two outs, ball on the infield: the play
+            # is home for the force, not to first (which lets the run score).
+            if (self.outs < 2 and all(self.bases) and out_type in ('Groundout', 'Forceout')
+                    and fielder['position']['abbreviation'] in ('P', 'C', '1B', '2B', '3B', 'SS')
+                    and self.game_rng.random() < 0.6):
+                forced = self.bases[2]
+                self.outs += 1
+                self.bases = [batter['legal_name'], self.bases[0], self.bases[1]]
+                credits = [self._create_credit(fielder, 'assist'), self._create_credit(catcher, 'putout')] if catcher else [self._create_credit(fielder, 'putout')]
+                self._last_force = (forced, '3B', 'score')
+                return 0, False, 0, credits, [], credits, False, "Forceout", forced
+
             # Check for force play situation (not a double play)
             is_force_play = False
             force_base = None
@@ -1129,13 +1180,13 @@ class BaseballSimulator:
                 force_base = "2B"
 
             if is_force_play and self.outs < 2:
+                forced = self.bases[0]
                 self.outs += 1
                 self.bases[0] = batter['legal_name']  # Batter reaches
-                if force_base == "2B":
-                    self.bases[1] = None # Runner forced at second
                 ss = getattr(self, f"{defensive_team_prefix}_defense").get('SS')
                 credits = [self._create_credit(fielder, 'assist'), self._create_credit(ss, 'putout')]
-                return 0, False, 0, credits, [], [], False, "Forceout", None
+                self._last_force = (forced, '1B', '2B')
+                return 0, False, 0, credits, [], credits, False, "Forceout", forced
 
             self.outs += 1
             if self.outs < 3:
@@ -1446,8 +1497,22 @@ class BaseballSimulator:
                     if batter_entry: runner_list.append(batter_entry)
                 else:
                     # Handle runners who advanced, scored, or were out on a force
+                    forced_runner = runner_out_dp if outcome == "Forceout" else None
+                    if forced_runner:
+                        # The forced runner is out at the force base, not "scored"
+                        # because he vanished from the bases.
+                        _, f_origin, f_base = self._last_force
+                        runner_entry = self._build_runner_entry(
+                            runner_name=forced_runner, origin_base=f_origin, end_base=f_base,
+                            is_out=True, out_number=self.outs, event=outcome,
+                            event_type=self._get_event_type_code(outcome),
+                            movement_reason="r_force_out", play_index=play_index,
+                            is_scoring=False, is_rbi=False, credits=credits_runner_dp)
+                        if runner_entry:
+                            runner_entry['movement']['outBase'] = f_base
+                            runner_list.append(runner_entry)
                     for base_idx, runner_name in enumerate(old_bases):
-                        if runner_name:
+                        if runner_name and runner_name != forced_runner:
                             origin = base_map[base_idx]
                             scored = runner_name not in self.bases and runner_name not in [b for b in self.bases if b]
                             advanced = runner_name in self.bases
@@ -1473,14 +1538,14 @@ class BaseballSimulator:
                                 )
                                 if runner_entry: runner_list.append(runner_entry)
 
-                    # Batter's outcome (out or reached on error)
-                    batter_reaches = was_error
+                    # Batter's outcome (out, or reached on an error or a force play)
+                    batter_reaches = was_error or bool(forced_runner)
                     batter_entry = self._build_runner_entry(
                         runner_name=batter['legal_name'], origin_base=None, end_base="1B",
                         is_out=not batter_reaches, out_number=self.outs if not batter_reaches else None,
                         event=outcome, event_type=self._get_event_type_code(outcome),
                         movement_reason=None, play_index=play_index,
-                        is_scoring=False, is_rbi=False, credits=credits
+                        is_scoring=False, is_rbi=False, credits=[] if forced_runner else credits
                     )
                     if batter_entry: runner_list.append(batter_entry)
 

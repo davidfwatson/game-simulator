@@ -5,21 +5,34 @@ from .helpers import simplify_pitch_type
 POS_NUMBERS = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
 
 def build_dp_notation(play):
-    """Build DP notation like '6-4-3' from runner credits."""
+    """Build DP notation like '6-4-3' from runner credits.
+
+    Each runner carries its own credit chain (the lead runner 6-4, the batter
+    4-3); join them so the relay to first isn't dropped ('5-4' for a 5-4-3).
+    """
     if not play:
         return ""
+    chains = []
     for runner in play.get('runners', []):
-        credits = runner.get('credits', [])
-        if len(credits) >= 2:
-            positions = []
-            for c in credits:
-                pos_abbr = c.get('position', {}).get('abbreviation', '')
-                num = POS_NUMBERS.get(pos_abbr)
-                if num:
-                    positions.append(str(num))
-            if len(positions) >= 2:
-                return '-'.join(positions)
-    return ""
+        positions = [str(POS_NUMBERS[c.get('position', {}).get('abbreviation', '')])
+                     for c in runner.get('credits', [])
+                     if POS_NUMBERS.get(c.get('position', {}).get('abbreviation', ''))]
+        if positions:
+            chains.append(positions)
+    if not chains or max(len(c) for c in chains) < 2:
+        return ""
+    # Start from the chain whose first fielder doesn't finish another chain,
+    # then follow the relay: 6-4 + 4-3 -> 6-4-3.
+    ends = {c[-1] for c in chains}
+    start = next((c for c in chains if c[0] not in ends or len(chains) == 1), max(chains, key=len))
+    notation, rest = list(start), [c for c in chains if c is not start]
+    while rest:
+        nxt = next((c for c in rest if c[0] == notation[-1]), None)
+        if nxt is None:
+            break
+        notation += nxt[1:]
+        rest.remove(nxt)
+    return '-'.join(notation)
 
 def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play):
     key = None
@@ -115,6 +128,8 @@ def factual_play_category(renderer, outcome, hit_data, pitch_details, fielder_po
                 return 'second_base_throw'
         if base == '3B' and positions == ['3B'] and hit_data.get('forceMechanism') == 'unassisted':
             return 'third_base'
+        if base in ('score', 'home', '4B'):
+            return 'home_force'
     if outcome == 'Fielders Choice' and grounder and destination == 'first':
         if any(r['movement'].get('outBase') in ('score', 'home', '4B') for r in runner_outs):
             return 'home_tag'

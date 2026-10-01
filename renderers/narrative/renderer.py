@@ -1619,7 +1619,10 @@ class NarrativeRenderer(GameRenderer):
             elif outcome in ["HBP", "Hit By Pitch"]:
                 templates = GAME_CONTEXT['narrative_templates'].get('Hit By Pitch', {}).get('default', [])
                 if not templates: templates = ["{batter_name} is hit by the pitch."]
-                outcome_text = self.rng_play.choice(templates).format(batter_name=batter_name)
+                # With no pitches narrated, this joins the intro line that just
+                # named him in full; a broadcaster would use the last name.
+                hbp_name = batter_name if pitch_events else batter_name.split()[-1]
+                outcome_text = self.rng_play.choice(templates).format(batter_name=hbp_name)
 
             elif outcome == "Strikeout Double Play":
                 outcome_text = f"{batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play."

@@ -901,6 +901,11 @@ GAME_CONTEXT = {
             ],
         },
         "Forceout": {
+            "home_force": [
+                "Grounder {direction}. {fielder_name} comes home, and they get the force at the plate {out_context_str}.",
+                "On the ground {direction}. {fielder_name} throws home in time for the force {out_context_str}.",
+                "Bouncer {direction}. {fielder_name} goes to the plate, and the runner is forced out at home {out_context_str}."
+            ],
             "default": [
                 "They get the force {out_context_str}. {batter_name} reaches on a fielder's choice.",
                 "The defense records a forceout {out_context_str}, with {batter_name} reaching on a fielder's choice.",

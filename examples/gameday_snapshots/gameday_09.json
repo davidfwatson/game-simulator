@@ -1294,41 +1294,41 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Double",
-        "eventType": "double",
+        "event": "Home Run",
+        "eventType": "home_run",
         "description": "",
         "rbi": 1,
-        "awayScore": 1,
-        "homeScore": 0
+        "awayScore": 0,
+        "homeScore": 1
       },
       "about": {
-        "atBatIndex": 18,
-        "halfInning": "top",
-        "isTopInning": true,
+        "atBatIndex": 19,
+        "halfInning": "bottom",
+        "isTopInning": false,
         "inning": 3,
         "isScoringPlay": true,
-        "startTime": "2025-09-27T23:33:09.955715+00:00",
-        "endTime": "2025-09-27T23:34:40.842606+00:00"
+        "startTime": "2025-09-27T23:38:26.072399+00:00",
+        "endTime": "2025-09-27T23:39:07.083576+00:00"
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 2
+        "outs": 1
       },
       "matchup": {
         "batter": {
-          "id": 585403,
-          "fullName": "Christian Walk",
-          "link": "/api/v1/people/585403"
+          "id": 565309,
+          "fullName": "Josh Reddick",
+          "link": "/api/v1/people/565309"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
-          "id": 665310,
-          "fullName": "Tim Hudson",
-          "link": "/api/v1/people/665310"
+          "id": 685410,
+          "fullName": "Zac Gallen",
+          "link": "/api/v1/people/685410"
         },
         "pitchHand": {
           "code": "R",
@@ -1336,182 +1336,100 @@
         },
         "splits": {
           "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "RISP"
-        },
-        "postOnSecond": {
-          "id": 585403,
-          "fullName": "Christian Walk",
-          "link": "/api/v1/people/585403"
+          "pitcher": "vs_LHB",
+          "menOnBase": "Empty"
         }
       },
       "playEvents": [
         {
-          "index": 40,
-          "startTime": "2025-09-27T23:33:09.955715+00:00",
-          "endTime": "2025-09-27T23:33:33.798771+00:00",
+          "index": 51,
+          "startTime": "2025-09-27T23:38:26.072399+00:00",
+          "endTime": "2025-09-27T23:38:44.992570+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "SL",
-              "description": "Slider"
-            },
-            "zone": 7
-          },
-          "pitchData": {
-            "startSpeed": 86.2,
-            "zone": 7
-          }
-        },
-        {
-          "index": 41,
-          "startTime": "2025-09-27T23:33:33.798771+00:00",
-          "endTime": "2025-09-27T23:33:52.356382+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 1
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            },
-            "zone": 1
-          },
-          "pitchData": {
-            "startSpeed": 91.6,
-            "zone": 1,
-            "breaks": {
-              "spinRate": 2341
-            }
-          }
-        },
-        {
-          "index": 42,
-          "startTime": "2025-09-27T23:33:52.356382+00:00",
-          "endTime": "2025-09-27T23:34:17.194177+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 2
-          },
-          "details": {
             "code": "B",
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SI",
-              "description": "Sinker"
+              "code": "FF",
+              "description": "Four-seam fastball"
             },
-            "zone": 14
+            "zone": 11
           },
           "pitchData": {
-            "startSpeed": 92.8,
-            "zone": 14,
+            "startSpeed": 95.3,
+            "zone": 11,
             "breaks": {
-              "spinRate": 2240
+              "spinRate": 2337
             }
           }
         },
         {
-          "index": 43,
-          "startTime": "2025-09-27T23:34:17.194177+00:00",
-          "endTime": "2025-09-27T23:34:40.842606+00:00",
+          "index": 52,
+          "startTime": "2025-09-27T23:38:44.992570+00:00",
+          "endTime": "2025-09-27T23:39:07.083576+00:00",
           "isPitch": true,
           "count": {
             "balls": 1,
-            "strikes": 2
+            "strikes": 0
           },
           "details": {
             "code": "X",
-            "description": "In play, Double",
+            "description": "In play, Home Run",
             "isStrike": true,
             "type": {
-              "code": "SI",
-              "description": "Sinker"
+              "code": "FC",
+              "description": "Cutter"
             },
-            "zone": 5
+            "zone": 13
           },
           "pitchData": {
-            "startSpeed": 93.6,
-            "zone": 5,
+            "startSpeed": 89.5,
+            "zone": 13,
             "breaks": {
-              "spinRate": 2193
+              "spinRate": 2654
             }
           },
           "hitData": {
-            "launchSpeed": 103.4,
-            "launchAngle": 42.0,
+            "launchSpeed": 106.6,
+            "launchAngle": 38.1,
             "trajectory": "fly_ball",
-            "location": "SC"
+            "location": "DCF"
           }
         }
       ],
       "runners": [
         {
           "movement": {
-            "originBase": "2B",
-            "start": "2B",
+            "originBase": null,
+            "start": null,
             "end": "score",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Double",
-            "eventType": "double",
-            "movementReason": "r_adv_play",
+            "event": "Home Run",
+            "eventType": "home_run",
+            "movementReason": null,
             "runner": {
-              "id": 585409,
-              "fullName": "Blaze Alexander",
-              "link": "/api/v1/people/585409"
+              "id": 565309,
+              "fullName": "Josh Reddick",
+              "link": "/api/v1/people/565309"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 3,
+            "playIndex": 1,
             "responsiblePitcher": {
-              "id": 665310,
-              "link": "/api/v1/people/665310"
+              "id": 685410,
+              "link": "/api/v1/people/685410"
             }
-          },
-          "credits": []
-        },
-        {
-          "movement": {
-            "originBase": null,
-            "start": null,
-            "end": "2B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
-          },
-          "details": {
-            "event": "Double",
-            "eventType": "double",
-            "movementReason": null,
-            "runner": {
-              "id": 585403,
-              "fullName": "Christian Walk",
-              "link": "/api/v1/people/585403"
-            },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
-            "teamUnearned": false,
-            "playIndex": 3
           },
           "credits": []
         }
@@ -1966,10 +1884,10 @@
       ]
     }
   ],
-  "playCount": 84,
+  "playCount": 83,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 84,
+    "totalPlaysInGame": 83,
     "snapshotPlayCount": 6
   }
 }
