@@ -1121,7 +1121,7 @@ GAME_CONTEXT = {
         "runner_goes": [
             "and the runner goes!",
             "and there he goes!",
-            "runner goes!",
+            "and the runner is going!",
             "and the runner takes off!",
             "and the runner breaks!"
         ],
@@ -1761,9 +1761,9 @@ GAME_CONTEXT = {
             "{half} half of the {inning_ordinal} inning here at {venue} in {location}. {score_str}.",
         ],
         "inning_break_return": [
-             "Wally McCarthy and Producer Phil back with you, from {location}, for the",
+             "Wally McCarthy and Producer Phil back with you, from {location}.",
              "Wally McCarthy and Producer Phil back with you from {venue} here in {location}. {score_str}.",
-             "Wally McCarthy and Producer Phil back with you here on this {weather_desc} in {location}. {score_str}. {batting_team} will bring {due_up_desc} up to face {pitcher_name} here in the"
+             "Wally McCarthy and Producer Phil back with you here on this {weather_desc} in {location}. {score_str}. {batting_team} will bring {due_up_desc} up to face {pitcher_name}."
         ],
         "inning_outro_no_score": [
              "{batting_team} do not score.",

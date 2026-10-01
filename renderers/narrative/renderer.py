@@ -1,3 +1,4 @@
+import re
 from commentary import GAME_CONTEXT
 from gameday import GamedayData
 from ..base import GameRenderer
@@ -209,9 +210,17 @@ class NarrativeRenderer(GameRenderer):
             spots.append(str(spot))
         return f"the {', '.join(spots[:-1])}, and {spots[-1]} hitters"
 
-    def _get_consecutive_retired(self):
-        """Count consecutive batters retired across recent half-innings."""
+    def _get_consecutive_retired(self, upto=None, pitcher_id=None):
+        """Consecutive batters this pitcher has retired, up to (not including) play `upto`.
+
+        Counting from the end of the whole game, across both teams, reported
+        "has now retired 9 straight" right after the pitcher walked a man.
+        """
         plays = self.gameday_data['liveData']['plays']['allPlays']
+        if upto is not None:
+            plays = plays[:upto]
+        if pitcher_id is not None:
+            plays = [p for p in plays if p['matchup']['pitcher']['id'] == pitcher_id]
         count = 0
         for play in reversed(plays):
             result = play['result']['event']
@@ -767,7 +776,9 @@ class NarrativeRenderer(GameRenderer):
                          'network_name': network_name,
                          'station_call': station_call,
                          'score_context': self._get_score_context_phrase(score_away, score_home),
-                         'consecutive_retired': self._get_consecutive_retired()
+                         'consecutive_retired': self._get_consecutive_retired(
+                             upto=play_idx,
+                             pitcher_id=self.plays_in_half_inning[-1]['matchup']['pitcher']['id'] if self.plays_in_half_inning else None)
                      }
 
                      summary_lines = []
@@ -1310,6 +1321,13 @@ class NarrativeRenderer(GameRenderer):
                          # whether it was taken, swung at, or tipped.
                          pbp_line = "That's a strike" if details.get('isStrike') else "The pitch"
 
+                    if pbp_line and orig_pitch_type.strip().lower() in ('pitch', '', 'unknown'):
+                        # No pitch type in the feed: "Pitch, in there for a called
+                        # strike" reads as a glitch; drop the placeholder noun.
+                        stripped = re.sub(r'^Pitch,?\s+', '', pbp_line)
+                        if stripped != pbp_line and stripped:
+                            pbp_line = stripped[0].upper() + stripped[1:]
+
                     # Reset consecutive foul counter on non-foul events
                     if code in ('B', 'P', 'C', 'S'):
                         self.consecutive_fouls = 0
@@ -1499,7 +1517,10 @@ class NarrativeRenderer(GameRenderer):
                     templates = strikeout_templates(pool_key, terminal_details, matchup.get('batSide', {}).get('code'))
                     if templates and not post_outcome_text and self.rng_play.random() < 0.65:
                         pitch_type = self._simplify_pitch_type(terminal_details.get('type', {}).get('description', 'pitch'))
-                        outcome_text = self._with_pitch_lead_in(last_pitch_context, self.rng_play.choice(templates).format(
+                        k_template = self.rng_play.choice(templates)
+                        if not k_template.startswith('{pitch_type}'):
+                            pitch_type = pitch_type.lower()
+                        outcome_text = self._with_pitch_lead_in(last_pitch_context, k_template.format(
                             batter_name=batter_name, pitch_type=pitch_type,
                             out_context_str=out_context_str, result_outs_word=result_outs_word,
                             result_outs=result_outs, batter_last_name=batter_name.split()[-1]))
@@ -1551,7 +1572,9 @@ class NarrativeRenderer(GameRenderer):
                     out_suffix = '' if out_context_str in outcome_text else f' {out_context_str}'
                     outcome_text = outcome_text.rstrip() + f' {subject} strikes out{out_suffix}.'
                 elif out_context_str not in outcome_text:
-                    outcome_text = outcome_text.rstrip('.!?') + f', {out_context_str}.'
+                    # "...to end the at-bat, to end the inning." -> one ending.
+                    trimmed = re.sub(r' to end the at-bat[.!?]?$', '', outcome_text.rstrip())
+                    outcome_text = trimmed.rstrip('.!?') + f', {out_context_str}.'
 
             elif outcome == "Walk":
                  is_leadoff_batter = (len(self.plays_in_half_inning) == 0)

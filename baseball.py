@@ -6,6 +6,16 @@ from gameday import GamedayData, GameData, LiveData, Linescore, InningLinescore,
 from teams import TEAMS
 from commentary import GAME_CONTEXT
 
+# Plate-discipline model, tuned so pitch outcomes match MLB rates (fouls ~18%
+# of pitches, called strikes ~17%) while keeping K%, BB% and pitches per PA.
+ZONE_SWING_RATE = 0.69        # swings at pitches in the zone
+CHASE_RATE = 0.30             # swings at pitches outside it, before discipline
+CONTACT_BOOST = 0.085         # added to each batter's contact rating
+CHASE_CONTACT_FACTOR = 0.75   # contact multiplier on pitches outside the zone
+FOUL_SHARE_OF_CONTACT = 0.48  # contact that goes foul rather than in play
+ZONE_RATE_OFFSET = 0.10       # subtracted from pitcher control to get zone rate
+
+
 class BaseballSimulator:
     """
     Simulates a modern MLB game with realistic rules and enhanced realism.
@@ -407,7 +417,7 @@ class BaseballSimulator:
             pitch_around_penalty = min(pitch_around_penalty, 0.06)
 
         # Add a small penalty to control to increase walks slightly
-        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012 - pitch_around_penalty)
+        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012 - pitch_around_penalty - ZONE_RATE_OFFSET)
 
         if is_strike:
             # Weighted distribution for strike zones (1-9)
@@ -429,8 +439,8 @@ class BaseballSimulator:
     def _simulate_bat_swing(self, batter, is_strike_loc):
         """Determines if the batter swings at the pitch."""
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
-        swing_at_ball_prob = 0.14 / discipline_factor
-        return self.game_rng.random() < (0.85 if is_strike_loc else swing_at_ball_prob)
+        swing_at_ball_prob = CHASE_RATE / discipline_factor
+        return self.game_rng.random() < (ZONE_SWING_RATE if is_strike_loc else swing_at_ball_prob)
 
     def _simulate_batted_ball_physics(self, batter):
         """Calculates the exit velocity and launch angle of a batted ball."""
@@ -830,7 +840,10 @@ class BaseballSimulator:
 
             swing = self._simulate_bat_swing(batter, is_strike_loc) or is_bunting
             # Boost contact rate slightly to reduce strikeouts (adjusted to 0.063)
-            contact = self.game_rng.random() < (batter['batting_profile']['contact'] + 0.063) or (is_bunting and is_strike_loc)
+            contact_prob = batter['batting_profile']['contact'] + CONTACT_BOOST
+            if not is_strike_loc:
+                contact_prob *= CHASE_CONTACT_FACTOR
+            contact = self.game_rng.random() < contact_prob or (is_bunting and is_strike_loc)
 
             play_event: PlayEvent = {
                 'index': self._pitch_event_seq,
@@ -857,7 +870,7 @@ class BaseballSimulator:
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
                     self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
                 else: # Contact
-                    is_foul = self.game_rng.random() < 0.6
+                    is_foul = self.game_rng.random() < FOUL_SHARE_OF_CONTACT
                     if is_foul:
                         if strikes < 2: strikes += 1
                         pitch_outcome_text = "foul"

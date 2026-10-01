@@ -1,3 +1,4 @@
+import re
 from commentary import GAME_CONTEXT
 from .helpers import simplify_pitch_type
 
@@ -302,7 +303,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         'pitch_type': simple_pitch_type,
         'pitch_type_lower': simple_pitch_type.lower(),
         'pitch_velo': pitch_details.get('velo', 'N/A'),
-        'fielder_name': fielder_name or "the fielder",
+        'fielder_name': fielder_name or _position_noun(hit_data) or "the fielder",
         'result_outs': result_outs,
         'result_outs_word': result_outs_word,
         'out_context_str': out_context_str,
@@ -320,7 +321,13 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
          if not dp_notation:
              final_description = final_description.replace("a  double play", "a double play")
     else:
-        phrase, phrase_type = renderer._get_batted_ball_verb(template_outcome, cat)
+        verb_outcome = template_outcome
+        if verb_outcome not in GAME_CONTEXT['statcast_verbs']:
+            # Outcomes like a fielder's choice have no verb list of their own;
+            # the generic fallback verb was literally "describes".
+            verb_outcome = {'ground_ball': 'Groundout', 'line_drive': 'Lineout', 'fly_ball': 'Flyout',
+                            'popup': 'Pop Out'}.get((hit_data or {}).get('trajectory'), 'Groundout')
+        phrase, phrase_type = renderer._get_batted_ball_verb(verb_outcome, cat)
         if phrase_type == 'verbs':
             template = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
             context['verb'] = phrase
@@ -331,6 +338,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             context['noun_capitalized'] = phrase.capitalize()
         final_description = prefix + template.format(**context)
 
+    final_description = final_description.replace("a diving the ", "the diving ")
+    # A template that starts a sentence with {fielder_name} ("the fielder
+    # racing back") needs a capital.
+    final_description = re.sub(r'([.!?] )(the )', lambda m: m.group(1) + 'The ', final_description)
+
     if template_outcome == 'Field Error' and 'error' not in final_description.lower():
         final_description += f" An error by {fielder_name or 'the fielder'}."
 
@@ -338,10 +350,23 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
          status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play)
          if status_str:
              if batter_name in final_description and status_str.startswith(batter_name):
-                 status_str = "He" + status_str[len(batter_name):]
+                 rest = status_str[len(batter_name):]
+                 # "Kramer heading for second" -> keep a name; "He heading" isn't English.
+                 status_str = (batter_last_name if rest.startswith(" heading") else "He") + rest
              final_description += " " + status_str
 
     return final_description
+
+POSITION_NOUNS = {'1': 'the pitcher', '2': 'the catcher', '3': 'the first baseman', '4': 'the second baseman',
+                  '5': 'the third baseman', '6': 'the shortstop', '7': 'the left fielder',
+                  '8': 'the center fielder', '9': 'the right fielder'}
+
+
+def _position_noun(hit_data):
+    """'the center fielder' for an uncredited ball hit to center, else None."""
+    location = str((hit_data or {}).get('location') or '')
+    return POSITION_NOUNS.get(location)
+
 
 def render_steal_event(renderer, event):
     """Render actions from structured movements, never from transcript prose."""
@@ -361,8 +386,12 @@ def render_steal_event(renderer, event):
     base_names = {'1B': 'first', '2B': 'second', '3B': 'third', 'score': 'home', 'home': 'home'}
     lines = []
     for movement in movements:
-        name = movement.get('runner', {}).get('fullName') or 'The runner'
         origin, target = movement.get('fromBase'), movement.get('toBase')
+        # A feed pickoff throw names the base, not the runner: use whoever is
+        # standing there.
+        name = (movement.get('runner', {}).get('fullName')
+                or getattr(renderer, 'runners_on_base', {}).get(origin) or 'the runner')
+        lead = name[:1].upper() + name[1:]
         base = base_names.get(target)
         is_out = movement.get('isOut', False)
         if event_type == 'pickoff_attempt':
@@ -372,24 +401,24 @@ def render_steal_event(renderer, event):
                 lines.append(f'A pickoff attempt, and {name} gets back safely.')
         elif event_type == 'pickoff':
             where = f' at {base or base_names.get(origin)}' if base or origin in base_names else ''
-            lines.append(f'{name} is picked off{where}.')
+            lines.append(f'{lead} is picked off{where}.')
         elif event_type == 'caught_stealing':
             if target == origin and base:
-                lines.append(f'{name} is tagged out heading back to {base}.')
+                lines.append(f'{lead} is tagged out heading back to {base}.')
             elif base:
-                lines.append(f'{name} is caught stealing {base}.')
+                lines.append(f'{lead} is caught stealing {base}.')
             else:
-                lines.append(f'{name} is caught stealing.')
+                lines.append(f'{lead} is caught stealing.')
         elif event_type == 'stolen_base':
-            lines.append(f'{name} steals {base}.' if base else f'{name} steals a base.')
+            lines.append(f'{lead} steals {base}.' if base else f'{lead} steals a base.')
         elif event_type in ('wild_pitch', 'passed_ball'):
             cause = 'wild pitch' if event_type == 'wild_pitch' else 'passed ball'
             if is_out:
                 lines.append(f'On a {cause}, {name} is tagged out' + (f' at {base}.' if base else '.'))
             elif target in ('score', 'home'):
-                lines.append(f'{name} scores on a {cause}.')
+                lines.append(f'{lead} scores on a {cause}.')
             elif base:
-                lines.append(f'{name} advances to {base} on a {cause}.')
+                lines.append(f'{lead} advances to {base} on a {cause}.')
             else:
                 lines.append(f'A {cause}.')
         if event_type != 'pickoff_attempt':
