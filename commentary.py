@@ -884,7 +884,7 @@ GAME_CONTEXT = {
             "default": [
                 "{batter_name} reaches on an error.",
                 "An error allows {batter_name} to reach base.",
-                "{batter_name} is aboard, and that will go down as an error.",
+                "{batter_name} is aboard, and that will go down as an error on {fielder_name}.",
                 "The play results in an error, and {batter_name} reaches safely.",
                 "An error by {fielder_name} allows {batter_name} to reach base."
             ],

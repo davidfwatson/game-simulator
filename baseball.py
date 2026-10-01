@@ -833,13 +833,10 @@ class BaseballSimulator:
         balls, strikes = 0, 0
         play_events: list[PlayEvent] = []
         
-        # Boost HBP rate to match MLB averages
-        if self.game_rng.random() < (batter['plate_discipline'].get('HBP', 0) * 2.5):
-            # Advance time for the HBP pitch
-            self.current_time += timedelta(seconds=self.time_rng.uniform(15.0, 25.0))
-            self._update_batting_stat(self._batting_team_key, batter['id'], 'hitByPitch')
-            self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'hitByPitch')
-            return "Hit By Pitch", None, play_events
+        # HBP happens on a pitch outside the zone, mid at-bat, so the pitches
+        # before it get narrated (it used to end the PA before the first pitch).
+        # ~1.9 out-of-zone pitches per PA keeps the per-PA rate as it was.
+        hbp_per_ball = batter['plate_discipline'].get('HBP', 0) * 2.5 / 1.2
 
         bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
         # Sacrifice only when a single run matters: not down 9-4.
@@ -870,6 +867,10 @@ class BaseballSimulator:
             pitch_spin = self.game_rng.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if self.game_rng.random() > 0.08 else None
             
             is_strike_loc, pitch_zone = self._simulate_pitch_trajectory(pitcher, batter)
+            if not is_strike_loc and not bunting_now and self.game_rng.random() < hbp_per_ball:
+                self._update_batting_stat(self._batting_team_key, batter['id'], 'hitByPitch')
+                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'hitByPitch')
+                return "Hit By Pitch", None, play_events
             
             pre_pitch_balls, pre_pitch_strikes = balls, strikes
             event_details: PlayEvent['details'] = {}
@@ -995,7 +996,7 @@ class BaseballSimulator:
         batter_name = batter['legal_name']
         batter_gets_rbi = not was_error
 
-        if hit_type in ["Walk", "HBP"]:
+        if hit_type in ["Walk", "HBP", "Hit By Pitch"]:
             new_bases = self.bases[:]
             if new_bases[0]:
                 if new_bases[1]:
@@ -1164,7 +1165,7 @@ class BaseballSimulator:
             # is home for the force, not to first (which lets the run score).
             if (self.outs < 2 and all(self.bases) and out_type in ('Groundout', 'Forceout')
                     and fielder['position']['abbreviation'] in ('P', 'C', '1B', '2B', '3B', 'SS')
-                    and self.game_rng.random() < 0.6):
+                    and self.game_rng.random() < 0.3):
                 forced = self.bases[2]
                 self.outs += 1
                 self.bases = [batter['legal_name'], self.bases[0], self.bases[1]]
@@ -1388,7 +1389,7 @@ class BaseballSimulator:
             elif outcome == "Strikeout Double Play":
                 self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs') # CS out is separate?
                 pass # Outs handled
-            elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP"]:
+            elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP", "Hit By Pitch"]:
                 adv_info = self._advance_runners(outcome, batter)
                 runs += adv_info['runs']; rbis += adv_info['rbis']; advances.extend(adv_info['advances'])
                 if outcome in ["Single", "Double", "Triple", "Home Run"]:
@@ -1446,7 +1447,7 @@ class BaseballSimulator:
                 )
                 if batter_entry: runner_list.append(batter_entry)
 
-            elif outcome in ["Walk", "HBP"]:
+            elif outcome in ["Walk", "HBP", "Hit By Pitch"]:
                 for base_idx, runner_name in enumerate(old_bases):
                     if runner_name:
                         origin = base_map[base_idx]

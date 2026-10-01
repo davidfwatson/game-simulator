@@ -354,6 +354,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         final_description = prefix + template.format(**context)
 
     final_description = final_description.replace("a diving the ", "the diving ")
+    if (fielder_pos == '1B' and template_outcome == 'Groundout'
+            and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+        # The first baseman can't throw to himself: it's a toss to the pitcher covering (3-1).
+        final_description = re.sub(r'\b(fires|throws|flips|tosses|shovels|underhands|lobs)( it)? to first\b',
+                                   r'\1\2 to the pitcher covering first', final_description, count=1)
     # A template that starts a sentence with {fielder_name} ("the fielder
     # racing back") needs a capital.
     final_description = re.sub(r'([.!?] )(the )', lambda m: m.group(1) + 'The ', final_description)

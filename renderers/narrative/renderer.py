@@ -1623,6 +1623,21 @@ class NarrativeRenderer(GameRenderer):
                 # named him in full; a broadcaster would use the last name.
                 hbp_name = batter_name if pitch_events else batter_name.split()[-1]
                 outcome_text = self.rng_play.choice(templates).format(batter_name=hbp_name)
+                thrown = [e for e in pitch_events if e.get('isPitch')]
+                if thrown:
+                    # The HBP pitch is its own pitch: "And the two-two... The
+                    # pitch hits him", not tacked onto the last pitch's line.
+                    last = thrown[-1]
+                    b, k = last['count'].get('balls', 0), last['count'].get('strikes', 0)
+                    code = last['details'].get('code')
+                    if code in ('B', 'P'):
+                        b += 1
+                    elif code in ('C', 'S') or (code == 'F' and k < 2):
+                        k += 1
+                    pitching_team = 'home' if about['isTopInning'] else 'away'
+                    connector = self._get_pitch_connector(b, k, pitcher_name=self.current_pitcher_info[pitching_team]['name'])
+                    self._check_and_add_delay(play_text_blocks, context='pitch')
+                    outcome_text = f"{connector} {outcome_text}"
 
             elif outcome == "Strikeout Double Play":
                 outcome_text = f"{batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play."
