@@ -176,7 +176,7 @@ def remap_names(data, template_game_data):
     invented = (f"{f} {l}" for i, f in enumerate(firsts) for l in lasts[i + 7:] + lasts[:i + 7]
                 if f"{f} {l}" not in taken)
 
-    mapping = {}
+    id_names = {}
     for side, key in (("home", HOME), ("away", AWAY)):
         roster = [p["legal_name"] for p in TEAMS[key]["players"]]
         pos = {p["legal_name"]: p["position"]["code"] for p in TEAMS[key]["players"]}
@@ -194,8 +194,17 @@ def remap_names(data, template_game_data):
                 pick = spare.pop(0) if spare else next(invented)
             else:
                 free.remove(pick)
-            mapping[by_id[pid]["fullName"]] = pick
+            id_names[pid] = pick
 
+    # Structured references are renamed by player id. The anonymizer can give
+    # two real players the same placeholder name, so a name-keyed map sent a
+    # Pilots reliever out as "Leo Vance". Free text is only rewritten for
+    # placeholder names that belong to exactly one player.
+    name_counts = {}
+    for pid in id_names:
+        name_counts[by_id[pid]["fullName"]] = name_counts.get(by_id[pid]["fullName"], 0) + 1
+    mapping = {by_id[pid]["fullName"]: new for pid, new in id_names.items()
+               if name_counts[by_id[pid]["fullName"]] == 1}
     full = sorted(mapping, key=len, reverse=True)
 
     def swap(text):
@@ -205,8 +214,10 @@ def remap_names(data, template_game_data):
 
     def walk(node):
         if isinstance(node, dict):
-            if "fullName" in node and node["fullName"] in mapping:
-                new = mapping[node["fullName"]]
+            new = id_names.get(node.get("id")) if "fullName" in node else None
+            if new is None and "fullName" in node:
+                new = mapping.get(node["fullName"])
+            if new:
                 node["fullName"] = new
                 first, _, last = new.partition(" ")
                 for k in ("lastName", "useLastName", "boxscoreName"):
