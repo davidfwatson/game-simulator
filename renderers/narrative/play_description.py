@@ -303,7 +303,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         'pitch_type': simple_pitch_type,
         'pitch_type_lower': simple_pitch_type.lower(),
         'pitch_velo': pitch_details.get('velo', 'N/A'),
-        'fielder_name': fielder_name or _position_noun(hit_data) or "the fielder",
+        'fielder_name': fielder_name or _position_noun(hit_data, direction) or "the fielder",
         'result_outs': result_outs,
         'result_outs_word': result_outs_word,
         'out_context_str': out_context_str,
@@ -362,10 +362,17 @@ POSITION_NOUNS = {'1': 'the pitcher', '2': 'the catcher', '3': 'the first basema
                   '8': 'the center fielder', '9': 'the right fielder'}
 
 
-def _position_noun(hit_data):
+def _position_noun(hit_data, direction=None):
     """'the center fielder' for an uncredited ball hit to center, else None."""
     location = str((hit_data or {}).get('location') or '')
-    return POSITION_NOUNS.get(location)
+    if location in POSITION_NOUNS:
+        return POSITION_NOUNS[location]
+    # Home runs carry no location; the direction phrase still says where.
+    text = (direction or '').lower()
+    for word, noun in (('center', 'the center fielder'), ('left', 'the left fielder'), ('right', 'the right fielder')):
+        if word in text:
+            return noun
+    return None
 
 
 def render_steal_event(renderer, event):
