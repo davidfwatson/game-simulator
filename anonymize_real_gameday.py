@@ -38,6 +38,28 @@ PITCH_CODE_WHITELIST = {'B', 'C', 'S', 'X', 'F', 'D'}
 PITCH_CODE_MAP = {'T': 'S', 'W': 'S', 'M': 'S', 'Q': 'S', 'O': 'S',
                   'L': 'F', 'R': 'F', 'E': 'X', 'D': 'X', '*B': 'B', 'V': 'B', 'I': 'B', 'P': 'B'}
 
+# Baserunning actions our renderer narrates, keyed by MLB eventType prefix.
+# Dropping them left real innings visibly broken (an inning ending mid-at-bat
+# on an unnarrated caught stealing, runners appearing from nowhere).
+ACTION_TYPES = (('stolen_base', 'stolen_base'), ('pickoff_caught_stealing', 'caught_stealing'),
+                ('caught_stealing', 'caught_stealing'), ('pickoff_error', 'pickoff_attempt'),
+                ('pickoff', 'pickoff'), ('wild_pitch', 'wild_pitch'), ('passed_ball', 'passed_ball'))
+
+
+def action_type(ev: dict):
+    """Our eventType for a real baserunning action event, or None."""
+    if ev.get('isPitch'):
+        return None
+    d = ev.get('details') or {}
+    real = d.get('eventType') or ''
+    if not real and (ev.get('type') == 'pickoff' or 'pickoff attempt' in (d.get('description') or '').lower()):
+        return 'pickoff_attempt'
+    for prefix, ours in ACTION_TYPES:
+        if real.startswith(prefix):
+            return ours
+    return None
+
+
 def is_pitch_like(ev: dict) -> bool:
     d = (ev.get('details') or {})
     if d.get('eventType') in IGNORED_EVENT_TYPES:
@@ -503,7 +525,7 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
 
                 # Filter playEvents
                 if 'playEvents' in play:
-                    events = [e for e in play['playEvents'] if is_pitch_like(e)]
+                    events = [e for e in play['playEvents'] if action_type(e) or is_pitch_like(e)]
                     # Optional: keep only terminal pitch to look even more generated:
                     # events = events[-1:]
                     anonymized_play['playEvents'] = []
@@ -511,6 +533,30 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                     # renderer use the count the pitch was thrown in. Shift by one.
                     count_before = {'balls': 0, 'strikes': 0}
                     for event in events:
+                        ours = action_type(event)
+                        if ours:
+                            movements = []
+                            for r in play.get('runners', []):
+                                rd, mv = r.get('details', {}), r.get('movement', {})
+                                if rd.get('playIndex') != event.get('index') or not rd.get('runner'):
+                                    continue
+                                mapped = id_mapping.get(rd['runner'].get('id'))
+                                movements.append({
+                                    'runner': {'id': mapped['id'] if mapped else rd['runner'].get('id'),
+                                               'fullName': mapped['legal_name'] if mapped else rd['runner'].get('fullName')},
+                                    'fromBase': mv.get('start') or mv.get('originBase'),
+                                    'toBase': mv.get('end') or mv.get('outBase'),
+                                    'isOut': bool(mv.get('isOut')),
+                                })
+                            if ours == 'pickoff_attempt' and not movements:
+                                base = re.search(r'\b([123])B\b', (event.get('details') or {}).get('description') or '')
+                                if base:
+                                    movements.append({'fromBase': f'{base.group(1)}B', 'toBase': f'{base.group(1)}B', 'isOut': False})
+                            anonymized_play['playEvents'].append({
+                                'isPitch': False, 'index': event.get('index'), 'count': dict(count_before),
+                                'details': {'eventType': ours, 'description': ours.replace('_', ' ').title(),
+                                            'code': '', 'runners': movements}})
+                            continue
                         filtered_event = {'isPitch': True}
                         if 'index' in event:
                             filtered_event['index'] = event['index']
