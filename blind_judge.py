@@ -35,7 +35,17 @@ FIXTURE_DIR = ROOT / "examples" / "transcript_games"
 # Newest complete episodes, released after the judge model's training cutoff.
 SLEEP_EPISODES = ("050", "052", "053")
 HOME, AWAY = "BAY_BOMBERS", "PC_PILOTS"
-OVERFLOW = {"home": "COASTAL_VIPERS", "away": "DESERT_SCORPIONS"}
+# Extra players (relievers, pinch hitters) beyond our 13-man rosters. Invented
+# names only: the other TEAMS rosters are full of real MLB players (Ricky
+# Henderson, Jason Giambi, Corbin Carroll), which a judge reads as a leak.
+OVERFLOW = {
+    "home": ["Dale Whitcomb", "Ray Pellerin", "Tommy Askew", "Luis Ocampo", "Brent Haddix",
+             "Curtis Vane", "Mel Strand", "Danny Ruehl", "Hector Lasso", "Gil Marchetti",
+             "Wade Kimbrell", "Nico Ferrante", "Jay Tolliver", "Ozzie Quill", "Russ Delacroix"],
+    "away": ["Earl Brannock", "Sid Fennimore", "Rafael Cuenca", "Lyle Gessner", "Mickey Dorr",
+             "Arturo Velez", "Hal Pruitt", "Kip Lindqvist", "Doug Sarratt", "Benny Ochoa",
+             "Clay Rourke", "Manny Ybarra", "Glen Hutchins", "Theo Brakefield", "Abe Calloway"],
+}
 
 SPLIT_RE = re.compile(r"^\[TTS SPLIT HERE DELAY:([\d.]+)s\]$")
 BACK_RE = re.compile(r"\s*(And )?[Ww]e'll be (right )?back\b[^.]*\.")
@@ -159,8 +169,9 @@ def remap_names(data, template_game_data):
          for ref in (play["matchup"]["batter"], play["matchup"]["pitcher"])] + referenced))
     for pid in order:
         sides.setdefault(pid, "home")
-    firsts = [p["legal_name"].split()[0] for t in TEAMS.values() for p in t["players"]]
-    lasts = [p["legal_name"].split()[-1] for t in TEAMS.values() for p in t["players"]]
+    ours = [p["legal_name"] for key in (HOME, AWAY) for p in TEAMS[key]["players"]]
+    firsts = [n.split()[0] for n in ours]
+    lasts = [n.split()[-1] for n in ours]
     taken = {p["legal_name"] for t in TEAMS.values() for p in t["players"]}
     invented = (f"{f} {l}" for i, f in enumerate(firsts) for l in lasts[i + 7:] + lasts[:i + 7]
                 if f"{f} {l}" not in taken)
@@ -169,7 +180,7 @@ def remap_names(data, template_game_data):
     for side, key in (("home", HOME), ("away", AWAY)):
         roster = [p["legal_name"] for p in TEAMS[key]["players"]]
         pos = {p["legal_name"]: p["position"]["code"] for p in TEAMS[key]["players"]}
-        spare = [p["legal_name"] for p in TEAMS[OVERFLOW[side]]["players"]]
+        spare = list(OVERFLOW[side])
         free = list(roster)
         for pid in order:
             if sides[pid] != side:
