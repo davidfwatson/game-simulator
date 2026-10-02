@@ -904,6 +904,10 @@ GAME_CONTEXT = {
                 "Lifted {direction}. {fielder_name} gets a glove on it, but it pops out. {batter_name} reaches on the error.",
                 "Hit in the air {direction}. {fielder_name} drifts over, and it glances off the glove. {batter_name} is aboard on the error.",
             ],
+            "popup_error": [
+                "Popped up {direction}. {fielder_name} settles under it... and it pops out of the glove. {batter_name} is safe on the error.",
+                "A high pop-up {direction}. {fielder_name} calls for it, and he drops it. {batter_name} reaches on the error.",
+            ],
         },
         "Forceout": {
             "home_force": [

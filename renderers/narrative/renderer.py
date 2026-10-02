@@ -814,7 +814,10 @@ class NarrativeRenderer(GameRenderer):
                              )
                              if is_123:
                                  summary_lines.append(self._get_radio_string('inning_outro_no_score_order', ctx))
-                             elif had_baserunners and lob > 0:
+                             elif had_baserunners and lob > 0 and (
+                                     lob >= 2 or self.runners_on_base.get('2B') or self.runners_on_base.get('3B')
+                                     or self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+                                 # A lone runner stranded at first is not a jam.
                                  keys = ['inning_outro_no_score_jam']
                                  if lob == 3:
                                      keys.append('inning_outro_no_score_bases_loaded')

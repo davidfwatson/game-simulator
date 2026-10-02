@@ -202,6 +202,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         # gap; describe the ball the fielder misplayed.
         airborne = la is not None and la >= 15 or hit_data.get('trajectory') in ('fly_ball', 'popup', 'line_drive')
         cat = 'air' if airborne else 'grounder'
+        if cat == 'air' and fielder_pos in ('P', 'C', '1B', '2B', '3B', 'SS'):
+            cat = 'popup_error'
 
     specific_templates = []
     if 'narrative_templates' in GAME_CONTEXT:
@@ -435,7 +437,16 @@ def render_steal_event(renderer, event):
         lead = name[:1].upper() + name[1:]
         base = base_names.get(target)
         is_out = movement.get('isOut', False)
-        if event_type == 'pickoff_attempt':
+        if event_type == 'pickoff_attempt' and target and origin and target != origin and not is_out:
+            # A pickoff throw that gets away: the runners move up on the error.
+            if not lines:
+                lines.append("The pickoff throw gets away!")
+            lines.append(f'{lead} scores.' if target in ('score', 'home') else f'{lead} takes {base}.')
+            if origin in renderer.runners_on_base:
+                renderer.runners_on_base[origin] = None
+            if target in renderer.runners_on_base:
+                renderer.runners_on_base[target] = name
+        elif event_type == 'pickoff_attempt':
             if base or origin in base_names:
                 lines.append(f'A throw to {base or base_names[origin]}, and {name} gets back safely.')
             else:
