@@ -388,7 +388,7 @@ class BaseballSimulator:
         setattr(self, f"{team_prefix}_outfielders", [defense[pos] for pos in outfielders if pos in defense])
         setattr(self, f"{team_prefix}_catcher", defense.get('C'))
 
-    def _simulate_pitch_trajectory(self, pitcher, batter=None):
+    def _simulate_pitch_trajectory(self, pitcher, batter=None, balls=0, strikes=0):
         """
         Simulates the pitch's path and determines if it's in the strike zone.
         Returns a tuple: (is_strike_loc, zone_code)
@@ -419,7 +419,9 @@ class BaseballSimulator:
             pitch_around_penalty = min(pitch_around_penalty, 0.06)
 
         # Add a small penalty to control to increase walks slightly
-        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012 - pitch_around_penalty - ZONE_RATE_OFFSET)
+        # Behind 3-0 / 3-1 pitchers groove one rather than walk the man.
+        count_boost = {(3, 0): 0.22, (3, 1): 0.12, (2, 0): 0.05}.get((balls, strikes), 0.0)
+        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012 - pitch_around_penalty - ZONE_RATE_OFFSET + count_boost)
 
         if is_strike:
             # Weighted distribution for strike zones (1-9)
@@ -438,11 +440,16 @@ class BaseballSimulator:
 
         return is_strike, zone
 
-    def _simulate_bat_swing(self, batter, is_strike_loc):
+    def _simulate_bat_swing(self, batter, is_strike_loc, balls=0, strikes=0):
         """Determines if the batter swings at the pitch."""
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
         swing_at_ball_prob = CHASE_RATE / discipline_factor
-        return self.game_rng.random() < (ZONE_SWING_RATE if is_strike_loc else swing_at_ball_prob)
+        prob = ZONE_SWING_RATE if is_strike_loc else swing_at_ball_prob
+        if balls == 3 and strikes == 0:
+            # The take sign: hitters swing at roughly one 3-0 pitch in ten, and
+            # almost never at one off the plate.
+            prob *= 0.15 if is_strike_loc else 0.05
+        return self.game_rng.random() < prob
 
     def _simulate_batted_ball_physics(self, batter):
         """Calculates the exit velocity and launch angle of a batted ball."""
@@ -866,7 +873,7 @@ class BaseballSimulator:
             pitch_velo = round(self.game_rng.uniform(*pitch_details_team['velo_range']), 1)
             pitch_spin = self.game_rng.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if self.game_rng.random() > 0.08 else None
             
-            is_strike_loc, pitch_zone = self._simulate_pitch_trajectory(pitcher, batter)
+            is_strike_loc, pitch_zone = self._simulate_pitch_trajectory(pitcher, batter, balls, strikes)
             if not is_strike_loc and not bunting_now and self.game_rng.random() < hbp_per_ball:
                 self._update_batting_stat(self._batting_team_key, batter['id'], 'hitByPitch')
                 self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'hitByPitch')
@@ -877,7 +884,7 @@ class BaseballSimulator:
             is_in_play = False
             hit_result = None
 
-            swing = self._simulate_bat_swing(batter, is_strike_loc) or bunting_now
+            swing = self._simulate_bat_swing(batter, is_strike_loc, balls, strikes) or bunting_now
             # Boost contact rate slightly to reduce strikeouts (adjusted to 0.063)
             contact_prob = batter['batting_profile']['contact'] + CONTACT_BOOST
             if not is_strike_loc:

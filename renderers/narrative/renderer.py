@@ -790,6 +790,11 @@ class NarrativeRenderer(GameRenderer):
                          prior_pitchers = {p['matchup']['pitcher']['id'] for p in plays[:play_idx - len(self.plays_in_half_inning)] if p['about']['isTopInning'] == (prev_half == 'Top')}
                          if len(half_pitchers) == 1 and prior_pitchers - half_pitchers:
                              templates += GAME_CONTEXT['narrative_strings'].get('inning_end_123_relief', [])
+                         if len(half_pitchers) > 1:
+                             # Credit nobody: "another 1-2-3 inning for Miller"
+                             # when Miller got one out of it reads as a glitch.
+                             templates = ["Three up, three down.", "They go down in order.",
+                                          "And the side is retired in order."]
                          template = self.rng_flow.choice(templates)
                          summary_lines.append(template.format(pitcher_name=pitcher_name, inning_ordinal=self._get_ordinal(completed_innings)))
                      elif runs_scored_this_half == 0:
@@ -1006,7 +1011,20 @@ class NarrativeRenderer(GameRenderer):
                                   and len(runners) == 0 and self.outs_tracker > 0)
             if len(runners) == 0:
                 if self.outs_tracker == 0:
-                     intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_leadoff'])
+                     leadoff_pool = list(GAME_CONTEXT['narrative_strings']['batter_intro_leadoff'])
+                     if not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts'):
+                         # After a leadoff homer the next man isn't "leading off";
+                         # "batting first" / "top of the order" only fit the #1 hitter.
+                         order = self.gameday_data.get('liveData', {}).get('boxscore', {}).get('teams', {}).get(
+                             'away' if about['isTopInning'] else 'home', {}).get('battingOrder', [])
+                         is_one_hole = bool(order) and str(order[0]) == str(matchup['batter']['id'])
+                         banned = []
+                         if prev_same_half:
+                             banned += ['lead', 'Leading off', 'start the inning']
+                         if not is_one_hole:
+                             banned += ['Batting first', 'top of the']
+                         leadoff_pool = [t for t in leadoff_pool if not any(b in t for b in banned)] or leadoff_pool
+                     intro_template = self.rng_flow.choice(leadoff_pool)
                 elif bases_just_cleared:
                      intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('batter_intro_bases_cleared', GAME_CONTEXT['narrative_strings']['batter_intro_empty']))
                 else:
