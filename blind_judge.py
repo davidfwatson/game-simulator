@@ -95,8 +95,14 @@ def add_designated_hitter(data):
     excerpt on its own. Put a designated hitter in the pitcher's lineup spot:
     every play is unchanged, only who is batting (or running) for him."""
     data = copy.deepcopy(data)
-    sides = player_sides(data)
     pitchers = {play["matchup"]["pitcher"]["id"] for play in data["liveData"]["plays"]["allPlays"]}
+    # Which side each pitcher id batted for (a real feed can also map a hitter
+    # and a pitcher onto one of our ids, so don't assume it's his own side).
+    bats_for = {}
+    for play in data["liveData"]["plays"]["allPlays"]:
+        pid = play["matchup"]["batter"]["id"]
+        if pid in pitchers:
+            bats_for.setdefault(pid, set()).add("away" if play["about"]["isTopInning"] else "home")
 
     def swap(node, pid, dh):
         if isinstance(node, dict):
@@ -115,7 +121,7 @@ def add_designated_hitter(data):
     for play in data["liveData"]["plays"]["allPlays"]:
         batting = "away" if play["about"]["isTopInning"] else "home"
         for pid in pitchers:
-            if sides.get(pid) == batting:
+            if batting in bats_for.get(pid, ()):
                 before = json.dumps(play)
                 pitcher_ref = play["matchup"]["pitcher"]
                 swap({k: v for k, v in play.items() if k != "matchup"}, pid, DH_IDS[batting])
@@ -172,7 +178,7 @@ def real_game(path, seed):
             if ref and "fullName" not in ref and ref.get("id") in players:
                 ref["fullName"] = players[ref["id"]]["fullName"]
     _fill_names(data, players)
-    return data
+    return add_designated_hitter(data)
 
 
 def _fill_names(node, players):
