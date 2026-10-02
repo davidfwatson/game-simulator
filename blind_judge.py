@@ -32,8 +32,10 @@ from teams import TEAMS
 
 ROOT = Path(__file__).resolve().parent
 FIXTURE_DIR = ROOT / "examples" / "transcript_games"
-# Newest complete episodes, released after the judge model's training cutoff.
-SLEEP_EPISODES = ("050", "052", "053")
+# The six newest complete episodes (Dec 2025 - Aug 2026; 052/053 postdate the
+# judge's training cutoff). Three made every hand-written excerpt carry the
+# same source tells round after round.
+SLEEP_EPISODES = ("045", "046", "049", "050", "052", "053")
 HOME, AWAY = "BAY_BOMBERS", "PC_PILOTS"
 # Extra players (relievers, pinch hitters) beyond our 13-man rosters. Invented
 # names only: the other TEAMS rosters are full of real MLB players (Ricky
@@ -195,6 +197,17 @@ def remap_names(data, template_game_data):
             else:
                 free.remove(pick)
             id_names[pid] = pick
+
+    # Anyone else in the player table (a fielder only named in a credit the
+    # walk above missed, a bench player) still carries the anonymizer's
+    # placeholder, which is one of OUR roster names ("Power" fielding for the
+    # Bombers while Rex Power bats for the Pilots). Give them invented names.
+    used = set(id_names.values())
+    for pid in by_id:
+        if pid not in id_names:
+            name = next(n for n in invented if n not in used)
+            id_names[pid] = name
+            used.add(name)
 
     # Structured references are renamed by player id. The anonymizer can give
     # two real players the same placeholder name, so a name-keyed map sent a
