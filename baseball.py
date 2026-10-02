@@ -20,6 +20,7 @@ TWO_STRIKE_ZONE_FACTOR = 1.3    # and protect the plate with two strikes
 TWO_STRIKE_CHASE_FACTOR = 1.5
 ZONE_RATE_OFFSET = 0.075      # subtracted from pitcher control to get zone rate
 PICKOFF_THROW_RATE = 0.075    # per pitch, runner alone on first (real feeds: ~2.2 throws per team-game)
+AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk/HBP
 STARTER_STAMINA_BONUS = 14     # pitches added to a starter's stamina
 BUNT_RATE_FACTOR = 0.2        # sac bunts were ~1.5/game; MLB is ~0.3
 
@@ -428,6 +429,10 @@ class BaseballSimulator:
         # Add a small penalty to control to increase walks slightly
         # Behind 3-0 / 3-1 pitchers groove one rather than walk the man.
         count_boost = {(3, 0): 0.22, (3, 1): 0.12, (2, 0): 0.05}.get((balls, strikes), 0.0)
+        # Right after a walk or a hit batter, a pitcher attacks the next man
+        # rather than staying just as wild (judges read walk-HBP-walk as dice).
+        if getattr(self, '_free_pass_pitcher', None) == pitcher['legal_name']:
+            count_boost += AFTER_FREE_PASS_ZONE_BOOST
         is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012 - pitch_around_penalty - ZONE_RATE_OFFSET + count_boost)
 
         if is_strike:
@@ -1309,6 +1314,7 @@ class BaseballSimulator:
 
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
+        self._free_pass_pitcher = None
         self._half_pitcher_entry = {
             (self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name):
                 (self.team2_score if self.top_of_inning else self.team1_score)}
@@ -1340,6 +1346,7 @@ class BaseballSimulator:
             pre_play_bases = self.bases[:]
 
             outcome, description, play_events = self._simulate_at_bat(batter, pitcher)
+            self._free_pass_pitcher = pitcher_name if outcome in ("Walk", "Hit By Pitch", "HBP") else None
 
             ab_end_time = self.current_time.isoformat()
 

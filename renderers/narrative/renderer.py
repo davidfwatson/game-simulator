@@ -1727,6 +1727,32 @@ class NarrativeRenderer(GameRenderer):
                          base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
                          outcome_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
 
+            elif outcome.startswith(('Pickoff', 'Caught Stealing')):
+                 # Real feeds end at-bats with "Pickoff Caught Stealing 2B",
+                 # "Pickoff 1B", "Caught Stealing Home": the out is the result
+                 # itself, and the half-inning used to end with no out said.
+                 runner_out = next((r for r in play.get('runners', []) if r['movement'].get('isOut')), None)
+                 if runner_out:
+                     name = runner_out['details']['runner'].get('fullName', 'the runner')
+                     ob = runner_out['movement'].get('outBase') or ''
+                     base_name = {'1B': 'first', '2B': 'second', '3B': 'third'}.get(ob, 'home')
+                     origin = runner_out['movement'].get('originBase') or runner_out['movement'].get('start')
+                     origin_name = {'1B': 'first', '2B': 'second', '3B': 'third'}.get(origin, 'first')
+                     if outcome.startswith('Pickoff Caught Stealing'):
+                         outcome_text = f"The throw over to {origin_name}, and {name} breaks for {base_name}... and he's thrown out! Caught stealing on the pickoff"
+                     elif outcome.startswith('Pickoff'):
+                         outcome_text = f"A throw over to {base_name if ob else origin_name}... and {name} is picked off"
+                     else:
+                         outcome_text = f"{name} takes off for {base_name}... and he's caught stealing"
+                     outs_now = play['count'].get('outs', 0)
+                     outcome_text += " to end the inning." if outs_now >= 3 else f" for out number {self._get_number_word(outs_now)}."
+                     # Throws over that came first belong before the out; the
+                     # last one is the throw that got him, not "gets back safely".
+                     if post_outcome_text and outcome.startswith('Pickoff'):
+                         post_outcome_text.pop()
+                     play_text_blocks.extend(post_outcome_text)
+                     post_outcome_text.clear()
+
             elif outcome == "Field Error" and not any(e['details'].get('code') == 'X' for e in pitch_events):
                  err_credit = None
                  for r in play['runners']:
