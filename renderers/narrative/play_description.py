@@ -368,6 +368,10 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
 
     if outcome in ["Single", "Double", "Triple"]:
          status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play)
+         if status_str and batter_name in final_description and batter_name in status_str \
+                 and not status_str.startswith(batter_name):
+             # "...a base hit for Sam Decker. A two-out base hit for Sam Decker."
+             status_str = None
          if status_str:
              if batter_name in final_description and status_str.startswith(batter_name):
                  rest = status_str[len(batter_name):]

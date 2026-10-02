@@ -1200,202 +1200,145 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Single",
-        "eventType": "single",
+        "event": "Home Run",
+        "eventType": "home_run",
         "description": "",
-        "rbi": 1,
-        "awayScore": 1,
-        "homeScore": 0
+        "rbi": 4,
+        "awayScore": 0,
+        "homeScore": 4
       },
       "about": {
-        "atBatIndex": 14,
-        "halfInning": "top",
-        "isTopInning": true,
+        "atBatIndex": 16,
+        "halfInning": "bottom",
+        "isTopInning": false,
         "inning": 2,
         "isScoringPlay": true,
-        "startTime": "2025-09-27T23:30:09.559071+00:00",
-        "endTime": "2025-09-27T23:31:41.115376+00:00"
+        "startTime": "2025-09-27T23:35:02.552477+00:00",
+        "endTime": "2025-09-27T23:35:23.565546+00:00"
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 2
+        "outs": 0
       },
       "matchup": {
         "batter": {
-          "id": 625209,
-          "fullName": "TJ Hawkins",
-          "link": "/api/v1/people/625209"
+          "id": 565309,
+          "fullName": "Josh Reddick",
+          "link": "/api/v1/people/565309"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
-          "id": 665310,
-          "fullName": "Tim Hudson",
-          "link": "/api/v1/people/665310"
+          "id": 645210,
+          "fullName": "Miguel Garcia",
+          "link": "/api/v1/people/645210"
         },
         "pitchHand": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "splits": {
-          "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "RISP"
-        },
-        "postOnFirst": {
-          "id": 625209,
-          "fullName": "TJ Hawkins",
-          "link": "/api/v1/people/625209"
-        },
-        "postOnThird": {
-          "id": 625206,
-          "fullName": "Felix Washington",
-          "link": "/api/v1/people/625206"
+          "batter": "vs_LHP",
+          "pitcher": "vs_LHB",
+          "menOnBase": "Loaded"
         }
       },
       "playEvents": [
         {
-          "index": 47,
-          "startTime": "2025-09-27T23:30:09.559071+00:00",
-          "endTime": "2025-09-27T23:30:34.251897+00:00",
+          "index": 54,
+          "startTime": "2025-09-27T23:35:02.552477+00:00",
+          "endTime": "2025-09-27T23:35:23.565546+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "C",
-            "description": "Called Strike",
+            "code": "X",
+            "description": "In play, Home Run",
             "isStrike": true,
             "type": {
               "code": "SL",
               "description": "Slider"
             },
-            "zone": 9
+            "zone": 3
           },
           "pitchData": {
-            "startSpeed": 86.9,
-            "zone": 9,
+            "startSpeed": 86.3,
+            "zone": 3,
             "breaks": {
-              "spinRate": 2440
-            }
-          }
-        },
-        {
-          "index": 48,
-          "startTime": "2025-09-27T23:30:34.251897+00:00",
-          "endTime": "2025-09-27T23:30:54.734220+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            },
-            "zone": 14
-          },
-          "pitchData": {
-            "startSpeed": 93.3,
-            "zone": 14,
-            "breaks": {
-              "spinRate": 2376
-            }
-          }
-        },
-        {
-          "index": 49,
-          "startTime": "2025-09-27T23:30:54.734220+00:00",
-          "endTime": "2025-09-27T23:31:15.528100+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            },
-            "zone": 13
-          },
-          "pitchData": {
-            "startSpeed": 77.6,
-            "zone": 13,
-            "breaks": {
-              "spinRate": 2581
-            }
-          }
-        },
-        {
-          "index": 50,
-          "startTime": "2025-09-27T23:31:15.528100+00:00",
-          "endTime": "2025-09-27T23:31:41.115376+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 2,
-            "strikes": 1
-          },
-          "details": {
-            "code": "X",
-            "description": "In play, Single",
-            "isStrike": true,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            },
-            "zone": 4
-          },
-          "pitchData": {
-            "startSpeed": 91.9,
-            "zone": 4,
-            "breaks": {
-              "spinRate": 2304
+              "spinRate": 2470
             }
           },
           "hitData": {
-            "launchSpeed": 104.0,
-            "launchAngle": 18.8,
-            "trajectory": "line_drive",
-            "location": "RF"
+            "launchSpeed": 105.5,
+            "launchAngle": 34.0,
+            "trajectory": "fly_ball",
+            "location": "DRF"
           }
         }
       ],
       "runners": [
         {
           "movement": {
-            "originBase": "2B",
-            "start": "2B",
-            "end": "3B",
+            "originBase": "1B",
+            "start": "1B",
+            "end": "score",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Single",
-            "eventType": "single",
+            "event": "Home Run",
+            "eventType": "home_run",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 625206,
-              "fullName": "Felix Washington",
-              "link": "/api/v1/people/625206"
+              "id": 565308,
+              "fullName": "Stephen Vogt",
+              "link": "/api/v1/people/565308"
             },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
+            "isScoringEvent": true,
+            "rbi": true,
+            "earned": true,
             "teamUnearned": false,
-            "playIndex": 3
+            "playIndex": 0,
+            "responsiblePitcher": {
+              "id": 645210,
+              "link": "/api/v1/people/645210"
+            }
+          },
+          "credits": []
+        },
+        {
+          "movement": {
+            "originBase": "2B",
+            "start": "2B",
+            "end": "score",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
+          },
+          "details": {
+            "event": "Home Run",
+            "eventType": "home_run",
+            "movementReason": "r_adv_play",
+            "runner": {
+              "id": 565307,
+              "fullName": "Jed Lowrie",
+              "link": "/api/v1/people/565307"
+            },
+            "isScoringEvent": true,
+            "rbi": true,
+            "earned": true,
+            "teamUnearned": false,
+            "playIndex": 0,
+            "responsiblePitcher": {
+              "id": 645210,
+              "link": "/api/v1/people/645210"
+            }
           },
           "credits": []
         },
@@ -1409,22 +1352,22 @@
             "outNumber": null
           },
           "details": {
-            "event": "Single",
-            "eventType": "single",
+            "event": "Home Run",
+            "eventType": "home_run",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 625205,
-              "fullName": "Evan Reed",
-              "link": "/api/v1/people/625205"
+              "id": 565306,
+              "fullName": "Marcus Semi",
+              "link": "/api/v1/people/565306"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 3,
+            "playIndex": 0,
             "responsiblePitcher": {
-              "id": 665310,
-              "link": "/api/v1/people/665310"
+              "id": 645210,
+              "link": "/api/v1/people/645210"
             }
           },
           "credits": []
@@ -1433,25 +1376,29 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": "1B",
+            "end": "score",
             "outBase": null,
             "isOut": false,
             "outNumber": null
           },
           "details": {
-            "event": "Single",
-            "eventType": "single",
+            "event": "Home Run",
+            "eventType": "home_run",
             "movementReason": null,
             "runner": {
-              "id": 625209,
-              "fullName": "TJ Hawkins",
-              "link": "/api/v1/people/625209"
+              "id": 565309,
+              "fullName": "Josh Reddick",
+              "link": "/api/v1/people/565309"
             },
-            "isScoringEvent": false,
-            "rbi": false,
-            "earned": false,
+            "isScoringEvent": true,
+            "rbi": true,
+            "earned": true,
             "teamUnearned": false,
-            "playIndex": 3
+            "playIndex": 0,
+            "responsiblePitcher": {
+              "id": 645210,
+              "link": "/api/v1/people/645210"
+            }
           },
           "credits": []
         }
@@ -2397,10 +2344,10 @@
       ]
     }
   ],
-  "playCount": 77,
+  "playCount": 78,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 77,
+    "totalPlaysInGame": 78,
     "snapshotPlayCount": 6
   }
 }

@@ -440,16 +440,36 @@ class BaseballSimulator:
 
         return is_strike, zone
 
-    def _simulate_bat_swing(self, batter, is_strike_loc, balls=0, strikes=0):
+    def _simulate_bat_swing(self, batter, is_strike_loc, balls=0, strikes=0, zone=None, pitch_type=None):
         """Determines if the batter swings at the pitch."""
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
         swing_at_ball_prob = CHASE_RATE / discipline_factor
         prob = ZONE_SWING_RATE if is_strike_loc else swing_at_ball_prob
         if balls == 3 and strikes == 0:
-            # The take sign: hitters swing at roughly one 3-0 pitch in ten, and
-            # almost never at one off the plate.
-            prob *= 0.15 if is_strike_loc else 0.05
+            prob *= self._three_oh_swing_factor(batter, is_strike_loc, zone, pitch_type)
         return self.game_rng.random() < prob
+
+    @staticmethod
+    def _three_oh_swing_factor(batter, is_strike_loc, zone, pitch_type):
+        """How much of a hitter's normal swing rate survives a 3-0 count.
+
+        Most hitters take 3-0, but sluggers get the green light and will swing
+        at a fastball down the middle. Green light strength scales with power:
+        none at 0.60 and below, full at 0.90 and above.
+        """
+        power = batter.get('batting_profile', {}).get('power', 0.5)
+        green = min(1.0, max(0.0, (power - 0.60) / 0.30))
+        if not is_strike_loc:
+            return 0.03 + 0.04 * green          # off the plate: almost never
+        factor = 0.08 + 0.50 * green
+        if zone == 5:
+            factor *= 1.8                        # a cookie down the middle
+        kind = (pitch_type or '').lower()
+        if 'fastball' in kind or 'sinker' in kind or 'heater' in kind:
+            factor *= 1.3
+        elif any(k in kind for k in ('curve', 'slider', 'sweeper', 'change', 'knuckle', 'split')):
+            factor *= 0.5                        # nobody's sitting on a 3-0 breaking ball
+        return min(factor, 1.0)
 
     def _simulate_batted_ball_physics(self, batter):
         """Calculates the exit velocity and launch angle of a batted ball."""
@@ -884,7 +904,7 @@ class BaseballSimulator:
             is_in_play = False
             hit_result = None
 
-            swing = self._simulate_bat_swing(batter, is_strike_loc, balls, strikes) or bunting_now
+            swing = self._simulate_bat_swing(batter, is_strike_loc, balls, strikes, pitch_zone, pitch_selection) or bunting_now
             # Boost contact rate slightly to reduce strikeouts (adjusted to 0.063)
             contact_prob = batter['batting_profile']['contact'] + CONTACT_BOOST
             if not is_strike_loc:
