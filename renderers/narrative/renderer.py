@@ -1803,7 +1803,7 @@ class NarrativeRenderer(GameRenderer):
                     mv, det = r.get('movement', {}), r.get('details', {})
                     name = det.get('runner', {}).get('fullName', '')
                     start, end = mv.get('start') or mv.get('originBase'), mv.get('end')
-                    if (not name or not start or mv.get('isOut') or end not in base_words
+                    if (not name or not start or start == end or mv.get('isOut') or end not in base_words
                             or det.get('runner', {}).get('id') == matchup['batter'].get('id')
                             or name.split()[-1] in outcome_text):
                         continue

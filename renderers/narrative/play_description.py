@@ -205,6 +205,13 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         if cat == 'air' and fielder_pos in ('P', 'C', '1B', '2B', '3B', 'SS'):
             cat = 'popup_error'
 
+    strict = renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')
+    if (template_outcome == 'Flyout' and fielder_pos in ('P', 'C', '1B', '2B', '3B', 'SS')
+            and not strict):
+        # An infielder doesn't catch a ball "on the warning track" or "deep to
+        # second": a fly ball an infielder catches is a pop-up.
+        template_outcome, cat = 'Pop Out', 'default'
+
     specific_templates = []
     if 'narrative_templates' in GAME_CONTEXT:
         outcome_templates = GAME_CONTEXT['narrative_templates'].get(template_outcome, {})
@@ -288,6 +295,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     side_map = {"first": "right", "second": "right", "third": "left", "short": "left"}
     if template_outcome in ["Pop Out"] and direction_noun in side_map:
         direction_noun = side_map[direction_noun]
+
+    if (direction and specific_templates and not strict and ('center' in direction or 'middle' in direction)
+            and 'left' not in direction and 'right' not in direction):
+        # A ball to center doesn't "end up all the way in the corner".
+        specific_templates = [t for t in specific_templates if 'corner' not in t] or specific_templates
 
     # Filter out templates with hardcoded directions that contradict the actual direction
     if direction and specific_templates:
