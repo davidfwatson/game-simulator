@@ -2161,21 +2161,21 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Lineout",
-        "eventType": "field_out",
+        "event": "Single",
+        "eventType": "single",
         "description": "",
         "rbi": 0,
         "awayScore": 2,
-        "homeScore": 0
+        "homeScore": 1
       },
       "about": {
-        "atBatIndex": 12,
-        "halfInning": "bottom",
-        "isTopInning": false,
-        "inning": 2,
+        "atBatIndex": 17,
+        "halfInning": "top",
+        "isTopInning": true,
+        "inning": 3,
         "isScoringPlay": false,
-        "startTime": "2025-09-27T23:32:35.120115+00:00",
-        "endTime": "2025-09-27T23:33:16.912877+00:00"
+        "startTime": "2025-09-27T23:43:54.068213+00:00",
+        "endTime": "2025-09-27T23:44:19.945668+00:00"
       },
       "count": {
         "balls": 0,
@@ -2184,18 +2184,18 @@
       },
       "matchup": {
         "batter": {
-          "id": 565305,
-          "fullName": "Matt Chapman",
-          "link": "/api/v1/people/565305"
+          "id": 585402,
+          "fullName": "Corbin Carroll",
+          "link": "/api/v1/people/585402"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
-          "id": 685410,
-          "fullName": "Zac Gallen",
-          "link": "/api/v1/people/685410"
+          "id": 665310,
+          "fullName": "Tim Hudson",
+          "link": "/api/v1/people/665310"
         },
         "pitchHand": {
           "code": "R",
@@ -2203,69 +2203,47 @@
         },
         "splits": {
           "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
+          "pitcher": "vs_LHB",
           "menOnBase": "Empty"
+        },
+        "postOnFirst": {
+          "id": 585402,
+          "fullName": "Corbin Carroll",
+          "link": "/api/v1/people/585402"
         }
       },
       "playEvents": [
         {
-          "index": 50,
-          "startTime": "2025-09-27T23:32:35.120115+00:00",
-          "endTime": "2025-09-27T23:32:58.768544+00:00",
+          "index": 72,
+          "startTime": "2025-09-27T23:43:54.068213+00:00",
+          "endTime": "2025-09-27T23:44:19.945668+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "CH",
-              "description": "Changeup"
-            },
-            "zone": 13
-          },
-          "pitchData": {
-            "startSpeed": 85.6,
-            "zone": 13,
-            "breaks": {
-              "spinRate": 1673
-            }
-          }
-        },
-        {
-          "index": 51,
-          "startTime": "2025-09-27T23:32:58.768544+00:00",
-          "endTime": "2025-09-27T23:33:16.912877+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 0
-          },
-          "details": {
             "code": "X",
-            "description": "In play, Lineout",
+            "description": "In play, Single",
             "isStrike": true,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "SI",
+              "description": "Sinker"
             },
-            "zone": 13
+            "zone": 1
           },
           "pitchData": {
-            "startSpeed": 86.4,
-            "zone": 13,
+            "startSpeed": 91.1,
+            "zone": 1,
             "breaks": {
-              "spinRate": 1760
+              "spinRate": 2390
             }
           },
           "hitData": {
-            "launchSpeed": 87.8,
-            "launchAngle": 20.0,
+            "launchSpeed": 99.4,
+            "launchAngle": 19.6,
             "trajectory": "line_drive",
-            "location": "3B"
+            "location": "CF"
           }
         }
       ],
@@ -2274,49 +2252,35 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": null,
-            "outBase": "1B",
-            "isOut": true,
-            "outNumber": 2
+            "end": "1B",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
           },
           "details": {
-            "event": "Lineout",
-            "eventType": "field_out",
+            "event": "Single",
+            "eventType": "single",
             "movementReason": null,
             "runner": {
-              "id": 565305,
-              "fullName": "Matt Chapman",
-              "link": "/api/v1/people/565305"
+              "id": 585402,
+              "fullName": "Corbin Carroll",
+              "link": "/api/v1/people/585402"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 1
+            "playIndex": 0
           },
-          "credits": [
-            {
-              "player": {
-                "id": 585405,
-                "fullName": "Eugenio Suarez",
-                "link": "/api/v1/people/585405"
-              },
-              "position": {
-                "code": "5",
-                "name": "Third Base",
-                "abbreviation": "3B"
-              },
-              "credit": "putout"
-            }
-          ]
+          "credits": []
         }
       ]
     }
   ],
-  "playCount": 64,
+  "playCount": 69,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 64,
+    "totalPlaysInGame": 69,
     "snapshotPlayCount": 6
   }
 }

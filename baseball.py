@@ -13,7 +13,8 @@ CHASE_RATE = 0.30             # swings at pitches outside it, before discipline
 CONTACT_BOOST = 0.085         # added to each batter's contact rating
 CHASE_CONTACT_FACTOR = 0.75   # contact multiplier on pitches outside the zone
 FOUL_SHARE_OF_CONTACT = 0.48  # contact that goes foul rather than in play
-TWO_STRIKE_FOUL_BONUS = 0.20  # extra foul share with two strikes (protecting the plate)
+TWO_STRIKE_FOUL_BONUS = 0.28  # extra foul share with two strikes (protecting the plate)
+TWO_STRIKE_FOUL_DECAY = 0.14  # less each time he's already fouled one off with two strikes
 FIRST_PITCH_SWING_FACTOR = 0.6  # hitters take more on 0-0 (MLB swings ~30% of first pitches)
 TWO_STRIKE_ZONE_FACTOR = 1.3    # and protect the plate with two strikes
 TWO_STRIKE_CHASE_FACTOR = 1.5
@@ -952,7 +953,20 @@ class BaseballSimulator:
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
                     self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
                 else: # Contact
-                    is_foul = self.game_rng.random() < FOUL_SHARE_OF_CONTACT + (TWO_STRIKE_FOUL_BONUS if strikes == 2 else 0)
+                    # Two-strike fouls: common once, rare five in a row. A flat
+                    # bonus gave a geometric tail (6+ straight fouls ~6x real).
+                    two_strike_fouls = 0
+                    for e in reversed(play_events):
+                        if not e.get('isPitch'):
+                            continue
+                        if e['details'].get('code') == 'F' and e['count']['strikes'] == 2:
+                            two_strike_fouls += 1
+                        else:
+                            break
+                    foul_share = FOUL_SHARE_OF_CONTACT
+                    if strikes == 2:
+                        foul_share += TWO_STRIKE_FOUL_BONUS - TWO_STRIKE_FOUL_DECAY * two_strike_fouls
+                    is_foul = self.game_rng.random() < foul_share
                     if is_foul:
                         if strikes < 2 or bunting_now: strikes += 1
                         pitch_outcome_text = "foul"
