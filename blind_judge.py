@@ -83,7 +83,53 @@ def sim_game(seed):
 
 
 def sleep_game(episode):
-    return json.loads((FIXTURE_DIR / f"episode_{episode}.json").read_text())
+    return add_designated_hitter(json.loads((FIXTURE_DIR / f"episode_{episode}.json").read_text()))
+
+
+DH_IDS = {"home": 990001, "away": 990002}
+
+
+def add_designated_hitter(data):
+    """Sleep Baseball games have the pitcher bat; the sim and every real 2026
+    game use the DH, so "that will bring up the pitcher" named the hand-written
+    excerpt on its own. Put a designated hitter in the pitcher's lineup spot:
+    every play is unchanged, only who is batting (or running) for him."""
+    data = copy.deepcopy(data)
+    sides = player_sides(data)
+    pitchers = {play["matchup"]["pitcher"]["id"] for play in data["liveData"]["plays"]["allPlays"]}
+
+    def swap(node, pid, dh):
+        if isinstance(node, dict):
+            if node.get("id") == pid:
+                node["id"] = dh
+                if "fullName" in node:
+                    node["fullName"] = f"Designated Hitter {dh}"
+                node.pop("link", None)
+            for v in node.values():
+                swap(v, pid, dh)
+        elif isinstance(node, list):
+            for v in node:
+                swap(v, pid, dh)
+
+    used = set()
+    for play in data["liveData"]["plays"]["allPlays"]:
+        batting = "away" if play["about"]["isTopInning"] else "home"
+        for pid in pitchers:
+            if sides.get(pid) == batting:
+                before = json.dumps(play)
+                pitcher_ref = play["matchup"]["pitcher"]
+                swap({k: v for k, v in play.items() if k != "matchup"}, pid, DH_IDS[batting])
+                swap(play["matchup"]["batter"], pid, DH_IDS[batting])
+                play["matchup"]["pitcher"] = pitcher_ref
+                if json.dumps(play) != before:
+                    used.add(batting)
+    for side in used:
+        dh = DH_IDS[side]
+        data["gameData"]["players"][f"ID{dh}"] = {
+            "id": dh, "fullName": f"Designated Hitter {dh}", "lastName": "Hitter",
+            "primaryPosition": {"code": "D", "name": "Designated Hitter", "abbreviation": "DH"},
+            "batSide": {"code": "R", "description": "Right"}, "pitchHand": {"code": "R", "description": "Right"}}
+    return data
 
 
 def real_game(path, seed):
@@ -110,6 +156,14 @@ def real_game(path, seed):
         ours = captured.get(real["id"])
         if ours and ours["id"] in players and real.get("primaryPosition"):
             players[ours["id"]]["primaryPosition"] = real["primaryPosition"]
+    # A hitter the anonymizer parked on one of our pitchers' ids, with no real
+    # position to restore, was introduced as "the pitcher": in a DH game,
+    # anyone who bats but never pitches is a hitter.
+    pitched = {play["matchup"]["pitcher"]["id"] for play in data["liveData"]["plays"]["allPlays"]}
+    for play in data["liveData"]["plays"]["allPlays"]:
+        person = players.get(play["matchup"]["batter"]["id"])
+        if person and person["id"] not in pitched and (person.get("primaryPosition") or {}).get("code") == "1":
+            person["primaryPosition"] = {"code": "D", "name": "Designated Hitter", "abbreviation": "DH"}
     # The anonymizer reduces player references to bare ids; the renderer
     # needs names on them.
     for play in data["liveData"]["plays"]["allPlays"]:
