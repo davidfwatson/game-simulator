@@ -116,7 +116,7 @@ GAME_CONTEXT = {
                 "misses high",
                 "misses upstairs",
                 "up in the eyes",
-                "over the head",
+                "way up out of the zone",
                 "way upstairs",
                 "runs inside",
                 "a bit inside",
@@ -898,6 +898,11 @@ GAME_CONTEXT = {
             ],
             "dropped_fly": [
                 "{fielder_name} gets to it, but he drops the ball. {batter_name} reaches safely on the error."
+            ],
+            "air": [
+                "Fly ball {direction}. {fielder_name} is under it... and he drops it. {batter_name} is safe, and that's an error on {fielder_name}.",
+                "Lifted {direction}. {fielder_name} gets a glove on it, but it pops out. {batter_name} reaches on the error.",
+                "Hit in the air {direction}. {fielder_name} drifts over, and it glances off the glove. {batter_name} is aboard on the error.",
             ],
         },
         "Forceout": {

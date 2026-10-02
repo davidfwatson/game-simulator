@@ -320,7 +320,7 @@ class NarrativeRenderer(GameRenderer):
         if abs_count == 0:
             return None
 
-        NUMBER_WORDS = {0: '0', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'}
+        NUMBER_WORDS = {0: 'oh', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'}
 
         hits_word = NUMBER_WORDS.get(hits_count, str(hits_count))
         abs_word = NUMBER_WORDS.get(abs_count, str(abs_count))
@@ -328,30 +328,41 @@ class NarrativeRenderer(GameRenderer):
         base = f"{batter_last_name} is {hits_word}-for-{abs_word} this evening"
 
         if hits_count > 0:
-            # Check for pairs of same hit type
             from collections import Counter
             hit_types = Counter(e['event'] for e in hits)
-            most_common_type, most_common_count = hit_types.most_common(1)[0]
-
             type_names = {'Single': 'single', 'Double': 'double', 'Triple': 'triple', 'Home Run': 'home run'}
-            type_name = type_names.get(most_common_type, most_common_type.lower())
 
-            if most_common_count >= 2:
-                base += f". With a pair of {type_name}s"
-                # Check for additional notable events (strikeouts)
-                strikeouts = sum(1 for e in history if e['event'] == 'Strikeout')
-                if strikeouts > 0:
-                    base += f" and a strikeout"
-                base += "."
+            if len(hits) >= 2:
+                # Name every hit, so "three-for-four" is never followed by
+                # a list that only accounts for two of them.
+                if len(hit_types) == 1:
+                    kind, count = hit_types.most_common(1)[0]
+                    noun = type_names.get(kind, kind.lower())
+                    parts = [f"a pair of {noun}s" if count == 2 else f"{NUMBER_WORDS.get(count, count)} {noun}s"]
+                else:
+                    parts = []
+                    for kind in ('Home Run', 'Triple', 'Double', 'Single'):
+                        count = hit_types.get(kind, 0)
+                        if count:
+                            noun = type_names[kind]
+                            parts.append(f"a {noun}" if count == 1 else f"{NUMBER_WORDS.get(count, count)} {noun}s")
+                listed = parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+                base += f". With {listed}."
             else:
-                # Mention the most notable hit with inning
-                notable = hits[-1]  # most recent hit
-                ordinal = self._get_ordinal(notable['inning'])
-                base += f" with a {type_name} in the {ordinal}."
+                notable = hits[-1]
+                base += f" with a {type_names.get(notable['event'], notable['event'].lower())} {self._when(notable['inning'])}."
         else:
             base += "."
 
         return base
+
+    def _when(self, inning, with_inning_word=False):
+        """'in the second' / 'in the second inning', or 'earlier this inning'
+        when the batter is up for the second time in a half he batted around in."""
+        if inning == getattr(self, '_recap_current_inning', None):
+            return "earlier this inning"
+        ordinal = self._get_ordinal(inning)
+        return f"in the {ordinal} inning" if with_inning_word else f"in the {ordinal}"
 
     def _get_batter_recap(self, batter_id, batter_last_name, recap_gate, recap_format):
         """Return a sentence summarizing this batter's prior at-bats, or None.
@@ -380,7 +391,7 @@ class NarrativeRenderer(GameRenderer):
             hits_count = sum(1 for e in history if e['event'] in HIT_EVENTS)
             if abs_count == 0:
                 return None
-            NUMBER_WORDS = {0: '0', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'}
+            NUMBER_WORDS = {0: 'oh', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'}
             hits_word = NUMBER_WORDS.get(hits_count, str(hits_count))
             abs_word = NUMBER_WORDS.get(abs_count, str(abs_count))
             return f"{batter_last_name} is {hits_word}-for-{abs_word} this evening."
@@ -421,22 +432,15 @@ class NarrativeRenderer(GameRenderer):
         if len(entries) == 1:
             e = entries[0]
             v = verb_for(e)
-            ordinal = self._get_ordinal(e['inning'])
-            if len(history) == 1:
-                if variant == 0:
-                    return f"{batter_last_name} {v} in the {ordinal}."
-                else:
-                    return f"{batter_last_name} {v} in the {ordinal} inning."
-            else:
-                if variant == 0:
-                    return f"{batter_last_name} {v} in the {ordinal}."
-                else:
-                    return f"{batter_last_name} {v} in the {ordinal} inning."
+            return f"{batter_last_name} {v} {self._when(e['inning'], variant != 0)}."
 
         # Two prior ABs
         e1, e2 = entries
         v1, v2 = verb_for(e1), verb_for(e2)
-        return f"{batter_last_name} {v1} in the {self._get_ordinal(e1['inning'])} and {v2} in the {self._get_ordinal(e2['inning'])}."
+        when1, when2 = self._when(e1['inning']), self._when(e2['inning'])
+        if when1 == when2:
+            return f"{batter_last_name} {v1} and {v2} {when1}."
+        return f"{batter_last_name} {v1} {when1} and {v2} {when2}."
 
     def _record_batter_history(self, play):
         """Record a batter's at-bat result for recap purposes."""
@@ -848,6 +852,10 @@ class NarrativeRenderer(GameRenderer):
                              if started_behind and now_ahead:
                                  keys.append('inning_outro_scored_take_lead')
                              templates = [t for key in keys for t in GAME_CONTEXT['radio_strings'].get(key, [])]
+                             if runs_scored_this_half != 1:
+                                 # "push a run across" after a grand slam
+                                 templates = [t.replace('push a run across', 'push {runs_scored_word} across')
+                                              for t in templates]
                              summary_lines.append(self.rng_color.choice(templates).format(**ctx))
 
                      # --- SCORE SUMMARY ---
@@ -1132,6 +1140,7 @@ class NarrativeRenderer(GameRenderer):
             if recap_val < 0.7:
                 recap_gate = int(recap_val * 100)
                 recap_format = int(recap_format_val * 100)
+                self._recap_current_inning = inning
                 recap = self._get_batter_recap(batter_id, batter_last_name, recap_gate, recap_format)
                 if recap:
                     # Optionally append score context (~40% chance)
@@ -1174,6 +1183,12 @@ class NarrativeRenderer(GameRenderer):
                          play_text_blocks[-1] += " " + matchup_txt
                      else:
                          play_text_blocks.append(matchup_txt)
+
+            # Intro pieces are stitched together from separate pools ("And in
+            # steps Griffin." + "one away, the bases loaded." + "a lefty-righty
+            # matchup."); capitalize every sentence start in the joined text.
+            play_text_blocks[:] = [re.sub(r'(^|[.!?] )([a-z])', lambda m: m.group(1) + m.group(2).upper(), b)
+                                for b in play_text_blocks]
 
             result = play['result']
             outcome = result['event']
@@ -1320,6 +1335,13 @@ class NarrativeRenderer(GameRenderer):
                              # "Swing and a miss on a slider in the dirt"
                              key = 'strike_swinging'
                              pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                             strict_facts = self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')
+                             # The one place Sleep Baseball says "heater": a high
+                             # fastball swung through ("Swing and a miss on a high heater").
+                             if (not strict_facts and orig_pitch_type.lower() == 'four-seam fastball'
+                                     and details.get('zone') in (1, 2, 3, 11, 12)
+                                     and self.rng_color.random() < 0.5):
+                                 pbp_line = "Swing and a miss on a high heater"
 
                     elif code in ('B', 'P'):
                          if code == 'P' or 'pitchout' in desc.lower():
@@ -1656,6 +1678,13 @@ class NarrativeRenderer(GameRenderer):
                     connector = self._get_pitch_connector(b, k, pitcher_name=self.current_pitcher_info[pitching_team]['name'])
                     self._check_and_add_delay(play_text_blocks, context='pitch')
                     outcome_text = f"{connector} {outcome_text}"
+                elif not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts'):
+                    # First-pitch HBP: the sim records no pitch event, but it
+                    # was still a pitch ("And the first pitch... and he's hit").
+                    pitching_team = 'home' if about['isTopInning'] else 'away'
+                    connector = self._get_pitch_connector(0, 0, pitcher_name=self.current_pitcher_info[pitching_team]['name'])
+                    self._check_and_add_delay(play_text_blocks, context='pitch')
+                    outcome_text = f"{connector} {self.rng_play.choice(templates).format(batter_name=batter_name)}"
 
             elif outcome == "Strikeout Double Play":
                 outcome_text = f"{batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play."

@@ -196,6 +196,12 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         cat = hit_data['trajectory']
     else:
         cat = renderer._get_batted_ball_category(template_outcome, ev, la)
+    if (template_outcome == 'Field Error' and cat == 'default'
+            and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+        # The bare "Jones reaches on an error" with no batted ball read as a
+        # gap; describe the ball the fielder misplayed.
+        airborne = la is not None and la >= 15 or hit_data.get('trajectory') in ('fly_ball', 'popup', 'line_drive')
+        cat = 'air' if airborne else 'grounder'
 
     specific_templates = []
     if 'narrative_templates' in GAME_CONTEXT:
@@ -354,6 +360,10 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         final_description = prefix + template.format(**context)
 
     final_description = final_description.replace("a diving the ", "the diving ")
+    if (re.search(r'\b(wall|corner)\b', final_description) and 'shallow ' in final_description
+            and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+        # "Hammered into shallow left... roll all the way to the wall"
+        final_description = final_description.replace('shallow ', '')
     if (fielder_pos == '1B' and template_outcome == 'Groundout'
             and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
         # The first baseman can't throw to himself: it's a toss to the pitcher covering (3-1).

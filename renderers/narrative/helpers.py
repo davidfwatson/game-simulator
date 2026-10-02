@@ -66,9 +66,12 @@ def get_spoken_score_string(score_a, score_b):
 def simplify_pitch_type(pitch_type: str, rng_pitch, capitalize=False) -> str:
     simplified = pitch_type
     if pitch_type.lower() == "four-seam fastball":
-        r = rng_pitch.random()
-        if r < 0.6: simplified = "fastball"
-        elif r < 0.7: simplified = "heater"
+        # Sleep Baseball calls it "fastball" essentially every time ("four-seam"
+        # appears once in the corpus); letting one pitcher's fastball drift
+        # between "Fastball", "Four-seam fastball" and "Heater" read as
+        # generated. The draw is kept so the pitch RNG stream doesn't shift.
+        rng_pitch.random()
+        simplified = "fastball"
 
     if capitalize:
         return simplified.capitalize()
