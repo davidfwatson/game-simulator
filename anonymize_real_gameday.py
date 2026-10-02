@@ -41,6 +41,9 @@ PITCH_CODE_MAP = {'T': 'S', 'W': 'S', 'M': 'S', 'Q': 'S', 'O': 'S',
 # Baserunning actions our renderer narrates, keyed by MLB eventType prefix.
 # Dropping them left real innings visibly broken (an inning ending mid-at-bat
 # on an unnarrated caught stealing, runners appearing from nowhere).
+SCORER_POSITIONS = {'1': 'P', '2': 'C', '3': '1B', '4': '2B', '5': '3B', '6': 'SS',
+                    '7': 'LF', '8': 'CF', '9': 'RF'}
+
 ACTION_TYPES = (('stolen_base', 'stolen_base'), ('pickoff_caught_stealing', 'caught_stealing'),
                 ('caught_stealing', 'caught_stealing'), ('pickoff_error', 'pickoff_attempt'),
                 ('pickoff', 'pickoff'), ('wild_pitch', 'wild_pitch'), ('passed_ball', 'passed_ball'))
@@ -109,7 +112,7 @@ def get_our_schema_fields():
                         'count': ['balls', 'strikes'],
                         'details': ['code', 'description', 'isStrike', 'type', 'eventType'],
                         'pitchData': ['startSpeed', 'breaks'],
-                        'hitData': ['launchSpeed', 'launchAngle', 'trajectory'],
+                        'hitData': ['launchSpeed', 'launchAngle', 'trajectory', 'location'],
                         'isBunt': None
                     },
                     'runners': {
@@ -589,9 +592,14 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
 
                         if 'hitData' in event:
                             hd = {}
-                            for fld in ['launchSpeed', 'launchAngle', 'trajectory']:
+                            for fld in ['launchSpeed', 'launchAngle', 'trajectory', 'location']:
                                 if fld in event['hitData']:
                                     hd[fld] = event['hitData'][fld]
+                            if 'location' in hd:
+                                # StatsAPI codes the fielding spot as a scorer's
+                                # number; the renderer's directions are keyed by
+                                # position ("4" -> "to second").
+                                hd['location'] = SCORER_POSITIONS.get(str(hd['location']), hd['location'])
                             filtered_event['hitData'] = hd
 
                         if 'isBunt' in event:
