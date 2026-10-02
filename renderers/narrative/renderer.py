@@ -1025,9 +1025,12 @@ class NarrativeRenderer(GameRenderer):
                               plays[play_idx - 1]['about'].get('inning') == inning and
                               plays[play_idx - 1]['about'].get('isTopInning') == about['isTopInning'])
             bases_just_cleared = (prev_same_half and prev_play_event == 'Home Run'
-                                  and len(runners) == 0 and self.outs_tracker > 0)
+                                  and len(runners) == 0)
             if len(runners) == 0:
-                if self.outs_tracker == 0:
+                # Right after a homer with nobody out the next man is not
+                # "leading off" (Sleep: "So bases cleared, still nobody out for
+                # Carlisle"); this held only with one or two out before.
+                if self.outs_tracker == 0 and not bases_just_cleared:
                      leadoff_pool = list(GAME_CONTEXT['narrative_strings']['batter_intro_leadoff'])
                      if not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts'):
                          # After a leadoff homer the next man isn't "leading off";
