@@ -768,7 +768,7 @@ class BaseballSimulator:
                 # Third with two outs gains little (a single scores him from
                 # second anyway), so it's rarely tried.
                 third_modifier = 0.25 if self.outs == 2 else 1.0
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.65 * count_modifier * third_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.4 * count_modifier * third_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 3
 
@@ -777,7 +777,7 @@ class BaseballSimulator:
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
                 # Multiplier adjusted to 1.4
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.65 * count_modifier * outs_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.4 * count_modifier * outs_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 2
 
