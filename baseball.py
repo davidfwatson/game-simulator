@@ -22,7 +22,7 @@ ZONE_RATE_OFFSET = 0.075      # subtracted from pitcher control to get zone rate
 PICKOFF_THROW_RATE = 0.075    # per pitch, runner alone on first (real feeds: ~2.2 throws per team-game)
 AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk/HBP
 WILD_PITCH_FACTOR = 3.2        # x the pitcher's wild_pitch_rate, per ball with runners on
-LATE_TROUBLE_HOOK_RATE = 0.25   # per PA, innings 6+, close, runner in scoring position
+LATE_TROUBLE_HOOK_RATE = 0.15   # per PA, innings 6+, close, runner in scoring position
 MID_INNING_FATIGUE_MARGIN = 12  # pitches past his limit before a bases-empty hook
 STARTER_STAMINA_BONUS = 14     # pitches added to a starter's stamina
 BUNT_RATE_FACTOR = 0.2        # sac bunts were ~1.5/game; MLB is ~0.3
@@ -907,8 +907,12 @@ class BaseballSimulator:
 
         bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
         # Sacrifice only when a single run matters: not down 9-4.
+        # And it's the weak hitters who bunt, mostly late: a No. 3 hitter
+        # sacrificing in the first read as a dice roll.
+        power = batter['batting_profile'].get('power', 0.5)
         bunt_situation = (self.outs < 2 and any(self.bases) and not self.bases[2]
-                          and abs(self.team1_score - self.team2_score) <= 2)
+                          and abs(self.team1_score - self.team2_score) <= 2
+                          and power < 0.6 and (self.inning >= 6 or power < 0.4))
         is_bunting = bunt_situation and self.game_rng.random() < bunt_propensity * BUNT_RATE_FACTOR
 
         while balls < 4 and strikes < 3:
@@ -916,6 +920,10 @@ class BaseballSimulator:
             # Batters give up the bunt with two strikes: a foul bunt there is
             # strike three, so only the rare (pitcher-ish) bunter keeps it on.
             bunting_now = is_bunting and (strikes < 2 or self.game_rng.random() < 0.1)
+            if bunting_now and any(e.get('isBunt') for e in play_events):
+                # After a failed attempt he usually swings away; three bunt
+                # tries in one at-bat was a tell.
+                is_bunting = bunting_now = self.game_rng.random() < 0.35
             # Two disengagements per plate appearance under the pitch clock,
             # and a second throw over is rarer than the first.
             throws_this_pa = sum(1 for e in play_events if not e.get('isPitch')
@@ -1155,8 +1163,11 @@ class BaseballSimulator:
         tired = fatigue_factor > MID_INNING_FATIGUE_MARGIN or (fatigue_factor > 0 and runners_on)
         # Late and close with men in scoring position: go get a fresh arm.
         margin = abs(self.team1_score - self.team2_score)
+        # Not a man who came in this inning: pulling a reliever after two
+        # batters, seven changes in three innings, read as churn.
+        fresh = self._entered_inning.get(current_pitcher_name) == self.inning
         matchup_hook = (self.inning >= 6 and margin <= 3 and (self.bases[1] or self.bases[2])
-                        and available_bullpen
+                        and available_bullpen and not fresh
                         and not (pitcher_stats[available_bullpen[0]].get('type') == 'Closer' and self.inning < 9)
                         and self.game_rng.random() < LATE_TROUBLE_HOOK_RATE)
         if (tired or shelled or matchup_hook) and available_bullpen:

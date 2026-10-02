@@ -1699,7 +1699,10 @@ class NarrativeRenderer(GameRenderer):
                     outcome_text = f"{connector} {self.rng_play.choice(templates).format(batter_name=batter_name)}"
 
             elif outcome == "Strikeout Double Play":
-                outcome_text = f"{batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play."
+                # The pitch line already says how strike three came (and the
+                # caught stealing is narrated with it); "on a pitch in the dirt"
+                # contradicted a called third strike.
+                outcome_text = "And that's a strike 'em out, throw 'em out double play."
 
             elif outcome == "Caught Stealing" or ("Caught Stealing" in outcome and "Single" in outcome):
                  # Handle combined "Caught Stealing 2B / Single" outcomes
@@ -1880,8 +1883,11 @@ class NarrativeRenderer(GameRenderer):
                          ctx['trailing_team_short'] = self._get_short_team_name(trail)
                          # Same pool and draw as the extend case ("now lead 5-3"
                          # is right either way); only "extend" becomes "cut".
+                         # "and the Pilots now lead 2-1" after a Bombers homer is
+                         # true but reads as the wrong team scoring.
                          pool = [t.replace('{team_name} extend their lead to', '{trailing_team} cut the lead to')
                                   .replace('{team_name_short} extend their lead to', '{trailing_team_short} cut the lead to')
+                                  .replace('{team_name} now lead', '{trailing_team} make it')
                                  for t in GAME_CONTEXT['radio_strings']['score_update_extend']]
                          score_lines.append(self.rng_color.choice(pool).format(**ctx))
                     elif old_away != old_home and old_lead_team == lead_team:

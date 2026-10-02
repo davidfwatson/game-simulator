@@ -326,6 +326,14 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         if filtered:
             specific_templates = filtered
 
+    # Highlight-reel plays are rare: two "spectacular catch"es in three
+    # innings read as a template firing. Keep them ~25 balls in play apart.
+    renderer._balls_in_play = getattr(renderer, '_balls_in_play', 0) + 1
+    if specific_templates and not strict:
+        highlight = re.compile(r'spectacular|diving|leaping|great pick|backhanded|on the warning track', re.I)
+        if renderer._balls_in_play - getattr(renderer, '_last_highlight', -99) < 25:
+            specific_templates = [t for t in specific_templates if not highlight.search(t)] or specific_templates
+
     if specific_templates and (cat == "bunt" or renderer.rng_flow.random() < 0.8):
         template = renderer.rng_play.choice(specific_templates)
 
@@ -366,6 +374,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):
          if not template: template = renderer.rng_play.choice(specific_templates)
          final_description = prefix + template.format(**context)
+         if re.search(r'spectacular|diving|leaping|great pick|backhanded|on the warning track', template, re.I):
+             renderer._last_highlight = renderer._balls_in_play
          # Clean up double spaces when dp_notation is empty
          if not dp_notation:
              final_description = final_description.replace("a  double play", "a double play")

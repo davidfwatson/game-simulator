@@ -40,7 +40,7 @@ TEAMS = {
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.5, 'velo_range': (94, 97), 'spin_range': (2200, 2550)},
                     'slider': {'prob': 0.25, 'velo_range': (85, 89), 'spin_range': (2400, 2800)},
-                    'changeup': {'prob': 0.15, 'velo_range': (81, 84), 'spin_range': (1600, 1900)},
+                    'splitter': {'prob': 0.15, 'velo_range': (85, 88), 'spin_range': (1200, 1600)},
                     'curveball': {'prob': 0.10, 'velo_range': (78, 81), 'spin_range': (2600, 2900)}
                 }, 'control': 0.65, 'wild_pitch_rate': 0.003
             },
@@ -119,7 +119,7 @@ TEAMS = {
                 'id': 645213, 'legal_name': 'Dennis Thompson', 'nickname': 'Eck', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Closer', 'stamina': 22, 'fielding_ability': 0.965,
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.6, 'velo_range': (97, 100), 'spin_range': (2300, 2600)},
-                    'slider': {'prob': 0.2, 'velo_range': (89, 92), 'spin_range': (2550, 2850)},
+                    'splitter': {'prob': 0.2, 'velo_range': (88, 91), 'spin_range': (1100, 1500)},
                     'sweeper': {'prob': 0.2, 'velo_range': (81, 85), 'spin_range': (2500, 2900)}
                 }, 'control': 0.80, 'wild_pitch_rate': 0.001
             },

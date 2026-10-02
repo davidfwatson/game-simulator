@@ -1222,8 +1222,8 @@
         "isTopInning": true,
         "inning": 3,
         "isScoringPlay": true,
-        "startTime": "2025-09-27T23:43:03.598565+00:00",
-        "endTime": "2025-09-27T23:45:01.333242+00:00"
+        "startTime": "2025-09-27T23:38:22.417504+00:00",
+        "endTime": "2025-09-27T23:39:00.649471+00:00"
       },
       "count": {
         "balls": 0,
@@ -1232,9 +1232,9 @@
       },
       "matchup": {
         "batter": {
-          "id": 585401,
-          "fullName": "Ketel Star",
-          "link": "/api/v1/people/585401"
+          "id": 585402,
+          "fullName": "Corbin Carroll",
+          "link": "/api/v1/people/585402"
         },
         "batSide": {
           "code": "L",
@@ -1252,14 +1252,14 @@
         "splits": {
           "batter": "vs_RHP",
           "pitcher": "vs_LHB",
-          "menOnBase": "RISP"
+          "menOnBase": "Men_On"
         }
       },
       "playEvents": [
         {
-          "index": 73,
-          "startTime": "2025-09-27T23:43:03.598565+00:00",
-          "endTime": "2025-09-27T23:43:29.476020+00:00",
+          "index": 58,
+          "startTime": "2025-09-27T23:38:22.417504+00:00",
+          "endTime": "2025-09-27T23:38:41.166048+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
@@ -1273,105 +1273,24 @@
               "code": "SI",
               "description": "Sinker"
             },
-            "zone": 12
+            "zone": 11
           },
           "pitchData": {
-            "startSpeed": 92.9,
-            "zone": 12,
+            "startSpeed": 91.3,
+            "zone": 11,
             "breaks": {
-              "spinRate": 2363
+              "spinRate": 2177
             }
           }
         },
         {
-          "index": 74,
-          "startTime": "2025-09-27T23:43:29.476020+00:00",
-          "endTime": "2025-09-27T23:43:52.948231+00:00",
+          "index": 59,
+          "startTime": "2025-09-27T23:38:41.166048+00:00",
+          "endTime": "2025-09-27T23:39:00.649471+00:00",
           "isPitch": true,
           "count": {
             "balls": 1,
             "strikes": 0
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            },
-            "zone": 7
-          },
-          "pitchData": {
-            "startSpeed": 78.4,
-            "zone": 7,
-            "breaks": {
-              "spinRate": 2712
-            }
-          }
-        },
-        {
-          "index": 75,
-          "startTime": "2025-09-27T23:43:52.948231+00:00",
-          "endTime": "2025-09-27T23:44:17.236310+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 1
-          },
-          "details": {
-            "code": "C",
-            "description": "Called Strike",
-            "isStrike": true,
-            "type": {
-              "code": "CU",
-              "description": "Curveball"
-            },
-            "zone": 1
-          },
-          "pitchData": {
-            "startSpeed": 76.8,
-            "zone": 1,
-            "breaks": {
-              "spinRate": 2635
-            }
-          }
-        },
-        {
-          "index": 76,
-          "startTime": "2025-09-27T23:44:17.236310+00:00",
-          "endTime": "2025-09-27T23:44:42.814265+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 2
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            },
-            "zone": 1
-          },
-          "pitchData": {
-            "startSpeed": 92.0,
-            "zone": 1,
-            "breaks": {
-              "spinRate": 2156
-            }
-          }
-        },
-        {
-          "index": 77,
-          "startTime": "2025-09-27T23:44:42.814265+00:00",
-          "endTime": "2025-09-27T23:45:01.333242+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 2
           },
           "details": {
             "code": "X",
@@ -1381,28 +1300,28 @@
               "code": "SI",
               "description": "Sinker"
             },
-            "zone": 3
+            "zone": 8
           },
           "pitchData": {
-            "startSpeed": 91.5,
-            "zone": 3,
+            "startSpeed": 92.6,
+            "zone": 8,
             "breaks": {
-              "spinRate": 2319
+              "spinRate": 2168
             }
           },
           "hitData": {
-            "launchSpeed": 104.1,
-            "launchAngle": 25.2,
+            "launchSpeed": 112.7,
+            "launchAngle": 28.1,
             "trajectory": "fly_ball",
-            "location": "DCF"
+            "location": "DL"
           }
         }
       ],
       "runners": [
         {
           "movement": {
-            "originBase": "2B",
-            "start": "2B",
+            "originBase": "1B",
+            "start": "1B",
             "end": "score",
             "outBase": null,
             "isOut": false,
@@ -1413,15 +1332,15 @@
             "eventType": "home_run",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 585408,
-              "fullName": "Geraldo Perdomo",
-              "link": "/api/v1/people/585408"
+              "id": 585401,
+              "fullName": "Ketel Star",
+              "link": "/api/v1/people/585401"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 4,
+            "playIndex": 1,
             "responsiblePitcher": {
               "id": 665310,
               "link": "/api/v1/people/665310"
@@ -1443,15 +1362,15 @@
             "eventType": "home_run",
             "movementReason": null,
             "runner": {
-              "id": 585401,
-              "fullName": "Ketel Star",
-              "link": "/api/v1/people/585401"
+              "id": 585402,
+              "fullName": "Corbin Carroll",
+              "link": "/api/v1/people/585402"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 4,
+            "playIndex": 1,
             "responsiblePitcher": {
               "id": 665310,
               "link": "/api/v1/people/665310"
@@ -2188,21 +2107,21 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Single",
-        "eventType": "single",
+        "event": "Forceout",
+        "eventType": "force_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
         "homeScore": 0
       },
       "about": {
-        "atBatIndex": 12,
-        "halfInning": "bottom",
-        "isTopInning": false,
+        "atBatIndex": 8,
+        "halfInning": "top",
+        "isTopInning": true,
         "inning": 2,
         "isScoringPlay": false,
-        "startTime": "2025-09-27T23:33:38.788495+00:00",
-        "endTime": "2025-09-27T23:34:56.757551+00:00"
+        "startTime": "2025-09-27T23:23:05.638855+00:00",
+        "endTime": "2025-09-27T23:23:50.385847+00:00"
       },
       "count": {
         "balls": 0,
@@ -2211,18 +2130,18 @@
       },
       "matchup": {
         "batter": {
-          "id": 565306,
-          "fullName": "Marcus Semi",
-          "link": "/api/v1/people/565306"
+          "id": 585406,
+          "fullName": "Gabriel Moreno",
+          "link": "/api/v1/people/585406"
         },
         "batSide": {
           "code": "R",
           "description": "Right"
         },
         "pitcher": {
-          "id": 685410,
-          "fullName": "Zac Gallen",
-          "link": "/api/v1/people/685410"
+          "id": 665310,
+          "fullName": "Tim Hudson",
+          "link": "/api/v1/people/665310"
         },
         "pitchHand": {
           "code": "R",
@@ -2231,50 +2150,23 @@
         "splits": {
           "batter": "vs_RHP",
           "pitcher": "vs_RHB",
-          "menOnBase": "Empty"
+          "menOnBase": "Men_On"
         },
         "postOnFirst": {
-          "id": 565306,
-          "fullName": "Marcus Semi",
-          "link": "/api/v1/people/565306"
+          "id": 585406,
+          "fullName": "Gabriel Moreno",
+          "link": "/api/v1/people/585406"
         }
       },
       "playEvents": [
         {
-          "index": 53,
-          "startTime": "2025-09-27T23:33:38.788495+00:00",
-          "endTime": "2025-09-27T23:33:59.379816+00:00",
+          "index": 33,
+          "startTime": "2025-09-27T23:23:05.638855+00:00",
+          "endTime": "2025-09-27T23:23:27.535029+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 13
-          },
-          "pitchData": {
-            "startSpeed": 93.3,
-            "zone": 13,
-            "breaks": {
-              "spinRate": 2453
-            }
-          }
-        },
-        {
-          "index": 54,
-          "startTime": "2025-09-27T23:33:59.379816+00:00",
-          "endTime": "2025-09-27T23:34:17.413532+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 1
           },
           "details": {
             "code": "C",
@@ -2284,75 +2176,104 @@
               "code": "CH",
               "description": "Changeup"
             },
-            "zone": 8
+            "zone": 2
           },
           "pitchData": {
-            "startSpeed": 85.4,
-            "zone": 8
-          }
-        },
-        {
-          "index": 55,
-          "startTime": "2025-09-27T23:34:17.413532+00:00",
-          "endTime": "2025-09-27T23:34:38.406796+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 2
-          },
-          "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
-            "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
-            },
-            "zone": 9
-          },
-          "pitchData": {
-            "startSpeed": 95.3,
-            "zone": 9,
+            "startSpeed": 82.2,
+            "zone": 2,
             "breaks": {
-              "spinRate": 2447
+              "spinRate": 1876
             }
           }
         },
         {
-          "index": 56,
-          "startTime": "2025-09-27T23:34:38.406796+00:00",
-          "endTime": "2025-09-27T23:34:56.757551+00:00",
+          "index": 34,
+          "startTime": "2025-09-27T23:23:27.535029+00:00",
+          "endTime": "2025-09-27T23:23:50.385847+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
-            "strikes": 2
+            "strikes": 1
           },
           "details": {
             "code": "X",
-            "description": "In play, Single",
+            "description": "In play, Groundout",
             "isStrike": true,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "SI",
+              "description": "Sinker"
             },
-            "zone": 14
+            "zone": 8
           },
           "pitchData": {
-            "startSpeed": 84.8,
-            "zone": 14,
+            "startSpeed": 92.6,
+            "zone": 8,
             "breaks": {
-              "spinRate": 1661
+              "spinRate": 2210
             }
           },
           "hitData": {
-            "launchSpeed": 96.0,
-            "launchAngle": 10.2,
-            "trajectory": "line_drive",
-            "location": "LF"
+            "launchSpeed": 88.1,
+            "launchAngle": -0.8,
+            "trajectory": "ground_ball",
+            "location": "SS"
           }
         }
       ],
       "runners": [
+        {
+          "movement": {
+            "originBase": "1B",
+            "start": "1B",
+            "end": null,
+            "outBase": "2B",
+            "isOut": true,
+            "outNumber": 2
+          },
+          "details": {
+            "event": "Forceout",
+            "eventType": "force_out",
+            "movementReason": "r_force_out",
+            "runner": {
+              "id": 585404,
+              "fullName": "Lourdes Gurriel",
+              "link": "/api/v1/people/585404"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 1
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 565306,
+                "fullName": "Marcus Semi",
+                "link": "/api/v1/people/565306"
+              },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 565306,
+                "fullName": "Marcus Semi",
+                "link": "/api/v1/people/565306"
+              },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
+              "credit": "putout"
+            }
+          ]
+        },
         {
           "movement": {
             "originBase": null,
@@ -2363,29 +2284,29 @@
             "outNumber": null
           },
           "details": {
-            "event": "Single",
-            "eventType": "single",
+            "event": "Forceout",
+            "eventType": "force_out",
             "movementReason": null,
             "runner": {
-              "id": 565306,
-              "fullName": "Marcus Semi",
-              "link": "/api/v1/people/565306"
+              "id": 585406,
+              "fullName": "Gabriel Moreno",
+              "link": "/api/v1/people/585406"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 3
+            "playIndex": 1
           },
           "credits": []
         }
       ]
     }
   ],
-  "playCount": 80,
+  "playCount": 75,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 80,
+    "totalPlaysInGame": 75,
     "snapshotPlayCount": 6
   }
 }
