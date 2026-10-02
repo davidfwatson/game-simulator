@@ -1179,6 +1179,12 @@ class BaseballSimulator:
                 runner_out = self.bases[0]
                 self.outs += 2
                 self.bases[0] = None
+                dp_runs = 0
+                if self.bases[2] and self.outs < 3:
+                    # The runner on third scores on a double play that doesn't end
+                    # the inning (no RBI); he used to vanish under the man from second.
+                    dp_runs = 1
+                    self.bases[2] = None
                 if self.bases[1]: self.bases[2], self.bases[1] = self.bases[1], None
 
                 credits_runner, credits_batter = self._get_double_play_participants(fielder, defense)
@@ -1186,7 +1192,7 @@ class BaseballSimulator:
                 # Combine for the main return, but we will access specifics later
                 credits = credits_batter
 
-                return 0, False, 0, credits, credits_batter, credits_runner, True, "Double Play", runner_out
+                return dp_runs, False, 0, credits, credits_batter, credits_runner, True, "Double Play", runner_out
 
             # Bases loaded, fewer than two outs, ball on the infield: the play
             # is home for the force, not to first (which lets the run score).
@@ -1339,6 +1345,10 @@ class BaseballSimulator:
                                fielder_pos = c['position']['abbreviation']
                                break
 
+                if is_dp and credits_runner_dp:
+                     # The batter's DP credits start with the pivot man; the ball
+                     # was hit to whoever started it ("one hopper to short ... 3-6-3").
+                     fielder_pos = credits_runner_dp[0]['position']['abbreviation']
                 if fielder_pos:
                      hit_data = play_events[-1].get('hitData')
                      if hit_data:
@@ -1523,6 +1533,21 @@ class BaseballSimulator:
                         is_scoring=False, is_rbi=False, credits=credits_batter_dp
                     )
                     if batter_entry: runner_list.append(batter_entry)
+                    # Runners from second and third move up (or score) on the DP too.
+                    for base_idx, runner_name in enumerate(old_bases):
+                        if not runner_name or runner_name == runner_out_dp:
+                            continue
+                        scored = runner_name not in self.bases
+                        end = "score" if scored else base_map[self.bases.index(runner_name)]
+                        if end == base_map[base_idx]:
+                            continue
+                        runner_entry = self._build_runner_entry(
+                            runner_name=runner_name, origin_base=base_map[base_idx], end_base=end,
+                            is_out=False, out_number=None, event="Grounded Into DP",
+                            event_type="grounded_into_double_play", movement_reason="r_adv_play",
+                            play_index=play_index, is_scoring=scored, is_rbi=False,
+                            responsible_pitcher=pitcher if scored else None)
+                        if runner_entry: runner_list.append(runner_entry)
                 else:
                     # Handle runners who advanced, scored, or were out on a force
                     forced_runner = runner_out_dp if outcome == "Forceout" else None
