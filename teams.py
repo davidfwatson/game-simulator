@@ -39,8 +39,7 @@ TEAMS = {
                 'id': 605110, 'legal_name': 'Joe Gibson', 'nickname': 'Smokey', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Starter', 'stamina': 75, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.5, 'velo_range': (94, 97), 'spin_range': (2200, 2550)},
-                    'slider': {'prob': 0.12, 'velo_range': (87, 90), 'spin_range': (2400, 2700)},
-                    'sweeper': {'prob': 0.13, 'velo_range': (81, 85), 'spin_range': (2500, 2900)},
+                    'slider': {'prob': 0.25, 'velo_range': (85, 89), 'spin_range': (2400, 2800)},
                     'changeup': {'prob': 0.15, 'velo_range': (81, 84), 'spin_range': (1600, 1900)},
                     'curveball': {'prob': 0.10, 'velo_range': (78, 81), 'spin_range': (2600, 2900)}
                 }, 'control': 0.65, 'wild_pitch_rate': 0.003

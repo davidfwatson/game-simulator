@@ -25,13 +25,19 @@ class NarrativeRenderer(GameRenderer):
         the pitch itself replaces the result but must keep "And the two-two...",
         or the at-bat skips straight from the previous pitch to the out.
         """
-        if not last_pitch_context or "..." not in last_pitch_context:
+        if not last_pitch_context:
             return outcome_text
-        lead_in = last_pitch_context.split("...", 1)[0].rstrip()
+        if "..." in last_pitch_context:
+            lead_in, sep = last_pitch_context.split("...", 1)[0].rstrip(), "..."
+        elif ". " in last_pitch_context:
+            # "And the oh-two delivery. Sinker, in there for strike three"
+            lead_in, sep = last_pitch_context.split(". ", 1)[0].rstrip(), "."
+        else:
+            return outcome_text
         if not lead_in:
             return outcome_text
         body = outcome_text[:1].upper() + outcome_text[1:]
-        return f"{lead_in}... {body}"
+        return f"{lead_in}{sep} {body}"
 
     def _check_and_add_delay(self, block_list, insert_at_index=-1, context='pitch'):
         DELAYS = {'batter': 11.5, 'first_pitch': 9.5, 'pitch': 8.5}
@@ -1788,6 +1794,20 @@ class NarrativeRenderer(GameRenderer):
 
                     outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context, play=play)
 
+            if (outcome_text and outcome in ('Groundout', 'Flyout', 'Lineout', 'Pop Out', 'Bunt Ground Out')
+                    and play['count'].get('outs', 0) < 3 and not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+                # A runner who moves up on an out has to be said, or the next
+                # intro's "runner on second" comes out of nowhere.
+                base_words = {'2B': 'second', '3B': 'third'}
+                for r in play.get('runners', []):
+                    mv, det = r.get('movement', {}), r.get('details', {})
+                    name = det.get('runner', {}).get('fullName', '')
+                    start, end = mv.get('start') or mv.get('originBase'), mv.get('end')
+                    if (not name or not start or mv.get('isOut') or end not in base_words
+                            or det.get('runner', {}).get('id') == matchup['batter'].get('id')
+                            or name.split()[-1] in outcome_text):
+                        continue
+                    outcome_text += f" {name.split()[-1]} moves up to {base_words[end]}."
             if outcome_text:
                  play_text_blocks.append(outcome_text)
             play_text_blocks.extend(post_outcome_text)
@@ -1821,7 +1841,21 @@ class NarrativeRenderer(GameRenderer):
                     score_lines.append(self._get_radio_string('score_update_tied', ctx))
                 else:
                     old_lead_team = self.away_team['name'] if old_away > old_home else self.home_team['name']
-                    if old_away != old_home and old_lead_team == lead_team:
+                    scoring_away = new_away != old_away
+                    leader_scored = scoring_away == (new_away > new_home)
+                    if old_away != old_home and old_lead_team == lead_team and not leader_scored:
+                         # The trailing team scored but still trails: "the
+                         # Pilots extend their lead to 5-3" after a Bombers run.
+                         trail = self.away_team if scoring_away else self.home_team
+                         ctx['trailing_team'] = trail['name']
+                         ctx['trailing_team_short'] = self._get_short_team_name(trail)
+                         # Same pool and draw as the extend case ("now lead 5-3"
+                         # is right either way); only "extend" becomes "cut".
+                         pool = [t.replace('{team_name} extend their lead to', '{trailing_team} cut the lead to')
+                                  .replace('{team_name_short} extend their lead to', '{trailing_team_short} cut the lead to')
+                                 for t in GAME_CONTEXT['radio_strings']['score_update_extend']]
+                         score_lines.append(self.rng_color.choice(pool).format(**ctx))
+                    elif old_away != old_home and old_lead_team == lead_team:
                          score_lines.append(self._get_radio_string('score_update_extend', ctx))
                     else:
                          score_lines.append(self._get_radio_string('score_update_lead', ctx))

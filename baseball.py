@@ -751,7 +751,7 @@ class BaseballSimulator:
                 # Third with two outs gains little (a single scores him from
                 # second anyway), so it's rarely tried.
                 third_modifier = 0.25 if self.outs == 2 else 1.0
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.4 * count_modifier * third_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.65 * count_modifier * third_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 3
 
@@ -760,7 +760,7 @@ class BaseballSimulator:
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
                 # Multiplier adjusted to 1.4
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.4 * count_modifier * outs_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.65 * count_modifier * outs_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 2
 
@@ -1074,7 +1074,14 @@ class BaseballSimulator:
         pitcher_stats = self.team1_pitcher_stats if is_home_team_pitching else self.team2_pitcher_stats
         available_bullpen = self.team1_available_bullpen if is_home_team_pitching else self.team2_available_bullpen
         fatigue_factor = max(0, self.pitch_counts[current_pitcher_name] - pitcher_stats[current_pitcher_name]['stamina'])
-        if fatigue_factor > 0 and available_bullpen:
+        # A pitcher who has given up four in the inning gets the hook whatever
+        # his pitch count; leaving him in through a six-run inning read as a
+        # simulator with no manager.
+        batting_score = self.team2_score if self.top_of_inning else self.team1_score
+        entry_scores = getattr(self, '_half_pitcher_entry', {})
+        shelled = batting_score - entry_scores.get(current_pitcher_name, batting_score) >= 4
+        if (fatigue_factor > 0 or shelled) and available_bullpen:
+            entry_scores[available_bullpen[0]] = batting_score
             next_pitcher_name = available_bullpen[0]
             if is_home_team_pitching:
                 if self.team1_current_pitcher_name != next_pitcher_name:
@@ -1143,8 +1150,12 @@ class BaseballSimulator:
         elif out_type == 'Flyout' or out_type == 'Sac Fly':
             fielder = self.game_rng.choices(outfielders + infielders, weights=[6] * len(outfielders) + [1] * len(infielders), k=1)[0]
 
-        # Boost fielding slightly to reduce error rate to MLB levels
-        if fielder and self.game_rng.random() > fielder['fielding_ability'] * (self.team1_data if self.top_of_inning else self.team2_data)['fielding_prowess'] * 1.006:
+        # Batters reach on an error in ~0.8% of PAs (about 0.3 per team-game);
+        # MLB's ~0.55 errors per team-game also counts throws on runners. The
+        # full fielding-ability miss rate doubled that, and two-error innings
+        # read as a dice-rolling engine.
+        miss_rate = 1 - fielder['fielding_ability'] * (self.team1_data if self.top_of_inning else self.team2_data)['fielding_prowess'] * 1.006 if fielder else 0
+        if fielder and self.game_rng.random() > 1 - miss_rate * 0.5:
             is_error = True
 
         if is_error:
@@ -1258,6 +1269,9 @@ class BaseballSimulator:
 
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
+        self._half_pitcher_entry = {
+            (self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name):
+                (self.team2_score if self.top_of_inning else self.team1_score)}
         is_home_team_batting = not self.top_of_inning
         batting_team_name, lineup, batter_idx_ref = (self.team1_name, self.team1_lineup, 'team1_batter_idx') if is_home_team_batting else (self.team2_name, self.team2_lineup, 'team2_batter_idx')
 

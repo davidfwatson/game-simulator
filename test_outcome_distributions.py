@@ -55,10 +55,10 @@ class TestOutcomeDistributions(unittest.TestCase):
             'Pop Out': 180,
             'Stolen Base': 150, # Added this as it's a key stat now
             'Double Play': 145,
-            'Field Error': 115,
+            'Field Error': 60,   # batter reached on error (~0.8% of PA), not all charged errors
             'Hit By Pitch': 85,
             'Sac Fly': 50,
-            'Forceout': 45,   # Batter reaches on Fielder's Choice
+            'Forceout': 90,   # MLB force_out is ~1.2% of PA; 45 (0.6%) was half that
             'Caught Stealing': 40,
             'Triple': 27,
         }

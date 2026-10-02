@@ -1258,16 +1258,16 @@
             "description": "In play, Single",
             "isStrike": true,
             "type": {
-              "code": "UN",
-              "description": "Sweeper"
+              "code": "SL",
+              "description": "Slider"
             },
             "zone": 4
           },
           "pitchData": {
-            "startSpeed": 84.1,
+            "startSpeed": 88.1,
             "zone": 4,
             "breaks": {
-              "spinRate": 2715
+              "spinRate": 2615
             }
           },
           "hitData": {
@@ -1547,16 +1547,16 @@
             "description": "In play, Flyout",
             "isStrike": true,
             "type": {
-              "code": "UN",
-              "description": "Sweeper"
+              "code": "SL",
+              "description": "Slider"
             },
             "zone": 9
           },
           "pitchData": {
-            "startSpeed": 82.3,
+            "startSpeed": 86.3,
             "zone": 9,
             "breaks": {
-              "spinRate": 2642
+              "spinRate": 2542
             }
           },
           "hitData": {
@@ -1711,7 +1711,7 @@
             "zone": 7
           },
           "pitchData": {
-            "startSpeed": 88.7,
+            "startSpeed": 87.2,
             "zone": 7,
             "breaks": {
               "spinRate": 2659
@@ -2210,10 +2210,10 @@
       ]
     }
   ],
-  "playCount": 77,
+  "playCount": 75,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 77,
+    "totalPlaysInGame": 75,
     "snapshotPlayCount": 6
   }
 }

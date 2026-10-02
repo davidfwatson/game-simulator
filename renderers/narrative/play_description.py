@@ -269,6 +269,13 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     elif direction.startswith("into "):
          direction_noun = direction[5:]
 
+    infield_nouns = {'P': 'the mound', '1B': 'first', '2B': 'second', '3B': 'third', 'SS': 'short'}
+    if (template_outcome in ('Groundout', 'Double Play', 'Grounded Into DP', 'Forceout', 'Field Error')
+            and fielder_pos in infield_nouns and direction_noun.endswith('field')
+            and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+        # "Hard grounder to center field. Thorne is up with it and tosses to first"
+        direction_noun = infield_nouns[fielder_pos]
+
     # Strip "deep " prefix to avoid "deep deep center field" in templates
     if direction_noun.startswith("deep "):
         direction_noun = direction_noun[5:]

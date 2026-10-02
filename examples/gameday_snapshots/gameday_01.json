@@ -1253,16 +1253,16 @@
             "description": "Called Strike",
             "isStrike": true,
             "type": {
-              "code": "UN",
-              "description": "Sweeper"
+              "code": "SL",
+              "description": "Slider"
             },
             "zone": 7
           },
           "pitchData": {
-            "startSpeed": 83.9,
+            "startSpeed": 87.9,
             "zone": 7,
             "breaks": {
-              "spinRate": 2880
+              "spinRate": 2780
             }
           }
         }
@@ -1752,7 +1752,7 @@
             "zone": 13
           },
           "pitchData": {
-            "startSpeed": 89.9,
+            "startSpeed": 88.9,
             "zone": 13,
             "breaks": {
               "spinRate": 2676
@@ -1800,16 +1800,16 @@
             "description": "Called Strike",
             "isStrike": true,
             "type": {
-              "code": "UN",
-              "description": "Sweeper"
+              "code": "SL",
+              "description": "Slider"
             },
             "zone": 9
           },
           "pitchData": {
-            "startSpeed": 84.2,
+            "startSpeed": 88.2,
             "zone": 9,
             "breaks": {
-              "spinRate": 2787
+              "spinRate": 2687
             }
           }
         },
@@ -1833,7 +1833,7 @@
             "zone": 1
           },
           "pitchData": {
-            "startSpeed": 89.8,
+            "startSpeed": 88.8,
             "zone": 1,
             "breaks": {
               "spinRate": 2582
@@ -1860,7 +1860,7 @@
             "zone": 14
           },
           "pitchData": {
-            "startSpeed": 89.4,
+            "startSpeed": 88.2,
             "zone": 14,
             "breaks": {
               "spinRate": 2681
@@ -1971,13 +1971,13 @@
             "description": "In play, Single",
             "isStrike": true,
             "type": {
-              "code": "UN",
-              "description": "Sweeper"
+              "code": "SL",
+              "description": "Slider"
             },
             "zone": 7
           },
           "pitchData": {
-            "startSpeed": 81.3,
+            "startSpeed": 85.3,
             "zone": 7
           },
           "hitData": {
@@ -2232,10 +2232,10 @@
       ]
     }
   ],
-  "playCount": 66,
+  "playCount": 68,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 66,
+    "totalPlaysInGame": 68,
     "snapshotPlayCount": 6
   }
 }
