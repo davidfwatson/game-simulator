@@ -282,6 +282,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
         # "Hard grounder to center field. Thorne is up with it and tosses to first"
         direction_noun = infield_nouns[fielder_pos]
+        if direction.endswith('field'):
+            direction = 'to ' + direction_noun
 
     # Strip "deep " prefix to avoid "deep deep center field" in templates
     if direction_noun.startswith("deep "):
