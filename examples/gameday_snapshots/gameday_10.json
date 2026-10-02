@@ -1450,7 +1450,7 @@
             "launchSpeed": 107.1,
             "launchAngle": 15.6,
             "trajectory": "line_drive",
-            "location": "CF"
+            "location": "RF"
           }
         }
       ],
@@ -1552,16 +1552,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "FF",
+              "description": "Four-seam fastball"
             },
             "zone": 13
           },
           "pitchData": {
-            "startSpeed": 84.8,
+            "startSpeed": 93.9,
             "zone": 13,
             "breaks": {
-              "spinRate": 1689
+              "spinRate": 2389
             }
           }
         },
@@ -1907,8 +1907,8 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Field Error",
-        "eventType": "field_error",
+        "event": "Single",
+        "eventType": "single",
         "description": "",
         "rbi": 0,
         "awayScore": 1,
@@ -1969,9 +1969,9 @@
             "strikes": 0
           },
           "details": {
-            "code": "F",
-            "description": "Foul",
-            "isStrike": true,
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
             "type": {
               "code": "CU",
               "description": "Curveball"
@@ -1992,25 +1992,22 @@
           "endTime": "2025-09-27T23:13:59.076783+00:00",
           "isPitch": true,
           "count": {
-            "balls": 0,
-            "strikes": 1
+            "balls": 1,
+            "strikes": 0
           },
           "details": {
             "code": "F",
             "description": "Foul",
             "isStrike": true,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "FF",
+              "description": "Four-seam fastball"
             },
-            "zone": 14
+            "zone": 4
           },
           "pitchData": {
-            "startSpeed": 81.0,
-            "zone": 14,
-            "breaks": {
-              "spinRate": 1809
-            }
+            "startSpeed": 96.3,
+            "zone": 4
           }
         },
         {
@@ -2019,24 +2016,24 @@
           "endTime": "2025-09-27T23:14:17.535706+00:00",
           "isPitch": true,
           "count": {
-            "balls": 0,
-            "strikes": 2
+            "balls": 1,
+            "strikes": 1
           },
           "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
             "type": {
-              "code": "FF",
-              "description": "Four-seam fastball"
+              "code": "CH",
+              "description": "Changeup"
             },
-            "zone": 12
+            "zone": 4
           },
           "pitchData": {
-            "startSpeed": 94.8,
-            "zone": 12,
+            "startSpeed": 83.4,
+            "zone": 4,
             "breaks": {
-              "spinRate": 2299
+              "spinRate": 1778
             }
           }
         },
@@ -2051,26 +2048,26 @@
           },
           "details": {
             "code": "X",
-            "description": "In play, Double Play",
+            "description": "In play, Single",
             "isStrike": true,
             "type": {
               "code": "FF",
               "description": "Four-seam fastball"
             },
-            "zone": 4
+            "zone": 13
           },
           "pitchData": {
-            "startSpeed": 95.3,
-            "zone": 4,
+            "startSpeed": 96.1,
+            "zone": 13,
             "breaks": {
-              "spinRate": 2341
+              "spinRate": 2459
             }
           },
           "hitData": {
-            "launchSpeed": 111.4,
-            "launchAngle": 4.7,
+            "launchSpeed": 108.0,
+            "launchAngle": -6.8,
             "trajectory": "ground_ball",
-            "location": "P"
+            "location": "RS"
           }
         }
       ],
@@ -2085,8 +2082,8 @@
             "outNumber": null
           },
           "details": {
-            "event": "Field Error",
-            "eventType": "field_error",
+            "event": "Single",
+            "eventType": "single",
             "movementReason": null,
             "runner": {
               "id": 585402,
@@ -2099,29 +2096,15 @@
             "teamUnearned": false,
             "playIndex": 3
           },
-          "credits": [
-            {
-              "player": {
-                "id": 605110,
-                "fullName": "Joe Gibson",
-                "link": "/api/v1/people/605110"
-              },
-              "position": {
-                "code": "1",
-                "name": "Pitcher",
-                "abbreviation": "P"
-              },
-              "credit": "fielding_error"
-            }
-          ]
+          "credits": []
         }
       ]
     }
   ],
-  "playCount": 70,
+  "playCount": 77,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 70,
+    "totalPlaysInGame": 77,
     "snapshotPlayCount": 6
   }
 }

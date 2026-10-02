@@ -1270,28 +1270,28 @@
         "homeScore": 2
       },
       "about": {
-        "atBatIndex": 4,
+        "atBatIndex": 5,
         "halfInning": "bottom",
         "isTopInning": false,
         "inning": 1,
         "isScoringPlay": true,
-        "startTime": "2025-09-27T23:13:20.363998+00:00",
-        "endTime": "2025-09-27T23:14:33.875180+00:00"
+        "startTime": "2025-09-27T23:14:43.051750+00:00",
+        "endTime": "2025-09-27T23:16:14.030137+00:00"
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 0
+        "outs": 1
       },
       "matchup": {
         "batter": {
-          "id": 545102,
-          "fullName": "Marcus Thorne",
-          "link": "/api/v1/people/545102"
+          "id": 545103,
+          "fullName": "Sam Decker",
+          "link": "/api/v1/people/545103"
         },
         "batSide": {
-          "code": "L",
-          "description": "Left"
+          "code": "R",
+          "description": "Right"
         },
         "pitcher": {
           "id": 665310,
@@ -1304,19 +1304,73 @@
         },
         "splits": {
           "batter": "vs_RHP",
-          "pitcher": "vs_LHB",
+          "pitcher": "vs_RHB",
           "menOnBase": "Men_On"
         }
       },
       "playEvents": [
         {
-          "index": 14,
-          "startTime": "2025-09-27T23:13:20.363998+00:00",
-          "endTime": "2025-09-27T23:13:44.882375+00:00",
+          "index": 17,
+          "startTime": "2025-09-27T23:14:43.051750+00:00",
+          "endTime": "2025-09-27T23:15:01.649306+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "SL",
+              "description": "Slider"
+            },
+            "zone": 5
+          },
+          "pitchData": {
+            "startSpeed": 86.8,
+            "zone": 5,
+            "breaks": {
+              "spinRate": 2545
+            }
+          }
+        },
+        {
+          "index": 18,
+          "startTime": "2025-09-27T23:15:01.649306+00:00",
+          "endTime": "2025-09-27T23:15:26.192499+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 1
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 2
+          },
+          "pitchData": {
+            "startSpeed": 91.1,
+            "zone": 2,
+            "breaks": {
+              "spinRate": 2151
+            }
+          }
+        },
+        {
+          "index": 19,
+          "startTime": "2025-09-27T23:15:26.192499+00:00",
+          "endTime": "2025-09-27T23:15:50.147247+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 2
           },
           "details": {
             "code": "F",
@@ -1326,73 +1380,46 @@
               "code": "SL",
               "description": "Slider"
             },
-            "zone": 4
+            "zone": 1
           },
           "pitchData": {
-            "startSpeed": 85.9,
-            "zone": 4,
+            "startSpeed": 85.4,
+            "zone": 1,
             "breaks": {
-              "spinRate": 2484
+              "spinRate": 2337
             }
           }
         },
         {
-          "index": 15,
-          "startTime": "2025-09-27T23:13:44.882375+00:00",
-          "endTime": "2025-09-27T23:14:10.481223+00:00",
+          "index": 20,
+          "startTime": "2025-09-27T23:15:50.147247+00:00",
+          "endTime": "2025-09-27T23:16:14.030137+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
-            "strikes": 1
-          },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "CH",
-              "description": "Changeup"
-            },
-            "zone": 11
-          },
-          "pitchData": {
-            "startSpeed": 82.7,
-            "zone": 11,
-            "breaks": {
-              "spinRate": 1793
-            }
-          }
-        },
-        {
-          "index": 16,
-          "startTime": "2025-09-27T23:14:10.481223+00:00",
-          "endTime": "2025-09-27T23:14:33.875180+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 1
+            "strikes": 2
           },
           "details": {
             "code": "X",
             "description": "In play, Home Run",
             "isStrike": true,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "SI",
+              "description": "Sinker"
             },
             "zone": 1
           },
           "pitchData": {
-            "startSpeed": 86.3,
+            "startSpeed": 93.1,
             "zone": 1,
             "breaks": {
-              "spinRate": 2522
+              "spinRate": 2276
             }
           },
           "hitData": {
-            "launchSpeed": 107.8,
-            "launchAngle": 24.6,
-            "trajectory": "line_drive",
+            "launchSpeed": 106.1,
+            "launchAngle": 30.0,
+            "trajectory": "fly_ball",
             "location": "DL"
           }
         }
@@ -1412,15 +1439,15 @@
             "eventType": "home_run",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 545101,
-              "fullName": "Leo Vance",
-              "link": "/api/v1/people/545101"
+              "id": 545102,
+              "fullName": "Marcus Thorne",
+              "link": "/api/v1/people/545102"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 2,
+            "playIndex": 3,
             "responsiblePitcher": {
               "id": 665310,
               "link": "/api/v1/people/665310"
@@ -1442,15 +1469,15 @@
             "eventType": "home_run",
             "movementReason": null,
             "runner": {
-              "id": 545102,
-              "fullName": "Marcus Thorne",
-              "link": "/api/v1/people/545102"
+              "id": 545103,
+              "fullName": "Sam Decker",
+              "link": "/api/v1/people/545103"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 2,
+            "playIndex": 3,
             "responsiblePitcher": {
               "id": 665310,
               "link": "/api/v1/people/665310"
@@ -2078,36 +2105,36 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Strikeout",
-        "eventType": "strikeout",
+        "event": "Forceout",
+        "eventType": "force_out",
         "description": "",
         "rbi": 0,
         "awayScore": 0,
-        "homeScore": 2
+        "homeScore": 0
       },
       "about": {
-        "atBatIndex": 6,
+        "atBatIndex": 4,
         "halfInning": "bottom",
         "isTopInning": false,
         "inning": 1,
         "isScoringPlay": false,
-        "startTime": "2025-09-27T23:15:45.174024+00:00",
-        "endTime": "2025-09-27T23:17:17.076843+00:00"
+        "startTime": "2025-09-27T23:13:20.363998+00:00",
+        "endTime": "2025-09-27T23:14:16.075756+00:00"
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 2
+        "outs": 1
       },
       "matchup": {
         "batter": {
-          "id": 545104,
-          "fullName": "Jackson Riley",
-          "link": "/api/v1/people/545104"
+          "id": 545102,
+          "fullName": "Marcus Thorne",
+          "link": "/api/v1/people/545102"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
           "id": 665310,
@@ -2120,154 +2147,195 @@
         },
         "splits": {
           "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "Empty"
+          "pitcher": "vs_LHB",
+          "menOnBase": "Men_On"
+        },
+        "postOnFirst": {
+          "id": 545102,
+          "fullName": "Marcus Thorne",
+          "link": "/api/v1/people/545102"
         }
       },
       "playEvents": [
         {
-          "index": 18,
-          "startTime": "2025-09-27T23:15:45.174024+00:00",
-          "endTime": "2025-09-27T23:16:09.128772+00:00",
+          "index": 14,
+          "startTime": "2025-09-27T23:13:20.363998+00:00",
+          "endTime": "2025-09-27T23:13:44.882375+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 0
           },
           "details": {
-            "code": "F",
-            "description": "Foul",
+            "code": "C",
+            "description": "Called Strike",
             "isStrike": true,
             "type": {
-              "code": "SI",
-              "description": "Sinker"
+              "code": "SL",
+              "description": "Slider"
             },
-            "zone": 1
+            "zone": 4
           },
           "pitchData": {
-            "startSpeed": 92.5,
-            "zone": 1,
+            "startSpeed": 85.9,
+            "zone": 4,
             "breaks": {
-              "spinRate": 2137
+              "spinRate": 2484
             }
           }
         },
         {
-          "index": 19,
-          "startTime": "2025-09-27T23:16:09.128772+00:00",
-          "endTime": "2025-09-27T23:16:33.011662+00:00",
+          "index": 15,
+          "startTime": "2025-09-27T23:13:44.882375+00:00",
+          "endTime": "2025-09-27T23:13:52.681799+00:00",
+          "isPitch": false,
+          "count": {
+            "balls": 0,
+            "strikes": 1
+          },
+          "details": {
+            "description": "Pickoff Attempt 1B",
+            "code": "",
+            "isStrike": false,
+            "type": {
+              "code": "PO",
+              "description": "Pickoff"
+            },
+            "eventType": "pickoff_attempt",
+            "runners": [
+              {
+                "runner": {
+                  "id": 545101,
+                  "fullName": "Leo Vance"
+                },
+                "fromBase": "1B",
+                "toBase": "1B",
+                "isOut": false
+              }
+            ]
+          }
+        },
+        {
+          "index": 16,
+          "startTime": "2025-09-27T23:13:44.882375+00:00",
+          "endTime": "2025-09-27T23:14:16.075756+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 1
           },
           "details": {
-            "code": "C",
-            "description": "Called Strike",
+            "code": "X",
+            "description": "In play, Groundout",
             "isStrike": true,
             "type": {
               "code": "SI",
               "description": "Sinker"
             },
-            "zone": 3
+            "zone": 7
           },
           "pitchData": {
-            "startSpeed": 91.3,
-            "zone": 3,
+            "startSpeed": 93.2,
+            "zone": 7,
             "breaks": {
-              "spinRate": 2337
+              "spinRate": 2151
             }
-          }
-        },
-        {
-          "index": 20,
-          "startTime": "2025-09-27T23:16:33.011662+00:00",
-          "endTime": "2025-09-27T23:16:57.582164+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 0,
-            "strikes": 2
           },
-          "details": {
-            "code": "B",
-            "description": "Ball",
-            "isStrike": false,
-            "type": {
-              "code": "SI",
-              "description": "Sinker"
-            },
-            "zone": 13
-          },
-          "pitchData": {
-            "startSpeed": 92.8,
-            "zone": 13,
-            "breaks": {
-              "spinRate": 2300
-            }
-          }
-        },
-        {
-          "index": 21,
-          "startTime": "2025-09-27T23:16:57.582164+00:00",
-          "endTime": "2025-09-27T23:17:17.076843+00:00",
-          "isPitch": true,
-          "count": {
-            "balls": 1,
-            "strikes": 2
-          },
-          "details": {
-            "code": "S",
-            "description": "Swinging Strike",
-            "isStrike": true,
-            "type": {
-              "code": "CH",
-              "description": "Changeup"
-            },
-            "zone": 3
-          },
-          "pitchData": {
-            "startSpeed": 83.5,
-            "zone": 3,
-            "breaks": {
-              "spinRate": 1934
-            }
+          "hitData": {
+            "launchSpeed": 92.4,
+            "launchAngle": 6.7,
+            "trajectory": "ground_ball",
+            "location": "1B"
           }
         }
       ],
       "runners": [
         {
           "movement": {
-            "originBase": null,
-            "start": null,
+            "originBase": "1B",
+            "start": "1B",
             "end": null,
-            "outBase": null,
+            "outBase": "2B",
             "isOut": true,
-            "outNumber": 2
+            "outNumber": 1
           },
           "details": {
-            "event": "Strikeout",
-            "eventType": "strikeout",
-            "movementReason": null,
+            "event": "Forceout",
+            "eventType": "force_out",
+            "movementReason": "r_force_out",
             "runner": {
-              "id": 545104,
-              "fullName": "Jackson Riley",
-              "link": "/api/v1/people/545104"
+              "id": 545101,
+              "fullName": "Leo Vance",
+              "link": "/api/v1/people/545101"
             },
             "isScoringEvent": false,
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 3
+            "playIndex": 2
+          },
+          "credits": [
+            {
+              "player": {
+                "id": 565303,
+                "fullName": "Jason Giambi",
+                "link": "/api/v1/people/565303"
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 565306,
+                "fullName": "Marcus Semi",
+                "link": "/api/v1/people/565306"
+              },
+              "position": {
+                "code": "6",
+                "name": "Shortstop",
+                "abbreviation": "SS"
+              },
+              "credit": "putout"
+            }
+          ]
+        },
+        {
+          "movement": {
+            "originBase": null,
+            "start": null,
+            "end": "1B",
+            "outBase": null,
+            "isOut": false,
+            "outNumber": null
+          },
+          "details": {
+            "event": "Forceout",
+            "eventType": "force_out",
+            "movementReason": null,
+            "runner": {
+              "id": 545102,
+              "fullName": "Marcus Thorne",
+              "link": "/api/v1/people/545102"
+            },
+            "isScoringEvent": false,
+            "rbi": false,
+            "earned": false,
+            "teamUnearned": false,
+            "playIndex": 2
           },
           "credits": []
         }
       ]
     }
   ],
-  "playCount": 84,
+  "playCount": 90,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 84,
+    "totalPlaysInGame": 90,
     "snapshotPlayCount": 6
   }
 }

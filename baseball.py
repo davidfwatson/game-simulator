@@ -13,8 +13,13 @@ CHASE_RATE = 0.30             # swings at pitches outside it, before discipline
 CONTACT_BOOST = 0.085         # added to each batter's contact rating
 CHASE_CONTACT_FACTOR = 0.75   # contact multiplier on pitches outside the zone
 FOUL_SHARE_OF_CONTACT = 0.48  # contact that goes foul rather than in play
-ZONE_RATE_OFFSET = 0.10       # subtracted from pitcher control to get zone rate
-PICKOFF_THROW_RATE = 0.11     # per pitch, runner alone on first
+TWO_STRIKE_FOUL_BONUS = 0.20  # extra foul share with two strikes (protecting the plate)
+FIRST_PITCH_SWING_FACTOR = 0.6  # hitters take more on 0-0 (MLB swings ~30% of first pitches)
+TWO_STRIKE_ZONE_FACTOR = 1.3    # and protect the plate with two strikes
+TWO_STRIKE_CHASE_FACTOR = 1.5
+ZONE_RATE_OFFSET = 0.075      # subtracted from pitcher control to get zone rate
+PICKOFF_THROW_RATE = 0.075    # per pitch, runner alone on first (real feeds: ~2.2 throws per team-game)
+STARTER_STAMINA_BONUS = 14     # pitches added to a starter's stamina
 BUNT_RATE_FACTOR = 0.2        # sac bunts were ~1.5/game; MLB is ~0.3
 
 
@@ -398,7 +403,8 @@ class BaseballSimulator:
         13: Inside (Ball)
         14: Low (Ball)
         """
-        fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - pitcher['stamina']) / 15) * 0.1
+        stamina = pitcher['stamina'] + (STARTER_STAMINA_BONUS if pitcher.get('type') == 'Starter' else 0)
+        fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - stamina) / 15) * 0.1
 
         # Determine "pitch around" penalty based on batter threat
         pitch_around_penalty = 0.0
@@ -445,6 +451,10 @@ class BaseballSimulator:
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
         swing_at_ball_prob = CHASE_RATE / discipline_factor
         prob = ZONE_SWING_RATE if is_strike_loc else swing_at_ball_prob
+        if balls == 0 and strikes == 0:
+            prob *= FIRST_PITCH_SWING_FACTOR
+        elif strikes == 2:
+            prob = min(0.97, prob * (TWO_STRIKE_ZONE_FACTOR if is_strike_loc else TWO_STRIKE_CHASE_FACTOR))
         if balls == 3 and strikes == 0:
             prob *= self._three_oh_swing_factor(batter, is_strike_loc, zone, pitch_type)
         return self.game_rng.random() < prob
@@ -491,7 +501,7 @@ class BaseballSimulator:
         """Determines the outcome of a batted ball from its physics."""
         # Weak contact leading to outs
         if ev < 80:
-            if la > 46: return "Pop Out"
+            if la > 38: return "Pop Out"
             if la < 12: return "Groundout"
             return "Flyout"
 
@@ -505,17 +515,17 @@ class BaseballSimulator:
         # Line drives
         if la < 21:
             if ev > 114: return "Home Run" # Screamer
-            if ev > 107: return "Double"
+            if ev > 107: return "Triple" if self.game_rng.random() < 0.10 else "Double"
             if ev > 95: return "Single"
             # Reduce Lineouts by converting weaker ones to Groundouts
             if ev < 85: return "Groundout"
             return "Lineout"
 
-        # Fly balls
-        if la < 46:
+        # Fly balls (real feeds: ~2 pop-ups per team-game; most were flyouts here)
+        if la < 43:
             if ev > 104: return "Home Run" # Reduced threshold
-            if ev > 103: return "Double" # Gap shot
-            if ev > 94 and self.game_rng.random() < 0.3: return "Double"
+            if ev > 103: return "Triple" if self.game_rng.random() < 0.08 else "Double" # Gap shot
+            if ev > 94 and self.game_rng.random() < 0.34: return "Double"
             if ev > 90 and self.game_rng.random() < 0.28: return "Single" # Bloop
             if ev > 99 and la > 40: return "Triple"
             return "Flyout"
@@ -598,6 +608,7 @@ class BaseballSimulator:
 
     def _get_trajectory(self, outcome, la):
         if "Groundout" in outcome: return "ground_ball"
+        if outcome == "Pop Out": return "popup"
         if la is not None:
             if la < 10: return "ground_ball"
             elif 10 <= la <= 25: return "line_drive"
@@ -876,7 +887,12 @@ class BaseballSimulator:
             # Batters give up the bunt with two strikes: a foul bunt there is
             # strike three, so only the rare (pitcher-ish) bunter keeps it on.
             bunting_now = is_bunting and (strikes < 2 or self.game_rng.random() < 0.1)
-            if self.bases[0] and not self.bases[1] and self.game_rng.random() < PICKOFF_THROW_RATE:
+            # Two disengagements per plate appearance under the pitch clock,
+            # and a second throw over is rarer than the first.
+            throws_this_pa = sum(1 for e in play_events if not e.get('isPitch')
+                                 and 'pickoff' in str(e.get('details', {}).get('eventType', '')))
+            if (self.bases[0] and not self.bases[1] and throws_this_pa < 2
+                    and self.game_rng.random() < PICKOFF_THROW_RATE * (0.5 if throws_this_pa else 1)):
                 self._record_pickoff_throw(play_events, balls, strikes)
 
             # Advance time for the pitch (median ~20.4s)
@@ -936,7 +952,7 @@ class BaseballSimulator:
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
                     self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
                 else: # Contact
-                    is_foul = self.game_rng.random() < FOUL_SHARE_OF_CONTACT
+                    is_foul = self.game_rng.random() < FOUL_SHARE_OF_CONTACT + (TWO_STRIKE_FOUL_BONUS if strikes == 2 else 0)
                     if is_foul:
                         if strikes < 2 or bunting_now: strikes += 1
                         pitch_outcome_text = "foul"
@@ -1073,7 +1089,12 @@ class BaseballSimulator:
         current_pitcher_name = self.team1_current_pitcher_name if is_home_team_pitching else self.team2_current_pitcher_name
         pitcher_stats = self.team1_pitcher_stats if is_home_team_pitching else self.team2_pitcher_stats
         available_bullpen = self.team1_available_bullpen if is_home_team_pitching else self.team2_available_bullpen
-        fatigue_factor = max(0, self.pitch_counts[current_pitcher_name] - pitcher_stats[current_pitcher_name]['stamina'])
+        # At-bats now run ~3.9 pitches (they were ~3.3), so a starter's
+        # stamina in pitches stretches to keep him at MLB's ~88-pitch average.
+        stamina = pitcher_stats[current_pitcher_name]['stamina']
+        if pitcher_stats[current_pitcher_name].get('type') == 'Starter':
+            stamina += STARTER_STAMINA_BONUS
+        fatigue_factor = max(0, self.pitch_counts[current_pitcher_name] - stamina)
         # A pitcher who has given up four in the inning gets the hook whatever
         # his pitch count; leaving him in through a six-run inning read as a
         # simulator with no manager.
@@ -1218,16 +1239,21 @@ class BaseballSimulator:
                 return 0, False, 0, credits, [], credits, False, "Forceout", forced
 
             # Check for force play situation (not a double play)
+            # The force at second also happens with two out (the most common
+            # way an inning ends on a ground ball) and with a runner on second
+            # too, who is forced to third. Real feeds: ~0.6 forceouts per
+            # team-game; this was ~0.3.
             is_force_play = False
             force_base = None
-            if self.bases[0] and not self.bases[1] and self.game_rng.random() < 0.5:
+            if (self.bases[0] and not all(self.bases)
+                    and self.game_rng.random() < (0.38 if self.outs == 2 else 0.28)):
                 is_force_play = True
                 force_base = "2B"
 
-            if is_force_play and self.outs < 2:
+            if is_force_play:
                 forced = self.bases[0]
                 self.outs += 1
-                self.bases[0] = batter['legal_name']  # Batter reaches
+                self.bases = [batter['legal_name'], None, self.bases[1] or self.bases[2]]  # Batter reaches
                 ss = getattr(self, f"{defensive_team_prefix}_defense").get('SS')
                 credits = [self._create_credit(fielder, 'assist'), self._create_credit(ss, 'putout')]
                 self._last_force = (forced, '1B', '2B')

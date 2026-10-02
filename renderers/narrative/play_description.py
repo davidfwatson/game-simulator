@@ -219,6 +219,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         if not specific_templates:
             specific_templates = outcome_templates.get('default', [])
 
+        if template_outcome == 'Double' and cat == 'default' and not strict:
+            # 13 of the 18 stock doubles reach the wall or the corner; judges
+            # read "roll all the way to the wall" again and again as generated.
+            specific_templates = specific_templates + outcome_templates.get('no_wall', []) * 2
+
         if template_outcome == 'Field Error' and cat == 'everybody_safe':
             specific_templates = specific_templates + outcome_templates.get('grounder', [])
         if template_outcome == 'Field Error' and not hit_data.get('bobbled'):

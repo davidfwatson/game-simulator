@@ -58,7 +58,7 @@ class TestOutcomeDistributions(unittest.TestCase):
             'Field Error': 60,   # batter reached on error (~0.8% of PA), not all charged errors
             'Hit By Pitch': 85,
             'Sac Fly': 50,
-            'Forceout': 90,   # MLB force_out is ~1.2% of PA; 45 (0.6%) was half that
+            'Forceout': 120,  # 24 real 2026 feeds: 0.62 per team-game (~1.6% of PA)
             'Caught Stealing': 40,
             'Triple': 27,
         }

@@ -535,6 +535,14 @@ GAME_CONTEXT = {
             "ground_rule": [
                 "Hammered {direction}, and that will bounce over the wall. That's a ground-rule double for {batter_name}."
             ],
+            "no_wall": [
+                "Lined {direction}, and that one splits the outfielders. {batter_name} cruises into second.",
+                "Hit {direction}, and that gets down in a hurry. {batter_name} hustles into second with a double.",
+                "Driven {direction}. {fielder_name} cuts it off, but {batter_name} is in at second with a double.",
+                "A line drive {direction} that falls in, and {batter_name} takes second without a throw.",
+                "Into the gap it goes. {batter_name} is around first and into second, standing up.",
+                "Lofted {direction}, and it drops in between them. That's a double for {batter_name}.",
+            ],
             "lost_in_lights": [
                 "Hit in the air {direction}. {fielder_name} will lose that one in the lights, and that one falls in. {batter_name} heads for second with a double."
             ],
