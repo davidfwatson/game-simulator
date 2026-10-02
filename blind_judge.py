@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Blind realism test: can a reader tell our generated games from real ones?
 
-Builds triplets of one-inning play-by-play excerpts, all rendered by our
+Builds triplets of play-by-play excerpts (one inning by default, --innings N), all rendered by our
 narrative engine with our own team, player and venue names:
 
   real  - a real MLB game (StatsAPI live feed, anonymized)
@@ -54,7 +54,7 @@ BACK_RE = re.compile(r"\s*(And )?[Ww]e'll be (right )?back\b[^.]*\.")
 STATION_RE = re.compile(r"\s*Here on [^.]*\bNetwork\.")
 RETURN_RE = re.compile(r"^(And )?(welcome back|we're back)\b[^.]*\.\s*", re.I)
 
-JUDGE_PROMPT = """Below are three excerpts of baseball radio play-by-play, labelled A, B and C. Each covers one inning.
+JUDGE_PROMPT = """Below are three excerpts of baseball radio play-by-play, labelled A, B and C. Each covers the same stretch of {span}.
 
 Exactly one is from a REAL Major League game. One is from a HAND-WRITTEN fictional game (a writer invented the game for a sleep-story podcast). One is from a COMPUTER SIMULATION of a game. Team, player and ballpark names have been replaced with the same fictional names in all three, and all three were turned into prose by the same commentary engine, so wording style alone won't separate them: look at what happens in the game.
 
@@ -273,8 +273,8 @@ def render(data, seed=None):
     return NarrativeRenderer(data, seed=seed).render()
 
 
-def inning_excerpt(text, inning):
-    """One full inning, without TTS markers or commercial-break lines."""
+def inning_excerpt(text, inning, span=1):
+    """`span` full innings from `inning`, without TTS markers or commercial-break lines."""
     lines = text.split("\n")
     start = next(i for i, l in enumerate(lines) if "we are underway" in l.lower())
     halves, current = [], []
@@ -287,7 +287,7 @@ def inning_excerpt(text, inning):
             current.append(line)
     halves.append(current)
     out = []
-    for half in halves[2 * inning - 2: 2 * inning]:
+    for half in halves[2 * inning - 2: 2 * (inning + span - 1)]:
         for line in half:
             line = line.strip()
             if not line or SPLIT_RE.match(line):
@@ -306,7 +306,7 @@ def innings_played(data):
 
 # ---------------------------------------------------------------- build/score
 
-def build(out, count, real_feeds, seed):
+def build(out, count, real_feeds, seed, span=1):
     rng = random.Random(seed)
     template = sim_game(1)["gameData"]
     feeds = sorted(glob.glob(real_feeds))
@@ -322,9 +322,9 @@ def build(out, count, real_feeds, seed):
             "real": remap_names(real_game(feed, seed=sim_seed), template),
             "sim": sim_game(sim_seed),
         }
-        last = min(8, *(innings_played(d) for d in sources.values()))
-        inning = rng.randint(1, last)
-        texts = {k: inning_excerpt(render(d, seed=sim_seed), inning) for k, d in sources.items()}
+        last = min(9, *(innings_played(d) for d in sources.values())) - span + 1
+        inning = rng.randint(1, max(1, min(last, 9 - span)))
+        texts = {k: inning_excerpt(render(d, seed=sim_seed), inning, span) for k, d in sources.items()}
         labels = ["A", "B", "C"]
         kinds = list(texts)
         rng.shuffle(kinds)
@@ -335,9 +335,9 @@ def build(out, count, real_feeds, seed):
             (tdir / f"{label}.txt").write_text(texts[kind])
             key[label] = kind
         (tdir / "key.json").write_text(json.dumps({
-            "key": key, "inning": inning, "sleep_episode": episode,
+            "key": key, "inning": inning, "span": span, "sleep_episode": episode,
             "real_feed": Path(feed).name, "sim_seed": sim_seed}, indent=1))
-        prompt = JUDGE_PROMPT
+        prompt = JUDGE_PROMPT.replace("{span}", "one inning" if span == 1 else f"{span} consecutive innings")
         for label in labels:
             prompt = prompt.replace("{" + label + "}", texts[key[label]].strip())
         (tdir / "prompt.txt").write_text(prompt)
@@ -378,11 +378,12 @@ def main():
     b.add_argument("--count", type=int, default=12)
     b.add_argument("--real-feeds", required=True, help="glob of StatsAPI live-feed JSON files")
     b.add_argument("--seed", type=int, default=None)
+    b.add_argument("--innings", type=int, default=1, help="innings per excerpt")
     s = sub.add_parser("score")
     s.add_argument("--out", required=True)
     args = ap.parse_args()
     if args.cmd == "build":
-        build(args.out, args.count, args.real_feeds, args.seed)
+        build(args.out, args.count, args.real_feeds, args.seed, args.innings)
     else:
         score(args.out)
 
