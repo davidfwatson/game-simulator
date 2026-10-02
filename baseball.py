@@ -21,6 +21,9 @@ TWO_STRIKE_CHASE_FACTOR = 1.5
 ZONE_RATE_OFFSET = 0.075      # subtracted from pitcher control to get zone rate
 PICKOFF_THROW_RATE = 0.075    # per pitch, runner alone on first (real feeds: ~2.2 throws per team-game)
 AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk/HBP
+WILD_PITCH_FACTOR = 3.2        # x the pitcher's wild_pitch_rate, per ball with runners on
+LATE_TROUBLE_HOOK_RATE = 0.25   # per PA, innings 6+, close, runner in scoring position
+MID_INNING_FATIGUE_MARGIN = 12  # pitches past his limit before a bases-empty hook
 STARTER_STAMINA_BONUS = 14     # pitches added to a starter's stamina
 BUNT_RATE_FACTOR = 0.2        # sac bunts were ~1.5/game; MLB is ~0.3
 
@@ -783,6 +786,26 @@ class BaseballSimulator:
 
         return None
 
+    def _record_wild_pitch(self, play_events, balls, strikes):
+        """A ball in the dirt gets away and the runners move up a base. (Only
+        with third base open for now, so it never has to score a run.)"""
+        batting_lineup = self.team1_lineup if not self.top_of_inning else self.team2_lineup
+        ids = {p['legal_name']: p['id'] for p in batting_lineup}
+        moves = []
+        for idx in (1, 0):
+            name = self.bases[idx]
+            if name:
+                moves.append({'runner': {'id': ids.get(name), 'fullName': name},
+                              'fromBase': ('1B', '2B')[idx], 'toBase': ('2B', '3B')[idx], 'isOut': False})
+                self.bases[idx + 1], self.bases[idx] = name, None
+        play_events.append({
+            'index': self._pitch_event_seq, 'startTime': self.current_time.isoformat(),
+            'endTime': self.current_time.isoformat(), 'isPitch': False,
+            'count': {'balls': balls, 'strikes': strikes},
+            'details': {'description': 'Wild Pitch', 'code': '', 'isStrike': False,
+                        'eventType': 'wild_pitch', 'runners': moves},
+        })
+
     def _record_pickoff_throw(self, play_events, balls, strikes):
         """A throw over to first; the runner gets back. Real pitchers do this
         about six times a game, and a game without any reads as generated."""
@@ -1003,6 +1026,10 @@ class BaseballSimulator:
             play_event['details'] = event_details
             play_event['pitchData'] = pitch_data
             play_events.append(play_event)
+            if (event_details.get('code') == 'B' and balls < 4 and not steal_attempt_base
+                    and (self.bases[0] or self.bases[1]) and not self.bases[2]
+                    and self.game_rng.random() < pitcher.get('wild_pitch_rate', 0.003) * WILD_PITCH_FACTOR):
+                self._record_wild_pitch(play_events, balls, strikes)
             self._pitch_event_seq += 1
 
             if is_in_play:
@@ -1120,8 +1147,21 @@ class BaseballSimulator:
         batting_score = self.team2_score if self.top_of_inning else self.team1_score
         entry_scores = getattr(self, '_half_pitcher_entry', {})
         shelled = batting_score - entry_scores.get(current_pitcher_name, batting_score) >= 4
-        if (fatigue_factor > 0 or shelled) and available_bullpen:
+        # Mid-inning hooks are for trouble: a pitcher well past his limit, or
+        # tiring with men on. Crossing his pitch count with two out and the
+        # bases empty used to pull him on the spot; real managers let him
+        # finish (most changes come between innings: 4.4 a game vs 2.2 mid).
+        runners_on = any(self.bases)
+        tired = fatigue_factor > MID_INNING_FATIGUE_MARGIN or (fatigue_factor > 0 and runners_on)
+        # Late and close with men in scoring position: go get a fresh arm.
+        margin = abs(self.team1_score - self.team2_score)
+        matchup_hook = (self.inning >= 6 and margin <= 3 and (self.bases[1] or self.bases[2])
+                        and available_bullpen
+                        and not (pitcher_stats[available_bullpen[0]].get('type') == 'Closer' and self.inning < 9)
+                        and self.game_rng.random() < LATE_TROUBLE_HOOK_RATE)
+        if (tired or shelled or matchup_hook) and available_bullpen:
             entry_scores[available_bullpen[0]] = batting_score
+            self._entered_inning[available_bullpen[0]] = self.inning
             next_pitcher_name = available_bullpen[0]
             if is_home_team_pitching:
                 if self.team1_current_pitcher_name != next_pitcher_name:
@@ -1129,6 +1169,37 @@ class BaseballSimulator:
             else:
                 if self.team2_current_pitcher_name != next_pitcher_name:
                     self.team2_current_pitcher_name, self.team2_available_bullpen = next_pitcher_name, available_bullpen[1:]
+
+    def _manage_between_innings(self):
+        """Change pitchers before the half starts, the way most changes happen:
+        a starter near his limit doesn't start an inning he can't finish, and
+        relievers work an inning (two for the long man)."""
+        is_home_team_pitching = self.top_of_inning
+        current = self.team1_current_pitcher_name if is_home_team_pitching else self.team2_current_pitcher_name
+        stats = (self.team1_pitcher_stats if is_home_team_pitching else self.team2_pitcher_stats)[current]
+        bullpen = self.team1_available_bullpen if is_home_team_pitching else self.team2_available_bullpen
+        if not bullpen:
+            return
+        pitches = self.pitch_counts[current]
+        role = stats.get('type', '')
+        innings_done = self.inning - self._entered_inning.get(current, 1)
+        if role == 'Starter':
+            change = pitches >= stats['stamina'] + STARTER_STAMINA_BONUS - 10
+        elif role == 'Long Reliever':
+            change = innings_done >= 2 or pitches >= stats['stamina'] - 8
+        else:
+            change = innings_done >= 1 or pitches >= stats['stamina'] - 5
+        # The closer is kept for the ninth unless he's all that's left.
+        nxt = bullpen[0]
+        nxt_role = (self.team1_pitcher_stats if is_home_team_pitching else self.team2_pitcher_stats)[nxt].get('type')
+        if change and nxt_role == 'Closer' and self.inning < 9 and role != 'Starter' and pitches < stats['stamina']:
+            change = False
+        if change:
+            self._entered_inning[nxt] = self.inning
+            if is_home_team_pitching:
+                self.team1_current_pitcher_name, self.team1_available_bullpen = nxt, bullpen[1:]
+            else:
+                self.team2_current_pitcher_name, self.team2_available_bullpen = nxt, bullpen[1:]
 
     def _create_credit(self, player, credit_type):
         return {
@@ -1314,6 +1385,9 @@ class BaseballSimulator:
 
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
+        if not hasattr(self, '_entered_inning'):
+            self._entered_inning = {}
+        self._manage_between_innings()
         self._free_pass_pitcher = None
         self._half_pitcher_entry = {
             (self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name):
