@@ -46,13 +46,13 @@ class TestOutcomeDistributions(unittest.TestCase):
         expected_distribution = {
             'Strikeout': 1690,
             'Groundout': 1450,
-            'Flyout': 1150,
+            'Flyout': 860,    # 24 real 2026 feeds: 4.3 per team-game
             'Single': 1060,
             'Walk': 630,
-            'Lineout': 350,   # Lower than your previous 790; Line drives are usually hits!
+            'Lineout': 390,   # real feeds: 2.0 per team-game
             'Double': 320,
             'Home Run': 230,
-            'Pop Out': 180,
+            'Pop Out': 390,   # real feeds: 2.0 per team-game (StatsAPI names caught balls by launch angle)
             'Stolen Base': 150, # Added this as it's a key stat now
             'Double Play': 145,
             'Field Error': 60,   # batter reached on error (~0.8% of PA), not all charged errors

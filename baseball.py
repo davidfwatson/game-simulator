@@ -5,12 +5,21 @@ from datetime import datetime, timezone, timedelta
 from gameday import GamedayData, GameData, LiveData, Linescore, InningLinescore, Play, PlayResult, PlayAbout, PlayCount, PlayEvent, Runner, FielderCredit, PitchData, HitData, PitchDetails, Boxscore, BoxscoreTeam, BoxscorePlayer
 from teams import TEAMS
 from commentary import GAME_CONTEXT
+import fieldsim
+import os as _os
+
+with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'fieldsim_batted_balls.json')) as _f:
+    _REAL_BATTED_BALLS = [tuple(b) for b in json.load(_f)['balls']]
 
 # Plate-discipline model, tuned so pitch outcomes match MLB rates (fouls ~18%
 # of pitches, called strikes ~17%) while keeping K%, BB% and pitches per PA.
+# Play batted balls on a 2D field (fieldsim) instead of the EV/LA outcome table:
+# outcome, fielder, location and coordinates then come from one calculation.
+FIELD_SIM = True
+POWER_EV_SHIFT = 8.0          # mph of exit velocity per point of power, around the league's 0.54
 ZONE_SWING_RATE = 0.69        # swings at pitches in the zone
 CHASE_RATE = 0.30             # swings at pitches outside it, before discipline
-CONTACT_BOOST = 0.085         # added to each batter's contact rating
+CONTACT_BOOST = 0.095         # added to each batter's contact rating
 CHASE_CONTACT_FACTOR = 0.75   # contact multiplier on pitches outside the zone
 FOUL_SHARE_OF_CONTACT = 0.48  # contact that goes foul rather than in play
 TWO_STRIKE_FOUL_BONUS = 0.28  # extra foul share with two strikes (protecting the plate)
@@ -18,7 +27,7 @@ TWO_STRIKE_FOUL_DECAY = 0.14  # less each time he's already fouled one off with 
 FIRST_PITCH_SWING_FACTOR = 0.6  # hitters take more on 0-0 (MLB swings ~30% of first pitches)
 TWO_STRIKE_ZONE_FACTOR = 1.3    # and protect the plate with two strikes
 TWO_STRIKE_CHASE_FACTOR = 1.5
-ZONE_RATE_OFFSET = 0.075      # subtracted from pitcher control to get zone rate
+ZONE_RATE_OFFSET = 0.085      # subtracted from pitcher control to get zone rate
 PICKOFF_THROW_RATE = 0.075    # per pitch, runner alone on first (real feeds: ~2.2 throws per team-game)
 AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk/HBP
 WILD_PITCH_FACTOR = 3.2        # x the pitcher's wild_pitch_rate, per ball with runners on
@@ -490,15 +499,69 @@ class BaseballSimulator:
             factor *= 0.5                        # nobody's sitting on a 3-0 breaking ball
         return min(factor, 1.0)
 
-    def _simulate_batted_ball_physics(self, batter):
+    def _simulate_batted_ball_physics(self, batter, pitcher=None):
         """Calculates the exit velocity and launch angle of a batted ball."""
         batting_profile = batter['batting_profile']
+        if FIELD_SIM:
+            # Real 2026 balls in play: EV 87 +/- 15 with a weak-contact tail,
+            # LA 14 +/- 29. The outcome table below was tuned to a much
+            # narrower spread, so the field model gets its own generator.
+            # Draw a real batted ball (EV and LA together, so weak pop-ups and
+            # hard liners keep their real shapes) and shift it by the hitter.
+            ev, la = self.game_rng.choice(_REAL_BATTED_BALLS)
+            power = batting_profile.get('power', 0.5)
+            ev = ev + (power - 0.54) * POWER_EV_SHIFT + self.game_rng.normalvariate(0, 2.0)
+            la = la + (batting_profile.get('angle', 12.4) - 12.4) * 0.6 + self.game_rng.normalvariate(0, 3.0)
+            return {'ev': round(min(max(ev, 35.0), 118.0), 1), 'la': round(la, 1),
+                    'spray': self._batted_ball_spray(batter, pitcher, la)}
         # Power influences exit velocity, with some randomness
         ev = round(self.game_rng.normalvariate(80 + batting_profile['power'] * 25, 8), 1)
         # Angle influences launch angle, with some randomness
         # Increase SD to 15.0 to get more popups and grounders
         la = round(self.game_rng.normalvariate(batting_profile['angle'] + 4.5, 15.0), 1)
         return {'ev': ev, 'la': la}
+
+    def _batted_ball_spray(self, batter, pitcher, la):
+        """Degrees off center (negative = left field). Real feeds: grounders
+        pulled ~17 degrees, liners ~7, fly balls slightly the other way."""
+        side = batter.get('batSide', {}).get('code', 'R')
+        if side == 'S':
+            side = 'L' if (pitcher or {}).get('pitchHand', {}).get('code', 'R') == 'R' else 'R'
+        pull = -1 if side == 'R' else 1
+        if la < 10:
+            mean, sd = 17 * pull, 27
+        elif la <= 25:
+            mean, sd = 7 * pull, 26
+        else:
+            mean, sd = -6 * pull, 34
+        # Redraw rather than clip: clipping piled balls onto the foul lines
+        # (more than half the homers went "down the line").
+        for _ in range(8):
+            spray = self.game_rng.normalvariate(mean, sd)
+            if abs(spray) <= 44.0:
+                return round(spray, 1)
+        return round(max(-44.0, min(44.0, spray)), 1)
+
+    def _defense_positions(self):
+        """Position abbreviation -> player for the team in the field."""
+        prefix = 'team1' if self.top_of_inning else 'team2'
+        defense = dict(getattr(self, f"{prefix}_defense"))
+        defense['P'] = getattr(self, f"{prefix}_pitcher_stats")[getattr(self, f"{prefix}_current_pitcher_name")]
+        catcher = getattr(self, f"{prefix}_catcher", None)
+        if catcher:
+            defense['C'] = catcher
+        return defense
+
+    def _play_batted_ball(self, batter, batted_ball_data):
+        """Run the ball through the field model; returns the outcome name."""
+        profile = batter.get('batting_profile', {})
+        # League-average runner = 1.0 (the field model was fit to average speed);
+        # base stealers run a few percent faster.
+        speed = 1.0 + (min(profile.get('stealing_tendency', 0.0), 0.4) - 0.05) * 0.3
+        result = fieldsim.resolve(batted_ball_data['ev'], batted_ball_data['la'],
+                                  batted_ball_data.get('spray', 0.0), self.game_rng, batter_speed=speed)
+        batted_ball_data['field'] = result
+        return result.outcome
 
     def _simulate_bunt_physics(self):
         """Calculates the exit velocity and launch angle for a bunt."""
@@ -1018,8 +1081,11 @@ class BaseballSimulator:
                             batted_ball_data = self._simulate_bunt_physics()
                             hit_result = "Sacrifice Bunt"
                         else:
-                            batted_ball_data = self._simulate_batted_ball_physics(batter)
-                            hit_result = self._determine_outcome_from_trajectory(batted_ball_data['ev'], batted_ball_data['la'])
+                            batted_ball_data = self._simulate_batted_ball_physics(batter, pitcher)
+                            if FIELD_SIM:
+                                hit_result = self._play_batted_ball(batter, batted_ball_data)
+                            else:
+                                hit_result = self._determine_outcome_from_trajectory(batted_ball_data['ev'], batted_ball_data['la'])
                         pitch_outcome_text = "in play"
                         event_details = {'code': 'X', 'description': f'In play, {hit_result}', 'isStrike': True}
                         self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
@@ -1053,7 +1119,14 @@ class BaseballSimulator:
                         'launchSpeed': batted_ball_data['ev'], 'launchAngle': batted_ball_data['la'],
                         'trajectory': self._get_trajectory(hit_result, batted_ball_data.get('la'))
                     }
-                    if hit_result in ["Single", "Double", "Triple", "Home Run"]:
+                    field = batted_ball_data.get('field')
+                    if field is not None:
+                        hit_data['trajectory'] = field.trajectory
+                        hit_data['coordinates'] = field.coordinates
+                        hit_data['totalDistance'] = round(field.distance)
+                        if hit_result in ["Single", "Double", "Triple", "Home Run"]:
+                            hit_data['location'] = field.location
+                    elif hit_result in ["Single", "Double", "Triple", "Home Run"]:
                         hit_data['location'] = self._determine_hit_location(hit_result, batted_ball_data['ev'], batted_ball_data['la'])
                     play_events[-1]['hitData'] = hit_data
                 return hit_result, description_context, play_events
@@ -1264,7 +1337,13 @@ class BaseballSimulator:
         credits_runner, credits_batter = [], []
         batted_ball_data = context.get('batted_ball_data', {}) if context else {}
         
-        if out_type in ['Groundout', 'Sacrifice Bunt', 'Lineout', 'Pop Out', 'Forceout', 'Grounded Into DP', 'Double Play']:
+        field = batted_ball_data.get('field')
+        if field is not None and out_type != 'Sacrifice Bunt':
+            # The field model already decided who caught or fielded it.
+            fielder = self._defense_positions().get(field.fielder)
+        if fielder is not None:
+            pass
+        elif out_type in ['Groundout', 'Sacrifice Bunt', 'Lineout', 'Pop Out', 'Forceout', 'Grounded Into DP', 'Double Play']:
             grounder_candidates = [(p, 6) for p in infielders] + [(pitcher, 1)] + ([(catcher, 0.25)] if catcher else [])
             fielder = self.game_rng.choices([c[0] for c in grounder_candidates], weights=[c[1] for c in grounder_candidates], k=1)[0]
             if fielder['position']['abbreviation'] == 'C' and 'ev' in batted_ball_data:
