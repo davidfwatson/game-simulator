@@ -398,6 +398,10 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         final_description = prefix + template.format(**context)
 
     final_description = final_description.replace("a diving the ", "the diving ")
+    # "over the head of a leaping the center fielder"
+    final_description = re.sub(r"\ba (leaping|sliding|charging|backpedaling|lunging) the ", r"the \1 ", final_description)
+    # "Bouncer to back to the mound"
+    final_description = re.sub(r"\b(to|into) back to the mound", "back to the mound", final_description)
     if (re.search(r'\b(wall|corner)\b', final_description) and 'shallow ' in final_description
             and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
         # "Hammered into shallow left... roll all the way to the wall"
