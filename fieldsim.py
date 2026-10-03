@@ -87,8 +87,9 @@ PARAMS = {
     'roll_line_drive': 0.375,   # roll after landing, as a share of carry
     'roll_fly_ball': 0.0,
     'extra_base_margin': 1.0,  # s: a runner only tries for the next base with this much to spare
+    'triple_margin': 0.2,      # s more a runner wants before trying for third
     'wall_carom': 2.1,         # s lost when the ball reaches the wall
-    'fence_scale': 1.008,
+    'fence_scale': 1.004,
 }
 
 MPH_TO_FPS = 1.4667
@@ -158,6 +159,10 @@ class BattedBall:
     distance: float
     hang_time: float = 0.0
     caught: bool = False
+    # When and where the defense can first throw: the fielded grounder, the
+    # catch, or the outfielder picking up a hit. Runner advancement races this.
+    release: float = 0.0
+    release_point: tuple = None
 
     @property
     def coordinates(self):
@@ -241,8 +246,11 @@ def _ground_ball(ev, la, spray, rng, defense, batter_speed, params):
         # Through the infield: a single into the outfield.
         ball = polar(min(220.0, 150.0 + ev), spray)
         of = min(OUTFIELD, key=lambda o: distance(defense.spots[o], ball))
+        # The outfielder charges and meets the ball partway in.
+        meet = polar(min(250.0, distance((0, 0), defense.spots[of]) - 35.0), spray)
+        release = distance((0, 0), meet) / (v * 0.85) + p['transfer'] + 0.2
         return BattedBall('Single', of, 'ground_ball', _location_code('Single', spray, 150, 'ground_ball'),
-                          spray, ball, distance((0, 0), ball))
+                          spray, ball, distance((0, 0), ball), release=release, release_point=meet)
     t_fielded = max(t_ball, reach) + p['transfer']
     if pos == '1B' and distance(spot, FIRST_BASE) < 45:
         t_out = t_fielded - p['transfer'] + distance(spot, FIRST_BASE) / defense.speed(pos, p['if_speed'])
@@ -252,8 +260,10 @@ def _ground_ball(ev, la, spray, rng, defense, batter_speed, params):
     if ev < 65:
         t_out -= 0.3
     if t_out < home_to_first:
-        return BattedBall('Groundout', pos, 'ground_ball', pos, spray, spot, depth)
-    return BattedBall('Single', pos, 'ground_ball', pos, spray, spot, depth)
+        return BattedBall('Groundout', pos, 'ground_ball', pos, spray, spot, depth,
+                          release=t_fielded, release_point=spot)
+    return BattedBall('Single', pos, 'ground_ball', pos, spray, spot, depth,
+                      release=t_fielded, release_point=spot)
 
 
 def _air_ball(ev, la, spray, rng, defense, batter_speed, params):
@@ -294,7 +304,8 @@ def _air_ball(ev, la, spray, rng, defense, batter_speed, params):
             outcome = 'Lineout'
         else:
             outcome = 'Flyout'
-        return BattedBall(outcome, pos, trajectory, pos, spray, land, flight.carry, flight.hang_time, caught=True)
+        return BattedBall(outcome, pos, trajectory, pos, spray, land, flight.carry, flight.hang_time, caught=True,
+                          release=flight.hang_time, release_point=land)
 
     # It drops. Where does it stop, and how long until it's back in?
     roll = flight.carry * (p['roll_line_drive'] if la < 20 else p['roll_fly_ball'])
@@ -316,7 +327,7 @@ def _air_ball(ev, la, spray, rng, defense, batter_speed, params):
     at_second = runner + p['base_to_base'] / batter_speed
     at_third = at_second + p['base_to_base'] / batter_speed
     margin = p['extra_base_margin']
-    if at_third + margin < to_third:
+    if at_third + margin + p.get('triple_margin', 0.0) < to_third:
         outcome = 'Triple'
     elif at_second + margin < to_second:
         outcome = 'Double'
@@ -324,4 +335,178 @@ def _air_ball(ev, la, spray, rng, defense, batter_speed, params):
         outcome = 'Single'
     return BattedBall(outcome, retriever, trajectory,
                       _location_code(outcome, spray, flight.carry, trajectory),
-                      spray, land, flight.carry, flight.hang_time)
+                      spray, land, flight.carry, flight.hang_time,
+                      release=t_ball_in, release_point=stop)
+
+
+# --- base running ------------------------------------------------------------
+# Runners race the throw. `runners` maps the base a runner starts on (1, 2, 3)
+# to his speed multiplier. Functions return each runner's destination: 1-3, or
+# 4 for a run. Runners are never thrown out here: the third-base coach only
+# sends a runner the throw shouldn't beat, so a close play holds him up.
+
+HOME = (0.0, 0.0)
+BASE_POINTS = {1: FIRST_BASE, 2: SECOND_BASE, 3: THIRD_BASE, 4: HOME}
+
+# Fit to the real 2026 feeds: a runner on second scores on ~30% of singles
+# with fewer than two out and ~56% with two out; first to third on ~32%;
+# a runner on third scores on ~90% of caught fly balls to the outfield and
+# two-thirds of groundouts when not forced; ~45% of grounders with a runner on
+# first and fewer than two out become double plays.
+RUN_PARAMS = {
+    'lead': {1: 10.0, 2: 15.0, 3: 12.0},   # ft off the bag by contact (secondary lead)
+    'read_ground': 0.25,    # s before a runner commits on a ground ball
+    'read_air': 0.75,       # on a ball in the air he holds until it drops
+    'turn': 0.35,           # s lost rounding a base
+    'cutoff': 0.35,         # s added to a long outfield throw for the hop or relay
+    'tag': 0.15,            # s to apply the tag
+    'send_home': 0.45,      # s the throw must lose by before the runner is sent home
+    'send_third': -0.1,
+    'two_out_jump': 0.8,   # s gained running on contact with two outs
+    'two_out_lead': 18.0,   # ft more lead with two outs (he's off with the pitch)
+    'tag_jump': 0.1,        # s from the catch until a tagging runner is moving
+    'of_transfer': 0.85,    # s from catch to release on a tag play
+    'tag_home': -0.9,       # s the throw home may win by and he still goes (it's often off line)
+    'tag_third': 0.15,
+    'tag_second': 1.6,
+    'pivot': 1.0,           # s for the pivot man to catch, step and throw
+    'force_margin': 0.4,    # s the force at second must win by
+    'two_out_force': 0.45,  # with two out, s quicker the force at second must be to go there over first
+    'unforced_home': -0.3,  # s a runner on third gives the throw home on a grounder
+    'r2_go_release': 1.7,   # s: a runner on second takes third if the ball is hit to his left and fielded this late
+}
+
+
+def _run_time(start_base, end_base, speed, lead, delay, rp):
+    feet = 90.0 * (end_base - start_base) - lead
+    turns = max(0, end_base - start_base - 1)
+    return delay + feet / 90.0 * PARAMS['base_to_base'] / speed + turns * rp['turn']
+
+
+def _throw_time(ball, base, params=PARAMS, rp=RUN_PARAMS):
+    origin = ball.release_point or ball.landing
+    d = distance(origin, BASE_POINTS[base])
+    of = ball.fielder in OUTFIELD
+    t = ball.release + d / (params['of_throw_speed'] if of else params['throw_speed'])
+    if of and d > 220:
+        t += rp['cutoff']
+    return t + (rp['tag'] if base == 4 or base == 3 else 0.0)
+
+
+def advance_on_hit(ball, outcome, runners, outs, rng, rp=RUN_PARAMS):
+    """Destinations for the runners on a Single or Double."""
+    bases_taken = {'Single': 1, 'Double': 2, 'Triple': 3}.get(outcome, 4)
+    dest = {}
+    if bases_taken >= 3:
+        return {b: 4 for b in runners}
+    infield_hit = ball.fielder in INFIELD
+    delay = rp['read_ground'] if ball.trajectory == 'ground_ball' else rp['read_air']
+    if outs == 2:
+        delay = max(0.0, delay - rp['two_out_jump'])
+    occupied_after = {bases_taken}   # the batter's base
+    for base in sorted(runners, reverse=True):
+        speed = runners[base]
+        forced = all(b in runners for b in range(1, base))
+        minimum = min(4, base + bases_taken) if not infield_hit else (base + 1 if forced else base)
+        target = minimum
+        if not infield_hit and minimum < 4:
+            extra = minimum + 1
+            blocked = extra in dest.values() and extra != 4
+            if not blocked:
+                lead = rp['lead'][base] + (rp['two_out_lead'] if outs == 2 else 0.0)
+                run = _run_time(base, extra, speed, lead, delay, rp)
+                throw = _throw_time(ball, extra)
+                margin = throw - run + rng.gauss(0, 0.3)
+                need = rp['send_home'] if extra == 4 else rp['send_third']
+                if margin > need:
+                    target = extra
+        # A runner can't pass the man ahead of him or stay on the batter's base.
+        while target < 4 and (target in dest.values() or target in occupied_after):
+            target += 1
+        dest[base] = target
+    return dest
+
+
+def ground_out_play(ball, runners, outs, batter_speed, rng, params=PARAMS, rp=RUN_PARAMS):
+    """How the defense turns a fielded grounder into outs.
+
+    Returns (play, dest): play is 'dp' (force at second and relay to first),
+    'force_home', 'force_second' or 'first'; dest maps each runner who stays
+    on base or scores to his destination (forced-out runners are left out).
+    """
+    p = params
+    spot = ball.release_point
+    pos = ball.fielder
+    t0 = ball.release
+    home_to_first = p['home_to_first'] / batter_speed + rng.gauss(0, 0.12)
+    t_first = t0 + distance(spot, FIRST_BASE) / p['throw_speed']
+    forced = {b for b in runners if all(x in runners for x in range(1, b))}
+
+    def runner_time(base, to):
+        return _run_time(base, to, runners[base], rp['lead'][base],
+                         0.0 if outs == 2 else rp['read_ground'], rp)
+
+    # The force at second: an infielder near the bag steps on it himself.
+    if pos in ('2B', 'SS') and distance(spot, SECOND_BASE) < 30:
+        t_second = t0 - p['transfer'] + distance(spot, SECOND_BASE) / p['if_speed']
+    else:
+        t_second = t0 + distance(spot, SECOND_BASE) / p['throw_speed']
+    t_home = t0 + distance(spot, HOME) / p['throw_speed']
+
+    play = 'first'
+    if 1 in runners and outs < 2:
+        beat_runner = t_second + rp['force_margin'] < runner_time(1, 2)
+        relay = t_second + rp['pivot'] + distance(SECOND_BASE, FIRST_BASE) / p['throw_speed']
+        if beat_runner and relay < home_to_first:
+            play = 'dp'
+        elif 3 in forced and t_home + rp['force_margin'] < runner_time(3, 4):
+            play = 'force_home'
+        elif beat_runner:
+            play = 'force_second'
+    elif 1 in runners and outs == 2:
+        # Two out: take whichever out is surer.
+        if t_second + rp['two_out_force'] < min(t_first, runner_time(1, 2)):
+            play = 'force_second'
+
+    outs_after = outs + (2 if play == 'dp' else 1)
+    dest = {}
+    for base in sorted(runners, reverse=True):
+        if (play in ('dp', 'force_second') and base == 1) or (play == 'force_home' and base == 3):
+            continue
+        if outs_after >= 3:
+            dest[base] = base
+            continue
+        if base in forced:
+            dest[base] = base + 1
+            continue
+        if base == 3:
+            # Unforced on third: he goes if the throw home can't get him.
+            go = t_home + rp['tag'] + rng.gauss(0, 0.3) > runner_time(3, 4) + rp['unforced_home']
+            dest[base] = 4 if (go and play != 'force_home') else 3
+        elif base == 2:
+            # Ball hit behind him (or slow, deep in the hole): he takes third.
+            behind = pos in ('1B', '2B') or (pos == 'P' and ball.spray > 0)
+            go = behind or t0 > rp['r2_go_release']
+            dest[base] = 3 if go and 3 not in dest.values() else 2
+        else:
+            dest[base] = base
+    return play, dest
+
+
+def tag_ups(ball, runners, outs_after, rng, rp=RUN_PARAMS):
+    """Runners tagging up on a caught fly ball (outs_after counts the catch)."""
+    dest = {b: b for b in runners}
+    if outs_after >= 3 or ball.fielder not in OUTFIELD or ball.trajectory == 'popup':
+        return dest
+    caught = ball.release
+    for base in sorted(runners, reverse=True):
+        target = base + 1
+        if target != 4 and target in dest.values():
+            continue
+        run = caught + rp['tag_jump'] + _run_time(base, target, runners[base], 0.0, 0.0, rp)
+        throw = (caught + rp['of_transfer'] + distance(ball.landing, BASE_POINTS[target]) / PARAMS['of_throw_speed']
+                 + (rp['cutoff'] if distance(ball.landing, BASE_POINTS[target]) > 250 else 0.0) + rp['tag'])
+        need = {4: rp['tag_home'], 3: rp['tag_third'], 2: rp['tag_second']}[target]
+        if throw - run + rng.gauss(0, 0.3) > need:
+            dest[base] = target
+    return dest

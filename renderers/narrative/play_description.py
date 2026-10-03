@@ -333,6 +333,12 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         highlight = re.compile(r'spectacular|diving|leaping|great pick|backhanded|on the warning track', re.I)
         if renderer._balls_in_play - getattr(renderer, '_last_highlight', -99) < 25:
             specific_templates = [t for t in specific_templates if not highlight.search(t)] or specific_templates
+    if specific_templates and not strict:
+        # A blooper doesn't carry to the corner for a triple, and the man who
+        # stepped on the bag for the force doesn't then fire to second.
+        specific_templates = [t for t in specific_templates
+                              if not (template_outcome == 'Triple' and t.startswith('Blooper'))
+                              and 'for the force. He fires to second' not in t] or specific_templates
 
     if specific_templates and (cat == "bunt" or renderer.rng_flow.random() < 0.8):
         template = renderer.rng_play.choice(specific_templates)

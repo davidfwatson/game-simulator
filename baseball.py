@@ -552,15 +552,36 @@ class BaseballSimulator:
             defense['C'] = catcher
         return defense
 
+    @staticmethod
+    def _speed_of(player):
+        """League-average runner = 1.0 (the field model was fit to average
+        speed); base stealers run a few percent faster."""
+        profile = (player or {}).get('batting_profile', {})
+        return 1.0 + (min(profile.get('stealing_tendency', 0.0), 0.4) - 0.05) * 0.3
+
+    def _runner_speeds(self):
+        """Base number (1-3) -> speed for the runners on base."""
+        by_name = {p['legal_name']: p for p in self.team1_lineup + self.team2_lineup}
+        return {i + 1: self._speed_of(by_name.get(name)) for i, name in enumerate(self.bases) if name}
+
+    def _apply_runner_dests(self, dests):
+        """Move runners per base -> destination (4 = scores); returns runs."""
+        old, runs = self.bases[:], 0
+        self.bases = [None, None, None]
+        for base, dest in dests.items():
+            if dest >= 4:
+                runs += 1
+            else:
+                self.bases[dest - 1] = old[base - 1]
+        return runs
+
     def _play_batted_ball(self, batter, batted_ball_data):
         """Run the ball through the field model; returns the outcome name."""
-        profile = batter.get('batting_profile', {})
-        # League-average runner = 1.0 (the field model was fit to average speed);
-        # base stealers run a few percent faster.
-        speed = 1.0 + (min(profile.get('stealing_tendency', 0.0), 0.4) - 0.05) * 0.3
         result = fieldsim.resolve(batted_ball_data['ev'], batted_ball_data['la'],
-                                  batted_ball_data.get('spray', 0.0), self.game_rng, batter_speed=speed)
+                                  batted_ball_data.get('spray', 0.0), self.game_rng,
+                                  batter_speed=self._speed_of(batter))
         batted_ball_data['field'] = result
+        self._play_field = result
         return result.outcome
 
     def _simulate_bunt_physics(self):
@@ -1177,6 +1198,20 @@ class BaseballSimulator:
             self.bases = new_bases
             return {'runs': runs, 'rbis': rbis, 'advances': advances}
 
+        field = getattr(self, '_play_field', None)
+        if FIELD_SIM and field is not None and not was_error and hit_type in ('Single', 'Double'):
+            # The field model says how far each runner gets before the throw.
+            old_bases = self.bases[:]
+            dests = fieldsim.advance_on_hit(field, hit_type, self._runner_speeds(), self.outs, self.game_rng)
+            runs = self._apply_runner_dests(dests)
+            for base, dest in sorted(dests.items(), reverse=True):
+                name = old_bases[base - 1]
+                advances.append(f"{name} scores" if dest == 4 else f"{name} to {dest}B")
+            self.bases[{'Single': 0, 'Double': 1}[hit_type]] = batter_name
+            if include_batter_advance:
+                advances.append(f"{batter_name} to {'1B' if hit_type == 'Single' else '2B'}")
+            return {'runs': runs, 'rbis': runs, 'advances': advances}
+
         old_bases = self.bases[:]
         new_bases = [None, None, None]
         if hit_type == 'Single':
@@ -1368,6 +1403,15 @@ class BaseballSimulator:
             fielder_pos = fielder['position']['abbreviation']
             credits.append(self._create_credit(fielder, 'putout'))
 
+            if field is not None and FIELD_SIM:
+                # Runners tag up when the catch is deep enough to beat the throw.
+                self.outs += 1
+                dests = fieldsim.tag_ups(field, self._runner_speeds(), self.outs, self.game_rng)
+                runs = self._apply_runner_dests(dests)
+                if runs:
+                    return runs, False, runs, credits, [], [], False, "Sac Fly", None
+                return 0, False, 0, credits, [], [], False, out_type, None
+
             # Sac Fly logic
             if self.outs < 2 and self.bases[2] and fielder_pos in ['LF', 'CF', 'RF'] and self.game_rng.random() > 0.15:
                 self.outs += 1
@@ -1379,6 +1423,9 @@ class BaseballSimulator:
                 self.outs += 1
                 specific_event = out_type
                 return runs, False, rbis, credits, [], [], False, specific_event, None
+
+        if FIELD_SIM and field is not None and out_type == 'Groundout':
+            return self._field_ground_out(batter, field, fielder, defense, catcher, first_baseman)
 
         if out_type == 'Groundout' or out_type == 'Grounded Into DP' or out_type == 'Double Play':
             is_dp = False
@@ -1473,6 +1520,48 @@ class BaseballSimulator:
 
         return runs, False, rbis, credits, [], [], False, specific_event, None
 
+    def _field_ground_out(self, batter, field, fielder, defense, catcher, first_baseman):
+        """A fielded grounder played the way the field model's clock allows:
+        double play, force at home or second, or the sure out at first with
+        the runners moving up as far as the throw lets them."""
+        play, dests = fieldsim.ground_out_play(field, self._runner_speeds(), self.outs,
+                                               self._speed_of(batter), self.game_rng)
+        old_bases = self.bases[:]
+        pos = fielder['position']['abbreviation']
+        if play == 'dp':
+            runner_out = old_bases[0]
+            self.outs += 2
+            runs = self._apply_runner_dests(dests)
+            credits_runner, credits_batter = self._get_double_play_participants(fielder, defense)
+            return runs, False, 0, credits_batter, credits_batter, credits_runner, True, "Double Play", runner_out
+        if play in ('force_home', 'force_second'):
+            forced = old_bases[2] if play == 'force_home' else old_bases[0]
+            self.outs += 1
+            runs = self._apply_runner_dests(dests)
+            self.bases[0] = batter['legal_name']
+            if play == 'force_home':
+                cover = catcher
+                self._last_force = (forced, '3B', 'score')
+            else:
+                cover = (defense.get('2B') if pos == 'SS' else defense.get('SS'))
+                self._last_force = (forced, '1B', '2B')
+            if pos in ('2B', 'SS') and play == 'force_second' and fieldsim.distance(field.release_point, fieldsim.SECOND_BASE) < 30:
+                credits = [self._create_credit(fielder, 'putout')]
+            elif cover:
+                credits = [self._create_credit(fielder, 'assist'), self._create_credit(cover, 'putout')]
+            else:
+                credits = [self._create_credit(fielder, 'putout')]
+            return runs, False, runs, credits, [], credits, False, "Forceout", forced
+        self.outs += 1
+        runs = self._apply_runner_dests(dests)
+        if pos == '1B' and first_baseman:
+            credits = [self._create_credit(first_baseman, 'putout')]
+        elif first_baseman:
+            credits = [self._create_credit(fielder, 'assist'), self._create_credit(first_baseman, 'putout')]
+        else:
+            credits = []
+        return runs, False, runs, credits, [], [], False, "Groundout", None
+
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
         if not hasattr(self, '_entered_inning'):
@@ -1509,6 +1598,7 @@ class BaseballSimulator:
             # Store pre-play base state for matchup
             pre_play_bases = self.bases[:]
 
+            self._play_field = None
             outcome, description, play_events = self._simulate_at_bat(batter, pitcher)
             self._free_pass_pitcher = pitcher_name if outcome in ("Walk", "Hit By Pitch", "HBP") else None
 
