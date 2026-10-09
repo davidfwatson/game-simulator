@@ -429,6 +429,7 @@
           0,
           1,
           0,
+          5,
           0,
           0,
           0,
@@ -440,6 +441,7 @@
           1,
           0,
           0,
+          5,
           0,
           0,
           1
@@ -748,7 +750,7 @@
             },
             "play_outcome": {
               "play": [
-                14
+                25
               ],
               "pitch": [],
               "flow": [
@@ -896,7 +898,8 @@
               "sourceLine": 58,
               "hitData": {
                 "location": "P",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -1095,7 +1098,8 @@
               "hitData": {
                 "location": "RF",
                 "trajectory": "fly_ball",
-                "categoryOverride": "bloop"
+                "categoryOverride": "bloop",
+                "lane": "right_center"
               },
               "commentaryRng": {
                 "event": {
@@ -1153,7 +1157,7 @@
             },
             "play_outcome": {
               "play": [
-                12,
+                3,
                 2
               ],
               "pitch": [],
@@ -1800,7 +1804,8 @@
               "sourceLine": 82,
               "hitData": {
                 "location": "LF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -2188,7 +2193,7 @@
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -2712,7 +2717,8 @@
               "hitData": {
                 "location": "2B",
                 "trajectory": "ground_ball",
-                "categoryOverride": "grounder"
+                "categoryOverride": "grounder",
+                "lane": "middle"
               },
               "commentaryRng": {
                 "event": {
@@ -2791,6 +2797,7 @@
             },
             "play_outcome": {
               "play": [
+                8,
                 0,
                 1
               ],
@@ -2800,6 +2807,7 @@
               ],
               "color": [],
               "optional": [
+                0,
                 99
               ]
             }
@@ -3253,7 +3261,7 @@
             },
             "play_outcome": {
               "play": [
-                18
+                14
               ],
               "pitch": [],
               "flow": [
@@ -3690,7 +3698,8 @@
               "hitData": {
                 "location": "RF",
                 "trajectory": "fly_ball",
-                "categoryOverride": "bloop"
+                "categoryOverride": "bloop",
+                "lane": "right_center"
               },
               "commentaryRng": {
                 "event": {
@@ -3749,7 +3758,7 @@
             },
             "play_outcome": {
               "play": [
-                12,
+                3,
                 3
               ],
               "pitch": [],
@@ -3757,9 +3766,7 @@
                 0
               ],
               "color": [],
-              "optional": [
-                0
-              ]
+              "optional": []
             }
           }
         },
@@ -4210,7 +4217,7 @@
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -4369,7 +4376,7 @@
             },
             "play_outcome": {
               "play": [
-                47
+                24
               ],
               "pitch": [],
               "flow": [
@@ -4876,7 +4883,10 @@
               "sourceLine": 171,
               "hitData": {
                 "location": "RF",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "depth": "wall",
+                "lane": "right_line",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -4965,7 +4975,7 @@
             },
             "play_outcome": {
               "play": [
-                7,
+                5,
                 1
               ],
               "pitch": [],
@@ -5195,7 +5205,7 @@
             },
             "play_outcome": {
               "play": [
-                5
+                1
               ],
               "pitch": [],
               "flow": [
@@ -5489,7 +5499,8 @@
             },
             "play_outcome": {
               "play": [
-                5
+                5,
+                1
               ],
               "pitch": [],
               "flow": [
@@ -5498,7 +5509,9 @@
               "color": [
                 1
               ],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -5889,7 +5902,8 @@
               "hitData": {
                 "location": "RF",
                 "trajectory": "fly_ball",
-                "categoryOverride": "bloop"
+                "categoryOverride": "bloop",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -5960,7 +5974,7 @@
             },
             "play_outcome": {
               "play": [
-                13,
+                11,
                 2
               ],
               "pitch": [],
@@ -6118,7 +6132,8 @@
               "sourceLine": 202,
               "hitData": {
                 "location": "CF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "lane": "right_center"
               },
               "commentaryRng": {
                 "event": {
@@ -6189,7 +6204,7 @@
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -6379,7 +6394,8 @@
               "hitData": {
                 "location": "LF",
                 "trajectory": "fly_ball",
-                "categoryOverride": "bloop"
+                "categoryOverride": "bloop",
+                "lane": "left_center"
               },
               "commentaryRng": {
                 "event": {
@@ -6446,7 +6462,7 @@
             },
             "play_outcome": {
               "play": [
-                12,
+                3,
                 1
               ],
               "pitch": [],
@@ -7191,7 +7207,8 @@
               "sourceLine": 234,
               "hitData": {
                 "location": "CF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "lane": "left_center"
               },
               "commentaryRng": {
                 "event": {
@@ -7262,7 +7279,7 @@
             },
             "play_outcome": {
               "play": [
-                28
+                22
               ],
               "pitch": [],
               "flow": [
@@ -7779,7 +7796,7 @@
             },
             "play_outcome": {
               "play": [
-                0
+                1
               ],
               "pitch": [],
               "flow": [
@@ -8403,7 +8420,8 @@
               "sourceLine": 266,
               "hitData": {
                 "location": "LF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -8474,7 +8492,7 @@
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -8625,7 +8643,8 @@
               "sourceLine": 276,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -8691,7 +8710,8 @@
             },
             "play_outcome": {
               "play": [
-                8
+                8,
+                0
               ],
               "pitch": [],
               "flow": [
@@ -8700,7 +8720,9 @@
               "color": [
                 1
               ],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -8876,7 +8898,7 @@
             },
             "play_outcome": {
               "play": [
-                16
+                14
               ],
               "pitch": [],
               "flow": [
@@ -8951,7 +8973,8 @@
               "sourceLine": 284,
               "hitData": {
                 "location": "SS",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -9034,7 +9057,7 @@
             },
             "play_outcome": {
               "play": [
-                14
+                13
               ],
               "pitch": [],
               "flow": [
@@ -9327,7 +9350,10 @@
               "sourceLine": 296,
               "hitData": {
                 "location": "CF",
-                "trajectory": "line_drive"
+                "trajectory": "line_drive",
+                "depth": "wall",
+                "lane": "left_center",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -9404,7 +9430,7 @@
             },
             "play_outcome": {
               "play": [
-                4,
+                3,
                 4
               ],
               "pitch": [],
@@ -9706,14 +9732,17 @@
             },
             "play_outcome": {
               "play": [
-                5
+                5,
+                2
               ],
               "pitch": [],
               "flow": [
                 0
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -9785,7 +9814,8 @@
               "sourceLine": 308,
               "hitData": {
                 "location": "CF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -9857,7 +9887,7 @@
             },
             "play_outcome": {
               "play": [
-                12
+                9
               ],
               "pitch": [],
               "flow": [
@@ -10092,7 +10122,7 @@
             },
             "play_outcome": {
               "play": [
-                23
+                17
               ],
               "pitch": [],
               "flow": [
@@ -11284,7 +11314,7 @@
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -11769,7 +11799,8 @@
               "sourceLine": 364,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -11841,7 +11872,7 @@
             },
             "play_outcome": {
               "play": [
-                16
+                14
               ],
               "pitch": [],
               "flow": [
@@ -11991,7 +12022,8 @@
               "sourceLine": 373,
               "hitData": {
                 "location": "SS",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -12079,7 +12111,7 @@
             },
             "play_outcome": {
               "play": [
-                50
+                44
               ],
               "pitch": [],
               "flow": [
@@ -12448,7 +12480,7 @@
             },
             "play_outcome": {
               "play": [
-                21
+                17
               ],
               "pitch": [],
               "flow": [
@@ -12926,7 +12958,7 @@
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -13697,7 +13729,8 @@
               "sourceLine": 429,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "lane": "right_side"
               },
               "commentaryRng": {
                 "event": {
@@ -13773,7 +13806,7 @@
             },
             "play_outcome": {
               "play": [
-                12
+                4
               ],
               "pitch": [],
               "flow": [
@@ -13853,7 +13886,8 @@
               "hitData": {
                 "location": "CF",
                 "trajectory": "line_drive",
-                "categoryOverride": "liner"
+                "categoryOverride": "liner",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -13911,7 +13945,7 @@
             },
             "play_outcome": {
               "play": [
-                5,
+                1,
                 2
               ],
               "pitch": [],
@@ -14075,7 +14109,8 @@
               "sourceLine": 437,
               "hitData": {
                 "location": "SS",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -14340,7 +14375,8 @@
               "sourceLine": 447,
               "hitData": {
                 "location": "LF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -14684,7 +14720,7 @@
             },
             "play_outcome": {
               "play": [
-                22
+                6
               ],
               "pitch": [],
               "flow": [
@@ -14759,7 +14795,8 @@
               "sourceLine": 455,
               "hitData": {
                 "location": "2B",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -14842,7 +14879,7 @@
             },
             "play_outcome": {
               "play": [
-                35
+                30
               ],
               "pitch": [],
               "flow": [
@@ -14896,8 +14933,45 @@
           },
           "playEvents": [
             {
-              "isPitch": true,
+              "isPitch": false,
+              "type": "action",
+              "isSubstitution": true,
               "index": 0,
+              "details": {
+                "event": "Offensive Substitution",
+                "eventType": "offensive_substitution",
+                "description": "Offensive Substitution: Pinch-hitter Sparky Ventura replaces Edgar Whitehouse."
+              },
+              "count": {
+                "balls": 0,
+                "strikes": 0,
+                "outs": 0
+              },
+              "position": {
+                "code": "11",
+                "name": "Pinch Hitter",
+                "abbreviation": "PH"
+              },
+              "player": {
+                "id": 39019
+              },
+              "pitchData": {},
+              "replacedPlayer": {
+                "id": 39018
+              },
+              "commentaryRng": {
+                "event": {
+                  "play": [],
+                  "pitch": [],
+                  "flow": [],
+                  "color": [],
+                  "optional": []
+                }
+              }
+            },
+            {
+              "isPitch": true,
+              "index": 1,
               "details": {
                 "code": "B",
                 "description": "Ball",
@@ -14926,7 +15000,7 @@
                   ],
                   "flow": [
                     26,
-                    99
+                    0
                   ],
                   "color": [],
                   "optional": []
@@ -14935,7 +15009,7 @@
             },
             {
               "isPitch": true,
-              "index": 1,
+              "index": 2,
               "details": {
                 "code": "B",
                 "description": "Ball",
@@ -14964,7 +15038,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -14973,7 +15047,7 @@
             },
             {
               "isPitch": true,
-              "index": 2,
+              "index": 3,
               "details": {
                 "code": "X",
                 "description": "In play",
@@ -14993,7 +15067,8 @@
               "sourceLine": 467,
               "hitData": {
                 "location": "LF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "lane": "left_side"
               },
               "commentaryRng": {
                 "event": {
@@ -15054,6 +15129,7 @@
               "flow": [
                 7,
                 3,
+                4,
                 0
               ],
               "color": [
@@ -15545,7 +15621,8 @@
             },
             "play_outcome": {
               "play": [
-                5
+                5,
+                1
               ],
               "pitch": [],
               "flow": [
@@ -15554,7 +15631,9 @@
               "color": [
                 0
               ],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -16029,7 +16108,7 @@
             },
             "play_outcome": {
               "play": [
-                16
+                14
               ],
               "pitch": [],
               "flow": [
@@ -16342,8 +16421,45 @@
           },
           "playEvents": [
             {
-              "isPitch": true,
+              "isPitch": false,
+              "type": "action",
+              "isSubstitution": true,
               "index": 0,
+              "details": {
+                "event": "Offensive Substitution",
+                "eventType": "offensive_substitution",
+                "description": "Offensive Substitution: Pinch-hitter Tony Burns replaces Billy the Borough Brello."
+              },
+              "count": {
+                "balls": 0,
+                "strikes": 0,
+                "outs": 1
+              },
+              "position": {
+                "code": "11",
+                "name": "Pinch Hitter",
+                "abbreviation": "PH"
+              },
+              "player": {
+                "id": 39021
+              },
+              "pitchData": {},
+              "replacedPlayer": {
+                "id": 39009
+              },
+              "commentaryRng": {
+                "event": {
+                  "play": [],
+                  "pitch": [],
+                  "flow": [],
+                  "color": [],
+                  "optional": []
+                }
+              }
+            },
+            {
+              "isPitch": true,
+              "index": 1,
               "details": {
                 "code": "B",
                 "description": "Ball",
@@ -16381,7 +16497,7 @@
             },
             {
               "isPitch": true,
-              "index": 1,
+              "index": 2,
               "details": {
                 "code": "F",
                 "description": "Foul",
@@ -16418,7 +16534,7 @@
             },
             {
               "isPitch": true,
-              "index": 2,
+              "index": 3,
               "details": {
                 "code": "F",
                 "description": "Foul",
@@ -16446,7 +16562,7 @@
                   ],
                   "flow": [
                     4,
-                    99
+                    0
                   ],
                   "color": [],
                   "optional": []
@@ -16455,7 +16571,7 @@
             },
             {
               "isPitch": true,
-              "index": 3,
+              "index": 4,
               "details": {
                 "code": "S",
                 "description": "Swinging Strike",
@@ -16521,6 +16637,7 @@
               "pitch": [],
               "flow": [
                 22,
+                5,
                 0
               ],
               "color": [
@@ -16753,7 +16870,22 @@
             39007,
             39008,
             39009
-          ]
+          ],
+          "players": {
+            "ID39009": {
+              "person": {
+                "id": 39009,
+                "fullName": "Billy the Borough Brello"
+              },
+              "seasonStats": {
+                "pitching": {
+                  "wins": 8,
+                  "losses": 6,
+                  "era": "3.96"
+                }
+              }
+            }
+          }
         },
         "home": {
           "team": {
@@ -16773,7 +16905,22 @@
             39016,
             39017,
             39018
-          ]
+          ],
+          "players": {
+            "ID39018": {
+              "person": {
+                "id": 39018,
+                "fullName": "Edgar Whitehouse"
+              },
+              "seasonStats": {
+                "pitching": {
+                  "wins": 9,
+                  "losses": 5,
+                  "era": "3.72"
+                }
+              }
+            }
+          }
         }
       }
     },

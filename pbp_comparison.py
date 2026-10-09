@@ -47,15 +47,16 @@ class PBPExample:
 # host asides (transcript_asides/) are excluded from the target, like the cut
 # breaks. After the per-point refit (fit_transcript_games.py --references),
 # any minimum more than four points below its measurement was raised to three
-# points below it, rounded down.
+# points below it, rounded down; the batted-ball, runner, season-record and
+# pinch-hitter facts (missed_words.py) raised them again the same way.
 PBP_EXAMPLES = (
-    PBPExample(1, target_skip=28, jaccard_min=0.65, ngram_min=0.32,
+    PBPExample(1, target_skip=28, jaccard_min=0.66, ngram_min=0.32,
                line_exact_min=0.51, content_exact_min=0.19),
-    PBPExample(2, target_skip=35, jaccard_min=0.62, ngram_min=0.37,
-               line_exact_min=0.56, content_exact_min=0.22),
-    PBPExample(3, target_skip=33, jaccard_min=0.66, ngram_min=0.33,
+    PBPExample(2, target_skip=35, jaccard_min=0.65, ngram_min=0.38,
+               line_exact_min=0.57, content_exact_min=0.22),
+    PBPExample(3, target_skip=33, jaccard_min=0.68, ngram_min=0.33,
                line_exact_min=0.45, content_exact_min=0.05),
-    PBPExample(4, target_skip=27, jaccard_min=0.62, ngram_min=0.29,
+    PBPExample(4, target_skip=27, jaccard_min=0.62, ngram_min=0.30,
                line_exact_min=0.53, content_exact_min=0.14),
 )
 
@@ -73,20 +74,21 @@ TRANSCRIPT_CASE_MINIMUMS = {
 # host asides are excluded from the source side, like the cut breaks. After
 # gates were fitted per point (fit_transcript_games.py), wording minimums more
 # than four points below the measurement were raised to three points below
-# it, rounded down.
+# it, rounded down, and again after the batted-ball, runner, season-record and
+# pinch-hitter facts were recorded (missed_words.py).
 FULL_TRANSCRIPT_MINIMUMS = {
     episode: dict(appearances=appearances, pitches=pitches,
                   ngram=ngram, mean_play_word_coverage=coverage)
     for episode, appearances, pitches, ngram, coverage in (
-        (1, 73, 254, .12, .48), (5, 73, 270, .24, .66),
-        (11, 50, 198, .21, .67), (13, 70, 295, .22, .67),
-        (20, 67, 223, .25, .70), (29, 68, 217, .27, .66),
-        (35, 63, 207, .28, .68), (37, 64, 220, .32, .74),
-        (39, 68, 224, .34, .75), (41, 62, 199, .35, .74),
-        (45, 72, 237, .32, .69), (46, 76, 254, .36, .74),
-        (49, 63, 214, .37, .77), (50, 66, 170, .33, .70),
-        (51, 47, 152, .30, .72), (52, 62, 200, .32, .70),
-        (53, 62, 193, .36, .73),
+        (1, 73, 254, .13, .49), (5, 73, 270, .25, .67),
+        (11, 50, 198, .21, .67), (13, 70, 295, .23, .68),
+        (20, 67, 223, .26, .72), (29, 68, 217, .27, .67),
+        (35, 63, 207, .30, .69), (37, 64, 220, .33, .75),
+        (39, 68, 224, .36, .75), (41, 62, 199, .36, .74),
+        (45, 72, 237, .33, .70), (46, 76, 254, .38, .75),
+        (49, 63, 214, .40, .79), (50, 66, 170, .35, .71),
+        (51, 47, 152, .31, .72), (52, 62, 200, .34, .71),
+        (53, 62, 193, .37, .74),
     )
 }
 

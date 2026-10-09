@@ -1145,6 +1145,12 @@ class BaseballSimulator:
                         hit_data['trajectory'] = field.trajectory
                         hit_data['coordinates'] = field.coordinates
                         hit_data['totalDistance'] = round(field.distance)
+                        # The field model knows where the ball went: "into
+                        # the gap", "on the warning track", "hard grounder".
+                        hit_data['hardness'] = fieldsim.hardness(batted_ball_data['ev'])
+                        # Both keys always present: a null says "nothing
+                        # notable", so the renderer does not derive its own.
+                        hit_data.update({'depth': None, 'lane': None, **fieldsim.spot(field)})
                         if hit_result in ["Single", "Double", "Triple", "Home Run"]:
                             hit_data['location'] = field.location
                     elif hit_result in ["Single", "Double", "Triple", "Home Run"]:

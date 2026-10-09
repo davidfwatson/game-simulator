@@ -830,10 +830,7 @@
           1,
           1,
           0,
-          0,
-          1,
-          0,
-          1,
+          2,
           0,
           0,
           0,
@@ -841,7 +838,12 @@
           0,
           0,
           0,
+          1,
           0,
+          0,
+          0,
+          0,
+          2,
           0,
           0,
           0,
@@ -1236,7 +1238,8 @@
               "startTime": "2025-09-27T23:05:30Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "RF"
+                "location": "RF",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -1549,7 +1552,9 @@
               "startTime": "2025-09-27T23:06:02Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "CF"
+                "location": "CF",
+                "depth": "shallow",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -1819,14 +1824,17 @@
             },
             "play_outcome": {
               "play": [
-                17
+                17,
+                0
               ],
               "pitch": [],
               "flow": [
                 0
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -2142,6 +2150,7 @@
                 0,
                 4,
                 2,
+                0,
                 1
               ],
               "pitch": [],
@@ -2153,7 +2162,8 @@
                 1
               ],
               "optional": [
-                0
+                99,
+                99
               ]
             }
           }
@@ -2671,7 +2681,8 @@
               "startTime": "2025-09-27T23:08:30Z",
               "hitData": {
                 "trajectory": "popup",
-                "location": "1B"
+                "location": "1B",
+                "lane": "right_side"
               },
               "commentaryRng": {
                 "event": {
@@ -5080,7 +5091,8 @@
               "startTime": "2025-09-27T23:13:01Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "3B"
+                "location": "3B",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -5151,7 +5163,7 @@
             },
             "play_outcome": {
               "play": [
-                15
+                13
               ],
               "pitch": [],
               "flow": [
@@ -5550,7 +5562,9 @@
               "startTime": "2025-09-27T23:14:01Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "1B line"
+                "location": "1B line",
+                "lane": "right_line",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -5892,7 +5906,8 @@
               "startTime": "2025-09-27T23:15:00Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "LCF"
+                "location": "LCF",
+                "depth": "warning_track"
               },
               "commentaryRng": {
                 "event": {
@@ -5956,7 +5971,7 @@
             },
             "play_outcome": {
               "play": [
-                32
+                0
               ],
               "pitch": [],
               "flow": [
@@ -6046,7 +6061,8 @@
               "startTime": "2025-09-27T23:15:30Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "LF"
+                "location": "LF",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -6959,7 +6975,8 @@
               "startTime": "2025-09-27T23:17:32Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "right-center field"
+                "location": "right-center field",
+                "lane": "right_center"
               },
               "commentaryRng": {
                 "event": {
@@ -7737,7 +7754,8 @@
               "startTime": "2025-09-27T23:19:30Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "second base"
+                "location": "second base",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -7849,14 +7867,17 @@
             },
             "play_outcome": {
               "play": [
-                29
+                24,
+                0
               ],
               "pitch": [],
               "flow": [
                 99
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -7972,7 +7993,8 @@
               "startTime": "2025-09-27T23:20:00Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "up the middle"
+                "location": "up the middle",
+                "lane": "middle"
               },
               "commentaryRng": {
                 "event": {
@@ -8064,7 +8086,8 @@
             },
             "play_outcome": {
               "play": [
-                42
+                34,
+                1
               ],
               "pitch": [],
               "flow": [
@@ -8073,7 +8096,9 @@
               "color": [
                 0
               ],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -8528,7 +8553,9 @@
               "startTime": "2025-09-27T23:21:02Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "left field"
+                "location": "left field",
+                "depth": "wall",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -8844,7 +8871,8 @@
             },
             "play_outcome": {
               "play": [
-                5
+                5,
+                0
               ],
               "pitch": [],
               "flow": [
@@ -8852,7 +8880,9 @@
                 0
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -8986,6 +9016,7 @@
             },
             "play_outcome": {
               "play": [
+                0,
                 0
               ],
               "pitch": [],
@@ -8995,7 +9026,9 @@
               "color": [
                 1
               ],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -10750,7 +10783,8 @@
               "startTime": "2025-09-27T23:26:01Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "up the middle"
+                "location": "up the middle",
+                "lane": "middle"
               },
               "commentaryRng": {
                 "event": {
@@ -10799,20 +10833,20 @@
                 0
               ],
               "color": [
-                99,
+                7,
                 0,
                 1,
                 99,
                 0,
-                0,
+                52,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                6,
-                4
+                5,
+                1
               ],
               "pitch": [],
               "flow": [
@@ -10820,7 +10854,7 @@
               ],
               "color": [],
               "optional": [
-                99
+                0
               ]
             }
           }
@@ -11012,7 +11046,7 @@
                 99
               ],
               "color": [
-                0,
+                62,
                 12,
                 99
               ],
@@ -11199,7 +11233,7 @@
                 0
               ],
               "color": [
-                0,
+                47,
                 47,
                 99
               ],
@@ -11717,7 +11751,8 @@
               "hitData": {
                 "trajectory": "line_drive",
                 "location": "right field",
-                "categoryOverride": "liner"
+                "categoryOverride": "liner",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -12056,7 +12091,8 @@
             },
             "play_outcome": {
               "play": [
-                0
+                0,
+                1
               ],
               "pitch": [],
               "flow": [
@@ -12066,7 +12102,9 @@
               "color": [
                 1
               ],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -13376,10 +13414,10 @@
                 "event": {
                   "play": [],
                   "pitch": [
-                    12
+                    7
                   ],
                   "flow": [
-                    0,
+                    4,
                     0
                   ],
                   "color": [],
@@ -13427,11 +13465,16 @@
               "optional": []
             },
             "play_outcome": {
-              "play": [],
+              "play": [
+                0,
+                1
+              ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -13509,7 +13552,8 @@
               "startTime": "2025-09-27T23:32:30Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "deep center field"
+                "location": "deep center field",
+                "depth": "warning_track"
               },
               "commentaryRng": {
                 "event": {
@@ -14430,7 +14474,7 @@
             },
             "play_outcome": {
               "play": [
-                4
+                3
               ],
               "pitch": [],
               "flow": [
@@ -14725,7 +14769,9 @@
               "startTime": "2025-09-27T23:35:02Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "left field line/wall"
+                "location": "left field line/wall",
+                "depth": "wall",
+                "lane": "left_line"
               },
               "commentaryRng": {
                 "event": {
@@ -14879,7 +14925,8 @@
               "startTime": "2025-09-27T23:35:30Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "first base"
+                "location": "first base",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -15466,7 +15513,7 @@
                     0
                   ],
                   "flow": [
-                    0,
+                    4,
                     0
                   ],
                   "color": [],
@@ -15514,11 +15561,16 @@
               "optional": []
             },
             "play_outcome": {
-              "play": [],
+              "play": [
+                0,
+                5
+              ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -15685,7 +15737,8 @@
               "startTime": "2025-09-27T23:37:01Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "second base"
+                "location": "second base",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -15755,7 +15808,7 @@
             },
             "play_outcome": {
               "play": [
-                34
+                30
               ],
               "pitch": [],
               "flow": [
@@ -16484,7 +16537,7 @@
             },
             "play_outcome": {
               "play": [
-                22
+                19
               ],
               "pitch": [],
               "flow": [
@@ -16802,7 +16855,14 @@
                 "batting": {},
                 "pitching": {}
               },
-              "battingOrder": "100"
+              "battingOrder": "100",
+              "seasonStats": {
+                "pitching": {
+                  "wins": 9,
+                  "losses": 4,
+                  "era": "3.86"
+                }
+              }
             }
           },
           "batters": [
@@ -17028,7 +17088,14 @@
                 "batting": {},
                 "pitching": {}
               },
-              "battingOrder": "100"
+              "battingOrder": "100",
+              "seasonStats": {
+                "pitching": {
+                  "wins": 7,
+                  "losses": 5,
+                  "era": "4.52"
+                }
+              }
             },
             "ID800110": {
               "person": {

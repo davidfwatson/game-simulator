@@ -101,7 +101,21 @@
       }
     ],
     "away_pitcher": "Bean Sorensen",
-    "home_pitcher": "Javier Von Neumann"
+    "home_pitcher": "Javier Von Neumann",
+    "season_stats": {
+      "Bean Sorensen": {
+        "pitching": {
+          "era": "3.92"
+        }
+      },
+      "Javier Von Neumann": {
+        "pitching": {
+          "wins": 8,
+          "losses": 7,
+          "era": "4.56"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -316,7 +330,8 @@
       "hit": {
         "location": "LF",
         "trajectory": "fly_ball",
-        "categoryOverride": "deep"
+        "categoryOverride": "deep",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -570,7 +585,8 @@
       "hit": {
         "location": "SS",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle"
       },
       "fielders": [
         {
@@ -688,7 +704,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1356,7 +1373,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1419,7 +1437,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1562,7 +1581,9 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_line",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1684,7 +1705,8 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle"
       }
     },
     {
@@ -1796,7 +1818,9 @@
       "hit": {
         "location": "RF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "depth": "shallow",
+        "lane": "right_center"
       }
     },
     {
@@ -2136,7 +2160,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "dropped_fly"
+        "categoryOverride": "dropped_fly",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -2314,7 +2339,8 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle"
       }
     },
     {
@@ -2379,7 +2405,10 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "lane": "right_line",
+        "hardness": "soft"
       }
     },
     {
@@ -2436,7 +2465,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2556,7 +2586,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "deep"
+        "categoryOverride": "deep",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -2658,7 +2689,8 @@
       "hit": {
         "location": "3B",
         "trajectory": "bunt",
-        "categoryOverride": "bunt"
+        "categoryOverride": "bunt",
+        "lane": "left_line"
       },
       "fielders": [
         {
@@ -2881,7 +2913,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2968,7 +3001,8 @@
       "hit": {
         "location": "LF",
         "trajectory": "line_drive",
-        "categoryOverride": "liner"
+        "categoryOverride": "liner",
+        "depth": "shallow"
       },
       "notes": "Only one ball is narrated at line 392 before a two-and-oh count is announced. Preserve that known count with initial_count [1, 0], retaining only the observed ball and single rather than inventing a missing pitch.",
       "initial_count": [
@@ -3037,7 +3071,8 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle"
       }
     },
     {
@@ -3190,7 +3225,8 @@
       ],
       "hit": {
         "location": "P",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -3437,7 +3473,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {
@@ -3644,7 +3681,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "depth": "shallow"
       },
       "notes": "Rio Nunez steals second during the ball at line 476, then scores on Oldman\u2019s single. Runner movements preserve both advances."
     },
@@ -3709,7 +3747,11 @@
           "position": "SS"
         }
       ],
-      "bat_side": "R"
+      "bat_side": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Javier Von Neumann"
+      }
     },
     {
       "inning": 9,
@@ -3899,7 +3941,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -3948,7 +3992,11 @@
           "out": true
         }
       ],
-      "bat_side": "R"
+      "bat_side": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Bean Sorensen"
+      }
     }
   ],
   "gaps": [

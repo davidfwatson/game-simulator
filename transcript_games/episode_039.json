@@ -101,7 +101,23 @@
       }
     ],
     "away_pitcher": "Billy the Borough Brello",
-    "home_pitcher": "Edgar Whitehouse"
+    "home_pitcher": "Edgar Whitehouse",
+    "season_stats": {
+      "Billy the Borough Brello": {
+        "pitching": {
+          "wins": 8,
+          "losses": 6,
+          "era": "3.96"
+        }
+      },
+      "Edgar Whitehouse": {
+        "pitching": {
+          "wins": 9,
+          "losses": 5,
+          "era": "3.72"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -212,7 +228,8 @@
       ],
       "hit": {
         "location": "P",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -261,7 +278,8 @@
       "hit": {
         "location": "RF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "lane": "right_center"
       }
     },
     {
@@ -400,7 +418,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -587,7 +606,8 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle"
       }
     },
     {
@@ -782,7 +802,8 @@
       "hit": {
         "location": "RF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "lane": "right_center"
       },
       "notes": "Gantry is explicitly credited with a single at line 133. Line 134 subsequently places the runner on third without describing an advance; preserve the observed single and flag the unbroadcast discrepancy."
     },
@@ -1038,7 +1059,10 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "depth": "wall",
+        "lane": "right_line",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1252,7 +1276,8 @@
       "hit": {
         "location": "RF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1303,7 +1328,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "fielders": [
         {
@@ -1359,7 +1385,8 @@
       "hit": {
         "location": "LF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "lane": "left_center"
       }
     },
     {
@@ -1518,7 +1545,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {
@@ -1770,7 +1798,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1821,7 +1850,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "hard"
       }
     },
     {
@@ -1900,7 +1930,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1983,7 +2014,10 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "wall",
+        "lane": "left_center",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2086,7 +2120,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2511,7 +2546,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2562,7 +2598,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2916,7 +2953,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_side"
       },
       "fielders": [
         {
@@ -2956,7 +2994,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "line_drive",
-        "categoryOverride": "liner"
+        "categoryOverride": "liner",
+        "depth": "shallow"
       }
     },
     {
@@ -3007,7 +3046,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -3061,7 +3101,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -3157,7 +3198,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -3213,7 +3255,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_side"
       },
       "fielders": [
         {
@@ -3221,7 +3264,11 @@
           "position": "3B"
         }
       ],
-      "bat_side": "R"
+      "bat_side": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Edgar Whitehouse"
+      }
     },
     {
       "inning": 8,
@@ -3521,7 +3568,11 @@
           "out": true
         }
       ],
-      "bat_side": "L"
+      "bat_side": "L",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Billy the Borough Brello"
+      }
     },
     {
       "inning": 9,

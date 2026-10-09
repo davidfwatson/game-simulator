@@ -100,7 +100,23 @@
       }
     ],
     "away_pitcher": "Brocktune Shemper",
-    "home_pitcher": "Zach Valentine"
+    "home_pitcher": "Zach Valentine",
+    "season_stats": {
+      "Brocktune Shemper": {
+        "pitching": {
+          "wins": 7,
+          "losses": 8,
+          "era": "5.21"
+        }
+      },
+      "Zach Valentine": {
+        "pitching": {
+          "wins": 4,
+          "losses": 2,
+          "era": "3.65"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -382,7 +398,10 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "wall",
+        "lane": "right_line",
+        "hardness": "hard"
       },
       "pitch_hand": "R"
     },
@@ -454,7 +473,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {
@@ -497,7 +517,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -632,7 +653,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -664,7 +686,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {
@@ -785,7 +808,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -865,7 +889,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "fielders": [
         {
@@ -949,7 +974,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "lane": "left_line",
+        "categoryOverride": "ground_rule"
       },
       "notes": "Ground-rule double: fair drive bounced over the wall.",
       "pitch_hand": "R"
@@ -1100,7 +1127,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "fielders": [
         {
@@ -1144,7 +1172,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_side"
       },
       "fielders": [
         {
@@ -1193,7 +1222,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "pitch_hand": "R"
     },
@@ -1224,7 +1254,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {
@@ -1266,7 +1297,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -1341,7 +1373,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "pitch_hand": "R"
     },
@@ -1395,7 +1429,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -1945,7 +1980,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1977,7 +2014,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "lane": "left_center"
       },
       "pitch_hand": "R"
     },
@@ -2131,7 +2170,7 @@
           "end": "score"
         }
       ],
-      "notes": "Line345 calls this Valentine’s pitch; the inning and surrounding ABs identify Shemper as pitcher. No pitching change is narrated.",
+      "notes": "Line345 calls this Valentine\u2019s pitch; the inning and surrounding ABs identify Shemper as pitcher. No pitching change is narrated.",
       "pitch_hand": "R"
     },
     {
@@ -2367,7 +2406,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2521,10 +2561,15 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "notes": "Royce Babcock pinch-hits for pitcher Brocktune Shemper in the ninth lineup spot.",
-      "pitch_hand": "R"
+      "pitch_hand": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Brocktune Shemper"
+      }
     },
     {
       "inning": 8,
@@ -2655,7 +2700,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2705,7 +2751,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2812,7 +2859,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {

@@ -411,13 +411,15 @@
           1,
           1,
           0,
-          1,
           0,
           1,
           0,
+          1,
+          0,
           0,
           0,
           1,
+          0,
           0,
           0,
           0,
@@ -578,7 +580,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -670,15 +672,15 @@
                 0
               ],
               "color": [
-                7,
-                92,
-                0
+                99,
+                0,
+                99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                34
+                27
               ],
               "pitch": [],
               "flow": [
@@ -854,15 +856,15 @@
                 0
               ],
               "color": [
-                62,
-                32,
+                99,
+                0,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                35
+                25
               ],
               "pitch": [],
               "flow": [
@@ -945,7 +947,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -974,7 +976,8 @@
               "sourceLine": 47,
               "hitData": {
                 "location": "LF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -1039,7 +1042,7 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
@@ -1222,20 +1225,20 @@
                 0
               ],
               "color": [
-                32,
+                99,
                 6,
                 4,
                 99,
                 2,
                 0,
-                7,
+                0,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                35
+                25
               ],
               "pitch": [],
               "flow": [
@@ -1356,7 +1359,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -1393,7 +1396,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -1473,7 +1476,7 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
@@ -1599,7 +1602,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -1730,7 +1733,7 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
@@ -1819,7 +1822,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -1894,7 +1897,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -1988,24 +1991,24 @@
                 0
               ],
               "color": [
-                62,
+                99,
                 1,
                 5,
                 99,
                 3,
                 0,
-                72,
+                0,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                14
+                25
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -2076,7 +2079,8 @@
               "sourceLine": 74,
               "hitData": {
                 "location": "2B",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -2147,7 +2151,7 @@
             },
             "play_outcome": {
               "play": [
-                38
+                33
               ],
               "pitch": [],
               "flow": [
@@ -2230,7 +2234,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -2268,7 +2272,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -2508,20 +2512,21 @@
                 0
               ],
               "color": [
-                22,
+                99,
                 11,
                 1,
                 99,
                 3,
                 2,
-                47,
+                0,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                6
+                6,
+                1
               ],
               "pitch": [],
               "flow": [
@@ -2530,7 +2535,9 @@
               "color": [
                 1
               ],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -2615,7 +2622,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -2691,7 +2698,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -2728,7 +2735,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -2763,7 +2770,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -2806,8 +2813,8 @@
                 0
               ],
               "color": [
-                22,
-                37,
+                99,
+                0,
                 99
               ],
               "optional": []
@@ -2896,7 +2903,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -2933,7 +2940,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -2963,7 +2970,8 @@
               "hitData": {
                 "location": "1B",
                 "trajectory": "ground_ball",
-                "putoutMethod": "unassisted"
+                "putoutMethod": "unassisted",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -3026,9 +3034,9 @@
                 0
               ],
               "color": [
-                12,
-                92,
-                0
+                99,
+                0,
+                99
               ],
               "optional": []
             },
@@ -3159,7 +3167,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -3188,7 +3196,9 @@
               "sourceLine": 99,
               "hitData": {
                 "location": "CF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -3238,9 +3248,9 @@
                 0
               ],
               "color": [
-                52,
-                17,
-                0
+                99,
+                0,
+                99
               ],
               "optional": []
             },
@@ -3251,7 +3261,6 @@
               ],
               "pitch": [],
               "flow": [
-                99,
                 0
               ],
               "color": [],
@@ -3336,8 +3345,8 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    0,
-                    0
+                    99,
+                    3
                   ],
                   "color": [],
                   "optional": []
@@ -3417,7 +3426,7 @@
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -3498,7 +3507,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -3535,7 +3544,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -3573,7 +3582,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -3611,7 +3620,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -3685,7 +3694,7 @@
                   ],
                   "flow": [
                     1,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -3729,14 +3738,14 @@
                 0
               ],
               "color": [
-                12,
+                99,
                 4,
                 5,
                 0,
                 99,
                 0,
-                27,
-                0
+                0,
+                99
               ],
               "optional": []
             },
@@ -3828,7 +3837,7 @@
                   "flow": [
                     0,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -3866,7 +3875,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -3895,7 +3904,8 @@
               "sourceLine": 116,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "lane": "right_center"
               },
               "commentaryRng": {
                 "event": {
@@ -3991,15 +4001,15 @@
                 0
               ],
               "color": [
-                32,
-                32,
-                0
+                99,
+                0,
+                99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                37
+                30
               ],
               "pitch": [],
               "flow": [
@@ -4094,9 +4104,9 @@
                     6
                   ],
                   "flow": [
+                    99,
                     0,
-                    1,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -4171,7 +4181,7 @@
                   ],
                   "flow": [
                     4,
-                    0,
+                    99,
                     99
                   ],
                   "color": [],
@@ -4207,7 +4217,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -4251,8 +4261,8 @@
                 0
               ],
               "color": [
-                7,
-                27,
+                99,
+                0,
                 99
               ],
               "optional": []
@@ -4385,7 +4395,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -4422,7 +4432,7 @@
                   ],
                   "flow": [
                     4,
-                    0,
+                    99,
                     99
                   ],
                   "color": [],
@@ -4453,7 +4463,8 @@
               "hitData": {
                 "location": "1B",
                 "trajectory": "ground_ball",
-                "putoutMethod": "unassisted"
+                "putoutMethod": "unassisted",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -4516,7 +4527,7 @@
                 99
               ],
               "color": [
-                57,
+                0,
                 77,
                 99
               ],
@@ -4528,7 +4539,7 @@
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -4642,7 +4653,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -4677,7 +4688,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -4722,12 +4733,12 @@
                 0
               ],
               "color": [
-                0,
+                99,
                 0,
                 1,
                 99,
                 2,
-                82,
+                0,
                 99
               ],
               "optional": []
@@ -4847,7 +4858,8 @@
               "hitData": {
                 "location": "1B",
                 "trajectory": "ground_ball",
-                "putoutMethod": "unassisted"
+                "putoutMethod": "unassisted",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -4922,7 +4934,7 @@
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -5071,7 +5083,9 @@
               "pitchData": {},
               "sourceLine": 143,
               "hitData": {
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "lane": "middle",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -5221,7 +5235,7 @@
                   "flow": [
                     0,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -5259,7 +5273,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -5296,7 +5310,7 @@
                   ],
                   "flow": [
                     4,
-                    0,
+                    99,
                     99
                   ],
                   "color": [],
@@ -5326,7 +5340,8 @@
               "sourceLine": 148,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "warning_track"
               },
               "commentaryRng": {
                 "event": {
@@ -5390,14 +5405,14 @@
               ],
               "color": [
                 0,
-                99,
+                77,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                22
+                6
               ],
               "pitch": [],
               "flow": [
@@ -5485,7 +5500,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -5522,7 +5537,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -5559,7 +5574,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -5588,7 +5603,9 @@
               "sourceLine": 157,
               "hitData": {
                 "location": "LF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "wall",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -5664,7 +5681,7 @@
             },
             "play_outcome": {
               "play": [
-                14,
+                10,
                 3
               ],
               "pitch": [],
@@ -5756,7 +5773,7 @@
                   "flow": [
                     0,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -5830,7 +5847,7 @@
                   ],
                   "flow": [
                     4,
-                    0,
+                    99,
                     99
                   ],
                   "color": [],
@@ -5860,7 +5877,8 @@
               "sourceLine": 162,
               "hitData": {
                 "location": "LF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -5957,7 +5975,7 @@
               ],
               "color": [
                 0,
-                82,
+                77,
                 99
               ],
               "optional": []
@@ -5968,7 +5986,7 @@
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -6043,15 +6061,17 @@
               "sourceLine": 165,
               "hitData": {
                 "location": "LF",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "lane": "left_side",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    0,
-                    1
+                    99,
+                    0
                   ],
                   "color": [],
                   "optional": []
@@ -6150,7 +6170,8 @@
             "play_outcome": {
               "play": [
                 0,
-                2
+                2,
+                1
               ],
               "pitch": [],
               "flow": [
@@ -6160,6 +6181,7 @@
                 1
               ],
               "optional": [
+                0,
                 99
               ]
             }
@@ -6239,7 +6261,7 @@
                   "flow": [
                     0,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -6268,7 +6290,8 @@
               "sourceLine": 169,
               "hitData": {
                 "location": "2B",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -6364,9 +6387,9 @@
                 99
               ],
               "color": [
-                42,
+                0,
                 77,
-                0
+                99
               ],
               "optional": []
             },
@@ -6457,7 +6480,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -6523,7 +6546,9 @@
               "sourceLine": 176,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "wall",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -6575,7 +6600,7 @@
                 0
               ],
               "color": [
-                62,
+                0,
                 0,
                 1,
                 99,
@@ -6669,7 +6694,8 @@
               "sourceLine": 178,
               "hitData": {
                 "location": "2B",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -6787,25 +6813,28 @@
               "pitch": [],
               "flow": [
                 7,
-                0
+                99
               ],
               "color": [
-                99,
                 0,
+                77,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                39
+                34,
+                2
               ],
               "pitch": [],
               "flow": [
                 0
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -6873,7 +6902,8 @@
               "sourceLine": 180,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "deep"
               },
               "commentaryRng": {
                 "event": {
@@ -7002,6 +7032,7 @@
             },
             "play_outcome": {
               "play": [
+                0,
                 0
               ],
               "pitch": [],
@@ -7011,7 +7042,9 @@
               "color": [
                 0
               ],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -7087,7 +7120,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -7125,7 +7158,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -7214,18 +7247,18 @@
               "pitch": [],
               "flow": [
                 7,
-                0
+                99
               ],
               "color": [
-                99,
                 0,
+                77,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -7309,7 +7342,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -7346,7 +7379,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -7381,7 +7414,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -7518,7 +7551,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -7667,7 +7700,7 @@
                   ],
                   "flow": [
                     0,
-                    0,
+                    99,
                     0,
                     0
                   ],
@@ -7744,12 +7777,12 @@
               "pitch": [],
               "flow": [
                 2,
-                0
+                99
               ],
               "color": [
-                99,
                 0,
-                0
+                77,
+                99
               ],
               "optional": []
             },
@@ -7837,7 +7870,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": [
@@ -7876,7 +7909,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -7914,7 +7947,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -8120,7 +8153,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -8158,7 +8191,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -8187,7 +8220,8 @@
               "sourceLine": 217,
               "hitData": {
                 "location": "CF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "deep"
               },
               "commentaryRng": {
                 "event": {
@@ -8264,7 +8298,7 @@
             },
             "play_outcome": {
               "play": [
-                16
+                1
               ],
               "pitch": [],
               "flow": [
@@ -8449,8 +8483,8 @@
                 99
               ],
               "color": [
-                7,
-                57,
+                0,
+                72,
                 99
               ],
               "optional": []
@@ -8461,7 +8495,7 @@
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -8617,7 +8651,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -8655,7 +8689,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -8691,7 +8725,7 @@
                   ],
                   "flow": [
                     0,
-                    0,
+                    99,
                     0,
                     0
                   ],
@@ -8721,7 +8755,8 @@
               "pitchData": {},
               "sourceLine": 227,
               "hitData": {
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "lane": "middle"
               },
               "commentaryRng": {
                 "event": {
@@ -8773,7 +8808,7 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
@@ -8869,7 +8904,7 @@
                   "flow": [
                     0,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -8906,7 +8941,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -9121,7 +9156,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -9158,7 +9193,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -9374,7 +9409,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -9412,7 +9447,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -9517,7 +9552,8 @@
               "sourceLine": 246,
               "hitData": {
                 "location": "CF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -9582,7 +9618,7 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
@@ -9592,7 +9628,7 @@
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -9713,7 +9749,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -9865,10 +9901,10 @@
               "pitch": [],
               "flow": [
                 16,
-                0
+                99
               ],
               "color": [
-                99,
+                0,
                 0,
                 99
               ],
@@ -9960,8 +9996,8 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    0,
-                    0
+                    99,
+                    5
                   ],
                   "color": [],
                   "optional": []
@@ -10110,7 +10146,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -10203,20 +10239,20 @@
                 0
               ],
               "color": [
-                42,
+                99,
                 0,
                 3,
                 0,
                 0,
                 2,
-                32,
+                0,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -10295,7 +10331,10 @@
               "sourceLine": 264,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "shallow",
+                "lane": "right_center",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -10354,15 +10393,12 @@
             },
             "play_outcome": {
               "play": [
-                99,
-                0,
-                0,
+                1,
                 0
               ],
               "pitch": [],
               "flow": [
-                99,
-                99
+                0
               ],
               "color": [],
               "optional": [
@@ -10453,7 +10489,7 @@
                   "flow": [
                     0,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -10499,7 +10535,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -10528,7 +10564,8 @@
               "sourceLine": 269,
               "hitData": {
                 "location": "RF",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -10606,15 +10643,12 @@
             },
             "play_outcome": {
               "play": [
-                99,
-                0,
                 0,
                 0
               ],
               "pitch": [],
               "flow": [
-                99,
-                99
+                0
               ],
               "color": [],
               "optional": [
@@ -10698,8 +10732,8 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    0,
-                    1
+                    99,
+                    0
                   ],
                   "color": [],
                   "optional": []
@@ -10796,7 +10830,7 @@
             },
             "play_outcome": {
               "play": [
-                9
+                8
               ],
               "pitch": [],
               "flow": [
@@ -10880,7 +10914,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -10992,7 +11026,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -11027,7 +11061,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -11069,15 +11103,15 @@
                 99,
                 5,
                 99,
-                0
+                99
               ],
               "color": [
-                99,
+                0,
                 2,
                 0,
                 99,
                 11,
-                0,
+                72,
                 99
               ],
               "optional": []
@@ -11167,7 +11201,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -11204,7 +11238,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -11250,7 +11284,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -11330,7 +11364,7 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
@@ -11418,7 +11452,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -11493,7 +11527,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -11531,7 +11565,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -11611,7 +11645,7 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
@@ -11875,14 +11909,14 @@
                 3,
                 99,
                 2,
-                87,
+                72,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                35
+                25
               ],
               "pitch": [],
               "flow": [
@@ -11965,7 +11999,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -12059,7 +12093,7 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
@@ -12140,7 +12174,8 @@
               "sourceLine": 308,
               "hitData": {
                 "location": "SS",
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -12212,20 +12247,19 @@
               "pitch": [],
               "flow": [
                 25,
-                0,
-                0,
+                99,
                 0
               ],
               "color": [
-                27,
-                32,
+                99,
+                0,
                 99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                3
+                2
               ],
               "pitch": [],
               "flow": [
@@ -12313,7 +12347,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -12350,7 +12384,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -12478,16 +12512,16 @@
               "flow": [
                 2,
                 10,
-                0
+                99
               ],
               "color": [
+                0,
+                0,
+                0,
                 99,
                 0,
-                0,
-                99,
-                0,
-                0,
-                0
+                72,
+                99
               ],
               "optional": []
             },
@@ -12571,7 +12605,7 @@
                   "flow": [
                     99,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -12608,7 +12642,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -12735,17 +12769,17 @@
               "color": [
                 99,
                 0,
-                0
+                99
               ],
               "optional": []
             },
             "play_outcome": {
               "play": [
-                9
+                8
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -12799,8 +12833,45 @@
           },
           "playEvents": [
             {
-              "isPitch": true,
+              "isPitch": false,
+              "type": "action",
+              "isSubstitution": true,
               "index": 0,
+              "details": {
+                "event": "Offensive Substitution",
+                "eventType": "offensive_substitution",
+                "description": "Offensive Substitution: Pinch-hitter Benny Standingbear replaces Frank Gibson."
+              },
+              "count": {
+                "balls": 0,
+                "strikes": 0,
+                "outs": 2
+              },
+              "position": {
+                "code": "11",
+                "name": "Pinch Hitter",
+                "abbreviation": "PH"
+              },
+              "player": {
+                "id": 35019
+              },
+              "pitchData": {},
+              "replacedPlayer": {
+                "id": 35009
+              },
+              "commentaryRng": {
+                "event": {
+                  "play": [],
+                  "pitch": [],
+                  "flow": [],
+                  "color": [],
+                  "optional": []
+                }
+              }
+            },
+            {
+              "isPitch": true,
+              "index": 1,
               "details": {
                 "code": "B",
                 "description": "Ball",
@@ -12838,7 +12909,7 @@
             },
             {
               "isPitch": true,
-              "index": 1,
+              "index": 2,
               "details": {
                 "code": "X",
                 "description": "In play",
@@ -12857,7 +12928,9 @@
               "pitchData": {},
               "sourceLine": 333,
               "hitData": {
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "lane": "left_side",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -12904,12 +12977,13 @@
               "pitch": [],
               "flow": [
                 7,
+                14,
                 0
               ],
               "color": [
-                67,
-                67,
-                0
+                99,
+                0,
+                99
               ],
               "optional": []
             },
@@ -13048,7 +13122,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13086,7 +13160,7 @@
                   ],
                   "flow": [
                     4,
-                    0,
+                    99,
                     99
                   ],
                   "color": [],
@@ -13125,7 +13199,7 @@
                   ],
                   "flow": [
                     4,
-                    0,
+                    99,
                     99
                   ],
                   "color": [],
@@ -13162,7 +13236,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13323,7 +13397,7 @@
                   "flow": [
                     0,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13360,7 +13434,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13615,7 +13689,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13653,7 +13727,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13758,7 +13832,7 @@
             },
             "play_outcome": {
               "play": [
-                17
+                15
               ],
               "pitch": [],
               "flow": [
@@ -13878,7 +13952,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13954,7 +14028,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13989,7 +14063,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -14126,7 +14200,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -14305,7 +14379,8 @@
               "pitchData": {},
               "sourceLine": 367,
               "hitData": {
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "lane": "middle"
               },
               "commentaryRng": {
                 "event": {
@@ -14445,15 +14520,16 @@
               "sourceLine": 370,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "warning_track"
               },
               "commentaryRng": {
                 "event": {
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    0,
-                    1
+                    99,
+                    0
                   ],
                   "color": [],
                   "optional": []
@@ -14518,7 +14594,7 @@
             },
             "play_outcome": {
               "play": [
-                22
+                6
               ],
               "pitch": [],
               "flow": [
@@ -14606,7 +14682,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -14718,7 +14794,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -14784,7 +14860,9 @@
               "pitchData": {},
               "sourceLine": 383,
               "hitData": {
-                "trajectory": "ground_ball"
+                "trajectory": "ground_ball",
+                "lane": "middle",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -14853,7 +14931,7 @@
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": [
@@ -14936,7 +15014,7 @@
                   "flow": [
                     0,
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -14974,7 +15052,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -15011,7 +15089,7 @@
                   ],
                   "flow": [
                     4,
-                    0,
+                    99,
                     99
                   ],
                   "color": [],
@@ -15050,7 +15128,7 @@
                   ],
                   "flow": [
                     4,
-                    0,
+                    99,
                     99
                   ],
                   "color": [],
@@ -15126,7 +15204,7 @@
                   ],
                   "flow": [
                     0,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -15226,11 +15304,11 @@
               "flow": [
                 4,
                 99,
-                99
+                0
               ],
               "color": [
-                62,
-                32,
+                99,
+                0,
                 99
               ],
               "optional": []
@@ -15353,7 +15431,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -15382,7 +15460,9 @@
               "sourceLine": 398,
               "hitData": {
                 "location": "RF",
-                "trajectory": "fly_ball"
+                "trajectory": "fly_ball",
+                "depth": "warning_track",
+                "lane": "right_center"
               },
               "commentaryRng": {
                 "event": {
@@ -15445,7 +15525,7 @@
                 0
               ],
               "color": [
-                7,
+                99,
                 0,
                 99
               ],
@@ -15453,7 +15533,7 @@
             },
             "play_outcome": {
               "play": [
-                37
+                10
               ],
               "pitch": [],
               "flow": [
@@ -15489,7 +15569,22 @@
             35007,
             35008,
             35009
-          ]
+          ],
+          "players": {
+            "ID35009": {
+              "person": {
+                "id": 35009,
+                "fullName": "Frank Gibson"
+              },
+              "seasonStats": {
+                "pitching": {
+                  "wins": 9,
+                  "losses": 6,
+                  "era": "4.16"
+                }
+              }
+            }
+          }
         },
         "home": {
           "team": {
@@ -15509,7 +15604,22 @@
             35016,
             35017,
             35018
-          ]
+          ],
+          "players": {
+            "ID35018": {
+              "person": {
+                "id": 35018,
+                "fullName": "Hiroki Nomo"
+              },
+              "seasonStats": {
+                "pitching": {
+                  "wins": 11,
+                  "losses": 4,
+                  "era": "3.23"
+                }
+              }
+            }
+          }
         }
       }
     },

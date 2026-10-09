@@ -179,7 +179,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -285,7 +286,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -1018,7 +1020,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -1081,7 +1084,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -1295,7 +1299,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -1460,7 +1465,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -1517,7 +1523,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1606,7 +1613,8 @@
       ],
       "hit": {
         "location": "P",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -1667,7 +1675,8 @@
       ],
       "hit": {
         "location": "P",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -1845,7 +1854,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -1951,7 +1961,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -1985,7 +1996,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -2314,7 +2326,8 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -2404,7 +2417,11 @@
         3,
         0
       ],
-      "continuing_pa": true
+      "continuing_pa": true,
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Granny Hauser"
+      }
     },
     {
       "inning": 6,
@@ -2608,7 +2625,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {

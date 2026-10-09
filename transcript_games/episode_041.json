@@ -101,7 +101,16 @@
       }
     ],
     "away_pitcher": "Zach Valentine",
-    "home_pitcher": "Blinky Malone"
+    "home_pitcher": "Blinky Malone",
+    "season_stats": {
+      "Blinky Malone": {
+        "pitching": {
+          "wins": 9,
+          "losses": 4,
+          "era": "4.21"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -136,7 +145,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "deep"
+        "categoryOverride": "deep",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -289,7 +299,8 @@
       "hit": {
         "location": "2B",
         "trajectory": "line_drive",
-        "categoryOverride": "soft_liner"
+        "categoryOverride": "soft_liner",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -345,7 +356,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -497,7 +509,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center",
+        "hardness": "hard"
       }
     },
     {
@@ -746,7 +760,9 @@
       "hit": {
         "location": "SS",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "left_side",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -893,7 +909,9 @@
       "hit": {
         "location": "RF",
         "trajectory": "line_drive",
-        "categoryOverride": "liner"
+        "categoryOverride": "liner",
+        "depth": "shallow",
+        "lane": "right_center"
       }
     },
     {
@@ -1227,7 +1245,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "fielders": [
         {
@@ -1274,7 +1293,9 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle",
+        "hardness": "hard"
       }
     },
     {
@@ -1325,7 +1346,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "deep"
+        "categoryOverride": "deep",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -1417,7 +1439,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "fielders": [
         {
@@ -1475,7 +1498,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "fielders": [
         {
@@ -1695,7 +1719,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1781,7 +1806,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1836,7 +1862,9 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "lane": "middle",
+        "hardness": "soft"
       }
     },
     {
@@ -1875,7 +1903,8 @@
       "hit": {
         "location": "LF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "depth": "shallow"
       }
     },
     {
@@ -2004,7 +2033,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2050,7 +2080,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2107,7 +2138,9 @@
       "hit": {
         "location": "SS",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2374,7 +2407,9 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle",
+        "hardness": "hard"
       }
     },
     {
@@ -2534,7 +2569,8 @@
       "hit": {
         "location": "LF",
         "trajectory": "line_drive",
-        "categoryOverride": "liner"
+        "categoryOverride": "liner",
+        "lane": "left_center"
       }
     },
     {
@@ -2765,7 +2801,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2813,7 +2850,8 @@
       "hit": {
         "location": "LF",
         "trajectory": "line_drive",
-        "categoryOverride": "liner"
+        "categoryOverride": "liner",
+        "lane": "left_line"
       },
       "fielders": [
         {
@@ -2821,7 +2859,11 @@
           "position": "P"
         }
       ],
-      "bat_side": "L"
+      "bat_side": "L",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Zach Valentine"
+      }
     },
     {
       "inning": 8,
@@ -3040,7 +3082,11 @@
           "end": "1B"
         }
       ],
-      "bat_side": "R"
+      "bat_side": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Blinky Malone"
+      }
     },
     {
       "inning": 8,
@@ -3342,7 +3388,7 @@
     {
       "start": 307,
       "end": 312,
-      "reason": "Turtle on the field delays Santiago’s plate appearance; no pitch occurs during the interruption."
+      "reason": "Turtle on the field delays Santiago\u2019s plate appearance; no pitch occurs during the interruption."
     }
   ]
 }

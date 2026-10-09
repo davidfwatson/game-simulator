@@ -275,7 +275,10 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "wall",
+        "lane": "left_center",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -556,7 +559,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -772,7 +776,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "runners": [
         {
@@ -1072,7 +1077,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -1273,7 +1279,9 @@
       "hit": {
         "location": "RF",
         "trajectory": "line_drive",
-        "categoryOverride": "ground_rule"
+        "categoryOverride": "ground_rule",
+        "depth": "deep",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1329,7 +1337,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1379,7 +1388,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "runners": [
         {
@@ -1958,7 +1968,8 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "runners": [
         {
@@ -2019,7 +2030,10 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "wall",
+        "lane": "right_center",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2093,7 +2107,9 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "shallow",
+        "lane": "right_center"
       },
       "runners": [
         {
@@ -2851,7 +2867,9 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "lane": "right_center"
       },
       "runners": [
         {
@@ -2998,7 +3016,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "runners": [
         {
@@ -3093,7 +3112,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "runners": [
         {
@@ -3335,7 +3355,10 @@
           "position": "3B"
         }
       ],
-      "notes": "Pinch hitter for Wayne Hensley."
+      "notes": "Pinch hitter for Wayne Hensley.",
+      "substitution": {
+        "type": "pinch_hitter"
+      }
     },
     {
       "inning": 8,
@@ -3590,7 +3613,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "runners": [
         {

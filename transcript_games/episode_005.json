@@ -84,7 +84,23 @@
       }
     ],
     "away_pitcher": "Todd Gonzalez",
-    "home_pitcher": "Brock Niedermeier"
+    "home_pitcher": "Brock Niedermeier",
+    "season_stats": {
+      "Brock Niedermeier": {
+        "pitching": {
+          "wins": 5,
+          "losses": 3,
+          "era": "4.13"
+        }
+      },
+      "Todd Gonzalez": {
+        "pitching": {
+          "wins": 4,
+          "losses": 3,
+          "era": "3.16"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -119,7 +135,8 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "fielders": [
         {
@@ -183,7 +200,8 @@
       ],
       "hit": {
         "location": "1B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -240,7 +258,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_side"
       },
       "fielders": [
         {
@@ -393,7 +412,8 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "forceMechanism": "throw"
+        "forceMechanism": "throw",
+        "lane": "right_side"
       },
       "fielders": [
         {
@@ -470,7 +490,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -603,7 +625,8 @@
       "hit": {
         "location": "3B",
         "trajectory": "ground_ball",
-        "forceMechanism": "throw"
+        "forceMechanism": "throw",
+        "lane": "left_side"
       },
       "fielders": [
         {
@@ -861,7 +884,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "fielders": [
         {
@@ -931,7 +955,8 @@
       ],
       "hit": {
         "location": "P",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -963,7 +988,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "lane": "left_center"
       },
       "pitch_hand": "R"
     },
@@ -999,7 +1025,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_line"
       },
       "fielders": [
         {
@@ -1205,7 +1232,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1314,7 +1342,8 @@
         }
       ],
       "hit": {
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_side"
       },
       "fielders": [
         {
@@ -1375,7 +1404,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1597,7 +1627,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1683,7 +1714,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "right_side"
       },
       "fielders": [
         {
@@ -2026,7 +2058,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2208,7 +2241,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "right_side"
       },
       "fielders": [
         {
@@ -2240,7 +2274,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "hard"
       }
     },
     {
@@ -2313,7 +2348,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "right_side"
       },
       "fielders": [
         {
@@ -2446,7 +2482,10 @@
         }
       ],
       "hit": {
-        "location": "RF"
+        "location": "RF",
+        "depth": "wall",
+        "lane": "right_line",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2478,7 +2517,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2515,7 +2555,8 @@
       ],
       "hit": {
         "location": "1B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "right_line"
       },
       "fielders": [
         {
@@ -2557,7 +2598,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       }
     },
     {
@@ -2952,7 +2994,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "fielders": [
         {
@@ -3032,7 +3075,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "line_drive",
-        "categoryOverride": "soft_liner"
+        "categoryOverride": "soft_liner",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -3043,7 +3087,10 @@
         }
       ],
       "notes": "Line379 incorrectly says oneout; Bush made secondout at378 and387 confirms twoouts.",
-      "pitch_hand": "R"
+      "pitch_hand": "R",
+      "substitution": {
+        "type": "pinch_hitter"
+      }
     },
     {
       "inning": 9,
@@ -3067,7 +3114,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "hard"
       },
       "pitch_hand": "R"
     },
@@ -3110,7 +3158,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {

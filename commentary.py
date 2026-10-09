@@ -731,7 +731,9 @@ GAME_CONTEXT = {
                 "Hit in the air {direction}, still going back, and that one ricochets off the top of the wall.",
             ],
             "ground_rule": [
-                "Hammered {direction}, and that will bounce over the wall. That's a ground-rule double for {batter_name}."
+                "Hammered {direction}, and that will bounce over the wall. That's a ground-rule double for {batter_name}.",
+                "Driven {direction}. That one is fair, and it will bounce over the wall. And {batter_name} is aboard with a ground-rule double.",
+                "Hit {direction}, and that one bounces over the wall. That's a ground-rule double for {batter_name}."
             ],
             "no_wall": [
                 "Lined {direction}, and that one splits the outfielders. {batter_name} cruises into second.",
@@ -1291,6 +1293,85 @@ GAME_CONTEXT = {
         "double_play": [
             "a 4-6-3 double play", "they turn two", "a tailor-made double play",
             "rolls it up for two"
+        ],
+        # Runners a ball in play brings home or to third, from its recorded
+        # runner movements ("Nomo will score. Brown will score.").
+        "runner_scores": [
+            "{runner} will score.",
+            "{runner} comes in to score.",
+            "{runner} will come in to score.",
+            "{runner} scores from {origin}.",
+            "{runner} will score from {origin}.",
+            "{runner} coming around to score.",
+            "{runner} is going to score from {origin}."
+        ],
+        "runner_to_third": [
+            "{runner} advances to third.",
+            "{runner} will advance to third.",
+            "{runner} advances safely to third.",
+            "{runner} advances to third on the play.",
+            "{runner} is hustling to third."
+        ],
+        # A run-scoring hit's situation sentence, from its recorded RBI.
+        "rbi_hit": [
+            "And that's an RBI {hit} for {batter_name}.",
+            "That's an RBI {hit} for {batter_name}.",
+            "And that's going to be an RBI {hit} for {batter_name}."
+        ],
+        "rbi_hit_two_out": [
+            "And that's a two-out RBI {hit} for {batter_name}."
+        ],
+        "rbi_hit_runs": [
+            "And that's a {runs}-run {hit} for {batter_name}.",
+            "And that is a {runs}-run {hit} for {batter_name}."
+        ],
+        # The runs a home run drove in.
+        "home_run_solo": [
+            "And that's a solo home run for {batter_name}.",
+            "And that's a long, lazy solo home run for {batter_name}.",
+            "A solo home run for {batter_name}."
+        ],
+        "home_run_two_run": [
+            "And that's a two-run homer for {batter_name}.",
+            "And that's a long, lazy two-run blast for {batter_name}.",
+            "That's a two-run homer for {batter_name}."
+        ],
+        "home_run_three_run": [
+            "And that's a three-run homer for {batter_name}.",
+            "And that's a long, lazy three-run blast for {batter_name}."
+        ],
+        "home_run_grand_slam": [
+            "And that's a grand slam for {batter_name}!",
+            "A grand slam for {batter_name}!"
+        ],
+        # A pinch hitter's introduction (Sleep Baseball), from the at-bat's
+        # Offensive Substitution action.
+        "pinch_hitter": [
+            "And pinch hitter {batter_name} will step in.",
+            "And that's going to bring up a pinch hitter, and that is going to be {batter_name}.",
+            "And {batter_name} will pinch-hit here."
+        ],
+        "pinch_hitter_for": [
+            "And {batter_name} will pinch-hit for {replaced}.",
+            "And {batter_name} will step in to pinch-hit for {replaced}.",
+            "And here's {batter_name} to pinch-hit for {replaced}.",
+            "And {batter_name} steps in to pinch hit for {replaced}.",
+            "And we're going to have a pinch hitter for {replaced}, and that's going to be {batter_name}."
+        ],
+        "pinch_hitter_slot": [
+            "And {batter_name} will step in to pinch hit in the {slot} spot."
+        ],
+        "pinch_hitter_empty": [
+            "{outs_lead}, bases empty, and {batter_name} will pinch-hit here.",
+            "{outs_lead}, and that's going to bring up a pinch hitter, and that is going to be {batter_name}."
+        ],
+        "pinch_hitter_for_empty": [
+            "Bases empty, and {outs_count} now for {batter_name}, who will pinch-hit for {replaced}."
+        ],
+        "pinch_hitter_for_slot": [
+            "And {batter_name} steps in to pinch-hit for {replaced} in the {slot} spot.",
+            "And now {batter_name} will pinch hit for {replaced} in the {slot} spot.",
+            "And {batter_name} will pinch hit for {replaced} in the {slot} spot."
         ],
         "leadoff_single": [
             "{batter_name} starts things off with a leadoff single{inning_context}.",
@@ -1918,6 +1999,30 @@ GAME_CONTEXT = {
     },
 
     "lineup_strings": {
+        # A starter's season record, said after his lineup slot (Sleep
+        # Baseball: "Shemper enters tonight's contest with a record of 7 and 8
+        # with a 5.21 ERA."). Only from recorded seasonStats.
+        "season_record_era": [
+            "{last_name} enters tonight's game with a record of {wins} and {losses} with a {era} ERA.",
+            "{last_name} enters tonight's contest with a record of {wins} and {losses} with a {era} ERA.",
+            "He enters tonight's game with a record of {wins} and {losses} with a {era} ERA.",
+            "He enters tonight's contest with a record of {wins} and {losses} with a {era} ERA.",
+            "{last_name} enters tonight's game with a record of {wins} and {losses} with a {era} earned run average.",
+            "He enters tonight's contest with a record of {wins} and {losses} with an earned run average of {era}.",
+            "He's got a record of {wins} and {losses} with a {era} ERA.",
+            "{last_name} enters tonight's contest with a record of {wins} and {losses} and a {era} ERA.",
+            "{last_name} enters tonight's game with a record of {wins_word} and {losses_word} with a {era} ERA.",
+            "He enters tonight's game with a record of {wins_word} and {losses_word} with a {era} ERA."
+        ],
+        "season_record": [
+            "He enters tonight's game with a record of {wins} and {losses}.",
+            "{last_name} enters tonight's game with a record of {wins} and {losses}.",
+            "He's got a record of {wins} and {losses}."
+        ],
+        "season_era": [
+            "He enters tonight's game with a {era} ERA.",
+            "{last_name} enters tonight's game with a {era} ERA."
+        ],
         "intro_away": [
             "Let's take a look at the Starting 9 for the visiting {team_name}."
         ],

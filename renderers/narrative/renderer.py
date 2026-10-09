@@ -29,9 +29,16 @@ OPTIONAL_SENTENCE_RATES = {
     # ", to end the inning" added the same way: 77 of 91 third-out
     # strikeouts say so, 84.6%.
     'strikeout_inning_end': 0.85,
-    # The situation sentence after a hit ("A two-out single for Kosinski."):
-    # 132 of 207 singles, doubles and triples, 63.8%.
-    'hit_situation': 0.64,
+    # The situation sentence after a hit ("A two-out single for Kosinski.",
+    # or after a run-scoring hit "And that's an RBI single for Ali Nunez."):
+    # 147 of 207 singles, doubles and triples, 71.0%.
+    'hit_situation': 0.71,
+    # Naming a runner who scores or takes third on a ball in play ("Nomo
+    # will score.", "Ferguson will advance to third."): 66 of 82, 80.5%.
+    'runner_scores': 0.80,
+    # The runs a home run drove in ("And that's a two-run homer for Steve
+    # McDykel."): 26 of 33 home runs (walk-offs excluded), 78.8%.
+    'home_run_runs': 0.79,
 }
 
 
@@ -325,6 +332,83 @@ class NarrativeRenderer(GameRenderer):
             ])
         return self.rng_flow.choice(templates).format(runner_positions=runner_positions)
 
+    def _pinch_hitter_intro(self, substitution, batter_name, about, runners, outs_str):
+        """"And Royce Babcock steps in to pinch-hit for Brocktune Shemper in the
+        nine spot." From the at-bat's Offensive Substitution action; the
+        replaced man and his lineup slot are said only when recorded."""
+        players = self.gameday_data['gameData'].get('players', {})
+        replaced_id = substitution.get('replacedPlayer', {}).get('id')
+        replaced = players.get(f'ID{replaced_id}', {}).get('fullName') if replaced_id is not None else None
+        order = self.gameday_data.get('liveData', {}).get('boxscore', {}).get('teams', {}).get(
+            'away' if about['isTopInning'] else 'home', {}).get('battingOrder', [])
+        slot = None
+        if replaced_id is not None and any(str(pid) == str(replaced_id) for pid in order):
+            slot = self._get_number_word(next(i for i, pid in enumerate(order) if str(pid) == str(replaced_id)) + 1)
+        pools = GAME_CONTEXT['narrative_strings']
+        templates = list(pools['pinch_hitter'])
+        if replaced:
+            templates += pools['pinch_hitter_for']
+        if slot:
+            templates += pools['pinch_hitter_slot']
+        if replaced and slot:
+            templates += pools['pinch_hitter_for_slot']
+        if not runners:
+            # With nobody on the hosts sometimes lead with the outs: "One
+            # away, bases empty for the pitcher spot, and Hank Bartok will
+            # pinch-hit here", "Bases empty, and two outs now for Benny
+            # Standingbear, who will pinch-hit for Frank Gibson."
+            templates += pools['pinch_hitter_empty']
+            if replaced:
+                templates += pools['pinch_hitter_for_empty']
+        outs = self.outs_tracker
+        outs_lead = ('Nobody out', 'One away', 'Two outs')[min(outs, 2)]
+        outs_count = ('nobody out', 'one out', 'two outs')[min(outs, 2)]
+        text = self.rng_flow.choice(templates).format(batter_name=batter_name, replaced=replaced, slot=slot,
+                                                      outs_lead=outs_lead, outs_count=outs_count)
+        if runners:
+            if len(runners) == 3:
+                on = 'the bases loaded'
+            elif len(runners) == 2:
+                on = f'runners on {runners[0]} and {runners[1]}'
+            else:
+                on = f'a runner on {runners[0]}'
+            text += f' {on[0].upper() + on[1:]}, {outs_str}.'
+        return text
+
+    def _season_pitching(self, team_type, player_id):
+        """A pitcher's season record from the boxscore's seasonStats (where a
+        StatsAPI feed keeps it), else the older gameData players' stats."""
+        box = self.gameday_data.get('liveData', {}).get('boxscore', {}).get('teams', {}).get(team_type, {})
+        season = box.get('players', {}).get(f'ID{player_id}', {}).get('seasonStats', {}).get('pitching') or {}
+        if not season:
+            season = (self.gameday_data['gameData'].get('players', {}).get(f'ID{player_id}', {})
+                      .get('stats', {}).get('pitching') or {})
+        return season
+
+    def _season_pitching_line(self, team_type, player_id, last_name):
+        """"Valentine enters tonight's game with a record of 4 and 2 with a 3.65
+        ERA." Only the parts of the record the feed holds are said."""
+        stats = self._season_pitching(team_type, player_id)
+        wins, losses, era = stats.get('wins'), stats.get('losses'), stats.get('era')
+        record = wins is not None and losses is not None
+        if not record and era is None:
+            return None
+        if record and era is not None:
+            key = 'season_record_era'
+        elif record:
+            key = 'season_record'
+        else:
+            key = 'season_era'
+        templates = GAME_CONTEXT['lineup_strings'][key]
+        spelled = record and wins <= 9 and losses <= 9
+        if record and not spelled:
+            # "a record of 10 and four" mixes forms: spell both or neither.
+            templates = [t for t in templates if '_word}' not in t]
+        template = self.rng_color.choice(templates)
+        return template.format(last_name=last_name, wins=wins, losses=losses, era=era,
+                               wins_word=self._get_number_word(wins) if spelled else '',
+                               losses_word=self._get_number_word(losses) if spelled else '')
+
     def _get_short_team_name(self, team_dict):
         """Extract short team name (e.g. 'Cadillac Cars' -> 'Cars').
 
@@ -595,12 +679,27 @@ class NarrativeRenderer(GameRenderer):
             return f"{batter_last_name} {v1} and {v2} {when1}."
         return f"{batter_last_name} {v1} {when1} and {v2} {when2}."
 
+    @staticmethod
+    def _normalized_outcome(result):
+        """The renderer's name for a result: feeds also write "Intent Walk",
+        "Strikeout Looking" or "Called Strikeout" for the same events."""
+        outcome = result['event']
+        if (outcome in ('Intent Walk', 'Intentional Walk')
+                or result.get('eventType') in ('intent_walk', 'intentional_walk')):
+            return 'Intentional Walk'
+        if outcome != 'Strikeout' and (result.get('eventType') == 'strikeout' or outcome in (
+                'Strikeout Looking', 'Strikeout Swinging', 'Called Strikeout', 'Swinging Strikeout')):
+            # Otherwise the third strike is never held back for the strikeout
+            # call and its line ends on a dangling comma.
+            return 'Strikeout'
+        return outcome
+
     def _record_batter_history(self, play):
         """Record a batter's at-bat result for recap purposes."""
         if play['about'].get('isComplete') is False:
             return
         batter_id = play['matchup']['batter']['id']
-        event = play['result']['event']
+        event = self._normalized_outcome(play['result'])
         inning = play['about']['inning']
 
         # Check if batter scored on this play
@@ -621,6 +720,8 @@ class NarrativeRenderer(GameRenderer):
 
     def render(self) -> str:
         self._reset_render_state()
+        # Highlight spacing counts balls in play from the start of each render.
+        self._balls_in_play, self._last_highlight = 0, -99
         self.last_foul_phrase = ""
         self.consecutive_fouls = 0
         self._prev_matchup_key = None
@@ -771,14 +872,9 @@ class NarrativeRenderer(GameRenderer):
 
                         # Pitcher stats line (record/ERA) for starting pitchers in the 9th slot
                         if batting_pos == 9 and pos_code == '1':
-                            player_data = players_data.get(player_key, {})
-                            stats = player_data.get('stats', {}).get('pitching', {})
-                            wins = stats.get('wins')
-                            losses = stats.get('losses')
-                            era = stats.get('era')
-                            if wins is not None and losses is not None and era is not None:
-                                last_name = p_name.split()[-1] if ' ' in p_name else p_name
-                                add_line(f"{last_name} enters tonight's game with a record of {wins} and {losses} with a {era} ERA.")
+                            stats_line = self._season_pitching_line(team_type, p_id, player.get('lastName') or p_name.split()[-1])
+                            if stats_line:
+                                add_line(stats_line)
 
                 # Manager string
                 team_data = self.gameday_data['gameData'].get('teams', {}).get(team_type, {})
@@ -1288,6 +1384,11 @@ class NarrativeRenderer(GameRenderer):
                 situation = (f'{runner_desc}, {outs_str}.' if runners else f'{outs_str}.')
                 play_text_blocks[0] = intro + ' ' + situation[0].upper() + situation[1:]
 
+            substitution = next((event for event in play['playEvents']
+                                 if event.get('details', {}).get('eventType') == 'offensive_substitution'), None)
+            if substitution:
+                play_text_blocks[0] = self._pinch_hitter_intro(substitution, batter_name, about, runners, outs_str)
+
             # Append prior at-bat recap after batter intro
             # recap_val was captured right after reseed (before inning transitions)
             # Call 0 (recap_val): gate (0-69 = recap, 70-99 = no recap)
@@ -1350,10 +1451,7 @@ class NarrativeRenderer(GameRenderer):
                                 for b in play_text_blocks]
 
             result = play['result']
-            outcome = result['event']
-            if (outcome in ('Intent Walk', 'Intentional Walk')
-                    or result.get('eventType') in ('intent_walk', 'intentional_walk')):
-                outcome = 'Intentional Walk'
+            outcome = self._normalized_outcome(result)
             play_events = play['playEvents']
             pitch_events = [event for event in play_events if event.get('isPitch', True)]
             last_pitch_event = pitch_events[-1] if pitch_events else {}
@@ -1391,14 +1489,21 @@ class NarrativeRenderer(GameRenderer):
 
             is_first_play_of_inning = (len(self.plays_in_half_inning) == 0)
 
+            first_event_index = next((index for index, event in enumerate(play_events)
+                                      if event.get('details', {}).get('eventType') != 'offensive_substitution'), 0)
             while i < len(play_events):
                 event = play_events[i]
 
                 self._reseed_for_point(event, "event", event.get('startTime', ''),
                                        f"play:{play_idx}:event:{i}")
 
+                if event.get('details', {}).get('eventType') == 'offensive_substitution':
+                    # Narrated with the batter's introduction.
+                    i += 1
+                    continue
+
                 # TTS delay markers between pitches/batters
-                if i == 0:
+                if i == first_event_index:
                     # 11.5s before batter intro (between at-bats)
                     self._check_and_add_delay(play_text_blocks, insert_at_index=0, context='batter')
                     # 9.5s after batter intro, before first pitch

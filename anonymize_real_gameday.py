@@ -112,7 +112,8 @@ def get_our_schema_fields():
                         'count': ['balls', 'strikes'],
                         'details': ['code', 'description', 'isStrike', 'type', 'eventType'],
                         'pitchData': ['startSpeed', 'breaks'],
-                        'hitData': ['launchSpeed', 'launchAngle', 'trajectory', 'location'],
+                        'hitData': ['launchSpeed', 'launchAngle', 'trajectory', 'location', 'hardness',
+                                    'totalDistance', 'coordinates'],
                         'isBunt': None
                     },
                     'runners': {
@@ -592,7 +593,12 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
 
                         if 'hitData' in event:
                             hd = {}
-                            for fld in ['launchSpeed', 'launchAngle', 'trajectory', 'location']:
+                            # Coordinates, distance and hardness are ball facts, not
+                            # identities: the renderer derives depth and lane from
+                            # them as the simulator does, so real and simulated
+                            # balls are described alike.
+                            for fld in ['launchSpeed', 'launchAngle', 'trajectory', 'location',
+                                        'hardness', 'totalDistance', 'coordinates']:
                                 if fld in event['hitData']:
                                     hd[fld] = event['hitData'][fld]
                             if 'location' in hd:

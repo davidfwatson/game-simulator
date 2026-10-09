@@ -87,7 +87,21 @@
       }
     ],
     "away_pitcher": "Javier Von Newman",
-    "home_pitcher": "Blinky Malone"
+    "home_pitcher": "Blinky Malone",
+    "season_stats": {
+      "Blinky Malone": {
+        "pitching": {
+          "wins": 7,
+          "losses": 1
+        }
+      },
+      "Javier Von Newman": {
+        "pitching": {
+          "wins": 4,
+          "losses": 4
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -176,7 +190,8 @@
         }
       ],
       "hit": {
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -277,7 +292,8 @@
       ],
       "hit": {
         "location": "1B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -380,7 +396,8 @@
       ],
       "hit": {
         "location": "1B",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -418,7 +435,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       }
     },
     {
@@ -529,7 +547,10 @@
           "end": "2B",
           "out": false
         }
-      ]
+      ],
+      "hit": {
+        "lane": "middle"
+      }
     },
     {
       "inning": 2,
@@ -768,7 +789,9 @@
         }
       ],
       "hit": {
-        "location": "CF"
+        "location": "CF",
+        "depth": "wall",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -807,7 +830,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -848,7 +872,9 @@
         }
       ],
       "hit": {
-        "location": "RF"
+        "location": "RF",
+        "lane": "right_line",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -977,7 +1003,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1033,7 +1060,11 @@
           "type": "pitch",
           "line": 158
         }
-      ]
+      ],
+      "hit": {
+        "lane": "middle",
+        "hardness": "hard"
+      }
     },
     {
       "inning": 3,
@@ -1193,7 +1224,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "fielders": [
         {
@@ -1325,7 +1357,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1366,7 +1399,10 @@
         }
       ],
       "hit": {
-        "location": "CF"
+        "location": "CF",
+        "lane": "left_center",
+        "hardness": "hard",
+        "categoryOverride": "ground_rule"
       },
       "fielders": [
         {
@@ -1397,7 +1433,9 @@
         }
       ],
       "hit": {
-        "location": "RF"
+        "location": "RF",
+        "depth": "wall",
+        "lane": "right_line"
       },
       "runners": [
         {
@@ -1453,7 +1491,8 @@
       ],
       "hit": {
         "location": "1B",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1488,7 +1527,8 @@
         }
       ],
       "hit": {
-        "location": "LF"
+        "location": "LF",
+        "depth": "deep"
       },
       "runners": [
         {
@@ -1750,7 +1790,8 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "forceMechanism": "tag"
+        "forceMechanism": "tag",
+        "lane": "middle"
       },
       "fielders": [
         {
@@ -1806,7 +1847,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "fielders": [
         {
@@ -2218,7 +2260,9 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "lane": "right_line",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2262,7 +2306,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "bunt"
+        "trajectory": "bunt",
+        "lane": "left_line"
       }
     },
     {
@@ -2376,7 +2421,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -2540,7 +2586,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "wall",
+        "lane": "left_line"
       },
       "runners": [
         {
@@ -2602,7 +2650,11 @@
         2,
         6
       ],
-      "pitches": []
+      "pitches": [],
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Blinky Malone"
+      }
     },
     {
       "inning": 6,
@@ -2672,7 +2724,8 @@
         }
       ],
       "hit": {
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2702,7 +2755,8 @@
         }
       ],
       "hit": {
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "fielders": [
         {
@@ -2917,7 +2971,8 @@
       ],
       "hit": {
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -3093,7 +3148,10 @@
           "type": "pitch",
           "line": 435
         }
-      ]
+      ],
+      "substitution": {
+        "type": "pinch_hitter"
+      }
     },
     {
       "inning": 8,
@@ -3132,7 +3190,9 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "right_side",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -3213,7 +3273,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "hard"
       }
     },
     {
@@ -3256,7 +3317,10 @@
           "name": "Flipper Cortez",
           "position": "2B"
         }
-      ]
+      ],
+      "substitution": {
+        "type": "pinch_hitter"
+      }
     },
     {
       "inning": 9,

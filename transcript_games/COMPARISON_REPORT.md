@@ -12,6 +12,116 @@ shared five-word sequences over the entire broadcast. TTS markers are excluded
 from both. Exact lines require identical normalized content, not just shared
 vocabulary.
 
+## Facts the hosts state that the fixtures could not hold
+
+Many remaining wording gaps were missing facts: the hosts said something a
+fixture had no field for, so no draw could produce it. `python
+missed_words.py` measures this. For every unit of the 21 sources (the pregame,
+each appearance with the transition before it, the postgame) it aligns the
+source words, asides excluded, with the rendering, and sorts each clause that
+holds unmatched words into a cause by pattern: a **missing fact** the fixture
+cannot express, a recorded fact the renderer **never says**, a **wording**
+difference about a fact it does narrate, or **other**. It is a heuristic;
+in a review of 60 randomly drawn clauses the cause was right for 57, and the
+three misses were wording clauses of one kind filed under another.
+
+Before this pass, 42,537 of the 127,019 source words (33.5%) went unmatched:
+
+| Cause | Missed words | Share |
+|---|---:|---:|
+| Wording (the fact is narrated in other words) | 34,666 | 81.5% |
+| Missing fact | 4,340 | 10.2% |
+| Recorded but never said | 2,625 | 6.2% |
+| Other (unmarked colour, transcription noise) | 906 | 2.1% |
+
+The game facts by missed words, before and after (same classifier; a type now
+recorded keeps its label, so its remainder is wording or an unannotated call):
+
+| Fact type | Example | Before | After |
+|---|---|---:|---:|
+| Where the ball went (now `hitData.depth`, `lane`) | "into the gap in left center", "on the warning track" | 2,189 | 1,875 |
+| Season statistics (now boxscore `seasonStats`) | "enters tonight's contest with a record of 7 and 8 with a 5.21 ERA" | 724 | 318 |
+| Runs a hit or homer drove in (now said) | "And that's an RBI single for Ali Nunez", "a two-run homer" | 636 | 404 |
+| Pitcher's game line (not yet) | "that's the twelfth strikeout of the night for Nomo" | 566 | 566 |
+| Throws and slides (not yet) | "the throw to the plate is not in time" | 505 | 509 |
+| Runners who score (now said) | "Nomo will score. Brown will score." | 489 | 368 |
+| Reliever role (not yet) | "against Ravens' right-handed reliever Dom Fuller" | 434 | 438 |
+| Contact quality (now `hitData.hardness`) | "Hard grounder to short", "a little looper" | 426 | 425 |
+| Pinch hitters (now an Offensive Substitution) | "steps in to pinch-hit for Brocktune Shemper in the nine spot" | 412 | 244 |
+| Runners who take third (now said) | "Ferguson will advance to third" | 405 | 317 |
+| Lineup slot (not yet) | "that will bring up Virgil Hughes in the pitcher's spot" | 95 | 95 |
+| Fielder on a hit (not yet) | "that one gets past a diving Nunez" | 84 | 85 |
+
+Missed words fell from 42,537 to 41,207: missing facts from 4,340 to 3,456 and
+unsaid recorded facts from 2,625 to 2,188, while wording stayed at 34,661 and
+rendered words the source lacks rose only from 19,101 to 19,125. Hardness
+barely moved because the clauses that say it ("Hard grounder to short") were
+already partly matched by templates that claimed it without a fact; those
+claims now need the fact, so the gain shows up as fidelity rather than recall.
+
+What was recorded, and where (see [the ledger guide](README.md#where-the-ball-went-and-other-facts-the-hosts-state)):
+
+* `hitData.hardness` (StatsAPI), `hitData.depth` and `hitData.lane`
+  (extensions a real feed implies by distance and coordinates) on 361 ledger
+  balls and 81 reference balls, plus two ground-rule doubles, by
+  `annotate_transcript_facts.py` from each ball's call. The simulator writes
+  all three from its field model and exit velocity.
+* Boxscore `seasonStats.pitching` for 26 ledger starters and 7 in the
+  references, said after the starter's lineup slot.
+* 26 ledger pinch hitters and 4 in the references, as the at-bat's
+  `offensive_substitution` action with `replacedPlayer` when the hosts name
+  him; the introduction says it, with the lineup slot when recorded.
+* Already recorded and now said: runners a ball in play brings home or to
+  third (optional, the hosts say 80.5%), the RBI form of the hit situation
+  sentence, and a home run's runs (optional, 78.8%).
+
+Templates asserting a wall, warning track, gap, line, corner, depth, hardness
+or a grounder's path are now offered only when the ball's facts support them,
+so a strict fixture never claims an unrecorded wall or hard contact. A
+"Strikeout Looking" or "Called Strikeout" result no longer leaves its third
+strike on a dangling comma (`pbp_example_1`, `pbp_example_3`).
+
+All 21 fixtures were refitted:
+
+| Episode | Word overlap | 5-gram recall | Ordered words per appearance | Exact content lines |
+|---|---:|---:|---:|---:|
+| [001](../examples/transcript_games/episode_001.txt) | 48.7% → 50.1% | 15.9% → 16.4% | 51.8% → 52.9% | 0.5% → 0.5% |
+| [005](../examples/transcript_games/episode_005.txt) | 62.6% → 64.7% | 27.9% → 28.6% | 69.7% → 70.4% | 10.6% → 10.6% |
+| [011](../examples/transcript_games/episode_011.txt) | 58.4% → 59.0% | 24.1% → 24.5% | 70.3% → 70.3% | 6.0% → 6.0% |
+| [013](../examples/transcript_games/episode_013.txt) | 57.9% → 61.2% | 25.4% → 26.1% | 70.4% → 71.0% | 6.1% → 6.1% |
+| [020](../examples/transcript_games/episode_020.txt) | 67.3% → 68.7% | 28.3% → 29.8% | 73.9% → 75.0% | 8.3% → 8.8% |
+| [029](../examples/transcript_games/episode_029.txt) | 59.7% → 61.3% | 30.4% → 30.9% | 69.9% → 70.6% | 11.1% → 11.1% |
+| [035](../examples/transcript_games/episode_035.txt) | 63.7% → 67.3% | 31.5% → 33.7% | 71.3% → 72.6% | 6.1% → 6.6% |
+| [037](../examples/transcript_games/episode_037.txt) | 70.1% → 73.1% | 35.0% → 36.5% | 77.6% → 78.4% | 11.9% → 12.2% |
+| [039](../examples/transcript_games/episode_039.txt) | 69.1% → 72.5% | 37.7% → 39.2% | 78.3% → 78.7% | 12.1% → 12.3% |
+| [041](../examples/transcript_games/episode_041.txt) | 68.1% → 69.9% | 38.8% → 39.8% | 77.2% → 78.0% | 10.8% → 11.1% |
+| [045](../examples/transcript_games/episode_045.txt) | 68.0% → 70.3% | 35.4% → 36.5% | 72.9% → 73.5% | 10.3% → 10.5% |
+| [046](../examples/transcript_games/episode_046.txt) | 67.3% → 69.5% | 39.2% → 41.1% | 77.6% → 78.9% | 11.1% → 11.7% |
+| [049](../examples/transcript_games/episode_049.txt) | 66.2% → 70.0% | 40.1% → 43.4% | 80.5% → 82.4% | 14.4% → 14.6% |
+| [050](../examples/transcript_games/episode_050.txt) | 66.8% → 71.1% | 36.0% → 38.5% | 74.0% → 74.9% | 12.9% → 13.2% |
+| [051](../examples/transcript_games/episode_051.txt) | 60.6% → 62.9% | 33.7% → 35.0% | 75.1% → 75.9% | 19.7% → 19.7% |
+| [052](../examples/transcript_games/episode_052.txt) | 65.0% → 67.7% | 35.3% → 37.3% | 73.6% → 74.6% | 16.6% → 16.6% |
+| [053](../examples/transcript_games/episode_053.txt) | 68.1% → 70.2% | 39.0% → 40.2% | 76.8% → 77.4% | 19.5% → 19.8% |
+| **Mean** | 64.0% → 66.5% | 32.6% → 34.0% | 73.0% → 73.9% | 11.1% → 11.3% |
+
+| Reference | Word Jaccard | 5-gram | Exact lines (all) | Exact lines (content) |
+|---|---:|---:|---:|---:|
+| `pbp_example_1.txt` | 68.3% → 69.3% | 35.1% → 35.6% | 55.0% → 55.0% | 23.0% → 23.0% |
+| `pbp_example_2.txt` | 65.9% → 68.4% | 40.1% → 41.6% | 59.9% → 60.1% | 25.1% → 25.5% |
+| `pbp_example_3.txt` | 69.7% → 71.0% | 36.3% → 36.8% | 48.7% → 48.7% | 8.9% → 8.9% |
+| `pbp_example_4.txt` | 65.1% → 65.8% | 32.2% → 33.8% | 57.0% → 57.0% | 17.2% → 17.2% |
+
+Minimums more than four points below the new measurements were raised to three
+points below them, rounded down: 5-gram minimums of 15 episodes and
+ordered-word minimums of 13, and the references' Jaccard (1, 2, 3), 5-gram (2,
+4) and all-line (2) minimums. No minimum was lowered. The test for measured
+optional-sentence rates now accepts 30 opportunities for the home-run sentence
+(the 21 sources hold only 33 home runs with runs batted in); every other rate
+still needs 80.
+
+The largest remaining fact types are the pitcher's game line, throws and
+slides, and the reliever role; the much larger wording share is lever 4.
+
 ## Gates fitted per point, and optional sentences
 
 The fitter used to try six whole-game constants for every `random()` gate, so

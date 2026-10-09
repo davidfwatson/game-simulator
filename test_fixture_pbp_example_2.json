@@ -893,6 +893,7 @@
           1,
           1,
           0,
+          0,
           2,
           1,
           0,
@@ -901,6 +902,7 @@
           0,
           1,
           1,
+          0,
           0,
           0,
           0,
@@ -1467,7 +1469,9 @@
               "hitData": {
                 "trajectory": "ground_ball",
                 "location": "up the middle",
-                "categoryOverride": "grounder"
+                "categoryOverride": "grounder",
+                "lane": "middle",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -1523,7 +1527,7 @@
             },
             "play_outcome": {
               "play": [
-                4,
+                5,
                 0
               ],
               "pitch": [],
@@ -2001,7 +2005,8 @@
               "startTime": "2025-09-27T23:06:31Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "CF"
+                "location": "CF",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -2078,7 +2083,7 @@
             },
             "play_outcome": {
               "play": [
-                8,
+                5,
                 1
               ],
               "pitch": [],
@@ -2216,7 +2221,8 @@
               "startTime": "2025-09-27T23:07:00Z",
               "hitData": {
                 "trajectory": "popup",
-                "location": "CF"
+                "location": "CF",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -2958,7 +2964,8 @@
               "startTime": "2025-09-27T23:08:30Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "CF"
+                "location": "CF",
+                "depth": "deep"
               },
               "commentaryRng": {
                 "event": {
@@ -3022,7 +3029,7 @@
             },
             "play_outcome": {
               "play": [
-                16
+                1
               ],
               "pitch": [],
               "flow": [
@@ -4089,7 +4096,8 @@
               "startTime": "2025-09-27T23:11:00Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "3B"
+                "location": "3B",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -4160,7 +4168,7 @@
             },
             "play_outcome": {
               "play": [
-                39
+                34
               ],
               "pitch": [],
               "flow": [
@@ -5031,7 +5039,8 @@
               "startTime": "2025-09-27T23:13:00Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "SS"
+                "location": "SS",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -5101,7 +5110,7 @@
             },
             "play_outcome": {
               "play": [
-                15
+                14
               ],
               "pitch": [],
               "flow": [
@@ -5464,7 +5473,9 @@
               "startTime": "2025-09-27T23:14:00Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "deep center field gap"
+                "location": "deep center field gap",
+                "depth": "deep",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -5520,7 +5531,7 @@
             },
             "play_outcome": {
               "play": [
-                17,
+                1,
                 6
               ],
               "pitch": [],
@@ -5692,7 +5703,8 @@
               "startTime": "2025-09-27T23:14:31Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "2B"
+                "location": "2B",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -5748,14 +5760,17 @@
             },
             "play_outcome": {
               "play": [
-                16
+                15,
+                2
               ],
               "pitch": [],
               "flow": [
                 0
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -6150,7 +6165,8 @@
               "startTime": "2025-09-27T23:15:30Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "CF"
+                "location": "CF",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -6539,7 +6555,8 @@
               "startTime": "2025-09-27T23:16:31Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "LF"
+                "location": "LF",
+                "depth": "warning_track"
               },
               "commentaryRng": {
                 "event": {
@@ -6603,7 +6620,7 @@
             },
             "play_outcome": {
               "play": [
-                22
+                1
               ],
               "pitch": [],
               "flow": [
@@ -7176,7 +7193,8 @@
               "startTime": "2025-09-27T23:18:00Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "SS"
+                "location": "SS",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -7247,7 +7265,7 @@
             },
             "play_outcome": {
               "play": [
-                15
+                14
               ],
               "pitch": [],
               "flow": [
@@ -7547,7 +7565,8 @@
               "startTime": "2025-09-27T23:19:00Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "SS"
+                "location": "SS",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -7623,7 +7642,7 @@
             },
             "play_outcome": {
               "play": [
-                15
+                14
               ],
               "pitch": [],
               "flow": [
@@ -8513,7 +8532,8 @@
               "startTime": "2025-09-27T23:21:00Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "2B"
+                "location": "2B",
+                "lane": "middle"
               },
               "commentaryRng": {
                 "event": {
@@ -8568,7 +8588,7 @@
             },
             "play_outcome": {
               "play": [
-                6,
+                5,
                 0
               ],
               "pitch": [],
@@ -8858,11 +8878,11 @@
               "pitch": [],
               "flow": [
                 7,
-                99
+                0
               ],
               "color": [
-                32,
-                52,
+                99,
+                0,
                 99
               ],
               "optional": []
@@ -11365,7 +11385,9 @@
               "startTime": "2025-09-27T23:26:30Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "deep right center field"
+                "location": "deep right center field",
+                "lane": "right_center",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -11426,7 +11448,8 @@
             },
             "play_outcome": {
               "play": [
-                6
+                6,
+                1
               ],
               "pitch": [],
               "flow": [
@@ -11436,7 +11459,9 @@
               "color": [
                 1
               ],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -11597,7 +11622,8 @@
               "startTime": "2025-09-27T23:27:01Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "left-field line"
+                "location": "left-field line",
+                "lane": "left_line"
               },
               "commentaryRng": {
                 "event": {
@@ -11653,7 +11679,7 @@
             },
             "play_outcome": {
               "play": [
-                7,
+                2,
                 0
               ],
               "pitch": [],
@@ -11746,7 +11772,8 @@
               "startTime": "2025-09-27T23:27:30Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "shallow center field"
+                "location": "shallow center field",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -12324,6 +12351,7 @@
             "play_outcome": {
               "play": [
                 2,
+                2,
                 1
               ],
               "pitch": [],
@@ -12334,6 +12362,7 @@
                 1
               ],
               "optional": [
+                0,
                 0
               ]
             }
@@ -13388,7 +13417,43 @@
           },
           "playEvents": [
             {
+              "isPitch": false,
+              "type": "action",
+              "isSubstitution": true,
               "index": 0,
+              "details": {
+                "event": "Offensive Substitution",
+                "eventType": "offensive_substitution",
+                "description": "Offensive Substitution: Pinch-hitter Sparky Ventura replaces Rick Stetson."
+              },
+              "count": {
+                "balls": 0,
+                "strikes": 0
+              },
+              "position": {
+                "code": "11",
+                "name": "Pinch Hitter",
+                "abbreviation": "PH"
+              },
+              "player": {
+                "id": 900111
+              },
+              "pitchData": {},
+              "replacedPlayer": {
+                "id": 900109
+              },
+              "commentaryRng": {
+                "event": {
+                  "play": [],
+                  "pitch": [],
+                  "flow": [],
+                  "color": [],
+                  "optional": []
+                }
+              }
+            },
+            {
+              "index": 1,
               "isPitch": true,
               "count": {
                 "balls": 0,
@@ -13419,7 +13484,7 @@
                   ],
                   "flow": [
                     26,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -13427,7 +13492,7 @@
               }
             },
             {
-              "index": 1,
+              "index": 2,
               "isPitch": true,
               "count": {
                 "balls": 1,
@@ -13458,7 +13523,7 @@
                   ],
                   "flow": [
                     0,
-                    99
+                    0
                   ],
                   "color": [],
                   "optional": []
@@ -13466,7 +13531,7 @@
               }
             },
             {
-              "index": 2,
+              "index": 3,
               "isPitch": true,
               "count": {
                 "balls": 2,
@@ -13505,7 +13570,7 @@
               }
             },
             {
-              "index": 3,
+              "index": 4,
               "isPitch": true,
               "count": {
                 "balls": 2,
@@ -13528,7 +13593,8 @@
               "startTime": "2025-09-27T23:31:01Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "right field"
+                "location": "right field",
+                "lane": "right_side"
               },
               "commentaryRng": {
                 "event": {
@@ -13581,6 +13647,7 @@
               "flow": [
                 99,
                 4,
+                6,
                 0
               ],
               "color": [
@@ -13598,7 +13665,7 @@
             },
             "play_outcome": {
               "play": [
-                16
+                14
               ],
               "pitch": [],
               "flow": [
@@ -14065,7 +14132,43 @@
           },
           "playEvents": [
             {
+              "isPitch": false,
+              "type": "action",
+              "isSubstitution": true,
               "index": 0,
+              "details": {
+                "event": "Offensive Substitution",
+                "eventType": "offensive_substitution",
+                "description": "Offensive Substitution: Pinch-hitter Simon Hashimoto replaces Hiroki Nomo."
+              },
+              "count": {
+                "balls": 0,
+                "strikes": 0
+              },
+              "position": {
+                "code": "11",
+                "name": "Pinch Hitter",
+                "abbreviation": "PH"
+              },
+              "player": {
+                "id": 900010
+              },
+              "pitchData": {},
+              "replacedPlayer": {
+                "id": 900009
+              },
+              "commentaryRng": {
+                "event": {
+                  "play": [],
+                  "pitch": [],
+                  "flow": [],
+                  "color": [],
+                  "optional": []
+                }
+              }
+            },
+            {
+              "index": 1,
               "isPitch": true,
               "count": {
                 "balls": 0,
@@ -14102,7 +14205,7 @@
               }
             },
             {
-              "index": 1,
+              "index": 2,
               "isPitch": true,
               "count": {
                 "balls": 0,
@@ -14141,7 +14244,7 @@
               }
             },
             {
-              "index": 2,
+              "index": 3,
               "isPitch": true,
               "count": {
                 "balls": 1,
@@ -14172,7 +14275,7 @@
                   ],
                   "flow": [
                     4,
-                    0
+                    99
                   ],
                   "color": [],
                   "optional": []
@@ -14180,7 +14283,7 @@
               }
             },
             {
-              "index": 3,
+              "index": 4,
               "isPitch": true,
               "count": {
                 "balls": 2,
@@ -14263,6 +14366,7 @@
               "flow": [
                 7,
                 4,
+                6,
                 0
               ],
               "color": [
@@ -14485,7 +14589,9 @@
               "startTime": "2025-09-27T23:33:01Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "center field"
+                "location": "center field",
+                "lane": "middle",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -15111,7 +15217,14 @@
                 "batting": {},
                 "pitching": {}
               },
-              "battingOrder": "100"
+              "battingOrder": "100",
+              "seasonStats": {
+                "pitching": {
+                  "wins": 10,
+                  "losses": 4,
+                  "era": "3.18"
+                }
+              }
             },
             "ID900010": {
               "person": {
@@ -15360,7 +15473,14 @@
                 "batting": {},
                 "pitching": {}
               },
-              "battingOrder": "100"
+              "battingOrder": "100",
+              "seasonStats": {
+                "pitching": {
+                  "wins": 9,
+                  "losses": 5,
+                  "era": "3.87"
+                }
+              }
             },
             "ID900110": {
               "person": {

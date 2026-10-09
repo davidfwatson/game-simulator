@@ -202,6 +202,21 @@ This is ledger syntax. In a compiled Gameday fixture the same object is
 authored original fixtures, edit the in-play event directly or use the category
 tool; numeric scenario inputs in older examples do not become broadcast facts.
 
+### Depth, lane and hardness gate the templates
+
+A template that says where or how hard the ball went ("all the way to the
+wall", "on the warning track", "into the gap", "hard grounder", "squeaks
+through the infield") is offered only when `hitData` supports that claim:
+`depth` (`shallow`, `deep`, `warning_track`, `wall`), `lane` (`left_line`,
+`left_center`, `middle`, `right_center`, `right_line`, `left_side`,
+`right_side`), `hardness` (`soft`, `medium`, `hard`), a supporting category
+(`bloop`, `ground_rule`, ...) or a ground-ball trajectory. Under `strictFacts`
+an unsupported claim is never made, so if a wanted phrase is missing, check the
+ball's facts before its draws. The fields also sharpen `{direction}` ("down the
+left field line", "to deep right center"). See
+[the ledger guide](transcript_games/README.md#where-the-ball-went-and-other-facts-the-hosts-state)
+and `renderers/narrative/batted_ball.py`.
+
 ### RNG calls before the template choice
 
 Branch gates, descriptor choices, and outcome choices can consume different

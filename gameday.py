@@ -239,6 +239,13 @@ class HitData(TypedDict):
     categoryOverride: NotRequired[str]
     putoutMethod: NotRequired[str]
     forceMechanism: NotRequired[str]
+    coordinates: NotRequired[dict]     # StatsAPI coordX / coordY
+    totalDistance: NotRequired[int]
+    hardness: NotRequired[str]         # StatsAPI: soft, medium, hard
+    # Extensions a real feed implies through coordinates and distance; see
+    # renderers/narrative/batted_ball.py.
+    depth: NotRequired[str]            # shallow, deep, warning_track, wall
+    lane: NotRequired[str]             # left_line ... right_line, left_side, right_side
 
 
 class PlayEvent(TypedDict):

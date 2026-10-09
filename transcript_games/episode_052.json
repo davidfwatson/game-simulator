@@ -58,7 +58,7 @@
         "bat_side": "R"
       },
       {
-        "name": "Hector Piña",
+        "name": "Hector Pi\u00f1a",
         "position": "2B",
         "bat_side": "S"
       },
@@ -101,7 +101,23 @@
     "away_pitcher": "Whitey Flatbush",
     "home_pitcher": "Max Fannin",
     "away_manager": "Mick Jenkins",
-    "home_manager": "Hep Bronswell"
+    "home_manager": "Hep Bronswell",
+    "season_stats": {
+      "Whitey Flatbush": {
+        "pitching": {
+          "wins": 5,
+          "losses": 6,
+          "era": "4.49"
+        }
+      },
+      "Max Fannin": {
+        "pitching": {
+          "wins": 8,
+          "losses": 3,
+          "era": "3.96"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -274,7 +290,7 @@
     {
       "inning": 1,
       "top": false,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Whitey Flatbush",
       "outcome": "Single",
       "source_start": 67,
@@ -304,7 +320,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "notes": "Source alternates Howl and Howell for the same Baraboo shortstop; lineup spelling Tiny Howl retained.",
       "pitch_hand": "R"
@@ -334,10 +352,10 @@
           "type": "Slider",
           "line": 72,
           "eventType": "wild_pitch",
-          "description": "And Flatbush from the stretch... Slider in the dirt, and that one gets away from Norton. Piña will take second on the wild pitch.",
+          "description": "And Flatbush from the stretch... Slider in the dirt, and that one gets away from Norton. Pi\u00f1a will take second on the wild pitch.",
           "runners": [
             {
-              "name": "Hector Piña",
+              "name": "Hector Pi\u00f1a",
               "start": "1B",
               "end": "2B"
             }
@@ -381,12 +399,12 @@
       ],
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": "1B",
           "end": "3B"
         }
       ],
-      "notes": "Piña advances first-to-second on the explicit wild pitch at72, then second-to-third on the groundout at76-77.",
+      "notes": "Pi\u00f1a advances first-to-second on the explicit wild pitch at72, then second-to-third on the groundout at76-77.",
       "pitch_hand": "R"
     },
     {
@@ -426,7 +444,7 @@
       },
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": "3B",
           "end": "score"
         },
@@ -551,7 +569,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_side",
+        "hardness": "hard"
       },
       "pitch_hand": "R"
     },
@@ -620,11 +640,12 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         }
       ],
@@ -751,7 +772,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -793,7 +815,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "lane": "right_center"
       },
       "pitch_hand": "R"
     },
@@ -899,7 +922,7 @@
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -999,7 +1022,7 @@
     {
       "inning": 3,
       "top": false,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Whitey Flatbush",
       "outcome": "Strikeout",
       "source_start": 154,
@@ -1208,7 +1231,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "hardness": "soft"
       },
       "pitch_hand": "R"
     },
@@ -1287,7 +1312,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -1325,7 +1351,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "hardness": "soft"
       },
       "pitch_hand": "R"
     },
@@ -1351,7 +1379,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1458,7 +1488,7 @@
           "type": "pitch",
           "line": 207,
           "eventType": "caught_stealing",
-          "description": "The payoff pitch... And the runner goes. Swing and a miss. The throw to second — Hawkins heading for home — the throw to third as Hawkins heads back, and he's tagged out heading back to third. So Gonzalez strikes out swinging, and Hawkins is caught stealing to end the inning.",
+          "description": "The payoff pitch... And the runner goes. Swing and a miss. The throw to second \u2014 Hawkins heading for home \u2014 the throw to third as Hawkins heads back, and he's tagged out heading back to third. So Gonzalez strikes out swinging, and Hawkins is caught stealing to end the inning.",
           "runners": [
             {
               "name": "Sherman Hawkins",
@@ -1483,7 +1513,7 @@
           "out": true
         }
       ],
-      "notes": "Strikeout is out2. Hawkins breaks for home on the throw toward second and is tagged retreating to third for out3. McDykel’s final destination is not specified; inning ends. No run scores.",
+      "notes": "Strikeout is out2. Hawkins breaks for home on the throw toward second and is tagged retreating to third for out3. McDykel\u2019s final destination is not specified; inning ends. No run scores.",
       "pitch_hand": "R"
     },
     {
@@ -1595,11 +1625,12 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         }
       ],
@@ -1699,7 +1730,7 @@
     {
       "inning": 5,
       "top": false,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Whitey Flatbush",
       "outcome": "Flyout",
       "source_start": 246,
@@ -1767,7 +1798,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1840,7 +1872,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {
@@ -2072,7 +2105,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "hardness": "soft"
       },
       "pitch_hand": "R"
     },
@@ -2115,11 +2150,12 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -2218,7 +2254,9 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "hardness": "soft"
       },
       "pitch_hand": "R"
     },
@@ -2320,7 +2358,11 @@
         }
       ],
       "notes": "Left-handed pinch hitter Chance Quintero bats for Max Fannin in ninth lineup spot.",
-      "pitch_hand": "R"
+      "pitch_hand": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Max Fannin"
+      }
     },
     {
       "inning": 7,
@@ -2469,10 +2511,17 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "lane": "right_center",
+        "hardness": "soft"
       },
       "notes": "Sparky Ventura pinch-hits for Whitey Flatbush in ninth lineup spot.",
-      "pitch_hand": "R"
+      "pitch_hand": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Whitey Flatbush"
+      }
     },
     {
       "inning": 8,
@@ -2505,7 +2554,7 @@
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -2518,7 +2567,7 @@
     {
       "inning": 8,
       "top": false,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Stretch Parsons",
       "outcome": "Pop Out",
       "source_start": 345,

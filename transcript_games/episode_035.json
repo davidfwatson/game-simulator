@@ -11,7 +11,7 @@
         "position": "CF"
       },
       {
-        "name": "Hector Piña",
+        "name": "Hector Pi\u00f1a",
         "position": "2B"
       },
       {
@@ -82,7 +82,23 @@
       }
     ],
     "away_pitcher": "Frank Gibson",
-    "home_pitcher": "Hiroki Nomo"
+    "home_pitcher": "Hiroki Nomo",
+    "season_stats": {
+      "Frank Gibson": {
+        "pitching": {
+          "wins": 9,
+          "losses": 6,
+          "era": "4.16"
+        }
+      },
+      "Hiroki Nomo": {
+        "pitching": {
+          "wins": 11,
+          "losses": 4,
+          "era": "3.23"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -143,7 +159,7 @@
     {
       "inning": 1,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Hiroki Nomo",
       "outcome": "Groundout",
       "source_start": 42,
@@ -172,7 +188,7 @@
       },
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": null,
           "end": null,
           "out": true
@@ -212,7 +228,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -452,7 +469,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -643,7 +661,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -693,7 +712,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -840,7 +861,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "runners": [
         {
@@ -948,7 +970,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1033,7 +1056,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1082,7 +1106,9 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1132,7 +1158,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "runners": [
         {
@@ -1153,7 +1180,7 @@
     {
       "inning": 4,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Hiroki Nomo",
       "outcome": "Double",
       "source_start": 153,
@@ -1188,11 +1215,13 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "hardness": "hard"
       },
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": null,
           "end": "2B",
           "out": false
@@ -1244,7 +1273,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -1254,7 +1284,7 @@
           "out": true
         },
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": "2B",
           "end": "2B",
           "out": false
@@ -1289,7 +1319,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_side",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1299,7 +1331,7 @@
           "out": false
         },
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": "2B",
           "end": "score",
           "out": false
@@ -1340,7 +1372,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1396,7 +1429,9 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1429,7 +1464,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1447,7 +1483,7 @@
       ],
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -1478,7 +1514,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "runners": [
         {
@@ -1737,7 +1774,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "runners": [
         {
@@ -1847,7 +1885,8 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "runners": [
         {
@@ -1994,7 +2033,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -2014,7 +2054,7 @@
     {
       "inning": 6,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Hiroki Nomo",
       "outcome": "Walk",
       "source_start": 247,
@@ -2057,7 +2097,7 @@
       ],
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": null,
           "end": "1B",
           "out": false
@@ -2170,7 +2210,10 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "lane": "right_center",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -2214,7 +2257,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2474,7 +2518,7 @@
       ],
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         }
       ]
@@ -2545,7 +2589,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2705,7 +2750,9 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_side",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2715,7 +2762,11 @@
           "out": false
         }
       ],
-      "notes": "Pinch hitter for Frank Gibson."
+      "notes": "Pinch hitter for Frank Gibson.",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Frank Gibson"
+      }
     },
     {
       "inning": 8,
@@ -2779,7 +2830,7 @@
     {
       "inning": 8,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Hiroki Nomo",
       "outcome": "Forceout",
       "source_start": 341,
@@ -2813,7 +2864,7 @@
       },
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": null,
           "end": "1B",
           "out": false
@@ -2831,7 +2882,7 @@
           "position": "2B"
         }
       ],
-      "notes": "Source explicitly forces Durante at second; Piña is not retired at first."
+      "notes": "Source explicitly forces Durante at second; Pi\u00f1a is not retired at first."
     },
     {
       "inning": 8,
@@ -2989,7 +3040,8 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "runners": [
         {
@@ -3022,7 +3074,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "runners": [
         {
@@ -3088,7 +3141,9 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -3208,7 +3263,9 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track",
+        "lane": "right_center"
       },
       "runners": [
         {
