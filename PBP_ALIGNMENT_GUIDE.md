@@ -5,16 +5,36 @@ This guide describes the workflow for aligning the rendered output of
 
 ## Current Status
 
+The October 2026 phrase coverage pass expanded reusable pitch, strikeout,
+count, connector and batter-introduction pools using all four targets and the
+17 additional Sleep Baseball transcripts. All four fixtures have been reseeded
+to select closer phrasing. Twenty-two terminal pitches now carry location
+evidence from their target calls; example 3's play 54 is correctly labeled
+`Strikeout` so its final called strike reaches the strikeout renderer.
+Twenty-three ball events carry explicit dirt or bounce descriptions verified
+against the source pitch type and count; low zones alone cannot select these
+ground-contact phrases.
+
+Current content-only five-word coverage is 35.9%, 37.6%, 34.7% and 33.5% for
+examples 1–4, respectively. Use `python pbp_match_report.py --alignment-only`
+for current full-game scores. `--corpus-only` measures exact ordered pitch,
+foul and count component support across all 21 reference games, with per-source
+uncovered clauses and provenance. Source-linked regression cases cover every
+game in `sleep_baseball_phrase_cases.json`; tests require actual renderer output,
+not just matching template text. Component support does not imply full-game
+reproduction, and the automatic report excludes other narration categories.
+Exact content-line coverage is still partial, especially where example 3
+combines pitches, introductions and inning summaries on one line. The
+half-inning table below describes the earlier manual alignment pass, rather
+than claiming these games are fully reproduced.
+
 **Phase 1 (game events) is COMPLETE.** The fixture JSON has the correct 61 plays
 matching the target game: correct batters, pitchers, pitch sequences, runner
 movements, and scoring (Bombers 3, Loons 0).
 
-**Phase 2 (phrasing alignment) is the current work.** The rendered output uses
-the right game events but the wrong phrasing — all timestamps have seed=0,
-so every template pool picks index 0 every time.
-
-Current similarity: ~52% Jaccard, ~13% 5-gram, ~3.6% identical lines.
-First inning (plays 0-6) is complete.
+**Phase 2 (phrasing alignment) is ongoing.** Timestamp seeds now select closer
+phrasing throughout all four fixtures. The metrics above describe the current
+partial alignment; the inning table records the earlier manual pass.
 
 ## Key Principles
 

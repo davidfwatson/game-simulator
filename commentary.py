@@ -21,7 +21,39 @@ GAME_CONTEXT = {
                 "right down Main Street",
                 "caught the corner",
                 "in at the knees for a called strike",
-                "called a strike on the corner"
+                "called a strike on the corner",
+                "in there for a strike",
+                "right down the middle for a called strike"
+            ],
+            # Location-aware calls from pbp_example_1:59,
+            # pbp_example_2:517, pbp_example_4:37 and episode_046:352.
+            # The renderer supplies the resulting strike number when needed.
+            "low": [
+                "called {strike_call} at the knees",
+                "in at the knees for {strike_call}",
+                "at the knees, called {strike_call}",
+                "And that low {pitch_type_lower} is called {strike_call}"
+            ],
+            "high": [
+                "A high {pitch_type_lower}, called {strike_call}",
+                "And that high {pitch_type_lower} is called {strike_call}"
+            ],
+            "inside": [
+                "called {strike_call} on the inside corner",
+                "in there on the inside corner for {strike_call}",
+                # episode_005:37/233; the side is unspecified, but a corner
+                # must be supported by the recorded strike-zone position.
+                "And that paints the corner for a called strike",
+                "That paints the corner for strike {strike_number_word}"
+            ],
+            "outside": [
+                "called {strike_call} on the outside corner",
+                "on the outside corner for {strike_call}",
+                # episode_005:44/169 and episode_001:25.
+                "That's called a strike on the outside corner",
+                "A called strike that nibbles the outside corner",
+                "And that paints the corner for a called strike",
+                "That paints the corner for strike {strike_number_word}"
             ]
         },
         "ball": {
@@ -41,13 +73,35 @@ GAME_CONTEXT = {
                 "misses away",
                 "high and inside",
                 "he bounces one in the dirt",
-                "gets away from him and that one misses way outside"
+                "gets away from him and that one misses way outside",
+                # Repeated in episodes 035, 045, 051 and 053; the zone-specific
+                # pools below keep these directional calls tied to pitch data.
+                "downstairs", "misses wide", "runs outside", "upstairs",
+                "misses inside", "low and in",
+                "And he takes a {pitch_type_lower} for a ball",
+                # Ball-number calls are grounded in the resulting count, e.g.
+                # episode_005:29 and episode_011:48, even if the pitch is unnamed.
+                "And that's {ball_call}",
+                # episode_001:185; no pitch location is asserted.
+                "And that is called a ball"
             ],
             "high_inside": [
                 "high and tight", "high and inside", "runs high", "misses high",
                 "misses upstairs", "up in the eyes", "over the head", "way upstairs",
                 "runs inside", "a bit inside", "nearly hits him", "brushes him back",
-                "fastball high and tight", "up and in", "misses very high"
+                "{pitch_type} high and tight", "up and in", "misses very high",
+                "upstairs", "inside", "misses inside",
+                "And he does not offer at that high {pitch_type_short}",
+                "And that {pitch_type_lower} misses high and inside",
+                # Checked swings called balls: episodes 037:48 and 041:56/75.
+                "And he checks his swing on a high {pitch_type_short}",
+                "He checks his swing on a high {pitch_type_short}",
+                "Up and in with a {pitch_type_lower}",
+                # episode_001:99/112/226 and episode_005:184.
+                "High for a ball",
+                "Very high for a ball",
+                "That's high for {ball_call}",
+                "And that is high for a ball"
             ],
             "high_outside": [
                 "sails over the letters", "misses high and wide", "runs high",
@@ -55,7 +109,20 @@ GAME_CONTEXT = {
                 "just misses outside", "way outside", "misses outside",
                 "misses just a bit outside", "just off the plate", "misses away", "wide",
                 "gets away from him and that one misses way outside",
-                "misses just outside", "misses very high"
+                "misses just outside", "misses very high",
+                "upstairs", "misses wide", "runs outside", "high and outside",
+                "And he does not offer at a high {pitch_type_short}",
+                "And that {pitch_type_lower} misses wide",
+                "And he takes a {pitch_type_lower} outside",
+                "up and away",
+                "And that {pitch_type_lower} misses outside",
+                "And that {pitch_type_lower} is outside",
+                "And he checks his swing on a high {pitch_type_short}",
+                # episode_005:25/104 and episode_001:164/344.
+                "High and outside for {ball_call}",
+                "High and outside for a ball",
+                "That's very high for {ball_call}",
+                "Just barely high for a ball"
             ],
             "low_inside": [
                 "misses low and inside", "down and in", "misses low", "misses a bit low",
@@ -64,7 +131,24 @@ GAME_CONTEXT = {
                 "he bounces one in the dirt",
                 "down low",
                 "low and inside",
-                "just misses low"
+                "just misses low",
+                "downstairs", "low and in", "inside", "misses inside",
+                "And he does not offer at a low {pitch_type_short}",
+                "And that {pitch_type_lower} misses low and inside",
+                # Older and later episodes use the same low-pitch vocabulary:
+                # 011:48, 013:42, 035:332, 039:50/85 and 045:396.
+                "runs low",
+                "in the dirt in front of the plate",
+                "misses low for {ball_call}",
+                "And he takes a {pitch_type_lower} inside",
+                # episode_001:125/137 and episode_005:33/50/51/83/155.
+                "Low for a ball",
+                "Inside for a ball",
+                "That's inside for {ball_call}",
+                "Low and inside",
+                "Low and inside for {ball_call}",
+                "Down and in for a ball",
+                "And that's low for {ball_call}"
             ],
             "low_outside": [
                 "low and away", "spikes before the plate", "misses low and outside",
@@ -72,7 +156,57 @@ GAME_CONTEXT = {
                 "bounced in the dirt", "just misses outside", "way outside", "misses outside",
                 "misses just a bit outside", "just off the plate", "misses away", "wide",
                 "away", "down and away", "just misses low", "misses low and away",
-                "low and outside", "runs wide", "off the plate"
+                "low and outside", "runs wide", "off the plate",
+                "downstairs", "misses wide", "runs outside",
+                "And he does not offer at an outside {pitch_type_short}",
+                "And he does not offer at a low {pitch_type_short}",
+                "And that {pitch_type_lower} misses low and outside",
+                "And he takes a {pitch_type_lower} outside",
+                "runs low",
+                "in the dirt in front of the plate",
+                "off the outside corner",
+                "And that {pitch_type_lower} is outside",
+                "And that {pitch_type_lower} misses outside",
+                # episode_001:78/153/206 and
+                # episode_005:29/45/57/92/100/131/324.
+                "Outside for a ball",
+                "That's outside for {ball_call}",
+                "And that's outside for {ball_call}",
+                "That misses outside for {ball_call}",
+                "And that misses outside",
+                "And that misses outside for {ball_call}",
+                "Just a bit outside for a ball",
+                "Just outside for a ball",
+                "And that's in the dirt for a ball"
+            ]
+        },
+        # Nonterminal swinging strikes use only the recorded location. The
+        # neutral forms cover episode_001:95 and 039:73; location forms recur
+        # in 011:73, 013:82, 020:41/46, 035:62, 049:111, 052:101 and 053:96.
+        "swinging": {
+            "default": [
+                "Swing and a miss at a {pitch_type_lower}",
+                "Swing and a miss on that {pitch_type_lower}",
+                "cut on it, missed"
+            ],
+            "low": [
+                "Swing and a miss on a low {pitch_type_family}",
+                "Swing and a miss on that low {pitch_type_lower}",
+                "And he takes an awkward hack at a low {pitch_type_lower}"
+            ],
+            "high": [
+                "Swing and a miss on a high {pitch_type_short}",
+                "And he takes a wild hack at a high {pitch_type_short}"
+            ],
+            "inside": [
+                "Swing and a miss on an inside {pitch_type_lower}"
+            ],
+            "outside": [
+                "And he takes a noncommittal swing at an outside {pitch_type_lower}"
+            ],
+            "dirt": [
+                "Swing and a miss on a {pitch_type_lower} in the dirt",
+                "And he waves at a {pitch_type_lower} in the dirt"
             ]
         },
         "foul": [
@@ -123,7 +257,29 @@ GAME_CONTEXT = {
             "flied foul and out of play",
             "hooked foul down the left field line",
             "lifted foul off third",
-            "popped foul off first and into the stands"
+            "popped foul off first and into the stands",
+            # Directional foul calls recur throughout the later broadcasts:
+            # episodes 045:460, 049:105, 051:89/95, 052:83/243/306/331.
+            "fisted foul off to the right",
+            "fisted foul off to the left",
+            "chopped foul off third",
+            "chopped foul down the third base line",
+            "dribbled foul down the third base line",
+            "hammered foul down the left field line",
+            "hammered foul down the right field line",
+            "hammered foul off to the right",
+            "hammered foul back to the screen",
+            "fouled straight back and out of play",
+            "fouled back and into the seats",
+            # Additional calls from episodes 020:68, 037:101,
+            # 045:148, 046:96, 049:292, 050:67 and 051:103.
+            "hammered foul into the stands",
+            "sliced foul down the third base line",
+            "swung on and fouled back",
+            "slashed foul down the first base line",
+            "dribbled foul off to the right",
+            "chopped foul down third",
+            "And that one's fouled back into the seats"
         ]
     },
     "PITCH_TYPE_MAP": {
@@ -383,6 +539,44 @@ GAME_CONTEXT = {
                  "Swing and a miss on an outside {pitch_type}, and {batter_name} is down on strikes.",
                  "And a high {pitch_type} gets him swinging."
              ],
+             # These pools only describe the location recorded on the last
+             # pitch. They also keep the batter and inning outcome dynamic.
+             # Low/high calls recur across every example and all 17 corpus
+             # episodes; dirt/inside/outside forms occur in episodes 020,
+             # 029, 035 and 053.
+             "swinging_default": [
+                 "Swing and a miss on a {pitch_type}, and {batter_last_name} strikes out {out_context_str}.",
+                 "Swing and a miss on a {pitch_type}. And {batter_last_name} is down on strikes {out_context_str}.",
+                 "Swung on and missed. And down goes {batter_last_name} {out_context_str}.",
+                 "And he takes an awkward hack at a {pitch_type}, and {batter_last_name} strikes out {out_context_str}."
+             ],
+             "swinging_low": [
+                 "Swing and a miss on a low {pitch_type_short}, and {batter_last_name} is down on strikes {out_context_str}.",
+                 "Swing and a miss on a low {pitch_type}. And {batter_last_name} strikes out {out_context_str}.",
+                 "And he takes an awkward hack at a low {pitch_type_short}, and {batter_last_name} strikes out {out_context_str}.",
+                 "And he chases a low {pitch_type}, and {batter_last_name} is down on strikes {out_context_str}."
+             ],
+             "swinging_high": [
+                 "Swing and a miss on a high {pitch_type_short}, and {batter_last_name} is down on strikes {out_context_str}.",
+                 "Swing and a miss on a high {pitch_type}. And {batter_last_name} strikes out {out_context_str}.",
+                 "And he takes an awkward hack at a high {pitch_type_short}, and {batter_last_name} is down on strikes {out_context_str}.",
+                 "And he waves at a high {pitch_type_short}, and {batter_last_name} strikes out {out_context_str}.",
+                 "And a high {pitch_type_short} gets him swinging {out_context_str}."
+             ],
+             "swinging_inside": [
+                 "Swing and a miss on an inside {pitch_type}, and {batter_last_name} strikes out {out_context_str}.",
+                 "And he takes an awkward hack at an inside {pitch_type}, and {batter_last_name} is down on strikes {out_context_str}."
+             ],
+             "swinging_outside": [
+                 "Swing and a miss on an outside {pitch_type}, and {batter_last_name} is down on strikes {out_context_str}.",
+                 "And he chases an outside {pitch_type}, and {batter_last_name} strikes out {out_context_str}.",
+                 "Swing and a miss on an outside {pitch_type_family}, and {batter_last_name} strikes out {out_context_str}."
+             ],
+             "swinging_dirt": [
+                 "Swing and a miss on a {pitch_type} in the dirt, and {batter_last_name} is down on strikes {out_context_str}.",
+                 "And he takes an awkward hack at a {pitch_type} in the dirt, and {batter_last_name} strikes out {out_context_str}.",
+                 "And he takes a wild hack at a {pitch_type} in the dirt, and {batter_last_name} is down on strikes {out_context_str}."
+             ],
              "looking": [
                  "{batter_name} strikes out on a {pitch_type} to end the at-bat.",
                  "He looks at a {pitch_type} for a called strike three.",
@@ -448,6 +642,19 @@ GAME_CONTEXT = {
         }
     },
     "narrative_strings": {
+        # Early broadcasts often leave the pitch type unstated. These neutral
+        # calls do not infer a location; uppercase calls are complete utterances.
+        # Sources: episode_001:170/208/243/348/405 and
+        # episode_005:126/187/271.
+        "strike_called_plain": [
+            "In there for a strike",
+            "In there for a called strike",
+            "That's in there for a strike",
+            "That's in there for a called strike",
+            "That's called a strike",
+            "And that is called a strike",
+            "That's in there for strike {strike_number_word}"
+        ],
         "strike_called": [
             "called strike one", "called a strike", "in there for a called strike",
             "taken for a called strike", "paints the corner for a strike", "catches the black",
@@ -458,29 +665,62 @@ GAME_CONTEXT = {
             "called strike one", "in there for strike one", "strike one called",
             "taken for a called strike", "paints the corner for strike one",
             "catches the black", "called a strike", "a strike",
-            "in there for a called strike"
+            "in there for a called strike",
+            # Numbered calls appear in episodes 020:117, 029:43,
+            # 049:51 and 053:219, without requiring a repeated count.
+            "in there for a called strike one",
+            "paints the corner for a called strike one",
+            "taken for a called strike one",
+            # Complete pitch calls retain the announcer's natural word order;
+            # episodes 020:133/187, 037:190 and 053:131 use these structures.
+            "And that {pitch_type_lower} is called a strike",
+            "And he looks at a {pitch_type_lower} for strike one",
+            "And that's in there for a called strike one",
+            "Another {pitch_type_lower} called a strike",
+            "And that's called a strike",
+            "And he takes a {pitch_type_lower} for a called strike one"
         ],
         "strike_called_two": [
             "called strike two", "in there for strike two", "strike two",
             "called a strike", "taken for a called strike",
             "paints the corner for a called strike", "catches the black",
-            "in there for a called strike", "a strike"
+            "in there for a called strike", "a strike",
+            "in there for a called strike two",
+            "paints the corner for a called strike two",
+            "taken for a called strike two",
+            "And that {pitch_type_lower} is called a strike",
+            "And he looks at a {pitch_type_lower} for strike two",
+            "And that's in there for a called strike two",
+            "Another {pitch_type_lower} called a strike",
+            "And that's called a strike",
+            "And he looks at a {pitch_type_lower} for a called strike"
         ],
         "strike_called_three": [
             "called strike three", "caught looking at strike three", "strike three called",
             "in there for strike three", "rings him up", "got him looking",
-            "paints the corner for a called strike three"
+            "paints the corner for a called strike three",
+            "in there for a called strike three",
+            "taken for a called strike three",
+            "And he looks at a {pitch_type_lower} for a called strike three",
+            "And that {pitch_type_lower} is called strike three",
+            "And that's in there for a called strike three"
         ],
         "strike_swinging": [
             "swung on and missed", "cut on and missed", "a big swing and a miss",
             "he hacks at it and misses", "comes up empty",
             "he takes an awkward hack at the pitch",
-            "he takes a wild hack at the pitch"
+            "he takes a wild hack at the pitch",
+            "swing and a miss",
+            "Swing and a miss on a {pitch_type_lower}",
+            "And he takes an awkward hack at a {pitch_type_lower}",
+            "And he takes a wild hack at a {pitch_type_lower}"
         ],
         "strike_swinging_three": [
             "swung on and missed for strike three", "struck him out swinging",
             "swings through it for strike three", "fans him", "gets him swinging",
-            "he chases it for strike three"
+            "he chases it for strike three",
+            "Swing and a miss on a {pitch_type_lower}",
+            "And he takes an awkward hack at a {pitch_type_lower}"
         ],
         "mound_visit": [
             "will stroll out to the mound to have a chat with",
@@ -589,6 +829,33 @@ GAME_CONTEXT = {
             ", brings the count to 3-2",
             ", and the count is now full"
         ],
+        # This short count continuation is especially frequent in the early
+        # broadcasts (episodes 001 and 005) and appears again in 045:148.
+        "count_plain": [
+            "{count_str}",
+            "it's {count_str}"
+        ],
+        # These descriptions are selected only when the resulting count
+        # supports them. The ordinary spoken count remains the first option.
+        # Sources: pbp_example_1:67/298, episode_001:305,
+        # episode_035:245 and episode_053:65/308.
+        "count_one_one": [
+            "{count_str}",
+            "one ball, one strike",
+            "the count even at {count_str}",
+            "it's {count_str}"
+        ],
+        "count_even": [
+            "{count_str}",
+            "and the count evens up at {count_str}",
+            "count evens up at {count_str}",
+            "it's {count_str}"
+        ],
+        "count_behind": [
+            "{count_str}",
+            "and {pitcher_name_last} falls behind, {count_str}",
+            "it's {count_str}"
+        ],
         "count_remains_two_strikes": [
             ", and {batter_name} stays alive",
             ", count holds at {count_str}",
@@ -650,7 +917,14 @@ GAME_CONTEXT = {
             "And {batter_name} steps into the box against {pitcher_name}.",
             "And {batter_name} will step in against {pitcher_name}.",
             "And {batter_name} checks in against {pitcher_name}.",
-            "And {batter_name} checks in."
+            "And {batter_name} checks in.",
+            # Reusable introductions from episodes 035:153, 045:78,
+            # 050:62 and 053:49/115, rather than lineup-specific wording.
+            "And {batter_name} digs in against {pitcher_name}.",
+            "And {batter_name} will lead off for the {team_name} against {pitcher_name}.",
+            "And {batter_name} will step in to lead things off against {pitcher_name}.",
+            "{pitcher_name} will go to work on {batter_name}.",
+            "And here's {batter_name} against {pitcher_name}."
         ],
         "batter_intro_empty": [
              "And {batter_name} will step in with {outs_str} and nobody on.",
@@ -667,7 +941,12 @@ GAME_CONTEXT = {
              "And here's {batter_name} with {outs_str} and nobody on.",
              "So, bases empty, {outs_str} for {batter_name}.",
              "And {batter_name} steps in.",
-             "And {batter_name} checks in."
+             "And {batter_name} checks in.",
+             "And {batter_name} checks in with {outs_str} and nobody on.",
+             "And {batter_name} checks in with {outs_str} and nobody aboard.",
+             "And {batter_name} will dig in with {outs_str} and nobody on.",
+             "And here's {batter_name} with the bases empty and {outs_str}.",
+             "And {batter_name} will step in against {pitcher_name}."
         ],
         "batter_intro_bases_cleared": [
              "Bases cleared, {outs_str} for {batter_name}.",
@@ -690,7 +969,11 @@ GAME_CONTEXT = {
              "So, {runners_str} now, {outs_str} for {batter_name}.",
              "And {batter_name} steps in with {outs_str} and {runners_str}.",
              "And here's {batter_name} with {outs_str} and {runners_str}.",
-             "And {batter_name} checks in with {runners_str} and {outs_str}."
+             "And {batter_name} checks in with {runners_str} and {outs_str}.",
+             "And {batter_name} digs in with {runners_str} and {outs_str}.",
+             "And here's {batter_name}. {runners_str}, {outs_str}.",
+             "So, {outs_str} with {runners_str} for {batter_name}.",
+             "And that will bring {batter_name} to the plate with {runners_str} and {outs_str}."
         ],
         "pitch_connectors": [
             "And the {count_str}...",
@@ -705,7 +988,17 @@ GAME_CONTEXT = {
             "{pitcher_name_last} kicks and delivers...",
             "And the pitch...",
             "Here is the {count_str}...",
-            "And the {count_str_and}..."
+            "And the {count_str_and}...",
+            # Count-free deliveries and named-batter connectors recur in
+            # episodes 001, 020:430, 045:492 and 052:155/358.
+            "The pitch...",
+            "The pitch to {batter_name_last}...",
+            "And the pitch to {batter_name_last}...",
+            "The pitch from {pitcher_name_last}...",
+            "The {count_str} pitch from {pitcher_name_last}...",
+            "And here's the {count_str}...",
+            "Here's the {count_str} pitch...",
+            "And here's the {count_str} pitch..."
         ],
         "pitch_connectors_00": [
             "And the pitch...",
@@ -716,7 +1009,11 @@ GAME_CONTEXT = {
             "{pitcher_name_last} winds and fires...",
             "Here's the pitch...",
             "And {pitcher_name_last} deals...",
-            "And {pitcher_name_last} kicks and delivers..."
+            "And {pitcher_name_last} kicks and delivers...",
+            "The pitch...",
+            "The pitch to {batter_name_last}...",
+            "The pitch from {pitcher_name_last}...",
+            "And here's the pitch..."
         ],
         "pitch_connectors_stretch": [
              "And {pitcher_name_last} from the stretch...",
@@ -724,7 +1021,12 @@ GAME_CONTEXT = {
              "And {pitcher_name_last} deals...",
              "And {pitcher_name_last} comes to the plate...",
              "From the belt, the pitch...",
-             "And {pitcher_name_last}'s pitch..."
+             "And {pitcher_name_last}'s pitch...",
+             # Coming set is valid for a delivery with runners aboard;
+             # episodes 052:149 and 053:149/273 use these forms.
+             "{pitcher_name_last} comes set and delivers...",
+             "And {pitcher_name_last} comes set and delivers...",
+             "{pitcher_name_last} comes set and the pitch..."
         ],
         "batter_matchup_handedness": [
             "Righty against righty.",

@@ -58,7 +58,86 @@ def simplify_pitch_type(pitch_type: str, rng_pitch, capitalize=False) -> str:
         return simplified.capitalize()
     return simplified
 
-def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R'):
+def resolve_batter_hand(batter_hand, pitcher_hand='R'):
+    if batter_hand == 'S':
+        return 'R' if pitcher_hand == 'L' else 'L'
+    return batter_hand
+
+
+def get_pitch_location_categories(zone, batter_hand='R'):
+    """Describe a pitch's height and side from the catcher's zone grid.
+
+    The center zone and missing/unknown zones carry no location claim. The
+    outside zones (11-14) can also describe swinging strikes on chased pitches.
+    """
+    if not isinstance(zone, int) or isinstance(zone, bool):
+        return ()
+
+    categories = []
+    if zone in (1, 2, 3, 11, 12):
+        categories.append('high')
+    elif zone in (7, 8, 9, 13, 14):
+        categories.append('low')
+
+    if zone in (1, 4, 7, 11, 13):
+        categories.append('outside' if batter_hand == 'L' else 'inside')
+    elif zone in (3, 6, 9, 12, 14):
+        categories.append('inside' if batter_hand == 'L' else 'outside')
+    return tuple(categories)
+
+
+def get_pitch_type_short(pitch_type):
+    """Common broadcast names used in complete pitch and strikeout phrases."""
+    lower = pitch_type.lower()
+    if lower in ('fastball', 'four-seam fastball', 'four seam fastball', 'heater'):
+        return 'heater'
+    if lower in ('curveball', 'curve', 'knuckle curve'):
+        return 'curve'
+    return lower
+
+
+def get_pitch_type_family(pitch_type):
+    lower = pitch_type.lower()
+    if lower in ('curveball', 'curve', 'knuckle curve', 'slider', 'slurve'):
+        return 'breaking ball'
+    return lower
+
+
+def choose_pitch_description(options, rng_pitch, pitch_type, previous_pitch_type=None):
+    """Only describe 'another' pitch when its type matches the previous one."""
+    if not previous_pitch_type or get_pitch_type_short(previous_pitch_type) != get_pitch_type_short(pitch_type):
+        options = [option for option in options if not option.lower().startswith('another ')]
+    return rng_pitch.choice(options)
+
+
+def format_pitch_call(description, pitch_type, event_type, strikes_before=0, balls_before=0):
+    """Format complete utterances or prefix legacy lowercase fragments.
+
+    Capitalized templates are complete calls, including early broadcast forms
+    that omit the pitch name. Parameterized pitch names also mark complete
+    calls; older lowercase fragments retain their implicit pitch prefix.
+    """
+    is_complete = ('{pitch_type' in description or
+                   bool(description and description[0].isupper()) or
+                   description.startswith(('{ball_call}', '{strike_call}')))
+    context = {
+        'pitch_type': pitch_type,
+        'pitch_type_lower': pitch_type.lower(),
+        'pitch_type_short': get_pitch_type_short(pitch_type),
+        'pitch_type_family': get_pitch_type_family(pitch_type),
+        'strike_call': 'strike three' if strikes_before == 2 else 'a strike',
+        'strike_number_word': get_number_word(strikes_before + 1),
+        'ball_number_word': get_number_word(balls_before + 1),
+        'ball_call': f'ball {get_number_word(balls_before + 1)}',
+    }
+    description = description.format(**context)
+    if is_complete:
+        return description
+    separator = ' ' if event_type == 'B' else ', '
+    return f"{pitch_type}{separator}{description}"
+
+
+def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R', previous_pitch_type=None, pitch_description=''):
     # Helper to get description based on zone
     if event_type == 'B':
         base_key = 'ball'
@@ -86,8 +165,18 @@ def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_
             elif zone == 13: category = 'low_outside'
             elif zone == 14: category = 'low_inside'
 
+    elif event_type == 'C' and zone in range(1, 10):
+        categories = get_pitch_location_categories(zone, batter_hand)
+        category = categories[0] if categories else 'default'
+
     options = location_data.get(category, location_data.get('default', []))
     if not options:
         options = location_data.get('default', [])
 
-    return rng_pitch.choice(options)
+    # A low quadrant establishes location, not contact with the ground.
+    if event_type == 'B' and not any(word in pitch_description.lower()
+                                     for word in ('dirt', 'bounc', 'spik')):
+        options = [option for option in options
+                   if not any(word in option.lower() for word in ('dirt', 'bounc', 'spik'))]
+
+    return choose_pitch_description(options, rng_pitch, pitch_type_simple, previous_pitch_type)

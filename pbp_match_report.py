@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Report match percentages for all PBP examples (skipping pregame chatter)."""
+"""Report all Sleep Baseball phrase coverage and fixture alignment."""
 
-import re
+import argparse
 import json
-import sys
+from pathlib import Path
 
-sys.path.insert(0, '.')
-from test_examples_snapshot import positional_line_match, positional_line_match_content
+from pbp_alignment import alignment_metrics
 from renderers.narrative.renderer import NarrativeRenderer
+from sleep_baseball_corpus import report_corpus
 
 EXAMPLES = [
     ('pbp_example_1.txt', 'test_fixture_pbp_example_1.json', 28, 30),
@@ -17,45 +17,45 @@ EXAMPLES = [
 ]
 
 
-def get_ngrams(s, n=5):
-    words = re.findall(r'\b\w+\b', s.lower())
-    return set(tuple(words[i:i+n]) for i in range(len(words) - n + 1))
-
-
 def report(target_file, fixture_file, target_skip, rendered_skip):
-    with open(target_file) as f:
+    root = Path(__file__).resolve().parent
+    with open(root / target_file) as f:
         text = '\n'.join(f.read().splitlines()[target_skip:])
-    with open(fixture_file) as f:
+    with open(root / fixture_file) as f:
         data = json.load(f)
 
     renderer = NarrativeRenderer(data)
     rendered = '\n'.join(renderer.render().splitlines()[rendered_skip:])
 
-    text_words = set(re.findall(r'\b\w+\b', text.lower()))
-    rendered_words = set(re.findall(r'\b\w+\b', rendered.lower()))
-    jaccard = len(text_words & rendered_words) / len(text_words | rendered_words) if text_words | rendered_words else 0
-
-    t_ng = get_ngrams(text)
-    r_ng = get_ngrams(rendered)
-    ngram = len(t_ng & r_ng) / len(t_ng) if t_ng else 0
-
-    exact, near90, near75, n_target = positional_line_match(text, rendered)
-    exact_pct = exact / n_target if n_target else 0
-
-    c_exact, c_near90, c_near75, c_n_target = positional_line_match_content(text, rendered)
-    c_exact_pct = c_exact / c_n_target if c_n_target else 0
+    content = alignment_metrics(text, rendered)
+    all_lines = alignment_metrics(text, rendered, content_only=False)
 
     print(f'{target_file}:')
-    print(f'  Jaccard:              {jaccard*100:.1f}%')
-    print(f'  5-gram:               {ngram*100:.1f}%')
-    print(f'  Line exact (all):     {exact_pct*100:.1f}% ({exact}/{n_target})')
-    print(f'  Line exact (content): {c_exact_pct*100:.1f}% ({c_exact}/{c_n_target})')
+    print(f'  Jaccard (content):    {content.word_jaccard*100:.1f}%')
+    print(f'  5-gram (content):     {content.ngram_coverage*100:.1f}%')
+    print(f'  Line exact (content): {content.exact_fraction*100:.1f}% ({content.exact}/{content.target_lines})')
+    print(f'  Jaccard (all):        {all_lines.word_jaccard*100:.1f}%')
+    print(f'  5-gram (all):         {all_lines.ngram_coverage*100:.1f}%')
+    print(f'  Line exact (all):     {all_lines.exact_fraction*100:.1f}% ({all_lines.exact}/{all_lines.target_lines})')
     print()
 
 
 def main():
-    for ex in EXAMPLES:
-        report(*ex)
+    parser = argparse.ArgumentParser(description=__doc__)
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument('--alignment-only', action='store_true',
+                       help='show only the four full-game fixture comparisons')
+    scope.add_argument('--corpus-only', action='store_true',
+                       help='show phrase-component support across all source games')
+    parser.add_argument('--uncovered-limit', type=int, default=3,
+                        help='uncovered phrases per source to show; -1 shows all')
+    args = parser.parse_args()
+    if not args.corpus_only:
+        print('Full-game fixture alignment (four games):\n')
+        for ex in EXAMPLES:
+            report(*ex)
+    if not args.alignment_only:
+        report_corpus(uncovered_limit=None if args.uncovered_limit < 0 else args.uncovered_limit)
 
 
 if __name__ == '__main__':

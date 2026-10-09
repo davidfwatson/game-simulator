@@ -80,3 +80,54 @@ This repository uses two distinct snapshot files for different purposes, which s
 2. `test_fixture_pbp_example_3.json`: A manually constructed/tweaked JSON fixture used specifically for testing NarrativeRenderer similarity against the target text (`pbp_example_3.txt`). It is intentionally modified to hit specific RNG outputs and should NOT be synced with `examples/gameday_snapshot.json`.
 
 If you modify `test_fixture_pbp_example_3.json`, you must also update the generated test output `test_fixture_pbp_example_3.txt`.
+
+### Sleep Baseball phrase coverage
+
+The corpus contains 21 reference games: four `pbp_example_*.txt` alignment
+targets and 17 episodes in `transcripts/sleep_baseball/`. Every source is
+included in phrase-component coverage and source-linked rendering tests. The
+four alignment targets additionally have full-game fixtures.
+
+Run `python pbp_match_report.py` for both reports, or use `--corpus-only` and
+`--alignment-only` to select one. The corpus report checks exact ordered pitch,
+foul and count clauses against output from renderer methods, lists coverage
+per episode and phrase kind, and identifies uncovered source lines. It measures
+component capability, with compatible inputs tried where historical context
+is unknown; introductions, inning narration and batted-ball outcomes remain
+outside its automatic extraction. Use `python sleep_baseball_corpus.py --json`
+to inspect every uncovered clause and its inferred inputs.
+
+Full-game metrics exclude TTS delay markers and pregame chatter:
+word overlap, coverage of source five-word sequences, and exact content lines
+near the corresponding position in the game. Exact lines preserve word order
+and repetition after normalizing minor count and punctuation differences.
+`test_examples_snapshot.py` enforces a separate floor for each game, alongside
+the original metrics that include playback markers.
+
+The October 2026 phrase expansion improved content five-word coverage:
+
+| Target | Before | After |
+|--------|-------:|------:|
+| Example 1 | 23.2% | 35.9% |
+| Example 2 | 27.9% | 37.6% |
+| Example 3 | 26.2% | 34.7% |
+| Example 4 | 26.2% | 33.5% |
+
+Location-specific called strikes and swinging strikeouts use pitch zone data,
+and dirt calls require explicit pitch description evidence. Switch hitters use
+the side they bat against the current pitcher. Count phrases such as “falls
+behind” and “count evens up” depend on the resulting count, and “another” pitch
+requires the same pitch type as the preceding pitch.
+
+`sleep_baseball_phrase_cases.json` records exact source files, lines and
+structured inputs for regression cases from every game.
+`test_sleep_baseball_corpus.py` verifies provenance, actual renderer output,
+the complete source inventory and per-source coverage floors. Adding a phrase
+to an unused template pool does not count as support.
+
+When expanding a pool, preserve existing entry order, then realign the fixture
+timestamp seeds with `pbp_tools.py`: adding entries changes the pool modulus.
+Regenerate the four rendered fixture text files and affected deterministic
+examples, run the tests, and ratchet the content coverage floors as coverage
+improves. Keep raw transcript prose out of game fixtures; fixtures describe
+game events and select reusable renderer phrases.

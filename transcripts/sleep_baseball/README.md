@@ -5,12 +5,20 @@ Cleaned play-by-play transcripts of the *Northwoods Baseball Sleep Radio* podcas
 <https://rss.buzzsprout.com/1915447.rss>), the show the `pbp_example_*.txt`
 targets come from. This directory is reference material for mining announcer
 turns of phrase, such as pitch calls, count phrasing, batter intros and inning
-transitions, to add to the narrative renderer's templates. Nothing in the test
-suite reads these files.
+transitions, to add to the narrative renderer's templates. All 17 episodes,
+together with the four `pbp_example_*.txt` games, are read by the corpus coverage
+report and source-linked regression tests.
 
-These are **not** alignment targets. They have no `[TTS SPLIT ...]` markers and
-no gameday fixtures. To promote one to a `pbp_example_N.txt`, follow the
-example-4 pipeline (PR #195) and `PBP_ALIGNMENT_GUIDE.md`.
+Run `python pbp_match_report.py --corpus-only` from the repository root for
+per-episode support of pitch, foul and count clauses. Uncovered phrases retain
+exact source lines; `python sleep_baseball_corpus.py --json` includes all of
+them and their inferred renderer inputs. The report tests component phrasing,
+with unknown context tried across compatible inputs. It does not reconstruct
+the game or cover every kind of narration.
+
+These episodes have no `[TTS SPLIT ...]` markers or full-game gameday fixtures.
+To promote one to a full-game alignment target, follow the example-4 pipeline
+(PR #195) and `PBP_ALIGNMENT_GUIDE.md`.
 
 ## Episodes
 

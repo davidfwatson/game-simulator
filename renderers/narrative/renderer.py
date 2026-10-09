@@ -4,7 +4,9 @@ from gameday import GamedayData
 from ..base import GameRenderer
 from .helpers import (
     get_ordinal, get_number_word, get_spoken_count,
-    get_spoken_score_string, simplify_pitch_type, get_pitch_description_for_location
+    get_spoken_score_string, simplify_pitch_type, get_pitch_description_for_location,
+    get_pitch_location_categories, get_pitch_type_short, get_pitch_type_family, choose_pitch_description,
+    format_pitch_call, resolve_batter_hand
 )
 
 class NarrativeRenderer(GameRenderer):
@@ -28,6 +30,107 @@ class NarrativeRenderer(GameRenderer):
 
     def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple, batter_hand='R'):
         return get_pitch_description_for_location(event_type, zone, pitch_type_simple, self.rng_pitch, batter_hand)
+
+    def _get_pitch_call(self, event, pitch_type, batter_hand='R', previous_pitch_type=None):
+        details = event['details']
+        code = details.get('code')
+        strikes_before = event['count']['strikes']
+        zone = details.get('zone')
+
+        if code == 'B':
+            description = get_pitch_description_for_location(
+                code, zone, pitch_type, self.rng_pitch, batter_hand, previous_pitch_type,
+                details.get('description', ''))
+        elif code in ('C', 'S'):
+            location = get_pitch_location_categories(zone, batter_hand)
+            strike_locations = GAME_CONTEXT['pitch_locations']['strike']
+            swinging_pools = GAME_CONTEXT['pitch_locations'].get('swinging', {})
+            if code == 'S' and 'in the dirt' in details.get('description', '').lower():
+                location = ('dirt',)
+            swinging_options = [
+                template for category in location
+                for template in swinging_pools.get(category, [])
+            ] if code == 'S' and strikes_before < 2 else []
+            # Keep generic calls and their RNG choices for unknown/center zones.
+            # A called strike must be in the strike zone; chased pitches are
+            # handled by the swinging-strike outcome pools below.
+            if swinging_options:
+                swinging_options.extend(swinging_pools.get('default', []))
+                description = choose_pitch_description(
+                    swinging_options, self.rng_pitch, pitch_type, previous_pitch_type)
+            elif code == 'C' and zone in range(1, 10) and location and location[0] in strike_locations:
+                description = get_pitch_description_for_location(
+                    code, zone, pitch_type, self.rng_pitch, batter_hand, previous_pitch_type)
+            else:
+                if code == 'C':
+                    key = ('strike_called_three' if strikes_before == 2 else
+                           'strike_called_one' if strikes_before == 0 else 'strike_called_two')
+                else:
+                    key = 'strike_swinging_three' if strikes_before == 2 else 'strike_swinging'
+                options = GAME_CONTEXT['narrative_strings'].get(key, [''])
+                if code == 'C':
+                    options = options + GAME_CONTEXT['narrative_strings'].get('strike_called_plain', [])
+                if code == 'S' and strikes_before < 2:
+                    options = options + swinging_pools.get('default', [])
+                description = choose_pitch_description(
+                    options, self.rng_pitch,
+                    pitch_type, previous_pitch_type)
+        else:
+            return ''
+        return format_pitch_call(description, pitch_type, code, strikes_before,
+                                 event['count'].get('balls', 0))
+
+    def _get_location_strikeout_description(self, event, pitch_type, batter_name,
+                                            out_context_str, batter_hand='R', batter_id=None):
+        """Use complete strikeout calls only when their location is supported."""
+        details = event['details']
+        if details.get('code') != 'S':
+            return None
+        locations = get_pitch_location_categories(details.get('zone'), batter_hand)
+        if 'in the dirt' in details.get('description', '').lower():
+            locations = ('dirt',)
+        if not locations:
+            return None
+
+        pools = GAME_CONTEXT['narrative_templates'].get('Strikeout', {})
+        templates = []
+        for location in locations:
+            templates.extend(pools.get(f'swinging_{location}', []))
+        if not templates:
+            return None
+        templates.extend(pools.get('swinging_default', []))
+        player = self.gameday_data.get('gameData', {}).get('players', {}).get(f'ID{batter_id}', {})
+        batter_last_name = player.get('lastName') or batter_name.split()[-1]
+        return self.rng_play.choice(templates).format(
+            pitch_type=pitch_type.lower(),
+            pitch_type_short=get_pitch_type_short(pitch_type),
+            pitch_type_family=get_pitch_type_family(pitch_type),
+            batter_name=batter_name,
+            batter_last_name=batter_last_name,
+            out_context_str=out_context_str,
+        )
+
+    def _get_count_call(self, balls, strikes, code, pitcher_name, batter_name):
+        count_str = self._get_spoken_count(balls, strikes, connector='and')
+        key = None
+        if (balls, strikes) == (1, 1):
+            key = 'count_one_one'
+        elif (balls, strikes) == (2, 2):
+            key = 'count_even'
+        elif code == 'B' and (balls, strikes) in ((2, 0), (3, 0), (3, 1)):
+            key = 'count_behind'
+        templates = GAME_CONTEXT['narrative_strings'].get(key or 'count_plain', [])
+        if not templates:
+            return count_str
+        pitcher_last = ' '.join(pitcher_name.split()[1:]) if len(pitcher_name.split()) > 1 else pitcher_name
+        # The pitch stream can already consume both controllable calls when
+        # it chooses a fastball synonym and a description. Counts use the
+        # independent event play stream so every count form stays selectable.
+        return self.rng_play.choice(templates).format(
+            count_str=count_str,
+            pitcher_name_last=pitcher_last,
+            batter_name=batter_name,
+        )
 
     def _get_foul_description(self):
         # On 2nd+ consecutive foul, chance to say "he fouls another one off"
@@ -72,14 +175,15 @@ class NarrativeRenderer(GameRenderer):
     def _get_spoken_count(self, balls, strikes, connector="and"):
         return get_spoken_count(balls, strikes, connector)
 
-    def _get_pitch_connector(self, balls, strikes, pitcher_name=None, batter_name=None, runners_on_base=False):
+    def _get_pitch_connector(self, balls, strikes, pitcher_name=None, batter_name=None, runners_on_base=False, batter_id=None):
         if balls == 3 and strikes == 2:
             return self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['payoff_pitch'])
 
         count_str = self._get_spoken_count(balls, strikes, connector="-")
         count_str_and = self._get_spoken_count(balls, strikes, connector="and")
         pitcher_last = ' '.join(pitcher_name.split()[1:]) if pitcher_name and len(pitcher_name.split()) > 1 else (pitcher_name or "The pitcher")
-        batter_last = batter_name.split()[-1] if batter_name else "the batter"
+        player = self.gameday_data.get('gameData', {}).get('players', {}).get(f'ID{batter_id}', {})
+        batter_last = player.get('lastName') or (batter_name.split()[-1] if batter_name else "the batter")
 
         context = {
             'count_str': count_str,
@@ -1086,7 +1190,11 @@ class NarrativeRenderer(GameRenderer):
             result = play['result']
             outcome = result['event']
             play_events = play['playEvents']
+            pitch_batter_hand = resolve_batter_hand(
+                matchup['batSide']['code'], matchup['pitchHand']['code'])
             last_pitch_context = None
+            last_pitch_connector = None
+            previous_pitch_type = None
             i = 0
             x_event_connector = None
             self.consecutive_fouls = 0
@@ -1155,8 +1263,10 @@ class NarrativeRenderer(GameRenderer):
                         event['count']['strikes'],
                         pitcher_name=current_pitcher_name,
                         batter_name=batter_name,
-                        runners_on_base=runners_on
+                        runners_on_base=runners_on,
+                        batter_id=matchup['batter']['id'],
                     )
+                    last_pitch_connector = connector
 
                     if code == 'X': x_event_connector = connector
 
@@ -1179,33 +1289,11 @@ class NarrativeRenderer(GameRenderer):
                         else:
                              pbp_line = self._get_foul_description()
                         self.consecutive_fouls += 1
-                    elif code == 'C':
-                         if event['count']['strikes'] == 2:
-                             key = 'strike_called_three'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
-                         else:
-                             # Use strike-numbered pools based on resulting strike count
-                             strikes_before = event['count']['strikes']
-                             if strikes_before == 0:
-                                 key = 'strike_called_one'
-                             else:
-                                 key = 'strike_called_two'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
+                    elif code in ('C', 'S', 'B'):
+                         pbp_line = self._get_pitch_call(
+                             event, pitch_type, pitch_batter_hand, previous_pitch_type)
 
-                    elif code == 'S':
-                         if event['count']['strikes'] == 2:
-                             key = 'strike_swinging_three'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
-                         else:
-                             # For swinging strikes, we usually just say "Swing and a miss" but could describe location
-                             # "Swing and a miss on a slider in the dirt"
-                             key = 'strike_swinging'
-                             pbp_line = f"{pitch_type}, {self._get_narrative_string(key, rng=self.rng_pitch)}"
-
-                    elif code == 'B':
-                         zone = details.get('zone')
-                         desc = self._get_pitch_description_for_location('B', zone, pitch_type, matchup['batSide']['code'])
-                         pbp_line = f"{pitch_type} {desc}"
+                    previous_pitch_type = orig_pitch_type
 
                     # Reset consecutive foul counter on non-foul events
                     if code in ('B', 'C', 'S'):
@@ -1280,10 +1368,12 @@ class NarrativeRenderer(GameRenderer):
                                         pbp_line += f" {clean_hold_str}."
 
                                 else:
+                                    spoken_count = self._get_count_call(
+                                        b, s, code, current_pitcher_name, batter_name)
                                     if use_comma:
                                          pbp_line += f" {spoken_count}."
                                     else:
-                                         pbp_line += f" {spoken_count.capitalize()}."
+                                         pbp_line += f" {spoken_count[0].upper() + spoken_count[1:]}."
                             elif use_comma:
                                  # If count suppressed but we used a comma, switch to period
                                  pbp_line = pbp_line.rstrip(',') + "."
@@ -1334,8 +1424,13 @@ class NarrativeRenderer(GameRenderer):
                     out_context_str = "to end the inning"
 
                 # Check for specific narrative templates based on context
-                template_found = False
-                if last_pitch_context and k_type == 'swinging':
+                located_strikeout = self._get_location_strikeout_description(
+                    play_events[-1], pitch_type, batter_name, out_context_str,
+                    pitch_batter_hand, matchup['batter']['id']) if self.verbose else None
+                template_found = located_strikeout is not None
+                if template_found:
+                    outcome_text = f"{last_pitch_connector} {located_strikeout}" if last_pitch_connector else located_strikeout
+                if not template_found and last_pitch_context and k_type == 'swinging':
                     last_pitch_lower = last_pitch_context.lower()
                     if "dirt" in last_pitch_lower:
                         # Try to find a dirt-specific template
@@ -1364,8 +1459,23 @@ class NarrativeRenderer(GameRenderer):
                          else:
                              # Standard flow: "Slider, called strike three, and Evan Reed strikes out to end the inning."
                              if k_type == 'swinging':
-                                 simple_verb = self.rng_play.choice(["strikes out", "is set down swinging", "goes down swinging", "is down on strikes"])
-                                 outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb} {out_context_str}."
+                                 templates = [
+                                     f"{{last_pitch_context}}, and {{batter_name}} {verb} {{out_context_str}}."
+                                     for verb in ("strikes out", "is set down swinging", "goes down swinging", "is down on strikes")
+                                 ]
+                                 templates.extend(GAME_CONTEXT['narrative_templates']['Strikeout'].get('swinging_default', []))
+                                 player = self.gameday_data.get('gameData', {}).get('players', {}).get(f"ID{matchup['batter']['id']}", {})
+                                 outcome_text = self.rng_play.choice(templates).format(
+                                     last_pitch_context=last_pitch_context,
+                                     batter_name=batter_name,
+                                     batter_last_name=player.get('lastName') or batter_name.split()[-1],
+                                     out_context_str=out_context_str,
+                                     pitch_type=pitch_type.lower(),
+                                     pitch_type_short=get_pitch_type_short(pitch_type),
+                                     pitch_type_family=get_pitch_type_family(pitch_type),
+                                 )
+                                 if not outcome_text.startswith(last_pitch_context) and last_pitch_connector:
+                                     outcome_text = f"{last_pitch_connector} {outcome_text}"
                              else:
                                  simple_verb = self.rng_play.choice(["strikes out looking", "is down on strikes", "goes down looking", "is rung up"])
                                  outcome_text = f"{last_pitch_context}, and {batter_name} {simple_verb} {out_context_str}."
