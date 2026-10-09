@@ -6,6 +6,7 @@ from dataclasses import asdict
 import json
 
 from pbp_comparison import check_transcript_examples, compare_example, discover_pbp_examples, render_example
+from sleep_baseball_corpus import LIMITATIONS, check_corpus, measure_corpus, report_corpus
 
 
 def main(argv=None):
@@ -13,7 +14,27 @@ def main(argv=None):
     parser.add_argument("examples", type=int, nargs="*", help="Example numbers (default: all)")
     parser.add_argument("--json", action="store_true", help="Emit machine-readable scores")
     parser.add_argument("--check", action="store_true", help="Fail if any comparison minimum is missed")
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument('--corpus-only', action='store_true',
+                       help='show automatic phrase-component support across all 21 source games')
+    scope.add_argument('--alignment-only', action='store_true',
+                       help='show only the original PBP fixture comparisons')
+    parser.add_argument('--uncovered-limit', type=int, default=3,
+                        help='uncovered component clauses per source; -1 shows all')
     args = parser.parse_args(argv)
+    if args.corpus_only:
+        if args.examples:
+            parser.error('--corpus-only does not accept PBP example numbers')
+        reports = (measure_corpus() if args.json else report_corpus(
+            uncovered_limit=None if args.uncovered_limit < 0 else args.uncovered_limit))
+        failures = check_corpus(reports)
+        if args.json:
+            print(json.dumps({'scope': 'phrase-component support', 'limitations': LIMITATIONS,
+                              'sources': [asdict(r) for r in reports], 'failures': failures}, indent=2))
+        else:
+            for failure in failures:
+                print('  BELOW MINIMUM: ' + failure)
+        return int(args.check and bool(failures))
     try:
         examples = discover_pbp_examples()
     except ValueError as error:
@@ -46,7 +67,7 @@ def main(argv=None):
             for failure in failures:
                 print(f"  BELOW MINIMUM: {failure}")
             print()
-    if not args.examples:
+    if not args.examples and not args.alignment_only:
         try:
             counts = check_transcript_examples()
         except ValueError as error:
@@ -67,6 +88,17 @@ def main(argv=None):
                       f"5-gram recall {game['ngram']:.1%}, ordered words per play {game['mean_play_word_coverage']:.1%}")
                 for failure in game['failures']:
                     print('  BELOW MINIMUM: ' + failure)
+        reports = (measure_corpus() if args.json else report_corpus(
+            uncovered_limit=None if args.uncovered_limit < 0 else args.uncovered_limit))
+        component_failures = check_corpus(reports)
+        for report in reports:
+            results.append({'phrase_component_source': report.source_file,
+                            **asdict(report), 'failures': []})
+        results.append({'phrase_component_catalog': True, 'limitations': LIMITATIONS,
+                        'failures': component_failures})
+        if not args.json:
+            for failure in component_failures:
+                print('  BELOW MINIMUM: ' + failure)
     if args.json:
         print(json.dumps(results, indent=2))
     return int(args.check and any(result["failures"] for result in results))

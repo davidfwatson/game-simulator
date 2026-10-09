@@ -193,3 +193,34 @@ Use `source_line`, `source_text`, `expected`, `kind`, `pool`, `template`, and
 synthetic scenario inputs, not measurements from the broadcasts. New full-game
 ledgers preserve the source's verbal facts instead. Add wording only to pools
 whose required situation is present, and test the actual helper or event route.
+
+## Automatic phrase coverage
+
+The automatic corpus report scans all 21 source games: the four PBP references
+and the 17 episode transcripts. It measures exact ordered pitch, foul and count
+clauses against output from production renderer methods. Each episode reports
+its eligible and supported clauses by phrase kind, with uncovered source files,
+line numbers and inferred inputs. Per-source inventory and pitch-support floors
+prevent easy count phrases or omitted episodes from masking regressions.
+
+```bash
+python pbp_match_report.py --corpus-only --check
+python pbp_match_report.py --corpus-only --uncovered-limit 10
+python sleep_baseball_corpus.py --json
+python pbp_match_report.py --alignment-only
+```
+
+The default report includes this layer alongside the existing PBP, focused-case
+and full-broadcast comparisons. `sleep_baseball_phrase_cases.json` supplies
+additional source-linked component regression cases from every reference game.
+Tests verify exact provenance and actual reachable output, rather than counting
+an entry in an unused template pool as support.
+
+Component support describes phrase capability. Unknown location stays unknown;
+other missing context is tried across compatible inputs. Case and punctuation
+are ignored, while word order, articles, repetition and numeric spelling remain
+significant. Introductions, inning narration, batted-ball outcomes and banter are
+outside the automatic extractor; full-game comparisons cover a different scope.
+Complete pitch calls may omit the pitch name, and numbered ball/strike calls use
+the resulting count. Ground-contact phrasing requires explicit dirt or bounce
+evidence; a low zone alone is insufficient.

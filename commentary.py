@@ -22,14 +22,28 @@ GAME_CONTEXT = {
         "strike": {
             "outside_corner": ["called a strike on the outside corner",
                 "a called strike that nibbles the outside corner",
+                "called {strike_call} on the outside corner",
+                "on the outside corner for {strike_call}",
+                "That's called a strike on the outside corner",
+                "A called strike that nibbles the outside corner",
+                "And that paints the corner for a called strike",
+                "That paints the corner for strike {strike_number_word}",
             ],
-            "inside_corner": ["called a strike on the inside corner"],
+            "inside_corner": ["called a strike on the inside corner",
+                "called {strike_call} on the inside corner",
+                "in there on the inside corner for {strike_call}",
+                "And that paints the corner for a called strike",
+                "That paints the corner for strike {strike_number_word}",
+            ],
             "corner": ["paints the corner for a called strike", "catches the corner",
                 "hits the corner for a called strike",
                 "just kisses the corner for a called strike",
                 "nibbles the corner for a called strike",
                 "called strike on the corner",
                 "paints the black for a called strike",
+                "And that paints the corner for a called strike",
+                "That paints the corner for strike {strike_number_word}",
+                "{pitch_type} paints the corner for a called strike {strike_number_word}",
             ],
             "middle": ["right down the middle for a called strike", "right down Main Street",
                 "down the middle for a called strike",
@@ -39,6 +53,10 @@ GAME_CONTEXT = {
             "low": ["at the knees for a called strike", "called a strike down low",
                 "at the knees, called a strike",
                 "called a strike at the knees",
+                "called {strike_call} at the knees",
+                "in at the knees for {strike_call}",
+                "at the knees, called {strike_call}",
+                "And that low {pitch_type_lower} is called {strike_call}",
             ],
             "default": [
                 "paints the corner", "right down the middle", "catches the black",
@@ -50,14 +68,52 @@ GAME_CONTEXT = {
                 "right down Main Street",
                 "caught the corner",
                 "in at the knees for a called strike",
-                "called a strike on the corner"
-            ]
+                "called a strike on the corner",
+                "in there for a strike",
+                "right down the middle for a called strike",
+            ],
+            "high": [
+                "A high {pitch_type_lower}, called {strike_call}",
+                "And that high {pitch_type_lower} is called {strike_call}"
+            ],
+            "inside": [
+                "called {strike_call} on the inside corner",
+                "in there on the inside corner for {strike_call}",
+                          # episode_005:37/233; the side is unspecified, but a corner
+                          # must be supported by the recorded strike-zone position.
+                "And that paints the corner for a called strike",
+                "That paints the corner for strike {strike_number_word}"
+            ],
+            "outside": [
+                "called {strike_call} on the outside corner",
+                "on the outside corner for {strike_call}",
+                          # episode_005:44/169 and episode_001:25.
+                "That's called a strike on the outside corner",
+                "A called strike that nibbles the outside corner",
+                "And that paints the corner for a called strike",
+                "That paints the corner for strike {strike_number_word}"
+            ],
         },
         "ball": {
             "high": ["misses high", "upstairs", "high for a ball",
                 "high",
                 "very high",
                 "just barely high",
+                "And he does not offer at that high {pitch_type_short}",
+                "And he does not offer at a high {pitch_type_short}",
+                "And he checks his swing on a high {pitch_type_short}",
+                "He checks his swing on a high {pitch_type_short}",
+                "High for a ball",
+                "Very high for a ball",
+                "That's high for {ball_call}",
+                "And that is high for a ball",
+                "That's very high for {ball_call}",
+                "Just barely high for a ball",
+                # Single-location calls remain available when the corpus
+                # supplies height but does not identify an inside/outside side.
+                # Sources: pbp_example_1:161 and pbp_example_4:167.
+                "runs high",
+                "misses very high",
             ],
             "low": ["misses low", "downstairs", "low for a ball",
                 "just a bit low",
@@ -67,6 +123,15 @@ GAME_CONTEXT = {
                 "runs low",
                 "misses just a bit low",
                 "taken low",
+                "And he does not offer at a low {pitch_type_short}",
+                "misses low for {ball_call}",
+                "Low for a ball",
+                "And that's low for {ball_call}",
+                # pbp_example_3:37/79/154 and pbp_example_4:131.
+                "misses a bit low",
+                "runs a bit low",
+                "down low",
+                "just misses low",
             ],
             "inside": ["misses inside", "runs inside", "inside for a ball",
                 "inside",
@@ -76,6 +141,9 @@ GAME_CONTEXT = {
                 "runs just inside",
                 "just misses inside",
                 "off the inside",
+                "And he takes a {pitch_type_lower} inside",
+                "Inside for a ball",
+                "That's inside for {ball_call}",
             ],
             "outside": ["misses outside", "outside for a ball", "off the plate",
                 "outside",
@@ -86,10 +154,34 @@ GAME_CONTEXT = {
                 "runs outside",
                 "misses wide",
                 "hanging outside",
+                "And he takes a {pitch_type_lower} outside",
+                "And he does not offer at an outside {pitch_type_short}",
+                "And that {pitch_type_lower} misses wide",
+                "And that {pitch_type_lower} misses outside",
+                "And that {pitch_type_lower} is outside",
+                "Outside for a ball",
+                "That's outside for {ball_call}",
+                "And that's outside for {ball_call}",
+                "That misses outside for {ball_call}",
+                "And that misses outside",
+                "And that misses outside for {ball_call}",
+                "Just a bit outside for a ball",
+                "Just outside for a ball",
+                # These calls only require an outside location, not a height:
+                # pbp_example_1:192/484, pbp_example_3:145/233,
+                # episode_011:269, episode_013:45 and episode_041:252.
+                "misses just outside",
+                "misses just a bit outside",
+                "away",
+                "misses away",
+                "way outside",
+                "off the outside corner",
+                "runs wide",
             ],
             "dirt": ["in the dirt", "bounces in the dirt in front of the plate",
                 "in the dirt in front of the plate",
                 "bounces in the dirt",
+                "And that's in the dirt for a ball",
             ],
             "default": [
                 "just misses outside", "high and tight", "in the dirt", "way outside",
@@ -107,7 +199,16 @@ GAME_CONTEXT = {
                 "misses away",
                 "high and inside",
                 "he bounces one in the dirt",
-                "gets away from him and that one misses way outside"
+                "gets away from him and that one misses way outside",
+                "downstairs",
+                "misses wide",
+                "runs outside",
+                "upstairs",
+                "misses inside",
+                "low and in",
+                "And he takes a {pitch_type_lower} for a ball",
+                "And that's {ball_call}",
+                "And that is called a ball",
             ],
             "high_inside": [
                 "high and tight",
@@ -129,6 +230,19 @@ GAME_CONTEXT = {
                 "misses just inside",
                 "runs high and inside",
                 "inside, that one buzzed his tower",
+                "{pitch_type} high and tight",
+                "upstairs",
+                "inside",
+                "misses inside",
+                "And he does not offer at that high {pitch_type_short}",
+                "And that {pitch_type_lower} misses high and inside",
+                "And he checks his swing on a high {pitch_type_short}",
+                "He checks his swing on a high {pitch_type_short}",
+                "Up and in with a {pitch_type_lower}",
+                "High for a ball",
+                "Very high for a ball",
+                "That's high for {ball_call}",
+                "And that is high for a ball",
             ],
             "high_outside": [
                 "sails over the letters",
@@ -152,6 +266,21 @@ GAME_CONTEXT = {
                 "taken up and away",
                 "just misses a bit outside",
                 "misses up and away",
+                "upstairs",
+                "misses wide",
+                "runs outside",
+                "high and outside",
+                "And he does not offer at a high {pitch_type_short}",
+                "And that {pitch_type_lower} misses wide",
+                "And he takes a {pitch_type_lower} outside",
+                "up and away",
+                "And that {pitch_type_lower} misses outside",
+                "And that {pitch_type_lower} is outside",
+                "And he checks his swing on a high {pitch_type_short}",
+                "High and outside for {ball_call}",
+                "High and outside for a ball",
+                "That's very high for {ball_call}",
+                "Just barely high for a ball",
             ],
             "low_inside": [
                 "misses low and inside",
@@ -173,6 +302,22 @@ GAME_CONTEXT = {
                 "downstairs",
                 "bounces in front of the plate",
                 "runs low and inside",
+                "low and in",
+                "inside",
+                "misses inside",
+                "And he does not offer at a low {pitch_type_short}",
+                "And that {pitch_type_lower} misses low and inside",
+                "runs low",
+                "in the dirt in front of the plate",
+                "misses low for {ball_call}",
+                "And he takes a {pitch_type_lower} inside",
+                "Low for a ball",
+                "Inside for a ball",
+                "That's inside for {ball_call}",
+                "Low and inside",
+                "Low and inside for {ball_call}",
+                "Down and in for a ball",
+                "And that's low for {ball_call}",
             ],
             "low_outside": [
                 "low and away",
@@ -200,11 +345,34 @@ GAME_CONTEXT = {
                 "off the outside corner",
                 "just off the corner",
                 "misses down and away",
+                "downstairs",
+                "misses wide",
+                "runs outside",
+                "And he does not offer at an outside {pitch_type_short}",
+                "And he does not offer at a low {pitch_type_short}",
+                "And that {pitch_type_lower} misses low and outside",
+                "And he takes a {pitch_type_lower} outside",
+                "runs low",
+                "in the dirt in front of the plate",
+                "And that {pitch_type_lower} is outside",
+                "And that {pitch_type_lower} misses outside",
+                "Outside for a ball",
+                "That's outside for {ball_call}",
+                "And that's outside for {ball_call}",
+                "That misses outside for {ball_call}",
+                "And that misses outside",
+                "And that misses outside for {ball_call}",
+                "Just a bit outside for a ball",
+                "Just outside for a ball",
+                "And that's in the dirt for a ball",
             ],
             "unlocated": [
                 "misses for a ball",
                 "is taken for a ball",
-                "is called a ball"
+                "is called a ball",
+                "And he takes a {pitch_type_lower} for a ball",
+                "And that's {ball_call}",
+                "And that is called a ball",
             ],
         },
         "foul": [
@@ -355,7 +523,37 @@ GAME_CONTEXT = {
             "that one's fouled off",
             "he takes a monster swing at that one; it's a foul out of play",
             "swing and a foul back",
-        ]
+            "chopped foul down the third base line",
+            "fouled back and into the seats",
+            "swung on and fouled back",
+            "And that one's fouled back into the seats",
+        ],
+        "swinging": {
+            "default": [
+                "Swing and a miss at a {pitch_type_lower}",
+                "Swing and a miss on that {pitch_type_lower}",
+                "cut on it, missed"
+            ],
+            "low": [
+                "Swing and a miss on a low {pitch_type_family}",
+                "Swing and a miss on that low {pitch_type_lower}",
+                "And he takes an awkward hack at a low {pitch_type_lower}"
+            ],
+            "high": [
+                "Swing and a miss on a high {pitch_type_short}",
+                "And he takes a wild hack at a high {pitch_type_short}"
+            ],
+            "inside": [
+                "Swing and a miss on an inside {pitch_type_lower}"
+            ],
+            "outside": [
+                "And he takes a noncommittal swing at an outside {pitch_type_lower}"
+            ],
+            "dirt": [
+                "Swing and a miss on a {pitch_type_lower} in the dirt",
+                "And he waves at a {pitch_type_lower} in the dirt"
+            ]
+        },
     },
     "PITCH_TYPE_MAP": {
         "four-seam fastball": "FF",
@@ -800,7 +998,38 @@ GAME_CONTEXT = {
                  "And {batter_name} strikes out looking {out_context_str}.",
              ],
             "swinging_outside": [
-                "{batter_name} takes a wild swing on an outside pitch, and he is down on strikes."
+                "{batter_name} takes a wild swing on an outside pitch, and he is down on strikes.",
+                "Swing and a miss on an outside {pitch_type}, and {batter_last_name} is down on strikes {out_context_str}.",
+                "And he chases an outside {pitch_type}, and {batter_last_name} strikes out {out_context_str}.",
+                "Swing and a miss on an outside {pitch_type_family}, and {batter_last_name} strikes out {out_context_str}.",
+            ],
+            "swinging_default": [
+                "Swing and a miss on a {pitch_type}, and {batter_last_name} strikes out {out_context_str}.",
+                "Swing and a miss on a {pitch_type}. And {batter_last_name} is down on strikes {out_context_str}.",
+                "Swung on and missed. And down goes {batter_last_name} {out_context_str}.",
+                "And he takes an awkward hack at a {pitch_type}, and {batter_last_name} strikes out {out_context_str}."
+            ],
+            "swinging_low": [
+                "Swing and a miss on a low {pitch_type_short}, and {batter_last_name} is down on strikes {out_context_str}.",
+                "Swing and a miss on a low {pitch_type}. And {batter_last_name} strikes out {out_context_str}.",
+                "And he takes an awkward hack at a low {pitch_type_short}, and {batter_last_name} strikes out {out_context_str}.",
+                "And he chases a low {pitch_type}, and {batter_last_name} is down on strikes {out_context_str}."
+            ],
+            "swinging_high": [
+                "Swing and a miss on a high {pitch_type_short}, and {batter_last_name} is down on strikes {out_context_str}.",
+                "Swing and a miss on a high {pitch_type}. And {batter_last_name} strikes out {out_context_str}.",
+                "And he takes an awkward hack at a high {pitch_type_short}, and {batter_last_name} is down on strikes {out_context_str}.",
+                "And he waves at a high {pitch_type_short}, and {batter_last_name} strikes out {out_context_str}.",
+                "And a high {pitch_type_short} gets him swinging {out_context_str}."
+            ],
+            "swinging_inside": [
+                "Swing and a miss on an inside {pitch_type}, and {batter_last_name} strikes out {out_context_str}.",
+                "And he takes an awkward hack at an inside {pitch_type}, and {batter_last_name} is down on strikes {out_context_str}."
+            ],
+            "swinging_dirt": [
+                "Swing and a miss on a {pitch_type} in the dirt, and {batter_last_name} is down on strikes {out_context_str}.",
+                "And he takes an awkward hack at a {pitch_type} in the dirt, and {batter_last_name} strikes out {out_context_str}.",
+                "And he takes a wild hack at a {pitch_type} in the dirt, and {batter_last_name} is down on strikes {out_context_str}."
             ],
         },
         "Walk": {
@@ -972,6 +1201,13 @@ GAME_CONTEXT = {
             "in there for a called strike one",
             "taken for a called strike one",
             "in there for a strike",
+            "paints the corner for a called strike one",
+            "And that {pitch_type_lower} is called a strike",
+            "And he looks at a {pitch_type_lower} for strike one",
+            "And that's in there for a called strike one",
+            "Another {pitch_type_lower} called a strike",
+            "And that's called a strike",
+            "And he takes a {pitch_type_lower} for a called strike one",
         ],
         "strike_called_two": [
             "called strike two", "in there for strike two", "strike two",
@@ -983,6 +1219,14 @@ GAME_CONTEXT = {
             "a called second strike",
             "in there for a called strike two",
             "in there for a strike",
+            "paints the corner for a called strike two",
+            "taken for a called strike two",
+            "And that {pitch_type_lower} is called a strike",
+            "And he looks at a {pitch_type_lower} for strike two",
+            "And that's in there for a called strike two",
+            "Another {pitch_type_lower} called a strike",
+            "And that's called a strike",
+            "And he looks at a {pitch_type_lower} for a called strike",
         ],
         "strike_called_three": [
             "called strike three", "caught looking at strike three", "strike three called",
@@ -992,6 +1236,10 @@ GAME_CONTEXT = {
             "called third strike",
             "strike three taken",
             "in there for a called strike three",
+            "taken for a called strike three",
+            "And he looks at a {pitch_type_lower} for a called strike three",
+            "And that {pitch_type_lower} is called strike three",
+            "And that's in there for a called strike three",
         ],
         "strike_swinging": [
             "swung on and missed", "cut on and missed", "a big swing and a miss",
@@ -1017,6 +1265,9 @@ GAME_CONTEXT = {
             "he takes an early swing",
             "he takes a late swing",
             "he takes a noncommittal swing",
+            "Swing and a miss on a {pitch_type_lower}",
+            "And he takes an awkward hack at a {pitch_type_lower}",
+            "And he takes a wild hack at a {pitch_type_lower}",
         ],
         "strike_swinging_three": [
             "swung on and missed for strike three", "struck him out swinging",
@@ -1029,6 +1280,8 @@ GAME_CONTEXT = {
             "he takes something of a wild swing",
             "he takes a very awkward whack at that one for a strikeout",
             "way out in front of that one for strike three",
+            "Swing and a miss on a {pitch_type_lower}",
+            "And he takes an awkward hack at a {pitch_type_lower}",
         ],
         "mound_visit": [
             "will stroll out to the mound to have a chat with",
@@ -1243,6 +1496,10 @@ GAME_CONTEXT = {
             "And {batter_name} will step into the box against {pitcher_name}.",
             "And stepping up to the plate for the {team_name} is {position} {batter_name}.",
             "And {batter_name} digs in against {pitcher_name}.",
+            "And {batter_name} will lead off for the {team_name} against {pitcher_name}.",
+            "And {batter_name} will step in to lead things off against {pitcher_name}.",
+            "{pitcher_name} will go to work on {batter_name}.",
+            "And here's {batter_name} against {pitcher_name}.",
         ],
         "batter_intro_empty": [
             "And {batter_name} will step in with {outs_str} and nobody on.",
@@ -1268,6 +1525,9 @@ GAME_CONTEXT = {
             "And {batter_name} checks in with {outs_str}, and nobody aboard.",
             "And {batter_name} steps into the box.",
             "And here comes {batter_name}.",
+            "And {batter_name} checks in with {outs_str} and nobody on.",
+            "And {batter_name} checks in with {outs_str} and nobody aboard.",
+            "And {batter_name} will step in against {pitcher_name}.",
         ],
         "batter_intro_bases_cleared": [
              "Bases cleared, {outs_str} for {batter_name}.",
@@ -1296,6 +1556,9 @@ GAME_CONTEXT = {
             "And {batter_name} digs in with {runners_str} and {outs_str}.",
             "{outs_str}, {runners_str}, and that will bring up {batter_name}.",
             "And that'll bring up {batter_name} with {outs_str} and {runners_str}.",
+            "And here's {batter_name}. {runners_str}, {outs_str}.",
+            "So, {outs_str} with {runners_str} for {batter_name}.",
+            "And that will bring {batter_name} to the plate with {runners_str} and {outs_str}.",
         ],
         "pitch_connectors": [
             "And the {count_str}...",
@@ -1329,6 +1592,10 @@ GAME_CONTEXT = {
             "The {count_str} pitch from {pitcher_name_last}...",
             "And now the {count_str} pitch...",
             "It's the {count_str} pitch...",
+            "The pitch to {batter_name_last}...",
+            "And the pitch to {batter_name_last}...",
+            "The pitch from {pitcher_name_last}...",
+            "And here's the {count_str}...",
         ],
         "pitch_connectors_00": [
             "And the pitch...",
@@ -1361,6 +1628,7 @@ GAME_CONTEXT = {
             "And the first offering...",
             "And {pitcher_name_last} comes set and delivers...",
             "All right, and now the pitch to {batter_name_last}...",
+            "The pitch...",
         ],
         "pitch_connectors_stretch": [
              "And {pitcher_name_last} from the stretch...",
@@ -1368,7 +1636,10 @@ GAME_CONTEXT = {
              "And {pitcher_name_last} deals...",
              "And {pitcher_name_last} comes to the plate...",
              "From the belt, the pitch...",
-             "And {pitcher_name_last}'s pitch..."
+             "And {pitcher_name_last}'s pitch...",
+            "{pitcher_name_last} comes set and delivers...",
+            "And {pitcher_name_last} comes set and delivers...",
+            "{pitcher_name_last} comes set and the pitch...",
         ],
         "batter_matchup_handedness": [
             "Righty against righty.",
@@ -1482,6 +1753,36 @@ GAME_CONTEXT = {
         ],
         "inning_end_123_relief": [
             "And that's a one-two-three inning for {pitcher_name} in relief."
+        ],
+        "strike_called_plain": [
+            "In there for a strike",
+            "In there for a called strike",
+            "That's in there for a strike",
+            "That's in there for a called strike",
+            "That's called a strike",
+            "And that is called a strike",
+            "That's in there for strike {strike_number_word}"
+        ],
+        "count_plain": [
+            "{count_str}",
+            "it's {count_str}"
+        ],
+        "count_one_one": [
+            "{count_str}",
+            "one ball, one strike",
+            "the count even at {count_str}",
+            "it's {count_str}"
+        ],
+        "count_even": [
+            "{count_str}",
+            "and the count evens up at {count_str}",
+            "count evens up at {count_str}",
+            "it's {count_str}"
+        ],
+        "count_behind": [
+            "{count_str}",
+            "and {pitcher_name_last} falls behind, {count_str}",
+            "it's {count_str}"
         ],
     },
     "statcast_verbs": {

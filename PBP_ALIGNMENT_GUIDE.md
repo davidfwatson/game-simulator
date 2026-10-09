@@ -581,3 +581,20 @@ Run `python transcript_comparison.py` or
 `python update_transcript_examples.py --check` for those cases. Their focused
 snapshots complement the full-broadcast comparisons and the original example-3
 history above.
+
+The automatic component report adds an inventory of exact ordered pitch, foul
+and count clauses from every one of the 21 source games:
+
+```bash
+python pbp_match_report.py --corpus-only --check --uncovered-limit 5
+python sleep_baseball_corpus.py --json
+```
+
+Use the uncovered source lines to choose the next reusable phrase. Add a
+source-linked input/expected-output case in `sleep_baseball_phrase_cases.json`
+and verify that production methods actually emit it. The extractor excludes
+other narration, and tries compatible inputs for some unknown context, so its
+component scores should be assessed separately from full-game alignment.
+Preserve existing pool order and use ordinary `commentaryRng` draw lists when
+realigning saved fixtures. Ground-contact descriptions need explicit source
+evidence; numeric low zones alone cannot justify dirt or bounce wording.

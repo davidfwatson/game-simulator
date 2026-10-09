@@ -204,10 +204,10 @@ class _RecordingSelector:
     def choice(self, options):
         if not options:
             raise ValueError('Renderer offered an empty phrase pool')
-        # A renderer may filter the target pool for fielding context. Retain
-        # that real subset; never offer a template absent from the routed pool.
-        target_pool = options is self.pool or all(option in self.pool for option in options)
-        if target_pool and self.template in options:
+        # Renderers may filter a pool or combine it with weighted alternatives.
+        # Select only the authored template when the real routed choices offer
+        # it; extra fallback choices do not make that template unreachable.
+        if self.template in self.pool and self.template in options:
             index = options.index(self.template)
             self.selected_target = True
         else:

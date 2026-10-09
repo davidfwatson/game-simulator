@@ -136,7 +136,7 @@ class TestTranscriptPlayRouting(unittest.TestCase):
 
     def test_strict_unknown_ball_uses_neutral_pool(self):
         text = render([record(pitches=[{'code': 'B', 'line': 1, 'type': 'Slider'}])])
-        self.assertIn('Slider is called a ball', text)
+        self.assertIn('called a ball', text)
         for claim in ('outside', 'inside', 'low and', 'high and'):
             self.assertNotIn(claim, text)
 
@@ -152,7 +152,7 @@ class TestTranscriptPlayRouting(unittest.TestCase):
         class First:
             def choice(self, seq):
                 return seq[0]
-        pool = GAME_CONTEXT['pitch_locations']['ball']['default']
+        pool = GAME_CONTEXT['pitch_locations']['ball']['unlocated']
         self.assertEqual(get_pitch_description_for_location('B', None, 'Fastball', First()), pool[0])
         repeat_avoided = get_pitch_description_for_location('B', None, 'Fastball', First(), avoid=pool[0])
         self.assertNotEqual(repeat_avoided, pool[0])

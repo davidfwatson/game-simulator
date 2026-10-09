@@ -1,0 +1,1253 @@
+{
+  "schema_version": 1,
+  "description": "Source-verified phrase clauses rendered from structured pitch/count/strikeout contexts. These component cases do not imply full-game or full-transcript alignment.",
+  "cases": [
+    {
+      "id": "pbp_example_1_pitch_49",
+      "source_file": "pbp_example_1.txt",
+      "source_line": 49,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "pbp_example_1_strikeout_388",
+      "source_file": "pbp_example_1.txt",
+      "source_line": 388,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 0,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Cortez",
+        "batter_last_name": "Cortez",
+        "result_outs": 1,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "pbp_example_1_count_119",
+      "source_file": "pbp_example_1.txt",
+      "source_line": 119,
+      "source_phrase": "and Von Neumann falls behind three and one",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 1,
+        "pitcher_name": "Javier Von Neumann",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Von Neumann falls behind three and one",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_source_lines": [
+        25
+      ],
+      "context_notes": "Full pitcher name is given in source line25; the count call uses the compound surname Von Neumann."
+    },
+    {
+      "id": "pbp_example_2_pitch_320",
+      "source_file": "pbp_example_2.txt",
+      "source_line": 320,
+      "source_phrase": "And that curveball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that curveball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "pbp_example_2_strikeout_146",
+      "source_file": "pbp_example_2.txt",
+      "source_line": 146,
+      "source_phrase": "Swing and a miss on a low curve",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 1,
+        "strikes": 2,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "batter_name": "Bush",
+        "batter_last_name": "Bush",
+        "result_outs": 3,
+        "location": "low"
+      },
+      "expected_phrase": "Swing and a miss on a low curve",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "pbp_example_2_count_41",
+      "source_file": "pbp_example_2.txt",
+      "source_line": 41,
+      "source_phrase": "one and one",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 1,
+        "strikes": 1,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "one and one",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    },
+    {
+      "id": "pbp_example_3_pitch_66",
+      "source_file": "pbp_example_3.txt",
+      "source_line": 66,
+      "source_phrase": "Slider called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 0,
+        "strikes": 0,
+        "pitch_type": "Slider",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "Slider called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "pbp_example_3_strikeout_276",
+      "source_file": "pbp_example_3.txt",
+      "source_line": 276,
+      "source_phrase": "Swing and a miss on a low slider",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 1,
+        "strikes": 2,
+        "pitch_type": "Slider",
+        "batter_hand": "R",
+        "batter_name": "Silver",
+        "batter_last_name": "Silver",
+        "result_outs": 2,
+        "location": "low"
+      },
+      "expected_phrase": "Swing and a miss on a low slider",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "pbp_example_3_count_174",
+      "source_file": "pbp_example_3.txt",
+      "source_line": 174,
+      "source_phrase": "and Flores falls behind three and one",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 1,
+        "pitcher_name": "Flores",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Flores falls behind three and one",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "pbp_example_4_pitch_43",
+      "source_file": "pbp_example_4.txt",
+      "source_line": 43,
+      "source_phrase": "And that slider is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Slider",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that slider is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "pbp_example_4_strikeout_179",
+      "source_file": "pbp_example_4.txt",
+      "source_line": 179,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 1,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Stipe",
+        "batter_last_name": "Stipe",
+        "result_outs": 2,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "pbp_example_4_count_115",
+      "source_file": "pbp_example_4.txt",
+      "source_line": 115,
+      "source_phrase": "and Sanborn falls behind three and oh",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 0,
+        "pitcher_name": "Sanborn",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Sanborn falls behind three and oh",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_001_pitch_95",
+      "source_file": "transcripts/sleep_baseball/episode_001.txt",
+      "source_line": 95,
+      "source_phrase": "Swing and a miss at a curveball",
+      "kind": "pitch",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 0,
+        "strikes": 0,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "Swing and a miss at a curveball",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_001_pitch_315",
+      "source_file": "transcripts/sleep_baseball/episode_001.txt",
+      "source_line": 315,
+      "source_phrase": "Curveball in there for a called strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 0,
+        "strikes": 0,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "Curveball in there for a called strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_001_count_411",
+      "source_file": "transcripts/sleep_baseball/episode_001.txt",
+      "source_line": 411,
+      "source_phrase": "and Von Newman falls behind three and oh",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 0,
+        "pitcher_name": "Javier Von Newman",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Von Newman falls behind three and oh",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_source_lines": [
+        49
+      ],
+      "context_notes": "Full pitcher name is given in source line49; the count call uses the compound surname Von Newman."
+    },
+    {
+      "id": "episode_005_pitch_26",
+      "source_file": "transcripts/sleep_baseball/episode_005.txt",
+      "source_line": 26,
+      "source_phrase": "And that's called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that's called a strike",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "The source omits pitch type; this complete call makes no pitch-type claim."
+    },
+    {
+      "id": "episode_005_count_33",
+      "source_file": "transcripts/sleep_baseball/episode_005.txt",
+      "source_line": 33,
+      "source_phrase": "two and two",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 2,
+        "strikes": 2,
+        "pitcher_name": "Brock Niedermeier",
+        "batter_name": "Prudence Jefferson"
+      },
+      "expected_phrase": "two and two",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_005_count_52",
+      "source_file": "transcripts/sleep_baseball/episode_005.txt",
+      "source_line": 52,
+      "source_phrase": "and Gonzalez falls behind three and oh",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 0,
+        "pitcher_name": "Gonzalez",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Gonzalez falls behind three and oh",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_011_pitch_60",
+      "source_file": "transcripts/sleep_baseball/episode_011.txt",
+      "source_line": 60,
+      "source_phrase": "Curveball in there for a called strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "Curveball in there for a called strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_011_strikeout_95",
+      "source_file": "transcripts/sleep_baseball/episode_011.txt",
+      "source_line": 95,
+      "source_phrase": "Swing and a miss on a low fastball",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 1,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Granny Hauser",
+        "batter_last_name": "Granny Hauser",
+        "result_outs": 3,
+        "location": "low"
+      },
+      "expected_phrase": "Swing and a miss on a low fastball",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_011_count_60",
+      "source_file": "transcripts/sleep_baseball/episode_011.txt",
+      "source_line": 60,
+      "source_phrase": "One and one",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 1,
+        "strikes": 1,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "One and one",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    },
+    {
+      "id": "episode_013_pitch_70",
+      "source_file": "transcripts/sleep_baseball/episode_013.txt",
+      "source_line": 70,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_013_strikeout_138",
+      "source_file": "transcripts/sleep_baseball/episode_013.txt",
+      "source_line": 138,
+      "source_phrase": "Swing and a miss on a high fastball",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 0,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Henny Oldman",
+        "batter_last_name": "Henny Oldman",
+        "result_outs": 3,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high fastball",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_013_count_70",
+      "source_file": "transcripts/sleep_baseball/episode_013.txt",
+      "source_line": 70,
+      "source_phrase": "One and one",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 1,
+        "strikes": 1,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "One and one",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    },
+    {
+      "id": "episode_020_pitch_133",
+      "source_file": "transcripts/sleep_baseball/episode_020.txt",
+      "source_line": 133,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_020_strikeout_104",
+      "source_file": "transcripts/sleep_baseball/episode_020.txt",
+      "source_line": 104,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 0,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Silver",
+        "batter_last_name": "Silver",
+        "result_outs": 1,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown. No out number is spoken; this component case uses a one-out context."
+    },
+    {
+      "id": "episode_020_count_329",
+      "source_file": "transcripts/sleep_baseball/episode_020.txt",
+      "source_line": 329,
+      "source_phrase": "and Stetson falls behind, three and oh",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 0,
+        "pitcher_name": "Stetson",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Stetson falls behind, three and oh",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_029_pitch_215",
+      "source_file": "transcripts/sleep_baseball/episode_029.txt",
+      "source_line": 215,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 1,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_029_strikeout_47",
+      "source_file": "transcripts/sleep_baseball/episode_029.txt",
+      "source_line": 47,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 2,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Diaz",
+        "batter_last_name": "Diaz",
+        "result_outs": 1,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_029_count_51",
+      "source_file": "transcripts/sleep_baseball/episode_029.txt",
+      "source_line": 51,
+      "source_phrase": "and Jeffries falls behind, three and oh",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 0,
+        "pitcher_name": "Jeffries",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Jeffries falls behind, three and oh",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_035_pitch_121",
+      "source_file": "transcripts/sleep_baseball/episode_035.txt",
+      "source_line": 121,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 1,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_035_strikeout_58",
+      "source_file": "transcripts/sleep_baseball/episode_035.txt",
+      "source_line": 58,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 1,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Bush",
+        "batter_last_name": "Bush",
+        "result_outs": 2,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_035_count_155",
+      "source_file": "transcripts/sleep_baseball/episode_035.txt",
+      "source_line": 155,
+      "source_phrase": "One and one",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 1,
+        "strikes": 1,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "One and one",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    },
+    {
+      "id": "episode_037_pitch_76",
+      "source_file": "transcripts/sleep_baseball/episode_037.txt",
+      "source_line": 76,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_037_strikeout_260",
+      "source_file": "transcripts/sleep_baseball/episode_037.txt",
+      "source_line": 260,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 0,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Shemper",
+        "batter_last_name": "Shemper",
+        "result_outs": 2,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_037_count_76",
+      "source_file": "transcripts/sleep_baseball/episode_037.txt",
+      "source_line": 76,
+      "source_phrase": "One and one",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 1,
+        "strikes": 1,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "One and one",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    },
+    {
+      "id": "episode_039_pitch_130",
+      "source_file": "transcripts/sleep_baseball/episode_039.txt",
+      "source_line": 130,
+      "source_phrase": "And that curveball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that curveball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_039_strikeout_74",
+      "source_file": "transcripts/sleep_baseball/episode_039.txt",
+      "source_line": 74,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 0,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Navarro",
+        "batter_last_name": "Navarro",
+        "result_outs": 3,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_039_count_260",
+      "source_file": "transcripts/sleep_baseball/episode_039.txt",
+      "source_line": 260,
+      "source_phrase": "and Whitehouse falls behind, three and one",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 1,
+        "pitcher_name": "Whitehouse",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Whitehouse falls behind, three and one",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_041_pitch_57",
+      "source_file": "transcripts/sleep_baseball/episode_041.txt",
+      "source_line": 57,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 2,
+        "strikes": 1,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_041_strikeout_76",
+      "source_file": "transcripts/sleep_baseball/episode_041.txt",
+      "source_line": 76,
+      "source_phrase": "swing and a miss on a low slider",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 2,
+        "strikes": 2,
+        "pitch_type": "Slider",
+        "batter_hand": "R",
+        "batter_name": "Patterson",
+        "batter_last_name": "Patterson",
+        "result_outs": 3,
+        "location": "low"
+      },
+      "expected_phrase": "swing and a miss on a low slider",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_041_count_57",
+      "source_file": "transcripts/sleep_baseball/episode_041.txt",
+      "source_line": 57,
+      "source_phrase": "Two and two",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 2,
+        "strikes": 2,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "Two and two",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    },
+    {
+      "id": "episode_045_pitch_72",
+      "source_file": "transcripts/sleep_baseball/episode_045.txt",
+      "source_line": 72,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 2,
+        "strikes": 1,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_045_strikeout_171",
+      "source_file": "transcripts/sleep_baseball/episode_045.txt",
+      "source_line": 171,
+      "source_phrase": "Swing and a miss on a low slider",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 1,
+        "strikes": 2,
+        "pitch_type": "Slider",
+        "batter_hand": "R",
+        "batter_name": "Cortez",
+        "batter_last_name": "Cortez",
+        "result_outs": 1,
+        "location": "low"
+      },
+      "expected_phrase": "Swing and a miss on a low slider",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_045_count_56",
+      "source_file": "transcripts/sleep_baseball/episode_045.txt",
+      "source_line": 56,
+      "source_phrase": "One and one",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 1,
+        "strikes": 1,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "One and one",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    },
+    {
+      "id": "episode_046_pitch_119",
+      "source_file": "transcripts/sleep_baseball/episode_046.txt",
+      "source_line": 119,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_046_strikeout_68",
+      "source_file": "transcripts/sleep_baseball/episode_046.txt",
+      "source_line": 68,
+      "source_phrase": "Swing and a miss on a low curve",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 1,
+        "strikes": 2,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "batter_name": "Rickson",
+        "batter_last_name": "Rickson",
+        "result_outs": 2,
+        "location": "low"
+      },
+      "expected_phrase": "Swing and a miss on a low curve",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_046_count_152",
+      "source_file": "transcripts/sleep_baseball/episode_046.txt",
+      "source_line": 152,
+      "source_phrase": "and Quintero falls behind, three and one",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 1,
+        "pitcher_name": "Quintero",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Quintero falls behind, three and one",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_049_pitch_63",
+      "source_file": "transcripts/sleep_baseball/episode_049.txt",
+      "source_line": 63,
+      "source_phrase": "and that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 2,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "and that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_049_strikeout_72",
+      "source_file": "transcripts/sleep_baseball/episode_049.txt",
+      "source_line": 72,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 2,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Rudderson",
+        "batter_last_name": "Rudderson",
+        "result_outs": 3,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_049_count_58",
+      "source_file": "transcripts/sleep_baseball/episode_049.txt",
+      "source_line": 58,
+      "source_phrase": "and Valentine falls behind, three and oh",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 0,
+        "pitcher_name": "Valentine",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Valentine falls behind, three and oh",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_050_pitch_159",
+      "source_file": "transcripts/sleep_baseball/episode_050.txt",
+      "source_line": 159,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 2,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_050_strikeout_247",
+      "source_file": "transcripts/sleep_baseball/episode_050.txt",
+      "source_line": 247,
+      "source_phrase": "Swing and a miss on a low fastball",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 2,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Gibson",
+        "batter_last_name": "Gibson",
+        "result_outs": 2,
+        "location": "low"
+      },
+      "expected_phrase": "Swing and a miss on a low fastball",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_050_count_82",
+      "source_file": "transcripts/sleep_baseball/episode_050.txt",
+      "source_line": 82,
+      "source_phrase": "and Boroughbrello falls behind, three and one",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 1,
+        "pitcher_name": "Boroughbrello",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Boroughbrello falls behind, three and one",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_051_pitch_111",
+      "source_file": "transcripts/sleep_baseball/episode_051.txt",
+      "source_line": 111,
+      "source_phrase": "And that fastball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that fastball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_051_strikeout_66",
+      "source_file": "transcripts/sleep_baseball/episode_051.txt",
+      "source_line": 66,
+      "source_phrase": "Swing and a miss on a high heater",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 2,
+        "strikes": 2,
+        "pitch_type": "Fastball",
+        "batter_hand": "R",
+        "batter_name": "Cortez",
+        "batter_last_name": "Cortez",
+        "result_outs": 1,
+        "location": "high"
+      },
+      "expected_phrase": "Swing and a miss on a high heater",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_051_count_111",
+      "source_file": "transcripts/sleep_baseball/episode_051.txt",
+      "source_line": 111,
+      "source_phrase": "One and one",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 1,
+        "strikes": 1,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "One and one",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    },
+    {
+      "id": "episode_052_pitch_107",
+      "source_file": "transcripts/sleep_baseball/episode_052.txt",
+      "source_line": 107,
+      "source_phrase": "And that curveball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 1,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that curveball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_052_strikeout_99",
+      "source_file": "transcripts/sleep_baseball/episode_052.txt",
+      "source_line": 99,
+      "source_phrase": "Swing and a miss on a low slider",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 0,
+        "strikes": 2,
+        "pitch_type": "Slider",
+        "batter_hand": "R",
+        "batter_name": "Winterbottom",
+        "batter_last_name": "Winterbottom",
+        "result_outs": 2,
+        "location": "low"
+      },
+      "expected_phrase": "Swing and a miss on a low slider",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_052_count_164",
+      "source_file": "transcripts/sleep_baseball/episode_052.txt",
+      "source_line": 164,
+      "source_phrase": "and Flatbush falls behind three and one",
+      "kind": "count",
+      "input": {
+        "code": "B",
+        "balls": 3,
+        "strikes": 1,
+        "pitcher_name": "Flatbush",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "and Flatbush falls behind three and one",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_053_pitch_131",
+      "source_file": "transcripts/sleep_baseball/episode_053.txt",
+      "source_line": 131,
+      "source_phrase": "And that curveball is called a strike",
+      "kind": "pitch",
+      "input": {
+        "code": "C",
+        "zone": null,
+        "balls": 1,
+        "strikes": 0,
+        "pitch_type": "Curveball",
+        "batter_hand": "R",
+        "location": null
+      },
+      "expected_phrase": "And that curveball is called a strike",
+      "assertion_scope": "full",
+      "supported": true
+    },
+    {
+      "id": "episode_053_strikeout_133",
+      "source_file": "transcripts/sleep_baseball/episode_053.txt",
+      "source_line": 133,
+      "source_phrase": "Swing and a miss on a low slider",
+      "kind": "strikeout",
+      "input": {
+        "code": "S",
+        "zone": null,
+        "balls": 1,
+        "strikes": 2,
+        "pitch_type": "Slider",
+        "batter_hand": "R",
+        "batter_name": "Cortez",
+        "batter_last_name": "Cortez",
+        "result_outs": 1,
+        "location": "low"
+      },
+      "expected_phrase": "Swing and a miss on a low slider",
+      "assertion_scope": "pitch_clause",
+      "supported": true,
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
+    },
+    {
+      "id": "episode_053_count_99",
+      "source_file": "transcripts/sleep_baseball/episode_053.txt",
+      "source_line": 99,
+      "source_phrase": "Two and two",
+      "kind": "count",
+      "input": {
+        "code": "C",
+        "balls": 2,
+        "strikes": 2,
+        "pitcher_name": "the pitcher",
+        "batter_name": "the batter"
+      },
+      "expected_phrase": "Two and two",
+      "assertion_scope": "full",
+      "supported": true,
+      "context_notes": "Asserts the resulting count, not the delivery connector or pitch clause."
+    }
+  ]
+}

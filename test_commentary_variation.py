@@ -161,11 +161,16 @@ class TestCommentaryVariation(unittest.TestCase):
                     for index in range(max(map(len, GAME_CONTEXT['pitch_locations']['ball'].values()))):
                         with self.subTest(hand=hand, zone=zone, pitch=pitch_type, variant=index):
                             renderer = self.make_renderer(index)
-                            desc = renderer._get_pitch_description_for_location('B', zone, pitch_type, hand)
-                            text = f'{pitch_type} {desc}'.lower()
-                            self.assertEqual(1, text.count(pitch_type.lower()))
-                            if pitch_type != 'Fastball':
-                                self.assertNotIn('fastball', text)
+                            text = renderer._get_pitch_call({
+                                'details': {'code': 'B', 'zone': zone, 'description': 'Ball'},
+                                'count': {'balls': 0, 'strikes': 0},
+                            }, pitch_type, hand).lower()
+                            # Complete calls can omit the pitch name; when
+                            # stated, it must occur only once and stay factual.
+                            self.assertLessEqual(text.count(pitch_type.lower()), 1)
+                            for other_type in ('Slider', 'Changeup', 'Curveball', 'Fastball'):
+                                if other_type != pitch_type:
+                                    self.assertNotIn(other_type.lower(), text)
 
     def test_verb_variants_can_follow_a_batters_name(self):
         # The renderer supplies the subject. These predicates must use the

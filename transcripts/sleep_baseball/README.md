@@ -23,6 +23,14 @@ full-broadcast wording report, and [PBP_ALIGNMENT_GUIDE.md](../../PBP_ALIGNMENT_
 for the alignment tools. Preserve these source texts when improving ledgers,
 wording pools, or snapshots.
 
+`python pbp_match_report.py --corpus-only --check` also scans pitch, foul and
+count clauses across all 21 source games. This automatic component report lists
+uncovered source lines and supplements the reviewed full-game and focused-case
+comparisons. Additional sourced regression inputs live in
+`sleep_baseball_phrase_cases.json`; their output must be reachable through the
+production renderer. Component support does not imply a complete historical
+game reconstruction or verbatim reproduction of the broadcast.
+
 ## Episodes
 
 | File | Aired | Game |
