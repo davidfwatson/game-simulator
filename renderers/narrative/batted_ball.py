@@ -17,8 +17,10 @@ Three ``hitData`` fields describe a ball beyond its fielder ``location``:
 Templates that assert one of these ("all the way to the wall", "hard
 grounder", "into the gap") are kept only when the ball supports the claim.
 When a ball carries none of the fields its claims are unrestricted, except
-under ``strictFacts``, where an unrecorded claim is never made.
+under ``strictFacts``, where an unrecorded claim is never made. A real feed's
+depth and lane are derived from its coordinates (``with_derived_spot``).
 """
+import math
 import re
 
 HIT_SPOT_FIELDS = ('hardness', 'depth', 'lane')
@@ -45,6 +47,37 @@ CLAIMS = {
 }
 LINE_SIDES = {'left_line': 'left', 'right_line': 'right'}
 CENTER_SIDES = {'left_center': 'left', 'right_center': 'right'}
+
+
+HITS = ('Single', 'Double', 'Triple', 'Home Run')
+# Statcast hc_x / hc_y: home plate and feet per unit (fieldsim.coordinates).
+HOME_X, HOME_Y, FEET_PER_UNIT = 125.42, 198.27, 2.495
+
+
+def with_derived_spot(hit_data, outcome):
+    """A real feed's hitData with depth and lane derived from ``coordinates``
+    and ``totalDistance``, by the simulator's own rules (fieldsim.spot_facts).
+
+    Real StatsAPI balls carry coordinates, distance, trajectory and hardness
+    but not the extension fields. A ball that has either field (even null, as
+    the simulator writes "nothing notable") or no coordinates is unchanged.
+    """
+    hit_data = hit_data or {}
+    coordinates = hit_data.get('coordinates') or {}
+    x, y = coordinates.get('coordX'), coordinates.get('coordY')
+    if 'depth' in hit_data or 'lane' in hit_data or x is None or y is None:
+        return hit_data
+    import fieldsim
+    dx, dy = (x - HOME_X) * FEET_PER_UNIT, (HOME_Y - y) * FEET_PER_UNIT
+    fielded = math.hypot(dx, dy)
+    trajectory = hit_data.get('trajectory')
+    # A feed's coordinates are where the ball was fielded or caught; its
+    # totalDistance is the carry of a ball in the air.
+    carry = hit_data.get('totalDistance') if trajectory != 'ground_ball' else None
+    carry = carry if isinstance(carry, (int, float)) and carry > 0 else fielded
+    caught = trajectory != 'ground_ball' and outcome not in HITS and outcome != 'Field Error'
+    facts = fieldsim.spot_facts(math.degrees(math.atan2(dx, dy)), carry, trajectory, outcome, caught, fielded)
+    return {**hit_data, **facts} if facts else hit_data
 
 
 def has_spot_facts(hit_data):

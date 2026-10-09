@@ -122,7 +122,11 @@ claim is never made; elsewhere a ball with none of the fields keeps the older,
 unrestricted pools. A recorded depth or lane also sharpens the direction
 ("down the left field line", "to deep right center"). The simulator writes
 `hardness` from exit velocity and `depth`/`lane` from its field model
-(`fieldsim.spot`), so simulated games say the same facts; it has no pinch
+(`fieldsim.spot`; null when nothing is notable), so simulated games say the
+same facts. A real StatsAPI feed has neither extension field, so the renderer
+derives them from its `coordinates` and `totalDistance` by the same rules
+(`fieldsim.spot_facts`), and the anonymizer keeps those fields for the blind
+judge; it has no pinch
 hitters or season statistics, and the renderer says nothing about either when
 they are absent.
 

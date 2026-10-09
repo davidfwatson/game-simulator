@@ -1,7 +1,7 @@
 import re
 from commentary import GAME_CONTEXT
 from .helpers import simplify_pitch_type
-from .batted_ball import gate_templates, has_spot_facts, spot_direction, supported_claims
+from .batted_ball import gate_templates, has_spot_facts, spot_direction, supported_claims, with_derived_spot
 
 POS_NUMBERS = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
 
@@ -249,6 +249,9 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         template_outcome = "Field Error"
     elif template_outcome == "Popout":
         template_outcome = "Pop Out"
+
+    # A real feed carries coordinates, not the depth and lane extensions.
+    hit_data = with_derived_spot(hit_data, template_outcome)
 
     is_bunt = (pitch_details.get('isBunt', False)
                or str(hit_data.get('trajectory', '')).lower().startswith('bunt'))

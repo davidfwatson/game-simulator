@@ -1361,6 +1361,13 @@ GAME_CONTEXT = {
         "pinch_hitter_slot": [
             "And {batter_name} will step in to pinch hit in the {slot} spot."
         ],
+        "pinch_hitter_empty": [
+            "{outs_lead}, bases empty, and {batter_name} will pinch-hit here.",
+            "{outs_lead}, and that's going to bring up a pinch hitter, and that is going to be {batter_name}."
+        ],
+        "pinch_hitter_for_empty": [
+            "Bases empty, and {outs_count} now for {batter_name}, who will pinch-hit for {replaced}."
+        ],
         "pinch_hitter_for_slot": [
             "And {batter_name} steps in to pinch-hit for {replaced} in the {slot} spot.",
             "And now {batter_name} will pinch hit for {replaced} in the {slot} spot.",

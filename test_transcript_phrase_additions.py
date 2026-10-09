@@ -261,7 +261,7 @@ class TestTranscriptPlayAdditions(unittest.TestCase):
                        'two_out_double', 'two_out_walk'):
                 return {'batter_name', 'inning_context'}
             if key.startswith('pinch_hitter'):
-                return {'batter_name', 'replaced', 'slot'}
+                return {'batter_name', 'replaced', 'slot', 'outs_lead', 'outs_count'}
             if key in ('runner_scores', 'runner_to_third'):
                 return {'runner', 'origin'}
             if key.startswith('rbi_hit'):
@@ -272,10 +272,10 @@ class TestTranscriptPlayAdditions(unittest.TestCase):
             return {'last_name', 'wins', 'losses', 'era', 'wins_word', 'losses_word'}
         self.fail(f'No reviewed production formatting context for {pool}')
 
-    def test_all_228_play_entries_retain_exact_source_provenance_and_pool_membership(self):
-        # 178 from the source-mining pass, then 50 phrasings of newly recorded
+    def test_all_231_play_entries_retain_exact_source_provenance_and_pool_membership(self):
+        # 178 from the source-mining pass, then 53 phrasings of newly recorded
         # facts (pinch hitters, season records, runners who score, RBIs).
-        self.assertEqual(len(self.rows), 228)
+        self.assertEqual(len(self.rows), 231)
         self.assertEqual({row['episode'] for row in self.rows}, set(self.sources))
         seen = set()
         for row in self.rows:

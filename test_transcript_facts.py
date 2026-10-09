@@ -111,6 +111,41 @@ class TestBattedBallClaims(unittest.TestCase):
         self.assertTrue(any('warning track' in play_text(renderer, text, i) for i in track))
 
 
+class TestRealFeedSpots(unittest.TestCase):
+    """Real StatsAPI balls carry coordinates and distance, not depth/lane."""
+
+    def test_depth_and_lane_derived_from_coordinates_like_the_simulator(self):
+        from renderers.narrative.batted_ball import with_derived_spot
+        # A real feed's warning-track catch in left center and a grounder up the middle.
+        caught = {'launchSpeed': 103.6, 'launchAngle': 32, 'totalDistance': 365, 'trajectory': 'fly_ball',
+                  'hardness': 'hard', 'location': '8', 'coordinates': {'coordX': 82.0, 'coordY': 57.0}}
+        derived = with_derived_spot(caught, 'Flyout')
+        self.assertEqual((derived['depth'], derived['lane']), ('warning_track', 'left_center'))
+        dx, dy = (82.0 - 125.42) * 2.495, (198.27 - 57.0) * 2.495
+        import math
+        self.assertEqual({k: derived[k] for k in ('depth', 'lane')},
+                         fieldsim.spot_facts(math.degrees(math.atan2(dx, dy)), 365, 'fly_ball', 'Flyout', True,
+                                             math.hypot(dx, dy)))
+        grounder = {'trajectory': 'ground_ball', 'hardness': 'hard', 'totalDistance': 6,
+                    'coordinates': {'coordX': 126.0, 'coordY': 140.0}}
+        self.assertEqual(with_derived_spot(grounder, 'Single')['lane'], 'middle')
+        # Explicit fields win, including the simulator's "nothing notable".
+        self.assertEqual(with_derived_spot({**caught, 'depth': None, 'lane': None}, 'Flyout')['depth'], None)
+        self.assertEqual(with_derived_spot({**caught, 'depth': 'shallow'}, 'Flyout')['depth'], 'shallow')
+        self.assertNotIn('depth', with_derived_spot({'trajectory': 'fly_ball'}, 'Flyout'))
+
+    def test_anonymized_real_feed_keeps_location_phrasing(self):
+        from blind_judge import real_game, render
+        data = real_game('real_gameday.json', 7)
+        hits = [event['hitData'] for play in data['liveData']['plays']['allPlays']
+                for event in play['playEvents'] if 'hitData' in event]
+        self.assertTrue(all('coordinates' in hit for hit in hits if hit.get('trajectory')))
+        calls = [line.rsplit('...', 1)[-1] for line in render(data, 7).splitlines() if '...' in line]
+        spots = [call for call in calls if 'foul' not in call and re.search(
+            r'\b(?:gap|left center|right center|line|corner|wall|warning track|deep|shallow|up the middle)\b', call)]
+        self.assertGreaterEqual(len(spots), 15)
+
+
 class TestRunnersAndRuns(unittest.TestCase):
     def test_each_runner_who_scores_is_named(self):
         data = episode(13)
@@ -201,6 +236,20 @@ class TestPinchHitters(unittest.TestCase):
             intro = next(line for line in text.splitlines() if 'Babcock' in line and 'pinch' in line)
             self.assertNotIn('Shemper', intro)
             self.assertNotIn('spot', intro)
+
+
+class TestPinchHitterSituation(unittest.TestCase):
+    def test_bases_empty_intro_can_say_the_outs(self):
+        data = episode(35)
+        plays = data['liveData']['plays']['allPlays']
+        index = next(i for i, play in enumerate(plays) if play['matchup']['batter']['fullName'] == 'Benny Standingbear')
+        intros = set()
+        for draw in range(20):
+            plays[index]['commentaryRng'] = {'play_start': {'flow': [draw] * 12}}
+            renderer = NarrativeRenderer(copy.deepcopy(data))
+            intros.add(play_text(renderer, renderer.render(), index).splitlines()[0])
+        joined = ' '.join(intros)
+        self.assertIn('Bases empty, and two outs now for Benny Standingbear, who will pinch-hit for Frank Gibson.', joined)
 
 
 class TestStrikeoutNames(unittest.TestCase):

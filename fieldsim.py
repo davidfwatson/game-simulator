@@ -349,25 +349,34 @@ def spot(ball):
     supports; a field is left out when nothing notable applies (a routine
     fly at medium depth has no depth word).
     """
+    stop = (distance((0.0, 0.0), ball.release_point)
+            if ball.release_point and not ball.caught else ball.distance)
+    return spot_facts(ball.spray, ball.distance, ball.trajectory, ball.outcome, ball.caught, stop)
+
+
+def spot_facts(spray, dist, trajectory, outcome, caught, stop=None):
+    """``spot`` from plain numbers: spray angle (degrees, negative to left),
+    carry, trajectory, outcome, whether it was caught, and where a dropped
+    ball stopped. The renderer derives a real feed's depth and lane with it
+    from ``coordinates`` and ``totalDistance``, so both agree."""
     facts = {}
-    spray, dist = ball.spray, ball.distance
+    stop = dist if stop is None else stop
     side = 'left' if spray < 0 else 'right'
     fence = fence_distance(spray)
-    if ball.trajectory == 'ground_ball':
+    if trajectory == 'ground_ball':
         if abs(spray) < 6:
             facts['lane'] = 'middle'
         elif abs(spray) > 40:
             facts['lane'] = f'{side}_line'
-        elif ball.outcome == 'Single' and abs(spray) > 15:
+        elif outcome == 'Single' and abs(spray) > 15:
             facts['lane'] = f'{side}_side'
         return facts
     if dist < 150:
         return facts   # an infield pop-up or liner
-    if ball.outcome != 'Home Run':
-        stop = distance((0.0, 0.0), ball.release_point) if ball.release_point and not ball.caught else dist
-        if ball.caught and dist >= fence - 20:
+    if outcome != 'Home Run':
+        if caught and dist >= fence - 20:
             facts['depth'] = 'warning_track'
-        elif not ball.caught and stop >= fence - 3:
+        elif not caught and stop >= fence - 3:
             facts['depth'] = 'wall'
         elif dist >= 300:
             facts['depth'] = 'deep'

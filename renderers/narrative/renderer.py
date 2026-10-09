@@ -352,7 +352,19 @@ class NarrativeRenderer(GameRenderer):
             templates += pools['pinch_hitter_slot']
         if replaced and slot:
             templates += pools['pinch_hitter_for_slot']
-        text = self.rng_flow.choice(templates).format(batter_name=batter_name, replaced=replaced, slot=slot)
+        if not runners:
+            # With nobody on the hosts sometimes lead with the outs: "One
+            # away, bases empty for the pitcher spot, and Hank Bartok will
+            # pinch-hit here", "Bases empty, and two outs now for Benny
+            # Standingbear, who will pinch-hit for Frank Gibson."
+            templates += pools['pinch_hitter_empty']
+            if replaced:
+                templates += pools['pinch_hitter_for_empty']
+        outs = self.outs_tracker
+        outs_lead = ('Nobody out', 'One away', 'Two outs')[min(outs, 2)]
+        outs_count = ('nobody out', 'one out', 'two outs')[min(outs, 2)]
+        text = self.rng_flow.choice(templates).format(batter_name=batter_name, replaced=replaced, slot=slot,
+                                                      outs_lead=outs_lead, outs_count=outs_count)
         if runners:
             if len(runners) == 3:
                 on = 'the bases loaded'

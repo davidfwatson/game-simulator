@@ -1918,5 +1918,32 @@
     "expected": "and that's a three-run homer for clifton santiago",
     "requires": "A home run with its recorded RBI.",
     "source_text": "And that's a three-run homer for Clifton Santiago, and the Tigers now lead 5-nothing."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_empty",
+    "template": "{outs_lead}, bases empty, and {batter_name} will pinch-hit here.",
+    "episode": 13,
+    "line": 485,
+    "expected": "one away, bases empty for the pitcher spot, and hank bartok will pinch-hit here",
+    "requires": "Pinch hitter (Offensive Substitution action) with the bases empty.",
+    "source_text": "One away, bases empty for the pitcher spot, and Hank Bartok will pinch-hit here in the bottom of the eighth."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_empty",
+    "template": "{outs_lead}, and that's going to bring up a pinch hitter, and that is going to be {batter_name}.",
+    "episode": 1,
+    "line": 430,
+    "expected": "one away, and that's going to bring up a pinch hitter, and that is going to be nigel hickson",
+    "requires": "Pinch hitter (Offensive Substitution action) with the bases empty.",
+    "source_text": "One away, and that's going to bring up a pinch hitter, and that is going to be Nigel Hickson."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for_empty",
+    "template": "Bases empty, and {outs_count} now for {batter_name}, who will pinch-hit for {replaced}.",
+    "episode": 35,
+    "line": 331,
+    "expected": "bases empty, and two outs now for benny standingbear, who will pinch-hit for frank gibson",
+    "requires": "Pinch hitter (Offensive Substitution action) with the bases empty, with a recorded replacedPlayer.",
+    "source_text": "Bases empty, and two outs now for Benny Standingbear, who will pinch-hit for Frank Gibson."
   }
 ]
