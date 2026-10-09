@@ -11,9 +11,15 @@ from test_transcript_games import ledger_with, record, movement
 from transcript_game_fixtures import compile_game
 
 
+# Which out a play made ("for out number one") is drawn from a pool whose
+# first entry is the renderer's old fixed phrase; these routes take it.
+OUT_CONTEXTS = [pool for key, pool in GAME_CONTEXT['narrative_strings'].items() if key.startswith('out_context_')]
+
+
 def render(records):
     data = compile_game(ledger_with(records), ('Source.\n' * 100).encode())
-    with patch.object(ChoiceRNG, 'random', return_value=0.0), patch.object(ChoiceRNG, 'choice', lambda self, seq: seq[-1]):
+    last = lambda self, seq: seq[0] if any(seq is pool for pool in OUT_CONTEXTS) else seq[-1]
+    with patch.object(ChoiceRNG, 'random', return_value=0.0), patch.object(ChoiceRNG, 'choice', last):
         return NarrativeRenderer(data).render()
 
 

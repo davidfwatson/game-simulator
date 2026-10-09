@@ -15,7 +15,7 @@ def location_from_words(text, code):
     text = text.casefold()
     if code not in ('B', 'C'):
         return None
-    inside = bool(re.search(r'\binside\b|\b(?:up|down) and in\b|brushes him back', text))
+    inside = bool(re.search(r'\binside\b|\btight\b|\b(?:up|down|low|high) and in\b|brushes him back', text))
     outside = bool(re.search(r'\boutside\b|\bwide\b|\b(?:up|down|low|high) and away\b', text))
     high = bool(re.search(r'\bhigh\b|\bupstairs\b|\bup and (?:in|away)\b', text))
     low = bool(re.search(r'\blow\b|\bdownstairs\b|\bat the knees\b|\bdown and (?:in|away)\b', text))

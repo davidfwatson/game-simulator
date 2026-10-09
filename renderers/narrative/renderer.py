@@ -19,6 +19,9 @@ NUMBERED_CALL = re.compile(r'\b(ball|strike) (one|two|three)\b', re.I)
 # point and simulated games say it at the hosts' rate. Measured with
 # `python optional_sentence_rates.py` over the 21 Sleep Baseball sources (17
 # ledgered broadcasts plus the four PBP references), host asides excluded.
+# A sentence that returns from a between-innings break.
+BREAK_RETURN = re.compile(r"^(?:And )?(?:welcome back|we're back|greetings again|Wally McCarthy and Producer Phil)", re.I)
+
 OPTIONAL_SENTENCE_RATES = {
     # The count after a call that already numbers it ("Inside for ball two.
     # Two and oh."): said after 16 of 159 numbered calls, 10.1%.
@@ -39,6 +42,10 @@ OPTIONAL_SENTENCE_RATES = {
     # The runs a home run drove in ("And that's a two-run homer for Steve
     # McDykel."): 26 of 33 home runs (walk-offs excluded), 78.8%.
     'home_run_runs': 0.79,
+    # A return from a between-innings break ("And welcome back with us from
+    # Kittamori Park.", "Wally McCarthy and producer Phil back with you."):
+    # 163 of 326 breaks, 50.0%. It was a 15% colour gate before.
+    'break_return': 0.50,
 }
 
 
@@ -216,11 +223,16 @@ class NarrativeRenderer(GameRenderer):
         )
 
     def _get_foul_description(self):
-        # On 2nd+ consecutive foul, chance to say "he fouls another one off"
+        # On 2nd+ consecutive foul, chance to say "he fouls another one off".
         # Both the probability gate and phrase draws can be controlled in fixtures.
-        if self.consecutive_fouls >= 1 and self.rng_pitch.random() < 0.3:
-            self.last_foul_phrase = 'he fouls another one off'
-            return 'he fouls another one off'
+        # The hosts say one 2.7 times a game (46 of 61 fouls after a foul), but a
+        # simulated game throws about 19 fouls after a foul to their 3.6, so the
+        # gate keeps a simulated game near the hosts' count rather than their
+        # per-chance rate, which would say it 14 times a game.
+        if self.consecutive_fouls >= 1 and self.rng_pitch.random() < 0.15:
+            phrase = self.rng_pitch.choice(GAME_CONTEXT['narrative_strings']['foul_another'])
+            self.last_foul_phrase = phrase
+            return phrase
 
         options = GAME_CONTEXT['pitch_locations']['foul']
 
@@ -409,6 +421,37 @@ class NarrativeRenderer(GameRenderer):
                                wins_word=self._get_number_word(wins) if spelled else '',
                                losses_word=self._get_number_word(losses) if spelled else '')
 
+    def _out_context(self, result_outs, play=None):
+        """Which out it was: "for out number two", "for the second out of the
+        inning", "to end the inning", or on the game's last out "to end the
+        ball game", drawn as often as the hosts say each."""
+        key = {1: 'out_context_one', 2: 'out_context_two'}.get(result_outs, 'out_context_three')
+        plays = self.gameday_data.get('liveData', {}).get('plays', {}).get('allPlays', [])
+        broadcast = self.gameday_data.get('gameData', {}).get('broadcast', {})
+        if (result_outs == 3 and play is not None and plays and play is plays[-1]
+                and broadcast.get('complete', True)
+                and play['about']['inning'] >= self.gameday_data['gameData'].get('game', {}).get('scheduledInnings', 9)):
+            key = 'out_context_game'
+        return self.rng_play.choice(GAME_CONTEXT['narrative_strings'][key])
+
+    @staticmethod
+    def _network_with_article(name):
+        """'the Northwoods Baseball Radio Network': the hosts say the article
+        every time (361 of 361 mentions), so templates read "here on
+        {network_name}" and "WSLP and {network_name}" and a sentence that
+        opens with it is capitalized."""
+        return 'the ' + (name[4:] if name.lower().startswith('the ') else name)
+
+    @staticmethod
+    def _score_word(n, zero='nothing'):
+        """Scores as the hosts say them: "Tigers two, Ravens nothing"."""
+        words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+                 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+                 'seventeen', 'eighteen', 'nineteen', 'twenty']
+        if n == 0:
+            return zero
+        return words[n] if 0 <= n < len(words) else str(n)
+
     def _get_short_team_name(self, team_dict):
         """Extract short team name (e.g. 'Cadillac Cars' -> 'Cars').
 
@@ -424,6 +467,8 @@ class NarrativeRenderer(GameRenderer):
         """Get phrase like 'one and a half', 'two', 'three and a half'."""
         num_word = self._get_number_word(completed_innings)
         if half == 'Bottom':
+            if completed_innings == 0:
+                return "a half"  # "And after a half, it's Ravens nothing."
             return f"{num_word} and a half"
         return num_word
 
@@ -441,10 +486,11 @@ class NarrativeRenderer(GameRenderer):
         except ValueError:
             return "the next three hitters"
 
+        # "the seven, eight, and nine hitters", spoken as the hosts say it.
         spots = []
         for i in range(3):
             spot = (idx + i) % len(batting_order) + 1
-            spots.append(str(spot))
+            spots.append(self._score_word(spot))
         return f"the {', '.join(spots[:-1])}, and {spots[-1]} hitters"
 
     def _get_consecutive_retired(self, upto=None, pitcher_id=None):
@@ -501,6 +547,19 @@ class NarrativeRenderer(GameRenderer):
         lead_team = self.away_team['name'] if score_away > score_home else self.home_team['name']
         return f"{lead_team} lead"
 
+    def _score_lead(self, score_away, score_home):
+        """The hosts' score sentence: "The Tigers lead the Ravens two to one",
+        "The Tigers and the Ravens are tied at one", "No score"."""
+        away, home = self._get_short_team_name(self.away_team), self._get_short_team_name(self.home_team)
+        if score_away == score_home:
+            if score_away == 0:
+                return "No score"
+            return f"The {away} and the {home} are tied at {self._score_word(score_away)}"
+        lead, trail = (away, home) if score_away > score_home else (home, away)
+        high, low = max(score_away, score_home), min(score_away, score_home)
+        tail = f"{self._score_word(high)} nothing" if low == 0 else f"{self._score_word(high)} to {self._score_word(low)}"
+        return f"The {lead} lead the {trail} {tail}"
+
     def _get_natural_score_phrase(self, score_away, score_home):
         """Get a natural language score phrase for intros and recaps.
 
@@ -525,12 +584,14 @@ class NarrativeRenderer(GameRenderer):
         if score_away == score_home:
             return f"tied at {score_word(score_away)}"
 
+        # "Tigers leading two-to-one": the hosts name a team by its full name
+        # in 136 of 1,584 mentions in the 17 broadcasts, by nickname in 977.
         if score_away > score_home:
-            lead_team = self.away_team['name']
+            lead_team = self._get_short_team_name(self.away_team)
             lead_score = score_away
             trail_score = score_home
         else:
-            lead_team = self.home_team['name']
+            lead_team = self._get_short_team_name(self.home_team)
             lead_score = max(score_away, score_home)
             trail_score = min(score_away, score_home)
 
@@ -735,14 +796,17 @@ class NarrativeRenderer(GameRenderer):
 
 
         broadcast = self.gameday_data['gameData'].get('broadcast', {})
-        network_name = broadcast.get('network_name') or GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network')
+        network_name = self._network_with_article(
+            broadcast.get('network_name') or GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network'))
         station_call = broadcast.get('station_call') or GAME_CONTEXT.get('station_call', 'KSLP')
         self._network_name = network_name
         self._station_call = station_call
         location_context = get_location_phrases(self.home_team)
         home_location = location_context['location_with_state']
         away_location = get_location_phrases(self.away_team)['location_with_state']
-        add_line(self._get_radio_string('station_intro', {'network_name': network_name}))
+        station_intro = self._get_radio_string('station_intro', {'network_name': network_name,
+                                                                 'station_call': station_call})
+        add_line(station_intro[:1].upper() + station_intro[1:])
         welcome = self._get_radio_string('welcome_intro')
         venue_loc = f"{venue} in {home_location}" if home_location else venue
         away_loc = f" of {away_location}" if away_location else ""
@@ -854,7 +918,9 @@ class NarrativeRenderer(GameRenderer):
                         if broadcast.get('strictFacts') and pitch_hand == 'unknown':
                             string_options = [text for text in string_options if '{pitch_hand}' not in text]
                             if not string_options:
-                                string_options = [f"Batting {batting_pos}, {pos_str} {{player_name}}."]
+                                # "And batting ninth, starting pitcher Frank Gibson." (35 of 37
+                                # times the hosts say the ninth spot; never "Batting 9").
+                                string_options = [f"And batting {self._get_ordinal(batting_pos)}, {pos_str} {{player_name}}."]
 
                         template = self.rng_color.choice(string_options)
 
@@ -962,7 +1028,11 @@ class NarrativeRenderer(GameRenderer):
 
                      hits_in_inning, lob = self._get_half_inning_stats()
                      station_call = self._station_call
-                     innings_word = self._get_innings_word(completed_innings, prev_half)
+                     # Full innings in the books: after the top of the fourth
+                     # that is three ("after three and a half"), after the
+                     # bottom of the fourth, four ("after four").
+                     full_innings = completed_innings - 1 if prev_half == 'Top' else completed_innings
+                     innings_word = self._get_innings_word(full_innings, 'Bottom' if prev_half == 'Top' else 'Top')
                      batting_team_prev = self.away_team['name'] if prev_half == 'Top' else self.home_team['name']
                      fielding_team_prev = self.home_team['name'] if prev_half == 'Top' else self.away_team['name']
                      next_pitcher_name = ' '.join(play['matchup']['pitcher']['fullName'].split()[1:])
@@ -983,7 +1053,8 @@ class NarrativeRenderer(GameRenderer):
                      else:
                          lead_team = self.away_team['name'] if score_away > score_home else self.home_team['name']
                          trail_team = self.home_team['name'] if score_away > score_home else self.away_team['name']
-                         score_str = f"{lead_team} {max(score_away, score_home)}, {trail_team} {min(score_away, score_home)}"
+                         score_str = (f"{lead_team} {self._score_word(max(score_away, score_home))}, "
+                                      f"{trail_team} {self._score_word(min(score_away, score_home))}")
 
                      weather_desc = "perfect night for a ball game"
 
@@ -996,20 +1067,22 @@ class NarrativeRenderer(GameRenderer):
 
                      ctx = {
                          'inning_ordinal': self._get_ordinal(completed_innings),
-                         'inning_count_word': self._get_number_word(completed_innings),
+                         # "after six and a half" in the middle of the seventh.
+                         'inning_count_word': innings_word if prev_half == 'Top' else self._get_number_word(full_innings),
                          'away_team_name': self.away_team['name'],
                          'home_team_name': self.home_team['name'],
                          'away_short': away_short,
                          'home_short': home_short,
-                         'score_away': score_away,
-                         'score_home': score_home,
+                         # Spoken, as the hosts say every score: "Tigers two, Ravens one".
+                         'score_away': self._score_word(score_away),
+                         'score_home': self._score_word(score_home),
                          'leading_team': self.away_team['name'] if score_away > score_home else self.home_team['name'],
                          'trailing_team': self.home_team['name'] if score_away > score_home else self.away_team['name'],
                          'leading_short': leading_short,
                          'trailing_short': trailing_short,
                          'score_lead': f"{max(score_away, score_home)}-{min(score_away, score_home)}",
-                         'leading_score_val': max(score_away, score_home),
-                         'score_trail': min(score_away, score_home),
+                         'leading_score_val': self._score_word(max(score_away, score_home)),
+                         'score_trail': self._score_word(min(score_away, score_home)),
                          'score': self._get_number_word(score_away) if score_away == score_home else score_away,
                          **location_context,
                          'venue': venue,
@@ -1117,17 +1190,22 @@ class NarrativeRenderer(GameRenderer):
                      skip_score_summary = outro_mentions_score
                      if not skip_score_summary:
                          if score_away == score_home:
-                             if score_away == 0:
-                                 summary_lines.append(self._get_radio_string('inning_summary_scoreless', ctx))
-                             else:
-                                 summary_lines.append(self._get_radio_string('inning_summary_tied', ctx))
+                             key = 'inning_summary_scoreless' if score_away == 0 else 'inning_summary_tied'
                          elif half == 'Top' and completed_innings > 0:
-                             summary_lines.append(self._get_radio_string('inning_summary_score', ctx))
+                             key = 'inning_summary_score'
                          elif runs_scored_this_half > 0:
                              # Score just changed this half, use active score report
-                             summary_lines.append(self._get_radio_string('inning_summary_score', ctx))
+                             key = 'inning_summary_score'
                          else:
-                             summary_lines.append(self._get_radio_string('inning_summary_remains', ctx))
+                             key = 'inning_summary_remains'
+                         templates = list(GAME_CONTEXT['radio_strings'][key])
+                         if half == 'Bottom' and inning == 7:
+                             # "And as we head into the stretch, it remains..."
+                             templates += GAME_CONTEXT['radio_strings'].get(key + '_stretch', [])
+                         if prev_half == 'Top':
+                             # "Four in the books" only ever ends a full inning.
+                             templates = [t for t in templates if 'in the books' not in t] or templates
+                         summary_lines.append(self.rng_color.choice(templates).format(**ctx))
 
                      # --- "WE'LL BE BACK" CLOSER ---
                      if half == 'Top':
@@ -1148,21 +1226,6 @@ class NarrativeRenderer(GameRenderer):
                      lines.append(summary_text)
                      lines.append("")
 
-                     # --- OPTIONAL COLOR / RETURN LINE ---
-                     # "Wally McCarthy and Producer Phil back with you..." style return
-                     if self.rng_color.random() < 0.15 and 3 <= inning <= 8:
-                         intro_ctx = {
-                             'venue': venue, **location_context,
-                             'score_str': score_str,
-                             'weather_desc': weather_desc,
-                             'batting_team': next_batting_team,
-                             'due_up_desc': due_up_desc,
-                             'pitcher_name': next_pitcher_name
-                         }
-                         return_line = self._get_radio_string('inning_break_return', intro_ctx)
-                         lines.append(return_line)
-                         lines.append("")
-
                      # Hardcoded 15s delay for inning break
                      lines.append("[TTS SPLIT HERE DELAY:15.0s]")
 
@@ -1179,12 +1242,31 @@ class NarrativeRenderer(GameRenderer):
                          'batting_team_short': next_batting_team_short,
                          'due_up_desc': due_up_desc,
                          'pitcher_name': next_pitcher_name,
-                         'weather_desc': weather_desc
+                         'weather_desc': weather_desc,
+                         'network_name': network_name,
+                         'station_call': station_call,
+                         'score_lead': self._score_lead(score_away, score_home),
                      }
-                     if half == "Top":
-                         add_line(self._get_radio_string('inning_break_intro_top', intro_ctx))
-                     else:
-                         add_line(self._get_radio_string('inning_break_intro_bottom', intro_ctx))
+                     intro_key = 'inning_break_intro_top' if half == "Top" else 'inning_break_intro_bottom'
+                     intros = GAME_CONTEXT['radio_strings'][intro_key]
+                     returning = [t for t in intros if BREAK_RETURN.match(t)]
+                     plain = [t for t in intros if not BREAK_RETURN.match(t)]
+                     # --- RETURN FROM THE BREAK ---
+                     # "And welcome back with us from Kittamori Park." The hosts
+                     # say a return at 163 of 326 breaks (break_return), as its
+                     # own sentence or opening the inning introduction.
+                     # Both choices are drawn either way, so saying or dropping
+                     # the return never shifts a colour draw.
+                     returns = (GAME_CONTEXT['radio_strings']['inning_break_intro']
+                                + GAME_CONTEXT['radio_strings']['inning_break_return'])
+                     return_template = self.rng_color.choice(returns + returning)
+                     intro_template = self.rng_color.choice(plain)
+                     if self._optional('break_return'):
+                         if return_template in returning:
+                             intro_template = return_template
+                         else:
+                             add_line(return_template.format(**intro_ctx))
+                     add_line(intro_template.format(**intro_ctx))
                      lines.append("")
 
                 else:
@@ -1209,7 +1291,8 @@ class NarrativeRenderer(GameRenderer):
                             'batting_team_short': next_batting_team_short,
                             'due_up_desc': due_up_desc,
                             'pitcher_name': next_pitcher_name,
-                            'weather_desc': "perfect night for a ball game"
+                            'weather_desc': "perfect night for a ball game",
+                            'score_lead': self._score_lead(score_away, score_home),
                         }
                         if half == "Top":
                             add_line(self._get_radio_string('inning_break_intro_top', intro_ctx))
@@ -1249,10 +1332,9 @@ class NarrativeRenderer(GameRenderer):
             batter_name = matchup['batter']['fullName']
             play_text_blocks = []
 
-            outs_str = f"{self.outs_tracker} out{'s' if self.outs_tracker != 1 else ''}"
-            if self.outs_tracker == 1: outs_str = "one away"
-            elif self.outs_tracker == 2: outs_str = "two down"
-            else: outs_str = "nobody out"
+            # "one away" / "one out" / "one down", weighted as the hosts say them.
+            outs_key = {0: 'outs_none', 1: 'outs_one'}.get(self.outs_tracker, 'outs_two')
+            outs_str = self.rng_flow.choice(GAME_CONTEXT['narrative_strings'][outs_key])
 
             team_name = self.home_team['name'] if not about['isTopInning'] else self.away_team['name']
 
@@ -1300,14 +1382,17 @@ class NarrativeRenderer(GameRenderer):
                     batter_pos = self.gameday_data['gameData']['players'][batter_id]['primaryPosition']['name']
 
                 pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
+                team_short = self._get_short_team_name(self.home_team if not about['isTopInning'] else self.away_team)
                 intro_txt = intro_template.format(
                     batter_name=batter_name,
                     team_name=team_name,
+                    team_short=team_short,
+                    team_short_possessive=team_short + ("'" if team_short.endswith('s') else "'s"),
                     outs_str=outs_str,
                     position=batter_pos.lower(),
                     pitcher_name=pitcher_name
                 )
-                play_text_blocks.append(intro_txt)
+                play_text_blocks.append(intro_txt[:1].upper() + intro_txt[1:])
 
             else:
                  if len(runners) == 3:
@@ -1788,9 +1873,7 @@ class NarrativeRenderer(GameRenderer):
                 if result_outs == 2: result_outs_word = "two"
                 elif result_outs == 3: result_outs_word = "three"
 
-                out_context_str = f"for out number {result_outs_word}"
-                if result_outs == 3:
-                    out_context_str = "to end the inning"
+                out_context_str = self._out_context(result_outs, play)
 
                 # Check for specific narrative templates based on context
                 template_found = False
@@ -2240,9 +2323,15 @@ class NarrativeRenderer(GameRenderer):
         ctx = {
             'win_team': win_team, 'win_runs': win_runs, 'win_hits': win_hits, 'win_errors': win_errors,
             'lose_team': lose_team, 'lose_runs': lose_runs, 'lose_hits': lose_hits, 'lose_errors': lose_errors,
-            'network_name': getattr(self, '_network_name', GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network'))
+            'network_name': getattr(self, '_network_name', self._network_with_article(
+                GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network'))),
+            'station_call': getattr(self, '_station_call', GAME_CONTEXT.get('station_call', 'KSLP')),
         }
+        for key in ('win_runs', 'win_hits', 'win_errors', 'lose_runs', 'lose_hits', 'lose_errors'):
+            ctx[key] = self._score_word(ctx[key], zero='no')
         summary_text = self._get_radio_string('game_summary', ctx)
+        # "one runs on one hits" -> "one run on one hit"
+        summary_text = re.sub(r'\bone (run|hit|error)s\b', r'one \1', summary_text)
 
 
         outro_text = self._get_radio_string('outro', ctx)

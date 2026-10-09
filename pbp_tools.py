@@ -39,7 +39,11 @@ class TracingRNG:
         if not seq:
             raise IndexError("Cannot choose from an empty sequence")
         # Ask for an index so duplicate values in a pool remain distinguishable.
-        selected_index = self.rng.choice(range(len(seq)))
+        if hasattr(self.rng, 'choice_index'):
+            # Keeps the pool's template weights when the draw falls back.
+            selected_index = self.rng.choice_index(seq)
+        else:
+            selected_index = self.rng.choice(range(len(seq)))
         value = seq[selected_index]
         self.calls.append({
             'type': 'choice',

@@ -79,7 +79,8 @@ class TestOptionalSentences(unittest.TestCase):
             dropped = set(dropped_text.splitlines())
             pairs = 0
             for line in said:
-                match = re.search(r', (?:for out number (?:one|two)|to end the inning)\.$', line)
+                match = re.search(r', (?:for out number (?:one|two|three)|for the (?:first|second|third) out'
+                                  r'(?: of the (?:inning|frame))?|to end the (?:inning|ball game))\.$', line)
                 if not match:
                     continue
                 shorter = line[:match.start()]

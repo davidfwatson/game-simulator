@@ -56,6 +56,7 @@ class Unit:
     tokens: list = field(default_factory=list)    # (token, start, end)
     rendered_tokens: list = field(default_factory=list)
     rendered_matched: list = field(default_factory=list)
+    first_line: int = None  # one-based source line where ``text`` begins
 
 
 def tokenize(text):
@@ -98,16 +99,19 @@ def ledger_units(episode):
     units = []
     first = plays[0]['source']['start']
     first_out = renderer._play_line_map[0][0]
-    units.append(Unit(stem, 'pregame', '\n'.join(lines[:first - 1]), '\n'.join(out[:first_out])))
+    units.append(Unit(stem, 'pregame', '\n'.join(lines[:first - 1]), '\n'.join(out[:first_out]),
+                      first_line=1))
     previous_end = first - 1
     for index, play in enumerate(plays):
         start, end = play['source']['start'], play['source']['end']
         low = min(start, previous_end + 1)
         lo, hi = renderer._play_line_map[index]
-        units.append(Unit(stem, index, '\n'.join(lines[low - 1:end]), '\n'.join(out[lo:hi]), play))
+        units.append(Unit(stem, index, '\n'.join(lines[low - 1:end]), '\n'.join(out[lo:hi]), play,
+                          first_line=low))
         previous_end = max(previous_end, end)
     units.append(Unit(stem, 'postgame', '\n'.join(lines[previous_end:]),
-                      '\n'.join(out[renderer._play_line_map[len(plays) - 1][1]:])))
+                      '\n'.join(out[renderer._play_line_map[len(plays) - 1][1]:]),
+                      first_line=previous_end + 1))
     return [align(unit) for unit in units]
 
 
@@ -166,8 +170,9 @@ def reference_units(example):
             while end_token < len(src_tokens) and src_tokens[end_token][1] < stop:
                 end_token += 1
         else:
-            piece = ''
-        units.append(align(Unit(stem, index, piece, text, play)))
+            piece, begin = '', len(source)
+        units.append(align(Unit(stem, index, piece, text, play,
+                                first_line=source.count('\n', 0, begin) + 1)))
         cursor = max(cursor, end_token)
     return units
 
@@ -406,6 +411,7 @@ class Missed:
     words: int              # unmatched words in the clause
     cause: str
     kind: str
+    start: int = 0          # offset of the clause in ``unit.text``
 
 
 def census(units):
@@ -421,9 +427,10 @@ def census(units):
                 token_index += 1
             if not missed:
                 continue
-            clause = unit.text[start:end].strip()
+            raw = unit.text[start:end]
+            clause = raw.strip()
             cause, kind = classify(clause, unit)
-            misses.append(Missed(unit, clause, missed, cause, kind))
+            misses.append(Missed(unit, clause, missed, cause, kind, start + len(raw) - len(raw.lstrip())))
     return misses
 
 

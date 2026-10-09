@@ -281,7 +281,8 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
                 'flow': [0, 99, 99], 'color': [],
             }}
             play['playEvents'].append(event)
-        play['commentaryRng'] = {'play_outcome': {'play': [99, 0]}}
+        # The first play draw says which out it was (out_context_one[0]).
+        play['commentaryRng'] = {'play_outcome': {'play': [0, 99, 0]}}
         play['matchup']['pitcher']['fullName'] = 'Javier Von Neumann'
         data['liveData']['plays']['allPlays'] = [play]
         text = NarrativeRenderer(data).render()
@@ -297,7 +298,7 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
         final['details'].pop('location', None)
         final['details']['type'] = {'code': 'FF', 'description': 'Fastball'}
         final['commentaryRng'] = {'event': {'pitch': [0], 'flow': [0, 99, 99]}}
-        play['commentaryRng'] = {'play_outcome': {'play': [99, 2]}}
+        play['commentaryRng'] = {'play_outcome': {'play': [0, 99, 2]}}
         data['liveData']['plays']['allPlays'] = [play]
         text = NarrativeRenderer(data).render()
         self.assertIn('Swung on and missed. And down goes Bradleys for out number one.', text)

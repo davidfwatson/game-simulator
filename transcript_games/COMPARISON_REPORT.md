@@ -12,6 +12,160 @@ shared five-word sequences over the entire broadcast. TTS markers are excluded
 from both. Exact lines require identical normalized content, not just shared
 vocabulary.
 
+## The hosts' wording, by frequency
+
+The census below found that 84% of the remaining unmatched source words were
+wording: the fixture had the fact and the renderer said it differently. This
+pass mined that wording, added it where it recurs, and fixed two fitter limits
+that kept the hosts' phrasing out of reach even when a pool already held it.
+
+**Mining.** `python wording_mining.py` assigns every source clause (asides
+excluded) to the renderer situation it narrates, from the ledgers' line facts:
+a pitch by code and location, a batted ball by outcome, trajectory and fielder,
+the batter introduction, the half-inning transition, pregame and postgame. It
+normalises each clause into a slot template ("{pitcher} deals, {pitch_type}
+low and away") and counts the hosts' uses, episodes and missed words.
+
+**Fitter.** Choices are scored before formatting, and a template slot used to
+be dropped, so "The {count_str} pitch..." read as the bigram "the pitch",
+which never matches, and the fitter preferred "The one-oh..." to the hosts'
+"The one-oh pitch...". A slot is now a gap no n-gram spans. Second, each gate
+is searched jointly with the next gate of its stream at the same point: the
+at-bat recap's gate never opened while its format draw pointed at the wrong
+form, so "Diaz is oh for three this evening" was unreachable.
+
+**Templates.** 54 templates, every one said in at least two episodes, were
+appended to the pools of their situation (`WORDING_ADDITIONS` in
+`commentary.py`, measured in `transcript_wording_additions.json`):
+
+| Situation | Added | Example |
+|---|---:|---|
+| Return from the break | 8 | "And welcome back with us from {venue} here in {location_with_state}." |
+| Inning introduction | 7 | "{score_lead} as we begin the bottom of the {inning_ordinal}." ("The Tigers lead the Ravens two to one as we begin...") |
+| Score at the break, incl. the seventh-inning stretch | 8 | "And as we head into the stretch, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}." |
+| Batter introduction | 7 | "And {batter_name} is due up against {pitcher_name}.", "...at the top of the {team_short_possessive} order." |
+| How many out ("one out", "one down", "two outs", ...) | 5 | new pools whose first entry is the old fixed "one away" |
+| Which out ("for the first out of the inning", "to end the ball game", ...) | 8 | new pools whose first entry is the old "for out number one" |
+| Pitch calls | 4 | "And that's a {pitch_type_lower} in the dirt", "brushes him back" |
+| Counts and fouls | 5 | ", full count", "And he fouls another one off" |
+| Pregame and postgame | 2 | "You're drifting off with {station_call} AM." |
+
+Each is weighted by its measured rate (`commentary.TEMPLATE_WEIGHTS`): in a
+pool of `N` original templates, phrasings the hosts use at rates `s_i` get
+`w_i = s_i * N / (1 - sum(s))`, so a simulated game draws each at the hosts'
+rate. Weights run from 0.008 ("and it's two and one", 19 of 4,566 counts) to
+48 for phrasings at the 0.8 share cap ("And as we head into the stretch", 13 of
+15 stretches; "You're drifting off with WSLP AM", every episode). Fixture draws
+index pools directly, so the fitter sees every template.
+
+**Values.** Several sentences were right except for a value the hosts never
+use: "the Northwoods Baseball Radio Network" (the article in 361 of 361
+mentions), spoken scores and lineup spots ("Tigers two, Ravens nothing", "the
+seven, eight, and nine hitters", "And batting ninth", not "Tigers 2", "the 7,
+8, and 9 hitters", "Batting 9"), nicknames in the score phrase (the hosts say a
+team's full name 136 times and its nickname 977 times in the 17 broadcasts),
+and the half inning, which was on the wrong side of every break ("after one
+and a half" after the bottom of the first). "In the books" is said only at
+full-inning breaks, so it is no longer offered mid-inning. 59 ledger balls the
+hosts called "high and tight" or "low and in" were recorded as just high or
+low; they are now `high_inside` and `low_inside`, and the annotator reads
+"tight" as inside.
+
+**The return line.** The hosts return from a break ("And welcome back with us
+from Kittamori Park", "Wally McCarthy and producer Phil back with you") at 163
+of 326 breaks, 50.0% (`optional_sentence_rates.py`, 141 of 268 in the ledgers,
+22 of 58 in the references). The renderer said it at 15% of breaks in innings
+three to eight, before the break's delay marker. It is now the optional
+sentence `break_return`, said at 50% of every break after the delay, as its
+own sentence or opening the introduction, drawn by form frequency.
+
+**Repetition in simulated games.** `python template_repetition.py` renders 50
+simulated games and counts each template that reaches the page; `--check`
+fails if an added template averages more uses per game than the hosts' rate
+allows (`1.25 * said/17` plus sampling noise), and the test suite runs it on 30
+games. Before and after (`--compare`, 50 games, base `origin/main`):
+
+| | Before | After |
+|---|---:|---:|
+| Uses of the most-repeated template in a game (mean) | 14.6 | 14.1 |
+| "A high {pitch}, called {strike_call}" per game | 9.1 | 2.1 |
+| "And that high {pitch} is called {strike_call}" per game | 9.4 | 1.4 |
+| Top template ("And the {count_str}...") per game | 11.1 | 11.1 |
+| Added template with the most uses ("{score_lead} as we begin the bottom of the {inning_ordinal}.") | | 3.9 (hosts 2.8, limit 4.3) |
+
+The two "high ... called" calls were a tell already: a tracked zone 1-3 gave
+them a pool of two. A zone-inferred called strike now also offers the plain
+calls that claim no spot. The foul-after-foul phrase stays behind a gate, now
+0.15: the hosts say one at 46 of 61 fouls after a foul, 2.7 a game, but a
+simulated game throws 19 fouls after a foul to their 3.6 (the simulator's foul
+rate is a separate problem), so it splits "he fouls another one off", which
+was 5.7 a game, into three phrasings near the hosts' count. How many out and
+which out are clause values every appearance states; they were one fixed
+phrase each and are left out of the count.
+
+All 21 fixtures were refitted (the 78 focused cases recompiled and pass; the
+component inventory supports 4,759 of 6,035 clauses, up from 4,701):
+
+| Episode | Word overlap | 5-gram recall | Ordered words per appearance | Exact content lines |
+|---|---:|---:|---:|---:|
+| [001](../examples/transcript_games/episode_001.txt) | 50.1% → 51.8% | 16.4% → 19.6% | 52.9% → 55.6% | 0.5% → 0.9% |
+| [005](../examples/transcript_games/episode_005.txt) | 64.7% → 66.9% | 28.6% → 36.1% | 70.4% → 76.8% | 10.6% → 18.0% |
+| [011](../examples/transcript_games/episode_011.txt) | 59.0% → 61.4% | 24.5% → 36.0% | 70.3% → 77.8% | 6.0% → 18.2% |
+| [013](../examples/transcript_games/episode_013.txt) | 61.2% → 64.1% | 26.1% → 39.2% | 71.0% → 79.8% | 6.1% → 22.2% |
+| [020](../examples/transcript_games/episode_020.txt) | 68.7% → 70.8% | 29.8% → 45.1% | 75.0% → 83.4% | 8.8% → 25.8% |
+| [029](../examples/transcript_games/episode_029.txt) | 61.3% → 64.0% | 30.9% → 42.0% | 70.6% → 77.5% | 11.1% → 27.5% |
+| [035](../examples/transcript_games/episode_035.txt) | 67.7% → 68.9% | 33.9% → 47.8% | 72.8% → 79.4% | 6.9% → 28.3% |
+| [037](../examples/transcript_games/episode_037.txt) | 73.1% → 74.7% | 36.5% → 52.9% | 78.4% → 86.9% | 12.2% → 33.7% |
+| [039](../examples/transcript_games/episode_039.txt) | 72.5% → 74.1% | 39.2% → 50.5% | 78.7% → 86.4% | 12.3% → 17.2% |
+| [041](../examples/transcript_games/episode_041.txt) | 69.9% → 71.2% | 39.8% → 55.4% | 78.0% → 87.0% | 11.1% → 29.4% |
+| [045](../examples/transcript_games/episode_045.txt) | 70.3% → 72.0% | 36.5% → 47.9% | 73.5% → 80.6% | 10.5% → 15.8% |
+| [046](../examples/transcript_games/episode_046.txt) | 69.5% → 70.8% | 41.1% → 52.8% | 78.9% → 86.0% | 11.7% → 18.7% |
+| [049](../examples/transcript_games/episode_049.txt) | 70.0% → 72.2% | 43.4% → 54.5% | 82.4% → 89.1% | 14.6% → 20.1% |
+| [050](../examples/transcript_games/episode_050.txt) | 71.1% → 72.6% | 38.5% → 49.4% | 74.9% → 83.1% | 13.2% → 23.3% |
+| [051](../examples/transcript_games/episode_051.txt) | 62.9% → 63.5% | 35.0% → 43.3% | 75.9% → 80.3% | 19.7% → 25.7% |
+| [052](../examples/transcript_games/episode_052.txt) | 67.7% → 69.7% | 37.3% → 48.2% | 74.6% → 82.7% | 16.6% → 27.4% |
+| [053](../examples/transcript_games/episode_053.txt) | 70.2% → 71.8% | 40.2% → 49.1% | 77.4% → 84.2% | 19.8% → 26.7% |
+| **Mean** | 66.5% → 68.3% | 34.0% → 45.3% | 73.9% → 81.0% | 11.3% → 22.3% |
+
+How the gain divides (17-broadcast means, each row adding to the one above;
+the first two rows were measured with the old pools):
+
+| Change | Word overlap | 5-gram recall | Ordered words | Exact content lines |
+|---|---:|---:|---:|---:|
+| Before | 66.5% | 34.0% | 73.9% | 11.3% |
+| Slots are gaps in option scoring | 67.1% | 40.0% | 77.5% | 20.5% |
+| Gates searched in pairs | 67.2% | 40.7% | 78.8% | 20.5% |
+| Templates, values, return rate, ledger locations | 68.3% | 45.3% | 81.0% | 22.3% |
+
+| Reference | Word Jaccard | 5-gram | Exact lines (all) | Exact lines (content) |
+|---|---:|---:|---:|---:|
+| `pbp_example_1.txt` | 69.3% → 70.4% | 35.6% → 41.5% | 55.0% → 60.0% | 23.0% → 32.5% |
+| `pbp_example_2.txt` | 68.4% → 70.9% | 41.6% → 49.1% | 60.1% → 63.5% | 25.5% → 31.8% |
+| `pbp_example_3.txt` | 71.0% → 71.7% | 36.8% → 43.4% | 48.7% → 49.5% | 8.9% → 10.4% |
+| `pbp_example_4.txt` | 65.8% → 68.3% | 33.8% → 41.0% | 57.0% → 61.5% | 17.2% → 25.9% |
+
+Missed source words fell from 41,199 to 31,798 (32.4% to 25.0%):
+
+| Cause | Before | After |
+|---|---:|---:|
+| Wording | 34,654 | 25,643 |
+| Missing fact | 3,455 | 3,318 |
+| Recorded but never said | 2,188 | 2,031 |
+| Other | 902 | 806 |
+
+Wording is still 80.6% of what is missed. Its largest types are now pregame
+and postgame (5,301), the inning transition (4,512) and score talk (3,691).
+Rendered words the source lacks rose from 19,125 to 21,127, mostly longer score
+and break sentences. The minimums more than four points below the new
+measurements were raised to three points below them, rounded down: the 5-gram
+and ordered-word minimums of all 17 episodes and every reference minimum but
+`pbp_example_3`'s Jaccard. None was lowered.
+
+Not done here: the remaining fact types (the pitcher's game line, throws and
+slides, reliever roles), where a swinging strike was located (ledgers record
+no location for swinging strikes, so "swing and a miss on a low curve" is
+unreachable), and the simulator's foul rate.
+
 ## Facts the hosts state that the fixtures could not hold
 
 Many remaining wording gaps were missing facts: the hosts said something a

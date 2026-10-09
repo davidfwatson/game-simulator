@@ -1,3 +1,4 @@
+import re
 from commentary import GAME_CONTEXT
 
 def get_location_phrases(team):
@@ -177,6 +178,9 @@ def get_verbal_pitch_location_categories(location):
     return categories or None
 
 
+PLACED_STRIKE = re.compile(r'corner|black|edge|middle|main street|knees|inner|backdoor', re.I)
+
+
 def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch,
                                        batter_hand='R', location=None,
                                        previous_pitch_type=None, pitch_description='', avoid=None):
@@ -186,6 +190,7 @@ def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_
         return None
     location_data = GAME_CONTEXT['pitch_locations'].get(base_key, {})
     category = 'default'
+    inferred = False
     if location in location_data:
         category = location
     elif event_type == 'B':
@@ -198,10 +203,18 @@ def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_
         categories = get_verbal_pitch_location_categories(location)
         if categories is None and zone in range(1, 10):
             categories = get_pitch_location_categories(zone, batter_hand)
+            inferred = bool(categories)
         category = categories[0] if categories else 'default'
     options = location_data.get(category, location_data.get('default', []))
     if not options:
         options = location_data.get('default', [])
+    if inferred and category != 'default':
+        # A tracked zone, not the hosts' words: they name a called strike's
+        # height or side about one time in seven, so the plain calls stay in
+        # play ("A high slider, called a strike" was ten times a game). Only
+        # calls that claim no spot of their own: no corner, edge or knees.
+        options = options + [option for option in location_data.get('default', [])
+                             if option not in options and not PLACED_STRIKE.search(option)]
     # A low quadrant establishes height, not contact with the ground.
     if event_type == 'B' and location != 'dirt' and not any(
             word in pitch_description.lower() for word in ('dirt', 'bounc', 'spik')):

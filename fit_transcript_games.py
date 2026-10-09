@@ -24,6 +24,7 @@ avoidance), so this costs a few dozen renders per game instead of one per
 gate. Host asides are excluded from every window (``transcript_asides``).
 """
 import copy
+import itertools
 import json
 import re
 import sys
@@ -39,14 +40,19 @@ TTS = re.compile(r'\[TTS SPLIT[^\]]*\]')
 # A removed aside: present in windows, never in renderer output, so no n-gram
 # spanning it can match.
 BREAK = '\0'
+# A template placeholder ("The {count_str} pitch..."): options are scored
+# before formatting, so a slot is a gap no n-gram spans. Dropping it instead
+# made "the pitch" a false bigram that penalised every slotted template.
+SLOT = '\1'
+_SLOT_WORD = 'zzslotzz'
 TOKEN = re.compile(rf'\w+|{ASIDE_BREAK}')
 WEIGHTS = ((1, 1), (2, 3), (3, 6))
 DEFAULT_GATES = (None, 0, 30, 50, 70, 99)
 
 
 def tokens(text):
-    text = re.sub(r'\{[^}]+\}', ' ', TTS.sub(' ', text))
-    return tuple(BREAK if token == ASIDE_BREAK else token
+    text = re.sub(r'\{[^}]+\}', f' {_SLOT_WORD} ', TTS.sub(' ', text))
+    return tuple(BREAK if token == ASIDE_BREAK else SLOT if token == _SLOT_WORD else token
                  for token in TOKEN.findall(text.casefold()))
 
 
@@ -56,7 +62,8 @@ def words(text):
 
 
 def grams(tokens, n):
-    return Counter(tuple(tokens[i:i+n]) for i in range(len(tokens)-n+1))
+    return Counter(gram for gram in (tuple(tokens[i:i+n]) for i in range(len(tokens)-n+1))
+                   if SLOT not in gram)
 
 
 @lru_cache(maxsize=8192)
@@ -314,8 +321,8 @@ class FittingRenderer(NarrativeRenderer):
         trial, plan = self._trial, self._plan
 
         def lookup(k):
-            if trial is not None and trial[0] == (point, stream, k):
-                return trial[1]
+            if trial is not None and (point, stream, k) in trial:
+                return trial[(point, stream, k)]
             return plan.get((key, stream, k))
         return lookup
 
@@ -527,20 +534,28 @@ def fit_gates(make_data, windows_for, source_tokens, passes=6, streams=STREAM_NA
         seen = discovered()
         for coordinate in sorted(tracker.thresholds, key=str):
             point, stream, k = coordinate
+            # A gate is searched jointly with the next gate of its stream at
+            # the same point, which often decides the form of the sentence the
+            # first one turns on (the at-bat recap and its format). Searched
+            # alone, neither moves: the recap is never said in the wrong form,
+            # and the form never matters while the recap is not said.
+            following = (point, stream, k + 1)
+            pair = (coordinate, following) if following in tracker.thresholds else (coordinate,)
             base = renderer.segment_scores()
-            best_for = {key: (score, plan.get((key, stream, k)))
+            best_for = {key: (score, tuple(plan.get((key, stream, c[2])) for c in pair))
                         for key, score in base.items() if renderer.kinds.get(key) == point}
-            for value in tracker.values(coordinate):
-                _, _, trial = render(default, plan, (coordinate, value), tracker)
+            for values in itertools.product(*(tracker.values(c) for c in pair)):
+                _, _, trial = render(default, plan, dict(zip(pair, values)), tracker)
                 for key, score in trial.segment_scores().items():
                     if key in best_for and score > best_for[key][0] + 1e-9:
-                        best_for[key] = (score, value)
+                        best_for[key] = (score, values)
             tracker.collect()
             updated = 0
-            for key, (_, value) in best_for.items():
-                if value is not None and plan.get((key, stream, k)) != value:
-                    plan[(key, stream, k)] = value
-                    updated += 1
+            for key, (_, values) in best_for.items():
+                for c, value in zip(pair, values):
+                    if value is not None and plan.get((key, stream, c[2])) != value:
+                        plan[(key, stream, c[2])] = value
+                        updated += 1
             if updated:
                 changed += updated
                 data, text, renderer = render(default, plan, tracker=tracker)

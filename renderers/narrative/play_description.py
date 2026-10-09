@@ -488,6 +488,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     final_description = ""
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):
          if not template: template = renderer.rng_play.choice(specific_templates)
+         if result_outs and '{out_context_str}' in template:
+             context['out_context_str'] = renderer._out_context(result_outs, play)
          final_description = prefix + template.format(**context)
          if re.search(r'spectacular|diving|leaping|great pick|backhanded|on the warning track', template, re.I):
              renderer._last_highlight = renderer._balls_in_play
