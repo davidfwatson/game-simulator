@@ -8,12 +8,17 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+from difflib import SequenceMatcher
+
 import full_transcript_comparison
-from pbp_comparison import PBPExample, compare_example, compare_transcripts
-from sleep_baseball_corpus import corpus_paths, measure_corpus
+from pbp_comparison import (
+    LineMatch, PBPExample, compare_example, compare_transcripts, get_ngrams, positional_line_match,
+)
+from sleep_baseball_corpus import COUNT, corpus_paths, extract_phrases, measure_corpus
 import transcript_asides
 from transcript_asides import (
-    ASIDE_DIR, CATEGORIES, ROOT, load_asides, metric_source_text, parse_asides, strip_asides,
+    ASIDE_BREAK, ASIDE_DIR, CATEGORIES, ROOT, load_asides, metric_source_text, parse_asides,
+    strip_asides,
 )
 from transcript_game_fixtures import LEDGER_DIR
 
@@ -79,6 +84,17 @@ class TestAsideValidation(unittest.TestCase):
             with self.subTest(message=message), self.assertRaisesRegex(ValueError, message):
                 parse_asides(annotation([entry]), SOURCE, 'source.txt')
 
+    def test_missing_annotation_is_an_error_unless_explicitly_allowed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'pbp_example_9.txt'
+            path.write_text(SOURCE)
+            with self.assertRaisesRegex(ValueError, 'missing aside annotation'):
+                load_asides(path, Path(tmp), Path(tmp) / 'transcript_asides')
+            with self.assertRaisesRegex(ValueError, 'missing aside annotation'):
+                metric_source_text(path, Path(tmp), Path(tmp) / 'transcript_asides')
+            self.assertEqual(load_asides(path, Path(tmp), Path(tmp) / 'transcript_asides',
+                                         allow_missing=True), [])
+
     def test_whole_line_aside_cannot_cover_a_blank_line(self):
         text = 'Ball one.\n\nBall two.\n'
         with self.assertRaisesRegex(ValueError, 'blank line 2'):
@@ -89,14 +105,34 @@ class TestAsideValidation(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'overlapping'):
             parse_asides(annotation([GOAT, inner]), SOURCE, 'source.txt')
 
-    def test_strip_preserves_line_numbers_and_empties_whole_line_asides(self):
+    def test_strip_preserves_line_numbers_and_leaves_a_hard_break(self):
         stripped = strip_asides(SOURCE, parse_asides(annotation([GOAT, NOTE]), SOURCE, 'source.txt'))
         lines = stripped.splitlines()
         self.assertEqual(len(lines), len(SOURCE.splitlines()))
-        self.assertEqual(lines[1], "The two-oh pitch... Two and oh. There's the two-oh pitch.")
-        self.assertEqual(lines[2:4], ['', ''])
+        self.assertEqual(lines[1], f"The two-oh pitch... Two and oh. {ASIDE_BREAK} There's the two-oh pitch.")
+        self.assertEqual(lines[2:4], [ASIDE_BREAK, ASIDE_BREAK])
         self.assertEqual(lines[4], 'Ball four.')
         self.assertTrue(stripped.endswith('\n'))
+
+
+def recorded_call_end(line):
+    """End of a pitch line's recorded call: the delivery cue, the first sentence
+    that follows it (the result or play), and an immediately following count."""
+    cue = re.search(r'\.\.\.|…', line)
+    if cue:
+        position = cue.end()
+    else:
+        cue = re.search(r'\b(?:pitch|delivers|deals)\b', line, re.I)
+        position = cue.end() if cue else 0
+        rest = re.match(r'[^.!?]*[.!?]', line[position:])
+        if cue and rest and not re.search(r'\w', rest.group()):
+            position += rest.end()  # "The three-two pitch." -- the call follows
+    call = re.compile(r'\w[^.!?…]*(?:[.!?…]+|$)').search(line, position)
+    end = call.end() if call else len(line)
+    following = re.match(r'\s*[^.!?…]*[.!?…]*', line[end:])
+    if following and COUNT.search(following.group()) and len(following.group().split()) <= 6:
+        end += following.end()
+    return end
 
 
 class TestAsideCatalog(unittest.TestCase):
@@ -120,17 +156,45 @@ class TestAsideCatalog(unittest.TestCase):
                 self.assertLess(row['aside_words'], 0.35 * row['source_words'])
 
     def test_asides_never_remove_a_recorded_pitch_or_appearance(self):
+        checked = 0
         for ledger_path in sorted(LEDGER_DIR.glob('episode_*.json')):
             ledger = json.loads(ledger_path.read_text())
             source = ROOT / 'transcripts' / 'sleep_baseball' / ledger['source_file']
+            originals = source.read_text().splitlines()
             lines = metric_source_text(source).splitlines()
+            spans = {}
+            for span in load_asides(source):
+                spans.setdefault(span.line, []).append(span)
             for index, play in enumerate(ledger['plays']):
                 with self.subTest(episode=ledger['episode'], play=index):
                     reference = ' '.join(lines[play['source_start'] - 1:play['source_end']])
                     self.assertRegex(reference, r'\w')
+                    names = [play['batter']] + [f['name'] for f in play.get('fielders', [])] + [
+                        r['name'] for r in play.get('runners', [])]
                     for pitch in play.get('pitches', []):
-                        self.assertRegex(lines[pitch['line'] - 1], r'\w',
-                                         f"line {pitch['line']} holds a recorded pitch")
+                        number = pitch['line']
+                        original = originals[number - 1]
+                        call_end = recorded_call_end(original)
+                        for span in spans.get(number, []):
+                            checked += 1
+                            self.assertGreaterEqual(
+                                span.start, call_end,
+                                f'line {number}: aside overlaps the recorded call '
+                                f'{original[:call_end]!r}')
+                        for name in names:
+                            surname = name.split()[-1]
+                            if re.search(rf'\b{re.escape(surname)}\b', original):
+                                self.assertRegex(lines[number - 1], rf'\b{re.escape(surname)}\b',
+                                                 f'line {number}: aside removed {name} from the play')
+        self.assertGreater(checked, 0, 'the overlap check must exercise real asides on pitch lines')
+
+    def test_recorded_call_covers_delivery_result_and_count(self):
+        self.assertEqual(recorded_call_end('And the pitch... Fly ball, center field. Moon drifting over.'),
+                         len('And the pitch... Fly ball, center field.'))
+        self.assertEqual(recorded_call_end('The three-two pitch. And that is called a ball. That looked like a strike.'),
+                         len('The three-two pitch. And that is called a ball.'))
+        self.assertEqual(recorded_call_end('The oh-one pitch, called strike. One and two. Phil says hello.'),
+                         len('The oh-one pitch, called strike. One and two.'))
 
     def test_phrases_the_renderer_is_tested_to_produce_are_never_asides(self):
         stripped = {path.name: metric_source_text(path).splitlines() for path in corpus_paths()}
@@ -146,6 +210,43 @@ class TestAsideCatalog(unittest.TestCase):
             with self.subTest(case=case['id']):
                 line = stripped[Path(case['source_file']).name][case['source_line'] - 1]
                 self.assertIn(' '.join(words(case['source_phrase'])), ' '.join(words(line)))
+
+
+class TestAsideBoundaries(unittest.TestCase):
+    """Words on either side of a removed aside were never adjacent."""
+    TARGET = f'And the two-oh pitch {ASIDE_BREAK} is on its way to the plate.'
+    RENDERED = 'And the two-oh pitch is on its way to the plate.'
+
+    def test_ngram_straddling_a_removed_aside_is_not_counted(self):
+        ngrams = get_ngrams(self.TARGET)
+        self.assertNotIn(('two', 'oh', 'pitch', 'is', 'on'), ngrams)
+        self.assertIn(('is', 'on', 'its', 'way', 'to'), ngrams)
+        self.assertNotIn(('pitch', 'is', 'on', 'its', 'way'), ngrams)
+        joined = compare_transcripts(self.TARGET.replace(f' {ASIDE_BREAK}', ''), self.RENDERED)
+        broken = compare_transcripts(self.TARGET, self.RENDERED)
+        self.assertEqual(joined.ngram, 1.0)
+        self.assertEqual(broken.ngram, 1.0)  # only the within-segment n-grams remain
+        self.assertEqual(len(get_ngrams(self.TARGET)), 4)
+        self.assertEqual(len(get_ngrams(self.TARGET.replace(f' {ASIDE_BREAK}', ''))), 8)
+
+    def test_exact_line_cannot_join_the_pieces_around_an_aside(self):
+        self.assertEqual(positional_line_match(self.TARGET, self.RENDERED), LineMatch(0, 0, 0, 2))
+        self.assertEqual(positional_line_match(self.TARGET.replace(f' {ASIDE_BREAK}', ''), self.RENDERED),
+                         LineMatch(1, 0, 0, 1))
+
+    def test_ordered_match_run_cannot_span_a_removed_aside(self):
+        source = full_transcript_comparison.spoken_words(self.TARGET)
+        output = full_transcript_comparison.spoken_words(self.RENDERED)
+        gap = source.index('\0')
+        blocks = SequenceMatcher(None, source, output, autojunk=False).get_matching_blocks()
+        self.assertFalse(any(b.a <= gap < b.a + b.size for b in blocks))
+        self.assertEqual(full_transcript_comparison.ordered_coverage(self.TARGET, self.RENDERED), 1.0)
+
+    def test_extracted_clause_cannot_span_a_removed_aside(self):
+        phrases = [c.source_phrase for c in extract_phrases(
+            f'The one-two pitch... Slider misses {ASIDE_BREAK} low, two and two.', 'source.txt')]
+        self.assertNotIn('Slider misses low', phrases)
+        self.assertFalse(any(ASIDE_BREAK in phrase for phrase in phrases))
 
 
 class TestMetricsIgnoreAsides(unittest.TestCase):
@@ -165,7 +266,8 @@ class TestMetricsIgnoreAsides(unittest.TestCase):
             self.write_root(root, f'And the pitch... Fastball, called strike one.\n{aside_line}\nBall four.\n',
                             [{'line': 2, 'category': 'banter'}])
             marked = compare_example(example, self.RENDERED, root)
-        cut = compare_transcripts('And the pitch... Fastball, called strike one.\n\nBall four.\n', self.RENDERED)
+        cut = compare_transcripts(f'And the pitch... Fastball, called strike one.\n{ASIDE_BREAK}\nBall four.\n',
+                                  self.RENDERED)
         self.assertEqual(marked, cut)
         self.assertEqual(marked.content_lines.total, 2)
         unmarked = compare_transcripts(f'And the pitch... Fastball, called strike one.\n{aside_line}\nBall four.\n',
@@ -201,19 +303,28 @@ class TestMetricsIgnoreAsides(unittest.TestCase):
             (tmp / 'src').mkdir()
             (tmp / 'asides').mkdir()
             (tmp / 'src' / 'episode_049.txt').write_text(source)
+            (tmp / 'asides' / 'episode_049.json').write_text(json.dumps(annotation([], source, 'episode_049.txt')))
             with patch.object(full_transcript_comparison, 'SOURCE_DIR', tmp / 'src'), \
                  patch.object(transcript_asides, 'ASIDE_DIR', tmp / 'asides'):
                 baseline = full_transcript_comparison.compare_game(49)
                 (tmp / 'src' / 'episode_049.txt').write_text(injected)
+                (tmp / 'asides' / 'episode_049.json').write_text(
+                    json.dumps(annotation([], injected, 'episode_049.txt')))
                 unmarked = full_transcript_comparison.compare_game(49)
                 (tmp / 'asides' / 'episode_049.json').write_text(json.dumps(annotation(
                     [{'line': line_number, 'text': aside, 'category': 'story'}], injected,
                     'episode_049.txt')))
                 marked = full_transcript_comparison.compare_game(49)
-        keys = ('jaccard', 'ngram', 'content_exact', 'mean_play_word_coverage')
-        self.assertEqual({k: marked[k] for k in keys}, {k: baseline[k] for k in keys})
+        # The marked aside leaves the vocabulary and exact lines as they were;
+        # its hard break only drops the few n-grams across that boundary.
+        for key in ('jaccard', 'content_exact'):
+            self.assertEqual(marked[key], baseline[key], key)
+        self.assertAlmostEqual(marked['ngram'], baseline['ngram'], delta=0.002)
+        self.assertGreater(marked['ngram'], unmarked['ngram'])
+        self.assertAlmostEqual(marked['plays'][3]['ordered_word_coverage'],
+                               baseline['plays'][3]['ordered_word_coverage'], delta=0.01)
         self.assertLess(unmarked['plays'][3]['ordered_word_coverage'],
-                        baseline['plays'][3]['ordered_word_coverage'])
+                        marked['plays'][3]['ordered_word_coverage'])
 
 
 if __name__ == '__main__':

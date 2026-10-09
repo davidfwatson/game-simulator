@@ -17,7 +17,7 @@ import sys
 from commentary import GAME_CONTEXT
 from renderers.narrative.renderer import NarrativeRenderer
 from renderers.randomness import ChoiceRNG
-from transcript_asides import metric_source_text
+from transcript_asides import ASIDE_BREAK, metric_source_text
 
 
 ROOT = Path(__file__).resolve().parent
@@ -41,7 +41,8 @@ LOCATION = re.compile(r'\b(?:low|high|inside|outside|downstairs|upstairs|'
                       r'high and tight|away|wide|at the knees|at the chin)\b', re.I)
 OUTCOME = re.compile(r'\b(?:strikes out|down on strikes|out number|'
                      r'first out|second out|third out|end the inning)\b', re.I)
-SENTENCE = re.compile(r'[^.!?…]+(?:[.!?…]+|$)')
+# A removed aside (ASIDE_BREAK) ends a sentence, so no clause spans it.
+SENTENCE = re.compile(rf'[^.!?…{ASIDE_BREAK}]+(?:[.!?…{ASIDE_BREAK}]+|$)')
 LIMITATIONS = (
     'Coverage is exact ordered phrase-clause support from renderer components, '
     'not full-game, event-sequence, player, or runner-state reproduction.',
@@ -257,7 +258,7 @@ def extract_phrases(text, source_file):
         before = next((_count(m) for m in counts if first_delivery and m.start() < first_delivery.end()), None)
         previous_code = None
         for sentence in SENTENCE.finditer(line):
-            fragment = sentence.group().strip(' .!?…')
+            fragment = sentence.group().strip(f' .!?…{ASIDE_BREAK}')
             body = _strip_delivery(fragment)
             phrase, count_tail, resulting = _count_tail(body)
             code = _code(phrase, delivery)

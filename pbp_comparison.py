@@ -13,6 +13,8 @@ from pathlib import Path
 import re
 from typing import NamedTuple
 
+from transcript_asides import ASIDE_BREAK, break_segments
+
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent
 
@@ -165,8 +167,24 @@ def _words(text: str) -> set[str]:
 
 
 def get_ngrams(text: str, n: int = 5) -> set[tuple[str, ...]]:
-    words = re.findall(r"\b\w+\b", text.lower())
-    return {tuple(words[index:index + n]) for index in range(len(words) - n + 1)}
+    """Five-grams within each aside-free segment; none straddles a removed aside."""
+    ngrams = set()
+    for segment in break_segments(text):
+        words = re.findall(r"\b\w+\b", segment.lower())
+        ngrams.update(tuple(words[index:index + n]) for index in range(len(words) - n + 1))
+    return ngrams
+
+
+def _content_lines(text: str) -> list[str]:
+    """Non-blank lines, with a line split into separate pieces at each removed
+    aside so an exact match cannot join words that were never adjacent."""
+    lines = []
+    for line in text.splitlines():
+        if ASIDE_BREAK in line:
+            lines.extend(piece for piece in break_segments(line) if re.search(r"\w", piece))
+        elif line.strip():
+            lines.append(line)
+    return lines
 
 
 class LineMatch(NamedTuple):
@@ -192,8 +210,8 @@ def positional_line_match(
     cannot establish exactness because it discards word order and repetition.
     The near90 and near75 counts are exclusive of each higher match band.
     """
-    target = [normalize_line(line) for line in target_text.splitlines() if line.strip()]
-    rendered = [normalize_line(line) for line in rendered_text.splitlines() if line.strip()]
+    target = [normalize_line(line) for line in _content_lines(target_text)]
+    rendered = [normalize_line(line) for line in _content_lines(rendered_text)]
     target_words = [_words(line) for line in target]
     rendered_words = [_words(line) for line in rendered]
     used = set()

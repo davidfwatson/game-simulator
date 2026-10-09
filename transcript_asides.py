@@ -16,9 +16,10 @@ repeats) or no text (the whole line, through ``end_line`` when given)::
      "category": "story", "note": "goat delay"}
     {"line": 300, "end_line": 303, "category": "banter"}
 
-``strip_asides`` blanks those spans while keeping the line count, so source
-line references (ledger ranges, component provenance) stay valid. A line left
-without words becomes empty, exactly as if it had been cut like a break.
+``strip_asides`` replaces those spans with ``ASIDE_BREAK`` while keeping the
+line count, so source line references (ledger ranges, component provenance)
+stay valid. Metrics treat the marker as a hard boundary, so the words on either
+side of an aside never form a sequence that was not in the broadcast.
 """
 
 from __future__ import annotations
@@ -41,6 +42,8 @@ CATEGORIES = {
     'crowd': 'Crowd, ballpark or scenery colour that is not a game fact.',
 }
 WORD = re.compile(r'\w')
+# Stands in for a removed aside. It never occurs in a source and is not a word.
+ASIDE_BREAK = '\u2016'
 
 
 @dataclass(frozen=True)
@@ -118,18 +121,34 @@ def parse_asides(annotation, source_text, source_name=None):
     return ordered
 
 
-def load_asides(source_path, root=ROOT, aside_dir=None):
-    """Spans for a source file; a source without an annotation file has none."""
+def load_asides(source_path, root=ROOT, aside_dir=None, allow_missing=False):
+    """Validated spans for a source file.
+
+    Every corpus source has an annotation file, even one with no asides, so a
+    missing file is an error: silently scoring the unfiltered source would hide
+    a deleted or misnamed annotation. Only ad-hoc targets outside the corpus
+    (``pbp_tools.py diff`` on an arbitrary file) opt in with ``allow_missing``.
+    """
     source_path = Path(source_path)
     path = annotation_path(source_path, ASIDE_DIR if aside_dir is None else aside_dir)
     if not path.exists():
-        return []
+        if allow_missing:
+            return []
+        raise ValueError(f'{_relative(source_path, root)}: missing aside annotation {path}; '
+                         'create one (transcript_asides.new_annotation) even if it marks nothing')
     annotation = json.loads(path.read_text(encoding='utf-8'))
     return parse_asides(annotation, source_path.read_text(encoding='utf-8'), _relative(source_path, root))
 
 
 def strip_asides(text, spans):
-    """Remove aside spans, preserving line numbering for source references."""
+    """Replace aside spans with ASIDE_BREAK, preserving line numbering.
+
+    The marker is a hard boundary: metrics must not let a five-gram, an
+    ordered-match run, an exact line, or an extracted clause span it, because
+    the words on either side were never adjacent in the broadcast. A line with
+    no words left holds only the marker, so neighbouring lines are not joined
+    across a removed whole line either.
+    """
     if not spans:
         return text
     lines = text.splitlines()
@@ -139,17 +158,23 @@ def strip_asides(text, spans):
     for number, line_spans in by_line.items():
         line = lines[number - 1]
         for span in sorted(line_spans, key=lambda s: s.start, reverse=True):
-            line = line[:span.start] + ' ' + line[span.end:]
+            line = line[:span.start] + f' {ASIDE_BREAK} ' + line[span.end:]
+        line = re.sub(rf'{ASIDE_BREAK}(?:\s*{ASIDE_BREAK})+', ASIDE_BREAK, line)
         line = re.sub(r'\s{2,}', ' ', line).strip()
-        lines[number - 1] = line if WORD.search(line) else ''
+        lines[number - 1] = line if WORD.search(line) else ASIDE_BREAK
     return '\n'.join(lines) + ('\n' if text.endswith('\n') else '')
 
 
-def metric_source_text(source_path, root=ROOT, aside_dir=None):
+def break_segments(text):
+    """Split metric text at aside boundaries; pieces never join across them."""
+    return text.split(ASIDE_BREAK)
+
+
+def metric_source_text(source_path, root=ROOT, aside_dir=None, allow_missing=False):
     """Source text as every alignment metric sees it: asides removed like breaks."""
     source_path = Path(source_path)
     return strip_asides(source_path.read_text(encoding='utf-8'),
-                        load_asides(source_path, root, aside_dir))
+                        load_asides(source_path, root, aside_dir, allow_missing))
 
 
 def new_annotation(source_path, root=ROOT):
