@@ -13,23 +13,23 @@ normalized content, not just shared vocabulary.
 
 | Episode | Appearances | Pitches | 5-gram recall | Ordered words per appearance | Exact content lines |
 |---|---:|---:|---:|---:|---:|
-| [001](../examples/transcript_games/episode_001.txt) | 73 | 254 | 10.5% | 45.4% | 0.5% |
-| [005](../examples/transcript_games/episode_005.txt) | 73 | 270 | 16.1% | 59.7% | 1.0% |
-| [011](../examples/transcript_games/episode_011.txt) | 50 | 198 | 17.5% | 62.7% | 3.3% |
-| [013](../examples/transcript_games/episode_013.txt) | 70 | 295 | 20.1% | 66.7% | 5.2% |
-| [020](../examples/transcript_games/episode_020.txt) | 67 | 223 | 23.1% | 69.3% | 7.1% |
-| [029](../examples/transcript_games/episode_029.txt) | 68 | 217 | 22.7% | 65.4% | 10.2% |
-| [035](../examples/transcript_games/episode_035.txt) | 63 | 207 | 25.3% | 67.7% | 3.9% |
-| [037](../examples/transcript_games/episode_037.txt) | 64 | 220 | 26.2% | 73.4% | 8.6% |
-| [039](../examples/transcript_games/episode_039.txt) | 68 | 224 | 27.5% | 71.2% | 10.3% |
-| [041](../examples/transcript_games/episode_041.txt) | 62 | 199 | 28.8% | 70.8% | 8.9% |
-| [045](../examples/transcript_games/episode_045.txt) | 72 | 237 | 26.6% | 67.6% | 8.0% |
-| [046](../examples/transcript_games/episode_046.txt) | 76 | 254 | 33.0% | 72.4% | 8.8% |
-| [049](../examples/transcript_games/episode_049.txt) | 63 | 214 | 30.0% | 73.8% | 10.7% |
-| [050](../examples/transcript_games/episode_050.txt) | 66 | 170 | 29.8% | 69.5% | 9.6% |
-| [051](../examples/transcript_games/episode_051.txt) | 47 | 152 | 23.1% | 66.3% | 13.1% |
-| [052](../examples/transcript_games/episode_052.txt) | 62 | 200 | 25.4% | 67.2% | 12.1% |
-| [053](../examples/transcript_games/episode_053.txt) | 62 | 193 | 28.4% | 69.4% | 15.3% |
+| [001](../examples/transcript_games/episode_001.txt) | 73 | 254 | 13.4% | 48.1% | 0.5% |
+| [005](../examples/transcript_games/episode_005.txt) | 73 | 270 | 23.4% | 66.5% | 5.1% |
+| [011](../examples/transcript_games/episode_011.txt) | 50 | 198 | 18.6% | 65.3% | 3.5% |
+| [013](../examples/transcript_games/episode_013.txt) | 70 | 295 | 21.9% | 69.5% | 5.2% |
+| [020](../examples/transcript_games/episode_020.txt) | 67 | 223 | 24.5% | 71.9% | 7.8% |
+| [029](../examples/transcript_games/episode_029.txt) | 68 | 217 | 24.7% | 68.0% | 10.2% |
+| [035](../examples/transcript_games/episode_035.txt) | 63 | 207 | 26.4% | 69.0% | 3.9% |
+| [037](../examples/transcript_games/episode_037.txt) | 64 | 220 | 28.0% | 75.7% | 8.8% |
+| [039](../examples/transcript_games/episode_039.txt) | 68 | 224 | 30.5% | 74.3% | 11.3% |
+| [041](../examples/transcript_games/episode_041.txt) | 62 | 199 | 31.0% | 73.2% | 9.2% |
+| [045](../examples/transcript_games/episode_045.txt) | 72 | 237 | 28.2% | 69.2% | 8.2% |
+| [046](../examples/transcript_games/episode_046.txt) | 76 | 254 | 34.7% | 74.3% | 9.8% |
+| [049](../examples/transcript_games/episode_049.txt) | 63 | 214 | 32.6% | 76.3% | 11.8% |
+| [050](../examples/transcript_games/episode_050.txt) | 66 | 170 | 31.4% | 71.1% | 11.4% |
+| [051](../examples/transcript_games/episode_051.txt) | 47 | 152 | 26.1% | 69.5% | 14.9% |
+| [052](../examples/transcript_games/episode_052.txt) | 62 | 200 | 28.2% | 70.1% | 12.6% |
+| [053](../examples/transcript_games/episode_053.txt) | 62 | 193 | 31.2% | 72.2% | 16.4% |
 
 All reviewed minimums pass. The original four full-game minimums were retained,
 and the 78 focused source-phrase cases also pass. The new mining pass added 366
@@ -37,8 +37,10 @@ distinct reusable templates (188 pitch/delivery and 178 play/transition phrases)
 
 Run `python full_transcript_comparison.py --check` for current measurements, or
 `python full_transcript_comparison.py 1 --gaps 5` to inspect individual gaps.
-`python pbp_match_report.py --check` checks all three comparison catalogs.
+`python pbp_match_report.py --check` checks those comparison catalogs and the
+automatic pitch/foul/count component inventory across all 21 sources.
 
-The baseline was validated with 213 tests passing and eight skips for the absent
-optional `anonymized_gameday_1.json` fixture. See [the ledger guide](README.md)
-for authoring, fitting, and replay instructions.
+The tables above reflect the refitted commentary draws after the corpus phrase
+expansion. The automatic report supports 4,701 of 6,038 extracted clauses; that
+component capability has a different scope from the full-broadcast metrics.
+See [the ledger guide](README.md) for authoring, fitting, and replay instructions.

@@ -102,6 +102,40 @@ class TestTranscriptCompilation(unittest.TestCase):
         self.assertLess(flow[1], 80)  # Enter the general narrative template branch.
         self.assertIn('Roller to first.', comparison.replay_case(fixture, 1))
 
+    def test_compiler_replays_source_double_from_actual_weighted_mixed_pool(self):
+        spec = json.loads((comparison.SPEC_DIR / 'episode_049.json').read_text())
+        case = next(row for row in spec['cases']
+                    if row['id'] == 'episode_049_double_rolls_to_wall')
+        source_lines = (comparison.SOURCE_DIR / 'episode_049.txt').read_text().splitlines()
+        declared_pool = comparison.get_pool(case['pool'])
+        offered_pools = []
+        original_choice = comparison._RecordingSelector.choice
+
+        def observe_choices(selector, options):
+            if selector.template == case['template'] and case['template'] in options:
+                offered_pools.append(list(options))
+            return original_choice(selector, options)
+
+        with patch.object(comparison._RecordingSelector, 'choice', observe_choices):
+            fixture = comparison.compile_case(case, 49, source_lines)
+        self.assertTrue(offered_pools)
+        self.assertTrue(any(any(option not in declared_pool for option in options)
+                            for options in offered_pools))
+        # Replay must use the persisted integers through the production RNG,
+        # including the target's position within the real combined choice list.
+        with patch.object(comparison, '_RecordingSelector', side_effect=AssertionError('replay must not compile')):
+            rendered = comparison.replay_case(fixture, 49)
+        self.assertTrue(comparison.contains_phrase(rendered, case['expected']), rendered)
+
+    def test_mixed_pool_selector_never_injects_an_unoffered_target(self):
+        selector = comparison._RecordingSelector('authored target', ['authored target'],
+                                                 comparison._GatePlan(()))
+        options = ['actual fallback', 'other actual fallback']
+        self.assertEqual(selector.choice(options), options[0])
+        self.assertFalse(selector.selected_target)
+        self.assertEqual(selector.draws, [0])
+        self.assertEqual(options, ['actual fallback', 'other actual fallback'])
+
     def test_missing_or_unconsumed_draws_are_not_silently_accepted(self):
         for draws in ([], [0, 0]):
             fixture = self.compile()
