@@ -204,7 +204,7 @@ def _infer_input(phrase, code, line, before_count=None):
         locations.append('low')
     if re.search(r'\b(?:high|upstairs|up and|at the chin)\b', lower):
         locations.append('high')
-    if re.search(r'\b(?:inside|down and in|up and in|high and tight)\b', lower):
+    if re.search(r'\b(?:inside|(?:low|high|down|up) and in|high and tight)\b', lower):
         locations.append('inside')
     if re.search(r'\b(?:outside|away|wide)\b', lower):
         locations.append('outside')

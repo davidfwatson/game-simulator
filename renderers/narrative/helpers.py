@@ -66,9 +66,12 @@ def get_spoken_score_string(score_a, score_b):
 def simplify_pitch_type(pitch_type: str, rng_pitch, capitalize=False) -> str:
     simplified = pitch_type
     if pitch_type.lower() == "four-seam fastball":
-        r = rng_pitch.random()
-        if r < 0.6: simplified = "fastball"
-        elif r < 0.7: simplified = "heater"
+        # Sleep Baseball calls it "fastball" essentially every time ("four-seam"
+        # appears once in the corpus); letting one pitcher's fastball drift
+        # between "Fastball", "Four-seam fastball" and "Heater" read as
+        # generated. The draw is kept so the pitch RNG stream doesn't shift.
+        rng_pitch.random()
+        simplified = "fastball"
 
     if capitalize:
         return simplified.capitalize()
@@ -119,11 +122,19 @@ def get_pitch_type_family(pitch_type):
     return lower
 
 
-def choose_pitch_description(options, rng_pitch, pitch_type, previous_pitch_type=None):
+def choose_pitch_description(options, rng_pitch, pitch_type, previous_pitch_type=None, avoid=None):
     """Only describe 'another' pitch when its type matches the previous one."""
     if not previous_pitch_type or get_pitch_type_short(previous_pitch_type) != get_pitch_type_short(pitch_type):
         options = [option for option in options if not option.lower().startswith('another ')]
-    return rng_pitch.choice(options)
+    choice = rng_pitch.choice(options)
+    if choice == avoid and any(option != avoid for option in options):
+        # Keep the number of draws stable while avoiding identical location
+        # calls on consecutive pitches of the same type.
+        index = options.index(choice)
+        choice = next(options[(index + offset) % len(options)]
+                      for offset in range(1, len(options) + 1)
+                      if options[(index + offset) % len(options)] != avoid)
+    return choice
 
 
 def format_pitch_call(description, pitch_type, event_type, strikes_before=0, balls_before=0):
@@ -168,7 +179,7 @@ def get_verbal_pitch_location_categories(location):
 
 def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch,
                                        batter_hand='R', location=None,
-                                       previous_pitch_type=None, pitch_description=''):
+                                       previous_pitch_type=None, pitch_description='', avoid=None):
     # Verbal locations retain the production API used by transcript ledgers.
     base_key = 'ball' if event_type == 'B' else 'strike'
     if event_type not in ('B', 'C', 'S'):
@@ -201,4 +212,4 @@ def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_
         if safe_options:
             options = [option if option in safe_options else safe_options[0]
                        for option in options]
-    return choose_pitch_description(options, rng_pitch, pitch_type_simple, previous_pitch_type)
+    return choose_pitch_description(options, rng_pitch, pitch_type_simple, previous_pitch_type, avoid)

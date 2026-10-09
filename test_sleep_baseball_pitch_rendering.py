@@ -89,6 +89,7 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
             renderer._get_pitch_call(pitch('C', 8, 0), 'Fastball'),
             'Fastball, called a strike at the knees',
         )
+        renderer.last_location_pitch = None
         self.assertEqual(
             renderer._get_pitch_call(pitch('C', 8, 2), 'Fastball'),
             'Fastball, called strike three at the knees',
@@ -146,6 +147,7 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
         renderer.rng_pitch = PhraseRNG("And that's {ball_call}")
         event = pitch('B')
         for balls_before, ball_word in enumerate(('one', 'two', 'three', 'four')):
+            renderer.last_location_pitch = None
             event['count']['balls'] = balls_before
             self.assertEqual(
                 renderer._get_pitch_call(event, 'Slider'), f"And that's ball {ball_word}")
@@ -300,11 +302,45 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
         text = NarrativeRenderer(data).render()
         self.assertIn('Swung on and missed. And down goes Bradleys for out number one.', text)
 
+    def test_production_pitch_routing_avoids_repeat_with_one_draw_per_pitch(self):
+        class FirstRNG:
+            calls = 0
+
+            def choice(self, options):
+                self.calls += 1
+                return options[0]
+
+        renderer = make_renderer()
+        renderer.rng_pitch = FirstRNG()
+        event = pitch('B')
+        event['details']['location'] = 'inside'
+        first = renderer._get_pitch_call(event, 'Slider')
+        second = renderer._get_pitch_call(event, 'Slider', previous_pitch_type='Slider')
+        self.assertNotEqual(first, second)
+        self.assertIn('inside', first)
+        self.assertIn('inside', second)
+        self.assertEqual(renderer.rng_pitch.calls, 2)
+        # A different pitch type can legitimately reuse the same phrase.
+        changed = renderer._get_pitch_call(event, 'Curveball', previous_pitch_type='Slider')
+        self.assertEqual(changed, first.replace('Slider', 'Curveball'))
+
+    def test_fastball_name_is_consistent_without_shifting_pitch_draws(self):
+        renderer = make_renderer()
+        renderer.base_seed = 31
+        for draw in (0, 65, 99):
+            renderer._reseed_for_point({'commentaryRng': {'event': {'pitch': [draw, 0]}}},
+                                       'event', '2025-09-27T23:05:00Z', 'fastball-case')
+            self.assertEqual(renderer._simplify_pitch_type('Four-seam fastball', capitalize=True), 'Fastball')
+            self.assertEqual(renderer.rng_pitch.position, 1)
+            renderer._get_pitch_call(pitch('B'), 'Fastball')
+            self.assertEqual(renderer.rng_pitch.position, 2)
+
     def test_recorded_verbal_location_overrides_zone_and_unknown_batter_hand(self):
         renderer = make_renderer()
         event = pitch('B', 12)
         event['details']['location'] = 'inside'
         for hand in ('L', 'R', 'U'):
+            renderer.last_location_pitch = None
             self.assertEqual(renderer._get_pitch_call(event, 'Slider', hand), 'Slider misses inside')
         event = pitch('S', 8)
         event['details']['location'] = 'high'

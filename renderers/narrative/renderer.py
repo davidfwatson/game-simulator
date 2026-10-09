@@ -1,3 +1,4 @@
+import re
 from commentary import GAME_CONTEXT
 from gameday import GamedayData
 from ..base import GameRenderer
@@ -17,6 +18,29 @@ class NarrativeRenderer(GameRenderer):
         self.last_foul_phrase = ""
         self.consecutive_fouls = 0
 
+    @staticmethod
+    def _with_pitch_lead_in(last_pitch_context, outcome_text):
+        """Prefix a terminal-pitch template with the pitch call's lead-in.
+
+        The final pitch of a strikeout is held back as last_pitch_context
+        ("And the two-two... Slider in the dirt"); a template that describes
+        the pitch itself replaces the result but must keep "And the two-two...",
+        or the at-bat skips straight from the previous pitch to the out.
+        """
+        if not last_pitch_context:
+            return outcome_text
+        if "..." in last_pitch_context:
+            lead_in, sep = last_pitch_context.split("...", 1)[0].rstrip(), "..."
+        elif ". " in last_pitch_context:
+            # "And the oh-two delivery. Sinker, in there for strike three"
+            lead_in, sep = last_pitch_context.split(". ", 1)[0].rstrip(), "."
+        else:
+            return outcome_text
+        if not lead_in:
+            return outcome_text
+        body = outcome_text[:1].upper() + outcome_text[1:]
+        return f"{lead_in}{sep} {body}"
+
     def _check_and_add_delay(self, block_list, insert_at_index=-1, context='pitch'):
         DELAYS = {'batter': 11.5, 'first_pitch': 9.5, 'pitch': 8.5}
         delay = DELAYS.get(context)
@@ -28,10 +52,17 @@ class NarrativeRenderer(GameRenderer):
         else:
             block_list.append(delay_line)
 
-    def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple, batter_hand='R', location=None, pitch_description=''):
-        return get_pitch_description_for_location(
+    def _get_pitch_description_for_location(self, event_type, zone, pitch_type_simple,
+                                             batter_hand='R', location=None,
+                                             pitch_description='', previous_pitch_type=None):
+        previous = getattr(self, 'last_location_pitch', None)
+        avoid = previous[1] if previous and previous[0] == pitch_type_simple else None
+        desc = get_pitch_description_for_location(
             event_type, zone, pitch_type_simple, self.rng_pitch, batter_hand, location,
-            pitch_description=pitch_description)
+            previous_pitch_type=previous_pitch_type, pitch_description=pitch_description,
+            avoid=avoid)
+        self.last_location_pitch = (pitch_type_simple, desc)
+        return desc
 
     def _get_pitch_call(self, event, pitch_type, batter_hand='R', previous_pitch_type=None):
         details = event['details']
@@ -40,8 +71,8 @@ class NarrativeRenderer(GameRenderer):
         zone = details.get('zone')
 
         if code == 'B':
-            description = get_pitch_description_for_location(
-                code, zone, pitch_type, self.rng_pitch, batter_hand,
+            description = self._get_pitch_description_for_location(
+                code, zone, pitch_type, batter_hand,
                 location=details.get('location'), previous_pitch_type=previous_pitch_type,
                 pitch_description=details.get('description', ''))
         elif code in ('C', 'S'):
@@ -67,10 +98,11 @@ class NarrativeRenderer(GameRenderer):
                                   and details.get('location') != 'default') or
                                   (location and location[0] in strike_locations
                                    and (details.get('location') is not None or zone in range(1, 10)))):
-                description = get_pitch_description_for_location(
-                    code, zone, pitch_type, self.rng_pitch, batter_hand,
+                description = self._get_pitch_description_for_location(
+                    code, zone, pitch_type, batter_hand,
                     location=details.get('location'), previous_pitch_type=previous_pitch_type)
             else:
+                self.last_location_pitch = None
                 if code == 'C':
                     key = ('strike_called_three' if strikes_before == 2 else
                            'strike_called_one' if strikes_before == 0 else 'strike_called_two')
@@ -295,9 +327,17 @@ class NarrativeRenderer(GameRenderer):
             spots.append(str(spot))
         return f"the {', '.join(spots[:-1])}, and {spots[-1]} hitters"
 
-    def _get_consecutive_retired(self):
-        """Count consecutive batters retired across recent half-innings."""
+    def _get_consecutive_retired(self, upto=None, pitcher_id=None):
+        """Consecutive batters this pitcher has retired, up to (not including) play `upto`.
+
+        Counting from the end of the whole game, across both teams, reported
+        "has now retired 9 straight" right after the pitcher walked a man.
+        """
         plays = self.gameday_data['liveData']['plays']['allPlays']
+        if upto is not None:
+            plays = plays[:upto]
+        if pitcher_id is not None:
+            plays = [p for p in plays if p['matchup']['pitcher']['id'] == pitcher_id]
         count = 0
         for play in reversed(plays):
             result = play['result']['event']
@@ -397,7 +437,7 @@ class NarrativeRenderer(GameRenderer):
         if abs_count == 0:
             return None
 
-        NUMBER_WORDS = {0: '0', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'}
+        NUMBER_WORDS = {0: 'oh', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'}
 
         hits_word = NUMBER_WORDS.get(hits_count, str(hits_count))
         abs_word = NUMBER_WORDS.get(abs_count, str(abs_count))
@@ -405,30 +445,41 @@ class NarrativeRenderer(GameRenderer):
         base = f"{batter_last_name} is {hits_word}-for-{abs_word} this evening"
 
         if hits_count > 0:
-            # Check for pairs of same hit type
             from collections import Counter
             hit_types = Counter(e['event'] for e in hits)
-            most_common_type, most_common_count = hit_types.most_common(1)[0]
-
             type_names = {'Single': 'single', 'Double': 'double', 'Triple': 'triple', 'Home Run': 'home run'}
-            type_name = type_names.get(most_common_type, most_common_type.lower())
 
-            if most_common_count >= 2:
-                base += f". With a pair of {type_name}s"
-                # Check for additional notable events (strikeouts)
-                strikeouts = sum(1 for e in history if e['event'] == 'Strikeout')
-                if strikeouts > 0:
-                    base += f" and a strikeout"
-                base += "."
+            if len(hits) >= 2:
+                # Name every hit, so "three-for-four" is never followed by
+                # a list that only accounts for two of them.
+                if len(hit_types) == 1:
+                    kind, count = hit_types.most_common(1)[0]
+                    noun = type_names.get(kind, kind.lower())
+                    parts = [f"a pair of {noun}s" if count == 2 else f"{NUMBER_WORDS.get(count, count)} {noun}s"]
+                else:
+                    parts = []
+                    for kind in ('Home Run', 'Triple', 'Double', 'Single'):
+                        count = hit_types.get(kind, 0)
+                        if count:
+                            noun = type_names[kind]
+                            parts.append(f"a {noun}" if count == 1 else f"{NUMBER_WORDS.get(count, count)} {noun}s")
+                listed = parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+                base += f". With {listed}."
             else:
-                # Mention the most notable hit with inning
-                notable = hits[-1]  # most recent hit
-                ordinal = self._get_ordinal(notable['inning'])
-                base += f" with a {type_name} in the {ordinal}."
+                notable = hits[-1]
+                base += f" with a {type_names.get(notable['event'], notable['event'].lower())} {self._when(notable['inning'])}."
         else:
             base += "."
 
         return base
+
+    def _when(self, inning, with_inning_word=False):
+        """'in the second' / 'in the second inning', or 'earlier this inning'
+        when the batter is up for the second time in a half he batted around in."""
+        if inning == getattr(self, '_recap_current_inning', None):
+            return "earlier this inning"
+        ordinal = self._get_ordinal(inning)
+        return f"in the {ordinal} inning" if with_inning_word else f"in the {ordinal}"
 
     def _get_batter_recap(self, batter_id, batter_last_name, recap_gate, recap_format):
         """Return a sentence summarizing this batter's prior at-bats, or None.
@@ -457,7 +508,7 @@ class NarrativeRenderer(GameRenderer):
             hits_count = sum(1 for e in history if e['event'] in HIT_EVENTS)
             if abs_count == 0:
                 return None
-            NUMBER_WORDS = {0: '0', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'}
+            NUMBER_WORDS = {0: 'oh', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'}
             hits_word = NUMBER_WORDS.get(hits_count, str(hits_count))
             abs_word = NUMBER_WORDS.get(abs_count, str(abs_count))
             return f"{batter_last_name} is {hits_word}-for-{abs_word} this evening."
@@ -498,22 +549,15 @@ class NarrativeRenderer(GameRenderer):
         if len(entries) == 1:
             e = entries[0]
             v = verb_for(e)
-            ordinal = self._get_ordinal(e['inning'])
-            if len(history) == 1:
-                if variant == 0:
-                    return f"{batter_last_name} {v} in the {ordinal}."
-                else:
-                    return f"{batter_last_name} {v} in the {ordinal} inning."
-            else:
-                if variant == 0:
-                    return f"{batter_last_name} {v} in the {ordinal}."
-                else:
-                    return f"{batter_last_name} {v} in the {ordinal} inning."
+            return f"{batter_last_name} {v} {self._when(e['inning'], variant != 0)}."
 
         # Two prior ABs
         e1, e2 = entries
         v1, v2 = verb_for(e1), verb_for(e2)
-        return f"{batter_last_name} {v1} in the {self._get_ordinal(e1['inning'])} and {v2} in the {self._get_ordinal(e2['inning'])}."
+        when1, when2 = self._when(e1['inning']), self._when(e2['inning'])
+        if when1 == when2:
+            return f"{batter_last_name} {v1} and {v2} {when1}."
+        return f"{batter_last_name} {v1} {when1} and {v2} {when2}."
 
     def _record_batter_history(self, play):
         """Record a batter's at-bat result for recap purposes."""
@@ -746,6 +790,7 @@ class NarrativeRenderer(GameRenderer):
             inning = about['inning']
             half = "Top" if about['isTopInning'] else "Bottom"
 
+            self.last_location_pitch = None
             self._reseed_for_point(play, "play_start", about.get('startTime', ''),
                                    f"play:{play_idx}:start")
 
@@ -852,7 +897,9 @@ class NarrativeRenderer(GameRenderer):
                          'network_name': network_name,
                          'station_call': station_call,
                          'score_context': self._get_score_context_phrase(score_away, score_home),
-                         'consecutive_retired': self._get_consecutive_retired()
+                         'consecutive_retired': self._get_consecutive_retired(
+                             upto=play_idx,
+                             pitcher_id=self.plays_in_half_inning[-1]['matchup']['pitcher']['id'] if self.plays_in_half_inning else None)
                      }
 
                      summary_lines = []
@@ -864,6 +911,11 @@ class NarrativeRenderer(GameRenderer):
                          prior_pitchers = {p['matchup']['pitcher']['id'] for p in plays[:play_idx - len(self.plays_in_half_inning)] if p['about']['isTopInning'] == (prev_half == 'Top')}
                          if len(half_pitchers) == 1 and prior_pitchers - half_pitchers:
                              templates += GAME_CONTEXT['narrative_strings'].get('inning_end_123_relief', [])
+                         if len(half_pitchers) > 1:
+                             # Credit nobody: "another 1-2-3 inning for Miller"
+                             # when Miller got one out of it reads as a glitch.
+                             templates = ["Three up, three down.", "They go down in order.",
+                                          "And the side is retired in order."]
                          template = self.rng_flow.choice(templates)
                          summary_lines.append(template.format(pitcher_name=pitcher_name, inning_ordinal=self._get_ordinal(completed_innings)))
                      elif runs_scored_this_half == 0:
@@ -879,7 +931,10 @@ class NarrativeRenderer(GameRenderer):
                              )
                              if is_123:
                                  summary_lines.append(self._get_radio_string('inning_outro_no_score_order', ctx))
-                             elif had_baserunners and lob > 0:
+                             elif had_baserunners and lob > 0 and (
+                                     lob >= 2 or self.runners_on_base.get('2B') or self.runners_on_base.get('3B')
+                                     or self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+                                 # A lone runner stranded at first is not a jam.
                                  keys = ['inning_outro_no_score_jam']
                                  if lob == 3:
                                      keys.append('inning_outro_no_score_bases_loaded')
@@ -917,6 +972,10 @@ class NarrativeRenderer(GameRenderer):
                              if started_behind and now_ahead:
                                  keys.append('inning_outro_scored_take_lead')
                              templates = [t for key in keys for t in GAME_CONTEXT['radio_strings'].get(key, [])]
+                             if runs_scored_this_half != 1:
+                                 # "push a run across" after a grand slam
+                                 templates = [t.replace('push a run across', 'push {runs_scored_word} across')
+                                              for t in templates]
                              summary_lines.append(self.rng_color.choice(templates).format(**ctx))
 
                      # --- SCORE SUMMARY ---
@@ -1077,10 +1136,26 @@ class NarrativeRenderer(GameRenderer):
                               plays[play_idx - 1]['about'].get('inning') == inning and
                               plays[play_idx - 1]['about'].get('isTopInning') == about['isTopInning'])
             bases_just_cleared = (prev_same_half and prev_play_event == 'Home Run'
-                                  and len(runners) == 0 and self.outs_tracker > 0)
+                                  and len(runners) == 0)
             if len(runners) == 0:
-                if self.outs_tracker == 0:
-                     intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_leadoff'])
+                # Right after a homer with nobody out the next man is not
+                # "leading off" (Sleep: "So bases cleared, still nobody out for
+                # Carlisle"); this held only with one or two out before.
+                if self.outs_tracker == 0 and not bases_just_cleared:
+                     leadoff_pool = list(GAME_CONTEXT['narrative_strings']['batter_intro_leadoff'])
+                     if not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts'):
+                         # After a leadoff homer the next man isn't "leading off";
+                         # "batting first" / "top of the order" only fit the #1 hitter.
+                         order = self.gameday_data.get('liveData', {}).get('boxscore', {}).get('teams', {}).get(
+                             'away' if about['isTopInning'] else 'home', {}).get('battingOrder', [])
+                         is_one_hole = bool(order) and str(order[0]) == str(matchup['batter']['id'])
+                         banned = []
+                         if prev_same_half:
+                             banned += ['lead', 'Leading off', 'start the inning']
+                         if not is_one_hole:
+                             banned += ['Batting first', 'top of the']
+                         leadoff_pool = [t for t in leadoff_pool if not any(b in t for b in banned)] or leadoff_pool
+                     intro_template = self.rng_flow.choice(leadoff_pool)
                 elif bases_just_cleared:
                      intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('batter_intro_bases_cleared', GAME_CONTEXT['narrative_strings']['batter_intro_empty']))
                 else:
@@ -1188,6 +1263,7 @@ class NarrativeRenderer(GameRenderer):
             if recap_val < 0.7:
                 recap_gate = int(recap_val * 100)
                 recap_format = int(recap_format_val * 100)
+                self._recap_current_inning = inning
                 recap = self._get_batter_recap(batter_id, batter_last_name, recap_gate, recap_format)
                 if recap:
                     # Optionally append score context (~40% chance)
@@ -1230,6 +1306,12 @@ class NarrativeRenderer(GameRenderer):
                          play_text_blocks[-1] += " " + matchup_txt
                      else:
                          play_text_blocks.append(matchup_txt)
+
+            # Intro pieces are stitched together from separate pools ("And in
+            # steps Griffin." + "one away, the bases loaded." + "a lefty-righty
+            # matchup."); capitalize every sentence start in the joined text.
+            play_text_blocks[:] = [re.sub(r'(^|[.!?] )([a-z])', lambda m: m.group(1) + m.group(2).upper(), b)
+                                for b in play_text_blocks]
 
             result = play['result']
             outcome = result['event']
@@ -1360,11 +1442,28 @@ class NarrativeRenderer(GameRenderer):
                         else:
                             pbp_line = self._get_pitch_call(event, pitch_type, pitch_batter_hand,
                                                             previous_pitch_type)
+                        # Retain main's simulation preference for the high-heater
+                        # swing call, using recorded verbal location before zones.
+                        strict_facts = self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')
+                        swing_location = get_verbal_pitch_location_categories(details.get('location'))
+                        if swing_location is None:
+                            swing_location = get_pitch_location_categories(details.get('zone'), pitch_batter_hand)
+                        if (code == 'S' and not is_bunt_pitch and event['count']['strikes'] < 2
+                                and not strict_facts and orig_pitch_type.lower() == 'four-seam fastball'
+                                and 'high' in swing_location and self.rng_color.random() < 0.5):
+                            pbp_line = "Swing and a miss on a high heater"
 
                     elif code == 'U':
                          # The feed may establish a strike without identifying
                          # whether it was taken, swung at, or tipped.
                          pbp_line = "That's a strike" if details.get('isStrike') else "The pitch"
+
+                    if pbp_line and orig_pitch_type.strip().lower() in ('pitch', '', 'unknown'):
+                        # No pitch type in the feed: "Pitch, in there for a called
+                        # strike" reads as a glitch; drop the placeholder noun.
+                        stripped = re.sub(r'^Pitch,?\s+', '', pbp_line)
+                        if stripped != pbp_line and stripped:
+                            pbp_line = stripped[0].upper() + stripped[1:]
 
                     previous_pitch_type = orig_pitch_type
                     last_pitch_connector = connector
@@ -1372,6 +1471,8 @@ class NarrativeRenderer(GameRenderer):
                     # Reset consecutive foul counter on non-foul events
                     if code in ('B', 'P', 'C', 'S'):
                         self.consecutive_fouls = 0
+                    if code not in ('B', 'C'):
+                        self.last_location_pitch = None
 
                     if pbp_line:
                         # Flow Improvement: Use a comma instead of a period, but only if it's not an ellipsis or exclamation
@@ -1557,14 +1658,17 @@ class NarrativeRenderer(GameRenderer):
                     templates = strikeout_templates(pool_key, terminal_details, pitch_batter_hand)
                     if templates and not post_outcome_text and self.rng_play.random() < 0.65:
                         pitch_type = self._simplify_pitch_type(terminal_details.get('type', {}).get('description', 'pitch'))
-                        outcome_text = self.rng_play.choice(templates).format(
+                        k_template = self.rng_play.choice(templates)
+                        if not k_template.startswith('{pitch_type}'):
+                            pitch_type = pitch_type.lower()
+                        outcome_text = self._with_pitch_lead_in(last_pitch_context, k_template.format(
                             batter_name=batter_name, pitch_type=pitch_type,
                             out_context_str=out_context_str, result_outs_word=result_outs_word,
                             result_outs=result_outs,
                             pitch_type_short=get_pitch_type_short(pitch_type),
                             pitch_type_family=get_pitch_type_family(pitch_type),
                             batter_last_name=self.gameday_data.get('gameData', {}).get('players', {}).get(
-                                f"ID{matchup['batter']['id']}", {}).get('lastName') or batter_name.split()[-1])
+                                f"ID{matchup['batter']['id']}", {}).get('lastName') or batter_name.split()[-1]))
                         template_found = True
                 if not template_found and k_type == 'swinging' and self.verbose and not post_outcome_text:
                     pitch_type = self._simplify_pitch_type(terminal_details.get('type', {}).get('description', 'pitch'))
@@ -1572,8 +1676,9 @@ class NarrativeRenderer(GameRenderer):
                         last_pitch_event, pitch_type, batter_name, out_context_str,
                         pitch_batter_hand, matchup['batter']['id'])
                     if located_strikeout:
-                        outcome_text = (f"{last_pitch_connector} {located_strikeout}"
-                                        if last_pitch_connector else located_strikeout)
+                        outcome_text = self._with_pitch_lead_in(last_pitch_context, located_strikeout)
+                        if outcome_text == located_strikeout and last_pitch_connector:
+                            outcome_text = f"{last_pitch_connector} {located_strikeout}"
                         template_found = True
                 if not template_found and last_pitch_context and k_type == 'swinging':
                     last_pitch_lower = last_pitch_context.lower()
@@ -1587,7 +1692,7 @@ class NarrativeRenderer(GameRenderer):
                             last_event = last_pitch_event
                             orig_p_type = last_event['details'].get('type', {}).get('description', 'pitch')
                             simple_p_type = self._simplify_pitch_type(orig_p_type)
-                            outcome_text = self.rng_play.choice(dirt_templates).format(pitch_type=simple_p_type, batter_name=batter_name)
+                            outcome_text = self._with_pitch_lead_in(last_pitch_context, self.rng_play.choice(dirt_templates).format(pitch_type=simple_p_type, batter_name=batter_name))
                             template_found = True
 
                 if not template_found:
@@ -1622,7 +1727,9 @@ class NarrativeRenderer(GameRenderer):
                     out_suffix = '' if out_context_str in outcome_text else f' {out_context_str}'
                     outcome_text = outcome_text.rstrip() + f' {subject} strikes out{out_suffix}.'
                 elif out_context_str not in outcome_text:
-                    outcome_text = outcome_text.rstrip('.!?') + f', {out_context_str}.'
+                    # "...to end the at-bat, to end the inning." -> one ending.
+                    trimmed = re.sub(r' to end the at-bat[.!?]?$', '', outcome_text.rstrip())
+                    outcome_text = trimmed.rstrip('.!?') + f', {out_context_str}.'
 
             elif outcome == "Walk":
                  is_leadoff_batter = (len(self.plays_in_half_inning) == 0)
@@ -1656,15 +1763,49 @@ class NarrativeRenderer(GameRenderer):
                  valid_templates = [t for t in templates if not ("{last_pitch_context}" in t and not last_pitch_context)]
                  if not valid_templates: valid_templates = ["{batter_name} draws a walk."]
 
-                 outcome_text = self.rng_play.choice(valid_templates).format(**walk_context)
+                 chosen = self.rng_play.choice(valid_templates)
+                 outcome_text = chosen.format(**walk_context)
+                 if last_pitch_context and "{last_pitch_context}" not in chosen:
+                     # A summary like "That's a four-pitch walk for X." must
+                     # still follow the ball-four call, which the final-pitch
+                     # branch held back for {last_pitch_context}.
+                     outcome_text = f"{last_pitch_context}. {outcome_text}"
 
             elif outcome in ["HBP", "Hit By Pitch"]:
                 templates = GAME_CONTEXT['narrative_templates'].get('Hit By Pitch', {}).get('default', [])
                 if not templates: templates = ["{batter_name} is hit by the pitch."]
-                outcome_text = self.rng_play.choice(templates).format(batter_name=batter_name)
+                # With no pitches narrated, this joins the intro line that just
+                # named him in full; a broadcaster would use the last name.
+                hbp_name = batter_name if pitch_events else batter_name.split()[-1]
+                outcome_text = self.rng_play.choice(templates).format(batter_name=hbp_name)
+                thrown = [e for e in pitch_events if e.get('isPitch')]
+                if thrown:
+                    # The HBP pitch is its own pitch: "And the two-two... The
+                    # pitch hits him", not tacked onto the last pitch's line.
+                    last = thrown[-1]
+                    b, k = last['count'].get('balls', 0), last['count'].get('strikes', 0)
+                    code = last['details'].get('code')
+                    if code in ('B', 'P'):
+                        b += 1
+                    elif code in ('C', 'S') or (code == 'F' and k < 2):
+                        k += 1
+                    pitching_team = 'home' if about['isTopInning'] else 'away'
+                    connector = self._get_pitch_connector(b, k, pitcher_name=self.current_pitcher_info[pitching_team]['name'])
+                    self._check_and_add_delay(play_text_blocks, context='pitch')
+                    outcome_text = f"{connector} {outcome_text}"
+                elif not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts'):
+                    # First-pitch HBP: the sim records no pitch event, but it
+                    # was still a pitch ("And the first pitch... and he's hit").
+                    pitching_team = 'home' if about['isTopInning'] else 'away'
+                    connector = self._get_pitch_connector(0, 0, pitcher_name=self.current_pitcher_info[pitching_team]['name'])
+                    self._check_and_add_delay(play_text_blocks, context='pitch')
+                    outcome_text = f"{connector} {self.rng_play.choice(templates).format(batter_name=batter_name)}"
 
             elif outcome == "Strikeout Double Play":
-                outcome_text = f"{batter_name} strikes out on a pitch in the dirt, but the runner is gunned down! A strikeout double play."
+                # The pitch line already says how strike three came (and the
+                # caught stealing is narrated with it); "on a pitch in the dirt"
+                # contradicted a called third strike.
+                outcome_text = "And that's a strike 'em out, throw 'em out double play."
 
             elif outcome == "Caught Stealing" or ("Caught Stealing" in outcome and "Single" in outcome):
                  # Handle combined "Caught Stealing 2B / Single" outcomes
@@ -1694,6 +1835,32 @@ class NarrativeRenderer(GameRenderer):
                          ob = runner_out['movement']['outBase']
                          base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
                          outcome_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"
+
+            elif outcome.startswith(('Pickoff', 'Caught Stealing')):
+                 # Real feeds end at-bats with "Pickoff Caught Stealing 2B",
+                 # "Pickoff 1B", "Caught Stealing Home": the out is the result
+                 # itself, and the half-inning used to end with no out said.
+                 runner_out = next((r for r in play.get('runners', []) if r['movement'].get('isOut')), None)
+                 if runner_out:
+                     name = runner_out['details']['runner'].get('fullName', 'the runner')
+                     ob = runner_out['movement'].get('outBase') or ''
+                     base_name = {'1B': 'first', '2B': 'second', '3B': 'third'}.get(ob, 'home')
+                     origin = runner_out['movement'].get('originBase') or runner_out['movement'].get('start')
+                     origin_name = {'1B': 'first', '2B': 'second', '3B': 'third'}.get(origin, 'first')
+                     if outcome.startswith('Pickoff Caught Stealing'):
+                         outcome_text = f"The throw over to {origin_name}, and {name} breaks for {base_name}... and he's thrown out! Caught stealing on the pickoff"
+                     elif outcome.startswith('Pickoff'):
+                         outcome_text = f"A throw over to {base_name if ob else origin_name}... and {name} is picked off"
+                     else:
+                         outcome_text = f"{name} takes off for {base_name}... and he's caught stealing"
+                     outs_now = play['count'].get('outs', 0)
+                     outcome_text += " to end the inning." if outs_now >= 3 else f" for out number {self._get_number_word(outs_now)}."
+                     # Throws over that came first belong before the out; the
+                     # last one is the throw that got him, not "gets back safely".
+                     if post_outcome_text and outcome.startswith('Pickoff'):
+                         post_outcome_text.pop()
+                     play_text_blocks.extend(post_outcome_text)
+                     post_outcome_text.clear()
 
             elif outcome == "Field Error" and not any(e['details'].get('code') == 'X' for e in pitch_events):
                  err_credit = None
@@ -1762,6 +1929,20 @@ class NarrativeRenderer(GameRenderer):
 
                     outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context, play=play)
 
+            if (outcome_text and outcome in ('Groundout', 'Flyout', 'Lineout', 'Pop Out', 'Bunt Ground Out')
+                    and play['count'].get('outs', 0) < 3 and not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+                # A runner who moves up on an out has to be said, or the next
+                # intro's "runner on second" comes out of nowhere.
+                base_words = {'2B': 'second', '3B': 'third'}
+                for r in play.get('runners', []):
+                    mv, det = r.get('movement', {}), r.get('details', {})
+                    name = det.get('runner', {}).get('fullName', '')
+                    start, end = mv.get('start') or mv.get('originBase'), mv.get('end')
+                    if (not name or not start or start == end or mv.get('isOut') or end not in base_words
+                            or det.get('runner', {}).get('id') == matchup['batter'].get('id')
+                            or name.split()[-1] in outcome_text):
+                        continue
+                    outcome_text += f" {name.split()[-1]} moves up to {base_words[end]}."
             if outcome_text:
                  play_text_blocks.append(outcome_text)
             play_text_blocks.extend(post_outcome_text)
@@ -1795,7 +1976,24 @@ class NarrativeRenderer(GameRenderer):
                     score_lines.append(self._get_radio_string('score_update_tied', ctx))
                 else:
                     old_lead_team = self.away_team['name'] if old_away > old_home else self.home_team['name']
-                    if old_away != old_home and old_lead_team == lead_team:
+                    scoring_away = new_away != old_away
+                    leader_scored = scoring_away == (new_away > new_home)
+                    if old_away != old_home and old_lead_team == lead_team and not leader_scored:
+                         # The trailing team scored but still trails: "the
+                         # Pilots extend their lead to 5-3" after a Bombers run.
+                         trail = self.away_team if scoring_away else self.home_team
+                         ctx['trailing_team'] = trail['name']
+                         ctx['trailing_team_short'] = self._get_short_team_name(trail)
+                         # Same pool and draw as the extend case ("now lead 5-3"
+                         # is right either way); only "extend" becomes "cut".
+                         # "and the Pilots now lead 2-1" after a Bombers homer is
+                         # true but reads as the wrong team scoring.
+                         pool = [t.replace('{team_name} extend their lead to', '{trailing_team} cut the lead to')
+                                  .replace('{team_name_short} extend their lead to', '{trailing_team_short} cut the lead to')
+                                  .replace('{team_name} now lead', '{trailing_team} make it')
+                                 for t in GAME_CONTEXT['radio_strings']['score_update_extend']]
+                         score_lines.append(self.rng_color.choice(pool).format(**ctx))
+                    elif old_away != old_home and old_lead_team == lead_team:
                          score_lines.append(self._get_radio_string('score_update_extend', ctx))
                     else:
                          score_lines.append(self._get_radio_string('score_update_lead', ctx))

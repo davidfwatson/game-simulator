@@ -43,6 +43,7 @@ GAME_CONTEXT = {
                 "paints the black for a called strike",
                 "And that paints the corner for a called strike",
                 "That paints the corner for strike {strike_number_word}",
+                "{pitch_type} paints the corner for a called strike {strike_number_word}",
             ],
             "middle": ["right down the middle for a called strike", "right down Main Street",
                 "down the middle for a called strike",
@@ -108,6 +109,11 @@ GAME_CONTEXT = {
                 "And that is high for a ball",
                 "That's very high for {ball_call}",
                 "Just barely high for a ball",
+                # Single-location calls remain available when the corpus
+                # supplies height but does not identify an inside/outside side.
+                # Sources: pbp_example_1:161 and pbp_example_4:167.
+                "runs high",
+                "misses very high",
             ],
             "low": ["misses low", "downstairs", "low for a ball",
                 "just a bit low",
@@ -121,6 +127,11 @@ GAME_CONTEXT = {
                 "misses low for {ball_call}",
                 "Low for a ball",
                 "And that's low for {ball_call}",
+                # pbp_example_3:37/79/154 and pbp_example_4:131.
+                "misses a bit low",
+                "runs a bit low",
+                "down low",
+                "just misses low",
             ],
             "inside": ["misses inside", "runs inside", "inside for a ball",
                 "inside",
@@ -156,6 +167,16 @@ GAME_CONTEXT = {
                 "And that misses outside for {ball_call}",
                 "Just a bit outside for a ball",
                 "Just outside for a ball",
+                # These calls only require an outside location, not a height:
+                # pbp_example_1:192/484, pbp_example_3:145/233,
+                # episode_011:269, episode_013:45 and episode_041:252.
+                "misses just outside",
+                "misses just a bit outside",
+                "away",
+                "misses away",
+                "way outside",
+                "off the outside corner",
+                "runs wide",
             ],
             "dirt": ["in the dirt", "bounces in the dirt in front of the plate",
                 "in the dirt in front of the plate",
@@ -196,7 +217,7 @@ GAME_CONTEXT = {
                 "misses high",
                 "misses upstairs",
                 "up in the eyes",
-                "over the head",
+                "way up out of the zone",
                 "way upstairs",
                 "runs inside",
                 "a bit inside",
@@ -712,6 +733,14 @@ GAME_CONTEXT = {
             "ground_rule": [
                 "Hammered {direction}, and that will bounce over the wall. That's a ground-rule double for {batter_name}."
             ],
+            "no_wall": [
+                "Lined {direction}, and that one splits the outfielders. {batter_name} cruises into second.",
+                "Hit {direction}, and that gets down in a hurry. {batter_name} hustles into second with a double.",
+                "Driven {direction}. {fielder_name} cuts it off, but {batter_name} is in at second with a double.",
+                "A line drive {direction} that falls in, and {batter_name} takes second without a throw.",
+                "Into the gap it goes. {batter_name} is around first and into second, standing up.",
+                "Lofted {direction}, and it drops in between them. That's a double for {batter_name}.",
+            ],
             "lost_in_lights": [
                 "Hit in the air {direction}. {fielder_name} will lose that one in the lights, and that one falls in. {batter_name} heads for second with a double."
             ],
@@ -1092,7 +1121,7 @@ GAME_CONTEXT = {
             "default": [
                 "{batter_name} reaches on an error.",
                 "An error allows {batter_name} to reach base.",
-                "{batter_name} is aboard, and that will go down as an error.",
+                "{batter_name} is aboard, and that will go down as an error on {fielder_name}.",
                 "The play results in an error, and {batter_name} reaches safely.",
                 "An error by {fielder_name} allows {batter_name} to reach base."
             ],
@@ -1107,8 +1136,22 @@ GAME_CONTEXT = {
             "dropped_fly": [
                 "{fielder_name} gets to it, but he drops the ball. {batter_name} reaches safely on the error."
             ],
+            "air": [
+                "Fly ball {direction}. {fielder_name} is under it... and he drops it. {batter_name} is safe, and that's an error on {fielder_name}.",
+                "Lifted {direction}. {fielder_name} gets a glove on it, but it pops out. {batter_name} reaches on the error.",
+                "Hit in the air {direction}. {fielder_name} drifts over, and it glances off the glove. {batter_name} is aboard on the error.",
+            ],
+            "popup_error": [
+                "Popped up {direction}. {fielder_name} settles under it... and it pops out of the glove. {batter_name} is safe on the error.",
+                "A high pop-up {direction}. {fielder_name} calls for it, and he drops it. {batter_name} reaches on the error.",
+            ],
         },
         "Forceout": {
+            "home_force": [
+                "Grounder {direction}. {fielder_name} comes home, and they get the force at the plate {out_context_str}.",
+                "On the ground {direction}. {fielder_name} throws home in time for the force {out_context_str}.",
+                "Bouncer {direction}. {fielder_name} goes to the plate, and the runner is forced out at home {out_context_str}."
+            ],
             "default": [
                 "They get the force {out_context_str}. {batter_name} reaches on a fielder's choice.",
                 "The defense records a forceout {out_context_str}, with {batter_name} reaching on a fielder's choice.",
@@ -1353,7 +1396,7 @@ GAME_CONTEXT = {
         "runner_goes": [
             "and the runner goes!",
             "and there he goes!",
-            "runner goes!",
+            "and the runner is going!",
             "and the runner takes off!",
             "and the runner breaks!"
         ],
@@ -2041,9 +2084,9 @@ GAME_CONTEXT = {
             "{half} half of the {inning_ordinal} inning here at {venue} in {location}. {score_str}.",
         ],
         "inning_break_return": [
-             "Wally McCarthy and Producer Phil back with you, from {location}, for the",
+             "Wally McCarthy and Producer Phil back with you, from {location}.",
              "Wally McCarthy and Producer Phil back with you from {venue} here in {location}. {score_str}.",
-             "Wally McCarthy and Producer Phil back with you here on this {weather_desc} in {location}. {score_str}. {batting_team} will bring {due_up_desc} up to face {pitcher_name} here in the"
+             "Wally McCarthy and Producer Phil back with you here on this {weather_desc} in {location}. {score_str}. {batting_team} will bring {due_up_desc} up to face {pitcher_name}."
         ],
         "inning_outro_no_score": [
              "{batting_team} do not score.",

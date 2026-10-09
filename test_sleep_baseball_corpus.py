@@ -14,8 +14,6 @@ from sleep_baseball_corpus import (
 )
 
 
-
-
 class TestSleepBaseballCorpus(unittest.TestCase):
     def test_all_four_examples_and_seventeen_episodes_are_inventoried(self):
         paths = corpus_paths()
@@ -71,6 +69,17 @@ class TestSleepBaseballCorpus(unittest.TestCase):
         self.assertEqual(candidates[0].input['location'], 'low_outside')
         self.assertIsNone(candidates[0].input['zone'])
         self.assertIsNone(candidates[0].input['batter_hand'])
+
+    def test_in_after_explicit_height_retains_both_verbal_directions(self):
+        for phrase, location in (('Fastball low and in', 'low_inside'),
+                                 ('Curveball high and in', 'high_inside'),
+                                 ('Slider down and in', 'low_inside'),
+                                 ('Fastball up and in', 'high_inside')):
+            with self.subTest(phrase=phrase):
+                candidate = extract_phrases(phrase + '.', 'source.txt')[0]
+                self.assertEqual(candidate.input['location'], location)
+                self.assertIsNone(candidate.input['zone'])
+                self.assertIsNone(candidate.input['batter_hand'])
 
     def test_cut_on_it_and_missed_is_a_swinging_strike(self):
         for phrase in ('Fastball, cut on it and missed', 'Fastball, cut on it, missed'):
