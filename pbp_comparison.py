@@ -282,7 +282,10 @@ def compare_example(
     rendered: str,
     root: Path = REPOSITORY_ROOT,
 ) -> ComparisonScores:
-    target = (root / example.target_file).read_text(encoding="utf-8")
+    from transcript_asides import metric_source_text
+
+    # Host asides count for nothing, like the breaks cut from the sources.
+    target = metric_source_text(root / example.target_file, root, root / "transcript_asides")
     return compare_transcripts(
         "\n".join(target.splitlines()[example.target_skip:]),
         "\n".join(rendered.splitlines()[example.rendered_skip:]),

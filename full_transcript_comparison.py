@@ -5,6 +5,7 @@ import re
 
 from pbp_comparison import compare_transcripts, FULL_TRANSCRIPT_MINIMUMS
 from renderers import NarrativeRenderer
+from transcript_asides import metric_source_text
 from transcript_game_fixtures import LEDGER_DIR, OUTPUT_DIR, SOURCE_DIR
 
 
@@ -25,7 +26,9 @@ def ordered_coverage(target, rendered):
 
 def compare_game(episode):
     stem = f'episode_{episode:03d}'
-    source = (SOURCE_DIR / f'{stem}.txt').read_text()
+    # Host asides are blanked like the between-innings breaks cut from the
+    # source, keeping line numbers so ledger ranges still apply.
+    source = metric_source_text(SOURCE_DIR / f'{stem}.txt')
     data = json.loads((OUTPUT_DIR / f'{stem}.json').read_text())
     ledger = json.loads((LEDGER_DIR / f'{stem}.json').read_text())
     renderer = NarrativeRenderer(data)

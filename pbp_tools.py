@@ -286,8 +286,11 @@ def cmd_diff(args):
     with open(args.json_file) as f:
         data = json.load(f)
 
+    from transcript_asides import load_asides, strip_asides
     with open(args.target_file) as f:
         target_text = f.read()
+    # Annotated host asides count for nothing, as in the regression metrics.
+    target_text = strip_asides(target_text, load_asides(args.target_file))
 
     from renderers.narrative.renderer import NarrativeRenderer
     renderer = NarrativeRenderer(data)

@@ -17,6 +17,7 @@ import sys
 from commentary import GAME_CONTEXT
 from renderers.narrative.renderer import NarrativeRenderer
 from renderers.randomness import ChoiceRNG
+from transcript_asides import metric_source_text
 
 
 ROOT = Path(__file__).resolve().parent
@@ -60,12 +61,15 @@ LIMITATIONS = (
 # (eligible inventory, supported components, supported pitch clauses).
 # Counts are rounded down from the corpus scan, independently for every game.
 # Pitch floors ensure easy count phrases cannot conceal lost pitch-call support.
+# Clauses inside annotated host asides are not eligible (see transcript_asides);
+# episode 001's inventory floor dropped from 360 to 355 when three such
+# extractor false positives (tendency and delivery talk) left the inventory.
 CORPUS_FLOORS = {
     'pbp_example_1.txt': (230, 200, 75),
     'pbp_example_2.txt': (250, 220, 80),
     'pbp_example_3.txt': (200, 110, 35),
     'pbp_example_4.txt': (280, 245, 80),
-    'episode_001.txt': (360, 175, 40),
+    'episode_001.txt': (355, 175, 40),
     'episode_005.txt': (270, 125, 45),
     'episode_011.txt': (280, 190, 65),
     'episode_013.txt': (420, 285, 120),
@@ -385,7 +389,8 @@ def measure_corpus(root=ROOT):
     for path in corpus_paths(root):
         source = path.relative_to(root).as_posix()
         report = SourceCoverage(source)
-        for candidate in extract_phrases(path.read_text(), source):
+        text = metric_source_text(path, root, root / 'transcript_asides')
+        for candidate in extract_phrases(text, source):
             key = (candidate.kind, json.dumps(candidate.input, sort_keys=True), candidate.assertion_scope)
             if key not in cache:
                 cache[key] = {normalize_phrase(v) for v in render_case_variants(candidate)}
