@@ -14,6 +14,11 @@ from the four original PBP references and the 78 representative helper cases.
 
 Examples 1–4 have registered reference texts, structured fixtures, and rendered
 snapshots. Run `python pbp_match_report.py --check` for current measurements.
+Their draws are now fitted automatically by
+`python fit_transcript_games.py --references`: the current rendering is aligned
+to the reference to find each point's source window, and every choice and gate
+is fitted as for the full broadcasts. That replaces earlier hand-edited draws, so
+make durable corrections in the fixture's facts, then refit.
 Wording choices live in `commentaryRng` lists; timestamps only represent timing.
 The new full-broadcast catalog covers 1,106 observed appearance records, 3,727
 pitches, and 29 nonpitch actions. Episodes 001 and 051 are explicitly incomplete.
@@ -95,8 +100,11 @@ All tools live in `pbp_tools.py`. Key commands:
 
 The renderer uses the persisted `gameData.commentarySeed` (default zero) or an
 explicit renderer/CLI seed. Each point and stream gets a deterministic seed
-based on its identity, independent of timestamps. The four streams are `play`,
-`pitch`, `flow`, and `color`.
+based on its identity, independent of timestamps. The streams are `play`,
+`pitch`, `flow`, `color`, and `optional`. The `optional` stream holds only the
+gates of optional sentences (`NarrativeRenderer._optional`); its sentence is
+built before the gate is drawn, so keeping or dropping it never shifts a draw
+in another stream.
 
 A fixture may store an unlimited list of nonnegative integer draws per stream:
 

@@ -12,6 +12,81 @@ shared five-word sequences over the entire broadcast. TTS markers are excluded
 from both. Exact lines require identical normalized content, not just shared
 vocabulary.
 
+## Gates fitted per point, and optional sentences
+
+The fitter used to try six whole-game constants for every `random()` gate, so
+an optional sentence (an at-bat recap, a score-and-inning line, a runner
+reminder) was said at every opportunity in a game or at none. Now each gate is
+fitted per reseed point against that point's own source window, and four
+sentences the hosts often leave out became optional, each behind one draw on
+a new `optional` stream. [The ledger guide](README.md#how-draws-are-fitted)
+describes the method and the measured rates. Rendered facts did not change;
+only which sentences are said, and the wording choices that follow them.
+
+| Episode | Word overlap | 5-gram recall | Ordered words per appearance | Exact content lines |
+|---|---:|---:|---:|---:|
+| [001](../examples/transcript_games/episode_001.txt) | 46.5% → 48.7% | 14.6% → 15.9% | 49.7% → 51.8% | 0.5% → 0.5% |
+| [005](../examples/transcript_games/episode_005.txt) | 59.3% → 62.6% | 24.7% → 27.9% | 66.6% → 69.7% | 5.4% → 10.6% |
+| [011](../examples/transcript_games/episode_011.txt) | 55.9% → 58.4% | 22.1% → 24.1% | 69.9% → 70.3% | 4.7% → 6.0% |
+| [013](../examples/transcript_games/episode_013.txt) | 57.5% → 57.9% | 23.5% → 25.4% | 69.8% → 70.4% | 5.3% → 6.1% |
+| [020](../examples/transcript_games/episode_020.txt) | 65.1% → 67.3% | 26.2% → 28.3% | 72.2% → 73.9% | 8.0% → 8.3% |
+| [029](../examples/transcript_games/episode_029.txt) | 58.4% → 59.7% | 27.0% → 30.4% | 68.4% → 69.9% | 10.6% → 11.1% |
+| [035](../examples/transcript_games/episode_035.txt) | 61.8% → 63.7% | 27.6% → 31.5% | 69.4% → 71.3% | 3.7% → 6.1% |
+| [037](../examples/transcript_games/episode_037.txt) | 64.8% → 70.1% | 30.3% → 35.0% | 75.7% → 77.6% | 9.3% → 11.9% |
+| [039](../examples/transcript_games/episode_039.txt) | 64.2% → 69.1% | 31.6% → 37.7% | 74.3% → 78.3% | 11.7% → 12.1% |
+| [041](../examples/transcript_games/episode_041.txt) | 65.1% → 68.1% | 33.0% → 38.8% | 74.0% → 77.2% | 9.5% → 10.8% |
+| [045](../examples/transcript_games/episode_045.txt) | 65.1% → 68.0% | 29.8% → 35.4% | 69.7% → 72.9% | 8.4% → 10.3% |
+| [046](../examples/transcript_games/episode_046.txt) | 65.8% → 67.3% | 35.7% → 39.2% | 74.3% → 77.6% | 10.0% → 11.1% |
+| [049](../examples/transcript_games/episode_049.txt) | 64.4% → 66.2% | 33.8% → 40.1% | 76.3% → 80.5% | 12.1% → 14.4% |
+| [050](../examples/transcript_games/episode_050.txt) | 65.5% → 66.8% | 32.6% → 36.0% | 71.1% → 74.0% | 11.7% → 12.9% |
+| [051](../examples/transcript_games/episode_051.txt) | 59.6% → 60.6% | 29.5% → 33.7% | 69.9% → 75.1% | 16.4% → 19.7% |
+| [052](../examples/transcript_games/episode_052.txt) | 61.1% → 65.0% | 29.8% → 35.3% | 70.1% → 73.6% | 13.1% → 16.6% |
+| [053](../examples/transcript_games/episode_053.txt) | 65.1% → 68.1% | 32.9% → 39.0% | 72.5% → 76.8% | 16.9% → 19.5% |
+| **Mean** | 61.5% → 64.0% | 28.5% → 32.6% | 70.2% → 73.0% | 9.3% → 11.1% |
+
+How the gain divides (17-broadcast means, each row adding to the one above):
+
+| Change | Word overlap | 5-gram recall | Ordered words | Exact content lines |
+|---|---:|---:|---:|---:|
+| Before (whole-game gate constants) | 61.5% | 28.5% | 70.2% | 9.3% |
+| Fitter reads sources with asides removed | 61.3% | 28.5% | 70.3% | 9.3% |
+| Gates fitted per point (segment penalty 0.6) | 62.6% | 30.8% | 72.1% | 10.6% |
+| Four optional sentences on their own stream | 62.5% | 31.1% | 71.9% | 11.0% |
+| Segment penalty 0.3 instead of 0.6 | 63.0% | 31.4% | 72.8% | 11.0% |
+| Introduction choices scored against the tight `play_start` window | 64.0% | 32.6% | 73.0% | 11.1% |
+
+The segment penalty was swept from 0.15 to 0.8. Lower values keep more
+partly matched sentences, which raises the recall measures (5-grams, ordered
+words) and lengthens the rendering. Exact content lines held at 11.0% from 0.3
+upward and fell only at 0.15. With the final settings the per-appearance
+renderings total 78,793 words against 80,468 source words (asides excluded),
+so the renderer still says somewhat less than the hosts.
+
+The four references were refitted the same way, from an alignment of their
+hand-tuned rendering with the source. They improve on every measure:
+
+| Reference | Word Jaccard | 5-gram | Exact lines (all) | Exact lines (content) |
+|---|---:|---:|---:|---:|
+| `pbp_example_1.txt` | 64.8% → 68.3% | 31.8% → 35.1% | 54.0% → 55.0% | 21.2% → 23.0% |
+| `pbp_example_2.txt` | 60.5% → 65.9% | 34.4% → 40.1% | 59.5% → 59.9% | 24.3% → 25.1% |
+| `pbp_example_3.txt` | 59.2% → 69.7% | 27.1% → 36.3% | 48.3% → 48.7% | 8.1% → 8.9% |
+| `pbp_example_4.txt` | 61.3% → 65.1% | 28.4% → 32.2% | 56.4% → 57.0% | 15.8% → 17.2% |
+
+As a cross-check, the 21 fitted fixtures keep 38 of 121 counts after a
+numbered call (31%; hosts 10%), 34 of 61 one- and two-out strikeout out numbers
+(56%; hosts 70%), 17 of 21 inning-ending strikeout suffixes (81%; hosts 85%)
+and 114 of 189 hit situation sentences (60%; hosts 64%). Fitted counts are
+kept more often than the hosts say them, probably because count words such as
+"two and oh" also occur elsewhere in a pitch's source line. Simulated games
+use the measured rates, not the fitted shares.
+
+Minimums more than four points below the new measurements were raised to three
+points below them, rounded down: the full-broadcast 5-gram and ordered-word
+minimums of all 17 episodes, and the references' Jaccard, 5-gram and
+content-line minimums. No minimum was lowered. The 78 focused cases were
+recompiled for the new stream and all pass; the component inventory is
+unchanged (4,701 of 6,035 clauses).
+
 ## Host asides count for nothing
 
 Between-innings breaks (promos and in-character spots) were cut when the
