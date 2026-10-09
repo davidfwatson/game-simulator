@@ -274,7 +274,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -313,7 +314,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "lane": "left_center"
       },
       "runners": [
         {
@@ -351,7 +353,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -700,7 +703,9 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -749,7 +754,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "lane": "left_center"
       },
       "runners": [
         {
@@ -1001,7 +1008,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -1067,7 +1075,9 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1154,7 +1164,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -1283,7 +1294,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1449,7 +1461,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "runners": [
         {
@@ -1789,7 +1802,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track",
+        "lane": "left_center"
       },
       "runners": [
         {
@@ -1844,7 +1859,10 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "depth": "wall",
+        "lane": "left_line",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1983,7 +2001,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -2178,7 +2197,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -2410,7 +2430,9 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_line",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2589,7 +2611,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2815,7 +2838,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -2847,7 +2871,9 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2863,7 +2889,10 @@
           "out": false
         }
       ],
-      "notes": "Pinch hitter in pitcher spot."
+      "notes": "Pinch hitter in pitcher spot.",
+      "substitution": {
+        "type": "pinch_hitter"
+      }
     },
     {
       "inning": 8,
@@ -3249,7 +3278,10 @@
           "out": true
         }
       ],
-      "notes": "Pinch hitter in pitcher spot; opposing closer is named only Chadwick in source."
+      "notes": "Pinch hitter in pitcher spot; opposing closer is named only Chadwick in source.",
+      "substitution": {
+        "type": "pinch_hitter"
+      }
     },
     {
       "inning": 9,
@@ -3284,7 +3316,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {

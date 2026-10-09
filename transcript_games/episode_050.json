@@ -12,7 +12,7 @@
         "bat_side": "R"
       },
       {
-        "name": "Hector Piña",
+        "name": "Hector Pi\u00f1a",
         "position": "2B",
         "bat_side": "S"
       },
@@ -102,7 +102,23 @@
     "away_pitcher": "Frank Gibson",
     "home_pitcher": "Billy the Boroughbrello",
     "away_manager": "Hep Bronswell",
-    "home_manager": "Ray Chandler"
+    "home_manager": "Ray Chandler",
+    "season_stats": {
+      "Frank Gibson": {
+        "pitching": {
+          "wins": 10,
+          "losses": 7,
+          "era": "3.95"
+        }
+      },
+      "Billy the Boroughbrello": {
+        "pitching": {
+          "wins": 12,
+          "losses": 7,
+          "era": "4.16"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -154,7 +170,7 @@
     {
       "inning": 1,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Billy the Boroughbrello",
       "outcome": "Flyout",
       "source_start": 46,
@@ -189,7 +205,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "fielders": [
         {
@@ -221,7 +238,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall"
       },
       "pitch_hand": "R"
     },
@@ -252,7 +270,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_side",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -340,7 +360,7 @@
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -420,7 +440,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {
@@ -517,7 +538,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -555,7 +577,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "lane": "left_center"
       },
       "pitch_hand": "R"
     },
@@ -622,7 +646,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "runners": [
         {
@@ -797,7 +822,7 @@
     {
       "inning": 3,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Billy the Boroughbrello",
       "outcome": "Groundout",
       "source_start": 114,
@@ -862,7 +887,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -940,7 +966,10 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "depth": "wall",
+        "lane": "left_line",
+        "hardness": "hard"
       },
       "pitch_hand": "L"
     },
@@ -1006,7 +1035,7 @@
           "end": "1B"
         }
       ],
-      "notes": "Boroughbrello tagged out in a5-6-5 rundown; batter reaches on fielder’s choice. This is not a force on the runner from second.",
+      "notes": "Boroughbrello tagged out in a5-6-5 rundown; batter reaches on fielder\u2019s choice. This is not a force on the runner from second.",
       "pitch_hand": "L"
     },
     {
@@ -1080,7 +1109,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "pitch_hand": "R"
     },
@@ -1288,7 +1318,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1339,7 +1370,7 @@
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -1382,7 +1413,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1414,7 +1446,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "fielders": [
         {
@@ -1487,7 +1520,7 @@
     {
       "inning": 5,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Billy the Boroughbrello",
       "outcome": "Pop Out",
       "source_start": 188,
@@ -1506,7 +1539,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1539,7 +1573,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -1582,7 +1617,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_side",
+        "hardness": "hard"
       },
       "pitch_hand": "L"
     },
@@ -1619,7 +1656,8 @@
       ],
       "hit": {
         "location": "1B",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_side"
       },
       "fielders": [
         {
@@ -1659,7 +1697,7 @@
           "position": "SS"
         },
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -1716,7 +1754,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "fielders": [
         {
@@ -1789,7 +1828,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "shallow"
       },
       "pitch_hand": "R"
     },
@@ -1856,7 +1896,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_side"
       },
       "fielders": [
         {
@@ -2157,7 +2198,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "pitch_hand": "L"
     },
@@ -2191,7 +2233,7 @@
           "position": "SS"
         },
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -2218,7 +2260,7 @@
     {
       "inning": 8,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Billy the Boroughbrello",
       "outcome": "Single",
       "source_start": 270,
@@ -2253,7 +2295,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "pitch_hand": "R"
     },
@@ -2317,7 +2361,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2391,7 +2436,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -2423,7 +2469,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2688,7 +2735,11 @@
         }
       ],
       "notes": "Stuart Camacho pinch-hits for Billy the Boroughbrello in the ninth lineup spot.",
-      "pitch_hand": "L"
+      "pitch_hand": "L",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Billy the Boroughbrello"
+      }
     },
     {
       "inning": 9,
@@ -2761,11 +2812,12 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         }
       ],

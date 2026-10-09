@@ -519,7 +519,12 @@ class TestFullTranscriptCatalog(unittest.TestCase):
                 for original, compiled in zip(ledger['plays'], data['liveData']['plays']['allPlays']):
                     self.assertEqual(compiled['source'], {'start': original['source_start'], 'end': original['source_end']})
                     expected = [(p['line'], p['code'] != 'A') for p in original['pitches']]
-                    self.assertEqual([(p['sourceLine'], p['isPitch']) for p in compiled['playEvents']], expected)
+                    # A pinch hitter's Offensive Substitution action comes from the
+                    # ledger's `substitution`, not from a pitch line.
+                    self.assertEqual([(p['sourceLine'], p['isPitch']) for p in compiled['playEvents']
+                                      if not p.get('isSubstitution')], expected)
+                    self.assertEqual(any(p.get('isSubstitution') for p in compiled['playEvents']),
+                                     'substitution' in original)
                     self.assertEqual(compiled['about']['isComplete'], original['outcome'] != 'Incomplete')
                 self.assertEqual(ledger, before)
 

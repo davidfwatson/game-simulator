@@ -100,7 +100,23 @@
     "away_pitcher": "Beans Sorensen",
     "home_pitcher": "Ben Torres",
     "away_manager": "Bud Powell",
-    "home_manager": "Sam Chalmers"
+    "home_manager": "Sam Chalmers",
+    "season_stats": {
+      "Beans Sorensen": {
+        "pitching": {
+          "wins": 6,
+          "losses": 5,
+          "era": "4.17"
+        }
+      },
+      "Ben Torres": {
+        "pitching": {
+          "wins": 2,
+          "losses": 1,
+          "era": "3.89"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -146,7 +162,7 @@
           "line": 66
         }
       ],
-      "notes": "Foul tip into catcher’s glove at63 is recorded as a foul strike; source explicitly says count0-2.",
+      "notes": "Foul tip into catcher\u2019s glove at63 is recorded as a foul strike; source explicitly says count0-2.",
       "pitch_hand": "R"
     },
     {
@@ -241,7 +257,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "fielders": [
         {
@@ -383,7 +400,7 @@
           "out": true
         }
       ],
-      "notes": "Incomplete plate appearance: Colbert is caught stealing to end the inning. Primero returns with a fresh count next inning. Line95 abruptly follows a narrated foul with “Instead, a toss over to first”; retained the foul clause but its relation to the subsequent pickoff/caught stealing is ambiguous.",
+      "notes": "Incomplete plate appearance: Colbert is caught stealing to end the inning. Primero returns with a fresh count next inning. Line95 abruptly follows a narrated foul with \u201cInstead, a toss over to first\u201d; retained the foul clause but its relation to the subsequent pickoff/caught stealing is ambiguous.",
       "pitch_hand": "R"
     },
     {
@@ -508,7 +525,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -665,7 +683,7 @@
           "end": "1B"
         }
       ],
-      "notes": "Bradleys tagged by shortstop after moving on contact; nonforce fielder’s-choice out, Primero remains on third.",
+      "notes": "Bradleys tagged by shortstop after moving on contact; nonforce fielder\u2019s-choice out, Primero remains on third.",
       "pitch_hand": "R"
     },
     {
@@ -824,7 +842,7 @@
           "end": null
         }
       ],
-      "notes": "Bases-loaded force at third retires Stipe for the third out; no run scores. Torres’s terminal base is not narrated once the third out is made; end remains unknown rather than inventing a safe arrival at occupied first.",
+      "notes": "Bases-loaded force at third retires Stipe for the third out; no run scores. Torres\u2019s terminal base is not narrated once the third out is made; end remains unknown rather than inventing a safe arrival at occupied first.",
       "pitch_hand": "R"
     },
     {
@@ -924,7 +942,8 @@
       ],
       "hit": {
         "location": "C",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -987,7 +1006,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -1076,7 +1096,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1113,7 +1134,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "runners": [
         {
@@ -1291,7 +1313,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "fielders": [
         {
@@ -1502,7 +1525,9 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "lane": "left_line"
       },
       "pitch_hand": "R"
     },
@@ -1553,7 +1578,7 @@
           "end": "3B"
         }
       ],
-      "notes": "Source239 contains the end of Torres’s double and introduction of Topanga; source ranges share that line.",
+      "notes": "Source239 contains the end of Torres\u2019s double and introduction of Topanga; source ranges share that line.",
       "pitch_hand": "R"
     },
     {
@@ -1589,7 +1614,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall"
       },
       "runners": [
         {
@@ -2078,7 +2104,9 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "lane": "right_center"
       },
       "pitch_hand": "R"
     },

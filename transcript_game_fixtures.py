@@ -177,6 +177,26 @@ def compile_game(ledger, source_bytes):
                     if not batter_safe:
                         event_outs += 1
 
+        if 'substitution' in record:
+            # A pinch hitter is a StatsAPI "Offensive Substitution" action at
+            # the start of his at-bat's playEvents.
+            substitution = record['substitution']
+            if substitution.get('type') != 'pinch_hitter' or set(substitution) - {'type', 'replaces'}:
+                raise ValueError(f'Play {index}: a substitution is {{"type": "pinch_hitter", "replaces": name}}')
+            replaced = person(substitution['replaces']) if substitution.get('replaces') else None
+            balls0, strikes0 = record.get('initial_count', [0, 0])
+            action = {'isPitch': False, 'type': 'action', 'isSubstitution': True, 'index': 0,
+                      'details': {'event': 'Offensive Substitution', 'eventType': 'offensive_substitution',
+                                  'description': f"Offensive Substitution: Pinch-hitter {batter['fullName']}"
+                                                 + (f" replaces {replaced['fullName']}." if replaced else '.')},
+                      'count': {'balls': balls0, 'strikes': strikes0, 'outs': previous_outs},
+                      'position': {'code': '11', 'name': 'Pinch Hitter', 'abbreviation': 'PH'},
+                      'player': {'id': batter['id']}, 'pitchData': {}}
+            if replaced:
+                action['replacedPlayer'] = {'id': replaced['id']}
+            events.insert(0, action)
+            for position_index, event in enumerate(events):
+                event['index'] = position_index
         movements = copy.deepcopy(record.get('runners', []))
         if not any(runner['name'] == record['batter'] for runner in movements) and outcome != 'Incomplete':
             safe_base = HIT_BASES.get(outcome)
@@ -280,6 +300,24 @@ def compile_game(ledger, source_bytes):
         previous_outs, previous_score = outs, list(score)
     for i, side in enumerate(('away', 'home')):
         totals[side]['runs'] = previous_score[i]
+    # Season statistics the hosts read (a starter's record and ERA) go where
+    # a StatsAPI feed keeps them: boxscore players' seasonStats.
+    sides = {}
+    for side in ('away', 'home'):
+        for player in game.get(f'{side}_lineup', []):
+            sides.setdefault(player['name'], side)
+        sides.setdefault(game[f'{side}_pitcher'], side)
+    for record in records:
+        sides.setdefault(record['batter'], 'away' if record['top'] else 'home')
+        sides.setdefault(record['pitcher'], 'home' if record['top'] else 'away')
+    for name, season in game.get('season_stats', {}).items():
+        if name not in names or name not in sides:
+            raise ValueError(f'Season statistics for unknown player {name!r}')
+        if set(season) - {'pitching', 'batting'}:
+            raise ValueError(f'{name}: season_stats holds only pitching and batting groups')
+        pid = names[name]
+        boxes[sides[name]].setdefault('players', {})[f'ID{pid}'] = {
+            'person': {'id': pid, 'fullName': name}, 'seasonStats': copy.deepcopy(season)}
     return {'gameData': {'commentarySeed': number, 'teams': teams, 'players': players,
              'game': {'scheduledInnings': game.get('scheduled_innings', 9)},
              'venue': game.get('venue', 'the ballpark'),

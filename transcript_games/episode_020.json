@@ -82,7 +82,23 @@
       }
     ],
     "away_pitcher": "Rick Stetson",
-    "home_pitcher": "Virgil Hughes"
+    "home_pitcher": "Virgil Hughes",
+    "season_stats": {
+      "Rick Stetson": {
+        "pitching": {
+          "wins": 6,
+          "losses": 2,
+          "era": "3.67"
+        }
+      },
+      "Virgil Hughes": {
+        "pitching": {
+          "wins": 5,
+          "losses": 3,
+          "era": "5.12"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -162,7 +178,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -249,7 +266,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -388,7 +406,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "runners": [
         {
@@ -501,7 +520,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "runners": [
         {
@@ -692,7 +712,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -962,7 +983,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_line"
       },
       "runners": [
         {
@@ -1001,7 +1023,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -1146,7 +1169,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "right_center"
       },
       "runners": [
         {
@@ -1730,7 +1754,8 @@
         }
       ],
       "hit": {
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "runners": [
         {
@@ -2303,7 +2328,10 @@
           "out": false
         }
       ],
-      "notes": "The source does not identify which foul line/corner receives the double; no left/right location invented. Announced delay before first pitch is included in source range."
+      "notes": "The source does not identify which foul line/corner receives the double; no left/right location invented. Announced delay before first pitch is included in source range.",
+      "hit": {
+        "depth": "wall"
+      }
     },
     {
       "inning": 7,
@@ -2377,7 +2405,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -2585,7 +2614,8 @@
       ],
       "hit": {
         "location": "1B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2601,7 +2631,11 @@
           "position": "1B"
         }
       ],
-      "notes": "Pinch hitter for Rick Stetson."
+      "notes": "Pinch hitter for Rick Stetson.",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Rick Stetson"
+      }
     },
     {
       "inning": 8,
@@ -2679,7 +2713,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "lane": "right_side"
       },
       "runners": [
         {
@@ -2741,7 +2776,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "runners": [
         {
@@ -2796,7 +2832,11 @@
           "out": true
         }
       ],
-      "notes": "Pinch hitter for Virgil Hughes; Stretch Parsons enters as opposing reliever."
+      "notes": "Pinch hitter for Virgil Hughes; Stretch Parsons enters as opposing reliever.",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Virgil Hughes"
+      }
     },
     {
       "inning": 8,
@@ -2831,7 +2871,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "runners": [
         {
@@ -2893,7 +2934,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -3148,7 +3190,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "shallow"
       },
       "runners": [
         {
@@ -3192,7 +3235,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "warning_track"
       },
       "runners": [
         {
@@ -3237,7 +3281,9 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "left_line",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -3353,7 +3399,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall",
+        "lane": "left_center"
       },
       "runners": [
         {

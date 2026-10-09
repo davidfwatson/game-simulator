@@ -102,7 +102,23 @@
     "away_pitcher": "Butch Flores",
     "home_pitcher": "Virgil Hughes",
     "away_manager": "Sam Chalmers",
-    "home_manager": "Merlin Buffins"
+    "home_manager": "Merlin Buffins",
+    "season_stats": {
+      "Butch Flores": {
+        "pitching": {
+          "wins": 6,
+          "losses": 3,
+          "era": "5.12"
+        }
+      },
+      "Virgil Hughes": {
+        "pitching": {
+          "wins": 9,
+          "losses": 5,
+          "era": "4.82"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -331,7 +347,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "deep"
       },
       "fielders": [
         {
@@ -453,7 +470,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -598,7 +616,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "shallow"
       },
       "pitch_hand": "R"
     },
@@ -657,7 +676,7 @@
           "position": "1B"
         }
       ],
-      "notes": "Source107 ends Ortega’s single and introduces Palomar. At109 pitcher throws to first instead of delivering a pitch; Ortega returns safely.",
+      "notes": "Source107 ends Ortega\u2019s single and introduces Palomar. At109 pitcher throws to first instead of delivering a pitch; Ortega returns safely.",
       "pitch_hand": "R"
     },
     {
@@ -762,7 +781,8 @@
       ],
       "hit": {
         "location": "P",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -938,7 +958,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "hardness": "soft"
       },
       "fielders": [
         {
@@ -1055,7 +1076,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "lost_in_lights"
+        "categoryOverride": "lost_in_lights",
+        "depth": "shallow"
       },
       "notes": "Center fielder loses fly in lights; source explicitly awards stand-up double, not an error.",
       "pitch_hand": "R"
@@ -1240,7 +1262,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "pitch_hand": "R"
     },
@@ -1266,7 +1289,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_side"
       },
       "fielders": [
         {
@@ -1298,7 +1322,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1380,7 +1405,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1500,7 +1526,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "lane": "left_center"
       },
       "fielders": [
         {
@@ -1537,7 +1564,10 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "lane": "left_center",
+        "hardness": "soft"
       },
       "pitch_hand": "R"
     },
@@ -1630,7 +1660,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall"
       },
       "runners": [
         {
@@ -1705,7 +1736,10 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "lane": "left_center",
+        "hardness": "soft"
       },
       "pitch_hand": "R"
     },
@@ -1752,7 +1786,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1878,7 +1913,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall"
       },
       "pitch_hand": "R"
     },
@@ -1904,7 +1940,9 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "hardness": "soft"
       },
       "runners": [
         {
@@ -1956,7 +1994,7 @@
           "line": 266
         }
       ],
-      "notes": "Source259 introduces Topanga after De Jesus’s single. Beans Sorensen is ejected during a mound visit although he is not pitching; Hughes remains the active pitcher.",
+      "notes": "Source259 introduces Topanga after De Jesus\u2019s single. Beans Sorensen is ejected during a mound visit although he is not pitching; Hughes remains the active pitcher.",
       "pitch_hand": "R"
     },
     {
@@ -1998,7 +2036,8 @@
       "hit": {
         "location": "SS",
         "trajectory": "ground_ball",
-        "categoryOverride": "infield_knockdown"
+        "categoryOverride": "infield_knockdown",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2221,7 +2260,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "lane": "middle"
       },
       "fielders": [
         {
@@ -2301,7 +2341,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2309,7 +2350,7 @@
           "position": "1B"
         }
       ],
-      "notes": "Intro says Flores’s sixth-inning sac bunt scored a run, but actual sixth-inning sequence advances Vega to second and Stipe’s subsequent double scores him; no RBI assigned to the bunt.",
+      "notes": "Intro says Flores\u2019s sixth-inning sac bunt scored a run, but actual sixth-inning sequence advances Vega to second and Stipe\u2019s subsequent double scores him; no RBI assigned to the bunt.",
       "pitch_hand": "R"
     },
     {
@@ -2458,7 +2499,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2515,7 +2557,10 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow",
+        "lane": "right_center",
+        "hardness": "soft"
       },
       "pitch_hand": "R"
     },
@@ -2574,7 +2619,11 @@
         }
       ],
       "notes": "Eddie Kincaid pinch-hits for Virgil Hughes in ninth spot; grounder results in force at second, not a batter putout.",
-      "pitch_hand": "R"
+      "pitch_hand": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Virgil Hughes"
+      }
     },
     {
       "inning": 9,
@@ -2636,7 +2685,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "wall"
       },
       "pitch_hand": "L"
     },
@@ -2706,7 +2756,8 @@
       ],
       "hit": {
         "location": "CF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2775,7 +2826,8 @@
       ],
       "hit": {
         "location": "3B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {

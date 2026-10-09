@@ -1,6 +1,7 @@
 import re
 from commentary import GAME_CONTEXT
 from .helpers import simplify_pitch_type
+from .batted_ball import gate_templates, has_spot_facts, spot_direction, supported_claims
 
 POS_NUMBERS = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
 
@@ -34,9 +35,89 @@ def build_dp_notation(play):
         rest.remove(nxt)
     return '-'.join(notation)
 
-def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play):
+BASE_WORDS = {'1B': 'first', '2B': 'second', '3B': 'third'}
+RUN_WORDS = {2: 'two', 3: 'three', 4: 'four'}
+
+
+def _last_name(renderer, person):
+    player = renderer.gameday_data.get('gameData', {}).get('players', {}).get(f"ID{person.get('id')}", {})
+    return player.get('lastName') or (person.get('fullName') or 'the runner').split()[-1]
+
+
+def runner_sentences(renderer, play, said):
+    """Name the runners who score or reach third on a ball in play.
+
+    Hosts: "Nomo will score. Brown will score. Sessions coming around to
+    score." Each sentence is built (its wording drawn) before its optional
+    gate, lead runner first; a runner the call already names is skipped.
+    """
+    play = play or {}
+    batter_id = play.get('matchup', {}).get('batter', {}).get('id')
+    final = {}
+    for runner in play.get('runners', []):
+        person = runner.get('details', {}).get('runner', {})
+        if person.get('id') is None or person.get('id') == batter_id:
+            continue
+        final[person['id']] = (person, runner.get('movement', {}))
+    order = {'3B': 0, '2B': 1, '1B': 2}
+    sentences, used = [], set()
+    for person, movement in sorted(final.values(), key=lambda item: order.get(item[1].get('start') or item[1].get('originBase'), 3)):
+        start = movement.get('start') or movement.get('originBase')
+        end = movement.get('end')
+        if movement.get('isOut') or start not in BASE_WORDS:
+            continue
+        if end in ('score', 'home'):
+            pool = GAME_CONTEXT['narrative_strings']['runner_scores']
+        elif end == '3B' and start in ('1B', '2B'):
+            pool = GAME_CONTEXT['narrative_strings']['runner_to_third']
+        else:
+            continue
+        name = _last_name(renderer, person)
+        if re.search(rf'\b{re.escape(name)}\b', said):
+            continue
+        # "Nomo will score. Brown will score. Sessions coming around to
+        # score": the same words twice running read as a template firing.
+        pool = [template for template in pool if template not in used] or pool
+        template = renderer.rng_play.choice(pool)
+        used.add(template)
+        sentence = template.format(runner=name, origin=BASE_WORDS[start])
+        if not hasattr(renderer, '_optional') or renderer._optional('runner_scores'):
+            sentences.append(sentence)
+    return ' '.join(sentences)
+
+
+def rbi_status_templates(outcome, rbi, result_outs):
+    """The hit's situation sentence when it drove in runs ("And that's an
+    RBI single for Ali Nunez", "a two-out RBI double", "a three-run triple")."""
+    strings = GAME_CONTEXT['narrative_strings']
+    hit = outcome.lower()
+    if rbi >= 2:
+        runs = RUN_WORDS.get(rbi, str(rbi))
+        return [t.replace('{runs}', runs).replace('{hit}', hit) for t in strings['rbi_hit_runs']]
+    pool = strings['rbi_hit'] + (strings['rbi_hit_two_out'] if result_outs == 2 else [])
+    return [t.replace('{hit}', hit) for t in pool]
+
+
+def home_run_runs_sentence(renderer, play, batter_name, said=''):
+    """"And that's a two-run homer for Steve McDykel." Built, then gated.
+    After a call that already named him in full, the last name will do."""
+    rbi = (play or {}).get('result', {}).get('rbi')
+    if not rbi or (play or {}).get('result', {}).get('isWalkoff'):
+        return ''
+    if batter_name in said:
+        batter_name = batter_name.split()[-1]
+    key = {1: 'home_run_solo', 2: 'home_run_two_run', 3: 'home_run_three_run'}.get(rbi, 'home_run_grand_slam')
+    sentence = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings'][key]).format(batter_name=batter_name)
+    if hasattr(renderer, '_optional') and not renderer._optional('home_run_runs'):
+        return ''
+    return sentence
+
+
+def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play, rbi=0):
     key = None
     outcome_lower = outcome.lower()
+    if rbi:
+        return rng_play.choice(rbi_status_templates(outcome, rbi, result_outs)).format(batter_name=batter_name)
 
     if is_leadoff:
          key = f"leadoff_{outcome_lower}"
@@ -174,6 +255,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if template_outcome == 'Groundout' and is_bunt:
         template_outcome = 'Bunt Ground Out'
     cat_override = factual_play_category(renderer, template_outcome, hit_data, pitch_details, fielder_pos, play)
+    factual = bool(cat_override)
     if not cat_override:
         guarded_categories = {
             'walkoff', 'ground_rule', 'lost_in_lights', 'throwing_error', 'infield_knockdown',
@@ -185,6 +267,10 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         if supplied_override in guarded_categories or (template_outcome == 'Field Error' and supplied_override == 'grounder'):
             supplied_override = None
         cat_override = 'bunt' if template_outcome == 'Single' and is_bunt else supplied_override
+    if (not cat_override and template_outcome == 'Flyout'
+            and hit_data.get('depth') in ('deep', 'warning_track', 'wall')):
+        # A recorded deep fly: the fielder goes back for it.
+        cat_override = 'deep'
     if cat_override:
         cat = cat_override
     elif (template_outcome == 'Single' and hit_data.get('trajectory') == 'line_drive'
@@ -290,6 +376,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         if direction.endswith('field'):
             direction = 'to ' + direction_noun
 
+    if has_spot_facts(hit_data):
+        # A recorded depth or lane says where the ball went more exactly
+        # than the fielder's position ("down the left field line").
+        direction, direction_noun = spot_direction(hit_data, template_outcome, direction, direction_noun)
+
     # Strip "deep " prefix to avoid "deep deep center field" in templates
     if direction_noun.startswith("deep "):
         direction_noun = direction_noun[5:]
@@ -325,6 +416,21 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
                         and "deep {direction_noun}" not in t]
         if filtered:
             specific_templates = filtered
+
+    if specific_templates and (strict or has_spot_facts(hit_data)):
+        # "All the way to the wall", "hard grounder", "into the gap": a claim
+        # about where or how hard the ball went needs the recorded fact.
+        supported = supported_claims(hit_data, template_outcome)
+        gated = gate_templates(specific_templates, supported)
+        if not gated and factual:
+            # A recorded situation (a ground-rule double, a walk-off) outranks
+            # a style claim its only templates make.
+            gated = specific_templates
+        if not gated:
+            outcome_templates = GAME_CONTEXT.get('narrative_templates', {}).get(template_outcome, {})
+            gated = (gate_templates(outcome_templates.get('default', []), supported)
+                     or gate_templates(GAME_CONTEXT.get('unlocated_contact', {}).get(template_outcome, []), supported))
+        specific_templates = gated or specific_templates
 
     # Highlight-reel plays are rare: two "spectacular catch"es in three
     # innings read as a template firing. Keep them ~25 balls in play apart.
@@ -404,6 +510,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         final_description = prefix + template.format(**context)
 
     final_description = final_description.replace("a diving the ", "the diving ")
+    # "Sent deep {direction}" with a recorded deep direction: "Sent deep to deep left field".
+    final_description = re.sub(r"\bdeep (to |into )deep ", r"deep \1", final_description)
     # "over the head of a leaping the center fielder"
     final_description = re.sub(r"\ba (leaping|sliding|charging|backpedaling|lunging) the ", r"the \1 ", final_description)
     # "Bouncer to back to the mound"
@@ -424,12 +532,26 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if template_outcome == 'Field Error' and 'error' not in final_description.lower():
         final_description += f" An error by {fielder_name or 'the fielder'}."
 
+    if play and play.get('runners') and template_outcome != 'Home Run':
+        runner_text = runner_sentences(renderer, play, final_description)
+        if runner_text:
+            final_description = final_description.rstrip() + ' ' + runner_text
+    if template_outcome == 'Home Run' and play:
+        runs_text = home_run_runs_sentence(renderer, play, batter_name, final_description)
+        if runs_text:
+            final_description = final_description.rstrip() + ' ' + runs_text
+
     if outcome in ["Single", "Double", "Triple"]:
-         status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play)
+         rbi = (play or {}).get('result', {}).get('rbi') or 0
+         status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context,
+                                               renderer.rng_play, rbi=rbi)
          if status_str and batter_name in final_description and batter_name in status_str \
-                 and not status_str.startswith(batter_name):
+                 and not status_str.startswith(batter_name) and not rbi:
              # "...a base hit for Sam Decker. A two-out base hit for Sam Decker."
              status_str = None
+         if status_str and rbi and batter_name in final_description:
+             # "...Kosinski heading for third. And that is a three-run triple for Kosinski."
+             status_str = status_str.replace(batter_name, batter_last_name)
          if status_str and hasattr(renderer, '_optional') and not renderer._optional('hit_situation'):
              # Built first, so dropping it shifts no later choice.
              status_str = None

@@ -13,7 +13,7 @@
         "bat_side": "R"
       },
       {
-        "name": "Hector Piña",
+        "name": "Hector Pi\u00f1a",
         "position": "2B",
         "bat_side": "S"
       },
@@ -101,7 +101,23 @@
       }
     ],
     "away_pitcher": "Frank Gibson",
-    "home_pitcher": "Brocktune Shemper"
+    "home_pitcher": "Brocktune Shemper",
+    "season_stats": {
+      "Frank Gibson": {
+        "pitching": {
+          "wins": 8,
+          "losses": 5,
+          "era": "4.89"
+        }
+      },
+      "Brocktune Shemper": {
+        "pitching": {
+          "wins": 0,
+          "losses": 1,
+          "era": "3.96"
+        }
+      }
+    }
   },
   "plays": [
     {
@@ -160,7 +176,7 @@
     {
       "inning": 1,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Brocktune Shemper",
       "pitch_hand": "R",
       "outcome": "Double Play",
@@ -210,7 +226,7 @@
           "out": true
         },
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": null,
           "end": "1B",
           "out": true
@@ -218,7 +234,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -328,7 +345,9 @@
       "hit": {
         "location": "LF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "depth": "shallow",
+        "hardness": "soft"
       }
     },
     {
@@ -383,7 +402,8 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "right_side"
       }
     },
     {
@@ -436,7 +456,7 @@
           "position": "P"
         },
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -585,7 +605,8 @@
       "hit": {
         "location": "LF",
         "trajectory": "line_drive",
-        "categoryOverride": "liner"
+        "categoryOverride": "liner",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -641,7 +662,8 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -805,7 +827,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "line_drive"
+        "trajectory": "line_drive",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -963,7 +986,8 @@
       "hit": {
         "location": "RF",
         "trajectory": "fly_ball",
-        "categoryOverride": "deep"
+        "categoryOverride": "deep",
+        "depth": "deep"
       },
       "fielders": [
         {
@@ -1185,7 +1209,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1259,7 +1284,7 @@
     {
       "inning": 4,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Brocktune Shemper",
       "pitch_hand": "R",
       "outcome": "Flyout",
@@ -1290,7 +1315,7 @@
       ],
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": null,
           "end": null,
           "out": true
@@ -1361,7 +1386,8 @@
       "hit": {
         "location": "1B",
         "trajectory": "ground_ball",
-        "putoutMethod": "unassisted"
+        "putoutMethod": "unassisted",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1407,7 +1433,8 @@
       "hit": {
         "location": "LF",
         "trajectory": "line_drive",
-        "categoryOverride": "liner"
+        "categoryOverride": "liner",
+        "depth": "shallow"
       }
     },
     {
@@ -1446,7 +1473,9 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "middle",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -1683,7 +1712,8 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "deep"
+        "categoryOverride": "deep",
+        "depth": "warning_track"
       },
       "fielders": [
         {
@@ -1784,7 +1814,8 @@
       "hit": {
         "location": "RF",
         "trajectory": "line_drive",
-        "categoryOverride": "liner"
+        "categoryOverride": "liner",
+        "depth": "shallow"
       }
     },
     {
@@ -1818,7 +1849,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1972,7 +2004,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -1984,7 +2017,7 @@
     {
       "inning": 5,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Brocktune Shemper",
       "pitch_hand": "R",
       "outcome": "Flyout",
@@ -2014,7 +2047,7 @@
       ],
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": null,
           "end": null,
           "out": true
@@ -2268,7 +2301,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2459,7 +2493,8 @@
       ],
       "hit": {
         "location": "SS",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -2749,7 +2784,8 @@
       ],
       "hit": {
         "location": "RF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -2819,11 +2855,12 @@
       ],
       "hit": {
         "location": "2B",
-        "trajectory": "ground_ball"
+        "trajectory": "ground_ball",
+        "hardness": "hard"
       },
       "fielders": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {
@@ -2886,7 +2923,9 @@
       "hit": {
         "location": "3B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "left_side",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -3006,7 +3045,7 @@
     {
       "inning": 8,
       "top": true,
-      "batter": "Hector Piña",
+      "batter": "Hector Pi\u00f1a",
       "pitcher": "Brocktune Shemper",
       "pitch_hand": "R",
       "outcome": "Strikeout",
@@ -3042,7 +3081,7 @@
       ],
       "runners": [
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "start": null,
           "end": null,
           "out": true
@@ -3103,7 +3142,9 @@
       "hit": {
         "location": "2B",
         "trajectory": "ground_ball",
-        "categoryOverride": "grounder"
+        "categoryOverride": "grounder",
+        "lane": "right_side",
+        "hardness": "hard"
       },
       "fielders": [
         {
@@ -3143,7 +3184,8 @@
       ],
       "hit": {
         "location": "LF",
-        "trajectory": "fly_ball"
+        "trajectory": "fly_ball",
+        "depth": "shallow"
       },
       "fielders": [
         {
@@ -3248,9 +3290,15 @@
       "hit": {
         "location": "CF",
         "trajectory": "fly_ball",
-        "categoryOverride": "bloop"
+        "categoryOverride": "bloop",
+        "depth": "shallow",
+        "hardness": "soft"
       },
-      "bat_side": "R"
+      "bat_side": "R",
+      "substitution": {
+        "type": "pinch_hitter",
+        "replaces": "Brocktune Shemper"
+      }
     },
     {
       "inning": 8,
@@ -3404,7 +3452,7 @@
           "position": "SS"
         },
         {
-          "name": "Hector Piña",
+          "name": "Hector Pi\u00f1a",
           "position": "2B"
         },
         {

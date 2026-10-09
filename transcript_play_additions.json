@@ -1468,5 +1468,455 @@
     "expected": "We'll be back with the bottom half of the",
     "requires": "Top-to-bottom transition only, replacing the hardcoded mid_closers selection.",
     "source_text": "We'll be back with the bottom half of the fifth inning. It's Cadillac six, Big Rapids two. On the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "narrative_templates.Double.ground_rule",
+    "template": "Driven {direction}. That one is fair, and it will bounce over the wall. And {batter_name} is aboard with a ground-rule double.",
+    "episode": 49,
+    "line": 167,
+    "expected": "that one is fair, and it will bounce over the wall",
+    "requires": "Explicit ground-rule double (hitData.categoryOverride=\"ground_rule\").",
+    "source_text": "And the pitch... Driven down the left field line. That one is fair, and it will bounce over the wall."
+  },
+  {
+    "pool": "narrative_templates.Double.ground_rule",
+    "template": "Hit {direction}, and that one bounces over the wall. That's a ground-rule double for {batter_name}.",
+    "episode": 1,
+    "line": 201,
+    "expected": "bounces over the wall",
+    "requires": "Explicit ground-rule double (hitData.categoryOverride=\"ground_rule\").",
+    "source_text": "All right, here's the one-one pitch to Gilligan Parker. And Parker smashes that, left center. Dutch Moon is after it, and he will not get there, and it bounces over the wall for a ground rule double."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter",
+    "template": "And pinch hitter {batter_name} will step in.",
+    "episode": 29,
+    "line": 427,
+    "expected": "and pinch hitter sylvester heron will step in",
+    "requires": "Pinch hitter: an Offensive Substitution action in the at-bat's playEvents.",
+    "source_text": "And pinch hitter Sylvester Heron will step in against Tigers closer Chadwick. Chadwick is a tall, right-handed fireballer, and he's not afraid to mix in a bender or two."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter",
+    "template": "And that's going to bring up a pinch hitter, and that is going to be {batter_name}.",
+    "episode": 1,
+    "line": 430,
+    "expected": "that's going to bring up a pinch hitter, and that is going to be",
+    "requires": "Pinch hitter: an Offensive Substitution action in the at-bat's playEvents.",
+    "source_text": "One away, and that's going to bring up a pinch hitter, and that is going to be Nigel Hickson."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter",
+    "template": "And {batter_name} will pinch-hit here.",
+    "episode": 13,
+    "line": 485,
+    "expected": "will pinch-hit here",
+    "requires": "Pinch hitter: an Offensive Substitution action in the at-bat's playEvents.",
+    "source_text": "One away, bases empty for the pitcher spot, and Hank Bartok will pinch-hit here in the bottom of the eighth."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for",
+    "template": "And {batter_name} will pinch-hit for {replaced}.",
+    "episode": 20,
+    "line": 351,
+    "expected": "and sparky ventura will pinch-hit for rick stetson",
+    "requires": "Pinch hitter with a recorded replacedPlayer.",
+    "source_text": "And Sparky Ventura will pinch-hit for Rick Stetson."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for",
+    "template": "And {batter_name} will step in to pinch-hit for {replaced}.",
+    "episode": 20,
+    "line": 373,
+    "expected": "will step in to pinch-hit for virgil hughes",
+    "requires": "Pinch hitter with a recorded replacedPlayer.",
+    "source_text": "And Brock Niedermeier will step in to pinch-hit for Virgil Hughes."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for",
+    "template": "And here's {batter_name} to pinch-hit for {replaced}.",
+    "episode": 39,
+    "line": 498,
+    "expected": "here's tony burns to pinch-hit for billy brello",
+    "requires": "Pinch hitter with a recorded replacedPlayer.",
+    "source_text": "And here's Tony Burns to pinch-hit for Billy Brello."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for",
+    "template": "And {batter_name} steps in to pinch hit for {replaced}.",
+    "episode": 37,
+    "line": 373,
+    "expected": "steps in to pinch-hit for brocktune shemper",
+    "requires": "Pinch hitter with a recorded replacedPlayer.",
+    "source_text": "And Royce Babcock steps in to pinch-hit for Brocktune Shemper in the nine spot. Lefty against righty."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for",
+    "template": "And we're going to have a pinch hitter for {replaced}, and that's going to be {batter_name}.",
+    "episode": 45,
+    "line": 482,
+    "expected": "we're going to have a pinch hitter for javier von neumann",
+    "requires": "Pinch hitter with a recorded replacedPlayer.",
+    "source_text": "And we're going to have a pinch hitter for Javier Von Neumann in the pitcher's spot, and that's going to be Hank Bartok, a righty-righty matchup."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_slot",
+    "template": "And {batter_name} will step in to pinch hit in the {slot} spot.",
+    "episode": 46,
+    "line": 460,
+    "expected": "will pinch hit in the nine spot",
+    "requires": "Pinch hitter whose replaced player has a recorded batting-order slot.",
+    "source_text": "It's the bottom of the ninth here at Sylvan Field. The Eagles holding onto a four to three lead, and Manny Standingbear will pinch hit in the nine spot against right handed Manistee closer Chad Viscayino, a righty-lefty matchup."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for_slot",
+    "template": "And {batter_name} steps in to pinch-hit for {replaced} in the {slot} spot.",
+    "episode": 37,
+    "line": 373,
+    "expected": "steps in to pinch-hit for brocktune shemper in the nine spot",
+    "requires": "Pinch hitter with a recorded replacedPlayer. Pinch hitter whose replaced player has a recorded batting-order slot.",
+    "source_text": "And Royce Babcock steps in to pinch-hit for Brocktune Shemper in the nine spot. Lefty against righty."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for_slot",
+    "template": "And now {batter_name} will pinch hit for {replaced} in the {slot} spot.",
+    "episode": 46,
+    "line": 447,
+    "expected": "and now hank wellington will pinch hit for edison vado in the nine spot",
+    "requires": "Pinch hitter with a recorded replacedPlayer. Pinch hitter whose replaced player has a recorded batting-order slot.",
+    "source_text": "And now Hank Wellington will pinch hit for Edison Vado in the nine spot, a righty-lefty matchup."
+  },
+  {
+    "pool": "narrative_strings.pinch_hitter_for_slot",
+    "template": "And {batter_name} will pinch hit for {replaced} in the {slot} spot.",
+    "episode": 52,
+    "line": 336,
+    "expected": "sparky ventura will pinch hit for whitey flatbush in the nine spot",
+    "requires": "Pinch hitter with a recorded replacedPlayer. Pinch hitter whose replaced player has a recorded batting-order slot.",
+    "source_text": "And Sparky Ventura will pinch hit for Whitey Flatbush in the nine spot. A righty-righty matchup."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "{last_name} enters tonight's game with a record of {wins} and {losses} with a {era} ERA.",
+    "episode": 35,
+    "line": 28,
+    "expected": "nomo enters tonight's game with a record of 11 and 4 with a 3.23 era",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "Nomo enters tonight's game with a record of 11 and 4 with a 3.23 ERA."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "{last_name} enters tonight's contest with a record of {wins} and {losses} with a {era} ERA.",
+    "episode": 49,
+    "line": 24,
+    "expected": "shemper enters tonight's contest with a record of 7 and 8 with a 5.21 era",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "Shemper enters tonight's contest with a record of 7 and 8 with a 5.21 ERA."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "He enters tonight's game with a record of {wins} and {losses} with a {era} ERA.",
+    "episode": 20,
+    "line": 26,
+    "expected": "he enters tonight's game with a record of five and three with a 5.12 era",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "He enters tonight's game with a record of five and three with a 5.12 ERA."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "He enters tonight's contest with a record of {wins} and {losses} with a {era} ERA.",
+    "episode": 45,
+    "line": 39,
+    "expected": "he enters tonight's contest with a record of 8 and 7 with a 4.56 era",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "He enters tonight's contest with a record of 8 and 7 with a 4.56 ERA."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "{last_name} enters tonight's game with a record of {wins} and {losses} with a {era} earned run average.",
+    "episode": 49,
+    "line": 36,
+    "expected": "valentine enters tonight's game with a record of 4 and 2 with a 3.65 earned run average",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "Valentine enters tonight's game with a record of 4 and 2 with a 3.65 earned run average."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "He enters tonight's contest with a record of {wins} and {losses} with an earned run average of {era}.",
+    "episode": 39,
+    "line": 36,
+    "expected": "he enters tonight's contest with a record of 9 and 5 with an earned run average of",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "He enters tonight's contest with a record of 9 and 5 with an earned run average of 3.72."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "He's got a record of {wins} and {losses} with a {era} ERA.",
+    "episode": 37,
+    "line": 36,
+    "expected": "he's got a record of 0 and 1 with a 3.96 era",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "He's got a record of 0 and 1 with a 3.96 ERA."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "{last_name} enters tonight's contest with a record of {wins} and {losses} and a {era} ERA.",
+    "episode": 20,
+    "line": 24,
+    "expected": "stetson enters tonight's contest with a record of six and two and a 3.67 era",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "Stetson enters tonight's contest with a record of six and two and a 3.67 ERA."
+  },
+  {
+    "pool": "lineup_strings.season_record_era",
+    "template": "He enters tonight's game with a record of {wins_word} and {losses_word} with a {era} ERA.",
+    "episode": 20,
+    "line": 26,
+    "expected": "he enters tonight's game with a record of five and three",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "He enters tonight's game with a record of five and three with a 5.12 ERA."
+  },
+  {
+    "pool": "lineup_strings.season_record",
+    "template": "He enters tonight's game with a record of {wins} and {losses}.",
+    "episode": 1,
+    "line": 17,
+    "expected": "he enters tonight's game with a record of 7 and 1",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "Starting pitcher for Cadillac tonight is the sensational Blinky Malone. He enters tonight's game with a record of 7 and 1."
+  },
+  {
+    "pool": "lineup_strings.season_record",
+    "template": "He's got a record of {wins} and {losses}.",
+    "episode": 1,
+    "line": 49,
+    "expected": "he's got a record of 4 and 4",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "Javier Von Newman is taking the mound for Big Rapids. Von Newman has struggled in his last few starts but is, in general, a fine pitcher. He's got a record of 4 and 4."
+  },
+  {
+    "pool": "lineup_strings.season_era",
+    "template": "He enters tonight's game with a {era} ERA.",
+    "episode": 45,
+    "line": 22,
+    "expected": "he enters tonight's game with a 3.92 era",
+    "requires": "Recorded seasonStats pitching for the starter in the ninth lineup slot.",
+    "source_text": "He enters tonight's game with a 3.92 ERA."
+  },
+  {
+    "pool": "narrative_strings.runner_scores",
+    "template": "{runner} will score.",
+    "episode": 13,
+    "line": 289,
+    "expected": "nomo will score",
+    "requires": "A non-batter runner whose recorded movement on a ball in play ends at home.",
+    "source_text": "The one-two pitch... And that one is crushed to right-center field, all the way to the wall. Nomo will score. Brown will score. Sessions coming around to score. And that is a three-run triple for Kosinski here in the top of the fifth."
+  },
+  {
+    "pool": "narrative_strings.runner_scores",
+    "template": "{runner} comes in to score.",
+    "episode": 46,
+    "line": 235,
+    "expected": "hawkins comes in to score",
+    "requires": "A non-batter runner whose recorded movement on a ball in play ends at home.",
+    "source_text": "Hawkins comes in to score."
+  },
+  {
+    "pool": "narrative_strings.runner_scores",
+    "template": "{runner} will come in to score.",
+    "episode": 45,
+    "line": 480,
+    "expected": "nunez will come in to score",
+    "requires": "A non-batter runner whose recorded movement on a ball in play ends at home.",
+    "source_text": "And the payoff pitch... Hit in the air to shallow center. That one drops in for a hit. Nunez will come in to score."
+  },
+  {
+    "pool": "narrative_strings.runner_scores",
+    "template": "{runner} scores from {origin}.",
+    "episode": 53,
+    "line": 271,
+    "expected": "primero scores from third",
+    "requires": "A non-batter runner whose recorded movement on a ball in play ends at home.",
+    "source_text": "And the one-two... Hard grounder to left. Slauson, able to knock it down, but he will not have a play. Primero scores from third. And the Loons, now with a 2-nothing lead."
+  },
+  {
+    "pool": "narrative_strings.runner_scores",
+    "template": "{runner} will score from {origin}.",
+    "episode": 45,
+    "line": 323,
+    "expected": "castor will score from second",
+    "requires": "A non-batter runner whose recorded movement on a ball in play ends at home.",
+    "source_text": "Castor will score from second. Filbert coming in to score. Rudderson hustling for third, and he will beat the throw by a step."
+  },
+  {
+    "pool": "narrative_strings.runner_scores",
+    "template": "{runner} coming around to score.",
+    "episode": 13,
+    "line": 289,
+    "expected": "sessions coming around to score",
+    "requires": "A non-batter runner whose recorded movement on a ball in play ends at home.",
+    "source_text": "The one-two pitch... And that one is crushed to right-center field, all the way to the wall. Nomo will score. Brown will score. Sessions coming around to score. And that is a three-run triple for Kosinski here in the top of the fifth."
+  },
+  {
+    "pool": "narrative_strings.runner_scores",
+    "template": "{runner} is going to score from {origin}.",
+    "episode": 1,
+    "line": 203,
+    "expected": "parker is going to score from second",
+    "requires": "A non-batter runner whose recorded movement on a ball in play ends at home.",
+    "source_text": "The pitch. And Slauson crushes that one into the right field corner, Parker is going to score from second. Cadillac now leads 5-1. That's a double for Pinky Slauson."
+  },
+  {
+    "pool": "narrative_strings.runner_to_third",
+    "template": "{runner} advances to third.",
+    "episode": 20,
+    "line": 361,
+    "expected": "ventura advances to third",
+    "requires": "A non-batter runner whose recorded movement on a ball in play takes him from first or second to third.",
+    "source_text": "Ventura advances to third."
+  },
+  {
+    "pool": "narrative_strings.runner_to_third",
+    "template": "{runner} will advance to third.",
+    "episode": 1,
+    "line": 178,
+    "expected": "ferguson will advance to third",
+    "requires": "A non-batter runner whose recorded movement on a ball in play takes him from first or second to third.",
+    "source_text": "The one-two pitch. And Rudderson hits that one deep, playable for Palomar in right. He's under it and makes the catch. Ferguson will advance to third. Runners on first and third, two outs, as Rio Nunez steps in."
+  },
+  {
+    "pool": "narrative_strings.runner_to_third",
+    "template": "{runner} advances safely to third.",
+    "episode": 39,
+    "line": 305,
+    "expected": "haggerty advances safely to third",
+    "requires": "A non-batter runner whose recorded movement on a ball in play takes him from first or second to third.",
+    "source_text": "Meanwhile, Haggerty advances safely to third."
+  },
+  {
+    "pool": "narrative_strings.runner_to_third",
+    "template": "{runner} advances to third on the play.",
+    "episode": 13,
+    "line": 199,
+    "expected": "brown advances to third on the play",
+    "requires": "A non-batter runner whose recorded movement on a ball in play takes him from first or second to third.",
+    "source_text": "The two-two pitch... And that one is hammered into center field, Moon racing after it, and he will not get there. Sessions heading for second, and that's a double for Burke Sessions. Brown advances to third on the play."
+  },
+  {
+    "pool": "narrative_strings.runner_to_third",
+    "template": "{runner} is hustling to third.",
+    "episode": 5,
+    "line": 372,
+    "expected": "stern is hustling to third",
+    "requires": "A non-batter runner whose recorded movement on a ball in play takes him from first or second to third.",
+    "source_text": "The three-two, and that's lined into right field. Stern is hustling to third. Santiago now trying to make second. And he will be in there safely. That's a one-out double for Clifton Santiago."
+  },
+  {
+    "pool": "narrative_strings.rbi_hit",
+    "template": "And that's an RBI {hit} for {batter_name}.",
+    "episode": 45,
+    "line": 481,
+    "expected": "and that's an rbi single for henny oldman",
+    "requires": "A single, double or triple with a recorded RBI.",
+    "source_text": "And that's an RBI single for Henny Oldman, and the Timbers now lead four to one."
+  },
+  {
+    "pool": "narrative_strings.rbi_hit",
+    "template": "That's an RBI {hit} for {batter_name}.",
+    "episode": 45,
+    "line": 481,
+    "expected": "that's an rbi single for",
+    "requires": "A single, double or triple with a recorded RBI.",
+    "source_text": "And that's an RBI single for Henny Oldman, and the Timbers now lead four to one."
+  },
+  {
+    "pool": "narrative_strings.rbi_hit",
+    "template": "And that's going to be an RBI {hit} for {batter_name}.",
+    "episode": 53,
+    "line": 228,
+    "expected": "and that's going to be an rbi double",
+    "requires": "A single, double or triple with a recorded RBI.",
+    "source_text": "The two-one pitch... Hit in the air to deep left. Parker racing back. And that one is going to bounce off the wall. Vega will come in to score. And that's going to be an RBI double for Ford Stipe. And the Loons are on the board here in the top of the sixth. And it's a one-nothing ball game."
+  },
+  {
+    "pool": "narrative_strings.rbi_hit_two_out",
+    "template": "And that's a two-out RBI {hit} for {batter_name}.",
+    "episode": 13,
+    "line": 54,
+    "expected": "and that's a two-out rbi double for burke sessions",
+    "requires": "A single, double or triple with a recorded RBI. With two out.",
+    "source_text": "And the pitch... And that one is ripped into the gap in left-center field, and that will roll all the way to the wall. Brown will try to score, and he will score without a throw. And that's a two-out RBI double for Burke Sessions."
+  },
+  {
+    "pool": "narrative_strings.rbi_hit_runs",
+    "template": "And that is a {runs}-run {hit} for {batter_name}.",
+    "episode": 13,
+    "line": 289,
+    "expected": "and that is a three-run triple for kosinski",
+    "requires": "A hit with a recorded RBI of two or more.",
+    "source_text": "The one-two pitch... And that one is crushed to right-center field, all the way to the wall. Nomo will score. Brown will score. Sessions coming around to score. And that is a three-run triple for Kosinski here in the top of the fifth."
+  },
+  {
+    "pool": "narrative_strings.home_run_solo",
+    "template": "And that's a solo home run for {batter_name}.",
+    "episode": 20,
+    "line": 72,
+    "expected": "and that's a solo home run for pinky slauson",
+    "requires": "A home run with its recorded RBI.",
+    "source_text": "And the one-oh pitch... Deep drive to left center, and that one will sail over the wall, and that's a solo home run for Pinky Slauson."
+  },
+  {
+    "pool": "narrative_strings.home_run_solo",
+    "template": "And that's a long, lazy solo home run for {batter_name}.",
+    "episode": 45,
+    "line": 116,
+    "expected": "long, lazy solo home run for gilligan parker",
+    "requires": "A home run with its recorded RBI.",
+    "source_text": "And that's a long, lazy solo home run for Gilligan Parker."
+  },
+  {
+    "pool": "narrative_strings.home_run_solo",
+    "template": "A solo home run for {batter_name}.",
+    "episode": 20,
+    "line": 72,
+    "expected": "a solo home run for",
+    "requires": "A home run with its recorded RBI.",
+    "source_text": "And the one-oh pitch... Deep drive to left center, and that one will sail over the wall, and that's a solo home run for Pinky Slauson."
+  },
+  {
+    "pool": "narrative_strings.home_run_two_run",
+    "template": "And that's a two-run homer for {batter_name}.",
+    "episode": 50,
+    "line": 147,
+    "expected": "and that's a two-run homer for steve mcdykel",
+    "requires": "A home run with its recorded RBI.",
+    "source_text": "The oh-two pitch... Hit in the air to deep right field. Rickson racing back, and he'll run out of room as that one sails over the wall. And that's a two-run homer for Steve McDykel. And the Ravens now lead 3 to 1."
+  },
+  {
+    "pool": "narrative_strings.home_run_two_run",
+    "template": "And that's a long, lazy two-run blast for {batter_name}.",
+    "episode": 51,
+    "line": 233,
+    "expected": "long lazy two-run blast for",
+    "requires": "A home run with its recorded RBI.",
+    "source_text": "And that's a long, lazy, two-run blast for Franklin Vega, and the Loons break the ice here in the last of the fourth. And it's a 2-nothing ball game."
+  },
+  {
+    "pool": "narrative_strings.home_run_two_run",
+    "template": "That's a two-run homer for {batter_name}.",
+    "episode": 5,
+    "line": 388,
+    "expected": "that's a two-run homer",
+    "requires": "A home run with its recorded RBI.",
+    "source_text": "And the pitch... And that ball is crushed into left field, way back, and that's a two-run homer for Vaughn Kramer. And just like that, the Tomah Tigers lead four to two."
+  },
+  {
+    "pool": "narrative_strings.home_run_three_run",
+    "template": "And that's a three-run homer for {batter_name}.",
+    "episode": 49,
+    "line": 349,
+    "expected": "and that's a three-run homer for clifton santiago",
+    "requires": "A home run with its recorded RBI.",
+    "source_text": "And that's a three-run homer for Clifton Santiago, and the Tigers now lead 5-nothing."
   }
 ]

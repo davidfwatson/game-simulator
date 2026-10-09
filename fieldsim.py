@@ -339,6 +339,53 @@ def _air_ball(ev, la, spray, rng, defense, batter_speed, params):
                       release=t_ball_in, release_point=stop)
 
 
+
+def spot(ball):
+    """Where the ball went, in the words a scorer or broadcaster uses.
+
+    Returns the ``hitData`` extension fields ``depth`` (shallow, deep,
+    warning_track, wall) and ``lane`` (left_line, left_center, middle,
+    right_center, right_line, left_side, right_side) that this ball's flight
+    supports; a field is left out when nothing notable applies (a routine
+    fly at medium depth has no depth word).
+    """
+    facts = {}
+    spray, dist = ball.spray, ball.distance
+    side = 'left' if spray < 0 else 'right'
+    fence = fence_distance(spray)
+    if ball.trajectory == 'ground_ball':
+        if abs(spray) < 6:
+            facts['lane'] = 'middle'
+        elif abs(spray) > 40:
+            facts['lane'] = f'{side}_line'
+        elif ball.outcome == 'Single' and abs(spray) > 15:
+            facts['lane'] = f'{side}_side'
+        return facts
+    if dist < 150:
+        return facts   # an infield pop-up or liner
+    if ball.outcome != 'Home Run':
+        stop = distance((0.0, 0.0), ball.release_point) if ball.release_point and not ball.caught else dist
+        if ball.caught and dist >= fence - 20:
+            facts['depth'] = 'warning_track'
+        elif not ball.caught and stop >= fence - 3:
+            facts['depth'] = 'wall'
+        elif dist >= 300:
+            facts['depth'] = 'deep'
+        elif dist < 210:
+            facts['depth'] = 'shallow'
+    if abs(spray) >= 37:
+        facts['lane'] = f'{side}_line'
+    elif 8 <= abs(spray) <= 20 and dist >= 230:
+        facts['lane'] = f'{side}_center'
+    return facts
+
+
+def hardness(ev):
+    """StatsAPI ``hitData.hardness`` from exit velocity."""
+    if ev is None:
+        return None
+    return 'hard' if ev >= 95 else 'soft' if ev < 75 else 'medium'
+
 # --- base running ------------------------------------------------------------
 # Runners race the throw. `runners` maps the base a runner starts on (1, 2, 3)
 # to his speed multiplier. Functions return each runner's destination: 1-3, or

@@ -1145,6 +1145,10 @@ class BaseballSimulator:
                         hit_data['trajectory'] = field.trajectory
                         hit_data['coordinates'] = field.coordinates
                         hit_data['totalDistance'] = round(field.distance)
+                        # The field model knows where the ball went: "into
+                        # the gap", "on the warning track", "hard grounder".
+                        hit_data['hardness'] = fieldsim.hardness(batted_ball_data['ev'])
+                        hit_data.update(fieldsim.spot(field))
                         if hit_result in ["Single", "Double", "Triple", "Home Run"]:
                             hit_data['location'] = field.location
                     elif hit_result in ["Single", "Double", "Triple", "Home Run"]:

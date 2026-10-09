@@ -1277,7 +1277,8 @@
               "hitData": {
                 "trajectory": "fly_ball",
                 "location": "LF",
-                "categoryOverride": "bloop"
+                "categoryOverride": "bloop",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -1762,7 +1763,8 @@
               "startTime": "2025-09-27T23:06:01Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "CF"
+                "location": "CF",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -3127,7 +3129,9 @@
               "hitData": {
                 "trajectory": "ground_ball",
                 "location": "left side (through infield)",
-                "categoryOverride": "grounder"
+                "categoryOverride": "grounder",
+                "lane": "left_side",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -3286,7 +3290,8 @@
               "startTime": "2025-09-27T23:09:00Z",
               "hitData": {
                 "trajectory": "line_drive",
-                "location": "LF shallow"
+                "location": "LF shallow",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -3947,7 +3952,8 @@
               "hitData": {
                 "trajectory": "fly_ball",
                 "location": "RF (warning track)",
-                "categoryOverride": "deep"
+                "categoryOverride": "deep",
+                "depth": "warning_track"
               },
               "commentaryRng": {
                 "event": {
@@ -4181,7 +4187,8 @@
               "startTime": "2025-09-27T23:11:01Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "CF shallow"
+                "location": "CF shallow",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -4244,7 +4251,7 @@
             },
             "play_outcome": {
               "play": [
-                20
+                18
               ],
               "pitch": [],
               "flow": [
@@ -4537,7 +4544,8 @@
               "startTime": "2025-09-27T23:11:32Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "RF (down the line / toward wall)"
+                "location": "RF (down the line / toward wall)",
+                "depth": "wall"
               },
               "commentaryRng": {
                 "event": {
@@ -4593,7 +4601,7 @@
             },
             "play_outcome": {
               "play": [
-                4,
+                1,
                 2
               ],
               "pitch": [],
@@ -5370,7 +5378,8 @@
               "hitData": {
                 "trajectory": "line_drive",
                 "location": "LF",
-                "categoryOverride": "default"
+                "categoryOverride": "default",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -5461,7 +5470,7 @@
             },
             "play_outcome": {
               "play": [
-                5
+                4
               ],
               "pitch": [],
               "flow": [
@@ -6643,7 +6652,7 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    3
+                    30
                   ],
                   "color": [],
                   "optional": []
@@ -6874,7 +6883,9 @@
               "hitData": {
                 "trajectory": "line_drive",
                 "location": "center field / up the middle",
-                "categoryOverride": "liner"
+                "categoryOverride": "liner",
+                "lane": "middle",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -6930,7 +6941,7 @@
             },
             "play_outcome": {
               "play": [
-                13,
+                8,
                 0
               ],
               "pitch": [],
@@ -7069,7 +7080,8 @@
               "hitData": {
                 "trajectory": "flare_/_bloop",
                 "location": "shallow left field",
-                "categoryOverride": "bloop"
+                "categoryOverride": "bloop",
+                "depth": "shallow"
               },
               "commentaryRng": {
                 "event": {
@@ -7146,6 +7158,7 @@
             "play_outcome": {
               "play": [
                 7,
+                0,
                 2
               ],
               "pitch": [],
@@ -7155,6 +7168,7 @@
               ],
               "color": [],
               "optional": [
+                0,
                 99
               ]
             }
@@ -7245,7 +7259,9 @@
               "hitData": {
                 "trajectory": "ground_ball",
                 "location": "up the middle",
-                "categoryOverride": "grounder"
+                "categoryOverride": "grounder",
+                "lane": "middle",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -7343,8 +7359,9 @@
             },
             "play_outcome": {
               "play": [
+                3,
                 2,
-                2
+                0
               ],
               "pitch": [],
               "flow": [
@@ -7354,7 +7371,8 @@
                 1
               ],
               "optional": [
-                99
+                0,
+                0
               ]
             }
           }
@@ -8474,7 +8492,8 @@
               "startTime": "2025-09-27T23:19:31Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "left center field"
+                "location": "left center field",
+                "lane": "left_center"
               },
               "commentaryRng": {
                 "event": {
@@ -8859,7 +8878,8 @@
               "startTime": "2025-09-27T23:20:30Z",
               "hitData": {
                 "trajectory": "fly_ball",
-                "location": "Left-Center Field"
+                "location": "Left-Center Field",
+                "lane": "left_center"
               },
               "commentaryRng": {
                 "event": {
@@ -8915,7 +8935,7 @@
             },
             "play_outcome": {
               "play": [
-                26
+                21
               ],
               "pitch": [],
               "flow": [
@@ -9245,7 +9265,8 @@
               "startTime": "2025-09-27T23:21:30Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "Third Base"
+                "location": "Third Base",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -9321,7 +9342,7 @@
             },
             "play_outcome": {
               "play": [
-                43
+                41
               ],
               "pitch": [],
               "flow": [
@@ -11042,7 +11063,8 @@
               "startTime": "2025-09-27T23:26:01Z",
               "hitData": {
                 "trajectory": "ground_ball",
-                "location": "shortstop"
+                "location": "shortstop",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -11102,7 +11124,7 @@
             },
             "play_outcome": {
               "play": [
-                1
+                0
               ],
               "pitch": [],
               "flow": [
@@ -11357,7 +11379,9 @@
               "startTime": "2025-09-27T23:26:32Z",
               "hitData": {
                 "trajectory": "bloop/tap",
-                "location": "shallow right field"
+                "location": "shallow right field",
+                "depth": "shallow",
+                "hardness": "soft"
               },
               "commentaryRng": {
                 "event": {
@@ -11688,14 +11712,17 @@
             },
             "play_outcome": {
               "play": [
-                4
+                4,
+                0
               ],
               "pitch": [],
               "flow": [
                 0
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -12034,7 +12061,9 @@
             },
             "play_outcome": {
               "play": [
-                0
+                0,
+                0,
+                2
               ],
               "pitch": [],
               "flow": [
@@ -12043,7 +12072,10 @@
               "color": [
                 1
               ],
-              "optional": []
+              "optional": [
+                99,
+                99
+              ]
             }
           }
         },
@@ -12802,7 +12834,8 @@
               "startTime": "2025-09-27T23:29:00Z",
               "hitData": {
                 "trajectory": "hard_chopper",
-                "location": "third base"
+                "location": "third base",
+                "hardness": "hard"
               },
               "commentaryRng": {
                 "event": {
@@ -12872,7 +12905,7 @@
             },
             "play_outcome": {
               "play": [
-                29
+                25
               ],
               "pitch": [],
               "flow": [
@@ -13153,7 +13186,8 @@
               "hitData": {
                 "trajectory": "fly_ball",
                 "location": "deep center field",
-                "categoryOverride": "deep"
+                "categoryOverride": "deep",
+                "depth": "deep"
               },
               "commentaryRng": {
                 "event": {
@@ -14533,7 +14567,7 @@
                 "event": {
                   "play": [],
                   "pitch": [
-                    20
+                    7
                   ],
                   "flow": [
                     4,
@@ -14584,11 +14618,16 @@
               "optional": []
             },
             "play_outcome": {
-              "play": [],
+              "play": [
+                0,
+                2
+              ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -15332,7 +15371,8 @@
               "startTime": "2025-09-27T23:33:31Z",
               "hitData": {
                 "trajectory": "pop_up",
-                "location": "infield left side"
+                "location": "infield left side",
+                "lane": "left_side"
               },
               "commentaryRng": {
                 "event": {
@@ -15457,7 +15497,40 @@
           },
           "playEvents": [
             {
+              "isPitch": false,
+              "type": "action",
+              "isSubstitution": true,
               "index": 0,
+              "details": {
+                "event": "Offensive Substitution",
+                "eventType": "offensive_substitution",
+                "description": "Offensive Substitution: Pinch-hitter Bartolo Johnson."
+              },
+              "count": {
+                "balls": 0,
+                "strikes": 0
+              },
+              "position": {
+                "code": "11",
+                "name": "Pinch Hitter",
+                "abbreviation": "PH"
+              },
+              "player": {
+                "id": 545110
+              },
+              "pitchData": {},
+              "commentaryRng": {
+                "event": {
+                  "play": [],
+                  "pitch": [],
+                  "flow": [],
+                  "color": [],
+                  "optional": []
+                }
+              }
+            },
+            {
+              "index": 1,
               "isPitch": true,
               "count": {
                 "balls": 0,
@@ -15488,7 +15561,7 @@
                   ],
                   "flow": [
                     0,
-                    99
+                    0
                   ],
                   "color": [],
                   "optional": []
@@ -15496,7 +15569,7 @@
               }
             },
             {
-              "index": 1,
+              "index": 2,
               "isPitch": true,
               "count": {
                 "balls": 0,
@@ -15535,7 +15608,7 @@
               }
             },
             {
-              "index": 2,
+              "index": 3,
               "isPitch": true,
               "count": {
                 "balls": 0,
@@ -15559,7 +15632,8 @@
               "hitData": {
                 "trajectory": "fly_ball",
                 "location": "deep center field / warning track",
-                "categoryOverride": "deep"
+                "categoryOverride": "deep",
+                "depth": "warning_track"
               },
               "commentaryRng": {
                 "event": {
@@ -15612,6 +15686,7 @@
               "flow": [
                 1,
                 9,
+                0,
                 0
               ],
               "color": [
@@ -15829,7 +15904,8 @@
               "startTime": "2025-09-27T23:34:31Z",
               "hitData": {
                 "trajectory": "pop_up",
-                "location": "infield right side"
+                "location": "infield right side",
+                "lane": "right_side"
               },
               "commentaryRng": {
                 "event": {
@@ -17712,6 +17788,19 @@
                 "isOnBench": false,
                 "isSubstitute": false
               }
+            },
+            "ID605110": {
+              "person": {
+                "id": 605110,
+                "fullName": "Scooter McKeever"
+              },
+              "seasonStats": {
+                "pitching": {
+                  "wins": 8,
+                  "losses": 3,
+                  "era": "3.26"
+                }
+              }
             }
           },
           "batters": [
@@ -19193,6 +19282,19 @@
                 "isCurrentPitcher": false,
                 "isOnBench": false,
                 "isSubstitute": false
+              }
+            },
+            "ID645210": {
+              "person": {
+                "id": 645210,
+                "fullName": "Butch Flores"
+              },
+              "seasonStats": {
+                "pitching": {
+                  "wins": 6,
+                  "losses": 4,
+                  "era": "4.78"
+                }
               }
             }
           },
