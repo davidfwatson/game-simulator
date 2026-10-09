@@ -1,24 +1,38 @@
+import re
 from commentary import GAME_CONTEXT
 from .helpers import simplify_pitch_type
 
 POS_NUMBERS = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
 
 def build_dp_notation(play):
-    """Build DP notation like '6-4-3' from runner credits."""
+    """Build DP notation like '6-4-3' from runner credits.
+
+    Each runner carries its own credit chain (the lead runner 6-4, the batter
+    4-3); join them so the relay to first isn't dropped ('5-4' for a 5-4-3).
+    """
     if not play:
         return ""
+    chains = []
     for runner in play.get('runners', []):
-        credits = runner.get('credits', [])
-        if len(credits) >= 2:
-            positions = []
-            for c in credits:
-                pos_abbr = c.get('position', {}).get('abbreviation', '')
-                num = POS_NUMBERS.get(pos_abbr)
-                if num:
-                    positions.append(str(num))
-            if len(positions) >= 2:
-                return '-'.join(positions)
-    return ""
+        positions = [str(POS_NUMBERS[c.get('position', {}).get('abbreviation', '')])
+                     for c in runner.get('credits', [])
+                     if POS_NUMBERS.get(c.get('position', {}).get('abbreviation', ''))]
+        if positions:
+            chains.append(positions)
+    if not chains or max(len(c) for c in chains) < 2:
+        return ""
+    # Start from the chain whose first fielder doesn't finish another chain,
+    # then follow the relay: 6-4 + 4-3 -> 6-4-3.
+    ends = {c[-1] for c in chains}
+    start = next((c for c in chains if c[0] not in ends or len(chains) == 1), max(chains, key=len))
+    notation, rest = list(start), [c for c in chains if c is not start]
+    while rest:
+        nxt = next((c for c in rest if c[0] == notation[-1]), None)
+        if nxt is None:
+            break
+        notation += nxt[1:]
+        rest.remove(nxt)
+    return '-'.join(notation)
 
 def get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, rng_play):
     key = None
@@ -114,6 +128,8 @@ def factual_play_category(renderer, outcome, hit_data, pitch_details, fielder_po
                 return 'second_base_throw'
         if base == '3B' and positions == ['3B'] and hit_data.get('forceMechanism') == 'unassisted':
             return 'third_base'
+        if base in ('score', 'home', '4B'):
+            return 'home_force'
     if outcome == 'Fielders Choice' and grounder and destination == 'first':
         if any(r['movement'].get('outBase') in ('score', 'home', '4B') for r in runner_outs):
             return 'home_tag'
@@ -180,6 +196,21 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         cat = hit_data['trajectory']
     else:
         cat = renderer._get_batted_ball_category(template_outcome, ev, la)
+    if (template_outcome == 'Field Error' and cat == 'default'
+            and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+        # The bare "Jones reaches on an error" with no batted ball read as a
+        # gap; describe the ball the fielder misplayed.
+        airborne = la is not None and la >= 15 or hit_data.get('trajectory') in ('fly_ball', 'popup', 'line_drive')
+        cat = 'air' if airborne else 'grounder'
+        if cat == 'air' and fielder_pos in ('P', 'C', '1B', '2B', '3B', 'SS'):
+            cat = 'popup_error'
+
+    strict = renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')
+    if (template_outcome == 'Flyout' and fielder_pos in ('P', 'C', '1B', '2B', '3B', 'SS')
+            and not strict):
+        # An infielder doesn't catch a ball "on the warning track" or "deep to
+        # second": a fly ball an infielder catches is a pop-up.
+        template_outcome, cat = 'Pop Out', 'default'
 
     specific_templates = []
     if 'narrative_templates' in GAME_CONTEXT:
@@ -187,6 +218,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         specific_templates = outcome_templates.get(cat, [])
         if not specific_templates:
             specific_templates = outcome_templates.get('default', [])
+
+        if template_outcome == 'Double' and cat == 'default' and not strict:
+            # 13 of the 18 stock doubles reach the wall or the corner; judges
+            # read "roll all the way to the wall" again and again as generated.
+            specific_templates = specific_templates + outcome_templates.get('no_wall', []) * 2
 
         if template_outcome == 'Field Error' and cat == 'everybody_safe':
             specific_templates = specific_templates + outcome_templates.get('grounder', [])
@@ -245,6 +281,15 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     elif direction.startswith("into "):
          direction_noun = direction[5:]
 
+    infield_nouns = {'P': 'the mound', '1B': 'first', '2B': 'second', '3B': 'third', 'SS': 'short'}
+    if (template_outcome in ('Groundout', 'Double Play', 'Grounded Into DP', 'Forceout', 'Field Error')
+            and fielder_pos in infield_nouns and direction_noun.endswith('field')
+            and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+        # "Hard grounder to center field. Thorne is up with it and tosses to first"
+        direction_noun = infield_nouns[fielder_pos]
+        if direction.endswith('field'):
+            direction = 'to ' + direction_noun
+
     # Strip "deep " prefix to avoid "deep deep center field" in templates
     if direction_noun.startswith("deep "):
         direction_noun = direction_noun[5:]
@@ -257,6 +302,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     side_map = {"first": "right", "second": "right", "third": "left", "short": "left"}
     if template_outcome in ["Pop Out"] and direction_noun in side_map:
         direction_noun = side_map[direction_noun]
+
+    if (direction and specific_templates and not strict and ('center' in direction or 'middle' in direction)
+            and 'left' not in direction and 'right' not in direction):
+        # A ball to center doesn't "end up all the way in the corner".
+        specific_templates = [t for t in specific_templates if 'corner' not in t] or specific_templates
 
     # Filter out templates with hardcoded directions that contradict the actual direction
     if direction and specific_templates:
@@ -275,6 +325,20 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
                         and "deep {direction_noun}" not in t]
         if filtered:
             specific_templates = filtered
+
+    # Highlight-reel plays are rare: two "spectacular catch"es in three
+    # innings read as a template firing. Keep them ~25 balls in play apart.
+    renderer._balls_in_play = getattr(renderer, '_balls_in_play', 0) + 1
+    if specific_templates and not strict:
+        highlight = re.compile(r'spectacular|diving|leaping|great pick|backhanded|on the warning track', re.I)
+        if renderer._balls_in_play - getattr(renderer, '_last_highlight', -99) < 25:
+            specific_templates = [t for t in specific_templates if not highlight.search(t)] or specific_templates
+    if specific_templates and not strict:
+        # A blooper doesn't carry to the corner for a triple, and the man who
+        # stepped on the bag for the force doesn't then fire to second.
+        specific_templates = [t for t in specific_templates
+                              if not (template_outcome == 'Triple' and t.startswith('Blooper'))
+                              and 'for the force. He fires to second' not in t] or specific_templates
 
     if specific_templates and (cat == "bunt" or renderer.rng_flow.random() < 0.8):
         template = renderer.rng_play.choice(specific_templates)
@@ -302,7 +366,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         'pitch_type': simple_pitch_type,
         'pitch_type_lower': simple_pitch_type.lower(),
         'pitch_velo': pitch_details.get('velo', 'N/A'),
-        'fielder_name': fielder_name or "the fielder",
+        'fielder_name': fielder_name or _position_noun(hit_data, direction) or "the fielder",
         'result_outs': result_outs,
         'result_outs_word': result_outs_word,
         'out_context_str': out_context_str,
@@ -316,11 +380,19 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):
          if not template: template = renderer.rng_play.choice(specific_templates)
          final_description = prefix + template.format(**context)
+         if re.search(r'spectacular|diving|leaping|great pick|backhanded|on the warning track', template, re.I):
+             renderer._last_highlight = renderer._balls_in_play
          # Clean up double spaces when dp_notation is empty
          if not dp_notation:
              final_description = final_description.replace("a  double play", "a double play")
     else:
-        phrase, phrase_type = renderer._get_batted_ball_verb(template_outcome, cat)
+        verb_outcome = template_outcome
+        if verb_outcome not in GAME_CONTEXT['statcast_verbs']:
+            # Outcomes like a fielder's choice have no verb list of their own;
+            # the generic fallback verb was literally "describes".
+            verb_outcome = {'ground_ball': 'Groundout', 'line_drive': 'Lineout', 'fly_ball': 'Flyout',
+                            'popup': 'Pop Out'}.get((hit_data or {}).get('trajectory'), 'Groundout')
+        phrase, phrase_type = renderer._get_batted_ball_verb(verb_outcome, cat)
         if phrase_type == 'verbs':
             template = renderer.rng_play.choice(GAME_CONTEXT['narrative_strings']['play_by_play_templates'])
             context['verb'] = phrase
@@ -331,17 +403,59 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             context['noun_capitalized'] = phrase.capitalize()
         final_description = prefix + template.format(**context)
 
+    final_description = final_description.replace("a diving the ", "the diving ")
+    # "over the head of a leaping the center fielder"
+    final_description = re.sub(r"\ba (leaping|sliding|charging|backpedaling|lunging) the ", r"the \1 ", final_description)
+    # "Bouncer to back to the mound"
+    final_description = re.sub(r"\b(to|into) back to the mound", "back to the mound", final_description)
+    if (re.search(r'\b(wall|corner)\b', final_description) and 'shallow ' in final_description
+            and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+        # "Hammered into shallow left... roll all the way to the wall"
+        final_description = final_description.replace('shallow ', '')
+    if (fielder_pos == '1B' and template_outcome == 'Groundout'
+            and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+        # The first baseman can't throw to himself: it's a toss to the pitcher covering (3-1).
+        final_description = re.sub(r'\b(fires|throws|flips|tosses|shovels|underhands|lobs)( it)? to first\b',
+                                   r'\1\2 to the pitcher covering first', final_description, count=1)
+    # A template that starts a sentence with {fielder_name} ("the fielder
+    # racing back") needs a capital.
+    final_description = re.sub(r'([.!?] )(the )', lambda m: m.group(1) + 'The ', final_description)
+
     if template_outcome == 'Field Error' and 'error' not in final_description.lower():
         final_description += f" An error by {fielder_name or 'the fielder'}."
 
     if outcome in ["Single", "Double", "Triple"]:
          status_str = get_runner_status_string(outcome, batter_name, result_outs, is_leadoff, inning_context, renderer.rng_play)
+         if status_str and batter_name in final_description and batter_name in status_str \
+                 and not status_str.startswith(batter_name):
+             # "...a base hit for Sam Decker. A two-out base hit for Sam Decker."
+             status_str = None
          if status_str:
              if batter_name in final_description and status_str.startswith(batter_name):
-                 status_str = "He" + status_str[len(batter_name):]
+                 rest = status_str[len(batter_name):]
+                 # "Kramer heading for second" -> keep a name; "He heading" isn't English.
+                 status_str = (batter_last_name if rest.startswith(" heading") else "He") + rest
              final_description += " " + status_str
 
     return final_description
+
+POSITION_NOUNS = {'1': 'the pitcher', '2': 'the catcher', '3': 'the first baseman', '4': 'the second baseman',
+                  '5': 'the third baseman', '6': 'the shortstop', '7': 'the left fielder',
+                  '8': 'the center fielder', '9': 'the right fielder'}
+
+
+def _position_noun(hit_data, direction=None):
+    """'the center fielder' for an uncredited ball hit to center, else None."""
+    location = str((hit_data or {}).get('location') or '')
+    if location in POSITION_NOUNS:
+        return POSITION_NOUNS[location]
+    # Home runs carry no location; the direction phrase still says where.
+    text = (direction or '').lower()
+    for word, noun in (('center', 'the center fielder'), ('left', 'the left fielder'), ('right', 'the right fielder')):
+        if word in text:
+            return noun
+    return None
+
 
 def render_steal_event(renderer, event):
     """Render actions from structured movements, never from transcript prose."""
@@ -361,35 +475,48 @@ def render_steal_event(renderer, event):
     base_names = {'1B': 'first', '2B': 'second', '3B': 'third', 'score': 'home', 'home': 'home'}
     lines = []
     for movement in movements:
-        name = movement.get('runner', {}).get('fullName') or 'The runner'
         origin, target = movement.get('fromBase'), movement.get('toBase')
+        # A feed pickoff throw names the base, not the runner: use whoever is
+        # standing there.
+        name = (movement.get('runner', {}).get('fullName')
+                or getattr(renderer, 'runners_on_base', {}).get(origin) or 'the runner')
+        lead = name[:1].upper() + name[1:]
         base = base_names.get(target)
         is_out = movement.get('isOut', False)
-        if event_type == 'pickoff_attempt':
+        if event_type == 'pickoff_attempt' and target and origin and target != origin and not is_out:
+            # A pickoff throw that gets away: the runners move up on the error.
+            if not lines:
+                lines.append("The pickoff throw gets away!")
+            lines.append(f'{lead} scores.' if target in ('score', 'home') else f'{lead} takes {base}.')
+            if origin in renderer.runners_on_base:
+                renderer.runners_on_base[origin] = None
+            if target in renderer.runners_on_base:
+                renderer.runners_on_base[target] = name
+        elif event_type == 'pickoff_attempt':
             if base or origin in base_names:
                 lines.append(f'A throw to {base or base_names[origin]}, and {name} gets back safely.')
             else:
                 lines.append(f'A pickoff attempt, and {name} gets back safely.')
         elif event_type == 'pickoff':
             where = f' at {base or base_names.get(origin)}' if base or origin in base_names else ''
-            lines.append(f'{name} is picked off{where}.')
+            lines.append(f'{lead} is picked off{where}.')
         elif event_type == 'caught_stealing':
             if target == origin and base:
-                lines.append(f'{name} is tagged out heading back to {base}.')
+                lines.append(f'{lead} is tagged out heading back to {base}.')
             elif base:
-                lines.append(f'{name} is caught stealing {base}.')
+                lines.append(f'{lead} is caught stealing {base}.')
             else:
-                lines.append(f'{name} is caught stealing.')
+                lines.append(f'{lead} is caught stealing.')
         elif event_type == 'stolen_base':
-            lines.append(f'{name} steals {base}.' if base else f'{name} steals a base.')
+            lines.append(f'{lead} steals {base}.' if base else f'{lead} steals a base.')
         elif event_type in ('wild_pitch', 'passed_ball'):
             cause = 'wild pitch' if event_type == 'wild_pitch' else 'passed ball'
             if is_out:
                 lines.append(f'On a {cause}, {name} is tagged out' + (f' at {base}.' if base else '.'))
             elif target in ('score', 'home'):
-                lines.append(f'{name} scores on a {cause}.')
+                lines.append(f'{lead} scores on a {cause}.')
             elif base:
-                lines.append(f'{name} advances to {base} on a {cause}.')
+                lines.append(f'{lead} advances to {base} on a {cause}.')
             else:
                 lines.append(f'A {cause}.')
         if event_type != 'pickoff_attempt':

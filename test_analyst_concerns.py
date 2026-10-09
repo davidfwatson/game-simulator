@@ -113,7 +113,9 @@ class TestAnalystConcerns(unittest.TestCase):
             pass
 
         # Check that we use specific error descriptions
-        self.assertTrue(any("An error by" in line for line in log.split('\n')) or any("Reached on Error" in line for line in log.split('\n')), "Error descriptions are not specific.")
+        # Errors name the misplay ("can't get a handle on it ... reaches on the error").
+        self.assertTrue(any(phrase in log for phrase in ("An error by", "Reached on Error", "on the error", "going to be an error", "error on")),
+                        "Error descriptions are not specific.")
 
     def test_velocity_regularity(self):
         """

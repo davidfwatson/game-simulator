@@ -66,15 +66,18 @@ def get_spoken_score_string(score_a, score_b):
 def simplify_pitch_type(pitch_type: str, rng_pitch, capitalize=False) -> str:
     simplified = pitch_type
     if pitch_type.lower() == "four-seam fastball":
-        r = rng_pitch.random()
-        if r < 0.6: simplified = "fastball"
-        elif r < 0.7: simplified = "heater"
+        # Sleep Baseball calls it "fastball" essentially every time ("four-seam"
+        # appears once in the corpus); letting one pitcher's fastball drift
+        # between "Fastball", "Four-seam fastball" and "Heater" read as
+        # generated. The draw is kept so the pitch RNG stream doesn't shift.
+        rng_pitch.random()
+        simplified = "fastball"
 
     if capitalize:
         return simplified.capitalize()
     return simplified
 
-def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R', location=None):
+def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R', location=None, avoid=None):
     # Helper to get description based on zone
     if event_type == 'B':
         base_key = 'ball'
@@ -108,4 +111,12 @@ def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_
     if not options:
         options = location_data.get('default', [])
 
-    return rng_pitch.choice(options)
+    choice = rng_pitch.choice(options)
+    if choice == avoid and any(option != avoid for option in options):
+        # Two pitches in a row with the same phrase ("runs inside", "runs
+        # inside") sounds canned. Step to the next different phrase instead
+        # of drawing again, so fixture draw streams stay aligned.
+        index = options.index(choice)
+        choice = next(options[(index + k) % len(options)] for k in range(1, len(options) + 1)
+                      if options[(index + k) % len(options)] != avoid)
+    return choice
