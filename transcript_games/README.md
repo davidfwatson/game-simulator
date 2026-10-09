@@ -33,15 +33,16 @@ detail. A complete broadcast is not evidence for unseen pitches.
 | Field | Meaning |
 |---|---|
 | `episode`, `source_file` | Episode number and unchanged source filename. |
-| `game` | Known teams, venue, starting lineups, pitchers, and optional managers. Omit unknown handedness. |
+| `game` | Known teams, venue, starting lineups, pitchers, optional managers, and optional `season_stats`. Omit unknown handedness. |
 | `plays` | Ordered observed appearances, including partial appearances. |
 | `inning`, `top` | Inning number and whether the visiting team is batting. |
 | `batter`, `pitcher`, `outcome` | Identified participants and observed result; use `Incomplete` when the appearance does not finish. |
 | `source_start`, `source_end` | One-based inclusive source range for the appearance. Ranges may share a line that contains consecutive events. |
 | `outs`, `score` | Outs after the appearance and the known score as `[away, home]`. |
 | `pitches` | Ordered observed pitches and nonpitch actions, each with a one-based `line`. |
-| `hit` | Known batted-ball location, trajectory, and source-supported category or situation facts. |
+| `hit` | Known batted-ball location, trajectory, depth, lane, hardness, and source-supported category or situation facts. |
 | `fielders`, `runners` | Fielding sequence and runner movements needed to describe the actual play. |
+| `substitution` | A pinch hitter: `{"type": "pinch_hitter", "replaces": "Name"}`, `replaces` only when the hosts say it. |
 | `initial_count`, pitch `count` | Known count before an appearance or particular pitch when earlier pitches were not narrated. |
 | `notes`, `gaps`, `ending_reason` | Provenance and unresolved ambiguity, not narration overrides. |
 
@@ -90,6 +91,48 @@ forceout, or unusual double play also needs the corresponding outcome, runner,
 and fielder facts. Do not add arbitrary velocity, exit-speed, launch-angle, or
 pitch-coordinate values to reach a preferred wording pool.
 
+### Where the ball went, and other facts the hosts state
+
+The hosts say things about a play that the older fixtures could not hold, so no
+draw could produce them: "lined into the gap in left center", "all the way in
+the corner", "on the warning track", "hard grounder", a starter's record and
+ERA, a pinch hitter. `python missed_words.py` measures how many source words
+each such fact type accounts for (see [the report](COMPARISON_REPORT.md)).
+These facts are recorded where a StatsAPI feed keeps them, or in a clearly
+named extension field when a feed implies them only through numbers:
+
+| Ledger | Compiled to | Values |
+|---|---|---|
+| `hit.hardness` | `hitData.hardness` (StatsAPI) | `soft`, `medium`, `hard` |
+| `hit.depth` | `hitData.depth` (extension; a feed implies it by `totalDistance`) | `shallow`, `deep`, `warning_track`, `wall` (the ball reached the wall) |
+| `hit.lane` | `hitData.lane` (extension; a feed implies it by `coordinates`) | `left_line`, `left_center`, `middle`, `right_center`, `right_line`, `left_side`, `right_side` |
+| `game.season_stats` | `boxscore.teams.<side>.players.ID<n>.seasonStats` (StatsAPI) | `{"Name": {"pitching": {"wins": 7, "losses": 8, "era": "5.21"}}}` |
+| play `substitution` | an `Offensive Substitution` action (`eventType: offensive_substitution`, `isSubstitution`, `replacedPlayer`) at the start of the at-bat's `playEvents` (StatsAPI) | `{"type": "pinch_hitter", "replaces": "Name"}` |
+
+The runners who score or take third on a ball in play, and the runs a hit or a
+home run drove in, were already recorded (`runners`, `result.rbi`); the
+renderer now says them ("Nomo will score. Brown will score.", "And that's an
+RBI single for Ali Nunez", "a two-run homer").
+
+A template that asserts where or how hard a ball went ("all the way to the
+wall", "hard grounder", "into the gap", "squeaks through the infield") is used
+only when the ball's facts support the claim
+(`renderers/narrative/batted_ball.py`). Under `strictFacts` an unrecorded
+claim is never made; elsewhere a ball with none of the fields keeps the older,
+unrestricted pools. A recorded depth or lane also sharpens the direction
+("down the left field line", "to deep right center"). The simulator writes
+`hardness` from exit velocity and `depth`/`lane` from its field model
+(`fieldsim.spot`), so simulated games say the same facts; it has no pinch
+hitters or season statistics, and the renderer says nothing about either when
+they are absent.
+
+`annotate_transcript_facts.py` records the explicit depth, lane, hardness and
+ground-rule doubles from each ball's call, and starters' season records from
+the pregame, in the 17 ledgers and straight into the four reference fixtures.
+It keeps existing values and skips contradictory words. Pinch hitters were
+annotated by hand. Review its output (`--dry-run` prints every fact with the
+words it came from) against the source.
+
 `annotate_transcript_locations.py` is an optional authoring helper for explicit
 verbal locations. It edits ledgers, preserves existing annotations, and skips
 lines containing multiple pitches. Review its changes against the source;
@@ -105,6 +148,8 @@ python fit_transcript_games.py
 python fit_transcript_games.py 5 49          # selected episodes
 python fit_transcript_games.py --references  # the four pbp_example fixtures
 python optional_sentence_rates.py
+python missed_words.py                       # unmatched source words by cause
+python annotate_transcript_facts.py --dry-run
 python full_transcript_comparison.py --check
 python full_transcript_comparison.py 49 50 --gaps 5
 python full_transcript_comparison.py 49 --json
@@ -172,10 +217,16 @@ measure again):
 | The count after a call that already numbers it ("Inside for ball two. Two and oh.") | 16 of 159, 10.1% |
 | ", for out number N" added to a one- or two-out strikeout call that does not say which out it was | 132 of 189, 69.8% |
 | ", to end the inning" added the same way to a third-out strikeout | 77 of 91, 84.6% |
-| The situation sentence after a single, double or triple ("A two-out single for Kosinski.") | 132 of 207, 63.8% |
+| The situation sentence after a single, double or triple ("A two-out single for Kosinski.", or after a run-scoring hit "And that's an RBI single for Ali Nunez.") | 147 of 207, 71.0% |
+| Naming a runner a ball in play brings home or to third ("Nomo will score.") | 66 of 82, 80.5% |
+| The runs a home run drove in ("And that's a two-run homer for Steve McDykel.") | 26 of 33, 78.8% |
 
 The counts come from the 17 ledgers (each recorded pitch or play with its
-source lines) plus the four references scanned line by line, asides excluded.
+source lines) plus the four references scanned line by line, asides excluded;
+the runner and home-run sentences need each reference play's recorded facts,
+so their reference calls come from the word alignment in `missed_words.py`.
+Home runs are rare in these broadcasts, so that rate rests on 33 opportunities
+rather than the 80 the others need.
 They are phrase matches, so they are approximate. The same audit of the 17
 ledgers found sentences that stay unconditional because the hosts almost
 always say them:
@@ -269,7 +320,10 @@ to produce. `python transcript_asides.py` summarizes the marked spans.
    result; do not reduce factual coverage to make a check pass.
 
 The latest source-mining pass appended 366 templates: 188 pitch/delivery
-variants and 178 play/transition variants. The source catalogs can also retain
+variants and 178 play/transition variants. The recorded-facts pass added 50
+more play rows to `transcript_play_additions.json` (pinch hitters, season
+records, runners who score or take third, RBI hits, home-run runs, ground-rule
+doubles). The source catalogs can also retain
 entries that were already available; their row counts are not necessarily the
 number of newly inserted templates.
 
