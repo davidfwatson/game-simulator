@@ -3,6 +3,7 @@ from collections import defaultdict
 import copy
 import json
 import math
+import re
 import unittest
 
 from example_games import EXAMPLE_GAMES
@@ -68,6 +69,29 @@ class TestOptionalSentences(unittest.TestCase):
                     self.assertEqual(said.positions, baseline.positions)
                     self.assertEqual(dropped.positions, baseline.positions)
         self.assertEqual(offered, set(OPTIONAL_SENTENCE_RATES))
+
+    def test_strikeout_reads_as_a_sentence_with_or_without_the_out(self):
+        for number in (5, 46):
+            data = episode(number)
+            forced = {'strikeout_out_number': True, 'strikeout_inning_end': True}
+            said = ForcedRenderer(copy.deepcopy(data), forced).render().splitlines()
+            dropped_text = ForcedRenderer(copy.deepcopy(data), {name: False for name in forced}).render()
+            dropped = set(dropped_text.splitlines())
+            pairs = 0
+            for line in said:
+                match = re.search(r', (?:for out number (?:one|two)|to end the inning)\.$', line)
+                if not match:
+                    continue
+                shorter = line[:match.start()]
+                # The dropped form ends the same call cleanly, nothing dangling.
+                self.assertTrue(shorter + '.' in dropped or shorter + '!' in dropped
+                                or any(candidate in dropped for candidate in
+                                       (shorter, shorter.rstrip('.!?') + '.')), line)
+                pairs += 1
+            self.assertGreater(pairs, 0)
+            for line in dropped_text.splitlines():
+                if re.search(r'strikes out|down on strikes|strike three', line) and 'TTS' not in line:
+                    self.assertRegex(line.rstrip(), r'[.!?]$')
 
     def test_count_after_a_numbered_call_is_optional(self):
         data = episode(5)

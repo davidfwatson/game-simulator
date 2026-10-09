@@ -144,8 +144,9 @@ middle for inner ones, and every 0.05 when the renderer uses the draw as an
 integer. One render tries a value at every point of that kind at once. Each
 point keeps the value whose rendered words, its segment, score best against
 its window, with unmatched n-grams penalised 0.3 rather than 0.6. Choices are
-refitted greedily on every render, so they follow the gates. Two passes
-converge; a third left every measurement unchanged. Saved gate
+refitted greedily on every render, so they follow the gates. Passes repeat
+until one changes no draw and exposes no new gate or threshold (a changed gate
+can reveal gates behind it), up to six; the 17 broadcasts settle in two. Saved gate
 digits are canonical (0, 99 or an interval's middle), so a re-measured
 threshold does not silently flip them. All 17 broadcasts refit in under three
 minutes.
@@ -155,7 +156,7 @@ The four `pbp_example_N` references have no line-level ledger.
 rendering word by word with its reference to find each point's window (the
 source between the last aligned word before the segment and the first after
 it), fits every choice and gate as above, and repeats the alignment once from
-the new rendering. This replaces their hand-edited draws.
+the new rendering, resuming from the first round's gate values. This replaces their hand-edited draws.
 
 ### Optional sentences
 

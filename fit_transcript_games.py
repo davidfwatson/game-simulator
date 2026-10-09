@@ -451,7 +451,7 @@ class _ChoiceAlignedWindows:
     segment = choice
 
 
-def fit_reference(data, source_text, rounds=2, passes=2):
+def fit_reference(data, source_text, rounds=2, passes=6):
     """Refit a PBP reference fixture, which has no line-level ledger.
 
     Its current rendering is aligned to the source to find each point's
@@ -459,13 +459,15 @@ def fit_reference(data, source_text, rounds=2, passes=2):
     Each further round realigns using the previous round's rendering.
     """
     source_tokens = tokens(source_text)
-    current = data
+    current, start = data, None
     for _ in range(rounds):
         replay = FittingRenderer(copy.deepcopy(current), AlignedWindows((), ()), streams=())
         replay.render()
         windows = _ChoiceAlignedWindows(AlignedWindows(source_tokens, list(replay.segments.items())))
-        current, text, _ = fit_gates(lambda: copy.deepcopy(data), lambda _: windows, source_tokens,
-                                     passes=passes)
+        # Later rounds continue from the previous round's gate values; choices
+        # are always refitted against the current windows.
+        current, text, start = fit_gates(lambda: copy.deepcopy(data), lambda _: windows, source_tokens,
+                                         passes=passes, start=start)
     if NarrativeRenderer(copy.deepcopy(current)).render() != text:
         raise ValueError('Fitted draws did not replay through the production renderer')
     return current, text
@@ -488,12 +490,13 @@ def metric_source(source_file, source_bytes):
     return text
 
 
-def fit_gates(make_data, windows_for, source_tokens, passes=2, streams=STREAM_NAMES,
-              fit_choices=True, defaults=DEFAULT_GATES):
+def fit_gates(make_data, windows_for, source_tokens, passes=6, streams=STREAM_NAMES,
+              fit_choices=True, defaults=DEFAULT_GATES, start=None):
     """Choose a default gate, then fit every gate draw per point.
 
     ``make_data()`` returns a fresh Gameday document for each candidate render.
-    Returns the fitted document, its rendering and the chosen default gate.
+    ``start`` resumes from an earlier result's ``(default, plan)``. Returns the
+    fitted document, its rendering and ``(default, plan)``.
     """
     def render(default, plan, trial=None, tracker=None):
         data = make_data()
@@ -501,20 +504,27 @@ def fit_gates(make_data, windows_for, source_tokens, passes=2, streams=STREAM_NA
                                    tracker, streams, fit_choices)
         return data, renderer.render(), renderer
 
-    best = None
-    for default in defaults:
-        _, text, _ = render(default, {})
-        score = game_dice(source_tokens, text)
-        if best is None or score > best[0]:
-            best = score, default
-    default = best[1]
-
-    plan = {}
+    if start is None:
+        best = None
+        for default in defaults:
+            _, text, _ = render(default, {})
+            score = game_dice(source_tokens, text)
+            if best is None or score > best[0]:
+                best = score, default
+        default, plan = best[1], {}
+    else:
+        default, plan = start[0], dict(start[1])
     tracker = GateTracker()
     data, text, renderer = render(default, plan, tracker=tracker)
     tracker.collect()
+    def discovered():
+        return ({c: frozenset(t) for c, t in tracker.thresholds.items()}, frozenset(tracker.converted))
+
+    # Repeat until a pass changes no draw and exposes no new gate or threshold
+    # (a changed gate can reveal gates behind it); `passes` caps the loop.
     for _ in range(passes):
         changed = 0
+        seen = discovered()
         for coordinate in sorted(tracker.thresholds, key=str):
             point, stream, k = coordinate
             base = renderer.segment_scores()
@@ -535,12 +545,12 @@ def fit_gates(make_data, windows_for, source_tokens, passes=2, streams=STREAM_NA
                 changed += updated
                 data, text, renderer = render(default, plan, tracker=tracker)
                 tracker.collect()
-        if not changed:
+        if not changed and discovered() == seen:
             break
-    return data, text, default
+    return data, text, (default, plan)
 
 
-def fit_game(ledger, source_bytes, passes=2):
+def fit_game(ledger, source_bytes, passes=6):
     source_text = metric_source(ledger.get('source_file'), source_bytes)
     source_lines = source_text.splitlines()
     data, text, _ = fit_gates(lambda: compile_game(ledger, source_bytes),

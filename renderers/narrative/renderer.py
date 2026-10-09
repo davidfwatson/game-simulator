@@ -1772,10 +1772,16 @@ class NarrativeRenderer(GameRenderer):
                     out_suffix = ('' if out_context_str in outcome_text or not self._optional(out_gate)
                                   else f' {out_context_str}')
                     outcome_text = outcome_text.rstrip() + f' {subject} strikes out{out_suffix}.'
-                elif out_context_str not in outcome_text and self._optional(out_gate):
-                    # "...to end the at-bat, to end the inning." -> one ending.
-                    trimmed = re.sub(r' to end the at-bat[.!?]?$', '', outcome_text.rstrip())
-                    outcome_text = trimmed.rstrip('.!?') + f', {out_context_str}.'
+                elif out_context_str not in outcome_text:
+                    # The call ends as a sentence whether or not the out is added.
+                    terminal = outcome_text.rstrip()
+                    if not terminal.endswith(('.', '!', '?')):
+                        terminal += '.'
+                    if self._optional(out_gate):
+                        # "...to end the at-bat, to end the inning." -> one ending.
+                        trimmed = re.sub(r' to end the at-bat[.!?]?$', '', terminal)
+                        terminal = trimmed.rstrip('.!?') + f', {out_context_str}.'
+                    outcome_text = terminal
 
             elif outcome == "Walk":
                  is_leadoff_batter = (len(self.plays_in_half_inning) == 0)
