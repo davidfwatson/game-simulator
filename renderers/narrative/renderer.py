@@ -10,7 +10,43 @@ from .helpers import (
     format_pitch_call, resolve_batter_hand
 )
 
+NUMBER_WORDS_1_3 = {'one': 1, 'two': 2, 'three': 3}
+NUMBERED_CALL = re.compile(r'\b(ball|strike) (one|two|three)\b', re.I)
+
+# Sentences the hosts say only some of the time, with the share of
+# opportunities in which they say them. Each is decided by one draw on the
+# "optional" stream (see _optional), so a fixture can keep or drop it per
+# point and simulated games say it at the hosts' rate. Measured with
+# `python optional_sentence_rates.py` over the 21 Sleep Baseball sources (17
+# ledgered broadcasts plus the four PBP references), host asides excluded.
+OPTIONAL_SENTENCE_RATES = {
+    # The count after a call that already numbers it ("Inside for ball two.
+    # Two and oh."): said after 16 of 159 numbered calls, 10.1%.
+    'count_after_numbered_call': 0.10,
+    # ", for out number two" added to a strikeout call that does not say
+    # which out it was: 132 of 189 one- and two-out strikeouts name it, 69.8%.
+    'strikeout_out_number': 0.70,
+    # ", to end the inning" added the same way: 77 of 91 third-out
+    # strikeouts say so, 84.6%.
+    'strikeout_inning_end': 0.85,
+    # The situation sentence after a hit ("A two-out single for Kosinski."):
+    # 132 of 207 singles, doubles and triples, 63.8%.
+    'hit_situation': 0.64,
+}
+
+
 class NarrativeRenderer(GameRenderer):
+    def _optional(self, name):
+        """One draw on the optional stream: True if the sentence is said.
+
+        Callers build the sentence (consuming its own choices) before asking,
+        so dropping it never shifts a later draw.
+        """
+        rng = getattr(self, 'rng_optional', None)
+        if rng is None:
+            return True
+        return rng.random() < OPTIONAL_SENTENCE_RATES[name]
+
     def __init__(self, gameday_data: GamedayData, seed: int = None, verbose: bool = True, use_bracketed_ui: bool = False):
         super().__init__(gameday_data, seed)
         self.verbose = verbose
@@ -1544,7 +1580,13 @@ class NarrativeRenderer(GameRenderer):
 
                                 else:
                                     spoken_count = self._get_count_call(b, s, code, current_pitcher_name, batter_name)
-                                    if use_comma:
+                                    numbered = any(
+                                        NUMBER_WORDS_1_3[number.lower()] == (b if kind.lower() == 'ball' else s)
+                                        for kind, number in NUMBERED_CALL.findall(pbp_line))
+                                    if numbered and not self._optional('count_after_numbered_call'):
+                                        # "Inside for ball two." already says the count.
+                                        pbp_line = pbp_line.rstrip(',') + ("." if use_comma else "")
+                                    elif use_comma:
                                          pbp_line += f" {spoken_count}."
                                     else:
                                          pbp_line += f" {spoken_count[0].upper() + spoken_count[1:]}."
@@ -1720,13 +1762,17 @@ class NarrativeRenderer(GameRenderer):
 
                 # A colorful terminal-pitch phrase must still state the result
                 # and which out occurred, including when a steal follows it.
+                # Which out it was is optional when the call itself does not
+                # say it: the hosts often stop at "for strike three."
+                out_gate = 'strikeout_inning_end' if result_outs == 3 else 'strikeout_out_number'
                 if not any(word in outcome_text.lower() for word in (
                         'strike', 'struck out', 'fanned', 'fans ', 'gets him swinging',
                         'got him looking', 'rings him up', 'caught looking')):
                     subject = 'He' if batter_name in outcome_text else batter_name
-                    out_suffix = '' if out_context_str in outcome_text else f' {out_context_str}'
+                    out_suffix = ('' if out_context_str in outcome_text or not self._optional(out_gate)
+                                  else f' {out_context_str}')
                     outcome_text = outcome_text.rstrip() + f' {subject} strikes out{out_suffix}.'
-                elif out_context_str not in outcome_text:
+                elif out_context_str not in outcome_text and self._optional(out_gate):
                     # "...to end the at-bat, to end the inning." -> one ending.
                     trimmed = re.sub(r' to end the at-bat[.!?]?$', '', outcome_text.rstrip())
                     outcome_text = trimmed.rstrip('.!?') + f', {out_context_str}.'

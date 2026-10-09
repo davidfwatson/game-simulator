@@ -430,6 +430,9 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
                  and not status_str.startswith(batter_name):
              # "...a base hit for Sam Decker. A two-out base hit for Sam Decker."
              status_str = None
+         if status_str and hasattr(renderer, '_optional') and not renderer._optional('hit_situation'):
+             # Built first, so dropping it shifts no later choice.
+             status_str = None
          if status_str:
              if batter_name in final_description and status_str.startswith(batter_name):
                  rest = status_str[len(batter_name):]

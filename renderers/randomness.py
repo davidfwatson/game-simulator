@@ -7,7 +7,10 @@ have no length limit. Unspecified draws use a deterministic PRNG.
 
 import random
 
-STREAM_NAMES = ("play", "pitch", "flow", "color")
+# "optional" holds only the gates that decide whether an optional sentence is
+# said at all (NarrativeRenderer._optional). Keeping them in their own stream
+# means saying or dropping such a sentence never shifts a draw in the others.
+STREAM_NAMES = ("play", "pitch", "flow", "color", "optional")
 
 
 class ChoiceRNG:
