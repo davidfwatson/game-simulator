@@ -31,6 +31,37 @@ IGNORED_EVENT_TYPES = {
 
 # Keep a conservative pitch code list (adjust to match your generator’s behavior)
 PITCH_CODE_WHITELIST = {'B', 'C', 'S', 'X', 'F', 'D'}
+# MLB pitch codes our generator never emits, folded onto the ones it does.
+# Dropping them instead loses pitches mid-at-bat (a strikeout on a foul tip
+# vanished; a run-scoring ball in play 'E' left the at-bat with no result).
+# Hit-by-pitch ('H') stays dropped: the generator narrates no HBP pitch either.
+PITCH_CODE_MAP = {'T': 'S', 'W': 'S', 'M': 'S', 'Q': 'S', 'O': 'S',
+                  'L': 'F', 'R': 'F', 'E': 'X', 'D': 'X', '*B': 'B', 'V': 'B', 'I': 'B', 'P': 'B'}
+
+# Baserunning actions our renderer narrates, keyed by MLB eventType prefix.
+# Dropping them left real innings visibly broken (an inning ending mid-at-bat
+# on an unnarrated caught stealing, runners appearing from nowhere).
+SCORER_POSITIONS = {'1': 'P', '2': 'C', '3': '1B', '4': '2B', '5': '3B', '6': 'SS',
+                    '7': 'LF', '8': 'CF', '9': 'RF'}
+
+ACTION_TYPES = (('stolen_base', 'stolen_base'), ('pickoff_caught_stealing', 'caught_stealing'),
+                ('caught_stealing', 'caught_stealing'), ('pickoff_error', 'pickoff_attempt'),
+                ('pickoff', 'pickoff'), ('wild_pitch', 'wild_pitch'), ('passed_ball', 'passed_ball'))
+
+
+def action_type(ev: dict):
+    """Our eventType for a real baserunning action event, or None."""
+    if ev.get('isPitch'):
+        return None
+    d = ev.get('details') or {}
+    real = d.get('eventType') or ''
+    if not real and (ev.get('type') == 'pickoff' or 'pickoff attempt' in (d.get('description') or '').lower()):
+        return 'pickoff_attempt'
+    for prefix, ours in ACTION_TYPES:
+        if real.startswith(prefix):
+            return ours
+    return None
+
 
 def is_pitch_like(ev: dict) -> bool:
     d = (ev.get('details') or {})
@@ -41,7 +72,7 @@ def is_pitch_like(ev: dict) -> bool:
         return False
     # If a code exists, clamp to a small set your generator would produce
     code = d.get('code')
-    return code in PITCH_CODE_WHITELIST if code else True
+    return (PITCH_CODE_MAP.get(code, code) in PITCH_CODE_WHITELIST) if code else True
 
 
 def normalize_unicode(text):
@@ -81,7 +112,7 @@ def get_our_schema_fields():
                         'count': ['balls', 'strikes'],
                         'details': ['code', 'description', 'isStrike', 'type', 'eventType'],
                         'pitchData': ['startSpeed', 'breaks'],
-                        'hitData': ['launchSpeed', 'launchAngle', 'trajectory'],
+                        'hitData': ['launchSpeed', 'launchAngle', 'trajectory', 'location'],
                         'isBunt': None
                     },
                     'runners': {
@@ -497,16 +528,44 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
 
                 # Filter playEvents
                 if 'playEvents' in play:
-                    events = [e for e in play['playEvents'] if is_pitch_like(e)]
+                    events = [e for e in play['playEvents'] if action_type(e) or is_pitch_like(e)]
                     # Optional: keep only terminal pitch to look even more generated:
                     # events = events[-1:]
                     anonymized_play['playEvents'] = []
+                    # MLB records the count AFTER each pitch; our generator and
+                    # renderer use the count the pitch was thrown in. Shift by one.
+                    count_before = {'balls': 0, 'strikes': 0}
                     for event in events:
-                        filtered_event = {}
+                        ours = action_type(event)
+                        if ours:
+                            movements = []
+                            for r in play.get('runners', []):
+                                rd, mv = r.get('details', {}), r.get('movement', {})
+                                if rd.get('playIndex') != event.get('index') or not rd.get('runner'):
+                                    continue
+                                mapped = id_mapping.get(rd['runner'].get('id'))
+                                movements.append({
+                                    'runner': {'id': mapped['id'] if mapped else rd['runner'].get('id'),
+                                               'fullName': mapped['legal_name'] if mapped else rd['runner'].get('fullName')},
+                                    'fromBase': mv.get('start') or mv.get('originBase'),
+                                    'toBase': mv.get('end') or mv.get('outBase'),
+                                    'isOut': bool(mv.get('isOut')),
+                                })
+                            if ours == 'pickoff_attempt' and not movements:
+                                base = re.search(r'\b([123])B\b', (event.get('details') or {}).get('description') or '')
+                                if base:
+                                    movements.append({'fromBase': f'{base.group(1)}B', 'toBase': f'{base.group(1)}B', 'isOut': False})
+                            anonymized_play['playEvents'].append({
+                                'isPitch': False, 'index': event.get('index'), 'count': dict(count_before),
+                                'details': {'eventType': ours, 'description': ours.replace('_', ' ').title(),
+                                            'code': '', 'runners': movements}})
+                            continue
+                        filtered_event = {'isPitch': True}
                         if 'index' in event:
                             filtered_event['index'] = event['index']
+                        filtered_event['count'] = dict(count_before)
                         if 'count' in event:
-                            filtered_event['count'] = filter_dict(event['count'], ['balls', 'strikes'])
+                            count_before = filter_dict(event['count'], ['balls', 'strikes'])
                         if 'details' in event:
                             details = {}
                             for field in ['code', 'description', 'isStrike']:
@@ -514,6 +573,8 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                                     val = event['details'][field]
                                     if field == 'description':
                                         val = anonymize_description(val, name_mapping)
+                                    elif field == 'code':
+                                        val = PITCH_CODE_MAP.get(val, val)
                                     details[field] = val
                             # Remove MLB taxonomy fields that can leak lifecycle/type details
                             details.pop('eventType', None)
@@ -531,15 +592,47 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
 
                         if 'hitData' in event:
                             hd = {}
-                            for fld in ['launchSpeed', 'launchAngle', 'trajectory']:
+                            for fld in ['launchSpeed', 'launchAngle', 'trajectory', 'location']:
                                 if fld in event['hitData']:
                                     hd[fld] = event['hitData'][fld]
+                            if 'location' in hd:
+                                # StatsAPI codes the fielding spot as a scorer's
+                                # number; the renderer's directions are keyed by
+                                # position ("4" -> "to second").
+                                hd['location'] = SCORER_POSITIONS.get(str(hd['location']), hd['location'])
                             filtered_event['hitData'] = hd
 
                         if 'isBunt' in event:
                             filtered_event['isBunt'] = event['isBunt']
 
                         anonymized_play['playEvents'].append(filtered_event)
+
+                # Baserunning outs/advances recorded only on a pitch's runner
+                # movement (an inning-ending caught stealing often has no action
+                # event of its own): add the action right after that pitch, or
+                # the inning ends mid at-bat with nothing said.
+                covered = {e.get('index') for e in anonymized_play.get('playEvents', []) if not e.get('isPitch')}
+                pitch_at = {e.get('index'): i for i, e in enumerate(anonymized_play.get('playEvents', [])) if e.get('isPitch')}
+                extra = {}
+                for r in play.get('runners', []):
+                    rd, mv = r.get('details', {}), r.get('movement', {})
+                    kind = next((ours for prefix, ours in ACTION_TYPES if (rd.get('eventType') or '').startswith(prefix)), None)
+                    idx = rd.get('playIndex')
+                    if not kind or idx in covered or idx not in pitch_at or not rd.get('runner'):
+                        continue
+                    mapped = id_mapping.get(rd['runner'].get('id'))
+                    extra.setdefault(idx, (kind, []))[1].append({
+                        'runner': {'id': mapped['id'] if mapped else rd['runner'].get('id'),
+                                   'fullName': mapped['legal_name'] if mapped else rd['runner'].get('fullName')},
+                        'fromBase': mv.get('start') or mv.get('originBase'),
+                        'toBase': mv.get('end') or mv.get('outBase'), 'isOut': bool(mv.get('isOut'))})
+                for idx in sorted(extra, key=lambda i: pitch_at[i], reverse=True):
+                    kind, movements = extra[idx]
+                    ev = anonymized_play['playEvents'][pitch_at[idx]]
+                    anonymized_play['playEvents'].insert(pitch_at[idx] + 1, {
+                        'isPitch': False, 'index': idx, 'count': dict(ev.get('count', {})),
+                        'details': {'eventType': kind, 'description': kind.replace('_', ' ').title(),
+                                    'code': '', 'runners': movements}})
 
                 # Handle runners
                 if 'runners' in play:
