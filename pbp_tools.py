@@ -21,6 +21,7 @@ Examples::
 import json
 import argparse
 import math
+from pathlib import Path
 from commentary import GAME_CONTEXT
 from pbp_comparison import compare_transcripts, normalize_line
 from renderers.randomness import STREAM_NAMES
@@ -286,8 +287,14 @@ def cmd_diff(args):
     with open(args.json_file) as f:
         data = json.load(f)
 
+    from sleep_baseball_corpus import corpus_paths
+    from transcript_asides import load_asides, strip_asides
     with open(args.target_file) as f:
         target_text = f.read()
+    # Annotated host asides count for nothing, as in the regression metrics.
+    # Corpus sources must be annotated; other ad-hoc targets may not be.
+    in_corpus = Path(args.target_file).resolve() in {p.resolve() for p in corpus_paths()}
+    target_text = strip_asides(target_text, load_asides(args.target_file, allow_missing=not in_corpus))
 
     from renderers.narrative.renderer import NarrativeRenderer
     renderer = NarrativeRenderer(data)

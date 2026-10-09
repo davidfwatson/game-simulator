@@ -5,6 +5,7 @@ import re
 
 from pbp_comparison import compare_transcripts, FULL_TRANSCRIPT_MINIMUMS
 from renderers import NarrativeRenderer
+from transcript_asides import ASIDE_BREAK, metric_source_text
 from transcript_game_fixtures import LEDGER_DIR, OUTPUT_DIR, SOURCE_DIR
 
 
@@ -13,19 +14,25 @@ def spoken_text(text):
 
 
 def spoken_words(text):
-    return re.findall(r'\w+', spoken_text(text).casefold())
+    """Words in order; a removed aside becomes a token no rendering contains,
+    so no ordered-match run can join the words on either side of it."""
+    return ['\0' if token == ASIDE_BREAK else token
+            for token in re.findall(rf'\w+|{ASIDE_BREAK}', spoken_text(text).casefold())]
 
 
 def ordered_coverage(target, rendered):
     """Fraction of source words matched in order, without counting TTS tags."""
     source, output = spoken_words(target), spoken_words(rendered)
     matches = SequenceMatcher(None, source, output, autojunk=False).get_matching_blocks()
-    return sum(match.size for match in matches) / len(source) if source else 0.0
+    words = sum(token != '\0' for token in source)
+    return sum(match.size for match in matches) / words if words else 0.0
 
 
 def compare_game(episode):
     stem = f'episode_{episode:03d}'
-    source = (SOURCE_DIR / f'{stem}.txt').read_text()
+    # Host asides are blanked like the between-innings breaks cut from the
+    # source, keeping line numbers so ledger ranges still apply.
+    source = metric_source_text(SOURCE_DIR / f'{stem}.txt')
     data = json.loads((OUTPUT_DIR / f'{stem}.json').read_text())
     ledger = json.loads((LEDGER_DIR / f'{stem}.json').read_text())
     renderer = NarrativeRenderer(data)

@@ -8,6 +8,7 @@ import unittest
 from unittest.mock import patch
 
 from commentary import GAME_CONTEXT
+from transcript_asides import metric_source_text
 from sleep_baseball_corpus import (
     ROOT, CORPUS_FLOORS, check_corpus, corpus_paths, extract_phrases, measure_corpus, normalize_phrase,
     render_case_variants, report_corpus,
@@ -37,13 +38,18 @@ class TestSleepBaseballCorpus(unittest.TestCase):
 
     def test_every_automatic_candidate_retains_exact_source_provenance(self):
         for path in corpus_paths():
-            text = path.read_text()
+            # Candidates come from the aside-free text the metric scans; its
+            # lines keep their numbers and remain substrings of the source.
+            text = metric_source_text(path)
             lines = text.splitlines()
+            originals = path.read_text().splitlines()
+            self.assertEqual(len(lines), len(originals))
             previous_line = 0
             for candidate in extract_phrases(text, path.relative_to(ROOT).as_posix()):
                 with self.subTest(source=path.name, line=candidate.source_line):
                     self.assertGreaterEqual(candidate.source_line, previous_line)
                     self.assertIn(candidate.source_phrase, lines[candidate.source_line - 1])
+                    self.assertIn(candidate.source_phrase, originals[candidate.source_line - 1])
                     self.assertTrue(candidate.source_phrase.strip())
                     previous_line = candidate.source_line
 

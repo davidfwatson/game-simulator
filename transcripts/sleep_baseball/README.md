@@ -23,6 +23,13 @@ full-broadcast wording report, and [PBP_ALIGNMENT_GUIDE.md](../../PBP_ALIGNMENT_
 for the alignment tools. Preserve these source texts when improving ledgers,
 wording pools, or snapshots.
 
+Host asides (stories, incidents, mound-visit chatter, trivia, banter with
+producer Phil, in-call sponsor reads, crowd colour) stay in these files but are
+marked by exact substring or line in [`transcript_asides/`](../../transcript_asides),
+together with the source hash. Like the cut breaks, they count for nothing in
+any alignment metric. See the [ledger guide](../../transcript_games/README.md#host-asides)
+for the format and the boundary between asides and narratable game facts.
+
 `python pbp_match_report.py --corpus-only --check` also scans pitch, foul and
 count clauses across all 21 source games. This automatic component report lists
 uncovered source lines and supplements the reviewed full-game and focused-case

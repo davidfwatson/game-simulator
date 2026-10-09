@@ -70,3 +70,6 @@ will mine for announcer turns of phrase.
   remove it.
 - Mound visits, crowd/weather color, stories, stat notes, pitching changes,
   producer Phil banter, rain delays, postgame recap/line score.
+  Keep host asides in the text. Mark them afterwards in `transcript_asides/`
+  instead (see `transcript_games/README.md`), so the metrics can exclude them
+  without changing the cleaned transcript.

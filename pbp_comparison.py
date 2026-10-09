@@ -13,6 +13,8 @@ from pathlib import Path
 import re
 from typing import NamedTuple
 
+from transcript_asides import ASIDE_BREAK, break_segments
+
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent
 
@@ -40,13 +42,20 @@ class PBPExample:
         return f"test_fixture_pbp_example_{self.number}.txt"
 
 
-# Preserve the original word, phrase, and line minimums. Content-only minimums
-# also guard against the many repeated TTS markers masking prose regressions.
+# Reviewed word, phrase, and line minimums. Content-only minimums also guard
+# against the many repeated TTS markers masking prose regressions. Annotated
+# host asides (transcript_asides/) are excluded from the target, like the cut
+# breaks. After that exclusion, any minimum more than four points below its
+# measurement was raised to three points below it, rounded down.
 PBP_EXAMPLES = (
-    PBPExample(1, target_skip=28, content_exact_min=0.13),
-    PBPExample(2, target_skip=35, content_exact_min=0.16),
-    PBPExample(3, target_skip=33, content_exact_min=0.05),
-    PBPExample(4, target_skip=27, content_exact_min=0.12),
+    PBPExample(1, target_skip=28, jaccard_min=0.61, ngram_min=0.28,
+               line_exact_min=0.51, content_exact_min=0.18),
+    PBPExample(2, target_skip=35, jaccard_min=0.57, ngram_min=0.31,
+               line_exact_min=0.56, content_exact_min=0.21),
+    PBPExample(3, target_skip=33, jaccard_min=0.56, ngram_min=0.24,
+               line_exact_min=0.45, content_exact_min=0.05),
+    PBPExample(4, target_skip=27, jaccard_min=0.58, ngram_min=0.25,
+               line_exact_min=0.53, content_exact_min=0.13),
 )
 
 # Each transcript case must pass an ordered source-phrase comparison and exact
@@ -59,20 +68,23 @@ TRANSCRIPT_CASE_MINIMUMS = {
 # Whole-broadcast reconstructions include every observed appearance segment and
 # delivered pitch. The two interrupted broadcasts retain their partial endings.
 # Phrase recall and ordered words are approximate comparisons, not claims of
-# verbatim recreation of announcer banter or the complete broadcast.
+# verbatim recreation of announcer banter or the complete broadcast. Annotated
+# host asides are excluded from the source side, like the cut breaks; wording
+# minimums more than four points below the resulting measurement were raised
+# to three points below it, rounded down.
 FULL_TRANSCRIPT_MINIMUMS = {
     episode: dict(appearances=appearances, pitches=pitches,
                   ngram=ngram, mean_play_word_coverage=coverage)
     for episode, appearances, pitches, ngram, coverage in (
-        (1, 73, 254, .10, .44), (5, 73, 270, .15, .58),
-        (11, 50, 198, .16, .61), (13, 70, 295, .19, .64),
-        (20, 67, 223, .22, .67), (29, 68, 217, .21, .63),
-        (35, 63, 207, .24, .65), (37, 64, 220, .25, .71),
-        (39, 68, 224, .26, .69), (41, 62, 199, .27, .69),
-        (45, 72, 237, .25, .66), (46, 76, 254, .31, .70),
-        (49, 63, 214, .28, .72), (50, 66, 170, .28, .67),
-        (51, 47, 152, .22, .64), (52, 62, 200, .24, .65),
-        (53, 62, 193, .26, .66),
+        (1, 73, 254, .11, .46), (5, 73, 270, .21, .63),
+        (11, 50, 198, .18, .66), (13, 70, 295, .20, .66),
+        (20, 67, 223, .23, .69), (29, 68, 217, .23, .65),
+        (35, 63, 207, .24, .66), (37, 64, 220, .27, .72),
+        (39, 68, 224, .28, .71), (41, 62, 199, .29, .71),
+        (45, 72, 237, .26, .66), (46, 76, 254, .32, .71),
+        (49, 63, 214, .30, .73), (50, 66, 170, .29, .68),
+        (51, 47, 152, .26, .66), (52, 62, 200, .26, .67),
+        (53, 62, 193, .29, .69),
     )
 }
 
@@ -155,8 +167,24 @@ def _words(text: str) -> set[str]:
 
 
 def get_ngrams(text: str, n: int = 5) -> set[tuple[str, ...]]:
-    words = re.findall(r"\b\w+\b", text.lower())
-    return {tuple(words[index:index + n]) for index in range(len(words) - n + 1)}
+    """Five-grams within each aside-free segment; none straddles a removed aside."""
+    ngrams = set()
+    for segment in break_segments(text):
+        words = re.findall(r"\b\w+\b", segment.lower())
+        ngrams.update(tuple(words[index:index + n]) for index in range(len(words) - n + 1))
+    return ngrams
+
+
+def _content_lines(text: str) -> list[str]:
+    """Non-blank lines, with a line split into separate pieces at each removed
+    aside so an exact match cannot join words that were never adjacent."""
+    lines = []
+    for line in text.splitlines():
+        if ASIDE_BREAK in line:
+            lines.extend(piece for piece in break_segments(line) if re.search(r"\w", piece))
+        elif line.strip():
+            lines.append(line)
+    return lines
 
 
 class LineMatch(NamedTuple):
@@ -182,8 +210,8 @@ def positional_line_match(
     cannot establish exactness because it discards word order and repetition.
     The near90 and near75 counts are exclusive of each higher match band.
     """
-    target = [normalize_line(line) for line in target_text.splitlines() if line.strip()]
-    rendered = [normalize_line(line) for line in rendered_text.splitlines() if line.strip()]
+    target = [normalize_line(line) for line in _content_lines(target_text)]
+    rendered = [normalize_line(line) for line in _content_lines(rendered_text)]
     target_words = [_words(line) for line in target]
     rendered_words = [_words(line) for line in rendered]
     used = set()
@@ -282,7 +310,10 @@ def compare_example(
     rendered: str,
     root: Path = REPOSITORY_ROOT,
 ) -> ComparisonScores:
-    target = (root / example.target_file).read_text(encoding="utf-8")
+    from transcript_asides import metric_source_text
+
+    # Host asides count for nothing, like the breaks cut from the sources.
+    target = metric_source_text(root / example.target_file, root, root / "transcript_asides")
     return compare_transcripts(
         "\n".join(target.splitlines()[example.target_skip:]),
         "\n".join(rendered.splitlines()[example.rendered_skip:]),

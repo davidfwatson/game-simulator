@@ -125,8 +125,10 @@ and review the generated changes before committing them.
 coverage. `--gaps N` shows the N weakest appearances for each selected episode;
 `--json` includes their source ranges, target text, and rendered text. Ordered
 coverage preserves word order; vocabulary overlap alone does not establish a
-match. Source banter and differences in line layout affect these measurements,
-so use the local source/rendered comparison to diagnose an actual gap.
+match. Annotated host asides are excluded from the source side (see below).
+Differences in line layout and unmarked colour still affect these
+measurements, so use the local source/rendered comparison to diagnose an actual
+gap.
 
 With no episode arguments, `--check` also validates the complete source,
 ledger, fixture, and snapshot catalog against `FULL_TRANSCRIPT_MINIMUMS` in
@@ -135,6 +137,52 @@ wording has reviewed minimums. `pbp_match_report.py --check` without original
 example numbers checks these 17 broadcasts, the four original references, and
 all 78 focused cases. Measure current results rather than copying a percentage
 from an old report.
+
+## Host asides
+
+Between-innings breaks were cut from the cleaned sources, so they count for
+nothing in any metric. Host asides get the same treatment without editing the
+source: `transcript_asides/<stem>.json` marks them for all 17 episodes and the
+four `pbp_example_N.txt` references. Each file records the repository-relative
+`source_file` and its `source_sha256`; a changed source fails validation until
+its spans are reviewed again. Each entry is one of:
+
+```json
+{"line": 279, "text": "And the crew chief is now calling time, there appears to be a goat in center field.", "category": "story", "note": "goat on the field"}
+{"line": 281, "category": "story", "note": "goat carried off"}
+{"line": 12, "end_line": 26, "category": "banter", "note": "pregame interview"}
+```
+
+`text` must be an exact substring of `line` (add `occurrence` when it repeats).
+Without `text`, the entry covers whole lines through `end_line`. Spans may not
+overlap or cover blank lines. Categories are `story`, `incident`,
+`mound_visit`, `trivia`, `banter`, `promo`, and `crowd`; `note` says briefly
+what the aside is, for a future aside engine.
+
+`transcript_asides.metric_source_text()` replaces each span with a hard-break
+marker while keeping line numbers, so ledger ranges and component provenance
+stay valid. No 5-gram, ordered-match run, exact line or extracted clause may
+cross that marker, because the words on either side were never adjacent; a
+line split by an aside counts as separate pieces. Every corpus source must have
+an annotation file, even an empty one: a missing file is an error rather than a
+silent fallback to the unfiltered source. `full_transcript_comparison.py`,
+`pbp_comparison.compare_example`, the component inventory in
+`sleep_baseball_corpus.py`, and `pbp_tools.py diff` all read sources this way.
+The metric definitions are otherwise unchanged.
+
+Mark only what no Gameday-driven engine could narrate. Pitch calls, counts,
+outcomes, runners, score and inning, batter intros, at-bat history, season
+stats, lineup, defensive and pitching changes, pinch hitters, intentional walks,
+the bare mound visit or ejection, weather, umpires, managers, the fishbowl
+drawing, break sign-offs and returns, and the postgame recap are not asides.
+When a sentence mixes both, mark only the aside clause. Tests reject an
+annotation that overlaps the recorded call on a ledger pitch line (the delivery
+cue, the result or play sentence after it, and a following count), removes a
+batter, fielder or runner named in that play's text, empties an appearance
+range, or that
+removes a phrase a focused transcript case or phrase case expects the renderer
+to produce. `python transcript_asides.py` summarizes the marked spans.
+[COMPARISON_REPORT.md](COMPARISON_REPORT.md) gives the before/after numbers.
 
 ## Follow up on a wording gap
 
