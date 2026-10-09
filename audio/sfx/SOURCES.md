@@ -1,0 +1,26 @@
+# Sound sources
+
+All clips come from [Freesound](https://freesound.org), trimmed and normalised
+(point sounds peak -3 dBFS, crowd clips -23 LUFS) by hand; the trims are listed here.
+CC BY clips need the credit line kept wherever the audio is published.
+
+| File | Freesound | Name | Author | License | Trim (s) |
+|---|---|---|---|---|---|
+| `bed_1.mp3` | [316718](https://freesound.org/s/316718/) | Large crowd, sports competition, athletics, audience buzzing before the events | YleArkisto | CC BY 4.0 | whole clip |
+| `bed_2.mp3` | [360699](https://freesound.org/s/360699/) | Large_crowd_from_above_stereo.wav | eguobyte | CC0 | whole clip |
+| `bat_1.mp3` | [162863](https://freesound.org/s/162863/) | Bat Hit 1 FF103.aif | martinimeniscus | CC0 | 0–1.16 |
+| `bat_2.mp3` | [162866](https://freesound.org/s/162866/) | Bat Hit 5 FF099.aif | martinimeniscus | CC0 | 0–0.63 |
+| `bat_3.mp3` | [162867](https://freesound.org/s/162867/) | Bat Hit 4 FF100.aif | martinimeniscus | CC0 | 0–0.8 |
+| `bat_4.mp3` | [162862](https://freesound.org/s/162862/) | Bat Hit 2 FF102.aif | martinimeniscus | CC0 | 0–0.5 |
+| `mitt_1.mp3` | [164528](https://freesound.org/s/164528/) | Glove Catch 4 FF011.aif | martinimeniscus | CC0 | whole clip |
+| `mitt_2.mp3` | [164529](https://freesound.org/s/164529/) | Glove Catch 5 FF010.aif | martinimeniscus | CC0 | whole clip |
+| `mitt_3.mp3` | [164527](https://freesound.org/s/164527/) | Glove Catch 3 FF012.aif | martinimeniscus | CC0 | whole clip |
+| `mitt_4.mp3` | [164533](https://freesound.org/s/164533/) | Glove Catch 9 FF006.aif | martinimeniscus | CC0 | whole clip |
+| `cheer_1.mp3` | [191916](https://freesound.org/s/191916/) | WALLA Ballpark Cheer Short Foul | AshFox | CC BY 3.0 | 5.2–13 |
+| `cheer_2.mp3` | [354056](https://freesound.org/s/354056/) | BaseballGameApplause.wav | eeease | CC0 | 5–10.5 |
+| `cheer_big.mp3` | [130568](https://freesound.org/s/130568/) | RoaringCrowd.wav | benfree | CC0 | 0–8 |
+| `applause_1.mp3` | [191911](https://freesound.org/s/191911/) | WALLA Ballpark Applause Short 04 | AshFox | CC BY 3.0 | 1–6.5 |
+| `applause_2.mp3` | [191912](https://freesound.org/s/191912/) | WALLA Ballpark Applause Short 03 | AshFox | CC BY 3.0 | 6–13 |
+| `applause_3.mp3` | [191913](https://freesound.org/s/191913/) | WALLA Ballpark Applause Short 02 | AshFox | CC BY 3.0 | 7–12 |
+| `groan_1.mp3` | [764144](https://freesound.org/s/764144/) | CRWDAngr_Crowd Groans At Bad Joke 01_ShaneVincent_GSC24_MSDEC-MKH435-Spirit.wav | ShangusBurger | CC0 | 0–2.5 |
+| `groan_2.mp3` | [764212](https://freesound.org/s/764212/) | CRWDReac_Crowd Groan In Disagreement_ShaneVincent_GSC24_MSDEC-MKH435-Spirit.wav | ShangusBurger | CC0 | 2–5 |
