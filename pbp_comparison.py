@@ -48,16 +48,18 @@ class PBPExample:
 # breaks. After the per-point refit (fit_transcript_games.py --references),
 # any minimum more than four points below its measurement was raised to three
 # points below it, rounded down; the batted-ball, runner, season-record and
-# pinch-hitter facts (missed_words.py) raised them again the same way.
+# pinch-hitter facts (missed_words.py) raised them again the same way, and so
+# did the wording pass (wording_additions.py, slot gaps and paired gates in
+# fit_transcript_games.py).
 PBP_EXAMPLES = (
-    PBPExample(1, target_skip=28, jaccard_min=0.66, ngram_min=0.32,
-               line_exact_min=0.51, content_exact_min=0.19),
-    PBPExample(2, target_skip=35, jaccard_min=0.65, ngram_min=0.38,
-               line_exact_min=0.57, content_exact_min=0.22),
-    PBPExample(3, target_skip=33, jaccard_min=0.68, ngram_min=0.33,
-               line_exact_min=0.45, content_exact_min=0.05),
-    PBPExample(4, target_skip=27, jaccard_min=0.62, ngram_min=0.30,
-               line_exact_min=0.53, content_exact_min=0.14),
+    PBPExample(1, target_skip=28, jaccard_min=0.67, ngram_min=0.38,
+               line_exact_min=0.57, content_exact_min=0.29),
+    PBPExample(2, target_skip=35, jaccard_min=0.67, ngram_min=0.46,
+               line_exact_min=0.60, content_exact_min=0.28),
+    PBPExample(3, target_skip=33, jaccard_min=0.68, ngram_min=0.40,
+               line_exact_min=0.46, content_exact_min=0.07),
+    PBPExample(4, target_skip=27, jaccard_min=0.65, ngram_min=0.38,
+               line_exact_min=0.58, content_exact_min=0.22),
 )
 
 # Each transcript case must pass an ordered source-phrase comparison and exact
@@ -75,20 +77,21 @@ TRANSCRIPT_CASE_MINIMUMS = {
 # gates were fitted per point (fit_transcript_games.py), wording minimums more
 # than four points below the measurement were raised to three points below
 # it, rounded down, and again after the batted-ball, runner, season-record and
-# pinch-hitter facts were recorded (missed_words.py).
+# pinch-hitter facts were recorded (missed_words.py), and after the wording
+# pass (wording_additions.py, slot gaps and paired gates in the fitter).
 FULL_TRANSCRIPT_MINIMUMS = {
     episode: dict(appearances=appearances, pitches=pitches,
                   ngram=ngram, mean_play_word_coverage=coverage)
     for episode, appearances, pitches, ngram, coverage in (
-        (1, 73, 254, .13, .49), (5, 73, 270, .25, .67),
-        (11, 50, 198, .21, .67), (13, 70, 295, .23, .68),
-        (20, 67, 223, .26, .72), (29, 68, 217, .27, .67),
-        (35, 63, 207, .30, .69), (37, 64, 220, .33, .75),
-        (39, 68, 224, .36, .75), (41, 62, 199, .36, .74),
-        (45, 72, 237, .33, .70), (46, 76, 254, .38, .75),
-        (49, 63, 214, .40, .79), (50, 66, 170, .35, .71),
-        (51, 47, 152, .31, .72), (52, 62, 200, .34, .71),
-        (53, 62, 193, .37, .74),
+        (1, 73, 254, .16, .52), (5, 73, 270, .33, .73),
+        (11, 50, 198, .32, .74), (13, 70, 295, .36, .76),
+        (20, 67, 223, .42, .80), (29, 68, 217, .39, .74),
+        (35, 63, 207, .44, .76), (37, 64, 220, .49, .83),
+        (39, 68, 224, .47, .83), (41, 62, 199, .52, .84),
+        (45, 72, 237, .44, .77), (46, 76, 254, .49, .82),
+        (49, 63, 214, .51, .86), (50, 66, 170, .46, .80),
+        (51, 47, 152, .40, .77), (52, 62, 200, .45, .79),
+        (53, 62, 193, .46, .81),
     )
 }
 

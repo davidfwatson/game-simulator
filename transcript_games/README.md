@@ -181,12 +181,22 @@ source window, read with host asides removed:
 
 A `choice(options)` call takes the option whose words best match the point's
 window: weighted 1-, 2- and 3-gram matches minus 0.6 per unmatched n-gram.
+Options are scored before formatting, so a template slot (`{count_str}`) is a
+gap that no n-gram spans. It used to be dropped, which made "The {count_str}
+pitch..." read as the bigram "the pitch", a miss in every window, and the
+fitter preferred slot-free templates: "The one-oh..." for the hosts' "The
+one-oh pitch...".
 
 A `random()` gate decides whether an optional sentence is said, or which form
 it takes. Gates are fitted per point. The fitter first picks the best of six
 whole-game constants, as before, then runs a coordinate descent. A coordinate
 is the k-th gate of one stream at one kind of point, such as the first colour
-gate at every `play_start` (the at-bat recap). The renderer's draws are
+gate at every `play_start` (the at-bat recap). Each coordinate is searched
+jointly with the next gate of its stream at that point, which often picks the
+form of the sentence the first one turns on: searched alone, the recap gate
+never opened while its format draw pointed at "grounded out in the second", and
+the format never mattered while the recap was closed, so "Diaz is oh for three
+this evening" was out of reach. The renderer's draws are
 instrumented to report the thresholds they are compared with, so the fitter
 tries one digit per outcome interval: 0 and 99 for the outer intervals, the
 middle for inner ones, and every 0.05 when the renderer uses the draw as an
@@ -197,8 +207,9 @@ refitted greedily on every render, so they follow the gates. Passes repeat
 until one changes no draw and exposes no new gate or threshold (a changed gate
 can reveal gates behind it), up to six; the 17 broadcasts settle in two. Saved gate
 digits are canonical (0, 99 or an interval's middle), so a re-measured
-threshold does not silently flip them. All 17 broadcasts refit in under three
-minutes.
+threshold does not silently flip them. The joint search of gate pairs made
+refitting slower: the 17 broadcasts and four references take about 16 minutes
+in eight parallel processes (`fit_transcript_games.py 1 5 11 &` and so on).
 
 The four `pbp_example_N` references have no line-level ledger.
 `python fit_transcript_games.py --references` aligns each fixture's current
@@ -224,6 +235,7 @@ measure again):
 | The situation sentence after a single, double or triple ("A two-out single for Kosinski.", or after a run-scoring hit "And that's an RBI single for Ali Nunez.") | 147 of 207, 71.0% |
 | Naming a runner a ball in play brings home or to third ("Nomo will score.") | 66 of 82, 80.5% |
 | The runs a home run drove in ("And that's a two-run homer for Steve McDykel.") | 26 of 33, 78.8% |
+| A return from the break ("And welcome back with us from Kittamori Park.", "Wally McCarthy and producer Phil back with you.") | 163 of 326, 50.0% |
 
 The counts come from the 17 ledgers (each recorded pitch or play with its
 source lines) plus the four references scanned line by line, asides excluded;
@@ -261,6 +273,37 @@ wording has reviewed minimums. `pbp_match_report.py --check` without original
 example numbers checks these 17 broadcasts, the four original references, and
 all 78 focused cases. Measure current results rather than copying a percentage
 from an old report.
+
+### The hosts' wording, by frequency
+
+`python wording_mining.py` groups every source clause (asides excluded) by the
+renderer situation it narrates (a pitch by code and location, a batted ball by
+outcome, trajectory and fielder, the introduction, the half-inning transition,
+pregame, postgame) and normalises it into a slot template, so "Shemper deals,
+fastball low and away" and "Nomo deals, curveball low and away" group together.
+For each template it reports how often the hosts said it in its situation and
+how many words the rendering missed, across how many episodes.
+
+`wording_additions.py` lists the templates added from that report: their pool,
+the pattern that finds the hosts saying them, and the slot that counts their
+chances. It writes `transcript_wording_additions.json` with each template's
+count, rate, episodes and source lines, and the weight
+`commentary.TEMPLATE_WEIGHTS` gives it so a simulated game draws it at the
+hosts' rate: in a pool of `N` original templates, phrasings with rates `s_i`
+get `w_i = s_i * N / (1 - sum(s))` (the sum capped at 0.8). Fixture draws
+index pools directly and ignore weights. A phrasing from a single episode goes
+in only as plain broadcast language. `python template_repetition.py --games 50`
+counts every template's uses per simulated game; `--check` fails if an added
+template recurs more than the hosts' `said / 17` per game allows.
+
+Some fixes changed a value rather than a pool, each measured the same way:
+"here on the Northwoods Baseball Radio Network" (the article in all 361
+mentions), scores and lineup slots spoken ("Tigers two, Ravens nothing", "the
+seven, eight, and nine hitters", "And batting ninth"), nicknames in the
+score phrase ("Tigers leading two-to-one"), "after three and a half" after the
+top of the fourth (the breaks had the half inning on the wrong side), and the
+outs ("one away", "one out", "one down") and which out ("for out number one",
+"for the first out of the inning") drawn from weighted pools.
 
 ## Host asides
 
@@ -319,6 +362,11 @@ to produce. `python transcript_asides.py` summarizes the marked spans.
    preserve existing selected indices. Keep source provenance in
    `transcript_pitch_additions.json` or `transcript_play_additions.json` and
    exercise the actual renderer helper or event route in a regression test.
+   For a phrasing the hosts repeat, rank it with `python wording_mining.py`,
+   add it to `WORDING_ADDITIONS` in `commentary.py` and its pattern and slot
+   to `wording_additions.py`, then run `python wording_additions.py` and
+   paste `--weights` into `TEMPLATE_WEIGHTS` so simulated games say it at the
+   hosts' rate (`python template_repetition.py --check`).
 4. Refit, inspect the resulting JSON/text diff, and run comparison and replay
    checks. Adjust reviewed wording minimums only after measuring the intended
    result; do not reduce factual coverage to make a check pass.
