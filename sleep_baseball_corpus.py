@@ -15,8 +15,8 @@ import re
 import sys
 
 from commentary import GAME_CONTEXT
-from renderers.narrative.helpers import get_pitch_location_categories
 from renderers.narrative.renderer import NarrativeRenderer
+from renderers.randomness import ChoiceRNG
 
 
 ROOT = Path(__file__).resolve().parent
@@ -46,7 +46,8 @@ LIMITATIONS = (
     'not full-game, event-sequence, player, or runner-state reproduction.',
     'Delivery connectors, inning narration, introductions, batted-ball outcomes, '
     'and other commentary are outside the automatic extractor.',
-    'Pitch type, count, handedness and location are inferred only when explicit. '
+    'Pitch type, count, handedness and verbal location are inferred only when explicit; '
+    'tracking zones are never manufactured from words. '
     'Unknown location remains unknown; other missing context is tried across compatible inputs. This is phrase capability, '
     'not verification of the historical pitch.',
     'Case and punctuation are ignored; word order, repetitions, articles and '
@@ -54,6 +55,34 @@ LIMITATIONS = (
     'Compound or ambiguous clauses may be conservatively unmatched or omitted. '
     'Uncovered rows retain source file, line, exact substring and inferred inputs.',
 )
+
+
+# (eligible inventory, supported components, supported pitch clauses).
+# Counts are rounded down from the corpus scan, independently for every game.
+# Pitch floors ensure easy count phrases cannot conceal lost pitch-call support.
+CORPUS_FLOORS = {
+    'pbp_example_1.txt': (230, 200, 75),
+    'pbp_example_2.txt': (250, 220, 80),
+    'pbp_example_3.txt': (200, 110, 35),
+    'pbp_example_4.txt': (280, 245, 80),
+    'episode_001.txt': (360, 175, 40),
+    'episode_005.txt': (270, 125, 45),
+    'episode_011.txt': (280, 190, 65),
+    'episode_013.txt': (420, 285, 120),
+    'episode_020.txt': (300, 250, 95),
+    'episode_029.txt': (310, 255, 90),
+    'episode_035.txt': (280, 230, 75),
+    'episode_037.txt': (300, 265, 90),
+    'episode_039.txt': (310, 230, 80),
+    'episode_041.txt': (270, 230, 80),
+    'episode_045.txt': (310, 235, 80),
+    'episode_046.txt': (340, 260, 85),
+    'episode_049.txt': (300, 240, 85),
+    'episode_050.txt': (200, 165, 60),
+    'episode_051.txt': (200, 155, 45),
+    'episode_052.txt': (270, 220, 70),
+    'episode_053.txt': (250, 215, 75),
+}
 
 
 def normalize_phrase(text):
@@ -170,17 +199,26 @@ def _infer_input(phrase, code, line, before_count=None):
     if hand:
         data['batter_hand'] = 'L' if 'left' in hand.group().lower() else 'R'
     lower = phrase.lower()
-    data['location'] = []
+    locations = []
     if re.search(r'\b(?:low|downstairs|down and|at the knees|in the dirt)\b', lower):
-        data['location'].append('low')
+        locations.append('low')
     if re.search(r'\b(?:high|upstairs|up and|at the chin)\b', lower):
-        data['location'].append('high')
+        locations.append('high')
     if re.search(r'\b(?:inside|down and in|up and in|high and tight)\b', lower):
-        data['location'].append('inside')
+        locations.append('inside')
     if re.search(r'\b(?:outside|away|wide)\b', lower):
-        data['location'].append('outside')
+        locations.append('outside')
+    data['location'] = None
+    if not ({'low', 'high'} <= set(locations) or {'inside', 'outside'} <= set(locations)):
+        data['location'] = '_'.join(locations) or None
+    if code == 'C' and re.search(r'\b(?:corner|black|edge)\b', lower):
+        side = next((s for s in ('inside', 'outside') if s in locations), None)
+        data['location'] = f'{side}_corner' if side else 'corner'
+    if code == 'C' and re.search(r'\b(?:middle|main street)\b', lower):
+        data['location'] = 'middle'
     if 'in the dirt' in lower:
         data['description'] = 'Swinging Strike (in the dirt)' if code == 'S' else 'Ball (in the dirt)'
+        data['location'] = 'dirt'
     if lower.startswith('another ') and data['pitch_type']:
         data['previous_pitch_type'] = data['pitch_type']
     numbered = re.search(r'\bstrike (one|two|three|[123])\b', lower)
@@ -243,28 +281,34 @@ def extract_phrases(text, source_file):
     return candidates
 
 
-class _ChoiceRNG:
-    """Exercise the renderer's own dynamic choice pools, not their substrings."""
+class _ChoiceRNG(ChoiceRNG):
+    """Record dynamic pools while replaying real explicit commentary draws."""
     def __init__(self, index=0, random_value=0.99):
+        super().__init__([], seed=0)
         self.index, self.random_value = index, random_value
         self.pool_sizes = []
 
     def choice(self, options):
         self.pool_sizes.append(len(options))
-        return options[self.index % len(options)]
+        self.draws += (self.index,)
+        return super().choice(options)
 
     def random(self):
-        return self.random_value
+        self.draws += (round(self.random_value * 100),)
+        return super().random()
 
 
 def _renderer(index=0, random_value=0.99, inputs=None):
     inputs = inputs or {}
     renderer = object.__new__(NarrativeRenderer)
+    renderer.base_seed = 0
     renderer.gameday_data = {'gameData': {'players': {'ID1': {
         'lastName': inputs.get('batter_last_name', '__BATTER__')}}}}
     renderer.rng_pitch = _ChoiceRNG(index, random_value)
     renderer.rng_play = _ChoiceRNG(index, random_value)
     renderer.rng_flow = _ChoiceRNG(index, random_value)
+    renderer.rng_color = _ChoiceRNG(index, random_value)
+    renderer.rng = renderer.rng_play
     renderer.last_foul_phrase = ''
     renderer.consecutive_fouls = inputs.get('consecutive_fouls') or 0
     return renderer
@@ -278,16 +322,7 @@ def _contexts(inputs):
     balls = [inputs['balls']] if inputs.get('balls') is not None else range(4)
     strikes = [inputs['strikes']] if inputs.get('strikes') is not None else range(3)
     for pitch_type, hand, b, s in itertools.product(types, hands, balls, strikes):
-        if inputs.get('zone') is not None:
-            zones = [inputs['zone']]
-        elif inputs.get('location'):
-            allowed = (range(11, 15) if inputs['code'] == 'B' else
-                       range(1, 10) if inputs['code'] == 'C' else range(1, 15))
-            zones = [z for z in allowed if set(inputs['location']) <= set(get_pitch_location_categories(z, hand))]
-        else:
-            zones = [None]
-        for zone in zones:
-            yield pitch_type, hand, b, s, zone
+        yield pitch_type, hand, b, s, inputs.get('zone'), inputs.get('location')
 
 
 def render_case_variants(case):
@@ -319,8 +354,9 @@ def render_case_variants(case):
             elif kind == 'foul':
                 text = renderer._get_foul_description()
             else:
-                pitch_type, hand, balls, strikes, zone = context
+                pitch_type, hand, balls, strikes, zone, location = context
                 event = {'details': {'code': inputs['code'], 'zone': zone,
+                                     'location': location,
                                      'description': inputs.get('description', '')},
                          'count': {'balls': balls, 'strikes': strikes}}
                 if kind == 'strikeout':
@@ -332,7 +368,8 @@ def render_case_variants(case):
                     text = renderer._get_pitch_call(event, pitch_type, hand, inputs.get('previous_pitch_type'))
             if text:
                 variants.add(pitch_clause(text) if scope == 'pitch_clause' else text)
-            sizes = renderer.rng_pitch.pool_sizes + renderer.rng_play.pool_sizes + renderer.rng_flow.pool_sizes
+            sizes = (renderer.rng_pitch.pool_sizes + renderer.rng_play.pool_sizes +
+                     renderer.rng_flow.pool_sizes + renderer.rng_color.pool_sizes)
             total = max([total] + sizes)
             index += 1
     if kind == 'foul' and (inputs.get('consecutive_fouls') is None or inputs['consecutive_fouls'] >= 1):
@@ -364,9 +401,32 @@ def measure_corpus(root=ROOT):
     return reports
 
 
-def report_corpus(root=ROOT, *, uncovered_limit=3, output=None):
+def check_corpus(reports):
+    """Check independently recorded inventory and support floors for every source."""
+    failures = []
+    indexed = {}
+    for report in reports:
+        name = Path(report.source_file).name
+        if name in indexed:
+            failures.append(f'{report.source_file}: duplicate source inventory entry')
+        indexed[name] = report
+    for name, (eligible_min, supported_min, pitch_min) in CORPUS_FLOORS.items():
+        if name not in indexed:
+            failures.append(f'{name}: missing source inventory entry')
+            continue
+        report = indexed[name]
+        values = ((report.eligible, eligible_min, 'eligible clauses'),
+                  (report.supported, supported_min, 'supported components'),
+                  (report.kinds.get('pitch', {}).get('supported', 0), pitch_min, 'supported pitch clauses'))
+        for actual, minimum, label in values:
+            if actual < minimum:
+                failures.append(f'{report.source_file}: {label} {actual} below floor {minimum}')
+    return failures
+
+
+def report_corpus(root=ROOT, *, uncovered_limit=3, output=None, reports=None):
     output = output or sys.stdout
-    reports = measure_corpus(root)
+    reports = measure_corpus(root) if reports is None else reports
     print('Sleep Baseball phrase-component coverage (exact ordered clauses):', file=output)
     for report in reports:
         percentage = 100 * report.supported / report.eligible if report.eligible else 0

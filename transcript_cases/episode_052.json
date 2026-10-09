@@ -1,0 +1,86 @@
+{
+  "episode": "episode_052.txt",
+  "cases": [
+    {
+      "id": "episode_052_comes_set_and_pitch",
+      "source_line": 149,
+      "source_text": "Flatbush comes set and the pitch... Fastball, called strike one.",
+      "expected": "Flatbush comes set and the pitch...",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.pitch_connectors_00",
+      "template": "{pitcher_name_last} comes set and the pitch...",
+      "inputs": {
+        "balls": 0,
+        "strikes": 0,
+        "pitcher_name": "Whitey Flatbush",
+        "batter_name": "Jerry Durante",
+        "runners_on_base": false
+      }
+    },
+    {
+      "id": "episode_052_pitch_from_pitcher",
+      "source_line": 155,
+      "source_text": "The pitch from Flatbush... Skied foul and out of play. Oh and one.",
+      "expected": "The pitch from Flatbush...",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.pitch_connectors_00",
+      "template": "The pitch from {pitcher_name_last}...",
+      "inputs": {
+        "balls": 0,
+        "strikes": 0,
+        "pitcher_name": "Whitey Flatbush",
+        "batter_name": "Hector Piña",
+        "runners_on_base": false
+      }
+    },
+    {
+      "id": "episode_052_backhand_and_fire_across",
+      "source_line": 176,
+      "source_text": "The three-one pitch... Grounder to short, backhanded by Gonzalez, and he fires across in time to retire Del Greco for out number one.",
+      "expected": "Grounder to short, backhanded by Gonzalez, and he fires across in time to retire Del Greco for out number one.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.default",
+      "template": "Grounder {direction}, backhanded by {fielder_name}, and he fires across in time to retire {batter_name} {out_context_str}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "SS"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Del Greco",
+        "fielder_name": "Gonzalez",
+        "fielder_pos": "SS",
+        "result_outs": 1
+      }
+    },
+    {
+      "id": "episode_052_single_to_lead_off_inning",
+      "source_line": 194,
+      "source_text": "The one-oh pitch... Flared into shallow left. That one drops in, and Hawkins is aboard with a single to lead off the inning.",
+      "expected": "Hawkins is aboard with a single to lead off the inning.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.leadoff_single",
+      "template": "{batter_name} is aboard with a single to lead off the inning.",
+      "inputs": {
+        "outcome": "Single",
+        "batter_name": "Hawkins",
+        "result_outs": 0,
+        "is_leadoff": true,
+        "inning_context": ""
+      }
+    },
+    {
+      "id": "episode_052_smashed_foul_right_field_line",
+      "source_line": 257,
+      "source_text": "Fannin's pitch... Smashed foul down the right field line. Oh and one.",
+      "expected": "Smashed foul down the right field line.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "smashed foul down the right field line",
+      "inputs": {}
+    }
+  ]
+}

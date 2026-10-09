@@ -10,11 +10,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -28,19 +29,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 0,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Cortez",
         "batter_last_name": "Cortez",
-        "result_outs": 1
+        "result_outs": 1,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "pbp_example_1_count_119",
@@ -71,11 +73,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Curveball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that curveball is called a strike",
       "assertion_scope": "full",
@@ -89,19 +92,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 1,
         "strikes": 2,
         "pitch_type": "Curveball",
         "batter_hand": "R",
         "batter_name": "Bush",
         "batter_last_name": "Bush",
-        "result_outs": 3
+        "result_outs": 3,
+        "location": "low"
       },
       "expected_phrase": "Swing and a miss on a low curve",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "pbp_example_2_count_41",
@@ -129,11 +133,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 0,
         "strikes": 0,
         "pitch_type": "Slider",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "Slider called a strike",
       "assertion_scope": "full",
@@ -147,19 +152,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 1,
         "strikes": 2,
         "pitch_type": "Slider",
         "batter_hand": "R",
         "batter_name": "Silver",
         "batter_last_name": "Silver",
-        "result_outs": 2
+        "result_outs": 2,
+        "location": "low"
       },
       "expected_phrase": "Swing and a miss on a low slider",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "pbp_example_3_count_174",
@@ -186,11 +192,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Slider",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that slider is called a strike",
       "assertion_scope": "full",
@@ -204,19 +211,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 1,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Stipe",
         "batter_last_name": "Stipe",
-        "result_outs": 2
+        "result_outs": 2,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "pbp_example_4_count_115",
@@ -243,11 +251,12 @@
       "kind": "pitch",
       "input": {
         "code": "S",
-        "zone": 5,
+        "zone": null,
         "balls": 0,
         "strikes": 0,
         "pitch_type": "Curveball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "Swing and a miss at a curveball",
       "assertion_scope": "full",
@@ -261,11 +270,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 0,
         "strikes": 0,
         "pitch_type": "Curveball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "Curveball in there for a called strike",
       "assertion_scope": "full",
@@ -300,11 +310,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that's called a strike",
       "assertion_scope": "full",
@@ -353,11 +364,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Curveball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "Curveball in there for a called strike",
       "assertion_scope": "full",
@@ -371,19 +383,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 1,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Granny Hauser",
         "batter_last_name": "Granny Hauser",
-        "result_outs": 3
+        "result_outs": 3,
+        "location": "low"
       },
       "expected_phrase": "Swing and a miss on a low fastball",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_011_count_60",
@@ -411,11 +424,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -429,19 +443,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 0,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Henny Oldman",
         "batter_last_name": "Henny Oldman",
-        "result_outs": 3
+        "result_outs": 3,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high fastball",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_013_count_70",
@@ -469,11 +484,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -487,19 +503,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 0,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Silver",
         "batter_last_name": "Silver",
-        "result_outs": 1
+        "result_outs": 1,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness. No out number is spoken; this component case uses a one-out context."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown. No out number is spoken; this component case uses a one-out context."
     },
     {
       "id": "episode_020_count_329",
@@ -526,11 +543,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 1,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -544,19 +562,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 2,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Diaz",
         "batter_last_name": "Diaz",
-        "result_outs": 1
+        "result_outs": 1,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_029_count_51",
@@ -583,11 +602,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 1,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -601,19 +621,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 1,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Bush",
         "batter_last_name": "Bush",
-        "result_outs": 2
+        "result_outs": 2,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_035_count_155",
@@ -641,11 +662,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -659,19 +681,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 0,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Shemper",
         "batter_last_name": "Shemper",
-        "result_outs": 2
+        "result_outs": 2,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_037_count_76",
@@ -699,11 +722,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Curveball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that curveball is called a strike",
       "assertion_scope": "full",
@@ -717,19 +741,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 0,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Navarro",
         "batter_last_name": "Navarro",
-        "result_outs": 3
+        "result_outs": 3,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_039_count_260",
@@ -756,11 +781,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 2,
         "strikes": 1,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -774,19 +800,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 2,
         "strikes": 2,
         "pitch_type": "Slider",
         "batter_hand": "R",
         "batter_name": "Patterson",
         "batter_last_name": "Patterson",
-        "result_outs": 3
+        "result_outs": 3,
+        "location": "low"
       },
       "expected_phrase": "swing and a miss on a low slider",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_041_count_57",
@@ -814,11 +841,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 2,
         "strikes": 1,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -832,19 +860,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 1,
         "strikes": 2,
         "pitch_type": "Slider",
         "batter_hand": "R",
         "batter_name": "Cortez",
         "batter_last_name": "Cortez",
-        "result_outs": 1
+        "result_outs": 1,
+        "location": "low"
       },
       "expected_phrase": "Swing and a miss on a low slider",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_045_count_56",
@@ -872,11 +901,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -890,19 +920,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 1,
         "strikes": 2,
         "pitch_type": "Curveball",
         "batter_hand": "R",
         "batter_name": "Rickson",
         "batter_last_name": "Rickson",
-        "result_outs": 2
+        "result_outs": 2,
+        "location": "low"
       },
       "expected_phrase": "Swing and a miss on a low curve",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_046_count_152",
@@ -929,11 +960,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 2,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "and that fastball is called a strike",
       "assertion_scope": "full",
@@ -947,19 +979,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 2,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Rudderson",
         "batter_last_name": "Rudderson",
-        "result_outs": 3
+        "result_outs": 3,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_049_count_58",
@@ -986,11 +1019,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 2,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -1004,19 +1038,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 2,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Gibson",
         "batter_last_name": "Gibson",
-        "result_outs": 2
+        "result_outs": 2,
+        "location": "low"
       },
       "expected_phrase": "Swing and a miss on a low fastball",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_050_count_82",
@@ -1043,11 +1078,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Fastball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that fastball is called a strike",
       "assertion_scope": "full",
@@ -1061,19 +1097,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 2,
+        "zone": null,
         "balls": 2,
         "strikes": 2,
         "pitch_type": "Fastball",
         "batter_hand": "R",
         "batter_name": "Cortez",
         "batter_last_name": "Cortez",
-        "result_outs": 1
+        "result_outs": 1,
+        "location": "high"
       },
       "expected_phrase": "Swing and a miss on a high heater",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_051_count_111",
@@ -1101,11 +1138,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 1,
         "pitch_type": "Curveball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that curveball is called a strike",
       "assertion_scope": "full",
@@ -1119,19 +1157,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 0,
         "strikes": 2,
         "pitch_type": "Slider",
         "batter_hand": "R",
         "batter_name": "Winterbottom",
         "batter_last_name": "Winterbottom",
-        "result_outs": 2
+        "result_outs": 2,
+        "location": "low"
       },
       "expected_phrase": "Swing and a miss on a low slider",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_052_count_164",
@@ -1158,11 +1197,12 @@
       "kind": "pitch",
       "input": {
         "code": "C",
-        "zone": 5,
+        "zone": null,
         "balls": 1,
         "strikes": 0,
         "pitch_type": "Curveball",
-        "batter_hand": "R"
+        "batter_hand": "R",
+        "location": null
       },
       "expected_phrase": "And that curveball is called a strike",
       "assertion_scope": "full",
@@ -1176,19 +1216,20 @@
       "kind": "strikeout",
       "input": {
         "code": "S",
-        "zone": 8,
+        "zone": null,
         "balls": 1,
         "strikes": 2,
         "pitch_type": "Slider",
         "batter_hand": "R",
         "batter_name": "Cortez",
         "batter_last_name": "Cortez",
-        "result_outs": 1
+        "result_outs": 1,
+        "location": "low"
       },
       "expected_phrase": "Swing and a miss on a low slider",
       "assertion_scope": "pitch_clause",
       "supported": true,
-      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Vertical-zone assertions are independent of batter handedness."
+      "context_notes": "Only the leading pitch clause is asserted; the emitted batter/outcome tail is excluded. Verbal location comes from the source phrase; tracking zone is unknown."
     },
     {
       "id": "episode_053_count_99",

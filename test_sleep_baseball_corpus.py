@@ -9,37 +9,11 @@ from unittest.mock import patch
 
 from commentary import GAME_CONTEXT
 from sleep_baseball_corpus import (
-    ROOT, corpus_paths, extract_phrases, measure_corpus, normalize_phrase,
+    ROOT, CORPUS_FLOORS, check_corpus, corpus_paths, extract_phrases, measure_corpus, normalize_phrase,
     render_case_variants, report_corpus,
 )
 
 
-# (eligible inventory, supported components, supported pitch clauses).
-# Counts are rounded down from the corpus scan, independently for every game.
-# Pitch floors ensure easy count phrases cannot conceal lost pitch-call support.
-CORPUS_FLOORS = {
-    'pbp_example_1.txt': (230, 200, 75),
-    'pbp_example_2.txt': (250, 220, 80),
-    'pbp_example_3.txt': (200, 110, 35),
-    'pbp_example_4.txt': (280, 245, 80),
-    'episode_001.txt': (360, 175, 40),
-    'episode_005.txt': (270, 125, 45),
-    'episode_011.txt': (280, 190, 65),
-    'episode_013.txt': (420, 285, 120),
-    'episode_020.txt': (300, 250, 95),
-    'episode_029.txt': (310, 255, 90),
-    'episode_035.txt': (280, 230, 75),
-    'episode_037.txt': (300, 265, 90),
-    'episode_039.txt': (310, 230, 80),
-    'episode_041.txt': (270, 230, 80),
-    'episode_045.txt': (310, 235, 80),
-    'episode_046.txt': (340, 260, 85),
-    'episode_049.txt': (300, 240, 85),
-    'episode_050.txt': (200, 165, 60),
-    'episode_051.txt': (200, 155, 45),
-    'episode_052.txt': (270, 220, 70),
-    'episode_053.txt': (250, 215, 75),
-}
 
 
 class TestSleepBaseballCorpus(unittest.TestCase):
@@ -49,6 +23,7 @@ class TestSleepBaseballCorpus(unittest.TestCase):
         self.assertEqual(sum(path.name.startswith('pbp_example_') for path in paths), 4)
         self.assertEqual(sum(path.name.startswith('episode_') for path in paths), 17)
         reports = measure_corpus()
+        self.assertEqual(check_corpus(reports), [])
         self.assertEqual([r.source_file for r in reports], [p.relative_to(ROOT).as_posix() for p in paths])
         self.assertEqual({Path(r.source_file).name for r in reports}, set(CORPUS_FLOORS))
         for report in reports:
@@ -88,6 +63,14 @@ class TestSleepBaseballCorpus(unittest.TestCase):
         self.assertEqual(candidates[0].input['code'], 'B')
         self.assertEqual((candidates[0].input['balls'], candidates[0].input['strikes']), (1, 2))
         self.assertEqual((candidates[1].input['balls'], candidates[1].input['strikes']), (2, 2))
+        self.assertEqual(candidates[0].input['location'], 'low')
+        self.assertIsNone(candidates[0].input['zone'])
+
+    def test_word_locations_do_not_manufacture_tracking_zones_or_handedness(self):
+        candidates = extract_phrases('Curveball misses low and outside. One and oh.', 'source.txt')
+        self.assertEqual(candidates[0].input['location'], 'low_outside')
+        self.assertIsNone(candidates[0].input['zone'])
+        self.assertIsNone(candidates[0].input['batter_hand'])
 
     def test_cut_on_it_and_missed_is_a_swinging_strike(self):
         for phrase in ('Fastball, cut on it and missed', 'Fastball, cut on it, missed'):
@@ -152,6 +135,35 @@ class TestSleepBaseballCorpus(unittest.TestCase):
                                          'strikes': 0, 'pitch_type': 'Slider', 'batter_hand': 'R'}}
         variants = {normalize_phrase(v) for v in render_case_variants(case)}
         self.assertNotIn(normalize_phrase('Swing and a miss on a high slider'), variants)
+
+    def test_explicit_verbal_location_overrides_unrelated_tracking_zone(self):
+        case = {'kind': 'pitch', 'input': {'code': 'S', 'zone': 2, 'location': 'low',
+                                         'balls': 0, 'strikes': 0, 'pitch_type': 'Slider', 'batter_hand': 'R'}}
+        variants = {normalize_phrase(v) for v in render_case_variants(case)}
+        self.assertNotIn(normalize_phrase('Swing and a miss on a high slider'), variants)
+        self.assertIn(normalize_phrase('Swing and a miss on a low breaking ball'), variants)
+
+    def test_component_variants_replay_through_actual_commentary_rng_independent_of_clock(self):
+        from sleep_baseball_corpus import _renderer
+        case = {'kind': 'pitch', 'input': {'code': 'C', 'zone': None, 'location': 'low',
+                                         'balls': 0, 'strikes': 0, 'pitch_type': 'Fastball', 'batter_hand': 'R'}}
+        event = {'details': {'code': 'C', 'zone': None, 'location': 'low'},
+                 'count': {'balls': 0, 'strikes': 0}}
+        owner = {'commentaryRng': {'event': {'pitch': [2]}}}
+        emitted = []
+        for timestamp in ('2025-01-01T00:00:00Z', '2030-12-31T23:59:59.123Z'):
+            renderer = _renderer()
+            renderer._reseed_for_point(owner, 'event', timestamp, 'play:0:event:0')
+            emitted.append(renderer._get_pitch_call(event, 'Fastball', 'R'))
+        self.assertEqual(emitted[0], emitted[1])
+        self.assertIn(normalize_phrase(emitted[0]), {normalize_phrase(v) for v in render_case_variants(case)})
+
+    def test_corpus_check_reports_missing_sources_and_regressions(self):
+        from sleep_baseball_corpus import SourceCoverage
+        reports = [SourceCoverage('pbp_example_1.txt')]
+        failures = check_corpus(reports)
+        self.assertTrue(any('pbp_example_1.txt: eligible clauses 0' in f for f in failures))
+        self.assertTrue(any('episode_001.txt: missing source' in f for f in failures))
 
     def test_curated_cases_cover_every_source_and_emit_expected_phrases(self):
         manifest = json.loads((ROOT / 'sleep_baseball_phrase_cases.json').read_text())

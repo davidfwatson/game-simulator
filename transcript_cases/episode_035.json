@@ -1,0 +1,77 @@
+{
+  "episode": "episode_035.txt",
+  "cases": [
+    {
+      "id": "dribbled_third_base_foul",
+      "source_line": 98,
+      "source_text": "The one-oh pitch... Dribbled foul down the third base line. One and one.",
+      "expected": "Dribbled foul down the third base line.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "dribbled foul down the third base line",
+      "inputs": {}
+    },
+    {
+      "id": "little_looper_single",
+      "source_line": 99,
+      "source_text": "The one-one pitch... And that's a little looper into shallow center, and that one falls in for a base hit.",
+      "expected": "And that's a little looper into shallow center, and that one falls in for a base hit.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.bloop",
+      "template": "And that's a little looper into shallow {direction_noun}, and that one falls in for a base hit.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "bloop",
+          "location": "SC"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Clifton Santiago",
+        "result_outs": null
+      }
+    },
+    {
+      "id": "first_baseman_spears_grounder",
+      "source_line": 127,
+      "source_text": "The two-one pitch... Hard grounder to first, Stern spears it, and he steps on the bag to retire Durante to end the inning.",
+      "expected": "Hard grounder to first, Stern spears it, and he steps on the bag to retire Durante to end the inning.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.unassisted_1b",
+      "template": "Hard grounder to first, {fielder_name} spears it, and he steps on the bag to retire {batter_name} {out_context_str}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "unassisted_1b",
+          "location": "1B"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Durante",
+        "result_outs": 3,
+        "fielder_pos": "1B",
+        "fielder_name": "Stern"
+      }
+    },
+    {
+      "id": "empty_bases_two_down_intro",
+      "source_line": 59,
+      "source_text": "And here's Schmitty Diaz with the bases empty and two down. Lefty against lefty.",
+      "expected": "And here's Schmitty Diaz with the bases empty and two down.",
+      "kind": "narrative_string",
+      "pool": "narrative_strings.batter_intro_empty",
+      "template": "And here's {batter_name} with the bases empty and {outs_str}.",
+      "inputs": {
+        "key": "batter_intro_empty",
+        "context": {
+          "batter_name": "Schmitty Diaz",
+          "outs_str": "two down"
+        }
+      }
+    }
+  ]
+}

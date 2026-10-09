@@ -1,0 +1,1422 @@
+[
+  {
+    "pool": "pitch_locations.ball.inside",
+    "template": "inside",
+    "episode": 1,
+    "line": 30,
+    "expected": "inside",
+    "location": "inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.inside",
+    "template": "way inside",
+    "episode": 1,
+    "line": 34,
+    "expected": "way inside",
+    "location": "inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.high",
+    "template": "high",
+    "episode": 1,
+    "line": 80,
+    "expected": "high",
+    "location": "high",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.high",
+    "template": "very high",
+    "episode": 1,
+    "line": 112,
+    "expected": "very high",
+    "location": "high",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.high",
+    "template": "just barely high",
+    "episode": 1,
+    "line": 164,
+    "expected": "just barely high",
+    "location": "high",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.inside",
+    "template": "just inside",
+    "episode": 1,
+    "line": 276,
+    "expected": "just inside",
+    "location": "inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.inside",
+    "template": "inside, that almost hit him",
+    "episode": 1,
+    "line": 411,
+    "expected": "inside, that almost hit him",
+    "location": "inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.inside",
+    "template": "misses inside",
+    "episode": 5,
+    "line": 384,
+    "expected": "misses inside",
+    "location": "inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.high_inside",
+    "template": "runs high and inside",
+    "episode": 11,
+    "line": 373,
+    "expected": "runs high and inside",
+    "location": "high_inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.high",
+    "template": "upstairs",
+    "episode": 13,
+    "line": 190,
+    "expected": "upstairs",
+    "location": "high",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.high_inside",
+    "template": "inside, that one buzzed his tower",
+    "episode": 20,
+    "line": 188,
+    "expected": "inside, that one buzzed his tower",
+    "location": "high_inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.inside",
+    "template": "runs just inside",
+    "episode": 37,
+    "line": 166,
+    "expected": "runs just inside",
+    "location": "inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.inside",
+    "template": "just misses inside",
+    "episode": 41,
+    "line": 371,
+    "expected": "just misses inside",
+    "location": "inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.inside",
+    "template": "off the inside",
+    "episode": 46,
+    "line": 470,
+    "expected": "off the inside",
+    "location": "inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.outside",
+    "template": "outside",
+    "episode": 1,
+    "line": 51,
+    "expected": "outside",
+    "location": "outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.outside",
+    "template": "just a bit outside",
+    "episode": 1,
+    "line": 78,
+    "expected": "just a bit outside",
+    "location": "outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.outside",
+    "template": "just outside",
+    "episode": 1,
+    "line": 153,
+    "expected": "just outside",
+    "location": "outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.outside",
+    "template": "floats outside",
+    "episode": 11,
+    "line": 288,
+    "expected": "floats outside",
+    "location": "outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.outside",
+    "template": "misses on the outside corner",
+    "episode": 11,
+    "line": 341,
+    "expected": "misses on the outside corner",
+    "location": "outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.outside",
+    "template": "runs outside",
+    "episode": 13,
+    "line": 416,
+    "expected": "runs outside",
+    "location": "outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.high_outside",
+    "template": "misses up and away",
+    "episode": 13,
+    "line": 551,
+    "expected": "misses up and away",
+    "location": "high_outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.outside",
+    "template": "misses wide",
+    "episode": 29,
+    "line": 53,
+    "expected": "misses wide",
+    "location": "outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.outside",
+    "template": "hanging outside",
+    "episode": 51,
+    "line": 311,
+    "expected": "hanging outside",
+    "location": "outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low",
+    "template": "just a bit low",
+    "episode": 1,
+    "line": 36,
+    "expected": "just a bit low",
+    "location": "low",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low",
+    "template": "low",
+    "episode": 1,
+    "line": 85,
+    "expected": "low",
+    "location": "low",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low",
+    "template": "misses very low",
+    "episode": 1,
+    "line": 182,
+    "expected": "misses very low",
+    "location": "low",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.dirt",
+    "template": "in the dirt in front of the plate",
+    "episode": 11,
+    "line": 48,
+    "expected": "in the dirt in front of the plate",
+    "location": "dirt",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low",
+    "template": "misses down low",
+    "episode": 11,
+    "line": 371,
+    "expected": "misses down low",
+    "location": "low",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low_inside",
+    "template": "runs low and inside",
+    "episode": 11,
+    "line": 422,
+    "expected": "runs low and inside",
+    "location": "low_inside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.dirt",
+    "template": "bounces in the dirt",
+    "episode": 20,
+    "line": 257,
+    "expected": "bounces in the dirt",
+    "location": "dirt",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low",
+    "template": "runs low",
+    "episode": 46,
+    "line": 60,
+    "expected": "runs low",
+    "location": "low",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low",
+    "template": "misses just a bit low",
+    "episode": 52,
+    "line": 165,
+    "expected": "misses just a bit low",
+    "location": "low",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low_outside",
+    "template": "misses down and away",
+    "episode": 29,
+    "line": 89,
+    "expected": "misses down and away",
+    "location": "low_outside",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.ball.low",
+    "template": "taken low",
+    "episode": 41,
+    "line": 234,
+    "expected": "taken low",
+    "location": "low",
+    "requires": "ball_location"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he slaps one sharply foul and out of play",
+    "episode": 1,
+    "line": 54,
+    "expected": "slaps one sharply foul and out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he fouls one off",
+    "episode": 1,
+    "line": 63,
+    "expected": "fouls one off"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "slapped foul",
+    "episode": 1,
+    "line": 106,
+    "expected": "slapped foul"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he pops that one up, foul, out of play",
+    "episode": 1,
+    "line": 126,
+    "expected": "pops that one up, foul, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he slaps that one foul out of play",
+    "episode": 1,
+    "line": 227,
+    "expected": "slaps that one foul out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he smacks that one, foul, out of play",
+    "episode": 1,
+    "line": 236,
+    "expected": "smacks that one, foul, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "smacked foul, down the third base line",
+    "episode": 1,
+    "line": 247,
+    "expected": "smacked foul, down the third base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hit sharply, foul",
+    "episode": 1,
+    "line": 299,
+    "expected": "hit sharply, foul"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "it's a foul out of play",
+    "episode": 1,
+    "line": 306,
+    "expected": "it's a foul out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fouled off, out of play",
+    "episode": 1,
+    "line": 309,
+    "expected": "fouled off, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "slapped foul, out of play",
+    "episode": 1,
+    "line": 316,
+    "expected": "slapped foul, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "smacked foul and out of play",
+    "episode": 1,
+    "line": 340,
+    "expected": "smacked foul and out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fouled off and out of play",
+    "episode": 1,
+    "line": 350,
+    "expected": "fouled off and out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "that's popped up, foul and out of play",
+    "episode": 1,
+    "line": 382,
+    "expected": "that's popped up, foul and out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "line foul",
+    "episode": 1,
+    "line": 401,
+    "expected": "line foul"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he slices that one foul, out of play",
+    "episode": 1,
+    "line": 422,
+    "expected": "slices that one foul, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "a long foul ball",
+    "episode": 1,
+    "line": 434,
+    "expected": "long foul ball"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "tapped foul",
+    "episode": 5,
+    "line": 34,
+    "expected": "tapped foul"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopped foul, went out of play",
+    "episode": 5,
+    "line": 38,
+    "expected": "chopped foul, went out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "that's fouled back",
+    "episode": 5,
+    "line": 191,
+    "expected": "that's fouled back"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "line foul down the first base line",
+    "episode": 5,
+    "line": 381,
+    "expected": "line foul down the first base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fouled off, just got a piece of it",
+    "episode": 5,
+    "line": 383,
+    "expected": "fouled off, just got a piece of it"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopped foul down the third-base line",
+    "episode": 11,
+    "line": 316,
+    "expected": "chopped foul down the third-base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopped foul past third",
+    "episode": 11,
+    "line": 349,
+    "expected": "chopped foul past third"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopped foul on the first-base line",
+    "episode": 13,
+    "line": 59,
+    "expected": "chopped foul on the first-base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fouled back, out of play",
+    "episode": 13,
+    "line": 73,
+    "expected": "fouled back, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopped foul on the third-base line",
+    "episode": 13,
+    "line": 89,
+    "expected": "chopped foul on the third-base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul into the stands",
+    "episode": 13,
+    "line": 136,
+    "expected": "hammered foul into the stands"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "dribbled foul on the third-base line",
+    "episode": 13,
+    "line": 148,
+    "expected": "dribbled foul on the third-base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul on the left field line and into the stands",
+    "episode": 13,
+    "line": 178,
+    "expected": "hammered foul on the left field line and into the stands"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "foul down the right field line",
+    "episode": 13,
+    "line": 334,
+    "expected": "foul down the right field line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopper foul down the first base line",
+    "episode": 13,
+    "line": 403,
+    "expected": "chopper foul down the first base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul down the left field line",
+    "episode": 13,
+    "line": 430,
+    "expected": "hammered foul down the left field line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopper foul on the third base line",
+    "episode": 13,
+    "line": 457,
+    "expected": "chopper foul on the third base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopper foul",
+    "episode": 13,
+    "line": 483,
+    "expected": "chopper foul"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul down the first base line",
+    "episode": 29,
+    "line": 83,
+    "expected": "hammered foul down the first base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul on the third base line",
+    "episode": 29,
+    "line": 129,
+    "expected": "hammered foul on the third base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he fouls that one back and into the stands",
+    "episode": 29,
+    "line": 165,
+    "expected": "he fouls that one back and into the stands"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fouled back, into the stands",
+    "episode": 35,
+    "line": 135,
+    "expected": "fouled back, into the stands"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul on the first base side",
+    "episode": 35,
+    "line": 328,
+    "expected": "hammered foul on the first base side"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hooked foul and into the stands",
+    "episode": 37,
+    "line": 167,
+    "expected": "hooked foul and into the stands"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "slapped foul down the third base line",
+    "episode": 39,
+    "line": 149,
+    "expected": "slapped foul down the third base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "skied foul, out of play",
+    "episode": 39,
+    "line": 169,
+    "expected": "skied foul, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul, out of play",
+    "episode": 39,
+    "line": 195,
+    "expected": "hammered foul, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fouled off to the right",
+    "episode": 41,
+    "line": 328,
+    "expected": "fouled off to the right"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "bouncer foul off to the right",
+    "episode": 41,
+    "line": 373,
+    "expected": "bouncer foul off to the right"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "that one's fouled back and out of play",
+    "episode": 45,
+    "line": 66,
+    "expected": "that one's fouled back and out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "grounded foul",
+    "episode": 45,
+    "line": 93,
+    "expected": "grounded foul"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "tapped foul off to the right",
+    "episode": 45,
+    "line": 191,
+    "expected": "tapped foul off to the right"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "foul down the first base line",
+    "episode": 45,
+    "line": 279,
+    "expected": "foul down the first base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fouled straight back and out of play",
+    "episode": 45,
+    "line": 460,
+    "expected": "fouled straight back and out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul off to the left",
+    "episode": 45,
+    "line": 469,
+    "expected": "hammered foul off to the left"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul off to the right",
+    "episode": 45,
+    "line": 515,
+    "expected": "hammered foul off to the right"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "slashed foul down the first base line",
+    "episode": 46,
+    "line": 96,
+    "expected": "slashed foul down the first base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fouled back into the seats",
+    "episode": 46,
+    "line": 145,
+    "expected": "fouled back into the seats"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "slashed foul, out of play",
+    "episode": 46,
+    "line": 241,
+    "expected": "slashed foul, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "slashed foul off to the left",
+    "episode": 46,
+    "line": 280,
+    "expected": "slashed foul off to the left"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "ripped foul down the first base line",
+    "episode": 46,
+    "line": 333,
+    "expected": "ripped foul down the first base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "ripped foul down the right field line and out of play",
+    "episode": 46,
+    "line": 353,
+    "expected": "ripped foul down the right field line and out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul down the right field line",
+    "episode": 49,
+    "line": 105,
+    "expected": "hammered foul down the right field line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "foul back to the screen",
+    "episode": 49,
+    "line": 153,
+    "expected": "foul back to the screen"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "foul back and out of play",
+    "episode": 49,
+    "line": 158,
+    "expected": "foul back and out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fisted foul off to the left",
+    "episode": 49,
+    "line": 201,
+    "expected": "fisted foul off to the left"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "dribbled foul off to the right",
+    "episode": 49,
+    "line": 292,
+    "expected": "dribbled foul off to the right"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "bouncer foul down the first base line",
+    "episode": 49,
+    "line": 417,
+    "expected": "bouncer foul down the first base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "foul back, out of play",
+    "episode": 49,
+    "line": 454,
+    "expected": "foul back, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopped foul down third",
+    "episode": 50,
+    "line": 67,
+    "expected": "chopped foul down third"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fisted foul, out of play",
+    "episode": 50,
+    "line": 245,
+    "expected": "fisted foul, out of play"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopped foul off third",
+    "episode": 51,
+    "line": 95,
+    "expected": "chopped foul off third"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "that one's fouled back into the seats",
+    "episode": 51,
+    "line": 103,
+    "expected": "that one's fouled back into the seats"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "sliced foul and into the stands",
+    "episode": 51,
+    "line": 123,
+    "expected": "sliced foul and into the stands"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "chopped foul down the left field line",
+    "episode": 51,
+    "line": 149,
+    "expected": "chopped foul down the left field line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul, landed into the seats",
+    "episode": 52,
+    "line": 178,
+    "expected": "hammered foul, landed into the seats"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "hammered foul back to the screen",
+    "episode": 52,
+    "line": 306,
+    "expected": "hammered foul back to the screen"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "slashed foul off third",
+    "episode": 52,
+    "line": 310,
+    "expected": "slashed foul off third"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "bounced foul towards the dugout",
+    "episode": 53,
+    "line": 88,
+    "expected": "bounced foul towards"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "fisted foul off third",
+    "episode": 53,
+    "line": 269,
+    "expected": "fisted foul off third"
+  },
+  {
+    "pool": "narrative_strings.bunt_foul",
+    "template": "Bunted foul down the first base line",
+    "episode": 35,
+    "line": 114,
+    "expected": "Bunted foul down the first base line"
+  },
+  {
+    "pool": "narrative_strings.bunt_foul",
+    "template": "Bunted foul down the third base line",
+    "episode": 37,
+    "line": 153,
+    "expected": "Bunted foul down the third base line"
+  },
+  {
+    "pool": "narrative_strings.bunt_foul",
+    "template": "Bunted foul off to the left",
+    "episode": 45,
+    "line": 265,
+    "expected": "Bunted foul off to the left"
+  },
+  {
+    "pool": "narrative_strings.strike_called_one",
+    "template": "in there for a called strike one",
+    "episode": 11,
+    "line": 241,
+    "expected": "in there for a called strike one"
+  },
+  {
+    "pool": "narrative_strings.strike_called_one",
+    "template": "taken for a called strike one",
+    "episode": 53,
+    "line": 219,
+    "expected": "taken for a called strike one"
+  },
+  {
+    "pool": "narrative_strings.strike_called_two",
+    "template": "in there for a called strike two",
+    "episode": 11,
+    "line": 417,
+    "expected": "in there for a called strike two"
+  },
+  {
+    "pool": "narrative_strings.strike_called_three",
+    "template": "in there for a called strike three",
+    "episode": 11,
+    "line": 257,
+    "expected": "in there for a called strike three"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he takes a wild wave at that one",
+    "episode": 1,
+    "line": 271,
+    "expected": "takes a wild wave at that one"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he takes a wild swing",
+    "episode": 1,
+    "line": 429,
+    "expected": "takes a wild swing"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "swing and a miss",
+    "episode": 5,
+    "line": 153,
+    "expected": "swing and a miss"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he swings out of his shoes",
+    "episode": 11,
+    "line": 290,
+    "expected": "swings out of his shoes"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "cut on it, missed",
+    "episode": 39,
+    "line": 73,
+    "expected": "cut on it, missed"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he waves at it",
+    "episode": 52,
+    "line": 50,
+    "expected": "he waves at"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he whiffs at it",
+    "episode": 53,
+    "line": 324,
+    "expected": "he whiffs at"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging_three",
+    "template": "swing and a miss for strike three",
+    "episode": 1,
+    "line": 64,
+    "expected": "swing and a miss for strike three"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And here's the first pitch from {pitcher_name_last}...",
+    "episode": 1,
+    "line": 25,
+    "expected": "And here's the first pitch from Malone"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And here's the first pitch...",
+    "episode": 1,
+    "line": 51,
+    "expected": "And here's the first pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And the first pitch from {pitcher_name_last}...",
+    "episode": 1,
+    "line": 118,
+    "expected": "And the first pitch from Von Newman"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And here's the pitch...",
+    "episode": 1,
+    "line": 125,
+    "expected": "And here's the pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And here's the first pitch to {batter_name_last}...",
+    "episode": 1,
+    "line": 231,
+    "expected": "And here's the first pitch to Filbert"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "Here's the first pitch from {pitcher_name_last}...",
+    "episode": 1,
+    "line": 243,
+    "expected": "Here's the first pitch from Von Newman"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And here's the pitch from {pitcher_name_last}...",
+    "episode": 1,
+    "line": 324,
+    "expected": "And here's the pitch from Von Newman"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And here's the pitch to {batter_name_last}...",
+    "episode": 1,
+    "line": 331,
+    "expected": "And here's the pitch to Palomar"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "The pitch to {batter_name_last}...",
+    "episode": 1,
+    "line": 343,
+    "expected": "The pitch to Moon"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "The first pitch...",
+    "episode": 1,
+    "line": 427,
+    "expected": "The first pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "The first pitch to {batter_name_last}...",
+    "episode": 1,
+    "line": 431,
+    "expected": "The first pitch to Hickson"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "Here's the pitch from {pitcher_name_last}...",
+    "episode": 1,
+    "line": 445,
+    "expected": "Here's the pitch from Hepburn"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And the pitch from {pitcher_name_last}...",
+    "episode": 5,
+    "line": 25,
+    "expected": "And the pitch from Niedermeier"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And now the pitch to {batter_name_last}...",
+    "episode": 41,
+    "line": 131,
+    "expected": "And now the pitch to Valentine"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "{pitcher_name_last}'s pitch...",
+    "episode": 52,
+    "line": 184,
+    "expected": "Fannin's pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And the first offering...",
+    "episode": 52,
+    "line": 266,
+    "expected": "And the first offering"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "And {pitcher_name_last} comes set and delivers...",
+    "episode": 53,
+    "line": 149,
+    "expected": "And Hughes comes set and delivers"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors_00",
+    "template": "All right, and now the pitch to {batter_name_last}...",
+    "episode": 53,
+    "line": 263,
+    "expected": "All right, and now the pitch to Topanga"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "{pitcher_name_last} comes set, and here's the {count_str} pitch...",
+    "episode": 1,
+    "line": 31,
+    "expected": "Malone comes set, and here's the one-two pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "The pitch...",
+    "episode": 1,
+    "line": 42,
+    "expected": "The pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "{pitcher_name_last}'s pitch...",
+    "episode": 1,
+    "line": 60,
+    "expected": "Von Newman's pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "And here's the {count_str} pitch from {pitcher_name_last}...",
+    "episode": 1,
+    "line": 91,
+    "expected": "And here's the two-oh pitch from Malone"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "And now {pitcher_name_last} comes set for the {count_str} pitch...",
+    "episode": 1,
+    "line": 97,
+    "expected": "And now Malone comes set for the oh-one pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "Here's the {count_str} pitch...",
+    "episode": 1,
+    "line": 104,
+    "expected": "Here's the one-oh pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "And here's the {count_str} pitch...",
+    "episode": 1,
+    "line": 196,
+    "expected": "And here's the two-oh pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "The {count_str} delivery...",
+    "episode": 1,
+    "line": 207,
+    "expected": "The two-oh delivery"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "And {pitcher_name_last} comes set for the {count_str}...",
+    "episode": 1,
+    "line": 227,
+    "expected": "And Malone comes set for the one-one"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "The {count_str} pitch to {batter_name_last}...",
+    "episode": 1,
+    "line": 244,
+    "expected": "The oh-one pitch to Malone"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "There's the {count_str} pitch...",
+    "episode": 1,
+    "line": 282,
+    "expected": "There's the two-oh pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "And {pitcher_name_last} with the {count_str} pitch...",
+    "episode": 1,
+    "line": 316,
+    "expected": "And Von Newman with the oh-one pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "And he comes set for the {count_str}...",
+    "episode": 1,
+    "line": 387,
+    "expected": "And he comes set for the oh-one"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "The {count_str} pitch from {pitcher_name_last}...",
+    "episode": 13,
+    "line": 189,
+    "expected": "The oh-two pitch from Malone"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "And now the {count_str} pitch...",
+    "episode": 29,
+    "line": 201,
+    "expected": "And now the oh-one pitch"
+  },
+  {
+    "pool": "narrative_strings.pitch_connectors",
+    "template": "It's the {count_str} pitch...",
+    "episode": 39,
+    "line": 245,
+    "expected": "It's the two-two pitch"
+  },
+  {
+    "pool": "narrative_strings.payoff_pitch",
+    "template": "And here's the payoff pitch...",
+    "episode": 1,
+    "line": 299,
+    "expected": "And here's the payoff pitch"
+  },
+  {
+    "pool": "pitch_locations.strike.outside_corner",
+    "template": "a called strike that nibbles the outside corner",
+    "episode": 1,
+    "line": 25,
+    "expected": "a called strike that nibbles the outside corner",
+    "requires": "called_strike_location",
+    "location": "outside_corner"
+  },
+  {
+    "pool": "pitch_locations.strike.corner",
+    "template": "hits the corner for a called strike",
+    "episode": 1,
+    "line": 41,
+    "expected": "hits the corner for a called strike",
+    "requires": "called_strike_location",
+    "location": "corner"
+  },
+  {
+    "pool": "pitch_locations.strike.corner",
+    "template": "just kisses the corner for a called strike",
+    "episode": 1,
+    "line": 290,
+    "expected": "just kisses the corner for a called strike",
+    "requires": "called_strike_location",
+    "location": "corner"
+  },
+  {
+    "pool": "pitch_locations.strike.corner",
+    "template": "nibbles the corner for a called strike",
+    "episode": 11,
+    "line": 247,
+    "expected": "nibbles the corner for a called strike",
+    "requires": "called_strike_location",
+    "location": "corner"
+  },
+  {
+    "pool": "pitch_locations.strike.middle",
+    "template": "down the middle for a called strike",
+    "episode": 13,
+    "line": 105,
+    "expected": "down the middle for a called strike",
+    "requires": "called_strike_location",
+    "location": "middle"
+  },
+  {
+    "pool": "pitch_locations.strike.corner",
+    "template": "called strike on the corner",
+    "episode": 35,
+    "line": 193,
+    "expected": "called strike on the corner",
+    "requires": "called_strike_location",
+    "location": "corner"
+  },
+  {
+    "pool": "pitch_locations.strike.low",
+    "template": "at the knees, called a strike",
+    "episode": 46,
+    "line": 352,
+    "expected": "at the knees, called a strike",
+    "requires": "called_strike_location",
+    "location": "low"
+  },
+  {
+    "pool": "pitch_locations.strike.low",
+    "template": "called a strike at the knees",
+    "episode": 49,
+    "line": 310,
+    "expected": "called a strike at the knees",
+    "requires": "called_strike_location",
+    "location": "low"
+  },
+  {
+    "pool": "pitch_locations.strike.corner",
+    "template": "paints the black for a called strike",
+    "episode": 52,
+    "line": 283,
+    "expected": "paints the black for a called strike",
+    "requires": "called_strike_location",
+    "location": "corner"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he fouls that one down the first-base line",
+    "episode": 11,
+    "line": 431,
+    "expected": "fouls that one down the first-base line"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "that one's fouled off",
+    "episode": 13,
+    "line": 543,
+    "expected": "that one's fouled off"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he takes an awkward cut",
+    "episode": 13,
+    "line": 431,
+    "expected": "takes an awkward cut"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he takes an awkward swing at that",
+    "episode": 1,
+    "line": 157,
+    "expected": "takes an awkward swing at that"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "a lazy, noncommittal swing",
+    "episode": 1,
+    "line": 324,
+    "expected": "a lazy, noncommittal swing"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he takes an awkward whiff at that one",
+    "episode": 1,
+    "line": 387,
+    "expected": "takes an awkward whiff at that one"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he swings and misses",
+    "episode": 1,
+    "line": 394,
+    "expected": "swings and misses"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "swung on it, missed",
+    "episode": 1,
+    "line": 396,
+    "expected": "swung on it, missed"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he takes an early swing",
+    "episode": 11,
+    "line": 196,
+    "expected": "he takes an early swing"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he takes a late swing",
+    "episode": 11,
+    "line": 211,
+    "expected": "takes a late swing"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging",
+    "template": "he takes a noncommittal swing",
+    "episode": 20,
+    "line": 46,
+    "expected": "he takes a noncommittal swing"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging_three",
+    "template": "he takes something of a wild swing",
+    "episode": 1,
+    "line": 317,
+    "expected": "takes something of a wild swing"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging_three",
+    "template": "he takes a very awkward whack at that one for a strikeout",
+    "episode": 1,
+    "line": 389,
+    "expected": "very awkward whack at that one for a strikeout"
+  },
+  {
+    "pool": "narrative_strings.strike_swinging_three",
+    "template": "way out in front of that one for strike three",
+    "episode": 11,
+    "line": 107,
+    "expected": "way out in front of that one for strike three"
+  },
+  {
+    "pool": "narrative_strings.strike_called_one",
+    "template": "in there for a strike",
+    "episode": 1,
+    "line": 76,
+    "expected": "in there for a strike"
+  },
+  {
+    "pool": "narrative_strings.strike_called_two",
+    "template": "in there for a strike",
+    "episode": 1,
+    "line": 43,
+    "expected": "in there for a strike"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "he takes a monster swing at that one; it's a foul out of play",
+    "episode": 1,
+    "line": 306,
+    "expected": "takes a monster swing at that one"
+  },
+  {
+    "pool": "pitch_locations.foul",
+    "template": "swing and a foul back",
+    "episode": 29,
+    "line": 305,
+    "expected": "swing and a foul back"
+  },
+  {
+    "pool": "pitch_locations.strike.middle",
+    "template": "right down Main Street for a strike",
+    "episode": 1,
+    "line": 35,
+    "expected": "right down Main Street for a strike",
+    "requires": "called_strike_location",
+    "location": "middle"
+  },
+  {
+    "pool": "pitch_locations.strike.middle",
+    "template": "right down the middle for a strike",
+    "episode": 1,
+    "line": 218,
+    "expected": "right down the middle for a strike",
+    "requires": "called_strike_location",
+    "location": "middle"
+  }
+]

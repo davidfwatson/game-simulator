@@ -1,0 +1,4089 @@
+{
+  "episode": 46,
+  "source_file": "episode_046.txt",
+  "complete": true,
+  "game": {
+    "away": "Manistee Eagles",
+    "home": "South Haven Ravens",
+    "venue": "Sylvan Field",
+    "away_lineup": [
+      {
+        "name": "Tito McCaskill",
+        "position": "SS",
+        "bat_side": "S"
+      },
+      {
+        "name": "Rodrigo Mary Hugh",
+        "position": "2B",
+        "bat_side": "L"
+      },
+      {
+        "name": "Gian Haggerty",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Ali Nunez",
+        "position": "3B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Billy Joe Rickson",
+        "position": "RF",
+        "bat_side": "S"
+      },
+      {
+        "name": "Mickey Navarro",
+        "position": "LF",
+        "bat_side": "L"
+      },
+      {
+        "name": "J.B. Gantry",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Lincoln Smathers",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Edison Vado",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Joshua Gonzalez",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Jerry Durante",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Steve McDykel",
+        "position": "RF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Sherman Hawkins",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Shecky Washington",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Brandon Carlisle",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Hep Bronswell",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Hector Piña",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Chance Quintero",
+        "position": "P",
+        "bat_side": "L"
+      }
+    ],
+    "away_pitcher": "Edison Vado",
+    "home_pitcher": "Chance Quintero"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 42,
+      "source_end": 46,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 43
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 44,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 45,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 46
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Rodrigo Mary Hugh",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Field Error",
+      "source_start": 47,
+      "source_end": 52,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 48,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 49,
+          "location": "corner"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 50
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 51
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Gian Haggerty",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 53,
+      "source_end": 57,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 55
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 56,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 57
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": "1B",
+          "end": "3B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Ali Nunez",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Fielders Choice",
+      "source_start": 58,
+      "source_end": 63,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 59
+        },
+        {
+          "code": "B",
+          "type": "Sinker",
+          "line": 60,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 61
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": "1B"
+        },
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": "3B",
+          "end": "score"
+        },
+        {
+          "name": "Gian Haggerty",
+          "start": "1B",
+          "end": "3B"
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        }
+      ],
+      "notes": "The throw home is too late; Mary Hugh scores on a fielder’s choice without an out. Haggerty advances from first to third as explicitly stated at line 63."
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 64,
+      "source_end": 68,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 65
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 66
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 67,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 68
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Mickey Navarro",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 69,
+      "source_end": 70,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 70
+        }
+      ],
+      "runners": [
+        {
+          "name": "Mickey Navarro",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 75,
+      "source_end": 78,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 76,
+          "zone": 12,
+          "location": "high_outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 77,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 78
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joshua Gonzalez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 79,
+      "source_end": 81,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 80
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 81
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "deep"
+      },
+      "fielders": [
+        {
+          "name": "Mickey Navarro",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Steve McDykel",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 82,
+      "source_end": 84,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 83
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 84
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "J.B. Gantry",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 91,
+      "source_end": 93,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 92,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 93
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 94,
+      "source_end": 98,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 95,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 96
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 97
+        },
+        {
+          "code": "S",
+          "type": "Splitter",
+          "line": 98
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Edison Vado",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 99,
+      "source_end": 103,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 100
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 101,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 102
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 103
+        }
+      ],
+      "runners": [
+        {
+          "name": "Edison Vado",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 108,
+      "source_end": 112,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 109,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 110
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 111
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 112
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tito McCaskill",
+          "position": "SS"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Shecky Washington",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 113,
+      "source_end": 115,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 114,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 115
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 116,
+      "source_end": 120,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 118,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 119
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 120
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Shecky Washington",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Hep Bronswell",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Hit By Pitch",
+      "source_start": 121,
+      "source_end": 126,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 122
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 123,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 124,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 125
+        },
+        {
+          "code": "H",
+          "type": "pitch",
+          "line": 126
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Hector Piña",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 127,
+      "source_end": 131,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 128,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 129
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 130
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 131
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Walk",
+      "source_start": 135,
+      "source_end": 142,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 137,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 138
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 139
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 140,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 141,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 142,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Rodrigo Mary Hugh",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 143,
+      "source_end": 147,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 144
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 145
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 146,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 147
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      }
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Gian Haggerty",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Walk",
+      "source_start": 148,
+      "source_end": 154,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 149,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 150
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 151
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 152,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 153
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 154,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "1B"
+        },
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Tito McCaskill",
+          "start": "2B",
+          "end": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Ali Nunez",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 155,
+      "source_end": 158,
+      "outs": 0,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 156,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 157
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": "2B",
+          "end": "score"
+        },
+        {
+          "name": "Tito McCaskill",
+          "start": "3B",
+          "end": "score"
+        },
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      }
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Double Play",
+      "source_start": 159,
+      "source_end": 165,
+      "outs": 2,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 161
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 162,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 163
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 164
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ali Nunez",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Gian Haggerty",
+          "start": "2B",
+          "end": "3B"
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Mickey Navarro",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Intentional Walk",
+      "source_start": 166,
+      "source_end": 168,
+      "outs": 2,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [],
+      "runners": [
+        {
+          "name": "Mickey Navarro",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "J.B. Gantry",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 169,
+      "source_end": 171,
+      "outs": 3,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 171
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Chance Quintero",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 174,
+      "source_end": 178,
+      "outs": 0,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 175
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 176,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 177
+        }
+      ],
+      "runners": [
+        {
+          "name": "Chance Quintero",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      }
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 179,
+      "source_end": 184,
+      "outs": 1,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 180,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 181
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 182,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 183
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 184
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joshua Gonzalez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy Joe Rickson",
+          "position": "RF"
+        }
+      ],
+      "notes": "Line 181 introduces an oh-and-one pitch after the ball at line 180, then gives the correct one-and-one count. Preserve the observed ball followed by called strike."
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Forceout",
+      "source_start": 185,
+      "source_end": 188,
+      "outs": 2,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 186,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 187
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": "1B"
+        },
+        {
+          "name": "Chance Quintero",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "throw"
+      },
+      "fielders": [
+        {
+          "name": "Ali Nunez",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Steve McDykel",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 189,
+      "source_end": 191,
+      "outs": 3,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 190,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 191
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 196,
+      "source_end": 198,
+      "outs": 1,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 198
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Edison Vado",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Pop Out",
+      "source_start": 199,
+      "source_end": 201,
+      "outs": 2,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 200,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 201
+        }
+      ],
+      "runners": [
+        {
+          "name": "Edison Vado",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 202,
+      "source_end": 207,
+      "outs": 3,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 204,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 205
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 206,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 207
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 212,
+      "source_end": 218,
+      "outs": 0,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 213,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 214,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 215
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 216
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 217
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      },
+      "fielders": [
+        {
+          "name": "Billy Joe Rickson",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Shecky Washington",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 219,
+      "source_end": 222,
+      "outs": 0,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 221
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive",
+        "categoryOverride": "liner"
+      },
+      "fielders": [
+        {
+          "name": "Edison Vado",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 223,
+      "source_end": 227,
+      "outs": 2,
+      "score": [
+        3,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 225,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 226
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Sherman Hawkins",
+          "start": "2B",
+          "end": "3B"
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tito McCaskill",
+          "position": "SS"
+        },
+        {
+          "name": "Rodrigo Mary Hugh",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Hep Bronswell",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 228,
+      "source_end": 236,
+      "outs": 2,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 230,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 231
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 232
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 233,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 234
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": "3B",
+          "end": "score"
+        },
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Hector Piña",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 237,
+      "source_end": 242,
+      "outs": 3,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 239,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 240,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 241
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 242
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ali Nunez",
+          "position": "3B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Rodrigo Mary Hugh",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 247,
+      "source_end": 250,
+      "outs": 1,
+      "score": [
+        3,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 249
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 250
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jerry Durante",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Gian Haggerty",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Home Run",
+      "source_start": 251,
+      "source_end": 258,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 252
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 253,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 254
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 255
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Ali Nunez",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 259,
+      "source_end": 266,
+      "outs": 2,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 261,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 262
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 263,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 264,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 265
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 266
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 267,
+      "source_end": 271,
+      "outs": 3,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 268
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 269
+        },
+        {
+          "code": "B",
+          "type": "Splitter",
+          "line": 270,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 271
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Sherman Hawkins",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Chance Quintero",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 276,
+      "source_end": 281,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 278,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 279
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 280
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 281
+        }
+      ],
+      "runners": [
+        {
+          "name": "Chance Quintero",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Hit By Pitch",
+      "source_start": 282,
+      "source_end": 284,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 283,
+          "location": "low"
+        },
+        {
+          "code": "H",
+          "type": "pitch",
+          "line": 284
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joshua Gonzalez",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 285,
+      "source_end": 289,
+      "outs": 2,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 287,
+          "isBunt": true
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 288
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 289
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Joshua Gonzalez",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ],
+      "notes": "Line 289 calls a grounder to short but names second baseman Mary Hugh as the fielder. Preserve the described location and named fielder without inventing a position change."
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Steve McDykel",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Lineout",
+      "source_start": 290,
+      "source_end": 295,
+      "outs": 3,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 291,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 292
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 293,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 294
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 295
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Mickey Navarro",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 300,
+      "source_end": 306,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 302,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 303
+        },
+        {
+          "code": "B",
+          "type": "Sinker",
+          "line": 304,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 305
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 306
+        }
+      ],
+      "runners": [
+        {
+          "name": "Mickey Navarro",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "J.B. Gantry",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 307,
+      "source_end": 311,
+      "outs": 2,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 308
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 309,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 310
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 311
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Single",
+      "source_start": 312,
+      "source_end": 315,
+      "outs": 2,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 313,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 314,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 315
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Edison Vado",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Strikeout",
+      "source_start": 316,
+      "source_end": 320,
+      "outs": 3,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 317
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 318
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 319,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 320
+        }
+      ],
+      "runners": [
+        {
+          "name": "Edison Vado",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 324,
+      "source_end": 329,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 326,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 327,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 328,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 329
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Shecky Washington",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 330,
+      "source_end": 335,
+      "outs": 2,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 331
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 332,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 333
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 334,
+          "location": "inside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 335
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 336,
+      "source_end": 340,
+      "outs": 2,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 337,
+          "location": "corner"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 338
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 339
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Hep Bronswell",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 341,
+      "source_end": 344,
+      "outs": 3,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 342
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 343,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 344
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tito McCaskill",
+          "position": "SS"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 348,
+      "source_end": 350,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 350,
+          "isBunt": true
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "bunt"
+      },
+      "fielders": [
+        {
+          "name": "Chance Quintero",
+          "position": "P"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Rodrigo Mary Hugh",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Pop Out",
+      "source_start": 351,
+      "source_end": 354,
+      "outs": 2,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 352,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 353
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 354
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Gian Haggerty",
+      "pitcher": "Chance Quintero",
+      "pitch_hand": "L",
+      "outcome": "Groundout",
+      "source_start": 355,
+      "source_end": 360,
+      "outs": 3,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 356,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 357
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 358
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 359,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 360
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hector Piña",
+          "position": "2B"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Hector Piña",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 368,
+      "source_end": 370,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 369
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 370
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Edison Vado",
+          "position": "P"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "George Bentley",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Field Error",
+      "source_start": 371,
+      "source_end": 377,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 372,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 373,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 374
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 375
+        }
+      ],
+      "runners": [
+        {
+          "name": "George Bentley",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tito McCaskill",
+          "position": "SS"
+        }
+      ],
+      "bat_side": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 378,
+      "source_end": 381,
+      "outs": 1,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 379,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 380
+        }
+      ],
+      "runners": [
+        {
+          "name": "George Bentley",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Joshua Gonzalez",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      }
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 382,
+      "source_end": 387,
+      "outs": 2,
+      "score": [
+        4,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 383,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 384,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 385
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 386,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 387
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "deep"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Steve McDykel",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Double",
+      "source_start": 388,
+      "source_end": 391,
+      "outs": 2,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 389
+        }
+      ],
+      "runners": [
+        {
+          "name": "George Bentley",
+          "start": "2B",
+          "end": "score"
+        },
+        {
+          "name": "Joshua Gonzalez",
+          "start": "1B",
+          "end": "score"
+        },
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Edison Vado",
+          "position": "P"
+        }
+      ],
+      "notes": "The double drives home both Bentley and Gonzalez, even though line 391 calls it an RBI double in the singular. Both runs are explicitly narrated and the score becomes four to three."
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Sherman Hawkins",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Intentional Walk",
+      "source_start": 394,
+      "source_end": 395,
+      "outs": 2,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [],
+      "runners": [
+        {
+          "name": "Sherman Hawkins",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "The preceding mound-visit line 392 identifies a Ravens coach visiting Eagles pitcher Edison Vado. The pitcher is unchanged; no pitching substitution is invented."
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Shecky Washington",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 396,
+      "source_end": 399,
+      "outs": 3,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 397,
+          "location": "inside"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 398
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 399
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shecky Washington",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Ali Nunez",
+      "pitcher": "Dom Fuller",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 404,
+      "source_end": 408,
+      "outs": 1,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 405
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 406
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 407,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 408
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Dom Fuller replaces Chance Quintero after George Bentley pinch-hits in the seventh."
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Dom Fuller",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 409,
+      "source_end": 410,
+      "outs": 2,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 410,
+          "isBunt": true
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "bunt"
+      },
+      "fielders": [
+        {
+          "name": "Dom Fuller",
+          "position": "P"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Mickey Navarro",
+      "pitcher": "Dom Fuller",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 411,
+      "source_end": 413,
+      "outs": 3,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 412,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 413
+        }
+      ],
+      "runners": [
+        {
+          "name": "Mickey Navarro",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joshua Gonzalez",
+          "position": "SS"
+        },
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Brandon Carlisle",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 418,
+      "source_end": 423,
+      "outs": 1,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 419,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 420
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 421
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 422
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 423
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brandon Carlisle",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Hep Bronswell",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 424,
+      "source_end": 427,
+      "outs": 2,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 425
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 426
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 427
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hep Bronswell",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Hector Piña",
+      "pitcher": "Edison Vado",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 428,
+      "source_end": 434,
+      "outs": 3,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 429,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 430,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 431
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 432
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 433,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 434
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hector Piña",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "J.B. Gantry",
+      "pitcher": "Dom Fuller",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 439,
+      "source_end": 443,
+      "outs": 0,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 440,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 441
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 442
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 443
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Dom Fuller",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 444,
+      "source_end": 446,
+      "outs": 1,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 445,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 446
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Hep Bronswell",
+          "position": "C"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Hank Wellington",
+      "pitcher": "Dom Fuller",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 447,
+      "source_end": 452,
+      "outs": 2,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 448,
+          "zone": 12,
+          "location": "high_outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 449
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 450,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 451,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 452
+        }
+      ],
+      "runners": [
+        {
+          "name": "Hank Wellington",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Steve McDykel",
+          "position": "RF"
+        }
+      ],
+      "bat_side": "L"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Dom Fuller",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 453,
+      "source_end": 456,
+      "outs": 3,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 454
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 455,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 456
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Shecky Washington",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Manny Standingbear",
+      "pitcher": "Chad Viscayino",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 460,
+      "source_end": 464,
+      "outs": 1,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 461
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 462,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 463
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 464
+        }
+      ],
+      "runners": [
+        {
+          "name": "Manny Standingbear",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Chad Viscayino replaces Edison Vado after Hank Wellington pinch-hits in the top of the ninth; Manny Standingbear bats in the Ravens’ pitcher spot.",
+      "bat_side": "L"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Joshua Gonzalez",
+      "pitcher": "Chad Viscayino",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 465,
+      "source_end": 470,
+      "outs": 1,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 466,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 467,
+          "zone": 11,
+          "location": "high_inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 468
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 469,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 470,
+          "location": "inside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joshua Gonzalez",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Jerry Durante",
+      "pitcher": "Chad Viscayino",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 471,
+      "source_end": 475,
+      "outs": 2,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 472,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 473,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 474
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 475
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jerry Durante",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Mickey Navarro",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Steve McDykel",
+      "pitcher": "Chad Viscayino",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 476,
+      "source_end": 482,
+      "outs": 3,
+      "score": [
+        4,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 477,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 478
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 479,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 480
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 481,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 482
+        }
+      ],
+      "runners": [
+        {
+          "name": "Steve McDykel",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Mickey Navarro",
+          "position": "LF"
+        }
+      ],
+      "notes": "The final recap credits Manistee with seven hits, but the narrated plate appearances contain six. Preserve the observed plays and final four-to-three score."
+    }
+  ]
+}

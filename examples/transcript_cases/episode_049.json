@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "episode": 49,
+  "source_file": "episode_049.txt",
+  "source_sha256": "255c58348659cc6dcd30616f4dd2ace21d8cca907856b072a9d8246dbaf821dd",
+  "cases": [
+    {
+      "id": "episode_049_ripped_foul_third_baseline",
+      "source_line": 249,
+      "expected": "Ripped foul down the third base line.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "ripped foul down the third base line",
+      "inputs": {},
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            61
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_049_just_misses_a_bit_outside",
+      "source_line": 231,
+      "expected": "just misses a bit outside",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.high_outside",
+      "template": "just misses a bit outside",
+      "inputs": {
+        "event_type": "B",
+        "zone": 12,
+        "pitch_type_simple": "fastball",
+        "batter_hand": "R"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            19
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_049_grounder_squeaks_through",
+      "source_line": 204,
+      "expected": "Grounder up the middle, and that one squeaks through the infield",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.grounder",
+      "template": "Grounder {direction}, and that one squeaks through the infield.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "grounder",
+          "location": "MI"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Brink Filbert"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            12
+          ],
+          "pitch": [],
+          "flow": [
+            0
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_049_double_rolls_to_wall",
+      "source_line": 331,
+      "expected": "That one will drop in for a hit, and it'll roll all the way to the wall.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Double.default",
+      "template": "Lifted to {direction_noun}. That one will drop in for a hit, and it'll roll all the way to the wall.",
+      "inputs": {
+        "outcome": "Double",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "LCF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Burke Sessions"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            8
+          ],
+          "pitch": [],
+          "flow": [
+            0
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_049_leaping_warning_track_catch",
+      "source_line": 327,
+      "expected": "Moon drifting back, and he makes a leaping catch on the warning track for out number one.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Flyout.deep",
+      "template": "{fielder_name} drifting back, and he makes a leaping catch on the warning track {out_context_str}.",
+      "inputs": {
+        "outcome": "Flyout",
+        "hit_data": {
+          "categoryOverride": "deep",
+          "location": "DCF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Bruford Kosinski",
+        "fielder_name": "Moon",
+        "fielder_pos": "CF",
+        "result_outs": 1
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            8
+          ],
+          "pitch": [],
+          "flow": [
+            0
+          ],
+          "color": []
+        }
+      }
+    }
+  ]
+}

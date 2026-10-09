@@ -1,5 +1,21 @@
 from commentary import GAME_CONTEXT
 
+def get_location_phrases(team):
+    """Return geographic noun phrases for speech without changing team labels.
+
+    Regions can supply short and state-qualified forms, including articles.
+    Legacy/city data keeps the usual locationName and "city, state" wording.
+    """
+    location = team.get('spokenLocation') or team.get('locationName')
+    if not location:
+        parts = team.get('name', '').split()
+        location = ' '.join(parts[:-1]) if len(parts) > 1 else ' '.join(parts)
+    state = team.get('state')
+    location_with_state = team.get('spokenLocationWithState') or ', '.join(
+        part for part in (location, state) if part
+    )
+    return {'location': location, 'location_with_state': location_with_state}
+
 def get_ordinal(n):
     words = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth"]
     if 1 <= n <= 9: return words[n]
@@ -79,9 +95,9 @@ def get_pitch_location_categories(zone, batter_hand='R'):
     elif zone in (7, 8, 9, 13, 14):
         categories.append('low')
 
-    if zone in (1, 4, 7, 11, 13):
+    if batter_hand in ('L', 'R') and zone in (1, 4, 7, 11, 13):
         categories.append('outside' if batter_hand == 'L' else 'inside')
-    elif zone in (3, 6, 9, 12, 14):
+    elif batter_hand in ('L', 'R') and zone in (3, 6, 9, 12, 14):
         categories.append('inside' if batter_hand == 'L' else 'outside')
     return tuple(categories)
 
@@ -137,46 +153,52 @@ def format_pitch_call(description, pitch_type, event_type, strikes_before=0, bal
     return f"{pitch_type}{separator}{description}"
 
 
-def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch, batter_hand='R', previous_pitch_type=None, pitch_description=''):
-    # Helper to get description based on zone
-    if event_type == 'B':
-        base_key = 'ball'
-    elif event_type in ['C', 'S']:
-        base_key = 'strike'
-    else:
+def get_verbal_pitch_location_categories(location):
+    """Use the recorded announcer location before any inferred zone geometry."""
+    if not isinstance(location, str):
         return None
+    if location == 'dirt':
+        return ('dirt',)
+    if location in ('unlocated', 'middle', 'corner', 'default'):
+        return ()
+    categories = tuple(part for part in location.split('_')
+                       if part in ('low', 'high', 'inside', 'outside'))
+    return categories or None
 
+
+def get_pitch_description_for_location(event_type, zone, pitch_type_simple, rng_pitch,
+                                       batter_hand='R', location=None,
+                                       previous_pitch_type=None, pitch_description=''):
+    # Verbal locations retain the production API used by transcript ledgers.
+    base_key = 'ball' if event_type == 'B' else 'strike'
+    if event_type not in ('B', 'C', 'S'):
+        return None
     location_data = GAME_CONTEXT['pitch_locations'].get(base_key, {})
-
-    # Determine category from zone
     category = 'default'
-    if event_type == 'B':
-        # Zone mapping based on handedness
-        # 11: High-Left, 12: High-Right, 13: Low-Left, 14: Low-Right (Catcher's perspective)
-
-        if batter_hand == 'R':
-            if zone == 11: category = 'high_inside'
-            elif zone == 12: category = 'high_outside'
-            elif zone == 13: category = 'low_inside'
-            elif zone == 14: category = 'low_outside'
-        else: # LHB
-            if zone == 11: category = 'high_outside'
-            elif zone == 12: category = 'high_inside'
-            elif zone == 13: category = 'low_outside'
-            elif zone == 14: category = 'low_inside'
-
-    elif event_type == 'C' and zone in range(1, 10):
-        categories = get_pitch_location_categories(zone, batter_hand)
+    if location in location_data:
+        category = location
+    elif event_type == 'B':
+        if zone in (11, 12, 13, 14) and batter_hand in ('R', 'L'):
+            categories = get_pitch_location_categories(zone, batter_hand)
+            category = '_'.join(categories)
+        else:
+            category = 'unlocated' if 'unlocated' in location_data else 'default'
+    elif event_type == 'C':
+        categories = get_verbal_pitch_location_categories(location)
+        if categories is None and zone in range(1, 10):
+            categories = get_pitch_location_categories(zone, batter_hand)
         category = categories[0] if categories else 'default'
-
     options = location_data.get(category, location_data.get('default', []))
     if not options:
         options = location_data.get('default', [])
-
-    # A low quadrant establishes location, not contact with the ground.
-    if event_type == 'B' and not any(word in pitch_description.lower()
-                                     for word in ('dirt', 'bounc', 'spik')):
-        options = [option for option in options
-                   if not any(word in option.lower() for word in ('dirt', 'bounc', 'spik'))]
-
+    # A low quadrant establishes height, not contact with the ground.
+    if event_type == 'B' and location != 'dirt' and not any(
+            word in pitch_description.lower() for word in ('dirt', 'bounc', 'spik')):
+        safe_options = [option for option in options
+                        if not any(word in option.lower() for word in ('dirt', 'bounc', 'spik'))]
+        # Keep explicit commentary draws at their existing pool positions.
+        # Unsupported ground claims fall back to a fact-safe location call.
+        if safe_options:
+            options = [option if option in safe_options else safe_options[0]
+                       for option in options]
     return choose_pitch_description(options, rng_pitch, pitch_type_simple, previous_pitch_type)

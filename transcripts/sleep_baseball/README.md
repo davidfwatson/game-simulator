@@ -5,20 +5,31 @@ Cleaned play-by-play transcripts of the *Northwoods Baseball Sleep Radio* podcas
 <https://rss.buzzsprout.com/1915447.rss>), the show the `pbp_example_*.txt`
 targets come from. This directory is reference material for mining announcer
 turns of phrase, such as pitch calls, count phrasing, batter intros and inning
-transitions, to add to the narrative renderer's templates. All 17 episodes,
-together with the four `pbp_example_*.txt` games, are read by the corpus coverage
-report and source-linked regression tests.
+transitions, to add to the narrative renderer's templates.
 
-Run `python pbp_match_report.py --corpus-only` from the repository root for
-per-episode support of pitch, foul and count clauses. Uncovered phrases retain
-exact source lines; `python sleep_baseball_corpus.py --json` includes all of
-them and their inferred renderer inputs. The report tests component phrasing,
-with unknown context tried across compatible inputs. It does not reconstruct
-the game or cover every kind of narration.
+All 17 episodes now have reviewed full-broadcast event ledgers in
+[`transcript_games/`](../../transcript_games/README.md), with ordinary Gameday
+JSON and rendered text in `examples/transcript_games/`. These retain every
+observed appearance and pitch, while documenting unbroadcast intervals and
+source ambiguities. Episodes 001 and 051 remain incomplete. The renderer uses
+recorded baseball facts and integer commentary draws; it does not read these
+transcripts to narrate a game or replay their banter verbatim.
 
-These episodes have no `[TTS SPLIT ...]` markers or full-game gameday fixtures.
-To promote one to a full-game alignment target, follow the example-4 pipeline
-(PR #195) and `PBP_ALIGNMENT_GUIDE.md`.
+A separate set of 78 source-linked cases in `transcript_cases/` checks specific
+phrases and situations through production renderer helpers. Both layers are
+covered by `python pbp_match_report.py --check`, alongside the original four
+PBP references. Use `python full_transcript_comparison.py --gaps 5` for the
+full-broadcast wording report, and [PBP_ALIGNMENT_GUIDE.md](../../PBP_ALIGNMENT_GUIDE.md)
+for the alignment tools. Preserve these source texts when improving ledgers,
+wording pools, or snapshots.
+
+`python pbp_match_report.py --corpus-only --check` also scans pitch, foul and
+count clauses across all 21 source games. This automatic component report lists
+uncovered source lines and supplements the reviewed full-game and focused-case
+comparisons. Additional sourced regression inputs live in
+`sleep_baseball_phrase_cases.json`; their output must be reachable through the
+production renderer. Component support does not imply a complete historical
+game reconstruction or verbatim reproduction of the broadcast.
 
 ## Episodes
 

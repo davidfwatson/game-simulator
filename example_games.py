@@ -35,6 +35,10 @@ class ExampleGame:
         )
         game.play_game()
 
+        # Persist commentary overrides before either text or JSON rendering.
+        commentary_seed = self.commentary_seed if self.commentary_seed is not None else self.game_seed
+        game.gameday_data['gameData']['commentarySeed'] = commentary_seed
+
         # 2. Render Output
         if commentary_type == 'gameday':
              class DateTimeEncoder(json.JSONEncoder):
@@ -43,7 +47,6 @@ class ExampleGame:
                     return super().default(obj)
              return json.dumps(game.gameday_data, indent=2, cls=DateTimeEncoder)
 
-        commentary_seed = self.commentary_seed if self.commentary_seed else self.game_seed
         if commentary_type == 'narrative':
             renderer = NarrativeRenderer(game.gameday_data, seed=commentary_seed)
         elif commentary_type == 'statcast':

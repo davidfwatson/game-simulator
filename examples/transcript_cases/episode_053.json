@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "episode": 53,
+  "source_file": "episode_053.txt",
+  "source_sha256": "b8b264bc762a3aab1feabcf6218a47631406ed06fd93c301f17b5a51365542e1",
+  "cases": [
+    {
+      "id": "episode_053_comes_set_and_delivers",
+      "source_line": 85,
+      "expected": "Hughes comes set and delivers...",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.pitch_connectors_00",
+      "template": "{pitcher_name_last} comes set and delivers...",
+      "inputs": {
+        "balls": 0,
+        "strikes": 0,
+        "pitcher_name": "Virgil Hughes",
+        "batter_name": "Joe Topanga",
+        "runners_on_base": false
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [],
+          "flow": [
+            11
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_053_knuckling_foul_out_of_play",
+      "source_line": 198,
+      "expected": "That one is knuckling foul and out of play.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "that one is knuckling foul and out of play",
+      "inputs": {},
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            65
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_053_slider_just_off_corner",
+      "source_line": 274,
+      "expected": "just off the corner",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_outside",
+      "template": "just off the corner",
+      "inputs": {
+        "event_type": "B",
+        "zone": 14,
+        "pitch_type_simple": "slider",
+        "batter_hand": "R"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [],
+          "pitch": [
+            23
+          ],
+          "flow": [],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_053_speared_spins_fires",
+      "source_line": 293,
+      "expected": "grounder up the middle, speared by Colbert, who spins and fires to first, just in time to retire Gasparro to end the inning.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.default",
+      "template": "Grounder {direction}, speared by {fielder_name}, who spins and fires to first, just in time to retire {batter_name} {out_context_str}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "MI"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Gasparro",
+        "fielder_name": "Colbert",
+        "fielder_pos": "2B",
+        "result_outs": 3
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            41
+          ],
+          "pitch": [],
+          "flow": [
+            0
+          ],
+          "color": []
+        }
+      }
+    },
+    {
+      "id": "episode_053_safe_with_leadoff_double",
+      "source_line": 257,
+      "expected": "Primero heading for second, and he'll be aboard safely with a leadoff double here in the top of the seventh.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.leadoff_double",
+      "template": "{batter_name} heading for second, and he'll be aboard safely with a leadoff double{inning_context}.",
+      "inputs": {
+        "outcome": "Double",
+        "batter_name": "Primero",
+        "result_outs": 0,
+        "is_leadoff": true,
+        "inning_context": " here in the top of the seventh"
+      },
+      "commentaryRng": {
+        "case": {
+          "play": [
+            5
+          ],
+          "pitch": [],
+          "flow": [],
+          "color": []
+        }
+      }
+    }
+  ]
+}

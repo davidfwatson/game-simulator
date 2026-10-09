@@ -1,0 +1,1472 @@
+[
+  {
+    "pool": "narrative_templates.Pop Out.default",
+    "template": "Popped up, way up, just a can of corn. {fielder_name} is camped under it and makes the catch {out_context_str}.",
+    "episode": 1,
+    "line": 31,
+    "expected": "popped up way up, just a can of corn",
+    "source_text": "Malone comes set, and here's the one-two pitch, and that is popped up way up, just a can of corn."
+  },
+  {
+    "pool": "narrative_templates.Pop Out.default",
+    "template": "Popped up shallow, and {fielder_name} has it {out_context_str}.",
+    "episode": 1,
+    "line": 37,
+    "expected": "Popped up shallow",
+    "source_text": "And the two-one pitch. Popped up shallow, and Nakamura has it for out number two."
+  },
+  {
+    "pool": "narrative_templates.Home Run.default",
+    "template": "And {batter_name} gets all of that one, sailing leisurely over the wall.",
+    "episode": 1,
+    "line": 57,
+    "expected": "gets all of that one, sailing leisurely",
+    "source_text": "Here's Von Newman with the windup. And Nakamura gets all of that one, sailing leisurely into the picnic area behind the center field wall."
+  },
+  {
+    "pool": "narrative_templates.Lineout.default",
+    "template": "A hard hit ball, but right to {fielder_name} {out_context_str}.",
+    "episode": 1,
+    "line": 67,
+    "expected": "A hard hit ball, but right to",
+    "source_text": "The pitch from Von Newman. A hard hit ball, but right to first baseman Keith Castor, and that's the inning."
+  },
+  {
+    "pool": "narrative_templates.Groundout.unassisted_1b",
+    "template": "Hard grounder, scooped up by {fielder_name} at first base {out_context_str}.",
+    "episode": 1,
+    "line": 55,
+    "expected": "Hard grounder, scooped up by",
+    "source_text": "The pitch from Von Newman. Hard grounder, scooped up by Keith Castor at first base for the out."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Hit hard {direction}, right at {fielder_name}, who shovels to first {out_context_str}.",
+    "episode": 1,
+    "line": 147,
+    "expected": "who shovels to first",
+    "source_text": "Here's the pitch. Nakamura hits that one hard, right at the shortstop, Rio Nunez, who shovels to first for the out."
+  },
+  {
+    "pool": "narrative_templates.Strikeout.swinging",
+    "template": "And {batter_name} nearly swings out of his shoes, and that's strike number three.",
+    "episode": 1,
+    "line": 113,
+    "expected": "nearly swings out of his shoes",
+    "requires": "Production renderer currently composes strikeout outcomes from last_pitch_context and hardcoded verbs instead of selecting this pool. Wire this pool into the appropriate swinging/looking branch.",
+    "source_text": "Here's the one-two. And Von Newman nearly swings out of his shoes, and that's strike number three."
+  },
+  {
+    "pool": "narrative_templates.Triple.default",
+    "template": "{batter_name} is going to turn on the gas, and he will end up at third base.",
+    "episode": 1,
+    "line": 135,
+    "expected": "going to turn on the gas, and he will end up at third base",
+    "source_text": "The one-one. And Ortega smashes that one down the line, past the first baseman. And that will probably score two. Ortega's going to turn on the gas, and he will end up at third base. That's a triple, and Cadillac leads 3 to 1."
+  },
+  {
+    "pool": "narrative_templates.Double.default",
+    "template": "Driven {direction}. {fielder_name} will have to play that one off the wall. That's going to be a double for {batter_name}.",
+    "episode": 1,
+    "line": 129,
+    "expected": "have to play that one off the wall",
+    "source_text": "Here's the one-two pitch. Palomar smacks that one hard. On the run in center field is Dutch Moon, and he'll have to play that one off the wall. And that's going to be a double for Palomar."
+  },
+  {
+    "pool": "narrative_templates.Single.bloop",
+    "template": "And {batter_name} reaches out and slaps that one into the gap for a base hit.",
+    "episode": 1,
+    "line": 139,
+    "expected": "reaches out and slaps that one into the gap",
+    "source_text": "The one-one. And Malone reaches out and slaps that one into the gap in center field, and that will bring in Ortega to score. It's a 4-1 ball game."
+  },
+  {
+    "pool": "narrative_templates.Single.grounder",
+    "template": "And {batter_name} hits a little smash {direction} for a base hit.",
+    "episode": 1,
+    "line": 158,
+    "expected": "hits a little smash",
+    "source_text": "The pitch. And Ferguson hits a little smash right up the middle for a base hit."
+  },
+  {
+    "pool": "narrative_templates.Flyout.deep",
+    "template": "Hit {direction}, playable for {fielder_name}. He's under it and makes the catch {out_context_str}.",
+    "episode": 1,
+    "line": 178,
+    "expected": "He's under it and makes the catch",
+    "source_text": "The one-two pitch. And Rudderson hits that one deep, playable for Palomar in right. He's under it and makes the catch. Ferguson will advance to third. Runners on first and third, two outs, as Rio Nunez steps in."
+  },
+  {
+    "pool": "narrative_templates.Lineout.default",
+    "template": "A hard liner, but it's right to {fielder_name}, who makes the grab {out_context_str}.",
+    "episode": 1,
+    "line": 373,
+    "expected": "a hard liner, but it's right to",
+    "source_text": "The one-oh. And that's a hard liner, but it's right to Keith Castor, who makes the grab for the out."
+  },
+  {
+    "pool": "narrative_templates.Groundout.unassisted_1b",
+    "template": "A soft dribbler to first. {fielder_name} picks it up and steps on the bag to retire {batter_name} {out_context_str}.",
+    "episode": 11,
+    "line": 322,
+    "expected": "a soft dribbler to first",
+    "source_text": "And the pitch... And that's a soft dribbler to first. Gleason picks it up and steps on the bag to retire Cooper. No time to get Wellington at second base."
+  },
+  {
+    "pool": "narrative_templates.Strikeout.swinging",
+    "template": "{batter_name} takes a very awkward whack at that one for a strikeout.",
+    "episode": 1,
+    "line": 389,
+    "expected": "very awkward whack at that one for a strikeout",
+    "requires": "Production renderer currently composes strikeout outcomes from last_pitch_context and hardcoded verbs instead of selecting this pool. Wire this pool into the appropriate swinging/looking branch.",
+    "source_text": "Here's the one-two pitch. Castor takes another very awkward whack at that one for a strikeout. Niedermeier has a one-two-three inning in relief."
+  },
+  {
+    "pool": "narrative_templates.Strikeout.swinging_outside",
+    "template": "{batter_name} takes a wild swing on an outside pitch, and he is down on strikes.",
+    "episode": 1,
+    "line": 429,
+    "expected": "takes a wild swing on an outside pitch",
+    "requires": "Production renderer currently composes strikeout outcomes from last_pitch_context and hardcoded verbs instead of selecting this pool. Wire this pool into the appropriate swinging/looking branch. Use only when the terminal pitch is outside; place in a location-gated pool if general Strikeout.swinging is not filtered.",
+    "source_text": "The oh-two pitch. And Ortega takes a wild swing on an outside pitch. And Inohosa strikes him out on three pitches."
+  },
+  {
+    "pool": "narrative_templates.Pop Out.default",
+    "template": "Popped up, and {fielder_name} is under it. He will make the grab {out_context_str}.",
+    "episode": 1,
+    "line": 454,
+    "expected": "He will make the grab",
+    "source_text": "The two-oh pitch. Popped up, and Flipper Cortez is under it. He will make the grab for the first out."
+  },
+  {
+    "pool": "narrative_templates.Single.bunt",
+    "template": "{batter_name} lays down a bunt. That is a base hit. It was just a textbook bunt.",
+    "episode": 1,
+    "line": 327,
+    "expected": "It was just a textbook bunt",
+    "source_text": "And here's the one-one pitch. And Slauson lays down a bunt, rolling perfectly inside the third base line. That is a base hit. It was just a textbook bunt, and Slauson is aboard for the third time this evening."
+  },
+  {
+    "pool": "narrative_templates.Strikeout.swinging",
+    "template": "{batter_name} takes something of a wild swing at that {pitch_type}. Not even close, and that's a strikeout.",
+    "episode": 1,
+    "line": 317,
+    "expected": "takes something of a wild swing at that",
+    "requires": "Production renderer currently composes strikeout outcomes from last_pitch_context and hardcoded verbs instead of selecting this pool. Wire this pool into the appropriate swinging/looking branch. If retaining “in the dirt” in a future version, require a low pitch; this generalized form does not assert location.",
+    "source_text": "The oh-two pitch, and Patterson takes something of a wild swing at that curveball in the dirt. Not even close, and that's a strikeout for the first out, on three pitches from Von Newman."
+  },
+  {
+    "pool": "narrative_templates.Groundout.pitcher_groundout",
+    "template": "Dribbler back to {fielder_name}, and he lobs it to first in time {out_context_str}.",
+    "episode": 5,
+    "line": 116,
+    "expected": "and he lobs it to first in time",
+    "source_text": "The one-oh, and that's a dribbler back to Niedermeier, and he lobs it to first in time for out number two."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Ground ball {direction}. {fielder_name} cuts it off, and fires to first in time {out_context_str}.",
+    "episode": 5,
+    "line": 39,
+    "expected": "cuts it off, and fires to first in time",
+    "source_text": "The oh-two pitch... That's a ground ball to the left side. Patterson cuts it off, and fires to first in time to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Grounder {direction}. Easy play for {fielder_name}, who shovels to first to get {batter_name} {out_context_str}.",
+    "episode": 5,
+    "line": 278,
+    "expected": "who shovels to first to get",
+    "source_text": "The one-one pitch... And that's a grounder, right side. Easy play for Cortez, who shovels to first to get Gonzalez, and that will end the inning."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Chopped {direction}. {fielder_name} scoops it up and shovels to first in time {out_context_str}.",
+    "episode": 5,
+    "line": 292,
+    "expected": "scoops it up and shovels to first in time",
+    "source_text": "The one-one pitch, and that's chopped to the right side. Kramer scoops it up and shovels to first in time for the second out."
+  },
+  {
+    "pool": "narrative_templates.Single.grounder",
+    "template": "A bouncer that squeaks through the infield. That's a base hit for {batter_name}.",
+    "episode": 5,
+    "line": 234,
+    "expected": "a bouncer that squeaks through the infield",
+    "source_text": "And that's a bouncer that squeaks through the infield. And that's a two-out single for Stern."
+  },
+  {
+    "pool": "narrative_templates.Single.grounder",
+    "template": "Grounded {direction} and through the infield for a base hit.",
+    "episode": 5,
+    "line": 322,
+    "expected": "grounded up the middle",
+    "source_text": "The one-oh, and that's grounded up the middle and into center field, and Gasparro starts off the inning with a base hit."
+  },
+  {
+    "pool": "narrative_templates.Single.soft_liner",
+    "template": "Lined softly into the gap for a base hit.",
+    "episode": 5,
+    "line": 386,
+    "expected": "lined softly into the gap",
+    "source_text": "The payoff pitch... And that's lined softly into the gap in center field, and this game is now tied."
+  },
+  {
+    "pool": "narrative_templates.Lineout.default",
+    "template": "Lined and caught by {fielder_name} {out_context_str}.",
+    "episode": 5,
+    "line": 349,
+    "expected": "lined and caught by",
+    "source_text": "The payoff pitch, and that's lined and caught by Stern at first to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Double.default",
+    "template": "Belted {direction}. {fielder_name} hustling after it, and that will fall in for a base hit and roll into the corner.",
+    "episode": 5,
+    "line": 312,
+    "expected": "hustling after it, and that will fall in for a base hit and roll into the corner",
+    "source_text": "The payoff pitch... And that's belted to deep right field. Palomar hustling after it, and that will fall in for a base hit and roll into the corner. And Prudence Jefferson will have a one-out double."
+  },
+  {
+    "pool": "narrative_templates.Home Run.default",
+    "template": "That one is crushed {direction}, still going back, and that's over the wall.",
+    "episode": 5,
+    "line": 254,
+    "expected": "that one is crushed",
+    "source_text": "And the pitch... And that one is crushed to deep center. Diaz going back. And that's over the wall for a lazy solo home run. And Cadillac is on the board, and that breaks up the no-hitter for Gonzalez."
+  },
+  {
+    "pool": "narrative_templates.Home Run.default",
+    "template": "And that's going to be a no doubter, way back and over the wall.",
+    "episode": 5,
+    "line": 424,
+    "expected": "that's going to be a no doubter, way back and over the wall",
+    "source_text": "The oh-two, and that's going to be a no doubter, way back and over the wall. That's a walk-off home run for Giovanni Gasparro."
+  },
+  {
+    "pool": "narrative_templates.Home Run.default",
+    "template": "And {batter_name} gets all of that one. That's a long, lazy home run.",
+    "episode": 5,
+    "line": 411,
+    "expected": "gets all of that one. That's a long, lazy home run",
+    "source_text": "And the two-one pitch... And Nakamura gets all of that one. That's a long, lazy home run over the right field wall. And the Cadillac Cars have tied the game in the bottom of the ninth."
+  },
+  {
+    "pool": "narrative_templates.Strikeout.looking",
+    "template": "And {batter_name} strikes out looking {out_context_str}.",
+    "episode": 5,
+    "line": 241,
+    "expected": "strikes out looking",
+    "requires": "Production renderer currently composes strikeout outcomes from last_pitch_context and hardcoded verbs instead of selecting this pool. Wire this pool into the appropriate swinging/looking branch.",
+    "source_text": "All right, and here's the two-two pitch, right down the middle, and Sessions strikes out looking to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Strikeout.swinging",
+    "template": "{batter_name} is way out in front of that one for strike three.",
+    "episode": 11,
+    "line": 107,
+    "expected": "way out in front of that one for strike three",
+    "requires": "Production renderer currently composes strikeout outcomes from last_pitch_context and hardcoded verbs instead of selecting this pool. Wire this pool into the appropriate swinging/looking branch.",
+    "source_text": "The two-two pitch... Syndegard way out in front of that one for strike three."
+  },
+  {
+    "pool": "narrative_templates.Strikeout.swinging",
+    "template": "{batter_name} gets fooled on that {pitch_type}, and he is down on strikes.",
+    "episode": 11,
+    "line": 343,
+    "expected": "gets fooled on that",
+    "requires": "Production renderer currently composes strikeout outcomes from last_pitch_context and hardcoded verbs instead of selecting this pool. Wire this pool into the appropriate swinging/looking branch.",
+    "source_text": "The one-two pitch... And Thomas gets fooled on that knuckler that ends up in the dirt, and he is down on strikes."
+  },
+  {
+    "pool": "narrative_templates.Single.grounder",
+    "template": "A little squibber that will squeak through the infield for a base hit.",
+    "episode": 11,
+    "line": 368,
+    "expected": "a little squibber that will squeak through the infield for a base hit",
+    "source_text": "The one-one pitch... And that's a little squibber that will squeak through the infield for a base hit."
+  },
+  {
+    "pool": "narrative_templates.Single.grounder",
+    "template": "A dribbler that will squeak past {fielder_name} for a base hit.",
+    "episode": 11,
+    "line": 75,
+    "expected": "a dribbler that will squeak past",
+    "source_text": "The two-two pitch... And that's a dribbler that will squeak past Syndegard at third, and that's a leadoff single for Buddy Olsen."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Softly hit on the infield. {fielder_name} scoops it up and tosses to first in time to retire {batter_name} {out_context_str}.",
+    "episode": 11,
+    "line": 298,
+    "expected": "Softly hit on the infield",
+    "source_text": "The one-two pitch... Softly hit on the infield, Robinson scoops it up and tosses to first in time to retire Gleason to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Groundout.pitcher_groundout",
+    "template": "A little dribbler back to the mound. {fielder_name} has it and tosses to first, in time to retire {batter_name} {out_context_str}.",
+    "episode": 11,
+    "line": 260,
+    "expected": "a little dribbler back to the mound",
+    "source_text": "And the pitch... And that's a little dribbler back to the mound, Malone has it and tosses to first, in time to retire Banks to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Pop Out.default",
+    "template": "Popped up {direction}. {fielder_name} calls for it, and he has it {out_context_str}.",
+    "episode": 11,
+    "line": 118,
+    "expected": "calls for it, and he has it",
+    "source_text": "And the pitch... And that's popped up on the infield, Cooper calls for it, and he has it for out number two."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Sliced {direction}. {fielder_name} is there, and he has it {out_context_str}.",
+    "episode": 11,
+    "line": 243,
+    "expected": "sliced to shallow right",
+    "source_text": "The one-one pitch... And that's sliced to shallow right. Chavez is there, and he has it for out number one."
+  },
+  {
+    "pool": "narrative_strings.intentional_walk",
+    "template": "And that's an intentional base on balls.",
+    "episode": 11,
+    "line": 159,
+    "expected": "And that's an intentional base on balls",
+    "source_text": "And that's an intentional base on balls."
+  },
+  {
+    "pool": "narrative_strings.two_out_walk",
+    "template": "And that's a two-out base on balls for {batter_name}.",
+    "episode": 11,
+    "line": 329,
+    "expected": "that's a two-out base on balls for",
+    "source_text": "The three-one pitch... And that one runs outside again for ball four, and that's a two-out base on balls for Buddy Olsen."
+  },
+  {
+    "pool": "narrative_strings.leadoff_walk",
+    "template": "And that's a leadoff walk for {batter_name}.",
+    "episode": 11,
+    "line": 133,
+    "expected": "that's a leadoff walk for",
+    "source_text": "The three-one pitch... And that fastball misses low, and that's a leadoff walk for Robinson."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_leadoff",
+    "template": "And {batter_name} will step in to lead us off.",
+    "episode": 5,
+    "line": 24,
+    "expected": "will step in to lead us off",
+    "source_text": "And Vaughn Kramer will step in to lead us off. He's batting .253 this season."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_leadoff",
+    "template": "And {batter_name} will bat for the {team_name} to lead us off.",
+    "episode": 5,
+    "line": 226,
+    "expected": "will bat for the",
+    "source_text": "No score as we enter the sixth inning, and Bruford Kosinski will bat for the Tigers to lead us off. He had a base hit in the third inning."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_leadoff",
+    "template": "And {batter_name} will step into the box against {pitcher_name}.",
+    "episode": 11,
+    "line": 47,
+    "expected": "will step into the box against",
+    "source_text": "And Pontiac Gleason will step into the box against Three Finger Cooper."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_leadoff",
+    "template": "And stepping up to the plate for the {team_name} is {position} {batter_name}.",
+    "episode": 1,
+    "line": 338,
+    "expected": "And stepping up to the plate for",
+    "source_text": "And stepping up to the plate for Big Rapids is left fielder Brink Filbert. He's hitless so far in this contest."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_empty",
+    "template": "And that brings up {batter_name}.",
+    "episode": 1,
+    "line": 59,
+    "expected": "And that brings up",
+    "source_text": "And that brings up third baseman Shiny Patterson."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_empty",
+    "template": "And {batter_name} will dig in with {outs_str} and nobody on.",
+    "episode": 53,
+    "line": 157,
+    "expected": "will dig in with",
+    "source_text": "And JP Primero will dig in with two down and nobody on. Primero grounded out in the first."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_empty",
+    "template": "Nobody aboard, {outs_str} for {batter_name}.",
+    "episode": 11,
+    "line": 426,
+    "expected": "Nobody aboard, two outs for Oscar Patterson",
+    "source_text": "Nobody aboard, two outs for Oscar Patterson."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_empty",
+    "template": "{outs_str}, bases empty for {position} {batter_name}.",
+    "episode": 5,
+    "line": 151,
+    "expected": "bases empty for",
+    "source_text": "Two outs, bases empty for catcher Clifton Santiago. Santiago had a bunt single in the second."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_runners",
+    "template": "And in steps {batter_name}. {outs_str}, {runners_str}.",
+    "episode": 1,
+    "line": 166,
+    "expected": "And in steps",
+    "source_text": "And in steps Randy Chang. One out, runner on first."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_runners",
+    "template": "And {batter_name} digs in with {runners_str} and {outs_str}.",
+    "episode": 46,
+    "line": 185,
+    "expected": "digs in with",
+    "source_text": "And Jerry Durante digs in with one away, and a man on first."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_leadoff",
+    "template": "And {batter_name} digs in against {pitcher_name}.",
+    "episode": 46,
+    "line": 42,
+    "expected": "digs in against",
+    "source_text": "And Tito McCaskill digs in against Chance Quintero. McCaskill is a switch hitter, and he'll bat right against Quintero."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_empty",
+    "template": "And {batter_name} checks in with {outs_str}, and nobody aboard.",
+    "episode": 46,
+    "line": 312,
+    "expected": "checks in with",
+    "source_text": "And Lincoln Smathers checks in with two down, and nobody aboard. Smathers is oh for two this evening."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_runners",
+    "template": "{outs_str}, {runners_str}, and that will bring up {batter_name}.",
+    "episode": 1,
+    "line": 136,
+    "expected": "and that will bring up",
+    "source_text": "One out, a man on third, and that will bring up the pitcher's spot, Blinky Malone."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_runners",
+    "template": "And that'll bring up {batter_name} with {outs_str} and {runners_str}.",
+    "episode": 1,
+    "line": 328,
+    "expected": "ll bring up",
+    "source_text": "And it'll bring up Gabriel Palomar, two outs and a man on."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_empty",
+    "template": "And {batter_name} steps into the box.",
+    "episode": 52,
+    "line": 299,
+    "expected": "steps into the box",
+    "source_text": "And Steve McDykel steps into the box. McDykel is one for two with a base hit in the fourth."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_bases_cleared",
+    "template": "And {batter_name} steps in with {outs_str} and the bases cleared.",
+    "episode": 37,
+    "line": 383,
+    "expected": "and the bases cleared",
+    "source_text": "And Rio Nunez steps in with one away and the bases cleared. Nunez is 1 for 3 this evening."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_empty",
+    "template": "And here comes {batter_name}.",
+    "episode": 52,
+    "line": 269,
+    "expected": "here comes Brandon Carlisle",
+    "source_text": "So Washington is retired, and here comes Brandon Carlisle. Carlisle is one for two with a base hit in the first."
+  },
+  {
+    "pool": "radio_strings.welcome_intro",
+    "template": "Good evening, everybody.",
+    "episode": 1,
+    "line": 5,
+    "expected": "Good evening, everybody",
+    "source_text": "Good evening, everybody, and welcome to Foghorn Field. It is a perfect night for a ball game."
+  },
+  {
+    "pool": "radio_strings.welcome_intro",
+    "template": "And a pleasant good evening once again, friends.",
+    "episode": 46,
+    "line": 6,
+    "expected": "And a pleasant good evening once again, friends",
+    "source_text": "And a pleasant good evening once again, friends."
+  },
+  {
+    "pool": "radio_strings.inning_break_outro",
+    "template": "We'll be right back with more baseball on {network_name}.",
+    "episode": 1,
+    "line": 69,
+    "expected": "We'll be right back with more baseball on",
+    "source_text": "We'll be right back with more baseball on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_break_outro",
+    "template": "We'll be right back with the {next_inning_ordinal} inning. Here on {network_name}.",
+    "episode": 1,
+    "line": 149,
+    "expected": "We'll be right back with the",
+    "source_text": "At the end of two, it's Cadillac four, Big Rapids one. We'll be right back with the third inning. Here on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_break_outro",
+    "template": "We'll be right back on {network_name}.",
+    "episode": 1,
+    "line": 354,
+    "expected": "We'll be right back on",
+    "source_text": "So after five and a half, it remains Cadillac six, Big Rapids two. We'll be right back on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_break_outro",
+    "template": "And we'll be back in a moment, here on {network_name}.",
+    "episode": 11,
+    "line": 179,
+    "expected": "And we'll be back in a moment, here on",
+    "source_text": "And we'll be back in a moment, here on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_break_outro",
+    "template": "But we'll be back with the {next_inning_ordinal} inning after these important messages on {station_call} and {network_name}.",
+    "episode": 45,
+    "line": 330,
+    "expected": "after these important messages on",
+    "source_text": "We'll be back with the sixth inning after these important messages on WSLP and the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_break_outro",
+    "template": "We will be back with more baseball after these words on {station_call} and {network_name}.",
+    "episode": 46,
+    "line": 105,
+    "expected": "We will be back with more baseball after these words on",
+    "source_text": "We will be back with more baseball after these words on WSLP and the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_break_outro",
+    "template": "We'll be back in a bit with more baseball, here on {network_name}.",
+    "episode": 41,
+    "line": 186,
+    "expected": "We'll be back in a bit with more baseball, here on",
+    "source_text": "We'll be back in a bit with more baseball, here on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_bottom",
+    "template": "Welcome back to {venue}, everybody. We're about to kick off the {half_lower} of the {inning_ordinal} inning.",
+    "episode": 1,
+    "line": 48,
+    "expected": "We're about to kick off the",
+    "source_text": "Welcome back to Foghorn Field, everybody. We're about to kick off the bottom of the first inning."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_top",
+    "template": "And welcome back to {venue}, everybody. We are heading into the {half_lower} of the {inning_ordinal} inning.",
+    "episode": 1,
+    "line": 336,
+    "expected": "We are heading into the",
+    "source_text": "And welcome back to Foghorn Field, everybody. We are heading into the top of the sixth inning. Cadillac leads Big Rapids 6 to 2."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_bottom",
+    "template": "And welcome back to {venue}. We're headed to the {half_lower} of the {inning_ordinal}.",
+    "episode": 1,
+    "line": 313,
+    "expected": "We're headed to the",
+    "source_text": "And welcome back to Foghorn Field. We're headed to the bottom of the fifth. Cadillac leads Big Rapids 6 to 2."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_top",
+    "template": "And welcome back to {venue}, as we get ready to begin the {half_lower} of the {inning_ordinal} inning.",
+    "episode": 1,
+    "line": 261,
+    "expected": "as we get ready to begin the",
+    "source_text": "And welcome back to Foghorn Field and Cadillac, as we get ready to begin the fifth inning. Cadillac leads Big Rapids 6-1."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_top",
+    "template": "And welcome back with us at {venue} in {location_with_state}.",
+    "episode": 5,
+    "line": 42,
+    "expected": "And welcome back with us at",
+    "source_text": "And welcome back with us at Foghorn Field in Cadillac, Michigan. Wally McCarthy here, alongside producer Phil."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_bottom",
+    "template": "And welcome back with us here in {location_with_state}, at {venue}.",
+    "episode": 5,
+    "line": 99,
+    "expected": "And welcome back with us here in",
+    "source_text": "And welcome back with us here in Cadillac, Michigan, at Foghorn Field. No score as we begin the bottom of the second, and Gabriel Palomar will step in to face Todd Gonzalez."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_top",
+    "template": "And we're back at {venue} here in {location_with_state}.",
+    "episode": 5,
+    "line": 225,
+    "expected": "And we're back at",
+    "source_text": "And we're back at Foghorn Field here in Cadillac, Michigan. Wally McCarthy and producer Phil reporting."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_bottom",
+    "template": "And welcome back, friends, to {venue} here in {location_with_state}.",
+    "episode": 5,
+    "line": 244,
+    "expected": "And welcome back, friends, to",
+    "source_text": "And welcome back, friends, to Foghorn Field here in Cadillac, Michigan. Wally McCarthy and producer Phil back with you. It is a perfect night for a ball game."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_top",
+    "template": "And greetings again, from {venue} here in {location_with_state}.",
+    "episode": 39,
+    "line": 420,
+    "expected": "And greetings again, from",
+    "source_text": "And greetings again, from Evermore Park here in Baraboo, Wisconsin."
+  },
+  {
+    "pool": "radio_strings.inning_break_intro_bottom",
+    "template": "{half} half of the {inning_ordinal} inning here at {venue} in {location}. {score_str}.",
+    "episode": 37,
+    "line": 287,
+    "expected": "half of the",
+    "source_text": "Bottom half of the sixth inning here at Evergreen Field in Big Rapids. The Ravens leading one nothing, and Rio Nunez steps in against Frank Gibson. Nunez is 1 for 2 with a base hit in the first."
+  },
+  {
+    "pool": "radio_strings.inning_summary_scoreless",
+    "template": "At the end of {innings_word}, we're scoreless here in {location}.",
+    "episode": 1,
+    "line": 46,
+    "expected": "we're scoreless here in",
+    "source_text": "At the end of the first half, we're scoreless here in Cadillac. Timbers nothing. Cars coming up."
+  },
+  {
+    "pool": "radio_strings.inning_summary_scoreless",
+    "template": "We are scoreless here in {location} after {innings_word}.",
+    "episode": 5,
+    "line": 68,
+    "expected": "We are scoreless here in",
+    "source_text": "We are scoreless here in Cadillac after the first inning. And we'll be back with more baseball. Here on the Northwoods Baseball radio network."
+  },
+  {
+    "pool": "radio_strings.inning_summary_scoreless",
+    "template": "Still no score here at {venue}.",
+    "episode": 5,
+    "line": 122,
+    "expected": "Still no score here at",
+    "source_text": "Still no score here at Foghorn Field. We'll be back with more baseball, here on the Northwoods Baseball radio network."
+  },
+  {
+    "pool": "radio_strings.inning_summary_scoreless",
+    "template": "And we're still scoreless through {innings_word} here at {venue}.",
+    "episode": 5,
+    "line": 141,
+    "expected": "And we're still scoreless through",
+    "source_text": "And we're still scoreless through three innings here at Foghorn Field. We'll be back with more baseball, here on the Northwoods Baseball radio network."
+  },
+  {
+    "pool": "radio_strings.inning_summary_scoreless",
+    "template": "We are still scoreless with {inning_count_word} in the books here at {venue}.",
+    "episode": 11,
+    "line": 148,
+    "expected": "We are still scoreless with",
+    "source_text": "We are still scoreless with two in the books here at Evergreen Field, and we'll be back with more baseball, here on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_summary_scoreless",
+    "template": "It is still a scoreless contest at the end of {innings_word}.",
+    "episode": 11,
+    "line": 201,
+    "expected": "It is still a scoreless contest at the end of",
+    "source_text": "It is still a scoreless contest at the end of three."
+  },
+  {
+    "pool": "radio_strings.inning_summary_scoreless",
+    "template": "And it remains a scoreless ballgame.",
+    "episode": 49,
+    "line": 118,
+    "expected": "and it remains a scoreless ballgame",
+    "source_text": "And that's a one-two-three inning for Zach Valentine here in the top of the second, and it remains a scoreless ballgame."
+  },
+  {
+    "pool": "radio_strings.inning_summary_tied",
+    "template": "And we are all tied up at {score}.",
+    "episode": 1,
+    "line": 117,
+    "expected": "And we are all tied up",
+    "source_text": "And we are all tied up, as we enter the bottom of the second inning, and coming to the plate is Cadillac's shortstop, Pinky Slauson."
+  },
+  {
+    "pool": "radio_strings.inning_summary_tied",
+    "template": "And we're still tied at {score} here in {location}.",
+    "episode": 50,
+    "line": 120,
+    "expected": "we're still tied at",
+    "source_text": "And that's a one-two-three inning for Billy the Boroughbrello. And after two and a half, we're still tied at one here in Manistee."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_order",
+    "template": "And the {batting_team_short} go down in order.",
+    "episode": 1,
+    "line": 44,
+    "expected": "go down in order",
+    "source_text": "The two-two pitch. Chang gets a piece of it, but it looks like Palomar will have room, and he makes the catch, and the Timbers go down in order."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_jam",
+    "template": "{pitcher_name} works out of a jam.",
+    "episode": 11,
+    "line": 299,
+    "expected": "works out of a jam",
+    "source_text": "The Cadillac old timers threaten here in the top of the fifth, but Cooper works out of a jam, and after four and a half, it remains Big Rapids two, Cadillac nothing."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_jam",
+    "template": "{pitcher_name} wriggles out of a jam.",
+    "episode": 45,
+    "line": 258,
+    "expected": "wriggles out of a jam",
+    "source_text": "Captain Bender wriggles out of a jam here in the bottom of the fourth."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_jam",
+    "template": "{pitcher_name} does a fine job getting out of that jam.",
+    "episode": 1,
+    "line": 424,
+    "expected": "does a fine job getting out of that jam",
+    "source_text": "Belden Inohosa does a fine job getting out of that jam. And at the end of seven innings, it's Cadillac six, Big Rapids two. We'll be right back with the eighth inning. Here on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_outro_scored_first",
+    "template": "But the {batting_team_short} are on the board.",
+    "episode": 45,
+    "line": 106,
+    "expected": "are on the board",
+    "source_text": "But the Timbers are on the board. And with one in the books, it's Timbers one, Cars nothing."
+  },
+  {
+    "pool": "radio_strings.inning_outro_scored_pair",
+    "template": "But the {batting_team_short} add a pair.",
+    "episode": 46,
+    "line": 172,
+    "expected": "add a pair",
+    "source_text": "But the Eagles add a pair, and they now lead three nothing as we head to the last of the third, here on WSLP and the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_outro_scored_pair",
+    "template": "And the {batting_team_short} add a pair here in the {inning_ordinal}.",
+    "episode": 45,
+    "line": 324,
+    "expected": "add a pair here in the",
+    "source_text": "And the Timbers add a pair here in the bottom of the fifth. And they now lead three to one."
+  },
+  {
+    "pool": "radio_strings.outro",
+    "template": "We'll be back with the postgame show in a moment, here on {network_name}.",
+    "episode": 11,
+    "line": 436,
+    "expected": "We'll be back with the postgame show in a moment, here on",
+    "source_text": "We'll be back with the postgame show in a moment, here on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "A lazy fly ball {direction}. {fielder_name} drifting in, and he makes the catch {out_context_str}.",
+    "episode": 13,
+    "line": 90,
+    "expected": "a lazy fly ball",
+    "source_text": "The oh-two pitch... And that's a lazy fly ball to shallow left. Prudence Jefferson drifting in, and he makes the catch to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Flyout.deep",
+    "template": "Driven {direction}. {fielder_name} is after it, and he makes an overhand catch near the wall {out_context_str}.",
+    "episode": 13,
+    "line": 412,
+    "expected": "makes an overhand catch near the wall",
+    "source_text": "The payoff pitch... And that's into right-center. Chang is after it, and he makes an overhand catch near the wall for out number two."
+  },
+  {
+    "pool": "narrative_templates.Single.default",
+    "template": "That one finds the hole {direction}, and that's a base hit for {batter_name}.",
+    "episode": 13,
+    "line": 274,
+    "expected": "that one finds the hole",
+    "source_text": "And the pitch... And that one finds the hole in left field, and that's a two-out single for Ted Brown."
+  },
+  {
+    "pool": "narrative_templates.Double.default",
+    "template": "Ripped into the gap, and that will roll all the way to the wall.",
+    "episode": 13,
+    "line": 54,
+    "expected": "and that will roll all the way to the wall",
+    "source_text": "And the pitch... And that one is ripped into the gap in left-center field, and that will roll all the way to the wall. Brown will try to score, and he will score without a throw. And that's a two-out RBI double for Burke Sessions."
+  },
+  {
+    "pool": "narrative_templates.Triple.default",
+    "template": "That one is crushed {direction}, all the way to the wall. {batter_name} is heading for third, and that's a triple.",
+    "episode": 13,
+    "line": 289,
+    "expected": "all the way to the wall",
+    "source_text": "The one-two pitch... And that one is crushed to right-center field, all the way to the wall. Nomo will score. Brown will score. Sessions coming around to score. And that is a three-run triple for Kosinski here in the top of the fifth."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Grounder {direction}, handled by {fielder_name}. The throw to first is in time to retire {batter_name} {out_context_str}.",
+    "episode": 20,
+    "line": 97,
+    "expected": "The throw to first is in time to retire",
+    "source_text": "The one-one pitch... Grounder to short, handled by Slauson. The throw to first is in time to retire Lamont for out number two."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Hard grounder {direction}. {fielder_name} charges it, and fires to first, just in time to retire {batter_name} {out_context_str}.",
+    "episode": 20,
+    "line": 381,
+    "expected": "charges it, and fires to first, just in time",
+    "source_text": "The one-one pitch... Hard grounder to short. Howl charges it, and fires to first, just in time to retire Ortega for out number two."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Hooked {direction}. {fielder_name} is after it, and he makes the catch {out_context_str}.",
+    "episode": 20,
+    "line": 197,
+    "expected": "Hooked into right field.",
+    "source_text": "The one-two pitch... Hooked into right field. Lamont is after it, and he makes the catch to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Double.default",
+    "template": "Hit {direction}, and that one will end up all the way in the corner.",
+    "episode": 20,
+    "line": 314,
+    "expected": "that one will end up all the way in the corner",
+    "source_text": "And the two-two pitch... And that's hit down the line, and that one will end up all the way in the corner. And that's going to be a one-out double for Buzz Norton here in the top of the seventh."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Looping fly ball {direction}, a routine play for {fielder_name}, and he makes the catch {out_context_str}.",
+    "episode": 29,
+    "line": 142,
+    "expected": "Looping fly ball",
+    "source_text": "And Mullins' pitch... Looping fly ball to left, a routine play for Jefferson, and he makes the catch for out number two."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Fly ball {direction}, routine play for {fielder_name}, and he snags it {out_context_str}.",
+    "episode": 29,
+    "line": 372,
+    "expected": "and he snags it",
+    "source_text": "And the pitch... Fly ball, right field, routine play for Martinez, and he snags it for out number one."
+  },
+  {
+    "pool": "narrative_templates.Lineout.default",
+    "template": "Liner {direction}, speared by {fielder_name} {out_context_str}.",
+    "episode": 29,
+    "line": 366,
+    "expected": "Liner to second, speared by Kramer.",
+    "source_text": "And the pitch... Liner to second, speared by Kramer. And that's a one-two-three inning for Philip Jeffries against his former team, here in his Tigers debut."
+  },
+  {
+    "pool": "narrative_strings.leadoff_double",
+    "template": "{batter_name} hustling for second, and he cruises in standing up.",
+    "episode": 29,
+    "line": 325,
+    "expected": "hustling for second, and he cruises in standing up",
+    "source_text": "The one-one pitch... Hard-hit ball down the third base line. That one is fair, and it gets past a diving Lozano. Diaz hustling for second, and he cruises in standing up. And that's a leadoff double for Schmitty Diaz here in the top of the seventh."
+  },
+  {
+    "pool": "narrative_strings.two_out_double",
+    "template": "{batter_name} heading for second, and he's in standing up with a two-out double{inning_context}.",
+    "episode": 29,
+    "line": 257,
+    "expected": "heading for second, and he's in standing up with a two-out double",
+    "source_text": "The two-oh pitch... And that one is hit sharply down the third base line. That's a fair ball, and that one will roll all the way to the corner. Kramer heading for second, and he's in standing up with a two-out double here in the top of the fifth."
+  },
+  {
+    "pool": "narrative_templates.Double.default",
+    "template": "Ripped {direction}. {fielder_name} racing back, and that one is going to bounce off the wall.",
+    "episode": 35,
+    "line": 157,
+    "expected": "racing back, and that one is going to bounce off the wall",
+    "source_text": "The one-two pitch... Ripped into deep left field, Kosinski racing back, and that one is going to bounce off the wall. Piña hustling to second, and he will beat the throw. And that's a leadoff double for Hector Piña here in the top of the fourth."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Hit in the air {direction}. {fielder_name} racing after it, and he makes a spectacular catch {out_context_str}.",
+    "episode": 35,
+    "line": 116,
+    "expected": "racing after it, and he makes a spectacular catch",
+    "source_text": "The one-one pitch... Hit in the air to right center, Kosinski racing after it, and he makes a spectacular catch for out number one."
+  },
+  {
+    "pool": "narrative_templates.Flyout.deep",
+    "template": "Hit in the air {direction}. {fielder_name} sprinting after it, and he makes a spectacular catch on the warning track {out_context_str}.",
+    "episode": 35,
+    "line": 398,
+    "expected": "sprinting after it, and he makes a spectacular catch on the warning track",
+    "source_text": "The oh-two pitch... Hit in the air to deep right center, Kosinski sprinting after it, and he makes a spectacular catch on the warning track to end the ball game."
+  },
+  {
+    "pool": "narrative_templates.Single.bloop",
+    "template": "Looper into shallow {direction_noun}, and that one drops into the gap for a base hit.",
+    "episode": 35,
+    "line": 264,
+    "expected": "that one drops into the gap for a base hit",
+    "source_text": "And the pitch... Looper into shallow right, and that one drops into the gap for a base hit."
+  },
+  {
+    "pool": "narrative_templates.Lineout.default",
+    "template": "Lined {direction}, {fielder_name} racing in, and he makes a diving catch {out_context_str}.",
+    "episode": 37,
+    "line": 110,
+    "expected": "racing in, and he makes a diving catch",
+    "source_text": "The one-oh pitch... Lined into shallow left, Hawkins racing in, and he makes a diving catch for out number one."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Grounder {direction}. {fielder_name} will pick it up and toss to first to retire {batter_name} {out_context_str}.",
+    "episode": 37,
+    "line": 313,
+    "expected": "will pick it up and toss to first to retire",
+    "source_text": "And Shemper from the stretch... Bouncer to second, Ferguson will pick it up and toss to first to retire Carlisle. Durante will be safe at second."
+  },
+  {
+    "pool": "narrative_templates.Triple.default",
+    "template": "{batter_name} rounding second. He's thinking three. And he is going to beat the throw.",
+    "episode": 39,
+    "line": 172,
+    "expected": "rounding second. He's thinking three. And he is going to beat the throw",
+    "source_text": "Rickson rounding second. He's thinking three. And he is going to beat the throw."
+  },
+  {
+    "pool": "narrative_templates.Single.bloop",
+    "template": "Hit in the air to shallow {direction_noun}. {fielder_name} is racing in, and he will not make the catch, as that one drops in.",
+    "episode": 39,
+    "line": 197,
+    "expected": "he will not make the catch, as that one drops in",
+    "source_text": "The oh-two pitch... Hit in the air to shallow right. Lamont's racing in, and he will not make the catch, as that one drops in, and Navarro is aboard with a two-out single."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Hard grounder {direction}. Great pick by {fielder_name}, and he fires to first, just in time to retire {batter_name} {out_context_str}.",
+    "episode": 39,
+    "line": 373,
+    "expected": "Great pick by",
+    "source_text": "The one-one... Hard grounder to short. Great pick by McCaskill, and he fires to first, just in time to retire Silver for the first out of the inning."
+  },
+  {
+    "pool": "narrative_templates.Sacrifice Bunt.default",
+    "template": "Bunted {direction}. {fielder_name} will pick it up and toss it to first to retire {batter_name} {out_context_str}.",
+    "episode": 39,
+    "line": 254,
+    "expected": "will pick it up and toss it to first to retire",
+    "source_text": "And the pitch... Bunted in front of the plate, Whitehouse will pick it up and toss it to first to retire Brello, but he moves the runner up as Nunez advances safely to second."
+  },
+  {
+    "pool": "narrative_templates.Sacrifice Bunt.default",
+    "template": "Bunted {direction}. That will move the runner up. {fielder_name} collects and fires to first to retire {batter_name} {out_context_str}.",
+    "episode": 53,
+    "line": 223,
+    "expected": "that will move the runner up",
+    "source_text": "The oh-one pitch... Bunted in front of the plate, that will move the runner up. Gasparro collects and fires to first to retire Flores for out number two."
+  },
+  {
+    "pool": "narrative_templates.Double.default",
+    "template": "That one is fair, and past a diving {fielder_name}. It will roll into the outfield, and {batter_name} will be aboard with a stand-up double.",
+    "episode": 45,
+    "line": 223,
+    "expected": "That one is fair, and past a diving",
+    "source_text": "The one-one pitch... Hard grounder down the third base line. That one is fair, and past a diving Rudderson, that one will roll into the outfield, and Ortega will be aboard with a stand-up double."
+  },
+  {
+    "pool": "narrative_templates.Triple.default",
+    "template": "Blooper {direction}. That one falls in, and that will roll all the way into the corner. {batter_name} makes it safely to third.",
+    "episode": 45,
+    "line": 322,
+    "expected": "That one falls in, and that will roll all the way into the corner",
+    "source_text": "The two-two pitch... Blooper into right field. That one falls in, and that will roll all the way into the corner."
+  },
+  {
+    "pool": "narrative_templates.Bunt Ground Out.pitcher_groundout",
+    "template": "Bunted back to the mound. {fielder_name} scoops it up and fires to first just in time to retire {batter_name} {out_context_str}.",
+    "episode": 46,
+    "line": 410,
+    "expected": "scoops it up and fires to first just in time to retire",
+    "requires": "Use only when the bunt is fielded by the pitcher; alternatively use Bunt Ground Out.pitcher_groundout.",
+    "source_text": "Bunted back to the mound. Fuller scoops it up and fires to first just in time to retire Rickson for out number two."
+  },
+  {
+    "pool": "narrative_templates.Double.default",
+    "template": "Ripped {direction}. That one drops in and bounces all the way to the wall.",
+    "episode": 49,
+    "line": 84,
+    "expected": "That one drops in and bounces all the way to the wall",
+    "source_text": "And the pitch... Ripped down the right field line. That one drops in and bounces all the way to the wall. Bush, heading for second, and he will slide in safely ahead of the throw. And that's a one-out double for Shorty Bush."
+  },
+  {
+    "pool": "narrative_strings.double_one_out",
+    "template": "{batter_name} heading for second, and he will slide in safely ahead of the throw.",
+    "episode": 49,
+    "line": 84,
+    "expected": "he will slide in safely ahead of the throw",
+    "source_text": "And the pitch... Ripped down the right field line. That one drops in and bounces all the way to the wall. Bush, heading for second, and he will slide in safely ahead of the throw. And that's a one-out double for Shorty Bush."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Lofted into {direction_noun}. {fielder_name} is calling for it, and he makes the catch {out_context_str}.",
+    "episode": 49,
+    "line": 208,
+    "expected": "Lofted into left center",
+    "source_text": "Lofted into left center, Diaz is calling for it, and he makes the catch for out number one."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Grounder {direction}. {fielder_name} gathers it and shovels to first to retire {batter_name} {out_context_str}.",
+    "episode": 50,
+    "line": 113,
+    "expected": "gathers it and shovels to first to retire",
+    "source_text": "And the pitch... Grounder to second, Maryhue gathers it and shovels to first to retire Durante for the first out of the inning."
+  },
+  {
+    "pool": "narrative_templates.Groundout.default",
+    "template": "Grounder {direction}. {fielder_name} with plenty of time, and he scoops it up and flips to first {out_context_str}.",
+    "episode": 50,
+    "line": 63,
+    "expected": "with plenty of time, and he scoops it up and flips to first",
+    "source_text": "And Gibson's pitch... Fastball called strike one. Grounder to second, Piña with plenty of time, and he scoops it up and flips to first for out number one."
+  },
+  {
+    "pool": "narrative_strings.two_out_double",
+    "template": "{batter_name} heading for second, and he'll reach standing up with two away.",
+    "episode": 50,
+    "line": 52,
+    "expected": "heading for second and he'll reach standing up",
+    "source_text": "Hit into deep left field. That one drops in and bounces off the wall, Washington heading for second and he'll reach standing up. And that's a two-out double for Shecky Washington, here in the first."
+  },
+  {
+    "pool": "narrative_templates.Single.grounder",
+    "template": "Grounder {direction}, and that's a seeing-eye single for {batter_name}.",
+    "episode": 51,
+    "line": 190,
+    "expected": "and that's a seeing-eye single for",
+    "source_text": "Grounder up the middle, and that's a seeing-eye single for JP Primero."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Hit softly {direction}. {fielder_name} jogging in, and he makes the catch {out_context_str}.",
+    "episode": 51,
+    "line": 177,
+    "expected": "jogging in, and he makes the catch",
+    "source_text": "And the pitch... Hit softly to right, Palomar jogging in, and he makes the catch for out number one."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Hit in the air {direction}. {fielder_name} is tracking it, and he makes the catch {out_context_str}.",
+    "episode": 53,
+    "line": 54,
+    "expected": "is tracking it, and he makes the catch",
+    "source_text": "The one-oh pitch... Hit in the air to left field. Parker is tracking it, and he makes the catch for out number two."
+  },
+  {
+    "pool": "narrative_templates.Flyout.default",
+    "template": "Hit in the air {direction}. {fielder_name} is there, and he puts it away {out_context_str}.",
+    "episode": 52,
+    "line": 285,
+    "expected": "is there, and he puts it away",
+    "source_text": "The one-one pitch... Hit in the air to center field. Durante is there, and he puts it away for out number one."
+  },
+  {
+    "pool": "narrative_templates.Pop Out.default",
+    "template": "{batter_name} gets jammed, pops it up. {fielder_name} is under it, and he makes the catch {out_context_str}.",
+    "episode": 52,
+    "line": 200,
+    "expected": "gets jammed, pops it up",
+    "source_text": "The one-oh pitch... And Bronswell gets jammed, pops it up. Gomez is under it, and he makes the catch for the first out of the frame."
+  },
+  {
+    "pool": "narrative_templates.Pop Out.default",
+    "template": "Popped up {direction}. {fielder_name} is calling for it, and he hauls it in {out_context_str}.",
+    "episode": 52,
+    "line": 255,
+    "expected": "is calling for it, and he hauls it in",
+    "source_text": "The two-one pitch... Popped up to shallow center. Gonzalez is calling for it, and he hauls it in for the first out of the inning."
+  },
+  {
+    "pool": "narrative_templates.Home Run.default",
+    "template": "Hit in the air {direction}. That's trouble — {fielder_name} racing back, and he will run out of room, and that one sails over the wall.",
+    "episode": 52,
+    "line": 318,
+    "expected": "That's trouble",
+    "source_text": "And the payoff pitch... Hit in the air to deep center. That's trouble — Yamaguchi racing back, and he will run out of room, and that one sails over the wall. And that's a long, lazy two-run homer for Chance Quintero. The Ravens now lead three-nothing."
+  },
+  {
+    "pool": "narrative_templates.Single.infield_knockdown",
+    "template": "Hard grounder {direction}. {fielder_name} is able to knock it down, but he will not have a play.",
+    "episode": 53,
+    "line": 271,
+    "expected": "able to knock it down, but he will not have a play",
+    "requires": "Only an infield single where the fielder touches the ball but cannot retire the batter; route using an infield category rather than arbitrary outfield grounders.",
+    "source_text": "And the one-two... Hard grounder to left. Slauson, able to knock it down, but he will not have a play. Primero scores from third. And the Loons, now with a 2-nothing lead."
+  },
+  {
+    "pool": "narrative_templates.Double.default",
+    "template": "Hit in the air {direction}, still going back, and that one ricochets off the top of the wall.",
+    "episode": 53,
+    "line": 345,
+    "expected": "that one ricochets off the top of the wall",
+    "source_text": "The oh-one... Hit in the air to deep center field, still going back, and that one ricochets off the top of the wall, and Primero will be aboard with a stand-up double."
+  },
+  {
+    "pool": "narrative_templates.Lineout.default",
+    "template": "Liner right into the glove of {fielder_name}, who puts the squeeze on it {out_context_str}.",
+    "episode": 53,
+    "line": 359,
+    "expected": "who puts the squeeze on it",
+    "source_text": "And the pitch... Liner right into the glove of Bradleys, who puts the squeeze on it for out number one."
+  },
+  {
+    "pool": "narrative_templates.Walk.four_pitch",
+    "template": "That's a four-pitch walk for {batter_name}.",
+    "episode": 5,
+    "line": 53,
+    "expected": "that's a four-pitch walk for",
+    "requires": "Walk with exactly four observed balls, zero strikes, and an initial 0-0 count. Do not infer this for partial transcripts or intentional walks.",
+    "source_text": "The three-oh pitch... That's low, and that's a four-pitch walk for Slauson."
+  },
+  {
+    "pool": "narrative_strings.leadoff_walk_four_pitch",
+    "template": "{batter_name} draws a leadoff four-pitch walk.",
+    "episode": 5,
+    "line": 400,
+    "expected": "draws a leadoff four-pitch walk",
+    "requires": "Leadoff completed Walk with four balls, zero strikes, and no inherited or unknown count.",
+    "source_text": "And the three-oh pitch... And that's inside, and Patterson draws a leadoff four-pitch walk."
+  },
+  {
+    "pool": "narrative_templates.Double.ground_rule",
+    "template": "Hammered {direction}, and that will bounce over the wall. That's a ground-rule double for {batter_name}.",
+    "episode": 13,
+    "line": 192,
+    "expected": "that will bounce over the wall",
+    "requires": "Explicit ground-rule double, for example hitData.categoryOverride=\"ground_rule\" or a ground_rule_double result. A generic Double alone is insufficient.",
+    "source_text": "And the pitch... And that's hammered into deep right field, and that will bounce over the wall, and that's a leadoff ground-rule double for Ted Brown."
+  },
+  {
+    "pool": "narrative_templates.Double.lost_in_lights",
+    "template": "Hit in the air {direction}. {fielder_name} will lose that one in the lights, and that one falls in. {batter_name} heads for second with a double.",
+    "episode": 53,
+    "line": 163,
+    "expected": "will lose that one in the lights",
+    "requires": "Explicit lost-in-lights contact detail, such as hitData.lostInLights=true. Never infer lights from venue or choose for every double.",
+    "source_text": "And the pitch... Hit in the air to shallow center. Vega drifting in, and he will lose that one in the lights, and that one falls in, Parker heading for second, and he'll be aboard with a stand-up double."
+  },
+  {
+    "pool": "narrative_templates.Home Run.walkoff",
+    "template": "Way back and over the wall. That's a walk-off home run for {batter_name}.",
+    "episode": 5,
+    "line": 424,
+    "expected": "That's a walk-off home run for",
+    "requires": "Home Run in the last half-inning that gives the home team a winning lead and ends the game. Use actual scheduled innings, including the seven-inning exhibition.",
+    "source_text": "The oh-two, and that's going to be a no doubter, way back and over the wall. That's a walk-off home run for Giovanni Gasparro."
+  },
+  {
+    "pool": "narrative_templates.Double.walkoff",
+    "template": "That one will bounce off the wall, and that will drive in the winning run.",
+    "episode": 20,
+    "line": 438,
+    "expected": "that one will bounce off the wall",
+    "requires": "Explicit winning Double ending the game. Preserve recorded runs/RBI; this wording states only that the winning run scores.",
+    "source_text": "The two-two pitch... Hit in the air to deep left center. Still going back, and that one will bounce off the wall, and that will drive in two, and the Cadillac Cars win this one, three to two, in dramatic fashion, here in the bottom of the ninth."
+  },
+  {
+    "pool": "narrative_strings.intentional_walk_pitcher_next",
+    "template": "And it looks like they are going to put him on base to get to the pitcher spot.",
+    "episode": 11,
+    "line": 282,
+    "expected": "it looks like they are going to put him on base",
+    "requires": "Intentional Walk with the next scheduled batter actually a pitcher; do not apply when a pinch hitter or DH is due next.",
+    "source_text": "And the pitch... And it looks like they are going to put him on base again to get to the pitcher spot."
+  },
+  {
+    "pool": "narrative_strings.walk_forces_run",
+    "template": "Ball four, and that will walk in a run.",
+    "episode": 1,
+    "line": 300,
+    "expected": "ball four, and that will walk in a run",
+    "requires": "Walk with bases loaded before the plate appearance and a recorded forced runner scoring. Leave the final score update to the existing score route.",
+    "source_text": "The pitch. Outside, just outside, for a ball four, and that will walk in a run. And Big Rapids chips away, and it's 6 to 2. Bases still loaded, one run in."
+  },
+  {
+    "pool": "narrative_templates.Field Error.grounder",
+    "template": "Grounder {direction}, and {fielder_name} will not get a handle on that ball. {batter_name} will be safe at first, and that's going to be an error.",
+    "episode": 29,
+    "line": 192,
+    "expected": "will not get a handle on that ball",
+    "requires": "Field Error on a ground ball where the batter reaches first; use trajectory ground_ball and final batter destination first.",
+    "source_text": "The oh-one pitch... Hard grounder to second, and Kramer will not get a handle on that ball. Olsen will be safe at first, and that's going to be an error on second baseman Von Kramer. Score that one, E4."
+  },
+  {
+    "pool": "narrative_templates.Field Error.grounder",
+    "template": "Chopper {direction}. {fielder_name} bobbles the ball, and it kicks past him. {batter_name} will be safe at first.",
+    "episode": 45,
+    "line": 89,
+    "expected": "bobbles the ball, and it kicks past him",
+    "requires": "Field Error on a bobbled ground ball and batter safe at first. Requires explicit bobble detail or a grounded-error category.",
+    "source_text": "The one-one pitch... Chopper to short. Slauson bobbles the ball, and it kicks past him. And Filbert will be safe at first."
+  },
+  {
+    "pool": "narrative_templates.Field Error.grounder",
+    "template": "Grounder {direction}, and {fielder_name} can't get a handle on it. {batter_name} reaches on the error.",
+    "episode": 46,
+    "line": 375,
+    "expected": "can't get a handle on it",
+    "requires": "Ground-ball fielding error; must not be a throwing error or a dropped fly.",
+    "source_text": "And the one-two pitch... Grounder to short, and McCaskill can't get a handle on it."
+  },
+  {
+    "pool": "narrative_templates.Field Error.everybody_safe",
+    "template": "Hard grounder {direction}, and that one skips away from {fielder_name}. Everybody is going to be safe.",
+    "episode": 52,
+    "line": 103,
+    "expected": "Everybody is going to be safe",
+    "requires": "Ground-ball fielding error with no recorded outs on any runner movement. A generic Field Error can coexist with a runner out and is insufficient.",
+    "source_text": "And the one-one... Hard grounder to second, and that one skips away from Piña. Everybody is going to be safe. That's going to be an error on Hector Piña — score that one E4, if you're scoring at home."
+  },
+  {
+    "pool": "narrative_templates.Field Error.dropped_fly",
+    "template": "{fielder_name} gets to it, but he drops the ball. {batter_name} reaches safely on the error.",
+    "episode": 45,
+    "line": 296,
+    "expected": "he drops the ball",
+    "requires": "Explicit dropped fly ball with Field Error, not a clean hit and not an infield ground-ball error.",
+    "source_text": "And he makes a leaping grab on the warning track, and he drops the ball."
+  },
+  {
+    "pool": "narrative_templates.Single.throwing_error",
+    "template": "Grounder {direction}. The throw to first sails over the bag, and {batter_name} will scoot up to second base safely.",
+    "episode": 45,
+    "line": 492,
+    "expected": "will scoot up to second base safely",
+    "requires": "Single plus a recorded throwing error, with batter final destination second. Generic Single or Field Error alone is insufficient.",
+    "source_text": "And the pitch to Parker... Grounder to short, long throw to first, and that throw is going to sail over Castor's head, and Parker will scoot up to second base safely."
+  },
+  {
+    "pool": "narrative_templates.Forceout.second_base",
+    "template": "Grounder {direction}. {fielder_name} scoops it up and steps on second to retire the runner {out_context_str}.",
+    "episode": 37,
+    "line": 83,
+    "expected": "steps on second to retire",
+    "requires": "Forceout at second with the fielding player recording the unassisted force; explicit runner outBase=2B and matching fielder credit.",
+    "source_text": "Grounder to short. Corrado scoops it up, and he steps on second to retire Rudderson to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Forceout.third_base",
+    "template": "Bouncer {direction}. {fielder_name} scoops it up and steps on the bag to force the out at third {out_context_str}.",
+    "episode": 11,
+    "line": 332,
+    "expected": "steps on the bag to force the out at third",
+    "requires": "Unassisted force at third by the third baseman, with explicit runner outBase=3B and matching fielder credit.",
+    "source_text": "The one-oh pitch... Bouncer to third. Syndegard scoops it up and steps on the bag to force the out at third and end the inning."
+  },
+  {
+    "pool": "narrative_templates.Forceout.second_base_throw",
+    "template": "Grounder {direction}. {fielder_name} scoops it up and tosses to second to get the force {out_context_str}.",
+    "episode": 53,
+    "line": 334,
+    "expected": "scoops it up and tosses to second to get",
+    "requires": "Forceout at second with a throw from another fielder; do not describe an unassisted force as a toss.",
+    "source_text": "And the one-oh... Grounder to short. Stipe scoops it up and tosses to second to get Cortez to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Fielders Choice.home_tag",
+    "template": "Grounder {direction}. {fielder_name} scoops it up and fires home. The runner is tagged out, sliding into the plate. {batter_name} is safe on a fielder's choice.",
+    "episode": 45,
+    "line": 308,
+    "expected": "tagged out, sliding into the plate",
+    "requires": "Fielder’s choice with a runner tagged out at home and batter safe at first; explicit runner outBase=score/home, not a forceout.",
+    "source_text": "The one-one pitch... Grounder to third. Patterson scoops it up, and he fires home. And Von Neumann is going to be tagged out, sliding into the plate."
+  },
+  {
+    "pool": "narrative_templates.Fielders Choice.home_safe",
+    "template": "Grounder {direction}. {fielder_name} throws home, and the throw is not in time. The runner slides in safely under the tag.",
+    "episode": 46,
+    "line": 61,
+    "expected": "the throw is not in time",
+    "requires": "Fielder’s choice with the runner from third scoring safely on a throw home and no out on that runner.",
+    "source_text": "The one-one... Hard grounder to short. Gonzalez scoops it up. He'll throw home, and the throw is not in time, as Mary Hugh slides in safely under the tag."
+  },
+  {
+    "pool": "narrative_templates.Double Play.first_then_second",
+    "template": "Hard-hit bouncer to first. {fielder_name} steps on the bag and fires to second, and the runner is tagged out. That's a {dp_notation} double play.",
+    "episode": 5,
+    "line": 35,
+    "expected": "steps on the bag and fires to second",
+    "requires": "Double play with batter retired at first before an existing runner is tagged out at second; explicit 3-4/3-6 credits and runner out chronology.",
+    "source_text": "The pitch... That's a hard hit bouncer to first. Nakamura steps on the bag and fires to second, and Kramer will be tagged out at second. And that's a three-four double play."
+  },
+  {
+    "pool": "narrative_templates.Double Play.unassisted_force",
+    "template": "Grounder {direction}. {fielder_name} steps on the bag for one, over to first in time. That's a {dp_notation} double play {out_context_str}.",
+    "episode": 37,
+    "line": 54,
+    "expected": "steps on the bag for one, over to first in time",
+    "requires": "Double play with unassisted force at second before the throw to first, such as explicit 6-3 or 4-3 credits. Not the ordinary 6-4-3 relay.",
+    "source_text": "The pitch... Hard grounder to short, Nunez steps on the bag for one, over to first in time to get Piña. And that's a 6-3 double play."
+  },
+  {
+    "pool": "narrative_templates.Double Play.bunt_third_first",
+    "template": "Bunted in front of the plate. They get the lead runner at third, and the long throw to first is in time. That's a {dp_notation} double play {out_context_str}.",
+    "episode": 41,
+    "line": 235,
+    "expected": "long throw to first",
+    "requires": "Bunt double play forcing a runner at third and retiring the batter at first; source example explicitly scored 2-5-4. Requires isBunt and out bases third/first.",
+    "source_text": "The two-one pitch... Bunted in front of the plate. Santiago took third for one, long throw to first in time to retire Malone to end the inning."
+  },
+  {
+    "pool": "narrative_templates.Hit By Pitch.default",
+    "template": "And {batter_name} gets hit by the pitch, and he'll trot down to first.",
+    "episode": 37,
+    "line": 385,
+    "expected": "gets hit by the pitch, and he'll trot down to first",
+    "source_text": "The one-oh pitch... And that one grazes his shoulder. Nunez gets hit by the pitch, and he'll trot down to first."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_bases_loaded",
+    "template": "{pitcher_name} works his way out of a bases-loaded jam.",
+    "episode": 51,
+    "line": 151,
+    "expected": "works his way out of a bases-loaded jam",
+    "requires": "Scoreless half-inning that actually leaves three runners on base. Existing no_score_jam also handles one or two runners and needs a more specific gate.",
+    "source_text": "Beans Sorensen works his way out of a bases-loaded jam, and with two in the books, we are still scoreless here at Goodhue Field."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_bases_loaded",
+    "template": "{pitcher_name} gets out of a bases-loaded jam.",
+    "episode": 5,
+    "line": 97,
+    "expected": "gets out of a bases loaded jam",
+    "requires": "Scoreless half-inning that actually leaves three runners on base.",
+    "source_text": "Niedermeier gets out of a bases loaded jam, and we are still scoreless here in Cadillac. We'll be back with the bottom of the second in a moment. Here on the Northwoods Baseball radio network."
+  },
+  {
+    "pool": "radio_strings.inning_outro_scored_stranded",
+    "template": "{pitcher_name} prevents further damage in the {inning_ordinal} inning.",
+    "episode": 1,
+    "line": 148,
+    "expected": "prevents further damage in the",
+    "requires": "At least one run has scored in the completed half-inning, and the pitcher strands one or more runners.",
+    "source_text": "And Von Newman prevents further damage in the bottom of the second inning."
+  },
+  {
+    "pool": "radio_strings.inning_outro_scored_take_lead",
+    "template": "But the {batting_team_short} strike back, and they now lead {score_lead}.",
+    "episode": 5,
+    "line": 394,
+    "expected": "strike back, and they now lead",
+    "requires": "The team started the half trailing and finished ahead; ordinary scored/extend/first-scoring pools do not imply a comeback.",
+    "source_text": "But the Tomah Tigers strike back, and they now lead four to two. We'll be back with more baseball. Here on the Northwoods Baseball Radio Network."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_pair",
+    "template": "The {batting_team_short} strand a pair, and they do not score.",
+    "episode": 49,
+    "line": 73,
+    "expected": "strand a pair, and they do not score",
+    "requires": "Scoreless half-inning with exactly two runners left on base. Existing lob_str renders “two men left” and must not be inserted after “strand”.",
+    "source_text": "The Timbers strand a pair, and they do not score."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_second",
+    "template": "The {batting_team_short} strand a man on second, and they do not score.",
+    "episode": 29,
+    "line": 204,
+    "expected": "strand a man on second, and they do not score",
+    "requires": "Scoreless half-inning with exactly one runner left, on second base.",
+    "source_text": "The River Rats strand a man on second, and they do not score. And with three in the books, it remains Tigers 2, River Rats nothing."
+  },
+  {
+    "pool": "radio_strings.inning_outro_no_score_third",
+    "template": "The {batting_team_short} strand a man on third, and they do not score.",
+    "episode": 39,
+    "line": 314,
+    "expected": "strand a man on third, and they do not score",
+    "requires": "Scoreless half-inning with exactly one runner left, on third base.",
+    "source_text": "The Eagles strand a man on third, and they do not score, and after four and a half, it remains Eagles two, Bombers nothing."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_pitcher",
+    "template": "And that will bring up the pitcher, {batter_name}.",
+    "episode": 1,
+    "line": 108,
+    "expected": "bring up the pitcher",
+    "requires": "Current batter actually occupies the pitcher position, not merely the ninth lineup slot. Keep standard runner/outs summary separate.",
+    "source_text": "And that'll bring up the pitcher, Javier Von Newman."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_cleanup",
+    "template": "Here comes the cleanup hitter, {batter_name}.",
+    "episode": 1,
+    "line": 65,
+    "expected": "Here comes the cleanup hitter",
+    "requires": "Current batter is in lineup slot four.",
+    "source_text": "Here comes the cleanup hitter, Gilligan Parker."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_winning_run",
+    "template": "{batter_name} steps in, representing the winning run.",
+    "episode": 5,
+    "line": 412,
+    "expected": "the winning run",
+    "requires": "Home batting in its final scheduled inning or later, with batter’s run sufficient to end the game. Cannot infer from two outs or bases-cleared state alone.",
+    "source_text": "Bases cleared, game tied, and one out for Flipper Cortez, who represents the winning run."
+  },
+  {
+    "pool": "narrative_strings.batter_intro_winning_run_first",
+    "template": "Winning run at first for {batter_name}.",
+    "episode": 5,
+    "line": 420,
+    "expected": "Winning run at first for",
+    "requires": "Tied game in the home final half or extras and first-base runner can end the game by scoring; retain ordinary outs context.",
+    "source_text": "One out. Winning run at first for Giovanni Gasparro."
+  },
+  {
+    "pool": "narrative_strings.inning_end_123_relief",
+    "template": "And that's a one-two-three inning for {pitcher_name} in relief.",
+    "episode": 49,
+    "line": 438,
+    "expected": "that's a one-two-three inning for",
+    "requires": "Three-up, three-down inning by a reliever, with a documented earlier starting pitcher.",
+    "source_text": "And that's a one-two-three inning for Stanley Guerra in relief, and with eight in the books, it remains Tigers 5, Timbers nothing."
+  },
+  {
+    "pool": "radio_strings.inning_break_mid_outro",
+    "template": "And we'll be back with the bottom of the {inning_ordinal} in a moment, here on {network_name}.",
+    "episode": 5,
+    "line": 40,
+    "expected": "we'll be back with the bottom of the",
+    "requires": "Top-to-bottom transition only. This is currently a hardcoded mid_closers list, so wire a pool using the existing inning_ordinal for the inning about to resume.",
+    "source_text": "No score here at Foghorn Field in Cadillac. And we'll be back with the bottom of the first in a moment. Here on the Northwoods Baseball radio network."
+  },
+  {
+    "pool": "radio_strings.inning_break_mid_outro",
+    "template": "We'll be back with the bottom half of the {inning_ordinal} inning in a few moments.",
+    "episode": 1,
+    "line": 114,
+    "expected": "bottom half of the",
+    "requires": "Top-to-bottom transition only. Uses the current inning_ordinal, not next_inning_ordinal.",
+    "source_text": "Malone works himself into and out of a pickle, but the Big Rapids Timbers tie the game at one, leaving two men on, and we'll be back with the bottom half of the second in a few moments."
+  },
+  {
+    "pool": "radio_strings.inning_break_mid_outro",
+    "template": "We'll be back with the bottom half of the {inning_ordinal} inning. Here on {network_name}.",
+    "episode": 1,
+    "line": 311,
+    "expected": "We'll be back with the bottom half of the",
+    "requires": "Top-to-bottom transition only, replacing the hardcoded mid_closers selection.",
+    "source_text": "We'll be back with the bottom half of the fifth inning. It's Cadillac six, Big Rapids two. On the Northwoods Baseball Radio Network."
+  }
+]

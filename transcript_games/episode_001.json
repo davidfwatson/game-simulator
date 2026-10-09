@@ -1,0 +1,3297 @@
+{
+  "episode": 1,
+  "source_file": "episode_001.txt",
+  "complete": false,
+  "ending_reason": "Broadcast fades during Ferguson plate appearance in top9,1out,BigRapids4Cadillac6. Top8 was never broadcast.",
+  "game": {
+    "away": "Big Rapids Timbers",
+    "home": "Cadillac Cars",
+    "venue": "Foghorn Field",
+    "away_manager": "Earl Gulcher",
+    "home_manager": "Bud Powell",
+    "away_lineup": [
+      {
+        "name": "Jesus Ferguson",
+        "position": "2B"
+      },
+      {
+        "name": "Keith Castor",
+        "position": "1B",
+        "bat_side": "L"
+      },
+      {
+        "name": "Randy Chang",
+        "position": "RF"
+      },
+      {
+        "name": "Blink Rudderson",
+        "position": "3B"
+      },
+      {
+        "name": "Rio Nunez",
+        "position": "SS"
+      },
+      {
+        "name": "Henny Oldman",
+        "position": "C"
+      },
+      {
+        "name": "Brink Filbert",
+        "position": "LF"
+      },
+      {
+        "name": "Dutch Moon",
+        "position": "CF"
+      },
+      {
+        "name": "Javier Von Newman",
+        "position": "P"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Flipper Cortez",
+        "position": "2B"
+      },
+      {
+        "name": "Philip Nakamura",
+        "position": "1B"
+      },
+      {
+        "name": "Shiny Patterson",
+        "position": "3B"
+      },
+      {
+        "name": "Gilligan Parker",
+        "position": "LF"
+      },
+      {
+        "name": "Pinky Slauson",
+        "position": "SS"
+      },
+      {
+        "name": "Gabriel Palomar",
+        "position": "RF"
+      },
+      {
+        "name": "Giovanni Gasparro",
+        "position": "C"
+      },
+      {
+        "name": "Fritz Ortega",
+        "position": "CF"
+      },
+      {
+        "name": "Blinky Malone",
+        "position": "P"
+      }
+    ],
+    "away_pitcher": "Javier Von Newman",
+    "home_pitcher": "Blinky Malone"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "source_start": 24,
+      "source_end": 33,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Flyout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Splitter",
+          "line": 25,
+          "location": "outside_corner"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 29
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 30,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 31
+        }
+      ],
+      "hit": {
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "source_start": 34,
+      "source_end": 37,
+      "batter": "Keith Castor",
+      "pitcher": "Blinky Malone",
+      "outcome": "Pop Out",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Screwball",
+          "line": 34,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 35,
+          "location": "middle"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 36,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 37
+        }
+      ],
+      "hit": {
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "source_start": 39,
+      "source_end": 44,
+      "batter": "Randy Chang",
+      "pitcher": "Blinky Malone",
+      "outcome": "Flyout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 40,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 41,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 42,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 43
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 44
+        }
+      ],
+      "hit": {
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "source_start": 50,
+      "source_end": 55,
+      "batter": "Flipper Cortez",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Groundout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 51,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 53,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 54
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 55
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "source_start": 56,
+      "source_end": 58,
+      "batter": "Philip Nakamura",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Home Run",
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 57
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      }
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "source_start": 59,
+      "source_end": 64,
+      "batter": "Shiny Patterson",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Strikeout",
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 60
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 61,
+          "location": "inside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 62
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 63
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 64
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "source_start": 65,
+      "source_end": 67,
+      "batter": "Gilligan Parker",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Lineout",
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 66
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 67
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ],
+      "notes": "Hard-hit ball right to first baseman; no bounce mentioned."
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 72,
+      "source_end": 74,
+      "batter": "Blink Rudderson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 73,
+          "location": "middle"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 74
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      }
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 75,
+      "source_end": 83,
+      "batter": "Rio Nunez",
+      "pitcher": "Blinky Malone",
+      "outcome": "Walk",
+      "outs": 0,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 76
+        },
+        {
+          "code": "A",
+          "line": 77,
+          "eventType": "pickoff_attempt",
+          "description": "Blinky Malone throws to first; the runner returns safely.",
+          "runners": [
+            {
+              "name": "Blink Rudderson",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 78,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 80,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 82
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 83,
+          "location": "outside"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 84,
+      "source_end": 93,
+      "batter": "Henny Oldman",
+      "pitcher": "Blinky Malone",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 85,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 87,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 91
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 92
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blink Rudderson",
+          "start": "2B",
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Rio Nunez",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 94,
+      "source_end": 100,
+      "batter": "Brink Filbert",
+      "pitcher": "Blinky Malone",
+      "outcome": "Pop Out",
+      "outs": 1,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 95
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 97,
+          "location": "dirt"
+        },
+        {
+          "code": "A",
+          "line": 97,
+          "eventType": "wild_pitch",
+          "description": "Wild pitch; both runners advance ninety feet.",
+          "runners": [
+            {
+              "name": "Rio Nunez",
+              "start": "2B",
+              "end": "3B",
+              "out": false
+            },
+            {
+              "name": "Henny Oldman",
+              "start": "1B",
+              "end": "2B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 99,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 100
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rio Nunez",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        },
+        {
+          "name": "Henny Oldman",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "notes": "Wild pitch at line97 advances both runners; pop caught by unidentified infielder."
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 101,
+      "source_end": 107,
+      "batter": "Dutch Moon",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "outs": 2,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 102,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 104
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 106
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 107
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 108,
+      "source_end": 113,
+      "batter": "Javier Von Newman",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "outs": 3,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 109
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 111
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 112,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 113
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 117,
+      "source_end": 122,
+      "batter": "Pinky Slauson",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Walk",
+      "outs": 0,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 118,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 119,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 121,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 122
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 123,
+      "source_end": 130,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Double",
+      "outs": 0,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 125,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 126
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 127
+        },
+        {
+          "code": "A",
+          "line": 128,
+          "eventType": "pickoff_attempt",
+          "description": "Javier Von Newman throws to first; the runner returns safely.",
+          "runners": [
+            {
+              "name": "Pinky Slauson",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 129
+        }
+      ],
+      "hit": {
+        "location": "CF"
+      },
+      "fielders": [
+        {
+          "name": "Dutch Moon",
+          "position": "CF"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": "1B",
+          "end": "3B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 131,
+      "source_end": 131,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Flyout",
+      "outs": 1,
+      "score": [
+        1,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 131
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dutch Moon",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 132,
+      "source_end": 135,
+      "batter": "Fritz Ortega",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Triple",
+      "outs": 1,
+      "score": [
+        1,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 133
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 134,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 135
+        }
+      ],
+      "hit": {
+        "location": "RF"
+      },
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Gabriel Palomar",
+          "start": "2B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 136,
+      "source_end": 139,
+      "batter": "Blinky Malone",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Single",
+      "outs": 1,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 137,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 138
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 139
+        }
+      ],
+      "hit": {
+        "location": "CF"
+      },
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 140,
+      "source_end": 145,
+      "batter": "Flipper Cortez",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Lineout",
+      "outs": 2,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 141,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 143
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 144
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 145
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Randy Chang",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 146,
+      "source_end": 147,
+      "batter": "Philip Nakamura",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 147
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 152,
+      "source_end": 158,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 153,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 154,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 155
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 156,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 157
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 158
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 159,
+      "source_end": 165,
+      "batter": "Keith Castor",
+      "pitcher": "Blinky Malone",
+      "outcome": "Lineout",
+      "outs": 1,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "A",
+          "line": 160,
+          "eventType": "pickoff_attempt",
+          "description": "Blinky Malone throws to first; the runner returns safely.",
+          "runners": [
+            {
+              "name": "Jesus Ferguson",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 161
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 162,
+          "location": "high"
+        },
+        {
+          "code": "A",
+          "line": 163,
+          "eventType": "pickoff_attempt",
+          "description": "Blinky Malone throws to first; the runner returns safely.",
+          "runners": [
+            {
+              "name": "Jesus Ferguson",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 164,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 165
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 166,
+      "source_end": 172,
+      "batter": "Randy Chang",
+      "pitcher": "Blinky Malone",
+      "outcome": "Walk",
+      "outs": 1,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 167,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 168,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Breaking Ball",
+          "line": 169,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 170
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 172
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 173,
+      "source_end": 178,
+      "batter": "Blink Rudderson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Flyout",
+      "outs": 2,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 174,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 176
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 177
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 178
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jesus Ferguson",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 178,
+      "source_end": 185,
+      "batter": "Rio Nunez",
+      "pitcher": "Blinky Malone",
+      "outcome": "Walk",
+      "outs": 2,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 180
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 181,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 182,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 183,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 184
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 185
+        }
+      ],
+      "notes": "Line184 calls the hitter Rudderson, although Nunez is the active batter from178-179."
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 187,
+      "source_end": 188,
+      "batter": "Henny Oldman",
+      "pitcher": "Blinky Malone",
+      "outcome": "Flyout",
+      "outs": 3,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 188
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 193,
+      "source_end": 196,
+      "batter": "Shiny Patterson",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Groundout",
+      "outs": 1,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 194,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 195,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 196
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blink Rudderson",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 197,
+      "source_end": 201,
+      "batter": "Gilligan Parker",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Double",
+      "outs": 1,
+      "score": [
+        1,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 198,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 199
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 201
+        }
+      ],
+      "hit": {
+        "location": "CF"
+      },
+      "fielders": [
+        {
+          "name": "Dutch Moon",
+          "position": "CF"
+        }
+      ],
+      "notes": "Ground-rule double; no runner advancement beyond second."
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 202,
+      "source_end": 203,
+      "batter": "Pinky Slauson",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Double",
+      "outs": 1,
+      "score": [
+        1,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 203
+        }
+      ],
+      "hit": {
+        "location": "RF"
+      },
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": "2B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 204,
+      "source_end": 209,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Lineout",
+      "outs": 2,
+      "score": [
+        1,
+        5
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 205,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 206,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 207,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 208
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 209
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 213,
+      "source_end": 215,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Single",
+      "outs": 2,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 214
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 215
+        }
+      ],
+      "hit": {
+        "location": "LF"
+      },
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": "2B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 215,
+      "source_end": 220,
+      "batter": "Fritz Ortega",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Flyout",
+      "outs": 3,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 217
+        },
+        {
+          "code": "C",
+          "type": "Changeup",
+          "line": 218,
+          "location": "middle"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 220
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brink Filbert",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "source_start": 224,
+      "source_end": 229,
+      "batter": "Henny Oldman",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 225
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 226,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 227
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 228,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 229
+        }
+      ],
+      "notes": "Broadcast names Oldman again despite him making the final out of top3. Preserve the spoken batting-order anomaly."
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "source_start": 230,
+      "source_end": 231,
+      "batter": "Brink Filbert",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 231
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "source_start": 233,
+      "source_end": 238,
+      "batter": "Dutch Moon",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "outs": 3,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 234
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 235,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 236
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 237,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 238
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "source_start": 242,
+      "source_end": 250,
+      "batter": "Blinky Malone",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Walk",
+      "outs": 0,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 243
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 244
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 245
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 246,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 247
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 248
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 249,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 250,
+          "location": "low"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "source_start": 251,
+      "source_end": 254,
+      "batter": "Flipper Cortez",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Forceout",
+      "outs": 1,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 252
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 254
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "tag"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blinky Malone",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Flipper Cortez",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "source_start": 255,
+      "source_end": 258,
+      "batter": "Philip Nakamura",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Double Play",
+      "outs": 3,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 256
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 257,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 258
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Rio Nunez",
+          "position": "SS"
+        },
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Flipper Cortez",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Philip Nakamura",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 262,
+      "source_end": 264,
+      "batter": "Javier Von Newman",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "outs": 1,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 263,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 264
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blinky Malone",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 266,
+      "source_end": 271,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "outs": 2,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 266,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 267
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 268,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 270,
+          "location": "corner"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 271
+        }
+      ],
+      "notes": "Line271 says wild wave and called strike; swinging motion establishes a swinging strike."
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 272,
+      "source_end": 274,
+      "batter": "Keith Castor",
+      "pitcher": "Blinky Malone",
+      "outcome": "Single",
+      "outs": 2,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 273
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 274
+        }
+      ],
+      "hit": {
+        "location": "LF"
+      }
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 274,
+      "source_end": 284,
+      "batter": "Randy Chang",
+      "pitcher": "Blinky Malone",
+      "outcome": "Walk",
+      "outs": 2,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 276,
+          "location": "inside"
+        },
+        {
+          "code": "A",
+          "line": 277,
+          "eventType": "pickoff_attempt",
+          "description": "Blinky Malone throws to first; the runner returns safely.",
+          "runners": [
+            {
+              "name": "Keith Castor",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "Sinker",
+          "line": 278,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 282
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 284,
+          "location": "dirt"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 284,
+      "source_end": 291,
+      "batter": "Blink Rudderson",
+      "pitcher": "Blinky Malone",
+      "outcome": "Walk",
+      "outs": 2,
+      "score": [
+        1,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 285,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 287,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 288,
+          "location": "middle"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 289,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 290,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 291,
+          "location": "outside"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 292,
+      "source_end": 300,
+      "batter": "Rio Nunez",
+      "pitcher": "Blinky Malone",
+      "outcome": "Walk",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 293,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 294,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 296,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 297
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 298
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 299
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 300,
+          "location": "outside"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 301,
+      "source_end": 310,
+      "batter": "Henny Oldman",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "outs": 3,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 302,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 305
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 306
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 308,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 309
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 310
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "source_start": 314,
+      "source_end": 317,
+      "batter": "Shiny Patterson",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 315
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 316
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 317
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "source_start": 318,
+      "source_end": 321,
+      "batter": "Gilligan Parker",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 319,
+          "location": "middle"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 320,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 321
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ],
+      "notes": "Described as a line drive but first baseman scoops it and steps on bag; coded groundout based on completed play."
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "source_start": 322,
+      "source_end": 327,
+      "batter": "Pinky Slauson",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Single",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 324
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 325,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 327,
+          "isBunt": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "bunt"
+      }
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "source_start": 328,
+      "source_end": 333,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Incomplete",
+      "outs": 3,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "A",
+          "line": 330,
+          "eventType": "pickoff_attempt",
+          "description": "Javier Von Newman throws to first; the runner returns safely.",
+          "runners": [
+            {
+              "name": "Pinky Slauson",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 331,
+          "location": "middle"
+        },
+        {
+          "code": "A",
+          "line": 332,
+          "eventType": "pickoff_attempt",
+          "description": "Javier Von Newman throws to first; the runner returns safely.",
+          "runners": [
+            {
+              "name": "Pinky Slauson",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 333,
+          "location": "low"
+        },
+        {
+          "code": "A",
+          "line": 333,
+          "eventType": "caught_stealing",
+          "description": "Caught Stealing 2B",
+          "runners": [
+            {
+              "name": "Pinky Slauson",
+              "start": "1B",
+              "end": "2B",
+              "out": true
+            }
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ],
+      "notes": "Palomar does not finish plate appearance: Slauson caught stealing ends inning."
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "source_start": 338,
+      "source_end": 341,
+      "batter": "Brink Filbert",
+      "pitcher": "Blinky Malone",
+      "outcome": "Groundout",
+      "outs": 1,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 339
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 340
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 341
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        }
+      ],
+      "notes": "Source names Cortez but calls play6-3; preserve named second baseman."
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "source_start": 342,
+      "source_end": 346,
+      "batter": "Dutch Moon",
+      "pitcher": "Blinky Malone",
+      "outcome": "Strikeout",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 343
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 344,
+          "location": "high_outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 345
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 346
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "source_start": 347,
+      "source_end": 353,
+      "batter": "Javier Von Newman",
+      "pitcher": "Blinky Malone",
+      "outcome": "Flyout",
+      "outs": 3,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 348
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 349,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 350
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 351
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 352,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 353
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 357,
+      "source_end": 358,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 358,
+          "isBunt": true
+        }
+      ],
+      "hit": {
+        "trajectory": "bunt"
+      },
+      "notes": "Bunt direction/fielder unannounced; safe first only. Source calls this second single although previous base hits were narrated."
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 359,
+      "source_end": 362,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Double",
+      "outs": 0,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 360,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 361
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 362
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": "1B",
+          "end": "3B",
+          "out": false
+        }
+      ],
+      "notes": "Line362 says play at plate but following line explicitly second and third and no score change; safe at second."
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 363,
+      "source_end": 365,
+      "batter": "Fritz Ortega",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Pop Out",
+      "outs": 1,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 364,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 365
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Jesus Ferguson",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 366,
+      "source_end": 367,
+      "batter": "Eddie Kincaid",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Intentional Walk",
+      "outs": 1,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": []
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 367,
+      "source_end": 370,
+      "batter": "Flipper Cortez",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Pop Out",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 368
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 369,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 370
+        }
+      ],
+      "hit": {
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 371,
+      "source_end": 373,
+      "batter": "Philip Nakamura",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Lineout",
+      "outs": 3,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 372,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 373
+        }
+      ],
+      "hit": {
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "source_start": 377,
+      "source_end": 379,
+      "batter": "Javier Von Newman",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Flyout",
+      "outs": 1,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 379
+        }
+      ],
+      "hit": {
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gilligan Parker",
+          "position": "LF"
+        }
+      ],
+      "notes": "Broadcast repeats Von Newman after he made finaloutof6th; preserve announced appearance."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "source_start": 380,
+      "source_end": 383,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 381,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 382
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 383
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "source_start": 384,
+      "source_end": 389,
+      "batter": "Keith Castor",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Strikeout",
+      "outs": 3,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 385
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 387
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 388,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 389
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 393,
+      "source_end": 399,
+      "batter": "Shiny Patterson",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Walk",
+      "outs": 0,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 394
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 395,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 396
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 397,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 398,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 399,
+          "location": "outside"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 399,
+      "source_end": 403,
+      "batter": "Gilligan Parker",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 400
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 401
+        },
+        {
+          "code": "A",
+          "line": 402,
+          "eventType": "pickoff_attempt",
+          "description": "Javier Von Newman throws to first; the runner returns safely.",
+          "runners": [
+            {
+              "name": "Shiny Patterson",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 403
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 404,
+      "source_end": 407,
+      "batter": "Pinky Slauson",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 405
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 406
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 407
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Keith Castor",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shiny Patterson",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 408,
+      "source_end": 413,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Javier Von Newman",
+      "outcome": "Walk",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 409,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 410,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 411,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 412,
+          "location": "outside"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 417,
+      "source_end": 423,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Belden Inohosa",
+      "outcome": "Strikeout",
+      "outs": 3,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Breaking Ball",
+          "line": 418,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 419,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 420
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 421
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 422
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 423
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "source_start": 426,
+      "source_end": 429,
+      "batter": "Fritz Ortega",
+      "pitcher": "Belden Inohosa",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 427
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 428
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 429
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "source_start": 430,
+      "source_end": 435,
+      "batter": "Nigel Hickson",
+      "pitcher": "Belden Inohosa",
+      "outcome": "Strikeout",
+      "outs": 2,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "Curveball",
+          "line": 431
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 432,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 433
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 434
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 435
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "source_start": 436,
+      "source_end": 440,
+      "batter": "Flipper Cortez",
+      "pitcher": "Belden Inohosa",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 437
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 438
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 439,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 440
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Belden Inohosa",
+          "position": "P"
+        }
+      ],
+      "notes": "Line440 names current reliever Inohosa fielding the ball on the right side; no mound-directed batted-ball location is stated."
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 443,
+      "source_end": 448,
+      "batter": "Brink Filbert",
+      "pitcher": "Burgess Hepburn",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        2,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 445
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 446,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 447,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 448
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        }
+      ],
+      "notes": "Source calls first baseman Castor, but Cadillac fields Nakamura. Narrator explicitly rules a single despite throw pulling him off bag."
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 449,
+      "source_end": 450,
+      "batter": "Dutch Moon",
+      "pitcher": "Burgess Hepburn",
+      "outcome": "Home Run",
+      "outs": 0,
+      "score": [
+        4,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 450
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      }
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 451,
+      "source_end": 454,
+      "batter": "Royce Babcock",
+      "pitcher": "Burgess Hepburn",
+      "outcome": "Pop Out",
+      "outs": 1,
+      "score": [
+        4,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 452,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 453,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 454
+        }
+      ],
+      "hit": {
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 455,
+      "source_end": 458,
+      "batter": "Jesus Ferguson",
+      "pitcher": "Burgess Hepburn",
+      "outcome": "Incomplete",
+      "outs": 1,
+      "score": [
+        4,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 457
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 458,
+          "location": "outside"
+        }
+      ],
+      "notes": "Audio fades midcount; final spoken word two is not a complete count. Only observed calledstrike andball recorded."
+    }
+  ],
+  "gaps": [
+    {
+      "start": 424,
+      "end": 426,
+      "reason": "Broadcast jumps directly from bottom7 to bottom8. No top8 play-by-play exists."
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "episode": "episode_013.txt",
+  "cases": [
+    {
+      "id": "off_outside_corner",
+      "source_line": 45,
+      "source_text": "The two-one pitch... Curveball off the outside corner. Three and one.",
+      "expected": "off the outside corner",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_outside",
+      "template": "off the outside corner",
+      "inputs": {
+        "event_type": "B",
+        "zone": 14,
+        "pitch_type_simple": "Curveball",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "left_field_line_into_stands",
+      "source_line": 39,
+      "source_text": "The one-one pitch... Fouled down the left field line and into the stands. One and two.",
+      "expected": "Fouled down the left field line and into the stands.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "fouled down the left field line and into the stands",
+      "inputs": {}
+    },
+    {
+      "id": "bounced_off_plate_single",
+      "source_line": 52,
+      "source_text": "The one-one pitch... Bounced off the plate to short. Nunez will not get there, and that's a two-out single for Ted Brown.",
+      "expected": "Bounced off the plate to short. Nunez will not get there",
+      "kind": "play_description",
+      "pool": "narrative_templates.Single.grounder",
+      "template": "Bounced off the plate {direction}. {fielder_name} will not get there.",
+      "inputs": {
+        "outcome": "Single",
+        "hit_data": {
+          "categoryOverride": "grounder",
+          "location": "SS"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Ted Brown",
+        "result_outs": null,
+        "fielder_pos": "SS",
+        "fielder_name": "Nunez"
+      }
+    },
+    {
+      "id": "pitcher_chopper_retirement",
+      "source_line": 155,
+      "source_text": "The one-one pitch... Chopper back to the mound. Malone picks it up and tosses to first to retire Diaz.",
+      "expected": "Chopper back to the mound. Malone picks it up and tosses to first to retire Diaz.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.pitcher_groundout",
+      "template": "Chopper back to the mound. {fielder_name} picks it up and tosses to first to retire {batter_name}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "pitcher_groundout",
+          "location": "P"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Diaz",
+        "result_outs": 2,
+        "fielder_pos": "P",
+        "fielder_name": "Malone"
+      }
+    }
+  ]
+}

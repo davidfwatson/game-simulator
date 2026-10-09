@@ -23,6 +23,8 @@ class BaseballSimulator:
         self.team2_name = self.team2_data["name"]
         self.max_innings = max_innings
         self.game_rng = random.Random(game_seed)
+        self.commentary_seed = (game_seed if game_seed is not None
+                                else random.SystemRandom().randrange(2 ** 63))
 
         # Setup lineups and pitchers
         self.team1_lineup = [p for p in self.team1_data["players"] if p['position']['abbreviation'] != 'P']
@@ -140,6 +142,7 @@ class BaseballSimulator:
         """Sets up the initial structure for Gameday JSON output."""
         self.gameday_data = {
             "gameData": {
+                "commentarySeed": self.commentary_seed,
                 "datetime": {
                     "dateTime": self.game_start_time.isoformat(),
                     "originalDate": "2025-09-27",
@@ -156,6 +159,8 @@ class BaseballSimulator:
                         "teamName": self.team2_data["teamName"],
                         "locationName": self.team2_data.get("locationName", ""),
                         "state": self.team2_data.get("state", ""),
+                        **{key: self.team2_data[key] for key in ("spokenLocation", "spokenLocationWithState")
+                           if key in self.team2_data},
                     },
                     "home": {
                         "id": self.team1_data["id"],
@@ -164,6 +169,8 @@ class BaseballSimulator:
                         "teamName": self.team1_data["teamName"],
                         "locationName": self.team1_data.get("locationName", ""),
                         "state": self.team1_data.get("state", ""),
+                        **{key: self.team1_data[key] for key in ("spokenLocation", "spokenLocationWithState")
+                           if key in self.team1_data},
                     }
                 }
             },
@@ -1617,29 +1624,34 @@ if __name__ == "__main__":
         game.play_game()
         gameday_data = game.gameday_data
 
-        # 2. Output Gameday JSON
-        class DateTimeEncoder(json.JSONEncoder):
-            def default(self, obj):
-                if isinstance(obj, datetime): return obj.isoformat()
-                return super().default(obj)
+    # Persist overrides before exporting so JSON replays the same wording.
+    commentary_seed = (args.commentary_seed if args.commentary_seed is not None
+                       else args.game_seed)
+    if commentary_seed is not None:
+        gameday_data['gameData']['commentarySeed'] = commentary_seed
 
-        gameday_json = json.dumps(gameday_data, indent=2, cls=DateTimeEncoder)
-        if args.gameday_outfile:
-            with open(args.gameday_outfile, 'w') as f:
-                f.write(gameday_json)
-        elif args.commentary == 'gameday':
-            print(gameday_json)
+    # 2. Output Gameday JSON
+    class DateTimeEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, datetime): return obj.isoformat()
+            return super().default(obj)
+
+    gameday_json = json.dumps(gameday_data, indent=2, cls=DateTimeEncoder)
+    if args.gameday_outfile:
+        with open(args.gameday_outfile, 'w') as f:
+            f.write(gameday_json)
+    elif args.commentary == 'gameday':
+        print(gameday_json)
 
     # 3. Output Commentary (PBP or Statcast)
     output_text = ""
     if args.commentary != 'gameday':
-        commentary_seed = args.commentary_seed if args.commentary_seed else args.game_seed # Fallback
-
         if args.commentary == 'narrative' or args.commentary == 'combo':
-            renderer = NarrativeRenderer(gameday_data, seed=commentary_seed, verbose=not args.terse)
+            renderer = NarrativeRenderer(gameday_data, verbose=not args.terse,
+                                         use_bracketed_ui=args.bracketed_ui)
             output_text = renderer.render()
         elif args.commentary == 'statcast':
-            renderer = StatcastRenderer(gameday_data, seed=commentary_seed)
+            renderer = StatcastRenderer(gameday_data)
             output_text = renderer.render()
 
         if args.pbp_outfile:

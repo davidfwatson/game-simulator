@@ -1,0 +1,3586 @@
+{
+  "episode": 39,
+  "source_file": "episode_039.txt",
+  "complete": true,
+  "game": {
+    "away": "Manistee Eagles",
+    "home": "Baraboo Bombers",
+    "venue": "Evermore Park",
+    "away_lineup": [
+      {
+        "name": "Billy Joe Rickson",
+        "position": "RF",
+        "bat_side": "S"
+      },
+      {
+        "name": "Tito McCaskill",
+        "position": "SS",
+        "bat_side": "S"
+      },
+      {
+        "name": "Gian Haggerty",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Lincoln Smathers",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Mickey Navarro",
+        "position": "LF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Rodrigo Mary Hugh",
+        "position": "2B",
+        "bat_side": "L"
+      },
+      {
+        "name": "Ali Nunez",
+        "position": "3B",
+        "bat_side": "R"
+      },
+      {
+        "name": "J.B. Gantry",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Billy the Borough Brello",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Bugs Yamaguchi",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Blaze Winterbottom",
+        "position": "2B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Joe Bill Silver",
+        "position": "LF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Buddy Lamont",
+        "position": "RF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Manny Del Greco",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Buzz Norton",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Dieter Gomez",
+        "position": "3B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Tiny Howl",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Edgar Whitehouse",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "away_pitcher": "Billy the Borough Brello",
+    "home_pitcher": "Edgar Whitehouse"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 46,
+      "source_end": 52,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 48
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 49
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 50,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 51,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 52
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 53,
+      "source_end": 58,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 56
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 57,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 58
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Edgar Whitehouse",
+          "position": "P"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Gian Haggerty",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 59,
+      "source_end": 61,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 60
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 61
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 62,
+      "source_end": 70,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 65,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 66,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 67
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 68
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 69,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 70,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": "1B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "start": "1B",
+          "end": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Mickey Navarro",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 71,
+      "source_end": 74,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 72
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 73
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 74
+        }
+      ],
+      "runners": [
+        {
+          "name": "Mickey Navarro",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 80,
+      "source_end": 82,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 82
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ali Nunez",
+          "position": "3B"
+        },
+        {
+          "name": "Billy the Borough Brello",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 83,
+      "source_end": 89,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 85,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Offspeed",
+          "line": 86,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 87
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 88
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 89
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 90,
+      "source_end": 96,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 92
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 93,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 94,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 95,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 96,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joe Bill Silver",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Buddy Lamont",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 97,
+      "source_end": 104,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 100,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 101,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 102
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 103
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 104
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joe Bill Silver",
+          "start": "1B",
+          "end": "3B"
+        },
+        {
+          "name": "Buddy Lamont",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      }
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Manny Del Greco",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 105,
+      "source_end": 110,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 107
+        },
+        {
+          "code": "B",
+          "type": "Offspeed",
+          "line": 108,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 109
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 110
+        }
+      ],
+      "runners": [
+        {
+          "name": "Manny Del Greco",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Rodrigo Mary Hugh",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 117,
+      "source_end": 120,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 119,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 120
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Ali Nunez",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 121,
+      "source_end": 126,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 123,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 124
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 125
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 126
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "J.B. Gantry",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 127,
+      "source_end": 133,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 129,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 130
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 131,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 132
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      },
+      "notes": "Gantry is explicitly credited with a single at line 133. Line 134 subsequently places the runner on third without describing an advance; preserve the observed single and flag the unbroadcast discrepancy."
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Billy the Borough Brello",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 134,
+      "source_end": 140,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 137,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 138
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 139,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 140
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy the Borough Brello",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Buzz Norton",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 147,
+      "source_end": 150,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 149
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 150
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Dieter Gomez",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 151,
+      "source_end": 153,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 153
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dieter Gomez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ali Nunez",
+          "position": "3B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Tiny Howl",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 154,
+      "source_end": 160,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 156
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 157
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 158,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 159,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 160
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tiny Howl",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Triple",
+      "source_start": 165,
+      "source_end": 173,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 167
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 168,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 169
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 170,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 171
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": "3B"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Buddy Lamont",
+          "position": "RF"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 174,
+      "source_end": 180,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 177,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 178,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 179
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "deep"
+      },
+      "fielders": [
+        {
+          "name": "Buddy Lamont",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Gian Haggerty",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Home Run",
+      "source_start": 181,
+      "source_end": 187,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 183
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 184,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 185,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 186
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": "3B",
+          "end": "score"
+        },
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Buddy Lamont",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 188,
+      "source_end": 192,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 189,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 190
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 191
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 192
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Mickey Navarro",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 193,
+      "source_end": 197,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 195
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 196
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 197
+        }
+      ],
+      "runners": [
+        {
+          "name": "Mickey Navarro",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      },
+      "fielders": [
+        {
+          "name": "Buddy Lamont",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Rodrigo Mary Hugh",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 198,
+      "source_end": 202,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 200,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 201
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 202
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Edgar Whitehouse",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 209,
+      "source_end": 214,
+      "outs": 0,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 211
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 212,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 213
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 214
+        }
+      ],
+      "runners": [
+        {
+          "name": "Edgar Whitehouse",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 215,
+      "source_end": 221,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 218,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 219,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 220
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 221
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 222,
+      "source_end": 228,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 224
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 225,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 226
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 227
+        },
+        {
+          "code": "S",
+          "type": "Breaking Ball",
+          "line": 228
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 229,
+      "source_end": 234,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 231
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 232
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 233,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 234
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joe Bill Silver",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Ali Nunez",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 239,
+      "source_end": 246,
+      "outs": 0,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 241,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 242
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 243,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 244
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 245,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 246,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "J.B. Gantry",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Lineout",
+      "source_start": 247,
+      "source_end": 251,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 250
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 251
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Billy the Borough Brello",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Sacrifice Bunt",
+      "source_start": 252,
+      "source_end": 254,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 254,
+          "isBunt": true
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy the Borough Brello",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Ali Nunez",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "bunt"
+      },
+      "fielders": [
+        {
+          "name": "Edgar Whitehouse",
+          "position": "P"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 255,
+      "source_end": 261,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 257,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 258,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 259
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 260,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 261,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 262,
+      "source_end": 266,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 265
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 266
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Buddy Lamont",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Home Run",
+      "source_start": 272,
+      "source_end": 278,
+      "outs": 0,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 274,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 275,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 276
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buddy Lamont",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      }
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Manny Del Greco",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 279,
+      "source_end": 282,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 281
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 282
+        }
+      ],
+      "runners": [
+        {
+          "name": "Manny Del Greco",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Lincoln Smathers",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Buzz Norton",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 283,
+      "source_end": 284,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 284
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tito McCaskill",
+          "position": "SS"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Dieter Gomez",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 285,
+      "source_end": 288,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 286
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 287
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 288
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dieter Gomez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Gian Haggerty",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Double",
+      "source_start": 294,
+      "source_end": 297,
+      "outs": 0,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 296
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Edgar Whitehouse",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 298,
+      "source_end": 305,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 301
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 302
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 303,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 304
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Gian Haggerty",
+          "start": "2B",
+          "end": "3B"
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Mickey Navarro",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 306,
+      "source_end": 308,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 308
+        }
+      ],
+      "runners": [
+        {
+          "name": "Mickey Navarro",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Rodrigo Mary Hugh",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 309,
+      "source_end": 313,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 311
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 312
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 313
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "notes": "Line 314 says Bombers nothing, contradicting the Lamont home run and the two-to-one score stated at lines 310 and 318. Retain the observed two-to-one score."
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Tiny Howl",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 320,
+      "source_end": 324,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 322,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 323,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 324
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tiny Howl",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "J.B. Gantry",
+          "position": "C"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Edgar Whitehouse",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 325,
+      "source_end": 329,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 327
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 328
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 329
+        }
+      ],
+      "runners": [
+        {
+          "name": "Edgar Whitehouse",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 330,
+      "source_end": 336,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 332,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 333,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 334,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 335,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 336,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 337,
+      "source_end": 344,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "A",
+          "line": 340,
+          "eventType": "stolen_base",
+          "description": "Bugs Yamaguchi steals second base.",
+          "runners": [
+            {
+              "name": "Bugs Yamaguchi",
+              "start": "1B",
+              "end": "2B"
+            }
+          ]
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 341
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 342
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 343,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 344
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Bugs Yamaguchi",
+          "start": "1B",
+          "end": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Ali Nunez",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 350,
+      "source_end": 352,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 352
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "J.B. Gantry",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 353,
+      "source_end": 360,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 355,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 356,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 357
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 358
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 359,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 360
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Billy the Borough Brello",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 361,
+      "source_end": 364,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 362
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 363,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 364
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy the Borough Brello",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 369,
+      "source_end": 373,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 371
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 372,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 373
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joe Bill Silver",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tito McCaskill",
+          "position": "SS"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Buddy Lamont",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 374,
+      "source_end": 377,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 376,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 377
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buddy Lamont",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Manny Del Greco",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 378,
+      "source_end": 381,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 380
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 381
+        }
+      ],
+      "runners": [
+        {
+          "name": "Manny Del Greco",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Mickey Navarro",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 387,
+      "source_end": 393,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 389,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 390
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 391
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 392
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Tito McCaskill",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 394,
+      "source_end": 398,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 396
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 397
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 398
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tito McCaskill",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        }
+      ],
+      "notes": "Line 397 says one-and-one after a swinging strike and a foul. Line 398 resumes at oh-and-two; preserve both observed strikes."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Gian Haggerty",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 399,
+      "source_end": 406,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 401
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 402,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 403
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 404,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 405
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gian Haggerty",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "notes": "The umpire explicitly calls the down-the-middle pitch at line 405 ball four; retain the broadcast call."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Lincoln Smathers",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 411,
+      "source_end": 416,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 413,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 414
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 415
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 416
+        }
+      ],
+      "runners": [
+        {
+          "name": "Lincoln Smathers",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Buzz Norton",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 423,
+      "source_end": 429,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 425,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 426
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 427
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 428,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 429
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Dieter Gomez",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 430,
+      "source_end": 432,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 432
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dieter Gomez",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive",
+        "categoryOverride": "liner"
+      }
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Tiny Howl",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 433,
+      "source_end": 437,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 435
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 436,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 437
+        }
+      ],
+      "runners": [
+        {
+          "name": "Dieter Gomez",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Tiny Howl",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Tito McCaskill",
+          "position": "SS"
+        },
+        {
+          "name": "Rodrigo Mary Hugh",
+          "position": "2B"
+        },
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Mickey Navarro",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 444,
+      "source_end": 447,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 446,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 447
+        }
+      ],
+      "runners": [
+        {
+          "name": "Mickey Navarro",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joe Bill Silver",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Rodrigo Mary Hugh",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 448,
+      "source_end": 453,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 450
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 451
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 452,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 453
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rodrigo Mary Hugh",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Joe Bill Silver",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Ali Nunez",
+      "pitcher": "Edgar Whitehouse",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 454,
+      "source_end": 455,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 455
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ali Nunez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        },
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Sparky Ventura",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 463,
+      "source_end": 467,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 465,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 466,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 467
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sparky Ventura",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Ali Nunez",
+          "position": "3B"
+        }
+      ],
+      "bat_side": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 468,
+      "source_end": 472,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 469,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 470,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 471,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 472,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Home Run",
+      "source_start": 473,
+      "source_end": 477,
+      "outs": 1,
+      "score": [
+        2,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 475
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 476
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": "1B",
+          "end": "score"
+        },
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy Joe Rickson",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 478,
+      "source_end": 481,
+      "outs": 2,
+      "score": [
+        2,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 479,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 480
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 481
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joe Bill Silver",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Gian Haggerty",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Buddy Lamont",
+      "pitcher": "Billy the Borough Brello",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 482,
+      "source_end": 486,
+      "outs": 3,
+      "score": [
+        2,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 483,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 484
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 485,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 486
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buddy Lamont",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Billy Joe Rickson",
+          "position": "RF"
+        }
+      ],
+      "notes": "The ball is called to left field at line 486, but the named catcher is right fielder Billy Joe Rickson. Preserve the source location and named fielder without inventing a defensive change."
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "J.B. Gantry",
+      "pitcher": "Ron Nancy",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 492,
+      "source_end": 497,
+      "outs": 1,
+      "score": [
+        2,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 494,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 495
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 496
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 497
+        }
+      ],
+      "runners": [
+        {
+          "name": "J.B. Gantry",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Tony Burns",
+      "pitcher": "Ron Nancy",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 498,
+      "source_end": 503,
+      "outs": 2,
+      "score": [
+        2,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 500,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 501
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 502
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 503
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tony Burns",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "bat_side": "L"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Billy Joe Rickson",
+      "pitcher": "Ron Nancy",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 504,
+      "source_end": 507,
+      "outs": 3,
+      "score": [
+        2,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 506,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 507
+        }
+      ],
+      "runners": [
+        {
+          "name": "Billy Joe Rickson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        }
+      ],
+      "notes": "The closing recap credits seven Manistee hits and six Baraboo hits, but the narrated plate appearances contain six and five respectively. Retain the observed plays and final three-to-two score."
+    }
+  ],
+  "gaps": [
+    {
+      "start": 133,
+      "end": 134,
+      "reason": "Gantry is described as singling, then as a runner on third; no advance from first to third is narrated. The fixture retains the observed single."
+    },
+    {
+      "start": 407,
+      "end": 410,
+      "reason": "Crowd protest and plush-toy cleanup delay; no pitch or plate appearance occurs."
+    }
+  ]
+}

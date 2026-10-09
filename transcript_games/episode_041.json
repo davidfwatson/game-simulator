@@ -1,0 +1,3348 @@
+{
+  "episode": 41,
+  "source_file": "episode_041.txt",
+  "complete": true,
+  "game": {
+    "away": "Tomah Tigers",
+    "home": "Cadillac Cars",
+    "venue": "Foghorn Field",
+    "away_lineup": [
+      {
+        "name": "Schmitty Diaz",
+        "position": "CF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Vaughn Kramer",
+        "position": "2B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Ernesto Stern",
+        "position": "1B",
+        "bat_side": "R"
+      },
+      {
+        "name": "Burke Sessions",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Bruford Kosinski",
+        "position": "RF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Prudence Jefferson",
+        "position": "LF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Clifton Santiago",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Shorty Bush",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Zach Valentine",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Fritz Ortega",
+        "position": "CF",
+        "bat_side": "R"
+      },
+      {
+        "name": "Gilligan Parker",
+        "position": "LF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Shiny Patterson",
+        "position": "3B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Gabriel Palomar",
+        "position": "RF",
+        "bat_side": "L"
+      },
+      {
+        "name": "Philip Nakamura",
+        "position": "1B",
+        "bat_side": "L"
+      },
+      {
+        "name": "Flipper Cortez",
+        "position": "2B",
+        "bat_side": "S"
+      },
+      {
+        "name": "Pinky Slauson",
+        "position": "SS",
+        "bat_side": "R"
+      },
+      {
+        "name": "Giovanni Gasparro",
+        "position": "C",
+        "bat_side": "R"
+      },
+      {
+        "name": "Blinky Malone",
+        "position": "P",
+        "bat_side": "R"
+      }
+    ],
+    "away_pitcher": "Zach Valentine",
+    "home_pitcher": "Blinky Malone"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 48,
+      "source_end": 49,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 49
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "deep"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        },
+        {
+          "name": "Blinky Malone",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 50,
+      "source_end": 52,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 51,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 52
+        }
+      ],
+      "runners": [
+        {
+          "name": "Vaughn Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 53,
+      "source_end": 58,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 54
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 55,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 56,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 57
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 58
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 62,
+      "source_end": 65,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 63
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 64,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 65
+        }
+      ],
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "line_drive",
+        "categoryOverride": "soft_liner"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 66,
+      "source_end": 69,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 67
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 68
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 69
+        }
+      ],
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Gilligan Parker",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        },
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 70,
+      "source_end": 76,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 72,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 73,
+          "location": "corner"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 74
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 75,
+          "zone": 11,
+          "location": "high_inside"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 76
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shiny Patterson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 82,
+      "source_end": 85,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 84
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 85
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Home Run",
+      "source_start": 86,
+      "source_end": 88,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 87,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 88
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      }
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 89,
+      "source_end": 92,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 90,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 91
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 92
+        }
+      ],
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gilligan Parker",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Clifton Santiago",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 93,
+      "source_end": 96,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 94,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 95,
+          "location": "middle"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 96
+        }
+      ],
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 102,
+      "source_end": 107,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 103,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 104,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 105,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 106
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 107
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Hit By Pitch",
+      "source_start": 108,
+      "source_end": 110,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 109,
+          "location": "low"
+        },
+        {
+          "code": "H",
+          "type": "pitch",
+          "line": 110
+        }
+      ],
+      "runners": [
+        {
+          "name": "Philip Nakamura",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Flipper Cortez",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 111,
+      "source_end": 112,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 112
+        }
+      ],
+      "runners": [
+        {
+          "name": "Philip Nakamura",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Flipper Cortez",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      },
+      "fielders": [
+        {
+          "name": "Zach Valentine",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Forceout",
+      "source_start": 113,
+      "source_end": 115,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 114
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 115
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": null,
+          "end": "1B"
+        },
+        {
+          "name": "Philip Nakamura",
+          "start": "2B",
+          "end": "3B",
+          "out": true
+        },
+        {
+          "name": "Flipper Cortez",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 116,
+      "source_end": 120,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 117
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 118,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 119
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 120
+        }
+      ],
+      "runners": [
+        {
+          "name": "Giovanni Gasparro",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Shorty Bush",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 125,
+      "source_end": 128,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 127
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 128
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive",
+        "categoryOverride": "liner"
+      }
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Zach Valentine",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 129,
+      "source_end": 134,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "A",
+          "line": 130,
+          "eventType": "pickoff",
+          "description": "Shorty Bush is picked off first base.",
+          "runners": [
+            {
+              "name": "Shorty Bush",
+              "start": "1B",
+              "end": "1B",
+              "out": true
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 131,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 132
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 133
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 134
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": "1B",
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Zach Valentine",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Bush is picked off first before Valentine receives a pitch; the explicit runner out and action preserve the two-out total after the strikeout."
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 135,
+      "source_end": 141,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 136
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 137,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 138,
+          "zone": 12,
+          "location": "high_outside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 139,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 140
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 141
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Blinky Malone",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 146,
+      "source_end": 151,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 147
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 148
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 149,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 150,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 151
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blinky Malone",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 152,
+      "source_end": 154,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 153
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 154
+        }
+      ],
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 155,
+      "source_end": 159,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 156,
+          "zone": 14,
+          "location": "low_outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 157,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 158
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 159
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 164,
+      "source_end": 167,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Breaking Ball",
+          "line": 165
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 166
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 167
+        }
+      ],
+      "runners": [
+        {
+          "name": "Vaughn Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 168,
+      "source_end": 170,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 169,
+          "zone": 11,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 170
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      }
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 171,
+      "source_end": 175,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 172
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 173,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 174
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Ernesto Stern",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "deep"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Intentional Walk",
+      "source_start": 176,
+      "source_end": 179,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 177,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 178,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 180,
+      "source_end": 184,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 181
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 182
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 183,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 184
+        }
+      ],
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 189,
+      "source_end": 193,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 190,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 191,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "C",
+          "type": "Changeup",
+          "line": 192
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 193
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shiny Patterson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 194,
+      "source_end": 197,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 195
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 196
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 197
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 198,
+      "source_end": 203,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 199,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 200
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 201,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Breaking Ball",
+          "line": 202,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 203
+        }
+      ],
+      "runners": [
+        {
+          "name": "Philip Nakamura",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Zach Valentine",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Clifton Santiago",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 208,
+      "source_end": 210,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 210
+        }
+      ],
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Blinky Malone",
+          "position": "P"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Shorty Bush",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 211,
+      "source_end": 214,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 212
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 213,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 214
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gilligan Parker",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Zach Valentine",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 215,
+      "source_end": 219,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 216,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 217
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 218
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 219
+        }
+      ],
+      "runners": [
+        {
+          "name": "Zach Valentine",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Flipper Cortez",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 224,
+      "source_end": 225,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 225
+        }
+      ],
+      "runners": [
+        {
+          "name": "Flipper Cortez",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        },
+        {
+          "name": "Zach Valentine",
+          "position": "P"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 226,
+      "source_end": 228,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 227,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 228
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 229,
+      "source_end": 230,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 230
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": "1B",
+          "end": "2B"
+        },
+        {
+          "name": "Giovanni Gasparro",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball",
+        "categoryOverride": "bloop"
+      }
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Blinky Malone",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 231,
+      "source_end": 236,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 232
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 233,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 234,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 235,
+          "isBunt": true
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": "2B",
+          "end": "3B",
+          "out": true
+        },
+        {
+          "name": "Blinky Malone",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Giovanni Gasparro",
+          "start": "1B",
+          "end": "2B"
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "bunt"
+      },
+      "fielders": [
+        {
+          "name": "Clifton Santiago",
+          "position": "C"
+        },
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        },
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        }
+      ],
+      "notes": "The broadcast explicitly scores the bunt double play 2-5-4: Santiago throws to third to force Slauson, then Sessions throws to second baseman Kramer covering first. Gasparro advances to second."
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 241,
+      "source_end": 246,
+      "outs": 1,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 243
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 244,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 245,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 246
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 247,
+      "source_end": 250,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 249,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 250
+        }
+      ],
+      "runners": [
+        {
+          "name": "Vaughn Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 251,
+      "source_end": 256,
+      "outs": 2,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 252,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Offspeed",
+          "line": 253,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 254
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 255
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 257,
+      "source_end": 264,
+      "outs": 3,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 259
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 260
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 261,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 262,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 263
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Walk",
+      "source_start": 269,
+      "source_end": 276,
+      "outs": 0,
+      "score": [
+        1,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 271,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 272,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 273
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 274
+        },
+        {
+          "code": "B",
+          "type": "Breaking Ball",
+          "line": 275,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 276,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Home Run",
+      "source_start": 277,
+      "source_end": 280,
+      "outs": 0,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 278,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 279,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 280
+        }
+      ],
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": "1B",
+          "end": "score"
+        },
+        {
+          "name": "Gilligan Parker",
+          "start": null,
+          "end": "score"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      }
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 281,
+      "source_end": 285,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 282
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 283
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 284,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 285
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shiny Patterson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 286,
+      "source_end": 289,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 287
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 288,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 289
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "categoryOverride": "grounder"
+      }
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 290,
+      "source_end": 293,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 291
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 292
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Philip Nakamura",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        },
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 298,
+      "source_end": 299,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 299
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Blinky Malone",
+          "position": "P"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 300,
+      "source_end": 305,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 301
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 302,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 303,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 304,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 305
+        }
+      ],
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive",
+        "categoryOverride": "liner"
+      }
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Clifton Santiago",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Flyout",
+      "source_start": 306,
+      "source_end": 314,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 314
+        }
+      ],
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        },
+        {
+          "name": "Blinky Malone",
+          "position": "P"
+        }
+      ],
+      "notes": "Santiago is introduced before and after the turtle delay; these introductions describe one plate appearance with one observed pitch, not two batters."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Shorty Bush",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 315,
+      "source_end": 318,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 316
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 317
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 318
+        }
+      ],
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Flipper Cortez",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Hit By Pitch",
+      "source_start": 324,
+      "source_end": 325,
+      "outs": 0,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "H",
+          "type": "pitch",
+          "line": 325
+        }
+      ],
+      "runners": [
+        {
+          "name": "Flipper Cortez",
+          "start": null,
+          "end": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 326,
+      "source_end": 331,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 327,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 328
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 329
+        },
+        {
+          "code": "B",
+          "type": "Offspeed",
+          "line": 330,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 331
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Zach Valentine",
+      "pitch_hand": "R",
+      "outcome": "Double Play",
+      "source_start": 332,
+      "source_end": 336,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 334,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 335
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 336
+        }
+      ],
+      "runners": [
+        {
+          "name": "Flipper Cortez",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Giovanni Gasparro",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        },
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Simon Hashimoto",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Single",
+      "source_start": 341,
+      "source_end": 343,
+      "outs": 0,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 343
+        }
+      ],
+      "runners": [
+        {
+          "name": "Simon Hashimoto",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive",
+        "categoryOverride": "liner"
+      },
+      "fielders": [
+        {
+          "name": "Blinky Malone",
+          "position": "P"
+        }
+      ],
+      "bat_side": "L"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 344,
+      "source_end": 347,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 345
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 346,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 347
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 348,
+      "source_end": 353,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 349,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 350
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 351
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 352,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 353
+        }
+      ],
+      "runners": [
+        {
+          "name": "Vaughn Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Blinky Malone",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 354,
+      "source_end": 359,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 355,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 356
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 357
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 358
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Charlie Tate",
+      "pitcher": "Miguel Rockford",
+      "pitch_hand": "L",
+      "outcome": "Walk",
+      "source_start": 364,
+      "source_end": 371,
+      "outs": 0,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 366,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 367
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 368
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 369,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 370,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 371,
+          "location": "inside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Charlie Tate",
+          "start": null,
+          "end": "1B"
+        }
+      ],
+      "bat_side": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Miguel Rockford",
+      "pitch_hand": "L",
+      "outcome": "Double Play",
+      "source_start": 372,
+      "source_end": 375,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 373
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 374,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 375
+        }
+      ],
+      "runners": [
+        {
+          "name": "Charlie Tate",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        },
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ],
+      "notes": "The introduction credits Ortega with two hits, but only the first-inning single is narrated. Preserve the observed plate appearances."
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Miguel Rockford",
+      "pitch_hand": "L",
+      "outcome": "Flyout",
+      "source_start": 376,
+      "source_end": 381,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 377,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 378
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 379,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 380
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Burgess Hepburn",
+      "pitch_hand": "R",
+      "outcome": "Groundout",
+      "source_start": 386,
+      "source_end": 391,
+      "outs": 1,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 387,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 388,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 389
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 390
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 391
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": "1B",
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        },
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Burgess Hepburn",
+      "pitch_hand": "R",
+      "outcome": "Pop Out",
+      "source_start": 392,
+      "source_end": 396,
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 393
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 394,
+          "zone": 13,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "Slider",
+          "line": 395
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 396
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Burgess Hepburn",
+      "pitch_hand": "R",
+      "outcome": "Strikeout",
+      "source_start": 397,
+      "source_end": 402,
+      "outs": 3,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 399
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 400,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 401,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 402
+        }
+      ],
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "The final Cadillac hit total is seven, but the narrated plate appearances contain six. Preserve the observed plays and final two-to-one score."
+    }
+  ],
+  "gaps": [
+    {
+      "start": 307,
+      "end": 312,
+      "reason": "Turtle on the field delays Santiago’s plate appearance; no pitch occurs during the interruption."
+    }
+  ]
+}

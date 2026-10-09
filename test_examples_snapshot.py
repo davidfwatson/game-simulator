@@ -1,71 +1,33 @@
-import unittest
-from pathlib import Path
-import subprocess
 import re
+import unittest
 
-from pbp_alignment import alignment_metrics
+from example_games import EXAMPLE_GAMES, EXAMPLES_DIR
+from pbp_comparison import (
+    REPOSITORY_ROOT,
+    compare_example,
+    discover_pbp_examples,
+    render_example,
+)
 
 
 class TestExampleSnapshots(unittest.TestCase):
 
-    def test_pbp_fixture_timestamps_are_valid_iso_datetimes(self):
-        """Timestamp seeds retain their precision without duplicating time zones."""
-        import json
-        from datetime import datetime
-
-        def check_timestamps(value, path):
-            if isinstance(value, dict):
-                for key, item in value.items():
-                    if key in ('startTime', 'endTime', 'dateTime') and isinstance(item, str):
-                        with self.subTest(field=f'{path}.{key}'):
-                            datetime.fromisoformat(item.replace('Z', '+00:00'))
-                    else:
-                        check_timestamps(item, f'{path}.{key}')
-            elif isinstance(value, list):
-                for index, item in enumerate(value):
-                    check_timestamps(item, f'{path}[{index}]')
-
-        for number in range(1, 5):
-            path = Path(__file__).with_name(f'test_fixture_pbp_example_{number}.json')
-            check_timestamps(json.loads(path.read_text()), path.name)
-
     def _get_example_logs(self):
-        """Helper to read all example logs."""
-        logs = {}
-        examples_dir = Path(__file__).parent / "examples"
-        for i in range(1, 11):
-            example_file = examples_dir / f"game_{i:02d}.txt"
-            with open(example_file, 'r') as f:
-                logs[example_file.name] = f.read()
-        return logs
+        """Read the current example catalog, independent of the working directory."""
+        return {
+            f"game_{index:02d}.txt": (EXAMPLES_DIR / f"game_{index:02d}.txt").read_text(encoding="utf-8")
+            for index in range(1, len(EXAMPLE_GAMES) + 1)
+        }
 
     def test_examples_match_rendered_output(self):
-        # Path to the directory containing example game logs
-        examples_dir = Path(__file__).parent / "examples"
-
-        # Iterate over each example game log
-        for i in range(1, 11):
-            example_file = examples_dir / f"game_{i:02d}.txt"
-            with open(example_file, 'r') as f:
-                snapshot = f.read()
-
-            # Re-run the simulation with the same seed
-            # The seed is the file number (e.g., 1 for game_01.txt)
-            process = subprocess.run(
-                ['python3', 'example_games.py', str(i)],
-                capture_output=True,
-                text=True,
-                check=True
-            )
-            rendered_output = process.stdout
-
-            # Compare the snapshot with the fresh output
-            self.assertEqual(
-                snapshot,
-                rendered_output,
-                f"Example log {example_file} is out of date; "
-                "rerun python update_examples.py."
-            )
+        for index, game in enumerate(EXAMPLE_GAMES, start=1):
+            example_file = EXAMPLES_DIR / f"game_{index:02d}.txt"
+            with self.subTest(file=example_file.name):
+                self.assertEqual(
+                    example_file.read_text(encoding="utf-8"),
+                    game.render(),
+                    f"Example log {example_file} is out of date; rerun python update_examples.py.",
+                )
 
     def test_no_contradictory_takes_and_hits_phrasing(self):
         example_logs = self._get_example_logs()
@@ -112,150 +74,32 @@ class TestExampleSnapshots(unittest.TestCase):
                     self.assertLessEqual(len(foul_mentions), 1, f"Double 'foul' mention found: {line}")
 
 
+class TestPBPExamples(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Discovery deliberately fails if new references have no comparison
+        # metadata or snapshots, rather than silently leaving them untested.
+        cls.examples = discover_pbp_examples()
+        cls.rendered = {example.number: render_example(example) for example in cls.examples}
 
-    def _assert_pbp_alignment(self, target_file, fixture_file, jaccard_min, ngram_min, line_exact_min,
-                              content_ngram_min, content_exact_min, content_jaccard_min=0.48,
-                              target_skip=0, rendered_skip=0):
-        """Guard coverage both with and without TTS playback timing markers."""
-        import json
-        from renderers.narrative.renderer import NarrativeRenderer
+    def test_pbp_match_percentages(self):
+        for example in self.examples:
+            with self.subTest(file=example.target_file):
+                scores = compare_example(example, self.rendered[example.number])
+                self.assertEqual(scores.failures(example), [], example.target_file)
 
-        root = Path(__file__).resolve().parent
-        with open(root / target_file) as f:
-            text = '\n'.join(f.read().splitlines()[target_skip:])
-        with open(root / fixture_file) as f:
-            data = json.load(f)
-        rendered = '\n'.join(NarrativeRenderer(data).render().splitlines()[rendered_skip:])
-
-        metrics = alignment_metrics(text, rendered, content_only=False)
-        content = alignment_metrics(text, rendered)
-        checks = (
-            ('Word Jaccard (all)', metrics.word_jaccard, jaccard_min),
-            ('5-gram coverage (all)', metrics.ngram_coverage, ngram_min),
-            ('Positional exact lines (all)', metrics.exact_fraction, line_exact_min),
-            ('Word Jaccard (content)', content.word_jaccard, content_jaccard_min),
-            ('5-gram coverage (content)', content.ngram_coverage, content_ngram_min),
-            ('Positional exact lines (content)', content.exact_fraction, content_exact_min),
-        )
-        for label, actual, minimum in checks:
-            with self.subTest(file=target_file, metric=label):
-                self.assertGreaterEqual(
-                    actual, minimum,
-                    f'{label} ({actual*100:.2f}%) is below the {minimum*100:.2f}% threshold.'
+    def test_pbp_draft_consistency(self):
+        for example in self.examples:
+            with self.subTest(file=example.fixture_file):
+                expected = (REPOSITORY_ROOT / example.snapshot_file).read_text(encoding="utf-8")
+                self.assertEqual(
+                    self.rendered[example.number],
+                    expected,
+                    f"Snapshot for {example.fixture_file} is out of date; regenerate with "
+                    f"python baseball.py --gameday-file {example.fixture_file} "
+                    f"--pbp-outfile {example.snapshot_file}.",
                 )
 
-    def test_pbp_example_3_match_percentage(self):
-        """Asserts that the output of test_fixture_pbp_example_3.json meets a minimum threshold of match with pbp_example_3.txt."""
-        self._assert_pbp_alignment(
-            'pbp_example_3.txt', 'test_fixture_pbp_example_3.json',
-            jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
-            content_ngram_min=0.34, content_exact_min=0.09, content_jaccard_min=0.57,
-            target_skip=33, rendered_skip=30,
-        )
-
-
-    def test_pbp_example_3_draft_consistency(self):
-        """Asserts that the current output of rendering test_fixture_pbp_example_3.json matches test_fixture_pbp_example_3.txt."""
-        import json
-        from renderers.narrative.renderer import NarrativeRenderer
-
-        with open('test_fixture_pbp_example_3.json', 'r') as f:
-            data = json.load(f)
-
-        renderer = NarrativeRenderer(data)
-        rendered = renderer.render()
-
-        with open('test_fixture_pbp_example_3.txt', 'r') as f:
-            expected = f.read()
-
-        self.assertEqual(
-            rendered, expected,
-            "The rendered output of test_fixture_pbp_example_3.json does not match test_fixture_pbp_example_3.txt. Note: If you see this failure after modifying test_fixture_pbp_example_3.json, it simply means you need to regenerate test_fixture_pbp_example_3.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_3.json --pbp-outfile test_fixture_pbp_example_3.txt`)."
-        )
-
-    def test_pbp_example_1_match_percentage(self):
-        """Asserts that the output of test_fixture_pbp_example_1.json meets a minimum threshold of match with pbp_example_1.txt."""
-        self._assert_pbp_alignment(
-            'pbp_example_1.txt', 'test_fixture_pbp_example_1.json',
-            jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
-            content_ngram_min=0.35, content_exact_min=0.24, content_jaccard_min=0.59,
-            target_skip=28, rendered_skip=30,
-        )
-
-    def test_pbp_example_1_draft_consistency(self):
-        """Asserts that the current output of rendering test_fixture_pbp_example_1.json matches test_fixture_pbp_example_1.txt."""
-        import json
-        from renderers.narrative.renderer import NarrativeRenderer
-
-        with open('test_fixture_pbp_example_1.json', 'r') as f:
-            data = json.load(f)
-
-        renderer = NarrativeRenderer(data)
-        rendered = renderer.render()
-
-        with open('test_fixture_pbp_example_1.txt', 'r') as f:
-            expected = f.read()
-
-        self.assertEqual(
-            rendered, expected,
-            "The rendered output of test_fixture_pbp_example_1.json does not match test_fixture_pbp_example_1.txt. Note: If you see this failure after modifying test_fixture_pbp_example_1.json, it simply means you need to regenerate test_fixture_pbp_example_1.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_1.json --pbp-outfile test_fixture_pbp_example_1.txt`)."
-        )
-
-    def test_pbp_example_2_match_percentage(self):
-        """Asserts that the output of test_fixture_pbp_example_2.json meets a minimum threshold of match with pbp_example_2.txt."""
-        self._assert_pbp_alignment(
-            'pbp_example_2.txt', 'test_fixture_pbp_example_2.json',
-            jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
-            content_ngram_min=0.37, content_exact_min=0.25, content_jaccard_min=0.58,
-            target_skip=35, rendered_skip=30,
-        )
-
-    def test_pbp_example_2_draft_consistency(self):
-        """Asserts that the current output of rendering test_fixture_pbp_example_2.json matches test_fixture_pbp_example_2.txt."""
-        import json
-        from renderers.narrative.renderer import NarrativeRenderer
-
-        with open('test_fixture_pbp_example_2.json', 'r') as f:
-            data = json.load(f)
-
-        renderer = NarrativeRenderer(data)
-        rendered = renderer.render()
-
-        with open('test_fixture_pbp_example_2.txt', 'r') as f:
-            expected = f.read()
-
-        self.assertEqual(
-            rendered, expected,
-            "The rendered output of test_fixture_pbp_example_2.json does not match test_fixture_pbp_example_2.txt. Note: If you see this failure after modifying test_fixture_pbp_example_2.json, it simply means you need to regenerate test_fixture_pbp_example_2.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_2.json --pbp-outfile test_fixture_pbp_example_2.txt`)."
-        )
-
-    def test_pbp_example_4_match_percentage(self):
-        """Asserts that the output of test_fixture_pbp_example_4.json meets a minimum threshold of match with pbp_example_4.txt."""
-        self._assert_pbp_alignment(
-            'pbp_example_4.txt', 'test_fixture_pbp_example_4.json',
-            jaccard_min=0.48, ngram_min=0.12, line_exact_min=0.40,
-            content_ngram_min=0.33, content_exact_min=0.20, content_jaccard_min=0.57,
-            target_skip=27, rendered_skip=30,
-        )
-
-    def test_pbp_example_4_draft_consistency(self):
-        """Asserts that the current output of rendering test_fixture_pbp_example_4.json matches test_fixture_pbp_example_4.txt."""
-        import json
-        from renderers.narrative.renderer import NarrativeRenderer
-
-        with open('test_fixture_pbp_example_4.json', 'r') as f:
-            data = json.load(f)
-
-        renderer = NarrativeRenderer(data)
-        rendered = renderer.render()
-
-        with open('test_fixture_pbp_example_4.txt', 'r') as f:
-            expected = f.read()
-
-        self.assertEqual(
-            rendered, expected,
-            "The rendered output of test_fixture_pbp_example_4.json does not match test_fixture_pbp_example_4.txt. Note: If you see this failure after modifying test_fixture_pbp_example_4.json, it simply means you need to regenerate test_fixture_pbp_example_4.txt (e.g. by running `python3 baseball.py --gameday-file test_fixture_pbp_example_4.json --pbp-outfile test_fixture_pbp_example_4.txt`)."
-        )
 
 if __name__ == "__main__":
     unittest.main()

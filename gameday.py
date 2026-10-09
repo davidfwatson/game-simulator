@@ -7,6 +7,22 @@ from typing import List, Literal, Optional, TypedDict, Dict
 from typing_extensions import NotRequired
 
 
+class CommentaryStreams(TypedDict, total=False):
+    """Independent, unlimited lists of integer draws for fixture wording."""
+
+    play: List[int]
+    pitch: List[int]
+    flow: List[int]
+    color: List[int]
+
+
+class CommentaryRNG(TypedDict, total=False):
+    init: CommentaryStreams
+    play_start: CommentaryStreams
+    event: CommentaryStreams
+    play_outcome: CommentaryStreams
+
+
 # Player/Team Structures
 class PlayerReference(TypedDict):
     id: int
@@ -23,6 +39,10 @@ class TeamInfo(TypedDict):
     name: str
     abbreviation: str
     teamName: str
+    locationName: NotRequired[str]
+    state: NotRequired[str]
+    spokenLocation: NotRequired[str]
+    spokenLocationWithState: NotRequired[str]
 
 
 class GameTeams(TypedDict):
@@ -75,6 +95,22 @@ class GameDatetime(TypedDict):
     ampm: str
 
 
+class BroadcastMetadata(TypedDict, total=False):
+    network_name: str
+    station_call: str
+    complete: bool
+    strictFacts: bool
+
+
+class BroadcastSource(TypedDict):
+    file: str
+    sha256: str
+
+
+class GameSchedule(TypedDict):
+    scheduledInnings: int
+
+
 class GameData(TypedDict):
     teams: GameTeams
     players: Dict[str, PlayerDetail]
@@ -82,6 +118,11 @@ class GameData(TypedDict):
     weather: str
     umpires: List[str]
     datetime: NotRequired[GameDatetime]
+    broadcast: NotRequired[BroadcastMetadata]
+    source: NotRequired[BroadcastSource]
+    game: NotRequired[GameSchedule]
+    commentaryRng: NotRequired[CommentaryRNG]
+    commentarySeed: NotRequired[int]
 
 
 # Linescore Structures
@@ -162,6 +203,13 @@ class PitchType(TypedDict):
     description: str
 
 
+class ActionRunner(TypedDict):
+    runner: "PlayerInfo"
+    fromBase: Optional[str]
+    toBase: Optional[str]
+    isOut: bool
+
+
 class PitchDetails(TypedDict):
     description: str
     code: str
@@ -169,6 +217,8 @@ class PitchDetails(TypedDict):
     type: PitchType
     eventType: NotRequired[str]
     zone: NotRequired[int]
+    location: NotRequired[str]  # Verbal location; no tracking coordinate implied.
+    runners: NotRequired[List[ActionRunner]]
 
 
 class PitchBreaks(TypedDict):
@@ -186,6 +236,9 @@ class HitData(TypedDict):
     launchAngle: float
     trajectory: str
     location: NotRequired[str]
+    categoryOverride: NotRequired[str]
+    putoutMethod: NotRequired[str]
+    forceMechanism: NotRequired[str]
 
 
 class PlayEvent(TypedDict):
@@ -199,6 +252,8 @@ class PlayEvent(TypedDict):
     endTime: str
     isPitch: bool
     type: NotRequired[str]
+    commentaryRng: NotRequired[CommentaryRNG]
+    sourceLine: NotRequired[int]
 
 
 class PlayResult(TypedDict):
@@ -209,6 +264,7 @@ class PlayResult(TypedDict):
     rbi: int
     awayScore: int
     homeScore: int
+    isWalkoff: NotRequired[bool]
 
 
 class PlayAbout(TypedDict):
@@ -219,6 +275,8 @@ class PlayAbout(TypedDict):
     isScoringPlay: bool
     startTime: str
     endTime: str
+    isComplete: NotRequired[bool]
+    coverageGapBefore: NotRequired[bool]
 
 
 class PlayCount(TypedDict):
@@ -264,6 +322,7 @@ class Play(TypedDict):
     matchup: Matchup
     playEvents: List[PlayEvent]
     runners: List[Runner]
+    commentaryRng: NotRequired[CommentaryRNG]
 
 
 class Plays(TypedDict):

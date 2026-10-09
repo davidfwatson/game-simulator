@@ -1,0 +1,3383 @@
+{
+  "episode": 20,
+  "source_file": "episode_020.txt",
+  "game": {
+    "away": "Baraboo Bombers",
+    "home": "Cadillac Cars",
+    "venue": "Foghorn Field",
+    "away_lineup": [
+      {
+        "name": "Blaze Winterbottom",
+        "position": "2B"
+      },
+      {
+        "name": "Tiny Howl",
+        "position": "SS"
+      },
+      {
+        "name": "Bugs Yamaguchi",
+        "position": "CF"
+      },
+      {
+        "name": "Dieter Gomez",
+        "position": "3B"
+      },
+      {
+        "name": "Manny Del Greco",
+        "position": "1B"
+      },
+      {
+        "name": "Buzz Norton",
+        "position": "C"
+      },
+      {
+        "name": "Buddy Lamont",
+        "position": "RF"
+      },
+      {
+        "name": "Joe Bill Silver",
+        "position": "LF"
+      },
+      {
+        "name": "Rick Stetson",
+        "position": "P"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Pinky Slauson",
+        "position": "SS"
+      },
+      {
+        "name": "Shiny Patterson",
+        "position": "3B"
+      },
+      {
+        "name": "Philip Nakamura",
+        "position": "1B"
+      },
+      {
+        "name": "Giovanni Gasparro",
+        "position": "C"
+      },
+      {
+        "name": "Gabriel Palomar",
+        "position": "RF"
+      },
+      {
+        "name": "Gilligan Parker",
+        "position": "LF"
+      },
+      {
+        "name": "Flipper Cortez",
+        "position": "2B"
+      },
+      {
+        "name": "Virgil Hughes",
+        "position": "P"
+      },
+      {
+        "name": "Fritz Ortega",
+        "position": "CF"
+      }
+    ],
+    "away_pitcher": "Rick Stetson",
+    "home_pitcher": "Virgil Hughes"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 39,
+      "source_end": 42,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 40
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 41
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 42
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Tiny Howl",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 43,
+      "source_end": 47,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 44
+        },
+        {
+          "code": "B",
+          "type": "Off-speed pitch",
+          "line": 45,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 46
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 47
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Tiny Howl",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Single",
+      "source_start": 48,
+      "source_end": 52,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 49
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 50
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 51,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 52
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Dieter Gomez",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Home Run",
+      "source_start": 53,
+      "source_end": 54,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 54
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Dieter Gomez",
+          "start": null,
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Bugs Yamaguchi",
+          "start": "1B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Manny Del Greco",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 55,
+      "source_end": 59,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 56
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 57
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 58,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 59
+        }
+      ],
+      "runners": [
+        {
+          "name": "Manny Del Greco",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Rick Stetson",
+      "outcome": "Groundout",
+      "source_start": 66,
+      "source_end": 69,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 67
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 68
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 69
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Dieter Gomez",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Rick Stetson",
+      "outcome": "Home Run",
+      "source_start": 70,
+      "source_end": 73,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Sinker",
+          "line": 71,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 72
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Shiny Patterson",
+          "start": null,
+          "end": "score",
+          "out": false
+        }
+      ],
+      "notes": "Live home-run line72 says Pinky Slauson, but batter intro70 and recap85 both identify Shiny Patterson. Slauson was already retired at69; retain Patterson with this explicit source-name conflict."
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Rick Stetson",
+      "outcome": "Groundout",
+      "source_start": 74,
+      "source_end": 79,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 75
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 76,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 77
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 78,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 79
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Philip Nakamura",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Rick Stetson",
+      "outcome": "Flyout",
+      "source_start": 80,
+      "source_end": 84,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 81,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 82
+        },
+        {
+          "code": "B",
+          "type": "Off-speed pitch",
+          "line": 83,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 84
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Giovanni Gasparro",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Buzz Norton",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 91,
+      "source_end": 93,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 92,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 93
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Buddy Lamont",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 94,
+      "source_end": 97,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 95
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 96,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 97
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Buddy Lamont",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 98,
+      "source_end": 104,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 99,
+          "location": "high_outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 100
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 101,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 102
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 103,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 104
+        }
+      ],
+      "runners": [
+        {
+          "name": "Joe Bill Silver",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Rick Stetson",
+      "outcome": "Single",
+      "source_start": 110,
+      "source_end": 111,
+      "outs": 0,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 111
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Rick Stetson",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Rick Stetson",
+      "outcome": "Strikeout",
+      "source_start": 112,
+      "source_end": 115,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 113
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 114
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 115
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Flipper Cortez",
+      "pitcher": "Rick Stetson",
+      "outcome": "Strikeout",
+      "source_start": 116,
+      "source_end": 120,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 117
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 118,
+          "location": "low_outside"
+        },
+        {
+          "code": "C",
+          "type": "Changeup",
+          "line": 119
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 120
+        }
+      ],
+      "runners": [
+        {
+          "name": "Flipper Cortez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Virgil Hughes",
+      "pitcher": "Rick Stetson",
+      "outcome": "Pop Out",
+      "source_start": 121,
+      "source_end": 123,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 122
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 123
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Virgil Hughes",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Tiny Howl",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Rick Stetson",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 131,
+      "source_end": 135,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 132,
+          "location": "high_inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 133
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 134
+        },
+        {
+          "code": "C",
+          "type": "Breaking ball",
+          "line": 135
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rick Stetson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 136,
+      "source_end": 141,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 137
+        },
+        {
+          "code": "B",
+          "type": "Off-speed pitch",
+          "line": 138,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 139,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 140,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 141
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Tiny Howl",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Double",
+      "source_start": 142,
+      "source_end": 144,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 143,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 144
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Tiny Howl",
+          "start": null,
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 145,
+      "source_end": 146,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 146
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Rick Stetson",
+      "outcome": "Strikeout",
+      "source_start": 152,
+      "source_end": 155,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 153
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 154,
+          "location": "corner"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 155
+        }
+      ],
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Rick Stetson",
+      "outcome": "Flyout",
+      "source_start": 156,
+      "source_end": 158,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 157
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 158
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Rick Stetson",
+      "outcome": "Flyout",
+      "source_start": 159,
+      "source_end": 164,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 160
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 161,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Breaking ball",
+          "line": 162
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 163,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 164
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Shiny Patterson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Dieter Gomez",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 170,
+      "source_end": 172,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 172
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Dieter Gomez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Manny Del Greco",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 173,
+      "source_end": 174,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 174
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Manny Del Greco",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Buzz Norton",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 175,
+      "source_end": 179,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 176
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 177,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 178
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 179
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Rick Stetson",
+      "outcome": "Flyout",
+      "source_start": 185,
+      "source_end": 189,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 186,
+          "location": "low_outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 187
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 188,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 189
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Philip Nakamura",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Rick Stetson",
+      "outcome": "Groundout",
+      "source_start": 190,
+      "source_end": 192,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 191
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 192
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Giovanni Gasparro",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Tiny Howl",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Rick Stetson",
+      "outcome": "Flyout",
+      "source_start": 193,
+      "source_end": 197,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 194,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 195
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 196
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 197
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Buddy Lamont",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Buddy Lamont",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 203,
+      "source_end": 209,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 204,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 205
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 206,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 207
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 208,
+          "location": "high_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 209
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Buddy Lamont",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 210,
+      "source_end": 212,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 211,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 212
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Joe Bill Silver",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Rick Stetson",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 213,
+      "source_end": 216,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 214
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 215
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 216
+        }
+      ],
+      "runners": [
+        {
+          "name": "Rick Stetson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Rick Stetson",
+      "outcome": "Strikeout",
+      "source_start": 223,
+      "source_end": 227,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 224
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 225
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 226
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 227
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Rick Stetson",
+      "outcome": "Strikeout",
+      "source_start": 228,
+      "source_end": 232,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 229
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 230
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 231,
+          "location": "low_outside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 232
+        }
+      ],
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Source explicitly identifies Fritz Ortega, though this is the lineup position normally occupied by Flipper Cortez. Ortega is named again at240; source contradiction retained rather than inventing a different batter."
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Virgil Hughes",
+      "pitcher": "Rick Stetson",
+      "outcome": "Single",
+      "source_start": 233,
+      "source_end": 239,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 234,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 235
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 236
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 237,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 238
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 239
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Virgil Hughes",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Rick Stetson",
+      "outcome": "Strikeout",
+      "source_start": 240,
+      "source_end": 243,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 241
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 242
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 243
+        }
+      ],
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Second observed Ortega appearance within this inning, separated by Hughes; inconsistent with batting order but explicitly broadcast."
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 247,
+      "source_end": 252,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 248,
+          "location": "low_outside"
+        },
+        {
+          "code": "B",
+          "type": "Off-speed pitch",
+          "line": 249,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 250
+        },
+        {
+          "code": "C",
+          "type": "Changeup",
+          "line": 251,
+          "location": "corner"
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 252
+        }
+      ],
+      "runners": [
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Tiny Howl",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Strikeout",
+      "source_start": 253,
+      "source_end": 260,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 254,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 255,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 256
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 257,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 258
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 259
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tiny Howl",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Walk",
+      "source_start": 261,
+      "source_end": 267,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 262,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 263
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 264
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 265,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 266,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 267,
+          "location": "high"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Dieter Gomez",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 268,
+      "source_end": 271,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 269,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 270,
+          "location": "dirt"
+        },
+        {
+          "code": "A",
+          "line": 270,
+          "eventType": "wild_pitch",
+          "description": "Slider gets away from Gasparro; Bugs Yamaguchi advances from first to second.",
+          "runners": [
+            {
+              "name": "Bugs Yamaguchi",
+              "start": "1B",
+              "end": "2B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 271
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Dieter Gomez",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Bugs Yamaguchi",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Rick Stetson",
+      "outcome": "Single",
+      "source_start": 276,
+      "source_end": 280,
+      "outs": 0,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 278
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 279
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 280
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Rick Stetson",
+      "outcome": "Flyout",
+      "source_start": 281,
+      "source_end": 283,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 282,
+          "location": "inside_corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 283
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Shiny Patterson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Rick Stetson",
+      "outcome": "Groundout",
+      "source_start": 284,
+      "source_end": 285,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 285
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Philip Nakamura",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Pinky Slauson",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Rick Stetson",
+      "outcome": "Flyout",
+      "source_start": 286,
+      "source_end": 287,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 287
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Giovanni Gasparro",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Buddy Lamont",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Manny Del Greco",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 293,
+      "source_end": 298,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 294,
+          "location": "low_outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 295
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 296,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 297
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 298
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Manny Del Greco",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Buzz Norton",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Double",
+      "source_start": 299,
+      "source_end": 314,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 310,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 311
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 312
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 313,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 314
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": null,
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "notes": "The source does not identify which foul line/corner receives the double; no left/right location invented. Announced delay before first pitch is included in source range."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Buddy Lamont",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 315,
+      "source_end": 317,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 316,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 317
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Buddy Lamont",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Joe Bill Silver",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Pop Out",
+      "source_start": 318,
+      "source_end": 320,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 319
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 320
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Joe Bill Silver",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Rick Stetson",
+      "outcome": "Strikeout",
+      "source_start": 326,
+      "source_end": 332,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 327,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 328,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 329,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 330
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 331
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 332
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Rick Stetson",
+      "outcome": "Strikeout",
+      "source_start": 333,
+      "source_end": 339,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 334,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 335,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 336,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 337
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 338
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 339
+        }
+      ],
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Flipper Cortez",
+      "pitcher": "Rick Stetson",
+      "outcome": "Groundout",
+      "source_start": 340,
+      "source_end": 343,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 341
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 342
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 343
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Flipper Cortez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Blaze Winterbottom",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Sparky Ventura",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Single",
+      "source_start": 350,
+      "source_end": 354,
+      "outs": 0,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 353,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 354
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Sparky Ventura",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "notes": "Pinch hitter for Rick Stetson."
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Blaze Winterbottom",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Sacrifice Bunt",
+      "source_start": 355,
+      "source_end": 358,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 356,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 357,
+          "isBunt": true
+        }
+      ],
+      "hit": {
+        "location": "C",
+        "trajectory": "bunt",
+        "categoryOverride": "bunt"
+      },
+      "runners": [
+        {
+          "name": "Blaze Winterbottom",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Sparky Ventura",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Giovanni Gasparro",
+          "position": "C"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Tiny Howl",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Groundout",
+      "source_start": 359,
+      "source_end": 361,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 360
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Tiny Howl",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Sparky Ventura",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Bugs Yamaguchi",
+      "pitcher": "Virgil Hughes",
+      "outcome": "Flyout",
+      "source_start": 362,
+      "source_end": 366,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 363,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 364,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 365
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 366
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Bugs Yamaguchi",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Brock Niedermeier",
+      "pitcher": "Stretch Parsons",
+      "outcome": "Strikeout",
+      "source_start": 373,
+      "source_end": 377,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 375
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 376
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 377
+        }
+      ],
+      "runners": [
+        {
+          "name": "Brock Niedermeier",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Pinch hitter for Virgil Hughes; Stretch Parsons enters as opposing reliever."
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Fritz Ortega",
+      "pitcher": "Stretch Parsons",
+      "outcome": "Groundout",
+      "source_start": 378,
+      "source_end": 381,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 379,
+          "location": "high_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 380
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 381
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Tiny Howl",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Pinky Slauson",
+      "pitcher": "Stretch Parsons",
+      "outcome": "Pop Out",
+      "source_start": 382,
+      "source_end": 387,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 383,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 384
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 385,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 386,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 387
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Manny Del Greco",
+          "position": "1B"
+        }
+      ],
+      "notes": "First baseman Del Greco drifts back to catch shallow-right popup."
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Dieter Gomez",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Groundout",
+      "source_start": 394,
+      "source_end": 396,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 395,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 396
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Dieter Gomez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Manny Del Greco",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Walk",
+      "source_start": 397,
+      "source_end": 403,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 398
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 399
+        },
+        {
+          "code": "B",
+          "type": "Off-speed pitch",
+          "line": 400,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 401,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 402,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 403,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Manny Del Greco",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Buzz Norton",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Strikeout",
+      "source_start": 404,
+      "source_end": 407,
+      "outs": 2,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 405
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 406
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 407
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buzz Norton",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Buddy Lamont",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Incomplete",
+      "source_start": 408,
+      "source_end": 412,
+      "outs": 3,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 409
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 410,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 411
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 412,
+          "location": "dirt"
+        },
+        {
+          "code": "A",
+          "line": 412,
+          "eventType": "caught_stealing",
+          "description": "Del Greco breaks for second and is called out on the snap throw, ending the inning.",
+          "runners": [
+            {
+              "name": "Manny Del Greco",
+              "start": "1B",
+              "end": "2B",
+              "out": true
+            }
+          ]
+        }
+      ],
+      "runners": [
+        {
+          "name": "Manny Del Greco",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ],
+      "notes": "Lamont appearance ends without a batting outcome when Del Greco is caught stealing for the third out. Source describes slider in dirt; no strike called on that pitch."
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Shiny Patterson",
+      "pitcher": "Buddy Malone",
+      "outcome": "Single",
+      "source_start": 417,
+      "source_end": 421,
+      "outs": 0,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 419,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 420,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 421
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Shiny Patterson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Philip Nakamura",
+      "pitcher": "Buddy Malone",
+      "outcome": "Flyout",
+      "source_start": 422,
+      "source_end": 425,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 423,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 424
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 425
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Philip Nakamura",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Bugs Yamaguchi",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Buddy Malone",
+      "outcome": "Single",
+      "source_start": 426,
+      "source_end": 428,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 427,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 428
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Giovanni Gasparro",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Shiny Patterson",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Buddy Malone",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Buddy Malone",
+      "outcome": "Single",
+      "source_start": 429,
+      "source_end": 432,
+      "outs": 1,
+      "score": [
+        2,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 430
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 431
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Gabriel Palomar",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Shiny Patterson",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        },
+        {
+          "name": "Giovanni Gasparro",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Gilligan Parker",
+      "pitcher": "Buddy Malone",
+      "outcome": "Hit",
+      "source_start": 433,
+      "source_end": 440,
+      "outs": 1,
+      "score": [
+        2,
+        3
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 434,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 435
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 436
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 437,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 438
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Gilligan Parker",
+          "start": null,
+          "end": null,
+          "out": false
+        },
+        {
+          "name": "Shiny Patterson",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Giovanni Gasparro",
+          "start": "2B",
+          "end": "score",
+          "out": false
+        }
+      ],
+      "notes": "Walk-off hit off left-center wall scores two. Broadcast does not state batter final base or official single/double designation, so Hit is preserved as an unspecified hit rather than inventing extra-base credit."
+    }
+  ],
+  "gaps": [],
+  "complete": true
+}

@@ -1,0 +1,2682 @@
+{
+  "episode": 11,
+  "source_file": "episode_011.txt",
+  "game": {
+    "away": "Cadillac Cars Old Timers",
+    "home": "Big Rapids Timbers Old Timers",
+    "venue": "Evergreen Field",
+    "away_lineup": [
+      {
+        "name": "Pontiac Gleason",
+        "position": "1B"
+      },
+      {
+        "name": "Bobby the Fink Thomas",
+        "position": "SS"
+      },
+      {
+        "name": "Buck Timberline",
+        "position": "LF"
+      },
+      {
+        "name": "Juan Syndegard",
+        "position": "3B"
+      },
+      {
+        "name": "Timmy Von Trimble",
+        "position": "CF"
+      },
+      {
+        "name": "Boomer Chavez",
+        "position": "RF"
+      },
+      {
+        "name": "Oscar Patterson",
+        "position": "2B"
+      },
+      {
+        "name": "Oil Can Ramirez",
+        "position": "C"
+      },
+      {
+        "name": "Buster Malone",
+        "position": "P"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Buddy Olsen",
+        "position": "CF"
+      },
+      {
+        "name": "Montgomery Velasquez",
+        "position": "3B"
+      },
+      {
+        "name": "Boyd Getz",
+        "position": "2B"
+      },
+      {
+        "name": "Granny Hauser",
+        "position": "1B"
+      },
+      {
+        "name": "Two Shoes Robinson",
+        "position": "SS"
+      },
+      {
+        "name": "Miles Banks",
+        "position": "LF"
+      },
+      {
+        "name": "Chili Johnson",
+        "position": "RF"
+      },
+      {
+        "name": "Flip Wellington",
+        "position": "C"
+      },
+      {
+        "name": "Three Finger Cooper",
+        "position": "P"
+      }
+    ],
+    "away_pitcher": "Buster Malone",
+    "home_pitcher": "Three Finger Cooper",
+    "scheduled_innings": 7
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Pontiac Gleason",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Groundout",
+      "source_start": 47,
+      "source_end": 52,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 48,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 49
+        },
+        {
+          "code": "C",
+          "type": "Knuckleball",
+          "line": 50
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 51
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 52
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Pontiac Gleason",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Granny Hauser",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Bobby the Fink Thomas",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Pop Out",
+      "source_start": 53,
+      "source_end": 57,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 55
+        },
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 56
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 57
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Bobby the Fink Thomas",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Montgomery Velasquez",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Buck Timberline",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Strikeout",
+      "source_start": 58,
+      "source_end": 62,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 59,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 60
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 61
+        },
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 62
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buck Timberline",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Buddy Olsen",
+      "pitcher": "Buster Malone",
+      "outcome": "Single",
+      "source_start": 69,
+      "source_end": 75,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 70
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 72,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 73
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 74,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 75
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Buddy Olsen",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Juan Syndegard",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Montgomery Velasquez",
+      "pitcher": "Buster Malone",
+      "outcome": "Forceout",
+      "source_start": 76,
+      "source_end": 82,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "A",
+          "line": 77,
+          "eventType": "pickoff_attempt",
+          "description": "Malone throws to first to check Buddy Olsen; no out.",
+          "runners": [
+            {
+              "name": "Buddy Olsen",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 78,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 79,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 80
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 81
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Montgomery Velasquez",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Buddy Olsen",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Oscar Patterson",
+          "position": "2B"
+        }
+      ],
+      "notes": "Broadcast says the offline throw would normally be E4, but old-timers scorer does not award an error. The called out is Olsen at second; Velasquez remains at first."
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Boyd Getz",
+      "pitcher": "Buster Malone",
+      "outcome": "Pop Out",
+      "source_start": 83,
+      "source_end": 89,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 87
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 88,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 89
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Boyd Getz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Granny Hauser",
+      "pitcher": "Buster Malone",
+      "outcome": "Strikeout",
+      "source_start": 90,
+      "source_end": 95,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 91
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 93
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 94,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 95
+        }
+      ],
+      "runners": [
+        {
+          "name": "Granny Hauser",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Juan Syndegard",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Strikeout",
+      "source_start": 102,
+      "source_end": 107,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 103,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 104
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 105
+        },
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 106
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 107
+        }
+      ],
+      "runners": [
+        {
+          "name": "Juan Syndegard",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Timmy Von Trimble",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Walk",
+      "source_start": 108,
+      "source_end": 114,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 111,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 112,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 113,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 114,
+          "location": "dirt"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Timmy Von Trimble",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Boomer Chavez",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Pop Out",
+      "source_start": 115,
+      "source_end": 118,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 118
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Boomer Chavez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Three Finger Cooper",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Oscar Patterson",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Groundout",
+      "source_start": 119,
+      "source_end": 123,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 120,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 121
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 122,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 123
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Oscar Patterson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Three Finger Cooper",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Two Shoes Robinson",
+      "pitcher": "Buster Malone",
+      "outcome": "Walk",
+      "source_start": 128,
+      "source_end": 133,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 129,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 130,
+          "location": "inside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 131
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 132,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 133,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Two Shoes Robinson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Miles Banks",
+      "pitcher": "Buster Malone",
+      "outcome": "Strikeout",
+      "source_start": 134,
+      "source_end": 138,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 135
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 136,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 137
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 138
+        }
+      ],
+      "runners": [
+        {
+          "name": "Miles Banks",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Chili Johnson",
+      "pitcher": "Buster Malone",
+      "outcome": "Strikeout",
+      "source_start": 139,
+      "source_end": 147,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "U",
+          "line": 140,
+          "type": "pitch",
+          "isStrike": true,
+          "description": "Strike, unspecified"
+        },
+        {
+          "code": "A",
+          "line": 140,
+          "eventType": "caught_stealing",
+          "description": "Ramirez throws to second; Robinson is caught in a rundown and tagged out by Pontiac Gleason. Count subsequently announced 0-1.",
+          "runners": [
+            {
+              "name": "Two Shoes Robinson",
+              "start": "1B",
+              "end": null,
+              "out": true
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 143,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 144
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 145,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 146,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 147
+        }
+      ],
+      "runners": [
+        {
+          "name": "Two Shoes Robinson",
+          "start": "1B",
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Chili Johnson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "A pitch is delivered during the caught-stealing play at line140; its strike mechanism is not voiced. Line142 supplies an0-1 count, so encode an unspecified strike without inventing called/swinging distinction."
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Oil Can Ramirez",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Intentional Walk",
+      "source_start": 153,
+      "source_end": 159,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 154
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 157,
+          "location": "dirt"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Oil Can Ramirez",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Buster Malone",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Strikeout",
+      "source_start": 160,
+      "source_end": 165,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 161
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 162
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 163,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 164
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buster Malone",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Pontiac Gleason",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Walk",
+      "source_start": 166,
+      "source_end": 173,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 168,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 169
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 170,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 171
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 172,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 173,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pontiac Gleason",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Oil Can Ramirez",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Bobby the Fink Thomas",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Double Play",
+      "source_start": 174,
+      "source_end": 177,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 175,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 176,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 177
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Pontiac Gleason",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Bobby the Fink Thomas",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Boyd Getz",
+          "position": "2B"
+        }
+      ],
+      "notes": "Broadcast calls the inning-ending 4-3 double play; Ramirez was on second before it."
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Flip Wellington",
+      "pitcher": "Buster Malone",
+      "outcome": "Pop Out",
+      "source_start": 182,
+      "source_end": 186,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 183,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 184
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 185,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 186
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Flip Wellington",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Juan Syndegard",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Three Finger Cooper",
+      "pitcher": "Buster Malone",
+      "outcome": "Strikeout",
+      "source_start": 187,
+      "source_end": 192,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 188,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 189
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 190
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 191,
+          "location": "inside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 192
+        }
+      ],
+      "runners": [
+        {
+          "name": "Three Finger Cooper",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Buddy Olsen",
+      "pitcher": "Buster Malone",
+      "outcome": "Strikeout",
+      "source_start": 193,
+      "source_end": 200,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 195,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 196
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 197,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 198
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 199,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 200
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buddy Olsen",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Buck Timberline",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Strikeout",
+      "source_start": 206,
+      "source_end": 213,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 208,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 209
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 210,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 211
+        },
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 212
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buck Timberline",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Juan Syndegard",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Pop Out",
+      "source_start": 214,
+      "source_end": 218,
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 215,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 216
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 217
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 218
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Juan Syndegard",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Two Shoes Robinson",
+          "position": "SS"
+        }
+      ],
+      "notes": "Shortstop Two Shoes Robinson makes the shallow-center catch."
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Timmy Von Trimble",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Flyout",
+      "source_start": 219,
+      "source_end": 224,
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 221,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 222,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 223
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 224
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Timmy Von Trimble",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Chili Johnson",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Montgomery Velasquez",
+      "pitcher": "Buster Malone",
+      "outcome": "Walk",
+      "source_start": 232,
+      "source_end": 238,
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 233,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 234,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 235
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 236
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 237,
+          "location": "high_outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 238,
+          "location": "low"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Montgomery Velasquez",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Boyd Getz",
+      "pitcher": "Buster Malone",
+      "outcome": "Flyout",
+      "source_start": 239,
+      "source_end": 243,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 241
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 242,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 243
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Boyd Getz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Boomer Chavez",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Granny Hauser",
+      "pitcher": "Buster Malone",
+      "outcome": "Home Run",
+      "source_start": 244,
+      "source_end": 250,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 245,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 246,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 247,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 248
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Granny Hauser",
+          "start": null,
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Montgomery Velasquez",
+          "start": "1B",
+          "end": "score",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Two Shoes Robinson",
+      "pitcher": "Buster Malone",
+      "outcome": "Strikeout",
+      "source_start": 251,
+      "source_end": 258,
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 253
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 254,
+          "location": "inside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 255
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 256
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 257
+        }
+      ],
+      "runners": [
+        {
+          "name": "Two Shoes Robinson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Miles Banks",
+      "pitcher": "Buster Malone",
+      "outcome": "Groundout",
+      "source_start": 259,
+      "source_end": 260,
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 260
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Miles Banks",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Buster Malone",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Boomer Chavez",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Groundout",
+      "source_start": 268,
+      "source_end": 273,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 269,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 270,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 271
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 272
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 273
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Boomer Chavez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Three Finger Cooper",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Oscar Patterson",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Walk",
+      "source_start": 274,
+      "source_end": 279,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 276,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 277,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 278,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 279,
+          "location": "inside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Oscar Patterson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Oil Can Ramirez",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Intentional Walk",
+      "source_start": 280,
+      "source_end": 282,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [],
+      "runners": [
+        {
+          "name": "Oil Can Ramirez",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Oscar Patterson",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "notes": "The announcer says \"And the pitch\" but immediately reports the decision to put Ramirez on; no delivered pitch is described."
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Buster Malone",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Strikeout",
+      "source_start": 283,
+      "source_end": 292,
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 288,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 289
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 290
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 291
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buster Malone",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Pontiac Gleason",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Groundout",
+      "source_start": 293,
+      "source_end": 298,
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 295,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Knuckleball",
+          "line": 296
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 297
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 298
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Pontiac Gleason",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Two Shoes Robinson",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Chili Johnson",
+      "pitcher": "Buster Malone",
+      "outcome": "Strikeout",
+      "source_start": 305,
+      "source_end": 312,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 309
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 310
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 311,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 312
+        }
+      ],
+      "runners": [
+        {
+          "name": "Chili Johnson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Flip Wellington",
+      "pitcher": "Buster Malone",
+      "outcome": "Single",
+      "source_start": 313,
+      "source_end": 319,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 314,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 315,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 316
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 317
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 318
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Flip Wellington",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Three Finger Cooper",
+      "pitcher": "Buster Malone",
+      "outcome": "Groundout",
+      "source_start": 320,
+      "source_end": 322,
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 322
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Three Finger Cooper",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Flip Wellington",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Pontiac Gleason",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Buddy Olsen",
+      "pitcher": "Buster Malone",
+      "outcome": "Walk",
+      "source_start": 323,
+      "source_end": 329,
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 325,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 326,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 327
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 328,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 329,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buddy Olsen",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Montgomery Velasquez",
+      "pitcher": "Buster Malone",
+      "outcome": "Forceout",
+      "source_start": 330,
+      "source_end": 332,
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 331,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 332
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Montgomery Velasquez",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Flip Wellington",
+          "start": "2B",
+          "end": "3B",
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Juan Syndegard",
+          "position": "3B"
+        }
+      ],
+      "notes": "Third baseman forces Wellington at third for the inning-ending out; batter is not retired at first."
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Bobby the Fink Thomas",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Strikeout",
+      "source_start": 338,
+      "source_end": 343,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 340
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 341,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 342
+        },
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 343
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bobby the Fink Thomas",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Buck Timberline",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Walk",
+      "source_start": 344,
+      "source_end": 351,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 346,
+          "location": "inside"
+        },
+        {
+          "code": "S",
+          "type": "Knuckleball",
+          "line": 347
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 348,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 349
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 350,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Knuckleball",
+          "line": 351
+        }
+      ],
+      "runners": [
+        {
+          "name": "Buck Timberline",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Juan Syndegard",
+      "pitcher": "Three Finger Cooper",
+      "outcome": "Double Play",
+      "source_start": 352,
+      "source_end": 357,
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Knuckleball",
+          "line": 353
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 354,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 355,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 356
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Buck Timberline",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Juan Syndegard",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Two Shoes Robinson",
+          "position": "SS"
+        },
+        {
+          "name": "Three Finger Cooper",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Boyd Getz",
+      "pitcher": "Buster Malone",
+      "outcome": "Single",
+      "source_start": 364,
+      "source_end": 369,
+      "outs": 0,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 366
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 367,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 368
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Boyd Getz",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Granny Hauser",
+      "pitcher": "Buster Malone",
+      "outcome": "Incomplete",
+      "source_start": 370,
+      "source_end": 389,
+      "outs": 0,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 371,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 372,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 373,
+          "location": "high_inside"
+        }
+      ],
+      "notes": "Hauser and pitcher Malone leave after an altercation with the count3-0. This interrupted appearance continues with Doc Butler facing Homer Bishop; no out or completed plate appearance is invented.",
+      "interrupted_pa": true
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Doc Butler",
+      "pitcher": "Homer Bishop",
+      "outcome": "Strikeout",
+      "source_start": 390,
+      "source_end": 392,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 390
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 391
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 392
+        }
+      ],
+      "runners": [
+        {
+          "name": "Doc Butler",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Doc Butler replaces Hauser mid-appearance, inheriting3-0; Homer Bishop replaces Malone.",
+      "initial_count": [
+        3,
+        0
+      ],
+      "continuing_pa": true
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Two Shoes Robinson",
+      "pitcher": "Homer Bishop",
+      "outcome": "Pop Out",
+      "source_start": 393,
+      "source_end": 395,
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 395
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Two Shoes Robinson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Homer Bishop",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Miles Banks",
+      "pitcher": "Homer Bishop",
+      "outcome": "Flyout",
+      "source_start": 396,
+      "source_end": 402,
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 398,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 399
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 400,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 401
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 402
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Miles Banks",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Buck Timberline",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Timmy Von Trimble",
+      "pitcher": "Shep Preston",
+      "outcome": "Strikeout",
+      "source_start": 409,
+      "source_end": 418,
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 412,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 413
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 415,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Changeup",
+          "line": 416,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 417
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 418
+        }
+      ],
+      "runners": [
+        {
+          "name": "Timmy Von Trimble",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Line414 identifies the curveball at413 as an eephus pitch."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Boomer Chavez",
+      "pitcher": "Shep Preston",
+      "outcome": "Pop Out",
+      "source_start": 419,
+      "source_end": 425,
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 421
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 422,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 423
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 424,
+          "location": "high_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 425
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Boomer Chavez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Montgomery Velasquez",
+          "position": "3B"
+        }
+      ],
+      "notes": "Third baseman Montgomery Velasquez makes the shallow-left catch."
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Oscar Patterson",
+      "pitcher": "Shep Preston",
+      "outcome": "Strikeout",
+      "source_start": 426,
+      "source_end": 432,
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 428
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 429,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 430
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 431
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 432
+        }
+      ],
+      "runners": [
+        {
+          "name": "Oscar Patterson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    }
+  ],
+  "gaps": [],
+  "complete": true
+}

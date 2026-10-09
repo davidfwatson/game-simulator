@@ -1,0 +1,92 @@
+{
+  "episode": "episode_039.txt",
+  "cases": [
+    {
+      "id": "episode_039_knuckling_foul_pop",
+      "source_line": 48,
+      "source_text": "And the pitch... Popped up into foul territory, and that one will knuckle into the stands. Oh and one.",
+      "expected": "Popped up into foul territory, and that one will knuckle into the stands.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "popped up into foul territory, and that one will knuckle into the stands",
+      "inputs": {}
+    },
+    {
+      "id": "episode_039_dribbler_to_pitcher",
+      "source_line": 58,
+      "source_text": "The one-one pitch... Dribbler back to the mound. Whitehouse has it, and he tosses to first to retire McCaskill for out number two.",
+      "expected": "Dribbler back to the mound. Whitehouse has it, and he tosses to first to retire McCaskill for out number two.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.pitcher_groundout",
+      "template": "Dribbler back to the mound. {fielder_name} has it, and he tosses to first to retire {batter_name} {out_context_str}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "pitcher_groundout",
+          "location": "P"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "McCaskill",
+        "fielder_name": "Whitehouse",
+        "fielder_pos": "P",
+        "result_outs": 2
+      }
+    },
+    {
+      "id": "episode_039_curveball_downstairs",
+      "source_line": 402,
+      "source_text": "Curveball downstairs. One and one.",
+      "expected": "downstairs",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.low_inside",
+      "template": "downstairs",
+      "inputs": {
+        "event_type": "B",
+        "zone": 13,
+        "pitch_type_simple": "curveball",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "episode_039_standup_double_leading_off",
+      "source_line": 297,
+      "source_text": "And Haggerty will be aboard with a stand-up double to lead off the fifth.",
+      "expected": "Haggerty will be aboard with a stand-up double to lead off the fifth.",
+      "kind": "runner_status",
+      "pool": "narrative_strings.leadoff_double",
+      "template": "{batter_name} will be aboard with a stand-up double{inning_context}.",
+      "inputs": {
+        "outcome": "Double",
+        "batter_name": "Haggerty",
+        "result_outs": 0,
+        "is_leadoff": true,
+        "inning_context": " to lead off the fifth"
+      }
+    },
+    {
+      "id": "episode_039_diving_catch_ends_inning",
+      "source_line": 234,
+      "source_text": "And the one-two... Hit in the air to left center. Smathers racing after it, and he makes a diving catch to end the inning.",
+      "expected": "Smathers racing after it, and he makes a diving catch to end the inning.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Flyout.default",
+      "template": "{fielder_name} racing after it, and he makes a diving catch {out_context_str}.",
+      "inputs": {
+        "outcome": "Flyout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "LCF"
+        },
+        "pitch_details": {
+          "type": "Fastball"
+        },
+        "batter_name": "Joe Bill Silver",
+        "fielder_name": "Smathers",
+        "fielder_pos": "CF",
+        "result_outs": 3
+      }
+    }
+  ]
+}

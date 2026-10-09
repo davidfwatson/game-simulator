@@ -1,0 +1,70 @@
+{
+  "episode": "episode_037.txt",
+  "cases": [
+    {
+      "id": "just_inside_fastball",
+      "source_line": 58,
+      "source_text": "The oh-two pitch... Fastball misses just inside. One and two.",
+      "expected": "misses just inside",
+      "kind": "pitch_location",
+      "pool": "pitch_locations.ball.high_inside",
+      "template": "misses just inside",
+      "inputs": {
+        "event_type": "B",
+        "zone": 11,
+        "pitch_type_simple": "Fastball",
+        "batter_hand": "R"
+      }
+    },
+    {
+      "id": "now_payoff_connector",
+      "source_line": 80,
+      "source_text": "And now the payoff pitch... Fastball just a bit outside, and Rudderson draws the walk.",
+      "expected": "And now the payoff pitch...",
+      "kind": "pitch_connector",
+      "pool": "narrative_strings.payoff_pitch",
+      "template": "And now the payoff pitch...",
+      "inputs": {
+        "balls": 3,
+        "strikes": 2,
+        "pitcher_name": "Frank Gibson",
+        "batter_name": "Blink Rudderson",
+        "runners_on_base": true
+      }
+    },
+    {
+      "id": "sliced_third_base_foul",
+      "source_line": 101,
+      "source_text": "And the pitch... Sliced foul down the third base line. Oh and one.",
+      "expected": "Sliced foul down the third base line.",
+      "kind": "foul",
+      "pool": "pitch_locations.foul",
+      "template": "sliced foul down the third base line",
+      "inputs": {}
+    },
+    {
+      "id": "fielder_named_roller",
+      "source_line": 131,
+      "source_text": "And the payoff pitch... Roller to Ferguson, he's up with it, and flips to first to retire Gibson for out number two.",
+      "expected": "Roller to Ferguson, he's up with it, and flips to first to retire Gibson for out number two.",
+      "kind": "play_description",
+      "pool": "narrative_templates.Groundout.default",
+      "template": "Roller to {fielder_name}, he's up with it, and flips to first to retire {batter_name} {out_context_str}.",
+      "inputs": {
+        "outcome": "Groundout",
+        "hit_data": {
+          "categoryOverride": "default",
+          "location": "2B"
+        },
+        "pitch_details": {
+          "type": "curveball",
+          "velo": 78
+        },
+        "batter_name": "Gibson",
+        "result_outs": 2,
+        "fielder_pos": "2B",
+        "fielder_name": "Ferguson"
+      }
+    }
+  ]
+}

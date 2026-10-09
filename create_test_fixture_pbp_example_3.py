@@ -13,10 +13,12 @@ def main():
 
     data = sim.gameday_data
 
-    # Enable direct mode
-    data['gameData']['directMode'] = True
-
     # Modify team names to match the desired output
+    # Drop geographic speech overrides inherited from the simulated teams.
+    for team in data['gameData']['teams'].values():
+        team.pop('spokenLocation', None)
+        team.pop('spokenLocationWithState', None)
+
     data['gameData']['teams']['home']['name'] = 'Lake City Loons'
     data['gameData']['teams']['home']['teamName'] = 'Loons'
     data['gameData']['teams']['home']['abbreviation'] = 'LCL'

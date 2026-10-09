@@ -1,0 +1,3357 @@
+{
+  "episode": 29,
+  "source_file": "episode_029.txt",
+  "game": {
+    "away": "Tomah Tigers",
+    "home": "Pumpkin Center River Rats",
+    "venue": "Pumpkin Center Memorial Field",
+    "away_lineup": [
+      {
+        "name": "Schmitty Diaz",
+        "position": "CF"
+      },
+      {
+        "name": "Bruford Kosinski",
+        "position": "RF"
+      },
+      {
+        "name": "Burke Sessions",
+        "position": "3B"
+      },
+      {
+        "name": "Ernesto Stern",
+        "position": "1B"
+      },
+      {
+        "name": "Von Kramer",
+        "position": "2B"
+      },
+      {
+        "name": "Prudence Jefferson",
+        "position": "LF"
+      },
+      {
+        "name": "Clifton Santiago",
+        "position": "C"
+      },
+      {
+        "name": "Giorgio Mullins",
+        "position": "P"
+      },
+      {
+        "name": "Shorty Bush",
+        "position": "SS"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Teddy Flowerman",
+        "position": "SS"
+      },
+      {
+        "name": "Badger Martinez",
+        "position": "2B"
+      },
+      {
+        "name": "Oil Can Hurlburt",
+        "position": "1B"
+      },
+      {
+        "name": "Tommy McGill",
+        "position": "RF"
+      },
+      {
+        "name": "Moonglow Canutson",
+        "position": "LF"
+      },
+      {
+        "name": "Jimmy the Godfather Groth",
+        "position": "C"
+      },
+      {
+        "name": "Eduardo Olsen",
+        "position": "CF"
+      },
+      {
+        "name": "Jackie Lozano",
+        "position": "3B"
+      },
+      {
+        "name": "Philip Jeffries",
+        "position": "P"
+      }
+    ],
+    "away_pitcher": "Giorgio Mullins",
+    "home_pitcher": "Philip Jeffries"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 42,
+      "source_end": 47,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 43
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 44,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 45,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 46,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 47
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Walk",
+      "source_start": 48,
+      "source_end": 53,
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 49,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 50,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 51,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 52
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 53,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Home Run",
+      "source_start": 54,
+      "source_end": 56,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 55
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Bruford Kosinski",
+          "start": "1B",
+          "end": "score",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Philip Jeffries",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Groundout",
+      "source_start": 57,
+      "source_end": 61,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 58
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 59,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 60,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 61
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Teddy Flowerman",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Single",
+      "source_start": 62,
+      "source_end": 63,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 63
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Single",
+      "source_start": 64,
+      "source_end": 68,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 65
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 66
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Von Kramer",
+          "start": "1B",
+          "end": "3B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "batter": "Clifton Santiago",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Groundout",
+      "source_start": 69,
+      "source_end": 71,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Breaking ball",
+          "line": 70
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 71
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Oil Can Hurlburt",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Teddy Flowerman",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Flyout",
+      "source_start": 79,
+      "source_end": 85,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 82,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 83
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 84
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 85
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Teddy Flowerman",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Badger Martinez",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Groundout",
+      "source_start": 86,
+      "source_end": 90,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 87
+        },
+        {
+          "code": "C",
+          "type": "Splitter",
+          "line": 88
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 89,
+          "location": "low_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 90
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Badger Martinez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "batter": "Oil Can Hurlburt",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Strikeout",
+      "source_start": 91,
+      "source_end": 94,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 92
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 93
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 94
+        }
+      ],
+      "runners": [
+        {
+          "name": "Oil Can Hurlburt",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Giorgio Mullins",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 101,
+      "source_end": 106,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 103
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 104,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 105
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 106
+        }
+      ],
+      "runners": [
+        {
+          "name": "Giorgio Mullins",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Shorty Bush",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Flyout",
+      "source_start": 107,
+      "source_end": 111,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 108,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 109,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 110
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 111
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Eduardo Olsen",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Single",
+      "source_start": 112,
+      "source_end": 117,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 114
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 115
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 116,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 117
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Single",
+      "source_start": 118,
+      "source_end": 122,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 119,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 120
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 121
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 122
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Schmitty Diaz",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "notes": "Retrospective intro says Kosinski had a first-inning hit, but live lines49-53 describe a walk. The live outcome is retained. Final summary444 gives Tomah12hits, whereas live outcomes total11; no extra hit is invented."
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 123,
+      "source_end": 130,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 126
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 127,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 128,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 129
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 130
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Tommy McGill",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Groundout",
+      "source_start": 137,
+      "source_end": 140,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 138
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 139
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 140
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Tommy McGill",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Giorgio Mullins",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Moonglow Canutson",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Flyout",
+      "source_start": 141,
+      "source_end": 142,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 142
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Moonglow Canutson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        },
+        {
+          "name": "Giorgio Mullins",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "batter": "Jimmy the Godfather Groth",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Strikeout",
+      "source_start": 143,
+      "source_end": 148,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 144,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 145,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 146,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 147
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 148
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jimmy the Godfather Groth",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Groundout",
+      "source_start": 154,
+      "source_end": 159,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 156
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 157,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 158
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 159
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Oil Can Hurlburt",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Single",
+      "source_start": 160,
+      "source_end": 166,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 161,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 162,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 163
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 164,
+          "location": "high"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 165
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 166
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Lineout",
+      "source_start": 167,
+      "source_end": 169,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 168
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 169
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Tommy McGill",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Clifton Santiago",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Single",
+      "source_start": 170,
+      "source_end": 174,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 171
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 172
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 173
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Von Kramer",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "batter": "Giorgio Mullins",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 175,
+      "source_end": 178,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 176
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 177
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 178
+        }
+      ],
+      "runners": [
+        {
+          "name": "Giorgio Mullins",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Intro says Mullins struck out in the first, but his prior appearance occurred in the second."
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Eduardo Olsen",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Strikeout",
+      "source_start": 185,
+      "source_end": 189,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 186
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 187
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 188,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 189
+        }
+      ],
+      "runners": [
+        {
+          "name": "Eduardo Olsen",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Jackie Lozano",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Field Error",
+      "source_start": 190,
+      "source_end": 192,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 191
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 192
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Jackie Lozano",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        }
+      ],
+      "notes": "Play line192 says Olsen safe at first, but Lozano is introduced at190, Olsen was retired at189, and runner at198 is Lozano. Use Lozano with this explicit name conflict."
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Philip Jeffries",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Sacrifice Bunt",
+      "source_start": 193,
+      "source_end": 198,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 194,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 195,
+          "isBunt": true
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 196,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 197
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 198,
+          "isBunt": true
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "bunt",
+        "categoryOverride": "bunt"
+      },
+      "runners": [
+        {
+          "name": "Philip Jeffries",
+          "start": null,
+          "end": null,
+          "out": true
+        },
+        {
+          "name": "Jackie Lozano",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Giorgio Mullins",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "batter": "Teddy Flowerman",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Strikeout",
+      "source_start": 199,
+      "source_end": 203,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 200
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 201
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 202,
+          "location": "high_outside"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 203
+        }
+      ],
+      "runners": [
+        {
+          "name": "Teddy Flowerman",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Shorty Bush",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Flyout",
+      "source_start": 208,
+      "source_end": 211,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 209,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 210
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 211
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Moonglow Canutson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 212,
+      "source_end": 217,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 213
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 214,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 215
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 216,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 217
+        }
+      ],
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 218,
+      "source_end": 223,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 219
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 220,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 221,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 222
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 223
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Intro calls Kosinski two-for-two with singles; live first inning was a walk and second inning was a single."
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Badger Martinez",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Groundout",
+      "source_start": 229,
+      "source_end": 233,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 230
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 231,
+          "location": "high_outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 232
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 233
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Badger Martinez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Oil Can Hurlburt",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Lineout",
+      "source_start": 234,
+      "source_end": 236,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 235,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 236
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Oil Can Hurlburt",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "batter": "Tommy McGill",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Strikeout",
+      "source_start": 237,
+      "source_end": 242,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 238,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 239
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 240,
+          "location": "low_outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 241
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 242
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tommy McGill",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Line239 says fastball misses just outside yet announces1-1 after a ball; subsequent count remains consistent with a strike. Encode called strike to preserve announced count and flag the conflicting location description."
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Groundout",
+      "source_start": 249,
+      "source_end": 251,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 250,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 251
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Badger Martinez",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Flyout",
+      "source_start": 252,
+      "source_end": 253,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 253
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Moonglow Canutson",
+          "position": "LF"
+        },
+        {
+          "name": "Philip Jeffries",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Double",
+      "source_start": 254,
+      "source_end": 257,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 255,
+          "location": "high_outside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 256,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 257
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Groundout",
+      "source_start": 258,
+      "source_end": 261,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 259
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 260,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 261
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Teddy Flowerman",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Moonglow Canutson",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Strikeout",
+      "source_start": 267,
+      "source_end": 272,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 269
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 270,
+          "location": "high"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 271
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 272
+        }
+      ],
+      "runners": [
+        {
+          "name": "Moonglow Canutson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Jimmy the Godfather Groth",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Pop Out",
+      "source_start": 273,
+      "source_end": 276,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 274,
+          "location": "low_inside"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 275
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 276
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Jimmy the Godfather Groth",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "batter": "Eduardo Olsen",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Strikeout",
+      "source_start": 277,
+      "source_end": 283,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Slider",
+          "line": 278,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 279,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 280,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 281
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 282
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 283
+        }
+      ],
+      "runners": [
+        {
+          "name": "Eduardo Olsen",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Clifton Santiago",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Flyout",
+      "source_start": 288,
+      "source_end": 289,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 289
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Eduardo Olsen",
+          "position": "CF"
+        },
+        {
+          "name": "Philip Jeffries",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Giorgio Mullins",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 290,
+      "source_end": 295,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 291,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 292,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 293
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 294
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 295
+        }
+      ],
+      "runners": [
+        {
+          "name": "Giorgio Mullins",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "batter": "Shorty Bush",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Flyout",
+      "source_start": 296,
+      "source_end": 298,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 297
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 298
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Eduardo Olsen",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Jackie Lozano",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Lineout",
+      "source_start": 304,
+      "source_end": 307,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 305
+        },
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 306,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 307
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Jackie Lozano",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Philip Jeffries",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Groundout",
+      "source_start": 308,
+      "source_end": 309,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 309
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Philip Jeffries",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Giorgio Mullins",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Teddy Flowerman",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Walk",
+      "source_start": 310,
+      "source_end": 315,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Breaking ball",
+          "line": 311,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 312,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 313,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 314,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Teddy Flowerman",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "batter": "Badger Martinez",
+      "pitcher": "Giorgio Mullins",
+      "outcome": "Flyout",
+      "source_start": 316,
+      "source_end": 318,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Breaking ball",
+          "line": 317,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 318
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Badger Martinez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Double",
+      "source_start": 322,
+      "source_end": 325,
+      "outs": 0,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 323,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 324
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 325
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Jackie Lozano",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Hit By Pitch",
+      "source_start": 326,
+      "source_end": 328,
+      "outs": 0,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 327,
+          "location": "outside"
+        },
+        {
+          "code": "H",
+          "type": "Off-speed pitch",
+          "line": 328
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 329,
+      "source_end": 332,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 330
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 331
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 332
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Ernesto Stern",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Walk",
+      "source_start": 333,
+      "source_end": 343,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 334,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "Off-speed pitch",
+          "line": 335,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 336,
+          "location": "low_outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 337,
+          "location": "outside"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Schmitty Diaz",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        },
+        {
+          "name": "Bruford Kosinski",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "batter": "Von Kramer",
+      "pitcher": "Rex Tanya",
+      "outcome": "Double Play",
+      "source_start": 344,
+      "source_end": 347,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 346,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 347
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Von Kramer",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Badger Martinez",
+          "position": "2B"
+        }
+      ],
+      "notes": "Source says grounder to second baseman Martinez then calls5-4-3. Preserve location/player and two outs; do not invent a third-baseman involvement."
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Oil Can Hurlburt",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Groundout",
+      "source_start": 351,
+      "source_end": 359,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 359
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball",
+        "putoutMethod": "unassisted"
+      },
+      "runners": [
+        {
+          "name": "Oil Can Hurlburt",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ],
+      "notes": "Lines353-357 explicitly announce Philip Jeffries has joined Tomah midgame and now pitches for the Tigers after starting for the River Rats."
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Tommy McGill",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Strikeout",
+      "source_start": 360,
+      "source_end": 364,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 361
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 362
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 363,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "Slider",
+          "line": 364
+        }
+      ],
+      "runners": [
+        {
+          "name": "Tommy McGill",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "batter": "Moonglow Canutson",
+      "pitcher": "Philip Jeffries",
+      "outcome": "Lineout",
+      "source_start": 365,
+      "source_end": 366,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 366
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Moonglow Canutson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Philip Jeffries",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Rex Tanya",
+      "outcome": "Flyout",
+      "source_start": 371,
+      "source_end": 372,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 372
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Badger Martinez",
+          "position": "2B"
+        }
+      ],
+      "notes": "Source calls right-field catch by Martinez, whose announced position is second base. Both location and named fielder retained; no defensive switch invented."
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Clifton Santiago",
+      "pitcher": "Rex Tanya",
+      "outcome": "Single",
+      "source_start": 373,
+      "source_end": 377,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 374
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 375,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 376
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Charlie Tate",
+      "pitcher": "Rex Tanya",
+      "outcome": "Single",
+      "source_start": 378,
+      "source_end": 379,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 379
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Charlie Tate",
+          "start": null,
+          "end": "1B",
+          "out": false
+        },
+        {
+          "name": "Clifton Santiago",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "notes": "Pinch hitter in pitcher spot."
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "batter": "Shorty Bush",
+      "pitcher": "Rex Tanya",
+      "outcome": "Double Play",
+      "source_start": 380,
+      "source_end": 385,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 381,
+          "location": "low_inside"
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 382
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 383
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 384,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 385
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Charlie Tate",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Badger Martinez",
+          "position": "2B"
+        }
+      ],
+      "notes": "Source calls grounder to second baseman Martinez and an inning-ending5-4-3. Preserve named fielder/location and two outs, without inventing third-baseman involvement."
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Jimmy the Godfather Groth",
+      "pitcher": "Miguel Rockford",
+      "outcome": "Strikeout",
+      "source_start": 392,
+      "source_end": 396,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 394
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 395
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 396
+        }
+      ],
+      "runners": [
+        {
+          "name": "Jimmy the Godfather Groth",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Eduardo Olsen",
+      "pitcher": "Miguel Rockford",
+      "outcome": "Pop Out",
+      "source_start": 397,
+      "source_end": 400,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 398
+        },
+        {
+          "code": "S",
+          "type": "Breaking ball",
+          "line": 399
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 400
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Eduardo Olsen",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Von Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "batter": "Jackie Lozano",
+      "pitcher": "Miguel Rockford",
+      "outcome": "Groundout",
+      "source_start": 401,
+      "source_end": 404,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 402,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 403
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 404
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Jackie Lozano",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Rex Tanya",
+      "outcome": "Groundout",
+      "source_start": 409,
+      "source_end": 412,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 410,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 411
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 412
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Schmitty Diaz",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Badger Martinez",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Rex Tanya",
+      "outcome": "Strikeout",
+      "source_start": 413,
+      "source_end": 417,
+      "outs": 2,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 414
+        },
+        {
+          "code": "B",
+          "type": "Fastball",
+          "line": 415,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 416
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 417
+        }
+      ],
+      "runners": [
+        {
+          "name": "Bruford Kosinski",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "batter": "Burke Sessions",
+      "pitcher": "Rex Tanya",
+      "outcome": "Strikeout",
+      "source_start": 418,
+      "source_end": 421,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 419
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 420
+        },
+        {
+          "code": "C",
+          "type": "Slider",
+          "line": 421
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Sylvester Heron",
+      "pitcher": "Chadwick",
+      "outcome": "Strikeout",
+      "source_start": 427,
+      "source_end": 431,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 428
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 429
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 430,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "Fastball",
+          "line": 431
+        }
+      ],
+      "runners": [
+        {
+          "name": "Sylvester Heron",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "notes": "Pinch hitter in pitcher spot; opposing closer is named only Chadwick in source."
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Teddy Flowerman",
+      "pitcher": "Chadwick",
+      "outcome": "Single",
+      "source_start": 432,
+      "source_end": 436,
+      "outs": 1,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 433
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 434,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 435
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "runners": [
+        {
+          "name": "Teddy Flowerman",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "batter": "Badger Martinez",
+      "pitcher": "Chadwick",
+      "outcome": "Double Play",
+      "source_start": 437,
+      "source_end": 440,
+      "outs": 3,
+      "score": [
+        2,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "Fastball",
+          "line": 438
+        },
+        {
+          "code": "B",
+          "type": "Curveball",
+          "line": 439,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 440
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "runners": [
+        {
+          "name": "Teddy Flowerman",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Badger Martinez",
+          "start": null,
+          "end": null,
+          "out": true
+        }
+      ],
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        }
+      ]
+    }
+  ],
+  "gaps": [],
+  "complete": true
+}

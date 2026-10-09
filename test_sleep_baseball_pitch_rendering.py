@@ -77,13 +77,14 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
                 hand = resolve_batter_hand('S', pitcher_hand)
                 self.assertEqual(hand, effective)
                 called = renderer._get_pitch_call(pitch('C', 4), 'Curveball', hand)
-                self.assertIn(f'on the {expected} corner', called)
+                self.assertIn(expected, called)
                 ball = renderer._get_pitch_call(pitch('B', 11), 'Curveball', hand)
                 self.assertIn('high and tight' if expected == 'inside' else 'letters', ball)
 
     def test_called_low_strikes_use_actual_strike_number(self):
         # Examples 2:517 and 4:37/601 distinguish a called strike from strike three.
         renderer = make_renderer()
+        renderer.rng_pitch = PhraseRNG('called {strike_call} at the knees')
         self.assertEqual(
             renderer._get_pitch_call(pitch('C', 8, 0), 'Fastball'),
             'Fastball, called a strike at the knees',
@@ -100,8 +101,11 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
                 renderer._get_pitch_call(pitch('C', zone), 'Fastball'),
                 'Fastball, called strike one',
             )
-            self.assertIsNone(renderer._get_location_strikeout_description(
-                pitch('S', None, 2), 'Fastball', 'Billy De Jesus', 'to end the inning'))
+            neutral = renderer._get_location_strikeout_description(
+                pitch('S', None, 2), 'Fastball', 'Billy De Jesus', 'to end the inning')
+            self.assertIsNotNone(neutral)
+            for word in ('low ', 'high ', 'inside ', 'outside ', 'dirt'):
+                self.assertNotIn(word, neutral)
 
     def test_complete_pitch_calls_do_not_repeat_pitch_type(self):
         pool = GAME_CONTEXT['narrative_strings']['strike_called_two']
@@ -115,11 +119,9 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
             renderer._get_pitch_call(pitch('B', 14), 'Curveball'),
             'And he takes a curveball outside',
         )
-        renderer.rng_pitch = IndexRNG(12)
-        self.assertEqual(
-            renderer._get_pitch_call(pitch('B', 11), 'Curveball'),
-            'Curveball high and tight',
-        )
+        renderer.rng_pitch = PhraseRNG('high and tight')
+        self.assertEqual(renderer._get_pitch_call(pitch('B', 11), 'Curveball'),
+                         'Curveball high and tight')
 
     def test_nonterminal_location_swings_never_announce_a_strikeout(self):
         renderer = make_renderer()
@@ -235,9 +237,11 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
 
     def test_count_variants_use_independent_stream_after_fastball_choices(self):
         renderer = make_renderer()
-        # FF simplification and description consume both pitch-stream calls.
-        # The play-stream digit still independently selects 'falls behind'.
-        renderer._reseed_from_timestamp('2025-09-27T23:05:00.0000000000000001', 'event')
+        # FF simplification and description consume the first pitch draws.
+        # The independent play draw still selects 'falls behind'.
+        renderer.base_seed = 31
+        renderer._reseed_for_point({'commentaryRng': {'event': {'pitch': [0, 0], 'play': [1, 0, 0]}}},
+                                   'event', '2025-09-27T23:05:00Z', 'count-case')
         pitch_type = renderer._simplify_pitch_type('Four-seam fastball', capitalize=True)
         renderer._get_pitch_call(pitch('B', 14), pitch_type)
         self.assertEqual(
@@ -266,17 +270,18 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
             ('C', 2, 1, 5), ('S', 2, 2, 2),
         ):
             event = copy.deepcopy(prototype)
-            event['details'].update(code=code, zone=zone)
+            event['details'].update(code=code, zone=zone, description='Pitch')
+            event['details'].pop('location', None)
             event['details']['type'] = {'code': 'FF', 'description': 'Four-seam fastball'}
             event['count'].update(balls=balls, strikes=strikes)
-            # Period after description; count variation is play-stream choice1.
-            seed = 9000 * 100000000 + (1 if (balls, strikes) == (1, 0) else 0)
-            event['startTime'] = f'2025-09-27T23:05:01.{seed:016d}'
+            event['commentaryRng'] = {'event': {
+                'pitch': [0, 0], 'play': [1 if (balls, strikes) == (1, 0) else 0],
+                'flow': [0, 99, 99], 'color': [],
+            }}
             play['playEvents'].append(event)
-        play['about']['endTime'] = '2025-09-27T23:05:19.0000000000000000'
+        play['commentaryRng'] = {'play_outcome': {'play': [99, 0]}}
         play['matchup']['pitcher']['fullName'] = 'Javier Von Neumann'
         data['liveData']['plays']['allPlays'] = [play]
-        data['gameData']['directMode'] = True
         text = NarrativeRenderer(data).render()
         self.assertIn('And Von Neumann falls behind, two and oh.', text)
         self.assertIn('Swing and a miss on a high heater, and Bradleys is down on strikes for out number one.', text)
@@ -287,13 +292,25 @@ class TestSleepBaseballPitchRendering(unittest.TestCase):
         play = copy.deepcopy(data['liveData']['plays']['allPlays'][0])
         final = play['playEvents'][-1]
         final['details'].update(code='S', zone=5, description='Swinging Strike')
+        final['details'].pop('location', None)
         final['details']['type'] = {'code': 'FF', 'description': 'Fastball'}
-        final['startTime'] = '2025-09-27T23:05:01.0000000000060000'
-        play['about']['endTime'] = '2025-09-27T23:05:19.0000000000000006'
+        final['commentaryRng'] = {'event': {'pitch': [0], 'flow': [0, 99, 99]}}
+        play['commentaryRng'] = {'play_outcome': {'play': [99, 2]}}
         data['liveData']['plays']['allPlays'] = [play]
-        data['gameData']['directMode'] = True
         text = NarrativeRenderer(data).render()
         self.assertIn('Swung on and missed. And down goes Bradleys for out number one.', text)
+
+    def test_recorded_verbal_location_overrides_zone_and_unknown_batter_hand(self):
+        renderer = make_renderer()
+        event = pitch('B', 12)
+        event['details']['location'] = 'inside'
+        for hand in ('L', 'R', 'U'):
+            self.assertEqual(renderer._get_pitch_call(event, 'Slider', hand), 'Slider misses inside')
+        event = pitch('S', 8)
+        event['details']['location'] = 'high'
+        renderer.rng_pitch = PhraseRNG('Swing and a miss on a high {pitch_type_short}')
+        self.assertEqual(renderer._get_pitch_call(event, 'Fastball', 'U'),
+                         'Swing and a miss on a high heater')
 
 
 if __name__ == '__main__':

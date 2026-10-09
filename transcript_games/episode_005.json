@@ -1,0 +1,3363 @@
+{
+  "episode": 5,
+  "source_file": "episode_005.txt",
+  "complete": true,
+  "game": {
+    "away": "Tomah Tigers",
+    "home": "Cadillac Cars",
+    "venue": "Foghorn Field",
+    "away_manager": "Yuki Fukuda",
+    "away_lineup": [
+      {
+        "name": "Vaughn Kramer",
+        "position": "2B"
+      },
+      {
+        "name": "Prudence Jefferson",
+        "position": "LF"
+      },
+      {
+        "name": "Bruford Kosinski",
+        "position": "RF"
+      },
+      {
+        "name": "Schmitty Diaz",
+        "position": "CF"
+      },
+      {
+        "name": "Ernesto Stern",
+        "position": "1B"
+      },
+      {
+        "name": "Burke Sessions",
+        "position": "3B"
+      },
+      {
+        "name": "Clifton Santiago",
+        "position": "C"
+      },
+      {
+        "name": "Shorty Bush",
+        "position": "SS"
+      },
+      {
+        "name": "Todd Gonzalez",
+        "position": "P"
+      }
+    ],
+    "home_lineup": [
+      {
+        "name": "Gilligan Parker",
+        "position": "LF"
+      },
+      {
+        "name": "Pinky Slauson",
+        "position": "SS"
+      },
+      {
+        "name": "Fritz Ortega",
+        "position": "CF"
+      },
+      {
+        "name": "Shiny Patterson",
+        "position": "3B"
+      },
+      {
+        "name": "Gabriel Palomar",
+        "position": "RF"
+      },
+      {
+        "name": "Philip Nakamura",
+        "position": "1B"
+      },
+      {
+        "name": "Flipper Cortez",
+        "position": "2B"
+      },
+      {
+        "name": "Giovanni Gasparro",
+        "position": "C"
+      },
+      {
+        "name": "Brock Niedermeier",
+        "position": "P"
+      }
+    ],
+    "away_pitcher": "Todd Gonzalez",
+    "home_pitcher": "Brock Niedermeier"
+  },
+  "plays": [
+    {
+      "inning": 1,
+      "top": true,
+      "source_start": 24,
+      "source_end": 27,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 25,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 26
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 27
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "source_start": 28,
+      "source_end": 35,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Double Play",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 29,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 30
+        },
+        {
+          "code": "S",
+          "type": "Changeup",
+          "line": 31
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 32
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 33,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 34
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 35
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Prudence Jefferson",
+          "start": null,
+          "end": "1B",
+          "out": true
+        },
+        {
+          "name": "Vaughn Kramer",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": true,
+      "source_start": 36,
+      "source_end": 39,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 37,
+          "location": "corner"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 38
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 39
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "source_start": 43,
+      "source_end": 48,
+      "batter": "Gilligan Parker",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 44,
+          "location": "outside_corner"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 45,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 46
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 47,
+          "location": "dirt"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 48
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "source_start": 49,
+      "source_end": 53,
+      "batter": "Pinky Slauson",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Walk",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 50,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 51,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 52,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 53,
+          "location": "low"
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "source_start": 54,
+      "source_end": 60,
+      "batter": "Fritz Ortega",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Forceout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "A",
+          "line": 55,
+          "eventType": "pickoff_attempt",
+          "description": "Todd Gonzalez throws to first to check Pinky Slauson; no out.",
+          "runners": [
+            {
+              "name": "Pinky Slauson",
+              "start": "1B",
+              "end": "1B",
+              "out": false
+            }
+          ]
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 56
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 57,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 58
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 59,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 60
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "throw"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        },
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Pinky Slauson",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Fritz Ortega",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 1,
+      "top": false,
+      "source_start": 61,
+      "source_end": 67,
+      "batter": "Shiny Patterson",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Flyout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 62,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 63,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 64,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 65
+        },
+        {
+          "code": "S",
+          "type": "Cutter",
+          "line": 66
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 67
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Prudence Jefferson",
+          "position": "LF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 71,
+      "source_end": 75,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Flyout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 72,
+          "location": "corner"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 73,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 74
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 75
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 76,
+      "source_end": 81,
+      "batter": "Ernesto Stern",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Walk",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 77,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 78,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 79
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 80,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 81,
+          "location": "low"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 82,
+      "source_end": 84,
+      "batter": "Burke Sessions",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Forceout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 83,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 84
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball",
+        "forceMechanism": "throw"
+      },
+      "fielders": [
+        {
+          "name": "Shiny Patterson",
+          "position": "3B"
+        },
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": "1B",
+          "end": "2B",
+          "out": true
+        },
+        {
+          "name": "Burke Sessions",
+          "start": null,
+          "end": "1B",
+          "out": false
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 85,
+      "source_end": 88,
+      "batter": "Clifton Santiago",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Single",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 86,
+          "location": "high"
+        },
+        {
+          "code": "C",
+          "type": "Curveball",
+          "line": 87
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 88,
+          "isBunt": true
+        }
+      ],
+      "runners": [
+        {
+          "name": "Burke Sessions",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ],
+      "hit": {
+        "trajectory": "bunt"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 89,
+      "source_end": 94,
+      "batter": "Shorty Bush",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Walk",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 90,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 91
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 92,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 93,
+          "location": "high"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 94,
+          "location": "outside"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": true,
+      "source_start": 95,
+      "source_end": 96,
+      "batter": "Todd Gonzalez",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 96
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brock Niedermeier",
+          "position": "P"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 99,
+      "source_end": 102,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Flyout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 100,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 101
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 102
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 103,
+      "source_end": 105,
+      "batter": "Philip Nakamura",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Lineout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 104,
+          "location": "high_outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 105
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 2,
+      "top": false,
+      "source_start": 106,
+      "source_end": 108,
+      "batter": "Fritz Ortega",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 107,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 108
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        }
+      ],
+      "notes": "Source names Ortega again at seventh batting slot; later seventh-slot hitter is Cortez. Preserve the observed named appearance."
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 112,
+      "source_end": 113,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Flyout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 113
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 114,
+      "source_end": 116,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 115,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 116
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brock Niedermeier",
+          "position": "P"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 117,
+      "source_end": 117,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Single",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 117
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "line_drive"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": true,
+      "source_start": 118,
+      "source_end": 121,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Flyout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 119
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 120
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 121
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gilligan Parker",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 125,
+      "source_end": 132,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 126
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 127
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 128
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 129
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 130
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 131,
+          "location": "dirt"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 132
+        }
+      ]
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 133,
+      "source_end": 134,
+      "batter": "Brock Niedermeier",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Flyout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 134
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Bruford Kosinski",
+          "position": "RF"
+        }
+      ],
+      "notes": "Line134 states left field and names Kosinski, whose roster position is right field. Preserve the voiced location and named player without inventing a position switch."
+    },
+    {
+      "inning": 3,
+      "top": false,
+      "source_start": 135,
+      "source_end": 140,
+      "batter": "Gilligan Parker",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Strikeout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 136,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 137
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 138,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 139
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 140
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "source_start": 144,
+      "source_end": 148,
+      "batter": "Ernesto Stern",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 145
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 146
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 147
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 148
+        }
+      ],
+      "hit": {
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "notes": "RF Palomar fields grounder in shift and throws to first.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "source_start": 149,
+      "source_end": 150,
+      "batter": "Burke Sessions",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Flyout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 150
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "source_start": 151,
+      "source_end": 158,
+      "batter": "Clifton Santiago",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Walk",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 152
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 153
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 154,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 155,
+          "location": "low_inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 156
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 157,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 158,
+          "location": "inside"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": true,
+      "source_start": 159,
+      "source_end": 164,
+      "batter": "Shorty Bush",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Pop Out",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 160
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 161
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 162,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 163,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 164
+        }
+      ],
+      "hit": {
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "source_start": 168,
+      "source_end": 174,
+      "batter": "Pinky Slauson",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Pop Out",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 169,
+          "location": "outside_corner"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 170,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 171,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 172,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 173
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 174
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "source_start": 175,
+      "source_end": 176,
+      "batter": "Fritz Ortega",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 176
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Shorty Bush",
+          "position": "SS"
+        }
+      ]
+    },
+    {
+      "inning": 4,
+      "top": false,
+      "source_start": 177,
+      "source_end": 180,
+      "batter": "Shiny Patterson",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Flyout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 178
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 179
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 180
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Bruford Kosinski",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 183,
+      "source_end": 185,
+      "batter": "Todd Gonzalez",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Pop Out",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 184,
+          "location": "high"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 185
+        }
+      ],
+      "hit": {
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 186,
+      "source_end": 193,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Flyout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 187
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 188,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 189,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 190
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 191
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 192,
+          "location": "inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 193
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gilligan Parker",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": true,
+      "source_start": 194,
+      "source_end": 198,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 195,
+          "location": "inside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 196
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 197,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 198
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "source_start": 202,
+      "source_end": 206,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Groundout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 203
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 204,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 205,
+          "location": "dirt"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 206
+        }
+      ],
+      "hit": {
+        "location": "3B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Burke Sessions",
+          "position": "3B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "source_start": 207,
+      "source_end": 209,
+      "batter": "Philip Nakamura",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 208,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 209
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "source_start": 210,
+      "source_end": 217,
+      "batter": "Flipper Cortez",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Walk",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 211
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 212
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 213,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 214
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 215,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 216,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 217,
+          "location": "high"
+        }
+      ]
+    },
+    {
+      "inning": 5,
+      "top": false,
+      "source_start": 221,
+      "source_end": 222,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 222
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Todd Gonzalez",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "source_start": 226,
+      "source_end": 227,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Flyout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 227
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gilligan Parker",
+          "position": "LF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "source_start": 228,
+      "source_end": 231,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Strikeout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 229
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 230
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 231
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "source_start": 232,
+      "source_end": 234,
+      "batter": "Ernesto Stern",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Single",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 233,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 234
+        }
+      ],
+      "pitch_hand": "R",
+      "hit": {
+        "trajectory": "ground_ball"
+      }
+    },
+    {
+      "inning": 6,
+      "top": true,
+      "source_start": 235,
+      "source_end": 241,
+      "batter": "Burke Sessions",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Strikeout",
+      "outs": 3,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 236
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 237,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 238,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 239
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 241,
+          "location": "middle"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 245,
+      "source_end": 250,
+      "batter": "Brock Niedermeier",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Flyout",
+      "outs": 1,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 246,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 247,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 248,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 249
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 250
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Bruford Kosinski",
+          "position": "RF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 251,
+      "source_end": 252,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Lineout",
+      "outs": 2,
+      "score": [
+        0,
+        0
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 252
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ],
+      "notes": "Source says Palomar at top of order and struckouttwice. Earlier two strikeouts were Parker; preserve spoken named batter and flag."
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 253,
+      "source_end": 254,
+      "batter": "Pinky Slauson",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Home Run",
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 254
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Schmitty Diaz",
+          "position": "CF"
+        }
+      ]
+    },
+    {
+      "inning": 6,
+      "top": false,
+      "source_start": 255,
+      "source_end": 259,
+      "batter": "Fritz Ortega",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 256,
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 257
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 258,
+          "location": "low_inside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 259
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Todd Gonzalez",
+          "position": "P"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "source_start": 264,
+      "source_end": 272,
+      "batter": "Clifton Santiago",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 1,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 267
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 268,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 269,
+          "location": "low_inside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 270,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 271
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 272
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "source_start": 273,
+      "source_end": 274,
+      "batter": "Shorty Bush",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 274
+        }
+      ],
+      "hit": {
+        "location": "P",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Brock Niedermeier",
+          "position": "P"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": true,
+      "source_start": 275,
+      "source_end": 278,
+      "batter": "Todd Gonzalez",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        0,
+        1
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 276,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 277
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 278
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 282,
+      "source_end": 283,
+      "batter": "Shiny Patterson",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Home Run",
+      "outs": 0,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 283
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      }
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 284,
+      "source_end": 288,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 285
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 286,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 287
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 288
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 289,
+      "source_end": 292,
+      "batter": "Philip Nakamura",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 290
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 291,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 292
+        }
+      ],
+      "hit": {
+        "location": "2B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Vaughn Kramer",
+          "position": "2B"
+        }
+      ]
+    },
+    {
+      "inning": 7,
+      "top": false,
+      "source_start": 293,
+      "source_end": 296,
+      "batter": "Flipper Cortez",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Strikeout",
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 294
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 295
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 296
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "source_start": 300,
+      "source_end": 305,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 301
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 302,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 303,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 304
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 305
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "source_start": 306,
+      "source_end": 312,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Double",
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 307
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 308
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 309,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 310,
+          "location": "dirt"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 311,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 312
+        }
+      ],
+      "hit": {
+        "location": "RF"
+      },
+      "fielders": [
+        {
+          "name": "Gabriel Palomar",
+          "position": "RF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "source_start": 313,
+      "source_end": 314,
+      "batter": "Bruford Kosinski",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Pop Out",
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 314
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Flipper Cortez",
+          "position": "2B"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": true,
+      "source_start": 315,
+      "source_end": 317,
+      "batter": "Schmitty Diaz",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 316
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 317
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Philip Nakamura",
+          "position": "1B"
+        },
+        {
+          "name": "Brock Niedermeier",
+          "position": "P"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "source_start": 320,
+      "source_end": 322,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 321,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 322
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "ground_ball"
+      }
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "source_start": 323,
+      "source_end": 328,
+      "batter": "Brock Niedermeier",
+      "pitcher": "Todd Gonzalez",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 324,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 325,
+          "location": "corner"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 326
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 327,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 328
+        }
+      ],
+      "hit": {
+        "location": "CF"
+      },
+      "runners": [
+        {
+          "name": "Giovanni Gasparro",
+          "start": "1B",
+          "end": "2B",
+          "out": false
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "source_start": 332,
+      "source_end": 336,
+      "batter": "Gilligan Parker",
+      "pitcher": "Cesar Nixon",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 334
+        },
+        {
+          "code": "S",
+          "type": "Curveball",
+          "line": 335
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 336
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "source_start": 337,
+      "source_end": 342,
+      "batter": "Pinky Slauson",
+      "pitcher": "Cesar Nixon",
+      "outcome": "Strikeout",
+      "outs": 2,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 338
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 339,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 340
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 341
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 342
+        }
+      ]
+    },
+    {
+      "inning": 8,
+      "top": false,
+      "source_start": 343,
+      "source_end": 349,
+      "batter": "Fritz Ortega",
+      "pitcher": "Cesar Nixon",
+      "outcome": "Lineout",
+      "outs": 3,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 344,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 345,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 346
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 347,
+          "location": "low_outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 348
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 349
+        }
+      ],
+      "hit": {
+        "location": "1B",
+        "trajectory": "line_drive"
+      },
+      "fielders": [
+        {
+          "name": "Ernesto Stern",
+          "position": "1B"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 353,
+      "source_end": 356,
+      "batter": "Ernesto Stern",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Single",
+      "outs": 0,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 354
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 355,
+          "location": "low"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 356
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 357,
+      "source_end": 363,
+      "batter": "Burke Sessions",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 358,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 359
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 360,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 361,
+          "location": "middle"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 362,
+          "location": "low"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 363
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 364,
+      "source_end": 372,
+      "batter": "Clifton Santiago",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Double",
+      "outs": 1,
+      "score": [
+        0,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 365,
+          "location": "outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 366
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 367
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 368,
+          "location": "inside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 369
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 370,
+          "location": "dirt"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 371
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 372
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "line_drive"
+      },
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": "1B",
+          "end": "3B",
+          "out": false
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 373,
+      "source_end": 378,
+      "batter": "Shorty Bush",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Groundout",
+      "outs": 2,
+      "score": [
+        1,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 374,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 375,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 376,
+          "location": "high_inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 377
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 378
+        }
+      ],
+      "hit": {
+        "location": "SS",
+        "trajectory": "ground_ball"
+      },
+      "fielders": [
+        {
+          "name": "Pinky Slauson",
+          "position": "SS"
+        }
+      ],
+      "runners": [
+        {
+          "name": "Ernesto Stern",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        },
+        {
+          "name": "Clifton Santiago",
+          "start": "2B",
+          "end": "3B",
+          "out": false
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 379,
+      "source_end": 386,
+      "batter": "Toots McGee",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Single",
+      "outs": 2,
+      "score": [
+        2,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 380
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 381
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 382,
+          "location": "high_outside"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 383
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 384,
+          "location": "inside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 385,
+          "location": "outside"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 386
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "line_drive",
+        "categoryOverride": "soft_liner"
+      },
+      "runners": [
+        {
+          "name": "Clifton Santiago",
+          "start": "3B",
+          "end": "score",
+          "out": false
+        }
+      ],
+      "notes": "Line379 incorrectly says oneout; Bush made secondout at378 and387 confirms twoouts.",
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 387,
+      "source_end": 388,
+      "batter": "Vaughn Kramer",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Home Run",
+      "outs": 2,
+      "score": [
+        4,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 388
+        }
+      ],
+      "hit": {
+        "location": "LF",
+        "trajectory": "fly_ball"
+      },
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": true,
+      "source_start": 389,
+      "source_end": 393,
+      "batter": "Prudence Jefferson",
+      "pitcher": "Brock Niedermeier",
+      "outcome": "Flyout",
+      "outs": 3,
+      "score": [
+        4,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 390
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 391,
+          "location": "outside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 392,
+          "location": "corner"
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 393
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      },
+      "fielders": [
+        {
+          "name": "Fritz Ortega",
+          "position": "CF"
+        }
+      ],
+      "pitch_hand": "R"
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "source_start": 396,
+      "source_end": 400,
+      "batter": "Shiny Patterson",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Walk",
+      "outs": 0,
+      "score": [
+        4,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 397,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 398,
+          "location": "outside"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 399,
+          "location": "low"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 400,
+          "location": "inside"
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "source_start": 401,
+      "source_end": 406,
+      "batter": "Gabriel Palomar",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Strikeout",
+      "outs": 1,
+      "score": [
+        4,
+        2
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 402
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 403,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 404
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 405,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 406
+        }
+      ]
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "source_start": 407,
+      "source_end": 411,
+      "batter": "Philip Nakamura",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Home Run",
+      "outs": 1,
+      "score": [
+        4,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 408
+        },
+        {
+          "code": "A",
+          "line": 408,
+          "eventType": "stolen_base",
+          "description": "Stolen Base 2B",
+          "runners": [
+            {
+              "name": "Shiny Patterson",
+              "start": "1B",
+              "end": "2B"
+            }
+          ]
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 409,
+          "count": [
+            1,
+            0
+          ],
+          "location": "low"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 410
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 411
+        }
+      ],
+      "hit": {
+        "location": "RF",
+        "trajectory": "fly_ball"
+      },
+      "notes": "A pitch is explicitly delivered at408 during Patterson steal. Its result is not voiced on that line, but the next pitch409 starts1-0, establishing that408 was ball one. Pitch type remains unknown."
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "source_start": 412,
+      "source_end": 419,
+      "batter": "Flipper Cortez",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Single",
+      "outs": 1,
+      "score": [
+        4,
+        4
+      ],
+      "pitches": [
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 413,
+          "location": "outside"
+        },
+        {
+          "code": "S",
+          "type": "pitch",
+          "line": 414
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 415,
+          "location": "inside"
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 416,
+          "location": "middle"
+        },
+        {
+          "code": "B",
+          "type": "pitch",
+          "line": 417,
+          "location": "low"
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 418
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 419
+        }
+      ],
+      "hit": {
+        "location": "CF",
+        "trajectory": "fly_ball"
+      }
+    },
+    {
+      "inning": 9,
+      "top": false,
+      "source_start": 420,
+      "source_end": 424,
+      "batter": "Giovanni Gasparro",
+      "pitcher": "Jimmy Shirley",
+      "outcome": "Home Run",
+      "outs": 1,
+      "score": [
+        4,
+        6
+      ],
+      "pitches": [
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 421
+        },
+        {
+          "code": "C",
+          "type": "pitch",
+          "line": 422
+        },
+        {
+          "code": "F",
+          "type": "pitch",
+          "line": 423
+        },
+        {
+          "code": "X",
+          "type": "pitch",
+          "line": 424
+        }
+      ],
+      "notes": "Walk-off home run direction unannounced."
+    }
+  ],
+  "gaps": []
+}

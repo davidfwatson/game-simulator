@@ -1,62 +1,108 @@
 #!/usr/bin/env python3
-"""Report all Sleep Baseball phrase coverage and fixture alignment."""
+"""Report PBP alignment using the same catalog and metrics as the tests."""
 
 import argparse
+from dataclasses import asdict
 import json
-from pathlib import Path
 
-from pbp_alignment import alignment_metrics
-from renderers.narrative.renderer import NarrativeRenderer
-from sleep_baseball_corpus import report_corpus
-
-EXAMPLES = [
-    ('pbp_example_1.txt', 'test_fixture_pbp_example_1.json', 28, 30),
-    ('pbp_example_2.txt', 'test_fixture_pbp_example_2.json', 35, 30),
-    ('pbp_example_3.txt', 'test_fixture_pbp_example_3.json', 33, 30),
-    ('pbp_example_4.txt', 'test_fixture_pbp_example_4.json', 27, 30),
-]
+from pbp_comparison import check_transcript_examples, compare_example, discover_pbp_examples, render_example
+from sleep_baseball_corpus import LIMITATIONS, check_corpus, measure_corpus, report_corpus
 
 
-def report(target_file, fixture_file, target_skip, rendered_skip):
-    root = Path(__file__).resolve().parent
-    with open(root / target_file) as f:
-        text = '\n'.join(f.read().splitlines()[target_skip:])
-    with open(root / fixture_file) as f:
-        data = json.load(f)
-
-    renderer = NarrativeRenderer(data)
-    rendered = '\n'.join(renderer.render().splitlines()[rendered_skip:])
-
-    content = alignment_metrics(text, rendered)
-    all_lines = alignment_metrics(text, rendered, content_only=False)
-
-    print(f'{target_file}:')
-    print(f'  Jaccard (content):    {content.word_jaccard*100:.1f}%')
-    print(f'  5-gram (content):     {content.ngram_coverage*100:.1f}%')
-    print(f'  Line exact (content): {content.exact_fraction*100:.1f}% ({content.exact}/{content.target_lines})')
-    print(f'  Jaccard (all):        {all_lines.word_jaccard*100:.1f}%')
-    print(f'  5-gram (all):         {all_lines.ngram_coverage*100:.1f}%')
-    print(f'  Line exact (all):     {all_lines.exact_fraction*100:.1f}% ({all_lines.exact}/{all_lines.target_lines})')
-    print()
-
-
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("examples", type=int, nargs="*", help="Example numbers (default: all)")
+    parser.add_argument("--json", action="store_true", help="Emit machine-readable scores")
+    parser.add_argument("--check", action="store_true", help="Fail if any comparison minimum is missed")
     scope = parser.add_mutually_exclusive_group()
-    scope.add_argument('--alignment-only', action='store_true',
-                       help='show only the four full-game fixture comparisons')
     scope.add_argument('--corpus-only', action='store_true',
-                       help='show phrase-component support across all source games')
+                       help='show automatic phrase-component support across all 21 source games')
+    scope.add_argument('--alignment-only', action='store_true',
+                       help='show only the original PBP fixture comparisons')
     parser.add_argument('--uncovered-limit', type=int, default=3,
-                        help='uncovered phrases per source to show; -1 shows all')
-    args = parser.parse_args()
-    if not args.corpus_only:
-        print('Full-game fixture alignment (four games):\n')
-        for ex in EXAMPLES:
-            report(*ex)
-    if not args.alignment_only:
-        report_corpus(uncovered_limit=None if args.uncovered_limit < 0 else args.uncovered_limit)
+                        help='uncovered component clauses per source; -1 shows all')
+    args = parser.parse_args(argv)
+    if args.corpus_only:
+        if args.examples:
+            parser.error('--corpus-only does not accept PBP example numbers')
+        reports = (measure_corpus() if args.json else report_corpus(
+            uncovered_limit=None if args.uncovered_limit < 0 else args.uncovered_limit))
+        failures = check_corpus(reports)
+        if args.json:
+            print(json.dumps({'scope': 'phrase-component support', 'limitations': LIMITATIONS,
+                              'sources': [asdict(r) for r in reports], 'failures': failures}, indent=2))
+        else:
+            for failure in failures:
+                print('  BELOW MINIMUM: ' + failure)
+        return int(args.check and bool(failures))
+    try:
+        examples = discover_pbp_examples()
+    except ValueError as error:
+        parser.error(str(error))
+    if unknown := set(args.examples) - {example.number for example in examples}:
+        parser.error("Unknown PBP examples: " + ", ".join(map(str, sorted(unknown))))
+
+    results = []
+    for example in examples:
+        if args.examples and example.number not in args.examples:
+            continue
+        scores = compare_example(example, render_example(example))
+        failures = scores.failures(example)
+        results.append({
+            "example": asdict(example),
+            "target_file": example.target_file,
+            "jaccard": scores.jaccard,
+            "ngram": scores.ngram,
+            "all_lines": scores.all_lines._asdict(),
+            "content_lines": scores.content_lines._asdict(),
+            "failures": failures,
+        })
+        if not args.json:
+            print(f"{example.target_file}:")
+            print(f"  Jaccard:              {scores.jaccard:.1%}")
+            print(f"  5-gram:               {scores.ngram:.1%}")
+            for label, match in (("all", scores.all_lines), ("content", scores.content_lines)):
+                print(f"  Line exact ({label}):".ljust(24)
+                      + f"{match.exact_fraction:.1%} ({match.exact}/{match.total})")
+            for failure in failures:
+                print(f"  BELOW MINIMUM: {failure}")
+            print()
+    if not args.examples and not args.alignment_only:
+        try:
+            counts = check_transcript_examples()
+        except ValueError as error:
+            parser.error(str(error))
+        for episode, count in counts.items():
+            results.append({'transcript_episode': episode, 'passing_cases': count, 'failures': []})
+        if not args.json:
+            print(f'Transcripts: all {sum(counts.values())} source-linked cases pass across {len(counts)} episodes.')
+        from full_transcript_comparison import check_full_transcripts
+        try:
+            full_games = check_full_transcripts()
+        except ValueError as error:
+            parser.error(str(error))
+        for game in full_games:
+            results.append({key: value for key, value in game.items() if key != 'plays'})
+            if not args.json:
+                print(f"episode_{game['episode']:03d}: {game['appearances']} appearances, {game['pitches']} pitches; "
+                      f"5-gram recall {game['ngram']:.1%}, ordered words per play {game['mean_play_word_coverage']:.1%}")
+                for failure in game['failures']:
+                    print('  BELOW MINIMUM: ' + failure)
+        reports = (measure_corpus() if args.json else report_corpus(
+            uncovered_limit=None if args.uncovered_limit < 0 else args.uncovered_limit))
+        component_failures = check_corpus(reports)
+        for report in reports:
+            results.append({'phrase_component_source': report.source_file,
+                            **asdict(report), 'failures': []})
+        results.append({'phrase_component_catalog': True, 'limitations': LIMITATIONS,
+                        'failures': component_failures})
+        if not args.json:
+            for failure in component_failures:
+                print('  BELOW MINIMUM: ' + failure)
+    if args.json:
+        print(json.dumps(results, indent=2))
+    return int(args.check and any(result["failures"] for result in results))
 
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    raise SystemExit(main())
