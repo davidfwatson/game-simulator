@@ -102,6 +102,9 @@ Run commands from the repository root:
 ```bash
 python transcript_game_fixtures.py
 python fit_transcript_games.py
+python fit_transcript_games.py 5 49          # selected episodes
+python fit_transcript_games.py --references  # the four pbp_example fixtures
+python optional_sentence_rates.py
 python full_transcript_comparison.py --check
 python full_transcript_comparison.py 49 50 --gaps 5
 python full_transcript_comparison.py 49 --json
@@ -114,6 +117,72 @@ by production rendering, and saves explicit integer `commentaryRng` lists with
 the resulting text. It verifies that ordinary `NarrativeRenderer` replay
 matches its fitted output. Source prose is never injected into production
 narration. The source path, hash, and line references are provenance.
+
+### How draws are fitted
+
+Each reseed point (`init`, `play_start`, each `event`, `play_outcome`) has a
+source window, read with host asides removed:
+
+| Point | Window |
+|---|---|
+| `init` | Everything before the first appearance. |
+| `play_start` | From the line after the previous appearance to the line before the first pitch: the inning transition and the introduction. If the introduction shares the first pitch's line, only the words before `...`. |
+| `event` | The pitch's line, through the line before the next event. |
+| `play_outcome` | From the last pitch's line to the end of the appearance. |
+
+A `choice(options)` call takes the option whose words best match the point's
+window: weighted 1-, 2- and 3-gram matches minus 0.6 per unmatched n-gram.
+
+A `random()` gate decides whether an optional sentence is said, or which form
+it takes. Gates are fitted per point. The fitter first picks the best of six
+whole-game constants, as before, then runs a coordinate descent. A coordinate
+is the k-th gate of one stream at one kind of point, such as the first colour
+gate at every `play_start` (the at-bat recap). The renderer's draws are
+instrumented to report the thresholds they are compared with, so the fitter
+tries one digit per outcome interval: 0 and 99 for the outer intervals, the
+middle for inner ones, and every 0.05 when the renderer uses the draw as an
+integer. One render tries a value at every point of that kind at once. Each
+point keeps the value whose rendered words, its segment, score best against
+its window, with unmatched n-grams penalised 0.3 rather than 0.6. Choices are
+refitted greedily on every render, so they follow the gates. Passes repeat
+until one changes no draw and exposes no new gate or threshold (a changed gate
+can reveal gates behind it), up to six; the 17 broadcasts settle in two. Saved gate
+digits are canonical (0, 99 or an interval's middle), so a re-measured
+threshold does not silently flip them. All 17 broadcasts refit in under three
+minutes.
+
+The four `pbp_example_N` references have no line-level ledger.
+`python fit_transcript_games.py --references` aligns each fixture's current
+rendering word by word with its reference to find each point's window (the
+source between the last aligned word before the segment and the first after
+it), fits every choice and gate as above, and repeats the alignment once from
+the new rendering, resuming from the first round's gate values. This replaces their hand-edited draws.
+
+### Optional sentences
+
+Some sentences the hosts say only part of the time. The renderer builds each
+one, then asks `NarrativeRenderer._optional(name)`, which takes one draw from
+the `optional` stream. Dropping the sentence never shifts a draw in another
+stream. Simulated games say each at the hosts' measured rate
+(`OPTIONAL_SENTENCE_RATES`; rerun `python optional_sentence_rates.py` to
+measure again):
+
+| Sentence | Said by the hosts |
+|---|---:|
+| The count after a call that already numbers it ("Inside for ball two. Two and oh.") | 16 of 159, 10.1% |
+| ", for out number N" added to a one- or two-out strikeout call that does not say which out it was | 132 of 189, 69.8% |
+| ", to end the inning" added the same way to a third-out strikeout | 77 of 91, 84.6% |
+| The situation sentence after a single, double or triple ("A two-out single for Kosinski.") | 132 of 207, 63.8% |
+
+The counts come from the 17 ledgers (each recorded pitch or play with its
+source lines) plus the four references scanned line by line, asides excluded.
+They are phrase matches, so they are approximate. The same audit of the 17
+ledgers found sentences that stay unconditional because the hosts almost
+always say them:
+the count after an unnumbered call (98%), the batter introduction (99%), the
+inning-break score summary (99%), its "we'll be back" closer (93%), the
+next-inning introduction (96%), the score after a scoring play (97%), and the
+result's out number on a ball in play (92%).
 
 Both commands overwrite `examples/transcript_games/episode_NNN.json` and `.txt`.
 Refitting deliberately selects draws again, so it replaces manual draw edits

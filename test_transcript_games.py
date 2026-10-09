@@ -442,6 +442,58 @@ class TestFullTranscriptFitter(unittest.TestCase):
             self.assertEqual(replay_with_other_times(saved), rendered)
         self.assertEqual(saved, immutable)
 
+    def test_gates_are_fitted_per_play_not_per_game(self):
+        """One game: the source recaps one returning batter and not the other."""
+        grounder = dict(hit={'location': 'SS', 'trajectory': 'ground_ball'},
+                        fielders=[{'name': 'Home Batter 8', 'position': 'SS'}])
+        source = (b'Welcome to Example Field.\n'
+                  b'Away Batter 1 steps in.\n'
+                  b'And the pitch... Grounder to short, and he is out at first.\n'
+                  b'Away Batter 2 steps in.\n'
+                  b'And the pitch... Grounder to short, and he is out at first.\n'
+                  b'Away Batter 1 steps in. Batter 1 grounded out in the first.\n'
+                  b'And the pitch... Grounder to short, and he is out at first.\n'
+                  b'Away Batter 2 steps in.\n'
+                  b'And the pitch... Grounder to short, and he is out at first.\n')
+        plays = [
+            record(outcome='Groundout', start=2, end=3, outs=1,
+                   pitches=[{'code': 'X', 'type': 'pitch', 'line': 3}], **grounder),
+            record(batter='Away Batter 2', outcome='Groundout', start=4, end=5, outs=2,
+                   pitches=[{'code': 'X', 'type': 'pitch', 'line': 5}], **grounder),
+            record(outcome='Groundout', start=6, end=7, outs=3,
+                   pitches=[{'code': 'X', 'type': 'pitch', 'line': 7}], **grounder),
+            record(batter='Away Batter 2', outcome='Groundout', start=8, end=9, inning=2, outs=1,
+                   pitches=[{'code': 'X', 'type': 'pitch', 'line': 9}], **grounder),
+        ]
+        data, rendered = fitting.fit_game(ledger_with(plays), source)
+        renderer = NarrativeRenderer(copy.deepcopy(data))
+        self.assertEqual(renderer.render(), rendered)
+        lines = rendered.splitlines()
+
+        def play_text(index):
+            low, high = renderer._play_line_map[index]
+            return '\n'.join(lines[low:high])
+        self.assertIn('grounded out', play_text(2))
+        self.assertNotIn('grounded out', play_text(3))
+        # The recap gate is the first colour draw at each play start.
+        recap = [play['commentaryRng']['play_start']['color'][0]
+                 for play in data['liveData']['plays']['allPlays']]
+        self.assertLess(recap[2], 70)
+        self.assertGreaterEqual(recap[3], 70)
+
+    def test_fitted_episodes_mix_gate_outcomes_within_a_game(self):
+        for number in (5, 46):
+            with self.subTest(episode=number):
+                data = json.loads((fixtures.OUTPUT_DIR / f'episode_{number:03d}.json').read_text())
+                plays = data['liveData']['plays']['allPlays']
+                recap = {play['commentaryRng']['play_start']['color'][0] < 70 for play in plays}
+                optional = {draw < 50 for play in plays
+                            for owner in [play] + play['playEvents']
+                            for point in owner.get('commentaryRng', {}).values()
+                            for draw in point.get('optional', [])}
+                self.assertEqual(recap, {True, False})
+                self.assertEqual(optional, {True, False})
+
 
 class TestFullTranscriptCatalog(unittest.TestCase):
     def catalog(self, directory, extension):

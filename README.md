@@ -101,7 +101,11 @@ Randomness for wording is separate from game timing and game outcomes.
 `gameData.commentarySeed` stores the default rendering seed; `--commentary-seed`
 overrides it (including zero). A fixed seed and event sequence reproduce the
 same wording even after timestamp corrections. Four independent streams control
-plays, pitches, flow, and color commentary.
+plays, pitches, flow, and color commentary. A fifth, `optional`, holds only the
+draws that decide whether an optional sentence is said at all (the count after
+"for ball two", a strikeout's "for out number two", a hit's situation sentence).
+Simulated games say each at the rate the Sleep Baseball hosts do, measured by
+`python optional_sentence_rates.py` and recorded in `OPTIONAL_SENTENCE_RATES`.
 
 Curated fixtures can override any number of draws with `commentaryRng`:
 
@@ -126,6 +130,9 @@ Use `python pbp_tools.py inspect-play FIXTURE --play N -v` to inspect draws and
 `set-choice FIXTURE --play N --point event_0 --set pitch:3:7` to select wording.
 The tooling edits commentary metadata without changing timestamps.
 See [PBP_ALIGNMENT_GUIDE.md](PBP_ALIGNMENT_GUIDE.md) for the workflow.
+
+`python fit_transcript_games.py --references` refits the four reference fixtures
+automatically (it replaces hand-edited draws; see the transcript-games README).
 
 Register new `pbp_example_N.txt` references in `pbp_comparison.py`, together with
 a matching JSON fixture, rendered text snapshot, and reviewed comparison
