@@ -37,6 +37,9 @@ STRIKEOUT_LINE = re.compile(r'strike three|strikes? (?:him )?out|struck out|down
 HIT_LINE = re.compile(r'\b(?:single|double|triple|base hit)\b(?! play)', re.I)
 HOME_RUN_RUNS = re.compile(r"\bsolo\b|\b(?:one|two|three|four|[1-4])-run\b|grand slam", re.I)
 RUNNER_MOVE = r"[^.]{0,60}?\b(?:scor\w*|com(?:es|ing|e) (?:in|home|around)|home|third|advanc\w*)"
+# A return from the break: welcome back, we're back, back with you.
+BREAK_RETURN = re.compile(r"welcome back|we're back|we are back|back with you|greetings again", re.I)
+BREAK_CLOSER = re.compile(r"we'll be back|we will be back|be right back|back in a moment|after these", re.I)
 INNING_OVER = re.compile(r"we'll be back|we will be back|be right back|end the inning|third out|"
                          r"out number three|retire the side", re.I)
 
@@ -108,6 +111,26 @@ def ledger_opportunities(tally):
             play_facts(tally, play, outcome, 'ledger')
 
 
+def ledger_breaks(tally):
+    """Every between-innings break: from a half-inning's last appearance to
+    the next half's first pitch, after the sign-off ("We'll be back...")."""
+    for path in sorted(LEDGER_DIR.glob('episode_*.json')):
+        ledger = json.loads(path.read_text())
+        lines = metric_source_text(SOURCE_DIR / ledger['source_file']).splitlines()
+        previous, end = None, 0
+        for play in ledger['plays']:
+            half = (play['inning'], play['top'])
+            if previous is not None and half != previous:
+                first = min([pitch['line'] for pitch in play.get('pitches', []) if pitch.get('line')]
+                            or [play['source_start']])
+                window = ' '.join(lines[end:first - 1])
+                closers = list(BREAK_CLOSER.finditer(window))
+                after = window[closers[-1].end():] if closers else window
+                tally.add('break_return', bool(BREAK_RETURN.search(after)), 'ledger')
+            end = play['source_end'] if half != previous else max(end, play['source_end'])
+            previous = half
+
+
 def reference_play_opportunities(tally):
     """Runner and home-run sentences need the fixture's facts: each play's call
     comes from the word alignment of the reference with its rendering."""
@@ -136,6 +159,10 @@ def reference_opportunities(tally):
                 tally.add('hit_situation', bool(HIT_SITUATION.search(text)), 'reference')
             elif NUMBERED_CALL.search(text) and not re.search(r'strike one|ball four', text, re.I):
                 tally.add('count_after_numbered_call', bool(COUNT.search(text)), 'reference')
+        for index, line in enumerate(lines):
+            if re.search(r"we'll be back|we will be back|be right back", line, re.I) and not re.search(
+                    r'post-?game', line, re.I) and index + 1 < len(lines):
+                tally.add('break_return', bool(BREAK_RETURN.search(lines[index + 1])), 'reference')
 
 
 class Tally:
@@ -163,6 +190,7 @@ class Tally:
 def measure():
     tally = Tally()
     ledger_opportunities(tally)
+    ledger_breaks(tally)
     reference_opportunities(tally)
     reference_play_opportunities(tally)
     return tally.rows()

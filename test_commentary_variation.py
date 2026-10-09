@@ -67,12 +67,13 @@ class TestCommentaryVariation(unittest.TestCase):
     def test_forceout_variants_preserve_the_batter_and_out_context(self):
         variants = GAME_CONTEXT['narrative_templates']['Forceout']['default']
         for index in range(len(variants)):
-            for outs, context in ((1, 'out number one'), (2, 'out number two'), (3, 'end the inning')):
+            for outs, key in ((1, 'out_context_one'), (2, 'out_context_two'), (3, 'out_context_three')):
                 with self.subTest(variant=index, outs=outs):
                     text = self.describe(self.make_renderer(index, 0.99), 'Forceout', result_outs=outs)
                     self.assertIn("fielder's choice", text)
                     self.assertIn('Alex Batter', text)
-                    self.assertIn(context, text)
+                    # Which out it was, in any of the hosts' forms.
+                    self.assertTrue(any(context in text for context in GAME_CONTEXT['narrative_strings'][key]), text)
                     self.assertNotIn('describes', text)
                     self.assertNotIn('retire Alex Batter', text)
 

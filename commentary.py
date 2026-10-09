@@ -2341,3 +2341,216 @@ GAME_CONTEXT = {
             ],
         }
 }
+
+
+# The hosts' wording, mined from the 21 sources by renderer situation
+# (wording_mining.py) and appended to the pools it belongs to, so existing
+# draws keep their indices. Pools whose key is new here start with the one
+# phrasing the renderer used before. Every template's measured frequency and
+# source lines are in transcript_wording_additions.json (wording_additions.py),
+# and TEMPLATE_WEIGHTS below keeps each to the hosts' rate in simulated games.
+WORDING_ADDITIONS = {
+    # A return from the break, its own sentence before the inning's intro.
+    "radio_strings.inning_break_return": [
+        "And welcome back with us from {venue}.",
+        "And welcome back with us from {venue} here in {location_with_state}.",
+        "And welcome back with us here from {venue} in {location_with_state}.",
+        "And welcome back with us.",
+        "And welcome back to {venue} here in {location_with_state}.",
+        "Wally McCarthy and producer Phil back with you.",
+        "Wally McCarthy and producer Phil reporting from {venue} here in {location}.",
+        "And welcome back with us here on {station_call} and {network_name}.",
+    ],
+    # The inning's introduction, with the hosts' score sentence ("The Tigers
+    # lead the Ravens two to one", "No score").
+    "radio_strings.inning_break_intro_top": [
+        "{score_lead} as we begin the top of the {inning_ordinal}.",
+        "{score_lead} as we enter the top of the {inning_ordinal}.",
+        "{half} of the {inning_ordinal} inning here in {location} at {venue}. {score_lead}.",
+        "Top of the {inning_ordinal} inning here at {venue}. {score_lead}, and the {batting_team_short} will bring {due_up_desc} to the plate against {pitcher_name}.",
+    ],
+    "radio_strings.inning_break_intro_bottom": [
+        "{score_lead} as we begin the bottom of the {inning_ordinal}.",
+        "{score_lead} as we enter the bottom of the {inning_ordinal}.",
+        "Bottom of the {inning_ordinal} inning here at {venue}. {score_lead}, and the {batting_team_short} will bring {due_up_desc} to the plate against {pitcher_name}.",
+    ],
+    # The score at the break.
+    "radio_strings.inning_summary_remains": [
+        "We've played {innings_word} here at {venue}, and it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+        "And with {inning_count_word} in the books, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+    ],
+    "radio_strings.inning_summary_tied": [
+        "And after {innings_word}, we are tied at {score}.",
+    ],
+    "radio_strings.inning_outro_scored_first": [
+        "But the {batting_team_short} get on the board.",
+    ],
+    # Offered only at the break in the middle of the seventh, alongside the
+    # pool of the same name without the suffix.
+    "radio_strings.inning_summary_remains_stretch": [
+        "And as we head into the stretch, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+    ],
+    "radio_strings.inning_summary_score_stretch": [
+        "And as we head into the stretch, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+    ],
+    "radio_strings.inning_summary_tied_stretch": [
+        "And as we head into the stretch, we are tied at {score}.",
+    ],
+    "radio_strings.inning_summary_scoreless_stretch": [
+        "And as we head into the stretch, it remains a scoreless contest.",
+    ],
+    # Pregame and postgame.
+    "radio_strings.station_intro": [
+        "You're drifting off with {station_call} AM.",
+    ],
+    "radio_strings.outro": [
+        "Producer Phil and I will be back with the postgame show in a moment here on {station_call} and {network_name}.",
+    ],
+    # Batter introductions.
+    "narrative_strings.batter_intro_leadoff": [
+        "And {batter_name} is due up against {pitcher_name}.",
+        "And {batter_name} steps in against {pitcher_name}.",
+        "And {batter_name} will step in at the top of the {team_short_possessive} order.",
+        "And that will bring up {batter_name} at the top of the {team_short_possessive} order.",
+        "And here's {batter_name} at the top of the {team_short_possessive} order.",
+    ],
+    "narrative_strings.batter_intro_empty": [
+        "{outs_str}, nobody on for {batter_name}.",
+        "{outs_str}, bases empty for {batter_name}.",
+    ],
+    # How many out: the first entry is the phrase the renderer always said.
+    "narrative_strings.outs_none": ["nobody out", "no outs"],
+    "narrative_strings.outs_one": ["one away", "one out", "one down"],
+    "narrative_strings.outs_two": ["two down", "two outs", "two away"],
+    # Which out a play made; the first entry is the old fixed phrase.
+    "narrative_strings.out_context_one": [
+        "for out number one", "for the first out of the inning", "for the first out", "for the first out of the frame",
+    ],
+    "narrative_strings.out_context_two": [
+        "for out number two", "for the second out of the inning", "for the second out",
+    ],
+    "narrative_strings.out_context_three": [
+        "to end the inning", "for out number three", "for the third out",
+    ],
+    "narrative_strings.out_context_game": [
+        "to end the inning", "to end the ball game",
+    ],
+    # Pitch calls.
+    "pitch_locations.ball.dirt": [
+        "And that's a {pitch_type_lower} in the dirt",
+    ],
+    "pitch_locations.ball.low": [
+        "And that {pitch_type_lower} misses low",
+    ],
+    "pitch_locations.ball.high": [
+        "And that {pitch_type_lower} misses high",
+    ],
+    "pitch_locations.ball.inside": [
+        "brushes him back",
+    ],
+    # Counts and fouls.
+    "narrative_strings.count_full": [
+        ", full count",
+    ],
+    "narrative_strings.count_even": [
+        "count even at {count_str}",
+    ],
+    "narrative_strings.count_plain": [
+        "and it's {count_str}",
+    ],
+    # A foul after a foul; the first entry is the old fixed phrase.
+    "narrative_strings.foul_another": [
+        "he fouls another one off", "And he fouls another one off", "Fouled off again",
+    ],
+}
+
+# Pools new in this pass whose first entry is the phrase the renderer always
+# said before (the stretch pools are wholly new).
+WORDING_NEW_POOLS = {
+    "narrative_strings.outs_none", "narrative_strings.outs_one", "narrative_strings.outs_two",
+    "narrative_strings.out_context_one", "narrative_strings.out_context_two",
+    "narrative_strings.out_context_three", "narrative_strings.out_context_game",
+    "narrative_strings.foul_another",
+}
+
+
+def _add_wording(additions):
+    for path, templates in additions.items():
+        *parents, key = path.split('.')
+        node = GAME_CONTEXT
+        for part in parents:
+            node = node[part]
+        pool = node.setdefault(key, [])
+        for template in templates:
+            if template in pool:
+                raise ValueError(f'{path} already has {template!r}')
+            pool.append(template)
+
+
+_add_wording(WORDING_ADDITIONS)
+
+# Relative sampling weights for templates said less (or more) often than an
+# average member of their pool; every unlisted template weighs 1. Each weight
+# makes a simulated game draw the template at the hosts' measured rate for
+# that phrasing in its situation (wording_additions.py derives them; the
+# rates are in transcript_wording_additions.json), so a phrasing the hosts used
+# a handful of times cannot recur more often than it did on air. Fixture draws
+# index pools directly and ignore weights. Generated by
+# `python wording_additions.py --weights`.
+TEMPLATE_WEIGHTS = {
+    "And welcome back with us from {venue}.": 0.7512,
+    "And welcome back with us from {venue} here in {location_with_state}.": 2.8142,
+    "And welcome back with us here from {venue} in {location_with_state}.": 0.5634,
+    "And welcome back with us.": 1.6875,
+    "And welcome back to {venue} here in {location_with_state}.": 1.1267,
+    "Wally McCarthy and producer Phil back with you.": 5.8162,
+    "Wally McCarthy and producer Phil reporting from {venue} here in {location}.": 0.5634,
+    "And welcome back with us here on {station_call} and {network_name}.": 1.1267,
+    "{score_lead} as we begin the top of the {inning_ordinal}.": 1.5785,
+    "{score_lead} as we enter the top of the {inning_ordinal}.": 0.3161,
+    "{half} of the {inning_ordinal} inning here in {location} at {venue}. {score_lead}.": 0.3161,
+    "Top of the {inning_ordinal} inning here at {venue}. {score_lead}, and the {batting_team_short} will bring {due_up_desc} to the plate against {pitcher_name}.": 0.3161,
+    "{score_lead} as we begin the bottom of the {inning_ordinal}.": 8.7262,
+    "{score_lead} as we enter the bottom of the {inning_ordinal}.": 1.9996,
+    "Bottom of the {inning_ordinal} inning here at {venue}. {score_lead}, and the {batting_team_short} will bring {due_up_desc} to the plate against {pitcher_name}.": 0.3638,
+    "We've played {innings_word} here at {venue}, and it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 0.2425,
+    "And with {inning_count_word} in the books, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 2.5815,
+    "And after {innings_word}, we are tied at {score}.": 0.0453,
+    "But the {batting_team_short} get on the board.": 3.5005,
+    "And as we head into the stretch, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 40.0,
+    "And as we head into the stretch, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 36.0,
+    "And as we head into the stretch, we are tied at {score}.": 20.0,
+    "And as we head into the stretch, it remains a scoreless contest.": 48.0,
+    "You're drifting off with {station_call} AM.": 40.0,
+    "Producer Phil and I will be back with the postgame show in a moment here on {station_call} and {network_name}.": 2.6668,
+    "And {batter_name} is due up against {pitcher_name}.": 1.5306,
+    "And {batter_name} steps in against {pitcher_name}.": 0.8933,
+    "And {batter_name} will step in at the top of the {team_short_possessive} order.": 1.0214,
+    "And that will bring up {batter_name} at the top of the {team_short_possessive} order.": 1.5306,
+    "And here's {batter_name} at the top of the {team_short_possessive} order.": 1.1232,
+    "{outs_str}, nobody on for {batter_name}.": 0.5731,
+    "{outs_str}, bases empty for {batter_name}.": 1.113,
+    "no outs": 0.1067,
+    "one out": 0.1934,
+    "one down": 0.07,
+    "two outs": 0.6762,
+    "two away": 0.0405,
+    "for the first out of the inning": 0.2728,
+    "for the first out": 0.0455,
+    "for the first out of the frame": 0.039,
+    "for the second out of the inning": 0.069,
+    "for the second out": 0.0403,
+    "for out number three": 0.0346,
+    "for the third out": 0.0174,
+    "to end the ball game": 1.8337,
+    "And that's a {pitch_type_lower} in the dirt": 1.0372,
+    "And that {pitch_type_lower} misses low": 0.9494,
+    "And that {pitch_type_lower} misses high": 1.0779,
+    "brushes him back": 1.4766,
+    ", full count": 8.891,
+    "count even at {count_str}": 0.1131,
+    "and it's {count_str}": 0.0084,
+    "And he fouls another one off": 3.5557,
+    "Fouled off again": 0.4443,
+}
+

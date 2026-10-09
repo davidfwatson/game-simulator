@@ -94,14 +94,15 @@ class TestNarrativeLocations(unittest.TestCase):
         self.assertNotIn("in Bay Area", text)
         self.assertNotIn("Bay Area, California", text)
         self.assertNotIn("the the Bay Area", text)
-        location_calls = 0
         for call in radio.call_args_list:
             pool = call.args[0]
             if any("{location" in template for template in GAME_CONTEXT["radio_strings"].get(pool, [])):
-                location_calls += 1
                 self.assertEqual(call.args[1]["location"], "the Bay Area")
                 self.assertEqual(call.args[1]["location_with_state"], "California's Bay Area")
-        self.assertGreater(location_calls, 0)
+        # Inning summaries and introductions draw their pools directly (the
+        # break return and the stretch merge pools), so count the phrases.
+        body = text.split("we are underway", 1)[-1]
+        self.assertGreater(body.count("the Bay Area"), 1)
 
     def test_away_region_uses_full_phrase_in_pregame_introduction(self):
         game = self._new_game("PC_PILOTS", "BAY_BOMBERS")

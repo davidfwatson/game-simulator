@@ -1,0 +1,3105 @@
+[
+ {
+  "pool": "radio_strings.inning_break_return",
+  "template": "And welcome back with us from {venue}.",
+  "pattern": "welcome back with us from {venue}\\.",
+  "slot": "break_return",
+  "said": 4,
+  "opportunities": 141,
+  "rate": 0.0284,
+  "episodes": [
+   "episode_013",
+   "episode_020",
+   "episode_039",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 118,
+    "expected": "welcome back with us from Evergreen Field",
+    "source_text": "And welcome back with us from Evergreen Field."
+   },
+   {
+    "source": "episode_013",
+    "line": 527,
+    "expected": "welcome back with us from Evergreen Field",
+    "source_text": "And welcome back with us from Evergreen Field."
+   },
+   {
+    "source": "episode_020",
+    "line": 324,
+    "expected": "welcome back with us from Foghorn Field",
+    "source_text": "And welcome back with us from Foghorn Field."
+   },
+   {
+    "source": "episode_039",
+    "line": 317,
+    "expected": "welcome back with us from Evermore Park",
+    "source_text": "And welcome back with us from Evermore Park."
+   },
+   {
+    "source": "pbp_example_1",
+    "line": 418,
+    "expected": "welcome back with us from Evergreen Field",
+    "source_text": "And welcome back with us from Evergreen Field. Wally McCarthy and producer Phil reporting on this beautiful night for a ball game. And Big Rapids Mayor Jed Fredenbear gets a nice round of applause after announcing that the hot dogs will be on his tab during the remainder of tonight's contest."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 0.7512
+ },
+ {
+  "pool": "radio_strings.inning_break_return",
+  "template": "And welcome back with us from {venue} here in {location_with_state}.",
+  "pattern": "welcome back with us from (?:beautiful )?{venue},? (?:here )?in {location}",
+  "slot": "break_return",
+  "said": 15,
+  "opportunities": 141,
+  "rate": 0.1064,
+  "episodes": [
+   "episode_020",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "pbp_example_1",
+   "pbp_example_2"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_020",
+    "line": 63,
+    "expected": "welcome back with us from Foghorn Field in Cadillac",
+    "source_text": "And welcome back with us from Foghorn Field in Cadillac, Michigan."
+   },
+   {
+    "source": "episode_020",
+    "line": 183,
+    "expected": "welcome back with us from Foghorn Field in Cadillac",
+    "source_text": "And welcome back with us from Foghorn Field in Cadillac, Michigan."
+   },
+   {
+    "source": "episode_020",
+    "line": 291,
+    "expected": "welcome back with us from Foghorn Field in Cadillac",
+    "source_text": "And welcome back with us from Foghorn Field in Cadillac, Michigan."
+   },
+   {
+    "source": "episode_035",
+    "line": 131,
+    "expected": "welcome back with us from Kittamori Park here in Tomah",
+    "source_text": "And welcome back with us from Kittamori Park here in Tomah, Wisconsin. Wally McCarthy and producer Phil, reporting on this perfect night for a ball game."
+   },
+   {
+    "source": "episode_035",
+    "line": 173,
+    "expected": "welcome back with us from Kittamori Park here in Tomah",
+    "source_text": "And welcome back with us from Kittamori Park here in Tomah, Wisconsin. The Tigers and the Ravens are tied at one as we begin the bottom of the fourth, and Prudence Jefferson leads off against Frank Gibson. Jefferson had a solo home run in the second inning."
+   },
+   {
+    "source": "episode_035",
+    "line": 297,
+    "expected": "welcome back with us from Kittamori Park in Tomah",
+    "source_text": "And welcome back with us from Kittamori Park in Tomah, Wisconsin. The Tigers lead the Ravens two to one as we begin the bottom of the seventh."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 2.8142
+ },
+ {
+  "pool": "radio_strings.inning_break_return",
+  "template": "And welcome back with us here from {venue} in {location_with_state}.",
+  "pattern": "welcome back with us here from {venue},? (?:here )?in {location}",
+  "slot": "break_return",
+  "said": 3,
+  "opportunities": 141,
+  "rate": 0.0213,
+  "episodes": [
+   "episode_013",
+   "episode_035",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 184,
+    "expected": "welcome back with us here from Evergreen Field in Big Rapids",
+    "source_text": "And welcome back with us here from Evergreen Field in Big Rapids, Michigan."
+   },
+   {
+    "source": "episode_013",
+    "line": 308,
+    "expected": "welcome back with us here from Evergreen Field in Big Rapids",
+    "source_text": "And welcome back with us here from Evergreen Field in Big Rapids, Michigan."
+   },
+   {
+    "source": "episode_035",
+    "line": 82,
+    "expected": "welcome back with us here from Kittamori Park in Tomah",
+    "source_text": "And welcome back with us here from Kittamori Park in Tomah, Wisconsin. It's a scoreless game as we begin the bottom of the second, and Prudence Jefferson will step in against Frank Gibson. Lefty against lefty."
+   },
+   {
+    "source": "pbp_example_1",
+    "line": 80,
+    "expected": "welcome back with us here from Evergreen Field in Big Rapids",
+    "source_text": "And welcome back with us here from Evergreen Field in Big Rapids, Michigan. Wally McCarthy and producer Phil back with you on WSLP AM. Cadillac leading one-nothing as we begin the bottom of the first."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 0.5634
+ },
+ {
+  "pool": "radio_strings.inning_break_return",
+  "template": "And welcome back with us.",
+  "pattern": "^\\W*and welcome back with us[.,]",
+  "slot": "break_return",
+  "said": 9,
+  "opportunities": 141,
+  "rate": 0.0638,
+  "episodes": [
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_020"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 332,
+    "expected": "And welcome back with us",
+    "source_text": "And welcome back with us. Cesar Nixon is the new hurler for the Tomah Tigers, and he'll face Gilligan Parker at the top of the Cadillac order. Nixon has pitched five innings of work this season with an ERA of 1.80."
+   },
+   {
+    "source": "episode_011",
+    "line": 150,
+    "expected": "And welcome back with us",
+    "source_text": "And welcome back with us."
+   },
+   {
+    "source": "episode_011",
+    "line": 181,
+    "expected": "And welcome back with us",
+    "source_text": "And welcome back with us, Wally McCarthy and producer Phil, reporting from Evergreen Field in Big Rapids, Michigan."
+   },
+   {
+    "source": "episode_011",
+    "line": 361,
+    "expected": "And welcome back with us",
+    "source_text": "And welcome back with us."
+   },
+   {
+    "source": "episode_011",
+    "line": 383,
+    "expected": "And welcome back with us",
+    "source_text": "And welcome back with us."
+   },
+   {
+    "source": "episode_013",
+    "line": 223,
+    "expected": "And welcome back with us",
+    "source_text": "And welcome back with us."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 1.6875
+ },
+ {
+  "pool": "radio_strings.inning_break_return",
+  "template": "And welcome back to {venue} here in {location_with_state}.",
+  "pattern": "welcome back to {venue},? (?:here )?in {location}",
+  "slot": "break_return",
+  "said": 6,
+  "opportunities": 141,
+  "rate": 0.0426,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_013",
+   "episode_035"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 116,
+    "expected": "welcome back to Foghorn Field in Cadillac",
+    "source_text": "And welcome back to Foghorn Field in Cadillac, Michigan. You're listening to the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_005",
+    "line": 70,
+    "expected": "welcome back to Foghorn Field here in Cadillac",
+    "source_text": "And welcome back to Foghorn Field here in Cadillac. Wally McCarthy and producer Phil back with you."
+   },
+   {
+    "source": "episode_005",
+    "line": 111,
+    "expected": "welcome back to Foghorn Field here in Cadillac",
+    "source_text": "And welcome back to Foghorn Field here in Cadillac, Michigan. Wally McCarthy and producer Phil back with you."
+   },
+   {
+    "source": "episode_005",
+    "line": 262,
+    "expected": "welcome back to Foghorn Field here in Cadillac",
+    "source_text": "And welcome back to Foghorn Field here in Cadillac, Michigan."
+   },
+   {
+    "source": "episode_013",
+    "line": 476,
+    "expected": "welcome back to Evergreen Field in Big Rapids",
+    "source_text": "And welcome back to Evergreen Field in Big Rapids."
+   },
+   {
+    "source": "episode_035",
+    "line": 50,
+    "expected": "welcome back to Kittamori Park here in Tomah",
+    "source_text": "And welcome back to Kittamori Park here in Tomah, Wisconsin for the bottom of the first inning."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 1.1267
+ },
+ {
+  "pool": "radio_strings.inning_break_return",
+  "template": "Wally McCarthy and producer Phil back with you.",
+  "pattern": "producer phil,? back with you\\.",
+  "slot": "break_return",
+  "said": 31,
+  "opportunities": 141,
+  "rate": 0.2199,
+  "episodes": [
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_046",
+   "episode_050",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 70,
+    "expected": "producer Phil back with you",
+    "source_text": "And welcome back to Foghorn Field here in Cadillac. Wally McCarthy and producer Phil back with you."
+   },
+   {
+    "source": "episode_005",
+    "line": 111,
+    "expected": "producer Phil back with you",
+    "source_text": "And welcome back to Foghorn Field here in Cadillac, Michigan. Wally McCarthy and producer Phil back with you."
+   },
+   {
+    "source": "episode_005",
+    "line": 201,
+    "expected": "producer Phil back with you",
+    "source_text": "And welcome back with us at beautiful Foghorn Field in Cadillac, Michigan. Wally McCarthy and producer Phil back with you."
+   },
+   {
+    "source": "episode_005",
+    "line": 244,
+    "expected": "producer Phil back with you",
+    "source_text": "And welcome back, friends, to Foghorn Field here in Cadillac, Michigan. Wally McCarthy and producer Phil back with you. It is a perfect night for a ball game."
+   },
+   {
+    "source": "episode_011",
+    "line": 67,
+    "expected": "producer Phil back with you",
+    "source_text": "Wally McCarthy and producer Phil back with you."
+   },
+   {
+    "source": "episode_011",
+    "line": 303,
+    "expected": "producer Phil back with you",
+    "source_text": "Wally McCarthy and producer Phil back with you."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 5.8162
+ },
+ {
+  "pool": "radio_strings.inning_break_return",
+  "template": "Wally McCarthy and producer Phil reporting from {venue} here in {location}.",
+  "pattern": "producer phil,? reporting from {venue}",
+  "slot": "break_return",
+  "said": 3,
+  "opportunities": 141,
+  "rate": 0.0213,
+  "episodes": [
+   "episode_011",
+   "episode_045",
+   "episode_049"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_011",
+    "line": 181,
+    "expected": "producer Phil, reporting from Evergreen Field",
+    "source_text": "And welcome back with us, Wally McCarthy and producer Phil, reporting from Evergreen Field in Big Rapids, Michigan."
+   },
+   {
+    "source": "episode_045",
+    "line": 292,
+    "expected": "producer Phil, reporting from Evergreen Field",
+    "source_text": "Wally McCarthy and producer Phil, reporting from Evergreen Field here in Big Rapids."
+   },
+   {
+    "source": "episode_049",
+    "line": 121,
+    "expected": "producer Phil, reporting from Kittamori Park",
+    "source_text": "Wally McCarthy and producer Phil, reporting from Kittamori Park on this beautiful night for a ball game."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 0.5634
+ },
+ {
+  "pool": "radio_strings.inning_break_return",
+  "template": "And welcome back with us here on {station_call} and {network_name}.",
+  "pattern": "welcome back with us (?:here )?on {station} and {network}",
+  "slot": "break_return",
+  "said": 6,
+  "opportunities": 141,
+  "rate": 0.0426,
+  "episodes": [
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_037",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 65,
+    "expected": "welcome back with us here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "And welcome back with us here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_013",
+    "line": 249,
+    "expected": "welcome back with us here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "And welcome back with us here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_020",
+    "line": 275,
+    "expected": "welcome back with us on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "And welcome back with us on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_029",
+    "line": 134,
+    "expected": "welcome back with us on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "And welcome back with us on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_029",
+    "line": 351,
+    "expected": "welcome back with us here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "And welcome back with us here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_037",
+    "line": 198,
+    "expected": "welcome back with us on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "And welcome back with us on WSLP and the Northwoods Baseball Radio Network. Wally McCarthy and producer Phil, back with you from Evergreen Field here in Big Rapids, Michigan."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 1.1267
+ },
+ {
+  "pool": "radio_strings.inning_break_intro_top",
+  "template": "{score_lead} as we begin the top of the {inning_ordinal}.",
+  "pattern": "as we begin the top of the {ordinal}",
+  "slot": "break_top",
+  "said": 10,
+  "opportunities": 130,
+  "rate": 0.0769,
+  "episodes": [
+   "episode_005",
+   "episode_013",
+   "episode_020",
+   "episode_050",
+   "episode_051",
+   "episode_052"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 299,
+    "expected": "as we begin the top of the eighth",
+    "source_text": "And welcome back to Foghorn Field in beautiful Cadillac, Michigan. Wally McCarthy and producer Phil back with you as we begin the top of the eighth inning."
+   },
+   {
+    "source": "episode_005",
+    "line": 353,
+    "expected": "As we begin the top of the ninth",
+    "source_text": "As we begin the top of the ninth, Cadillac leads 2-nothing, and Ernesto Stern will step in to face Brock Niedermeier, who has pitched eight shutout innings this evening."
+   },
+   {
+    "source": "episode_013",
+    "line": 251,
+    "expected": "as we begin the top of the fifth",
+    "source_text": "Tomah leading four nothing as we begin the top of the fifth inning, and Hiroki Nomo is due up in the pitcher spot for the Tigers facing Blinky Malone."
+   },
+   {
+    "source": "episode_013",
+    "line": 344,
+    "expected": "as we begin the top of the sixth",
+    "source_text": "Tigers leading eight nothing as we begin the top of the sixth inning, and Ozzie Stardust will step in against Big Rapids reliever Wayne Hensley."
+   },
+   {
+    "source": "episode_020",
+    "line": 90,
+    "expected": "as we begin the top of the second",
+    "source_text": "Baraboo leading two to one as we begin the top of the second."
+   },
+   {
+    "source": "episode_020",
+    "line": 292,
+    "expected": "as we begin the top of the seventh",
+    "source_text": "The Bombers lead the Cars two to one as we begin the top of the seventh."
+   }
+  ],
+  "original_pool_size": 18,
+  "weight": 1.5785
+ },
+ {
+  "pool": "radio_strings.inning_break_intro_top",
+  "template": "{score_lead} as we enter the top of the {inning_ordinal}.",
+  "pattern": "as we enter the top of the {ordinal}",
+  "slot": "break_top",
+  "said": 2,
+  "opportunities": 130,
+  "rate": 0.0154,
+  "episodes": [
+   "episode_005",
+   "episode_052"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 143,
+    "expected": "as we enter the top of the fourth",
+    "source_text": "And welcome back with us here at Foghorn Field in Cadillac, Michigan. Wally McCarthy here, alongside producer Phil, and we are scoreless as we enter the top of the fourth inning."
+   },
+   {
+    "source": "episode_052",
+    "line": 326,
+    "expected": "as we enter the top of the eighth",
+    "source_text": "Ravens leading three-nothing as we enter the top of the eighth. And Tiny Howl digs in against Ravens' right-handed reliever Dom Fuller. Fuller has pitched 12 innings of work this season with an ERA of 2.67."
+   }
+  ],
+  "original_pool_size": 18,
+  "weight": 0.3161
+ },
+ {
+  "pool": "radio_strings.inning_break_intro_top",
+  "template": "{half} of the {inning_ordinal} inning here in {location} at {venue}. {score_lead}.",
+  "pattern": "top of the {ordinal} inning,? here (?:in {location},? at {venue}|at {venue},? in {location})[.,] (?:the {short} lead the {short}|no score|we are tied|the {short} and the {short} are tied)",
+  "slot": "break_top",
+  "said": 2,
+  "opportunities": 130,
+  "rate": 0.0154,
+  "episodes": [
+   "episode_035",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_035",
+    "line": 152,
+    "expected": "Top of the fourth inning, here in Tomah at Kittamori Park. The Tigers lead the Ravens",
+    "source_text": "Top of the fourth inning, here in Tomah at Kittamori Park. The Tigers lead the Ravens one nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 236,
+    "expected": "Top of the sixth inning here in Tomah at Kittamori Park. The Tigers lead the Ravens",
+    "source_text": "Top of the sixth inning here in Tomah at Kittamori Park. The Tigers lead the Ravens two to one. And Frank Gibson will step in for the Ravens against Hiroki Nomo."
+   },
+   {
+    "source": "pbp_example_1",
+    "line": 438,
+    "expected": "Top of the eighth inning here at Evergreen Field in Big Rapids. The Cars lead the Timbers",
+    "source_text": "Top of the eighth inning here at Evergreen Field in Big Rapids. The Cars lead the Timbers 4-to-1, as Cadillac brings the four, five, and six hitters to the plate against Timbers reliever, Royce Babcock. Babcock is a crafty lefty. He's got a solid fastball and an array of off-speed pitches."
+   }
+  ],
+  "original_pool_size": 18,
+  "weight": 0.3161
+ },
+ {
+  "pool": "radio_strings.inning_break_intro_top",
+  "template": "Top of the {inning_ordinal} inning here at {venue}. {score_lead}, and the {batting_team_short} will bring {due_up_desc} to the plate against {pitcher_name}.",
+  "pattern": "top of the {ordinal}\\b[^.]*\\.[^.]*will bring the {n}, {n},? and {n} hitters to the plate",
+  "slot": "break_top",
+  "said": 2,
+  "opportunities": 130,
+  "rate": 0.0154,
+  "episodes": [
+   "episode_035",
+   "pbp_example_3"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_035",
+    "line": 67,
+    "expected": "Top of the second inning here at Kittamori Park, and so far, it is a scoreless contest. The Ravens will bring the four, five, and six hitters to the plate",
+    "source_text": "Top of the second inning here at Kittamori Park, and so far, it is a scoreless contest. The Ravens will bring the four, five, and six hitters to the plate against Hiroki Nomo."
+   },
+   {
+    "source": "episode_035",
+    "line": 105,
+    "expected": "Top of the third inning here at Kittamori Park in Tomah, Wisconsin. The Tigers leading one nothing, and the Ravens will bring the seven, eight, and nine hitters to the plate",
+    "source_text": "Top of the third inning here at Kittamori Park in Tomah, Wisconsin. The Tigers leading one nothing, and the Ravens will bring the seven, eight, and nine hitters to the plate against Hiroki Nomo."
+   },
+   {
+    "source": "pbp_example_3",
+    "line": 165,
+    "expected": "Top of the third inning here at Goodhue Field in Lake City Minnesota. Still a scoreless contest and the Bombers will bring the nine, one, and two hitters to the plate",
+    "source_text": "Top of the third inning here at Goodhue Field in Lake City Minnesota. Still a scoreless contest and the Bombers will bring the nine, one, and two hitters to the plate to square up against Butch Flores."
+   }
+  ],
+  "original_pool_size": 18,
+  "weight": 0.3161
+ },
+ {
+  "pool": "radio_strings.inning_break_intro_bottom",
+  "template": "{score_lead} as we begin the bottom of the {inning_ordinal}.",
+  "pattern": "as we begin the bottom of the {ordinal}",
+  "slot": "break_bottom",
+  "said": 48,
+  "opportunities": 138,
+  "rate": 0.3478,
+  "episodes": [
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_050",
+   "episode_052",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 43,
+    "expected": "as we begin the bottom of the first",
+    "source_text": "No score as we begin the bottom of the first inning. And Gilligan Parker will step in to face Tiger starter Todd Gonzalez. Gonzalez has a record of 4 and 3 with a 3.16 ERA."
+   },
+   {
+    "source": "episode_005",
+    "line": 99,
+    "expected": "as we begin the bottom of the second",
+    "source_text": "And welcome back with us here in Cadillac, Michigan, at Foghorn Field. No score as we begin the bottom of the second, and Gabriel Palomar will step in to face Todd Gonzalez."
+   },
+   {
+    "source": "episode_005",
+    "line": 125,
+    "expected": "as we begin the bottom of the third",
+    "source_text": "Still no score as we begin the bottom of the third, and Giovanni Gasparro will step in to face Todd Gonzalez."
+   },
+   {
+    "source": "episode_005",
+    "line": 168,
+    "expected": "as we begin the bottom of the fourth",
+    "source_text": "No score as we begin the bottom of the fourth, and Pinky Slauson will step in to face Todd Gonzalez. Slauson walked in the first inning."
+   },
+   {
+    "source": "episode_005",
+    "line": 245,
+    "expected": "as we begin the bottom of the sixth",
+    "source_text": "No score as we begin the bottom of the sixth inning. And Brock Niedermeier will step in to face Todd Gonzalez."
+   },
+   {
+    "source": "episode_005",
+    "line": 320,
+    "expected": "as we begin the bottom of the eighth",
+    "source_text": "And welcome back with us at Foghorn Field. Cadillac leads 2-nothing as we begin the bottom of the eighth. And Todd Gonzalez returns to the mound to face Giovanni Gasparro."
+   }
+  ],
+  "original_pool_size": 14,
+  "weight": 8.7262
+ },
+ {
+  "pool": "radio_strings.inning_break_intro_bottom",
+  "template": "{score_lead} as we enter the bottom of the {inning_ordinal}.",
+  "pattern": "as we enter the bottom of the {ordinal}",
+  "slot": "break_bottom",
+  "said": 11,
+  "opportunities": 138,
+  "rate": 0.0797,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_013",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "pbp_example_1",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 117,
+    "expected": "as we enter the bottom of the second",
+    "source_text": "And we are all tied up, as we enter the bottom of the second inning, and coming to the plate is Cadillac's shortstop, Pinky Slauson."
+   },
+   {
+    "source": "episode_005",
+    "line": 202,
+    "expected": "as we enter the bottom of the fifth",
+    "source_text": "It is a scoreless game as we enter the bottom of the fifth, and Gabriel Palomar will step in to face Todd Gonzalez."
+   },
+   {
+    "source": "episode_013",
+    "line": 529,
+    "expected": "As we enter the bottom of the ninth",
+    "source_text": "As we enter the bottom of the ninth inning, it has been all Tigers tonight, as they lead nine nothing."
+   },
+   {
+    "source": "episode_029",
+    "line": 78,
+    "expected": "as we enter the bottom of the first",
+    "source_text": "The Tigers lead 2-nothing as we enter the bottom of the first."
+   },
+   {
+    "source": "episode_029",
+    "line": 137,
+    "expected": "as we enter the bottom of the second",
+    "source_text": "The Tigers lead the River Rats 2-nothing as we enter the bottom of the second, and Tommy McGill will step in against Giorgio Mullins, righty against righty."
+   },
+   {
+    "source": "episode_029",
+    "line": 391,
+    "expected": "as we enter the bottom of the eighth",
+    "source_text": "The Tigers lead the River Rats 2-nothing as we enter the bottom of the eighth."
+   }
+  ],
+  "original_pool_size": 14,
+  "weight": 1.9996
+ },
+ {
+  "pool": "radio_strings.inning_break_intro_bottom",
+  "template": "Bottom of the {inning_ordinal} inning here at {venue}. {score_lead}, and the {batting_team_short} will bring {due_up_desc} to the plate against {pitcher_name}.",
+  "pattern": "bottom of the {ordinal}\\b[^.]*\\.[^.]*will bring the {n}, {n},? and {n} hitters to the plate",
+  "slot": "break_bottom",
+  "said": 2,
+  "opportunities": 138,
+  "rate": 0.0145,
+  "episodes": [
+   "episode_037",
+   "episode_041",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_037",
+    "line": 366,
+    "expected": "bottom of the eighth inning here at Evergreen Field in Big Rapids. The Ravens lead one nothing, and the Timbers will bring the eight, nine, and one hitters to the plate",
+    "source_text": "And welcome back with us for the bottom of the eighth inning here at Evergreen Field in Big Rapids. The Ravens lead one nothing, and the Timbers will bring the eight, nine, and one hitters to the plate against Frank Gibson."
+   },
+   {
+    "source": "episode_041",
+    "line": 145,
+    "expected": "bottom of the third, the Tigers leading one nothing. The Cars will bring the nine, one, and two hitters to the plate",
+    "source_text": "Wally McCarthy and producer Phil, from Foghorn Field, for the bottom of the third, the Tigers leading one nothing. The Cars will bring the nine, one, and two hitters to the plate against Zach Valentine."
+   },
+   {
+    "source": "pbp_example_1",
+    "line": 310,
+    "expected": "bottom of the fifth. The Timbers will bring the six, seven, and eight hitters to the plate",
+    "source_text": "And welcome back with us from Big Rapids, Michigan. It's a beautiful night here at Evergreen Field. Cadillac leads Big Rapids two-to-one as we begin the bottom of the fifth. The Timbers will bring the six, seven, and eight hitters to the plate to face Virgil Hughes."
+   }
+  ],
+  "original_pool_size": 14,
+  "weight": 0.3638
+ },
+ {
+  "pool": "radio_strings.inning_summary_remains",
+  "template": "We've played {innings_word} here at {venue}, and it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+  "pattern": "we've played {n}(?: and a half)? here at {venue}",
+  "slot": "break",
+  "said": 6,
+  "opportunities": 268,
+  "rate": 0.0224,
+  "episodes": [
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "episode_052",
+   "episode_053"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_049",
+    "line": 140,
+    "expected": "We've played two here at Kittamori Park",
+    "source_text": "We've played two here at Kittamori Park, and it's still a scoreless contest."
+   },
+   {
+    "source": "episode_050",
+    "line": 207,
+    "expected": "We've played five here at Sam Nolan Field",
+    "source_text": "We've played five here at Sam Nolan Field, and it remains Ravens three, Eagles one."
+   },
+   {
+    "source": "episode_050",
+    "line": 267,
+    "expected": "We've played seven here at Sam Nolan Field",
+    "source_text": "We've played seven here at Sam Nolan Field, and it remains Ravens three, Eagles one."
+   },
+   {
+    "source": "episode_051",
+    "line": 319,
+    "expected": "We've played 5 here at Goodhue Field",
+    "source_text": "We've played 5 here at Goodhue Field, and it remains Loons 5, Cars nothing."
+   },
+   {
+    "source": "episode_052",
+    "line": 168,
+    "expected": "We've played three here at Sylvan Field",
+    "source_text": "We've played three here at Sylvan Field, and it remains Ravens one, Bombers nothing."
+   },
+   {
+    "source": "episode_053",
+    "line": 250,
+    "expected": "We've played 6 here at Foghorn Field",
+    "source_text": "We've played 6 here at Foghorn Field, and it remains Loons one, Cars nothing."
+   }
+  ],
+  "original_pool_size": 8,
+  "weight": 0.2425
+ },
+ {
+  "pool": "radio_strings.inning_summary_remains",
+  "template": "And with {inning_count_word} in the books, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+  "pattern": "with {n} in the books,? it remains {short}",
+  "slot": "break_top",
+  "said": 31,
+  "opportunities": 130,
+  "rate": 0.2385,
+  "episodes": [
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_3"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 246,
+    "expected": "With four in the books, it remains Tigers",
+    "source_text": "With four in the books, it remains Tigers four, Timbers nothing."
+   },
+   {
+    "source": "episode_013",
+    "line": 503,
+    "expected": "With eight in the books, it remains Tigers",
+    "source_text": "With eight in the books, it remains Tigers nine, Big Rapids nothing."
+   },
+   {
+    "source": "episode_020",
+    "line": 244,
+    "expected": "With five in the books, it remains Bombers",
+    "source_text": "With five in the books, it remains Bombers 2, Cars 1."
+   },
+   {
+    "source": "episode_029",
+    "line": 149,
+    "expected": "with two in the books, it remains Tigers",
+    "source_text": "And that's another one-two-three inning for Giorgio Mullins, and with two in the books, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_029",
+    "line": 204,
+    "expected": "with three in the books, it remains Tigers",
+    "source_text": "The River Rats strand a man on second, and they do not score. And with three in the books, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_029",
+    "line": 367,
+    "expected": "with seven in the books, it remains Tigers",
+    "source_text": "And with seven in the books, it remains Tigers 2, River Rats nothing."
+   }
+  ],
+  "original_pool_size": 8,
+  "weight": 2.5815
+ },
+ {
+  "pool": "radio_strings.inning_summary_tied",
+  "template": "And after {innings_word}, we are tied at {score}.",
+  "pattern": "after {n}(?: and a half)?,? we(?: are|'re) (?:still |all )?tied",
+  "slot": "break",
+  "said": 3,
+  "opportunities": 268,
+  "rate": 0.0112,
+  "episodes": [
+   "episode_035",
+   "episode_045",
+   "episode_050"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_035",
+    "line": 170,
+    "expected": "after three and a half, we are tied",
+    "source_text": "But the Ravens get on the board, and after three and a half, we are tied at one."
+   },
+   {
+    "source": "episode_045",
+    "line": 230,
+    "expected": "after three and a half, we are still tied",
+    "source_text": "And after three and a half, we are still tied at one."
+   },
+   {
+    "source": "episode_050",
+    "line": 120,
+    "expected": "after two and a half, we're still tied",
+    "source_text": "And that's a one-two-three inning for Billy the Boroughbrello. And after two and a half, we're still tied at one here in Manistee."
+   }
+  ],
+  "original_pool_size": 4,
+  "weight": 0.0453
+ },
+ {
+  "pool": "radio_strings.inning_outro_scored_first",
+  "template": "But the {batting_team_short} get on the board.",
+  "pattern": "but the {short} get on the board",
+  "slot": "game",
+  "said": 7,
+  "opportunities": 17,
+  "rate": 0.4118,
+  "episodes": [
+   "episode_020",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_020",
+    "line": 60,
+    "expected": "But the Bombers get on the board",
+    "source_text": "But the Bombers get on the board, thanks to a two-run homer by Dieter Gomez, and it's Baraboo 2, Cadillac coming up."
+   },
+   {
+    "source": "episode_035",
+    "line": 102,
+    "expected": "But the Tigers get on the board",
+    "source_text": "But the Tigers get on the board, thanks to a solo home run by Prudence Jefferson, and with two in the books, it's Tigers one, Ravens nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 170,
+    "expected": "But the Ravens get on the board",
+    "source_text": "But the Ravens get on the board, and after three and a half, we are tied at one."
+   },
+   {
+    "source": "episode_037",
+    "line": 195,
+    "expected": "But the Ravens get on the board",
+    "source_text": "But the Ravens get on the board, and after three and a half, it's Ravens one, Timbers nothing."
+   },
+   {
+    "source": "episode_039",
+    "line": 203,
+    "expected": "But the Eagles get on the board",
+    "source_text": "But the Eagles get on the board, thanks to a two-run homer by Gian Haggerty, and they now lead two-nothing."
+   },
+   {
+    "source": "episode_039",
+    "line": 289,
+    "expected": "But the Bombers get on the board",
+    "source_text": "But the Bombers get on the board, thanks to a solo home run by Buddy Lamont, and with four in the books, it's Eagles two, Bombers one."
+   }
+  ],
+  "original_pool_size": 5,
+  "weight": 3.5005
+ },
+ {
+  "pool": "radio_strings.inning_summary_remains_stretch",
+  "template": "And as we head into the stretch, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+  "pattern": "as we head into the stretch",
+  "slot": "stretch",
+  "said": 13,
+  "opportunities": 15,
+  "rate": 0.8667,
+  "episodes": [
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 419,
+    "expected": "as we head into the stretch",
+    "source_text": "And as we head into the stretch, it remains Tomah eight, Big Rapids nothing."
+   },
+   {
+    "source": "episode_020",
+    "line": 321,
+    "expected": "As we head into the stretch",
+    "source_text": "As we head into the stretch, it remains Bombers 2, Cars 1."
+   },
+   {
+    "source": "episode_029",
+    "line": 348,
+    "expected": "as we head into the stretch",
+    "source_text": "The Tigers load the bases here in the top of the seventh, but they do not score. And as we head into the stretch, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 294,
+    "expected": "as we head into the stretch",
+    "source_text": "Hiroki Nomo strikes out the side, and as we head into the stretch, it remains Tigers two, Ravens one."
+   },
+   {
+    "source": "episode_037",
+    "line": 325,
+    "expected": "as we head into the stretch",
+    "source_text": "The Ravens do not score, and as we head into the stretch, it remains Ravens one, Timbers nothing."
+   },
+   {
+    "source": "episode_039",
+    "line": 417,
+    "expected": "as we head into the stretch",
+    "source_text": "The Eagles do not score, and as we head into the stretch, it remains Eagles two, Bombers one."
+   }
+  ],
+  "original_pool_size": 10,
+  "weight": 40.0
+ },
+ {
+  "pool": "radio_strings.inning_summary_score_stretch",
+  "template": "And as we head into the stretch, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+  "pattern": "as we head into the stretch",
+  "slot": "stretch",
+  "said": 13,
+  "opportunities": 15,
+  "rate": 0.8667,
+  "episodes": [
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 419,
+    "expected": "as we head into the stretch",
+    "source_text": "And as we head into the stretch, it remains Tomah eight, Big Rapids nothing."
+   },
+   {
+    "source": "episode_020",
+    "line": 321,
+    "expected": "As we head into the stretch",
+    "source_text": "As we head into the stretch, it remains Bombers 2, Cars 1."
+   },
+   {
+    "source": "episode_029",
+    "line": 348,
+    "expected": "as we head into the stretch",
+    "source_text": "The Tigers load the bases here in the top of the seventh, but they do not score. And as we head into the stretch, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 294,
+    "expected": "as we head into the stretch",
+    "source_text": "Hiroki Nomo strikes out the side, and as we head into the stretch, it remains Tigers two, Ravens one."
+   },
+   {
+    "source": "episode_037",
+    "line": 325,
+    "expected": "as we head into the stretch",
+    "source_text": "The Ravens do not score, and as we head into the stretch, it remains Ravens one, Timbers nothing."
+   },
+   {
+    "source": "episode_039",
+    "line": 417,
+    "expected": "as we head into the stretch",
+    "source_text": "The Eagles do not score, and as we head into the stretch, it remains Eagles two, Bombers one."
+   }
+  ],
+  "original_pool_size": 9,
+  "weight": 36.0
+ },
+ {
+  "pool": "radio_strings.inning_summary_tied_stretch",
+  "template": "And as we head into the stretch, we are tied at {score}.",
+  "pattern": "as we head into the stretch",
+  "slot": "stretch",
+  "said": 13,
+  "opportunities": 15,
+  "rate": 0.8667,
+  "episodes": [
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 419,
+    "expected": "as we head into the stretch",
+    "source_text": "And as we head into the stretch, it remains Tomah eight, Big Rapids nothing."
+   },
+   {
+    "source": "episode_020",
+    "line": 321,
+    "expected": "As we head into the stretch",
+    "source_text": "As we head into the stretch, it remains Bombers 2, Cars 1."
+   },
+   {
+    "source": "episode_029",
+    "line": 348,
+    "expected": "as we head into the stretch",
+    "source_text": "The Tigers load the bases here in the top of the seventh, but they do not score. And as we head into the stretch, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 294,
+    "expected": "as we head into the stretch",
+    "source_text": "Hiroki Nomo strikes out the side, and as we head into the stretch, it remains Tigers two, Ravens one."
+   },
+   {
+    "source": "episode_037",
+    "line": 325,
+    "expected": "as we head into the stretch",
+    "source_text": "The Ravens do not score, and as we head into the stretch, it remains Ravens one, Timbers nothing."
+   },
+   {
+    "source": "episode_039",
+    "line": 417,
+    "expected": "as we head into the stretch",
+    "source_text": "The Eagles do not score, and as we head into the stretch, it remains Eagles two, Bombers one."
+   }
+  ],
+  "original_pool_size": 5,
+  "weight": 20.0
+ },
+ {
+  "pool": "radio_strings.inning_summary_scoreless_stretch",
+  "template": "And as we head into the stretch, it remains a scoreless contest.",
+  "pattern": "as we head into the stretch",
+  "slot": "stretch",
+  "said": 13,
+  "opportunities": 15,
+  "rate": 0.8667,
+  "episodes": [
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 419,
+    "expected": "as we head into the stretch",
+    "source_text": "And as we head into the stretch, it remains Tomah eight, Big Rapids nothing."
+   },
+   {
+    "source": "episode_020",
+    "line": 321,
+    "expected": "As we head into the stretch",
+    "source_text": "As we head into the stretch, it remains Bombers 2, Cars 1."
+   },
+   {
+    "source": "episode_029",
+    "line": 348,
+    "expected": "as we head into the stretch",
+    "source_text": "The Tigers load the bases here in the top of the seventh, but they do not score. And as we head into the stretch, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 294,
+    "expected": "as we head into the stretch",
+    "source_text": "Hiroki Nomo strikes out the side, and as we head into the stretch, it remains Tigers two, Ravens one."
+   },
+   {
+    "source": "episode_037",
+    "line": 325,
+    "expected": "as we head into the stretch",
+    "source_text": "The Ravens do not score, and as we head into the stretch, it remains Ravens one, Timbers nothing."
+   },
+   {
+    "source": "episode_039",
+    "line": 417,
+    "expected": "as we head into the stretch",
+    "source_text": "The Eagles do not score, and as we head into the stretch, it remains Eagles two, Bombers one."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 48.0
+ },
+ {
+  "pool": "radio_strings.station_intro",
+  "template": "You're drifting off with {station_call} AM.",
+  "pattern": "^you're drifting off with {station} am",
+  "slot": "game",
+  "said": 24,
+  "opportunities": 17,
+  "rate": 1.4118,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "episode_052",
+   "episode_053"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 1,
+    "expected": "You're drifting off with WSLP AM",
+    "source_text": "You're drifting off with WSLP AM, Big Rapids."
+   },
+   {
+    "source": "episode_001",
+    "line": 90,
+    "expected": "You're drifting off with WSLP AM",
+    "source_text": "You're drifting off with WSLP AM, Big Rapids."
+   },
+   {
+    "source": "episode_001",
+    "line": 212,
+    "expected": "You're drifting off with WSLP AM",
+    "source_text": "You're drifting off with WSLP AM, Big Rapids."
+   },
+   {
+    "source": "episode_001",
+    "line": 280,
+    "expected": "You're drifting off with WSLP AM",
+    "source_text": "You're drifting off with WSLP AM, Big Rapids."
+   },
+   {
+    "source": "episode_001",
+    "line": 416,
+    "expected": "You're drifting off with WSLP AM",
+    "source_text": "You're drifting off with WSLP AM, Big Rapids."
+   },
+   {
+    "source": "episode_005",
+    "line": 1,
+    "expected": "You're drifting off with WSLP AM",
+    "source_text": "You're drifting off with WSLP AM, Big Rapids."
+   }
+  ],
+  "original_pool_size": 10,
+  "weight": 40.0
+ },
+ {
+  "pool": "radio_strings.outro",
+  "template": "Producer Phil and I will be back with the postgame show in a moment here on {station_call} and {network_name}.",
+  "pattern": "producer phil and i will be back with the post-?game show in a moment,? here on {station} and {network}",
+  "slot": "game",
+  "said": 8,
+  "opportunities": 17,
+  "rate": 0.4706,
+  "episodes": [
+   "episode_035",
+   "episode_037",
+   "episode_041",
+   "episode_045",
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_035",
+    "line": 402,
+    "expected": "Producer Phil and I will be back with the postgame show in a moment, here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "Producer Phil and I will be back with the postgame show in a moment, here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_037",
+    "line": 413,
+    "expected": "Producer Phil and I will be back with the postgame show in a moment, here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "Producer Phil and I will be back with the postgame show in a moment, here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_041",
+    "line": 409,
+    "expected": "Producer Phil and I will be back with the postgame show in a moment here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "Producer Phil and I will be back with the postgame show in a moment here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_045",
+    "line": 520,
+    "expected": "Producer Phil and I will be back with the postgame show in a moment here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "Producer Phil and I will be back with the postgame show in a moment here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_049",
+    "line": 466,
+    "expected": "Producer Phil and I will be back with the postgame show in a moment, here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "Producer Phil and I will be back with the postgame show in a moment, here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_050",
+    "line": 341,
+    "expected": "Producer Phil and I will be back with the postgame show in a moment here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "Producer Phil and I will be back with the postgame show in a moment here on WSLP and the Northwoods Baseball Radio Network."
+   }
+  ],
+  "original_pool_size": 3,
+  "weight": 2.6668
+ },
+ {
+  "pool": "narrative_strings.batter_intro_leadoff",
+  "template": "And {batter_name} is due up against {pitcher_name}.",
+  "pattern": "and {player} is due up against {player}",
+  "slot": "leadoff",
+  "said": 15,
+  "opportunities": 285,
+  "rate": 0.0526,
+  "episodes": [
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_039",
+   "episode_045",
+   "episode_046",
+   "episode_051",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_011",
+    "line": 364,
+    "expected": "And Boyd Getz is due up against Buster Malone",
+    "source_text": "And Boyd Getz is due up against Buster Malone."
+   },
+   {
+    "source": "episode_013",
+    "line": 121,
+    "expected": "And Keith Castor is due up against Hiroki Nomo",
+    "source_text": "And Keith Castor is due up against Hiroki Nomo."
+   },
+   {
+    "source": "episode_013",
+    "line": 143,
+    "expected": "and Hiroki Nomo is due up against Blinky Malone",
+    "source_text": "Top of the third, Tomah Tigers leading one nothing over the Big Rapids Timbers, and Hiroki Nomo is due up against Blinky Malone."
+   },
+   {
+    "source": "episode_020",
+    "line": 110,
+    "expected": "And Gabriel Palomar is due up against Rick Stetson",
+    "source_text": "And Gabriel Palomar is due up against Rick Stetson."
+   },
+   {
+    "source": "episode_020",
+    "line": 185,
+    "expected": "And Philip Nakamura is due up against Rick Stetson",
+    "source_text": "And Philip Nakamura is due up against Rick Stetson."
+   },
+   {
+    "source": "episode_020",
+    "line": 203,
+    "expected": "And Buddy Lamont is due up against Virgil Hughes",
+    "source_text": "And Buddy Lamont is due up against Virgil Hughes. Lamont grounded out in the second inning."
+   }
+  ],
+  "original_pool_size": 23,
+  "weight": 1.5306
+ },
+ {
+  "pool": "narrative_strings.batter_intro_leadoff",
+  "template": "And {batter_name} steps in against {pitcher_name}.",
+  "pattern": "and {player} steps in against {player}",
+  "slot": "plate_appearance",
+  "said": 34,
+  "opportunities": 1106,
+  "rate": 0.0307,
+  "episodes": [
+   "episode_020",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_020",
+    "line": 39,
+    "expected": "And Blaze Winterbottom steps in against Virgil Hughes",
+    "source_text": "And Blaze Winterbottom steps in against Virgil Hughes."
+   },
+   {
+    "source": "episode_035",
+    "line": 37,
+    "expected": "And Jerry Durante steps in against Hiroki Nomo",
+    "source_text": "And Jerry Durante steps in against Hiroki Nomo. Righty against righty."
+   },
+   {
+    "source": "episode_035",
+    "line": 133,
+    "expected": "And Hiroki Nomo steps in against Frank Gibson",
+    "source_text": "And Hiroki Nomo steps in against Frank Gibson. Lefty against righty."
+   },
+   {
+    "source": "episode_035",
+    "line": 276,
+    "expected": "And Brandon Carlisle steps in against Hiroki Nomo",
+    "source_text": "Top of the seventh inning here in Tomah, Wisconsin, at Kittamori Park. The Tigers lead the Ravens two to one. And Brandon Carlisle steps in against Hiroki Nomo."
+   },
+   {
+    "source": "episode_037",
+    "line": 44,
+    "expected": "And Sherman Hawkins steps in against Brocktune Shemper",
+    "source_text": "And Sherman Hawkins steps in against Brocktune Shemper. Righty against righty."
+   },
+   {
+    "source": "episode_037",
+    "line": 64,
+    "expected": "And Brink Filbert steps in against Frank Gibson",
+    "source_text": "And Brink Filbert steps in against Frank Gibson. Lefty against righty."
+   }
+  ],
+  "original_pool_size": 23,
+  "weight": 0.8933
+ },
+ {
+  "pool": "narrative_strings.batter_intro_leadoff",
+  "template": "And {batter_name} will step in at the top of the {team_short_possessive} order.",
+  "pattern": "will step in at the top of the {short}'?s? order",
+  "slot": "leadoff",
+  "said": 10,
+  "opportunities": 285,
+  "rate": 0.0351,
+  "episodes": [
+   "episode_005",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 112,
+    "expected": "will step in at the top of the Tigers' order",
+    "source_text": "No score as we enter the third inning, and Vaughn Kramer will step in at the top of the Tigers' order. Kramer had a single in the first inning."
+   },
+   {
+    "source": "episode_029",
+    "line": 112,
+    "expected": "will step in at the top of the Tigers' order",
+    "source_text": "And Schmitty Diaz will step in at the top of the Tigers' order with two outs and the bases empty."
+   },
+   {
+    "source": "episode_029",
+    "line": 212,
+    "expected": "will step in at the top of the Tigers' order",
+    "source_text": "And Schmitty Diaz will step in at the top of the Tigers' order. Diaz, one-for-two, with a strikeout and a base hit. Bases empty, one down, top of the fourth."
+   },
+   {
+    "source": "episode_029",
+    "line": 409,
+    "expected": "will step in at the top of the Tigers' order",
+    "source_text": "The Tigers leading 2-nothing, as Schmitty Diaz will step in at the top of the Tigers' order. River Rats reliever Rex Tanya is back on the mound. Diaz is two-for-four with a single, a double, and a pair of strikeouts."
+   },
+   {
+    "source": "episode_035",
+    "line": 123,
+    "expected": "will step in at the top of the Ravens' order",
+    "source_text": "And Jerry Durante will step in at the top of the Ravens' order with a runner on and two down. Durante flied out in the first inning."
+   },
+   {
+    "source": "episode_035",
+    "line": 221,
+    "expected": "will step in at the top of the Tigers' order",
+    "source_text": "And Von Kramer will step in at the top of the Tigers' order. Kramer is 0 for 2 this evening."
+   }
+  ],
+  "original_pool_size": 23,
+  "weight": 1.0214
+ },
+ {
+  "pool": "narrative_strings.batter_intro_leadoff",
+  "template": "And that will bring up {batter_name} at the top of the {team_short_possessive} order.",
+  "pattern": "that will bring up {player} at the top of the {short}'?s? order",
+  "slot": "leadoff",
+  "said": 15,
+  "opportunities": 285,
+  "rate": 0.0526,
+  "episodes": [
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_045",
+   "episode_046",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_035",
+    "line": 137,
+    "expected": "that will bring up Von Kramer at the top of the Tigers' order",
+    "source_text": "And that will bring up Von Kramer at the top of the Tigers' order, with one away and the bases empty. Kramer grounded out in the first inning."
+   },
+   {
+    "source": "episode_037",
+    "line": 146,
+    "expected": "that will bring up Brink Filbert at the top of the Timbers' order",
+    "source_text": "And that will bring up Brink Filbert at the top of the Timbers' order. Filbert singled in the first inning."
+   },
+   {
+    "source": "episode_037",
+    "line": 261,
+    "expected": "that will bring up Brink Filbert at the top of the Timbers' order",
+    "source_text": "And that will bring up Brink Filbert at the top of the Timbers' order. Filbert is 1 for 2 this evening with a base hit in the first inning."
+   },
+   {
+    "source": "episode_039",
+    "line": 255,
+    "expected": "that will bring up Billy Joe Rickson at the top of the Eagles' order",
+    "source_text": "And that will bring up Billy Joe Rickson at the top of the Eagles' order with two down and a runner on second."
+   },
+   {
+    "source": "episode_039",
+    "line": 330,
+    "expected": "that will bring up Bugs Yamaguchi at the top of the Bombers' order",
+    "source_text": "And that will bring up Bugs Yamaguchi at the top of the Bombers' order."
+   },
+   {
+    "source": "episode_039",
+    "line": 468,
+    "expected": "that will bring up Bugs Yamaguchi at the top of the Bombers' order",
+    "source_text": "And that will bring up Bugs Yamaguchi at the top of the Bombers' order."
+   }
+  ],
+  "original_pool_size": 23,
+  "weight": 1.5306
+ },
+ {
+  "pool": "narrative_strings.batter_intro_leadoff",
+  "template": "And here's {batter_name} at the top of the {team_short_possessive} order.",
+  "pattern": "here's {player} at the top of the {short}'?s? order",
+  "slot": "leadoff",
+  "said": 11,
+  "opportunities": 285,
+  "rate": 0.0386,
+  "episodes": [
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_046",
+   "episode_049",
+   "episode_052",
+   "episode_053",
+   "pbp_example_2",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_037",
+    "line": 132,
+    "expected": "here's Sherman Hawkins at the top of the Ravens' order",
+    "source_text": "And here's Sherman Hawkins at the top of the Ravens' order. Hawkins walked in the first inning."
+   },
+   {
+    "source": "episode_039",
+    "line": 215,
+    "expected": "here's Bugs Yamaguchi at the top of the Bombers' order",
+    "source_text": "And here's Bugs Yamaguchi at the top of the Bombers' order."
+   },
+   {
+    "source": "episode_041",
+    "line": 135,
+    "expected": "here's Schmitty Diaz at the top of the Tigers' order",
+    "source_text": "And here's Schmitty Diaz at the top of the Tigers' order. Diaz flied out in the first."
+   },
+   {
+    "source": "episode_046",
+    "line": 179,
+    "expected": "here's Joshua Gonzalez at the top of the Ravens' order",
+    "source_text": "And here's Joshua Gonzalez at the top of the Ravens' order. Gonzalez grounded out in the first."
+   },
+   {
+    "source": "episode_046",
+    "line": 378,
+    "expected": "here's Joshua Gonzalez at the top of the Ravens' order",
+    "source_text": "And here's Joshua Gonzalez at the top of the Ravens' order. One away, runner on first, Eagles leading four to one in the bottom of the seventh."
+   },
+   {
+    "source": "episode_046",
+    "line": 453,
+    "expected": "here's Tito McCaskill at the top of the Eagles' order",
+    "source_text": "And here's Tito McCaskill at the top of the Eagles' order. McCaskill is oh for three with a base on balls in the third."
+   }
+  ],
+  "original_pool_size": 23,
+  "weight": 1.1232
+ },
+ {
+  "pool": "narrative_strings.batter_intro_empty",
+  "template": "{outs_str}, nobody on for {batter_name}.",
+  "pattern": "\\b(?:one|two) (?:outs?|away|down)[.,]? nobody on for {player}",
+  "slot": "later_batter",
+  "said": 17,
+  "opportunities": 821,
+  "rate": 0.0207,
+  "episodes": [
+   "episode_005",
+   "episode_020",
+   "episode_049",
+   "episode_052"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 76,
+    "expected": "One out, nobody on for Ernesto Stern",
+    "source_text": "One out, nobody on for Ernesto Stern."
+   },
+   {
+    "source": "episode_005",
+    "line": 114,
+    "expected": "One out, nobody on for Prudence Jefferson",
+    "source_text": "One out, nobody on for Prudence Jefferson."
+   },
+   {
+    "source": "episode_005",
+    "line": 149,
+    "expected": "One out. Nobody on for Burke Sessions",
+    "source_text": "One out. Nobody on for Burke Sessions."
+   },
+   {
+    "source": "episode_005",
+    "line": 175,
+    "expected": "One out, nobody on for Fritz Ortega",
+    "source_text": "One out, nobody on for Fritz Ortega."
+   },
+   {
+    "source": "episode_005",
+    "line": 210,
+    "expected": "Two outs. Nobody on for Flipper Cortez",
+    "source_text": "Two outs. Nobody on for Flipper Cortez."
+   },
+   {
+    "source": "episode_005",
+    "line": 253,
+    "expected": "Two outs. Nobody on for Pinky Slauson",
+    "source_text": "Two outs. Nobody on for Pinky Slauson."
+   }
+  ],
+  "original_pool_size": 26,
+  "weight": 0.5731
+ },
+ {
+  "pool": "narrative_strings.batter_intro_empty",
+  "template": "{outs_str}, bases empty for {batter_name}.",
+  "pattern": "\\b(?:one|two) (?:outs?|away|down)[.,]? bases empty for {player}",
+  "slot": "later_batter",
+  "said": 33,
+  "opportunities": 821,
+  "rate": 0.0402,
+  "episodes": [
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_050",
+   "episode_052",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 36,
+    "expected": "Two outs. Bases empty for Bruford Kosinski",
+    "source_text": "Two outs. Bases empty for Bruford Kosinski."
+   },
+   {
+    "source": "episode_005",
+    "line": 103,
+    "expected": "One out, bases empty for Philip Nakamura",
+    "source_text": "One out, bases empty for Philip Nakamura."
+   },
+   {
+    "source": "episode_005",
+    "line": 232,
+    "expected": "Two outs, bases empty for Ernesto Stern",
+    "source_text": "Two outs, bases empty for Ernesto Stern."
+   },
+   {
+    "source": "episode_005",
+    "line": 389,
+    "expected": "Two outs, bases empty for Prudence Jefferson",
+    "source_text": "Two outs, bases empty for Prudence Jefferson, who is hitless thus far this evening."
+   },
+   {
+    "source": "episode_011",
+    "line": 53,
+    "expected": "One away, bases empty for Bobby the Fink Thomas",
+    "source_text": "One away, bases empty for Bobby the Fink Thomas."
+   },
+   {
+    "source": "episode_011",
+    "line": 274,
+    "expected": "One away, bases empty for Oscar Patterson",
+    "source_text": "One away, bases empty for Oscar Patterson."
+   }
+  ],
+  "original_pool_size": 26,
+  "weight": 1.113
+ },
+ {
+  "pool": "narrative_strings.outs_none",
+  "template": "no outs",
+  "pattern": "\\bno outs\\b",
+  "slot": "pattern:\\b(?:nobody out|no outs)\\b",
+  "said": 8,
+  "opportunities": 83,
+  "rate": 0.0964,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_013"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 94,
+    "expected": "no outs",
+    "source_text": "Men on first and second, still no outs in the inning. The first three Timbers to come to the plate have all reached, and that will bring up left fielder Brink Filbert."
+   },
+   {
+    "source": "episode_001",
+    "line": 399,
+    "expected": "no outs",
+    "source_text": "And here's the payoff pitch. Outside, and he walks the leadoff man, Patterson. So, no outs, one on, and that will bring up Gilligan Parker."
+   },
+   {
+    "source": "episode_001",
+    "line": 450,
+    "expected": "no outs",
+    "source_text": "And that one is smashed to center field, way back, and Dutch Moon has a two-run homer. And Big Rapids has something going here. It's now a six-four ball game with no outs. Top of the ninth."
+   },
+   {
+    "source": "episode_005",
+    "line": 284,
+    "expected": "No outs",
+    "source_text": "No outs, one in, bases empty for Gabriel Palomar."
+   },
+   {
+    "source": "episode_005",
+    "line": 323,
+    "expected": "No outs",
+    "source_text": "Runner on first. No outs for Brock Niedermeier, who will apparently stay in to pitch the ninth inning."
+   },
+   {
+    "source": "episode_005",
+    "line": 357,
+    "expected": "No outs",
+    "source_text": "No outs, man on first for Burke Sessions."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.1067
+ },
+ {
+  "pool": "narrative_strings.outs_one",
+  "template": "one out",
+  "pattern": "\\bone out\\b",
+  "slot": "pattern:\\bone (?:out|away|down)\\b",
+  "said": 47,
+  "opportunities": 307,
+  "rate": 0.1531,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_046",
+   "episode_052",
+   "pbp_example_3"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 100,
+    "expected": "One out",
+    "source_text": "And the two-one pitch. And Filbert pops that one up in the infield. One out, runners do not advance."
+   },
+   {
+    "source": "episode_001",
+    "line": 131,
+    "expected": "One out",
+    "source_text": "Here's catcher Giovanni Gasparro. Von Newman looks in. Here's the pitch. And Gasparro pops that one up to shallow center field. Moon is there, and makes the catch, no chance for Slauson to try to score. One out."
+   },
+   {
+    "source": "episode_001",
+    "line": 136,
+    "expected": "One out",
+    "source_text": "One out, a man on third, and that will bring up the pitcher's spot, Blinky Malone."
+   },
+   {
+    "source": "episode_001",
+    "line": 140,
+    "expected": "one out",
+    "source_text": "Still only one out, and that brings up the top of the order for Cadillac. Flipper Cortez, who grounded out his first at bat."
+   },
+   {
+    "source": "episode_001",
+    "line": 165,
+    "expected": "One out",
+    "source_text": "The two-one pitch. That is a liner right out to Palomar in right. And Ferguson cannot advance. One out."
+   },
+   {
+    "source": "episode_001",
+    "line": 166,
+    "expected": "One out",
+    "source_text": "And in steps Randy Chang. One out, runner on first."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.1934
+ },
+ {
+  "pool": "narrative_strings.outs_one",
+  "template": "one down",
+  "pattern": "\\bone down\\b",
+  "slot": "pattern:\\bone (?:out|away|down)\\b",
+  "said": 17,
+  "opportunities": 307,
+  "rate": 0.0554,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_011",
+   "episode_029",
+   "episode_037",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 56,
+    "expected": "One down",
+    "source_text": "One down. And that brings up Philip Nakamura, Nakamura having something of a breakout season, batting .370 with 29 runs batted in."
+   },
+   {
+    "source": "episode_001",
+    "line": 135,
+    "expected": "one down",
+    "source_text": "The one-one. And Ortega smashes that one down the line, past the first baseman. And that will probably score two. Ortega's going to turn on the gas, and he will end up at third base. That's a triple, and Cadillac leads 3 to 1."
+   },
+   {
+    "source": "episode_005",
+    "line": 337,
+    "expected": "One down",
+    "source_text": "One down. Runners on, first and second for Pinky Slauson. Slauson belted a solo home run in the sixth inning."
+   },
+   {
+    "source": "episode_011",
+    "line": 431,
+    "expected": "one down",
+    "source_text": "And the pitch... And Patterson fouls that one down the first-base line, and we'll do it again."
+   },
+   {
+    "source": "episode_029",
+    "line": 190,
+    "expected": "one down",
+    "source_text": "Bases empty, one down for Jackie Lozano. Bottom of the third, Tigers leading 2-nothing."
+   },
+   {
+    "source": "episode_029",
+    "line": 212,
+    "expected": "one down",
+    "source_text": "And Schmitty Diaz will step in at the top of the Tigers' order. Diaz, one-for-two, with a strikeout and a base hit. Bases empty, one down, top of the fourth."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.07
+ },
+ {
+  "pool": "narrative_strings.outs_two",
+  "template": "two outs",
+  "pattern": "\\btwo outs\\b",
+  "slot": "pattern:\\btwo (?:outs|away|down)\\b",
+  "said": 117,
+  "opportunities": 297,
+  "rate": 0.3939,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "pbp_example_1",
+   "pbp_example_3"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 107,
+    "expected": "two outs",
+    "source_text": "The one-two. Swung on and missed for a strikeout. That's Malone's first strikeout of the evening. Now there are two outs."
+   },
+   {
+    "source": "episode_001",
+    "line": 145,
+    "expected": "two outs",
+    "source_text": "And the pitch. Cortez lines that one right to right fielder Randy Chang, who makes the catch for the out. There are two outs."
+   },
+   {
+    "source": "episode_001",
+    "line": 178,
+    "expected": "two outs",
+    "source_text": "The one-two pitch. And Rudderson hits that one deep, playable for Palomar in right. He's under it and makes the catch. Ferguson will advance to third. Runners on first and third, two outs, as Rio Nunez steps in."
+   },
+   {
+    "source": "episode_001",
+    "line": 185,
+    "expected": "two outs",
+    "source_text": "The three-two pitch. And that is called a ball. That looked like a strike to me. Pretty good pitch, but the bases are now loaded with two outs."
+   },
+   {
+    "source": "episode_001",
+    "line": 209,
+    "expected": "two outs",
+    "source_text": "The three-one pitch. And Palomar smashes that one right into the glove of first baseman Keith Castor, and there are two outs."
+   },
+   {
+    "source": "episode_001",
+    "line": 214,
+    "expected": "two outs",
+    "source_text": "And the first pitch is swung on for a strike. It's oh and one. Man on second, two outs. Cadillac leads 5-1."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.6762
+ },
+ {
+  "pool": "narrative_strings.outs_two",
+  "template": "two away",
+  "pattern": "\\btwo away\\b",
+  "slot": "pattern:\\btwo (?:outs|away|down)\\b",
+  "said": 7,
+  "opportunities": 297,
+  "rate": 0.0236,
+  "episodes": [
+   "episode_001",
+   "episode_013",
+   "episode_020"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 417,
+    "expected": "two away",
+    "source_text": "And welcome back to Foghorn Field. Belden Inohosa is the new Timbers pitcher, and he'll face Giovanni Gasparro with runners at first and second, two away."
+   },
+   {
+    "source": "episode_013",
+    "line": 81,
+    "expected": "two away",
+    "source_text": "Bases empty, two away for Blink Rudderson."
+   },
+   {
+    "source": "episode_013",
+    "line": 175,
+    "expected": "Two away",
+    "source_text": "Two away, bases empty for Dutch Moon."
+   },
+   {
+    "source": "episode_013",
+    "line": 383,
+    "expected": "Two away",
+    "source_text": "Two away, runner on second for Blink Rudderson."
+   },
+   {
+    "source": "episode_013",
+    "line": 437,
+    "expected": "two away",
+    "source_text": "Bases empty, two away. Tigers leading eight nothing here in the bottom of the seventh, for Randy Chang."
+   },
+   {
+    "source": "episode_013",
+    "line": 545,
+    "expected": "Two away",
+    "source_text": "Two away, bases empty, and Hiroki Nomo is one out away from a no-hitter, here on opening day."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.0405
+ },
+ {
+  "pool": "narrative_strings.out_context_one",
+  "template": "for the first out of the inning",
+  "pattern": "for the first out of the inning",
+  "slot": "pattern:for out number one|for the first out",
+  "said": 42,
+  "opportunities": 209,
+  "rate": 0.201,
+  "episodes": [
+   "episode_005",
+   "episode_035",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "episode_052",
+   "episode_053",
+   "pbp_example_2",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 336,
+    "expected": "for the first out of the inning",
+    "source_text": "And the oh-two pitch... Swing and a miss for the first out of the inning."
+   },
+   {
+    "source": "episode_035",
+    "line": 53,
+    "expected": "for the first out of the inning",
+    "source_text": "The one-oh pitch... Line drive to short, Corrado is there, and he tosses to first to retire Kramer for the first out of the inning."
+   },
+   {
+    "source": "episode_035",
+    "line": 240,
+    "expected": "for the first out of the inning",
+    "source_text": "The one-two pitch... Slider called strike three, and Gibson strikes out for the first out of the inning."
+   },
+   {
+    "source": "episode_039",
+    "line": 52,
+    "expected": "for the first out of the inning",
+    "source_text": "The two-two pitch... Bouncer to third. Gomez is up with it, and he fires to first to retire Rickson for the first out of the inning."
+   },
+   {
+    "source": "episode_039",
+    "line": 373,
+    "expected": "for the first out of the inning",
+    "source_text": "The one-one... Hard grounder to short. Great pick by McCaskill, and he fires to first, just in time to retire Silver for the first out of the inning."
+   },
+   {
+    "source": "episode_041",
+    "line": 49,
+    "expected": "for the first out of the inning",
+    "source_text": "And Malone deals... And that's hit to deep center, Ortega racing after it, and he makes the catch on the warning track for the first out of the inning."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.2728
+ },
+ {
+  "pool": "narrative_strings.out_context_one",
+  "template": "for the first out",
+  "pattern": "for the first out\\b(?! of)",
+  "slot": "pattern:for out number one|for the first out",
+  "said": 7,
+  "opportunities": 209,
+  "rate": 0.0335,
+  "episodes": [
+   "episode_001",
+   "episode_005"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 317,
+    "expected": "for the first out",
+    "source_text": "The oh-two pitch, and Patterson takes something of a wild swing at that curveball in the dirt. Not even close, and that's a strikeout for the first out, on three pitches from Von Newman."
+   },
+   {
+    "source": "episode_001",
+    "line": 341,
+    "expected": "for the first out",
+    "source_text": "The oh-two, hits softly right into the shift. Flipper Cortez picks it up and tosses to first for the first out. Score that one 6-3."
+   },
+   {
+    "source": "episode_001",
+    "line": 454,
+    "expected": "for the first out",
+    "source_text": "The two-oh pitch. Popped up, and Flipper Cortez is under it. He will make the grab for the first out."
+   },
+   {
+    "source": "episode_005",
+    "line": 48,
+    "expected": "for the first out",
+    "source_text": "The two-two, swung on and missed for the first out."
+   },
+   {
+    "source": "episode_005",
+    "line": 132,
+    "expected": "for the first out",
+    "source_text": "The one-two, and Gasparro strikes out looking for the first out."
+   },
+   {
+    "source": "episode_005",
+    "line": 206,
+    "expected": "for the first out",
+    "source_text": "The two-one, and that's a bouncer to third. Sessions has it, and fires across to first in time to retire Palomar for the first out."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.0455
+ },
+ {
+  "pool": "narrative_strings.out_context_one",
+  "template": "for the first out of the frame",
+  "pattern": "for the first out of the frame",
+  "slot": "pattern:for out number one|for the first out",
+  "said": 6,
+  "opportunities": 209,
+  "rate": 0.0287,
+  "episodes": [
+   "episode_049",
+   "episode_051",
+   "episode_052",
+   "episode_053"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_049",
+    "line": 386,
+    "expected": "for the first out of the frame",
+    "source_text": "And the two-two... Swing and a miss on a low curve, and Valentine strikes out for the first out of the frame."
+   },
+   {
+    "source": "episode_051",
+    "line": 81,
+    "expected": "for the first out of the frame",
+    "source_text": "The one-oh... Driven to deep center, Nubbins is tracking it, and he makes the catch for the first out of the frame."
+   },
+   {
+    "source": "episode_051",
+    "line": 204,
+    "expected": "for the first out of the frame",
+    "source_text": "The one-two pitch... Swing and a miss on a looping change, and Cortez is down on strikes for the first out of the frame."
+   },
+   {
+    "source": "episode_052",
+    "line": 65,
+    "expected": "for the first out of the frame",
+    "source_text": "The two-oh pitch... Bouncer to third. Great pick by Gomez, and he fires across just in time to retire Durante for the first out of the frame."
+   },
+   {
+    "source": "episode_052",
+    "line": 200,
+    "expected": "for the first out of the frame",
+    "source_text": "The one-oh pitch... And Bronswell gets jammed, pops it up. Gomez is under it, and he makes the catch for the first out of the frame."
+   },
+   {
+    "source": "episode_053",
+    "line": 133,
+    "expected": "for the first out of the frame",
+    "source_text": "The one-two pitch... Swing and a miss on a low slider, and Cortez is down on strikes for the first out of the frame."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.039
+ },
+ {
+  "pool": "narrative_strings.out_context_two",
+  "template": "for the second out of the inning",
+  "pattern": "for the second out of the inning",
+  "slot": "pattern:for out number two|for the second out",
+  "said": 12,
+  "opportunities": 193,
+  "rate": 0.0622,
+  "episodes": [
+   "episode_005",
+   "episode_039",
+   "episode_046",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_2",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 60,
+    "expected": "for the second out of the inning",
+    "source_text": "The two-two, that's a ground ball to the right side. Kramer flips to second in time, Bush fires to first, not in time to get Ortega. Slauson is out at second for the second out of the inning."
+   },
+   {
+    "source": "episode_039",
+    "line": 153,
+    "expected": "for the second out of the inning",
+    "source_text": "And the pitch... Grounder to third, Nunez has it and fires across to first just in time to retire Gomez for the second out of the inning."
+   },
+   {
+    "source": "episode_039",
+    "line": 228,
+    "expected": "for the second out of the inning",
+    "source_text": "And the pitch... Swing and a miss on a low breaking ball. And Winterbottom strikes out for the second out of the inning."
+   },
+   {
+    "source": "episode_046",
+    "line": 81,
+    "expected": "for the second out of the inning",
+    "source_text": "And the oh-one... Hit in the air to deep left field. Navarro drifting back, and he makes the catch on the warning track for the second out of the inning."
+   },
+   {
+    "source": "episode_046",
+    "line": 311,
+    "expected": "for the second out of the inning",
+    "source_text": "The one-two pitch... And another curveball rings him up, and Gantry strikes out for the second out of the inning."
+   },
+   {
+    "source": "episode_050",
+    "line": 68,
+    "expected": "for the second out of the inning",
+    "source_text": "The one-one pitch... Bouncer to short. Gonzalez gathers it and fires to first to retire Maryhue for the second out of the inning."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.069
+ },
+ {
+  "pool": "narrative_strings.out_context_two",
+  "template": "for the second out",
+  "pattern": "for the second out\\b(?! of)",
+  "slot": "pattern:for out number two|for the second out",
+  "said": 7,
+  "opportunities": 193,
+  "rate": 0.0363,
+  "episodes": [
+   "episode_001",
+   "episode_005"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 271,
+    "expected": "for the second out",
+    "source_text": "Malone comes set and the pitch. Ferguson takes a wild wave at that one for a called strike. That's a strikeout for the second out."
+   },
+   {
+    "source": "episode_001",
+    "line": 321,
+    "expected": "for the second out",
+    "source_text": "The one-one pitch. And Parker hits a hard line drive down the first base line, and Keith Castor scoops it up and steps on the bag for the second out. A nice play by Castor. He had to hustle for that one, but he made it look easy."
+   },
+   {
+    "source": "episode_001",
+    "line": 370,
+    "expected": "for the second out",
+    "source_text": "The one-one. And he pops that one up way up. Keith Castor is under it, and he will make the catch for the second out."
+   },
+   {
+    "source": "episode_001",
+    "line": 407,
+    "expected": "for the second out",
+    "source_text": "The oh-two pitch. And that's a broken-bat dribbler. Keith Castor hustling after it, and steps on the bag for the second out. Patterson will advance to second."
+   },
+   {
+    "source": "episode_005",
+    "line": 84,
+    "expected": "for the second out",
+    "source_text": "The one-oh, and that's chopped to the left side. Patterson scoops it up and fires to second in time. Cortez is there, but no chance to get Sessions there. Stern is retired at second for the second out, and Sessions is on first."
+   },
+   {
+    "source": "episode_005",
+    "line": 274,
+    "expected": "for the second out",
+    "source_text": "And here's the pitch... And that's dribbled right back to Niedermeier, who tosses to first in time for the second out."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.0403
+ },
+ {
+  "pool": "narrative_strings.out_context_three",
+  "template": "for out number three",
+  "pattern": "for out number three",
+  "slot": "pattern:to end the inning|for out number three|for the third out",
+  "said": 8,
+  "opportunities": 243,
+  "rate": 0.0329,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_041"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 353,
+    "expected": "for out number three",
+    "source_text": "The two-two pitch. And Von Newman pops that one into right field. Palomar is under it, and makes the catch for out number three."
+   },
+   {
+    "source": "episode_005",
+    "line": 67,
+    "expected": "for out number three",
+    "source_text": "The payoff pitch... And that's belted to left field. Jefferson is under it, and he makes the catch at the warning track for out number three."
+   },
+   {
+    "source": "episode_005",
+    "line": 108,
+    "expected": "for out number three",
+    "source_text": "The one-oh pitch... And that's chopped up the middle. Kramer picks it up and tosses to first in time for out number three."
+   },
+   {
+    "source": "episode_005",
+    "line": 121,
+    "expected": "for out number three",
+    "source_text": "The pitch... And that's lifted down the line in left field, and Parker has it for out number three."
+   },
+   {
+    "source": "episode_005",
+    "line": 164,
+    "expected": "for out number three",
+    "source_text": "The two-two, and that's popped up, left side, Slauson comes in, and he has it for out number three."
+   },
+   {
+    "source": "episode_011",
+    "line": 224,
+    "expected": "for out number three",
+    "source_text": "The two-one pitch... And that's fly to right, Johnson is there, and he has it for out number three."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.0346
+ },
+ {
+  "pool": "narrative_strings.out_context_three",
+  "template": "for the third out",
+  "pattern": "for the third out",
+  "slot": "pattern:to end the inning|for out number three|for the third out",
+  "said": 4,
+  "opportunities": 243,
+  "rate": 0.0165,
+  "episodes": [
+   "episode_001",
+   "episode_005"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 220,
+    "expected": "for the third out",
+    "source_text": "The pitch. And Ortega pops that one up to left field, and Brink Filbert is under it, and makes the catch for the third out."
+   },
+   {
+    "source": "episode_001",
+    "line": 333,
+    "expected": "for the third out",
+    "source_text": "And here's the oh-one pitch. That one is low for a ball, and Slauson is headed for second. Oldman will throw it to second in time. And Slauson is caught stealing for the third out."
+   },
+   {
+    "source": "episode_001",
+    "line": 440,
+    "expected": "for the third out",
+    "source_text": "And the one-two pitch, hit softly to the right side of the infield. Inohosa has it and tosses to first for the third out."
+   },
+   {
+    "source": "episode_005",
+    "line": 180,
+    "expected": "for the third out",
+    "source_text": "And the oh-two pitch... That's a fly ball to right field. Kosinski is there, and he makes the catch for the third out."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.0174
+ },
+ {
+  "pool": "narrative_strings.out_context_game",
+  "template": "to end the ball game",
+  "pattern": "to end the ball ?game",
+  "slot": "game",
+  "said": 11,
+  "opportunities": 17,
+  "rate": 0.6471,
+  "episodes": [
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_029",
+    "line": 440,
+    "expected": "to end the ball game",
+    "source_text": "The one-one pitch... Grounder to short. Bush to second for one, over to first in time, and that's an inning-ending 6-4-3 double play to end the ball game."
+   },
+   {
+    "source": "episode_035",
+    "line": 398,
+    "expected": "to end the ball game",
+    "source_text": "The oh-two pitch... Hit in the air to deep right center, Kosinski sprinting after it, and he makes a spectacular catch on the warning track to end the ball game."
+   },
+   {
+    "source": "episode_037",
+    "line": 409,
+    "expected": "to end the ball game",
+    "source_text": "The two-two pitch... Swing and a miss on a low curve, and Carlisle strikes out to end the ball game."
+   },
+   {
+    "source": "episode_039",
+    "line": 507,
+    "expected": "to end the ball game",
+    "source_text": "And the one-oh, popped up in foul territory. Gomez drifting over, and he makes the catch to end the ball game."
+   },
+   {
+    "source": "episode_041",
+    "line": 402,
+    "expected": "to end the ball game",
+    "source_text": "The one-two pitch to Jefferson... High fastball, swung on and missed, and Jefferson strikes out to end the ball game."
+   },
+   {
+    "source": "episode_045",
+    "line": 516,
+    "expected": "to end the ball game",
+    "source_text": "The oh-two pitch... Fastball called strike three, and Nigel Hickson strikes out to end the ball game."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 1.8337
+ },
+ {
+  "pool": "pitch_locations.ball.dirt",
+  "template": "And that's a {pitch_type_lower} in the dirt",
+  "pattern": "and that's an? {pitch} in the dirt",
+  "slot": "ball:dirt",
+  "said": 28,
+  "opportunities": 163,
+  "rate": 0.1718,
+  "episodes": [
+   "episode_001",
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_049",
+   "pbp_example_3"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 97,
+    "expected": "And that's a slider in the dirt",
+    "source_text": "And now Malone comes set for the oh-one pitch. And that's a slider in the dirt that gets away from the catcher, Gasparro. Both runners advance ninety feet."
+   },
+   {
+    "source": "episode_011",
+    "line": 72,
+    "expected": "And that's a slider in the dirt",
+    "source_text": "The oh-one pitch... And that's a slider in the dirt. One and one."
+   },
+   {
+    "source": "episode_011",
+    "line": 88,
+    "expected": "And that's a slider in the dirt",
+    "source_text": "The oh-one pitch... And that's a slider in the dirt that will skip away from Ramirez. Velasquez staying put at first base."
+   },
+   {
+    "source": "episode_011",
+    "line": 157,
+    "expected": "And that's a curveball in the dirt",
+    "source_text": "The one-oh pitch... And that's a curveball in the dirt. Two and oh."
+   },
+   {
+    "source": "episode_011",
+    "line": 195,
+    "expected": "And that's a curveball in the dirt",
+    "source_text": "And the pitch... And that's a curveball in the dirt. One and oh."
+   },
+   {
+    "source": "episode_011",
+    "line": 233,
+    "expected": "And that's a curveball in the dirt",
+    "source_text": "And the pitch... And that's a curveball in the dirt, ball one."
+   }
+  ],
+  "original_pool_size": 5,
+  "weight": 1.0372
+ },
+ {
+  "pool": "pitch_locations.ball.low",
+  "template": "And that {pitch_type_lower} misses low",
+  "pattern": "and that {pitch} misses low",
+  "slot": "ball:low",
+  "said": 20,
+  "opportunities": 399,
+  "rate": 0.0501,
+  "episodes": [
+   "episode_011",
+   "episode_013",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "pbp_example_2",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_011",
+    "line": 133,
+    "expected": "And that fastball misses low",
+    "source_text": "The three-one pitch... And that fastball misses low, and that's a leadoff walk for Robinson."
+   },
+   {
+    "source": "episode_011",
+    "line": 136,
+    "expected": "And that curveball misses low",
+    "source_text": "The oh-one pitch... And that curveball misses low. One and one."
+   },
+   {
+    "source": "episode_011",
+    "line": 238,
+    "expected": "And that curveball misses low",
+    "source_text": "The payoff pitch... And that curveball misses low for ball four, and that's a leadoff walk for Montgomery Velasquez."
+   },
+   {
+    "source": "episode_013",
+    "line": 86,
+    "expected": "And that curveball misses low",
+    "source_text": "And the pitch... And that curveball misses low, and that's a two-out walk for Blink Rudderson."
+   },
+   {
+    "source": "episode_013",
+    "line": 440,
+    "expected": "And that curveball misses low",
+    "source_text": "The one-oh pitch... And that curveball misses low. Two and oh."
+   },
+   {
+    "source": "episode_013",
+    "line": 491,
+    "expected": "and that curveball misses low",
+    "source_text": "The one-one pitch, and that curveball misses low. Two and one."
+   }
+  ],
+  "original_pool_size": 18,
+  "weight": 0.9494
+ },
+ {
+  "pool": "pitch_locations.ball.high",
+  "template": "And that {pitch_type_lower} misses high",
+  "pattern": "and that {pitch} misses high",
+  "slot": "ball:high",
+  "said": 7,
+  "opportunities": 124,
+  "rate": 0.0565,
+  "episodes": [
+   "episode_013",
+   "episode_035",
+   "episode_039",
+   "episode_041",
+   "episode_045"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 375,
+    "expected": "And that fastball misses high",
+    "source_text": "The payoff pitch... And that fastball misses high, and that's a one-out walk for Rio Nunez."
+   },
+   {
+    "source": "episode_035",
+    "line": 39,
+    "expected": "And that fastball misses high",
+    "source_text": "The oh-one pitch... And that fastball misses high. One and one."
+   },
+   {
+    "source": "episode_039",
+    "line": 178,
+    "expected": "And that fastball misses high",
+    "source_text": "And the one-oh... And that fastball misses high. Two and oh."
+   },
+   {
+    "source": "episode_039",
+    "line": 212,
+    "expected": "And that fastball misses high",
+    "source_text": "And that fastball misses high. One and one."
+   },
+   {
+    "source": "episode_039",
+    "line": 233,
+    "expected": "And that changeup misses high",
+    "source_text": "The oh-two pitch... And that changeup misses high. One and two."
+   },
+   {
+    "source": "episode_041",
+    "line": 149,
+    "expected": "And that fastball misses high",
+    "source_text": "The oh-two pitch... And that fastball misses high. One and two."
+   }
+  ],
+  "original_pool_size": 18,
+  "weight": 1.0779
+ },
+ {
+  "pool": "pitch_locations.ball.inside",
+  "template": "brushes him back",
+  "pattern": "brushes him back",
+  "slot": "ball:inside",
+  "said": 10,
+  "opportunities": 98,
+  "rate": 0.102,
+  "episodes": [
+   "episode_035",
+   "episode_037",
+   "episode_041",
+   "episode_046",
+   "episode_049",
+   "episode_052",
+   "episode_053",
+   "pbp_example_2",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_035",
+    "line": 138,
+    "expected": "brushes him back",
+    "source_text": "And Gibson's pitch... Fastball, high and tight, and that one brushes him back. One and oh."
+   },
+   {
+    "source": "episode_037",
+    "line": 273,
+    "expected": "brushes him back",
+    "source_text": "The one-oh pitch... Fastball brushes him back. Two and oh."
+   },
+   {
+    "source": "episode_037",
+    "line": 310,
+    "expected": "brushes him back",
+    "source_text": "The two-two pitch... Fastball brushes him back, and the count runs full."
+   },
+   {
+    "source": "episode_041",
+    "line": 278,
+    "expected": "brushes him back",
+    "source_text": "Valentine from the stretch... Fastball brushes him back. One and oh."
+   },
+   {
+    "source": "episode_041",
+    "line": 369,
+    "expected": "brushes him back",
+    "source_text": "The one-two pitch... Fastball brushes him back. Two and two."
+   },
+   {
+    "source": "episode_046",
+    "line": 56,
+    "expected": "brushes him back",
+    "source_text": "And the oh-one... Fastball brushes him back. One and one."
+   }
+  ],
+  "original_pool_size": 13,
+  "weight": 1.4766
+ },
+ {
+  "pool": "narrative_strings.count_full",
+  "template": ", full count",
+  "pattern": "\\bfull count\\.",
+  "slot": "pattern:full count|count runs full|count is (?:now )?full|fills the count",
+  "said": 47,
+  "opportunities": 84,
+  "rate": 0.5595,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_011",
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_041",
+   "episode_046",
+   "episode_053"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 157,
+    "expected": "Full count",
+    "source_text": "Malone shakes one off and comes set. And Ferguson takes an awkward swing at that. Full count."
+   },
+   {
+    "source": "episode_001",
+    "line": 184,
+    "expected": "Full count",
+    "source_text": "The three-one. He got Rudderson to chase one out of the zone. Full count."
+   },
+   {
+    "source": "episode_001",
+    "line": 249,
+    "expected": "Full count",
+    "source_text": "And the pitch. Low for a ball. Full count."
+   },
+   {
+    "source": "episode_001",
+    "line": 290,
+    "expected": "full count",
+    "source_text": "Here's the three-one pitch. And that just kisses the corner for a called strike, and it's a full count."
+   },
+   {
+    "source": "episode_001",
+    "line": 298,
+    "expected": "Full count",
+    "source_text": "The three-one pitch, a high fastball, called a strike. Three and two. Full count."
+   },
+   {
+    "source": "episode_001",
+    "line": 299,
+    "expected": "full count",
+    "source_text": "And here's the payoff pitch. And that is hit sharply, foul, and we'll do it again. Still full count."
+   }
+  ],
+  "original_pool_size": 7,
+  "weight": 8.891
+ },
+ {
+  "pool": "narrative_strings.count_even",
+  "template": "count even at {count_str}",
+  "pattern": "count even at {count}",
+  "slot": "pattern:\\b(?:two and two|two-two)\\b",
+  "said": 10,
+  "opportunities": 364,
+  "rate": 0.0275,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_011",
+   "episode_020",
+   "episode_029",
+   "episode_037",
+   "pbp_example_1"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 181,
+    "expected": "count even at one and one",
+    "source_text": "The oh-one is low for a ball, count even at one and one."
+   },
+   {
+    "source": "episode_001",
+    "line": 305,
+    "expected": "count even at one and one",
+    "source_text": "And here's the one-oh pitch. In there, for a strike, the count even at one and one."
+   },
+   {
+    "source": "episode_005",
+    "line": 215,
+    "expected": "Count even at two and two",
+    "source_text": "The pitch... And that misses low. Count even at two and two."
+   },
+   {
+    "source": "episode_005",
+    "line": 327,
+    "expected": "Count even at two and two",
+    "source_text": "The one-two, that misses outside. Count even at two and two."
+   },
+   {
+    "source": "episode_005",
+    "line": 368,
+    "expected": "Count even at two and two",
+    "source_text": "The one-two, and that runs inside. Count even at two and two."
+   },
+   {
+    "source": "episode_005",
+    "line": 405,
+    "expected": "Count even at two and two",
+    "source_text": "The one-two, and that's outside for ball two. Count even at two and two."
+   }
+  ],
+  "original_pool_size": 4,
+  "weight": 0.1131
+ },
+ {
+  "pool": "narrative_strings.count_plain",
+  "template": "and it's {count_str}",
+  "pattern": "\\band it's {count}\\b",
+  "slot": "pattern:\\b(?:oh|one|two|three)(?: and |-)(?:oh|one|two)\\b",
+  "said": 19,
+  "opportunities": 4566,
+  "rate": 0.0042,
+  "episodes": [
+   "episode_001",
+   "episode_005",
+   "episode_039",
+   "episode_045",
+   "episode_049",
+   "episode_053",
+   "pbp_example_2",
+   "pbp_example_3"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_001",
+    "line": 35,
+    "expected": "and it's one and one",
+    "source_text": "Fastball right down Main Street for a strike, and it's one and one."
+   },
+   {
+    "source": "episode_001",
+    "line": 62,
+    "expected": "and it's one and two",
+    "source_text": "The one-one pitch. Patterson swings at another inside fastball. That looked like the same pitch, same location, and it's one and two."
+   },
+   {
+    "source": "episode_001",
+    "line": 82,
+    "expected": "and it's three and one",
+    "source_text": "And the pitch. And Malone misses badly with a curveball, and it's three and one."
+   },
+   {
+    "source": "episode_001",
+    "line": 106,
+    "expected": "and it's one and two",
+    "source_text": "Here's the one-one. Slapped foul, and it's one and two."
+   },
+   {
+    "source": "episode_001",
+    "line": 127,
+    "expected": "and it's one and two",
+    "source_text": "The one-one pitch is in there for a strike, a fastball, and it's one and two."
+   },
+   {
+    "source": "episode_001",
+    "line": 169,
+    "expected": "and it's three and oh",
+    "source_text": "The two-oh pitch. Another breaking ball that misses low, and it's three and oh."
+   }
+  ],
+  "original_pool_size": 2,
+  "weight": 0.0084
+ },
+ {
+  "pool": "narrative_strings.foul_another",
+  "template": "And he fouls another one off",
+  "pattern": "and he fouls another one off",
+  "slot": "pattern:fouls another one off|fouled off again",
+  "said": 32,
+  "opportunities": 42,
+  "rate": 0.7619,
+  "episodes": [
+   "episode_029",
+   "episode_035",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "episode_052",
+   "episode_053",
+   "pbp_example_3",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_029",
+    "line": 331,
+    "expected": "And he fouls another one off",
+    "source_text": "The oh-one pitch... And he fouls another one off. Oh and two."
+   },
+   {
+    "source": "episode_029",
+    "line": 420,
+    "expected": "And he fouls another one off",
+    "source_text": "The oh-one pitch... And he fouls another one off. Oh and two."
+   },
+   {
+    "source": "episode_035",
+    "line": 357,
+    "expected": "And he fouls another one off",
+    "source_text": "The oh-one pitch... And he fouls another one off. Oh and two."
+   },
+   {
+    "source": "episode_039",
+    "line": 125,
+    "expected": "and he fouls another one off",
+    "source_text": "And the one-one, and he fouls another one off. One and two."
+   },
+   {
+    "source": "episode_039",
+    "line": 328,
+    "expected": "And he fouls another one off",
+    "source_text": "And the oh-one... And he fouls another one off. Oh and two."
+   },
+   {
+    "source": "episode_039",
+    "line": 502,
+    "expected": "and he fouls another one off",
+    "source_text": "The one-one, and he fouls another one off. One and two."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 3.5557
+ },
+ {
+  "pool": "narrative_strings.foul_another",
+  "template": "Fouled off again",
+  "pattern": "fouled off again",
+  "slot": "pattern:fouls another one off|fouled off again",
+  "said": 4,
+  "opportunities": 42,
+  "rate": 0.0952,
+  "episodes": [
+   "episode_005",
+   "episode_013"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_005",
+    "line": 146,
+    "expected": "Fouled off again",
+    "source_text": "Fouled off again, oh and two."
+   },
+   {
+    "source": "episode_005",
+    "line": 367,
+    "expected": "Fouled off again",
+    "source_text": "The one-one pitch... Fouled off again, it's one and two."
+   },
+   {
+    "source": "episode_013",
+    "line": 463,
+    "expected": "Fouled off again",
+    "source_text": "The oh-one pitch... Fouled off again. Oh and two."
+   },
+   {
+    "source": "episode_013",
+    "line": 470,
+    "expected": "Fouled off again",
+    "source_text": "The one-two pitch... Fouled off again, still one and two."
+   }
+  ],
+  "original_pool_size": 1,
+  "weight": 0.4443
+ }
+]
