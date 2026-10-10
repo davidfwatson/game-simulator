@@ -562,7 +562,9 @@ GAME_CONTEXT = {
         "slider": "SL",
         "changeup": "CH",
         "curveball": "CU",
-        "knuckle curve": "KC"
+        "knuckle curve": "KC",
+        "splitter": "FS",
+        "sweeper": "ST"
     },
     "hit_directions": {
         "P": "back to the mound",

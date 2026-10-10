@@ -1517,16 +1517,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "FC",
-              "description": "Cutter"
+              "code": "CH",
+              "description": "Changeup"
             },
             "zone": 13
           },
           "pitchData": {
-            "startSpeed": 89.9,
+            "startSpeed": 83.5,
             "zone": 13,
             "breaks": {
-              "spinRate": 2399
+              "spinRate": 1699
             }
           }
         },
@@ -1622,16 +1622,16 @@
             "description": "Called Strike",
             "isStrike": true,
             "type": {
-              "code": "SI",
-              "description": "Sinker"
+              "code": "CU",
+              "description": "Curveball"
             },
             "zone": 6
           },
           "pitchData": {
-            "startSpeed": 90.4,
+            "startSpeed": 78.4,
             "zone": 6,
             "breaks": {
-              "spinRate": 1963
+              "spinRate": 2727
             }
           }
         }
@@ -2409,16 +2409,16 @@
             "description": "In play, Flyout",
             "isStrike": true,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "FC",
+              "description": "Cutter"
             },
             "zone": 1
           },
           "pitchData": {
-            "startSpeed": 85.8,
+            "startSpeed": 90.4,
             "zone": 1,
             "breaks": {
-              "spinRate": 2384
+              "spinRate": 2334
             }
           },
           "hitData": {

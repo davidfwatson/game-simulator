@@ -1667,16 +1667,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "FC",
+              "description": "Cutter"
             },
             "zone": 13
           },
           "pitchData": {
-            "startSpeed": 86.2,
+            "startSpeed": 90.9,
             "zone": 13,
             "breaks": {
-              "spinRate": 2621
+              "spinRate": 2571
             }
           }
         },
@@ -1879,16 +1879,16 @@
             "description": "Foul",
             "isStrike": true,
             "type": {
-              "code": "FC",
-              "description": "Cutter"
+              "code": "CH",
+              "description": "Changeup"
             },
             "zone": 4
           },
           "pitchData": {
-            "startSpeed": 89.4,
+            "startSpeed": 83.0,
             "zone": 4,
             "breaks": {
-              "spinRate": 2568
+              "spinRate": 1868
             }
           }
         },
@@ -1906,16 +1906,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "FC",
-              "description": "Cutter"
+              "code": "CH",
+              "description": "Changeup"
             },
             "zone": 12
           },
           "pitchData": {
-            "startSpeed": 88.8,
+            "startSpeed": 82.6,
             "zone": 12,
             "breaks": {
-              "spinRate": 2485
+              "spinRate": 1785
             }
           }
         },
@@ -2144,16 +2144,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "FC",
+              "description": "Cutter"
             },
             "zone": 13
           },
           "pitchData": {
-            "startSpeed": 84.9,
+            "startSpeed": 89.2,
             "zone": 13,
             "breaks": {
-              "spinRate": 2436
+              "spinRate": 2386
             }
           }
         },
@@ -2363,16 +2363,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "FC",
+              "description": "Cutter"
             },
             "zone": 13
           },
           "pitchData": {
-            "startSpeed": 85.4,
+            "startSpeed": 89.9,
             "zone": 13,
             "breaks": {
-              "spinRate": 2516
+              "spinRate": 2466
             }
           }
         },
@@ -2417,16 +2417,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "FC",
+              "description": "Cutter"
             },
             "zone": 14
           },
           "pitchData": {
-            "startSpeed": 86.8,
+            "startSpeed": 91.7,
             "zone": 14,
             "breaks": {
-              "spinRate": 2390
+              "spinRate": 2340
             }
           }
         },
@@ -2744,10 +2744,10 @@
       ]
     }
   ],
-  "playCount": 66,
+  "playCount": 67,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 66,
+    "totalPlaysInGame": 67,
     "snapshotPlayCount": 6
   }
 }

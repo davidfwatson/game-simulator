@@ -355,5 +355,35 @@ class TestWhoFieldsWhat(SimulationBatch):
         self.assertTrue(1.1 <= total / len(self.games) <= 2.0, total / len(self.games))
 
 
+class TestPitchArsenals(SimulationBatch):
+    """Real, distinct pitch types thrown in a game: starters 4-6 (mean 5.0),
+    relievers 2-4 (mean 3.5), 5 or more from a reliever one time in six."""
+
+    def test_arsenal_sizes_by_role(self):
+        starters, relievers = [], []
+        for plays in self.all_plays.values():
+            for top in (True, False):
+                _, stints = pitcher_stints(plays, top)
+                for n, (_, stint, _) in enumerate(stints):
+                    (relievers if n else starters).append(len(pitch_types(stint)))
+        self.assertTrue(4.2 <= statistics.mean(starters) <= 5.8, statistics.mean(starters))
+        self.assertLessEqual(max(starters), 7)
+        self.assertTrue(2.6 <= statistics.mean(relievers) <= 3.9, statistics.mean(relievers))
+        self.assertLess(sum(n >= 5 for n in relievers) / len(relievers), 0.2)
+        self.assertLessEqual(max(relievers), 6)
+
+    def test_rosters_carry_a_real_bullpen(self):
+        for key in ("BAY_BOMBERS", "PC_PILOTS"):
+            pitchers = [p for p in TEAMS[key]['players'] if p['position']['abbreviation'] == 'P']
+            relievers = [p for p in pitchers if p['type'] != 'Starter']
+            self.assertGreaterEqual(len(relievers), 7)
+            self.assertEqual(sum(p['type'] == 'Closer' for p in relievers), 1)
+            for pitcher in relievers:
+                self.assertLessEqual(len(pitcher['pitch_arsenal']), 4, pitcher['legal_name'])
+            for pitcher in pitchers:
+                self.assertAlmostEqual(sum(v['prob'] for v in pitcher['pitch_arsenal'].values()), 1.0, places=6,
+                                       msg=pitcher['legal_name'])
+
+
 if __name__ == "__main__":
     unittest.main()

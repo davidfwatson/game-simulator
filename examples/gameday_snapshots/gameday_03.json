@@ -1524,16 +1524,16 @@
             "description": "Swinging Strike",
             "isStrike": true,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "FS",
+              "description": "Splitter"
             },
             "zone": 11
           },
           "pitchData": {
-            "startSpeed": 87.3,
+            "startSpeed": 86.7,
             "zone": 11,
             "breaks": {
-              "spinRate": 2468
+              "spinRate": 1268
             }
           }
         },
@@ -1935,16 +1935,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "CU",
-              "description": "Curveball"
+              "code": "FC",
+              "description": "Cutter"
             },
             "zone": 11
           },
           "pitchData": {
-            "startSpeed": 78.3,
+            "startSpeed": 89.3,
             "zone": 11,
             "breaks": {
-              "spinRate": 2810
+              "spinRate": 2510
             }
           }
         },
@@ -2311,16 +2311,16 @@
             "description": "In play, Pop Out",
             "isStrike": true,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "FS",
+              "description": "Splitter"
             },
             "zone": 1
           },
           "pitchData": {
-            "startSpeed": 85.9,
+            "startSpeed": 85.7,
             "zone": 1,
             "breaks": {
-              "spinRate": 2538
+              "spinRate": 1338
             }
           },
           "hitData": {
@@ -2385,8 +2385,8 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Double",
-        "eventType": "double",
+        "event": "Strikeout",
+        "eventType": "strikeout",
         "description": "",
         "rbi": 0,
         "awayScore": 3,
@@ -2399,12 +2399,12 @@
         "inning": 1,
         "isScoringPlay": false,
         "startTime": "2025-09-27T23:11:36.550642+00:00",
-        "endTime": "2025-09-27T23:12:39.760771+00:00"
+        "endTime": "2025-09-27T23:13:29.201784+00:00"
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 2
+        "outs": 3
       },
       "matchup": {
         "batter": {
@@ -2429,11 +2429,6 @@
           "batter": "vs_RHP",
           "pitcher": "vs_RHB",
           "menOnBase": "Empty"
-        },
-        "postOnSecond": {
-          "id": 585406,
-          "fullName": "Gabriel Moreno",
-          "link": "/api/v1/people/585406"
         }
       },
       "playEvents": [
@@ -2478,16 +2473,16 @@
             "description": "Called Strike",
             "isStrike": true,
             "type": {
-              "code": "CU",
-              "description": "Curveball"
+              "code": "FC",
+              "description": "Cutter"
             },
             "zone": 4
           },
           "pitchData": {
-            "startSpeed": 79.3,
+            "startSpeed": 90.3,
             "zone": 4,
             "breaks": {
-              "spinRate": 2713
+              "spinRate": 2413
             }
           }
         },
@@ -2501,35 +2496,72 @@
             "strikes": 1
           },
           "details": {
-            "code": "X",
-            "description": "In play, Double",
+            "code": "F",
+            "description": "Foul",
             "isStrike": true,
             "type": {
-              "code": "CU",
-              "description": "Curveball"
+              "code": "SI",
+              "description": "Sinker"
             },
-            "zone": 14
+            "zone": 6
           },
           "pitchData": {
-            "startSpeed": 79.6,
-            "zone": 14,
+            "startSpeed": 94.6,
+            "zone": 6,
             "breaks": {
-              "spinRate": 2634
+              "spinRate": 2270
             }
+          }
+        },
+        {
+          "index": 17,
+          "startTime": "2025-09-27T23:12:39.760771+00:00",
+          "endTime": "2025-09-27T23:13:05.464899+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 1,
+            "strikes": 2
           },
-          "hitData": {
-            "launchSpeed": 107.3,
-            "launchAngle": 15.7,
-            "trajectory": "line_drive",
-            "coordinates": {
-              "coordX": 146.54,
-              "coordY": 53.51
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
             },
-            "totalDistance": 365,
-            "hardness": "hard",
-            "depth": "wall",
-            "lane": "right_center",
-            "location": "RC"
+            "zone": 13
+          },
+          "pitchData": {
+            "startSpeed": 95.1,
+            "zone": 13,
+            "breaks": {
+              "spinRate": 2279
+            }
+          }
+        },
+        {
+          "index": 18,
+          "startTime": "2025-09-27T23:13:05.464899+00:00",
+          "endTime": "2025-09-27T23:13:29.201784+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 2,
+            "strikes": 2
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "SL",
+              "description": "Slider"
+            },
+            "zone": 1
+          },
+          "pitchData": {
+            "startSpeed": 86.0,
+            "zone": 1
           }
         }
       ],
@@ -2538,14 +2570,14 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": "2B",
+            "end": null,
             "outBase": null,
-            "isOut": false,
-            "outNumber": null
+            "isOut": true,
+            "outNumber": 3
           },
           "details": {
-            "event": "Double",
-            "eventType": "double",
+            "event": "Strikeout",
+            "eventType": "strikeout",
             "movementReason": null,
             "runner": {
               "id": 585406,
@@ -2556,17 +2588,17 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 2
+            "playIndex": 4
           },
           "credits": []
         }
       ]
     }
   ],
-  "playCount": 77,
+  "playCount": 79,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 77,
+    "totalPlaysInGame": 79,
     "snapshotPlayCount": 6
   }
 }

@@ -38,24 +38,29 @@ TEAMS = {
             {
                 'id': 605110, 'legal_name': 'Joe Gibson', 'nickname': 'Smokey', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Starter', 'stamina': 75, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.5, 'velo_range': (94, 97), 'spin_range': (2200, 2550)},
-                    'slider': {'prob': 0.25, 'velo_range': (85, 89), 'spin_range': (2400, 2800)},
-                    'splitter': {'prob': 0.15, 'velo_range': (85, 88), 'spin_range': (1200, 1600)},
-                    'curveball': {'prob': 0.10, 'velo_range': (78, 81), 'spin_range': (2600, 2900)}
+                    'four-seam fastball': {'prob': 0.44, 'velo_range': (94, 97), 'spin_range': (2200, 2550)},
+                    'slider': {'prob': 0.23, 'velo_range': (85, 89), 'spin_range': (2400, 2800)},
+                    'splitter': {'prob': 0.14, 'velo_range': (85, 88), 'spin_range': (1200, 1600)},
+                    'curveball': {'prob': 0.09, 'velo_range': (78, 81), 'spin_range': (2600, 2900)},
+                    'sinker': {'prob': 0.07, 'velo_range': (93, 96), 'spin_range': (2050, 2300)},
+                    'cutter': {'prob': 0.03, 'velo_range': (89, 92), 'spin_range': (2300, 2600)}
                 }, 'control': 0.65, 'wild_pitch_rate': 0.003
             },
             {
                 'id': 605111, 'legal_name': 'Colin Miller', 'nickname': 'Cyclone', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Long Reliever', 'stamina': 45, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
-                    'sinker': {'prob': 0.6, 'velo_range': (91, 94), 'spin_range': (2000, 2250)},
-                    'sweeper': {'prob': 0.4, 'velo_range': (81, 85), 'spin_range': (2500, 2900)}
+                    'sinker': {'prob': 0.5, 'velo_range': (91, 94), 'spin_range': (2000, 2250)},
+                    'sweeper': {'prob': 0.3, 'velo_range': (81, 85), 'spin_range': (2500, 2900)},
+                    'changeup': {'prob': 0.12, 'velo_range': (84, 87), 'spin_range': (1600, 1900)},
+                    'four-seam fastball': {'prob': 0.08, 'velo_range': (92, 95), 'spin_range': (2150, 2400)}
                 }, 'control': 0.60, 'wild_pitch_rate': 0.005
             },
             {
                 'id': 605112, 'legal_name': 'Adam Adams', 'nickname': 'Ace', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Middle Reliever', 'stamina': 25, 'fielding_ability': 0.945,
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.5, 'velo_range': (92, 95), 'spin_range': (2250, 2600)},
-                    'knuckle curve': {'prob': 0.5, 'velo_range': (77, 80), 'spin_range': (2800, 3100)}
+                    'knuckle curve': {'prob': 0.36, 'velo_range': (77, 80), 'spin_range': (2800, 3100)},
+                    'changeup': {'prob': 0.14, 'velo_range': (83, 86), 'spin_range': (1650, 1950)}
                 }, 'control': 0.70, 'wild_pitch_rate': 0.002
             },
             {
@@ -95,8 +100,9 @@ TEAMS = {
                 'id': 605113, 'legal_name': 'Victor Stone', 'nickname': 'The Vulture', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Closer', 'stamina': 20, 'fielding_ability': 0.960,
                 'pitch_arsenal': {
                     'cutter': {'prob': 0.4, 'velo_range': (90, 93), 'spin_range': (2300, 2650)},
-                    'four-seam fastball': {'prob': 0.4, 'velo_range': (95, 98), 'spin_range': (2400, 2700)},
-                    'slider': {'prob': 0.2, 'velo_range': (88, 91), 'spin_range': (2600, 2900)}
+                    'four-seam fastball': {'prob': 0.36, 'velo_range': (95, 98), 'spin_range': (2400, 2700)},
+                    'slider': {'prob': 0.18, 'velo_range': (88, 91), 'spin_range': (2600, 2900)},
+                    'sinker': {'prob': 0.06, 'velo_range': (94, 97), 'spin_range': (2100, 2350)}
                 }, 'control': 0.75, 'wild_pitch_rate': 0.001
             },
         ]
@@ -127,25 +133,28 @@ TEAMS = {
             {
                 'id': 645210, 'legal_name': 'Miguel Garcia', 'nickname': 'Lefty', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Starter', 'stamina': 70, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
-                    'sinker': {'prob': 0.4, 'velo_range': (90, 93), 'spin_range': (1950, 2200)},
-                    'curveball': {'prob': 0.3, 'velo_range': (78, 81), 'spin_range': (2700, 3000)},
-                    'slider': {'prob': 0.2, 'velo_range': (84, 87), 'spin_range': (2350, 2650)},
-                    'cutter': {'prob': 0.1, 'velo_range': (88, 92), 'spin_range': (2300, 2600)}
+                    'sinker': {'prob': 0.37, 'velo_range': (90, 93), 'spin_range': (1950, 2200)},
+                    'curveball': {'prob': 0.27, 'velo_range': (78, 81), 'spin_range': (2700, 3000)},
+                    'slider': {'prob': 0.18, 'velo_range': (84, 87), 'spin_range': (2350, 2650)},
+                    'cutter': {'prob': 0.09, 'velo_range': (88, 92), 'spin_range': (2300, 2600)},
+                    'changeup': {'prob': 0.09, 'velo_range': (82, 85), 'spin_range': (1600, 1900)}
                 }, 'control': 0.60, 'wild_pitch_rate': 0.006
             },
             {
                 'id': 645211, 'legal_name': 'Ben Logan', 'nickname': 'Chief', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Long Reliever', 'stamina': 50, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.55, 'velo_range': (93, 96), 'spin_range': (2100, 2450)},
-                    'curveball': {'prob': 0.3, 'velo_range': (79, 82), 'spin_range': (2500, 2800)},
-                    'cutter': {'prob': 0.15, 'velo_range': (88, 92), 'spin_range': (2300, 2600)}
+                    'four-seam fastball': {'prob': 0.5, 'velo_range': (93, 96), 'spin_range': (2100, 2450)},
+                    'curveball': {'prob': 0.27, 'velo_range': (79, 82), 'spin_range': (2500, 2800)},
+                    'cutter': {'prob': 0.14, 'velo_range': (88, 92), 'spin_range': (2300, 2600)},
+                    'changeup': {'prob': 0.09, 'velo_range': (84, 87), 'spin_range': (1600, 1900)}
                 }, 'control': 0.68, 'wild_pitch_rate': 0.004
             },
             {
                 'id': 645212, 'legal_name': 'Rollie Malone', 'nickname': 'Fingers', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Middle Reliever', 'stamina': 30, 'fielding_ability': 0.940,
                 'pitch_arsenal': {
-                    'sinker': {'prob': 0.6, 'velo_range': (90, 93), 'spin_range': (2050, 2300)},
-                    'sweeper': {'prob': 0.4, 'velo_range': (81, 85), 'spin_range': (2500, 2900)}
+                    'sinker': {'prob': 0.52, 'velo_range': (90, 93), 'spin_range': (2050, 2300)},
+                    'sweeper': {'prob': 0.33, 'velo_range': (81, 85), 'spin_range': (2500, 2900)},
+                    'four-seam fastball': {'prob': 0.15, 'velo_range': (92, 95), 'spin_range': (2150, 2400)}
                 }, 'control': 0.72, 'wild_pitch_rate': 0.002
             },
             {
@@ -185,9 +194,10 @@ TEAMS = {
             {
                 'id': 645213, 'legal_name': 'Dennis Thompson', 'nickname': 'Eck', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Closer', 'stamina': 22, 'fielding_ability': 0.965,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.6, 'velo_range': (97, 100), 'spin_range': (2300, 2600)},
+                    'four-seam fastball': {'prob': 0.58, 'velo_range': (97, 100), 'spin_range': (2300, 2600)},
                     'splitter': {'prob': 0.2, 'velo_range': (88, 91), 'spin_range': (1100, 1500)},
-                    'sweeper': {'prob': 0.2, 'velo_range': (81, 85), 'spin_range': (2500, 2900)}
+                    'sweeper': {'prob': 0.17, 'velo_range': (81, 85), 'spin_range': (2500, 2900)},
+                    'cutter': {'prob': 0.05, 'velo_range': (92, 95), 'spin_range': (2350, 2650)}
                 }, 'control': 0.80, 'wild_pitch_rate': 0.001
             },
         ]

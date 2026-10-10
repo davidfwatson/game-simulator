@@ -2226,16 +2226,16 @@
             "description": "Ball",
             "isStrike": false,
             "type": {
-              "code": "SL",
-              "description": "Slider"
+              "code": "FS",
+              "description": "Splitter"
             },
             "zone": 14
           },
           "pitchData": {
-            "startSpeed": 86.2,
+            "startSpeed": 85.9,
             "zone": 14,
             "breaks": {
-              "spinRate": 2780
+              "spinRate": 1580
             }
           }
         },
@@ -2505,10 +2505,10 @@
       ]
     }
   ],
-  "playCount": 82,
+  "playCount": 68,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 82,
+    "totalPlaysInGame": 68,
     "snapshotPlayCount": 6
   }
 }
