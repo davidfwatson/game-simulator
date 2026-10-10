@@ -117,7 +117,21 @@
           "era": "3.96"
         }
       }
-    }
+    },
+    "pitcher_roles": {
+      "Buddy Dwyer": "closer"
+    },
+    "decisions": {
+      "winner": "Brocktune Shemper",
+      "save": "Buddy Dwyer"
+    },
+    "away_state": "Michigan",
+    "home_state": "Michigan",
+    "weather": {
+      "temp": "76",
+      "wind": "In From CF"
+    },
+    "crew_chief": "V.R. Montebianco"
   },
   "plays": [
     {
@@ -2601,7 +2615,8 @@
         {
           "name": "Jerry Durante",
           "start": null,
-          "end": "1B"
+          "end": "1B",
+          "throw": "not_in_time"
         }
       ],
       "hit": {

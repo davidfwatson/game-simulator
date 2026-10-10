@@ -101,7 +101,11 @@
           "losses": 4
         }
       }
-    }
+    },
+    "pitcher_roles": {
+      "Burgess Hepburn": "closer"
+    },
+    "home_state": "Michigan"
   },
   "plays": [
     {
@@ -1810,7 +1814,8 @@
           "name": "Flipper Cortez",
           "start": null,
           "end": "1B",
-          "out": false
+          "out": false,
+          "throw": "not_in_time"
         }
       ]
     },
@@ -2374,7 +2379,8 @@
               "name": "Pinky Slauson",
               "start": "1B",
               "end": "2B",
-              "out": true
+              "out": true,
+              "throw": "in_time"
             }
           ]
         }
@@ -2596,6 +2602,12 @@
           "start": "1B",
           "end": "3B",
           "out": false
+        },
+        {
+          "name": "Giovanni Gasparro",
+          "start": null,
+          "end": "2B",
+          "slide": true
         }
       ],
       "notes": "Line362 says play at plate but following line explicitly second and third and no score change; safe at second."

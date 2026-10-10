@@ -116,7 +116,17 @@
           "era": "3.65"
         }
       }
-    }
+    },
+    "decisions": {
+      "loser": "Brocktune Shemper"
+    },
+    "away_state": "Michigan",
+    "home_state": "Wisconsin",
+    "weather": {
+      "temp": "74",
+      "wind": "In From CF"
+    },
+    "crew_chief": "V.R. Montebianco"
   },
   "plays": [
     {
@@ -403,7 +413,16 @@
         "lane": "right_line",
         "hardness": "hard"
       },
-      "pitch_hand": "R"
+      "pitch_hand": "R",
+      "runners": [
+        {
+          "name": "Shorty Bush",
+          "start": null,
+          "end": "2B",
+          "slide": true,
+          "throw": "not_in_time"
+        }
+      ]
     },
     {
       "inning": 1,

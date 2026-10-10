@@ -96,7 +96,8 @@ class TestTranscriptPlayRouting(unittest.TestCase):
     def test_relief_outro_requires_a_documented_pitcher_change(self):
         records = [record(batter=f'Away Batter {i}', outcome='Strikeout', outs=i, start=i, end=i) for i in range(1, 4)]
         records.append(record(batter='Home Batter 1', inning=1, top=False, pitcher='Away Pitcher', start=4, end=4, outs=3, outcome='Groundout'))
-        records.extend(record(batter=f'Away Batter {i+3}', inning=2, pitcher='Relief Pitcher', outcome='Strikeout', outs=i, start=i+4, end=i+4) for i in range(1, 4))
+        # Groundouts: three strikeouts would be "strikes out the side".
+        records.extend(record(batter=f'Away Batter {i+3}', inning=2, pitcher='Relief Pitcher', outcome='Groundout', outs=i, start=i+4, end=i+4) for i in range(1, 4))
         records.append(record(batter='Home Batter 2', inning=2, top=False, pitcher='Away Pitcher', start=8, end=8))
         self.assertIn('one-two-three inning for Pitcher in relief.', render(records))
         for r in records:

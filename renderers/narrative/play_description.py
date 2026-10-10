@@ -42,6 +42,13 @@ BASE_WORDS = {'1B': 'first', '2B': 'second', '3B': 'third'}
 RUN_WORDS = {2: 'two', 3: 'three', 4: 'four'}
 
 
+def _choose(renderer, rng, options, context):
+    """NarrativeRenderer._choose where the renderer has one: the fitter
+    scores each option as it would be said with ``context``."""
+    chooser = getattr(renderer, '_choose', None)
+    return chooser(rng, options, context) if chooser else rng.choice(options)
+
+
 def _last_name(renderer, person):
     player = renderer.gameday_data.get('gameData', {}).get('players', {}).get(f"ID{person.get('id')}", {})
     return player.get('lastName') or (person.get('fullName') or 'the runner').split()[-1]
@@ -81,10 +88,54 @@ def runner_sentences(renderer, play, said):
         # "Nomo will score. Brown will score. Sessions coming around to
         # score": the same words twice running read as a template firing.
         pool = [template for template in pool if template not in used] or pool
-        template = renderer.rng_play.choice(pool)
+        fill = {'runner': name, 'origin': BASE_WORDS[start]}
+        template = _choose(renderer, renderer.rng_play, pool, fill)
         used.add(template)
-        sentence = template.format(runner=name, origin=BASE_WORDS[start])
+        sentence = template.format(**fill)
         if not hasattr(renderer, '_optional') or renderer._optional('runner_scores'):
+            sentences.append(sentence)
+    return ' '.join(sentences)
+
+
+def _throw_pool(throw, slide, is_out=False):
+    """The pools a movement's recorded throw and slide support. ``throw`` is
+    ``not_in_time``, ``beaten``, ``none`` or (for an out) ``in_time``;
+    ``slide`` is true, ``under_tag`` or ``ahead_of_tag``."""
+    strings = GAME_CONTEXT['narrative_strings']
+    if is_out:
+        return list(strings['throw_outcome_out']) if throw == 'in_time' else []
+    pool = []
+    if slide in ('under_tag', 'ahead_of_tag'):
+        pool += strings['slide_' + slide]
+    elif slide:
+        pool += strings['slide_safe']
+        if throw in ('not_in_time', 'beaten'):
+            pool += strings['slide_ahead_of_throw']
+    if throw in ('not_in_time', 'beaten', 'none'):
+        pool += strings[{'not_in_time': 'throw_not_in_time', 'beaten': 'throw_beaten', 'none': 'no_throw'}[throw]]
+    return pool
+
+
+def throw_sentences(renderer, play, said):
+    """"The throw to the plate is not in time.", "And he will slide in safely
+    under the tag." One sentence for each safe runner whose movement records
+    a throw or a slide (runner details' ``throw`` / ``slide``, extension
+    fields: a feed has neither). Built, then gated."""
+    sentences = []
+    for runner in (play or {}).get('runners', []):
+        details, movement = runner.get('details', {}), runner.get('movement', {})
+        if movement.get('isOut'):
+            continue
+        pool = _throw_pool(details.get('throw'), details.get('slide'))
+        if not pool:
+            continue
+        end = movement.get('end')
+        sentence = renderer.rng_play.choice(pool).format(
+            runner=_last_name(renderer, details.get('runner', {})),
+            base=BASE_WORDS.get(end, 'the plate'))
+        if 'not in time' in sentence and 'not in time' in said.lower():
+            continue
+        if renderer._optional('throw_detail'):
             sentences.append(sentence)
     return ' '.join(sentences)
 
@@ -605,7 +656,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
 
     final_description = ""
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):
-         if not template: template = renderer.rng_play.choice(specific_templates)
+         if not template: template = _choose(renderer, renderer.rng_play, specific_templates, context)
          if result_outs and '{out_context_str}' in template:
              context['out_context_str'] = renderer._out_context(result_outs, play)
          if is_hit and tracked and not fielder_name:
@@ -687,6 +738,9 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         runner_text = runner_sentences(renderer, play, final_description)
         if runner_text:
             final_description = final_description.rstrip() + ' ' + runner_text
+        throw_text = throw_sentences(renderer, play, final_description)
+        if throw_text:
+            final_description = final_description.rstrip() + ' ' + throw_text
     if template_outcome == 'Home Run' and play:
         runs_text = home_run_runs_sentence(renderer, play, batter_name, final_description)
         if runs_text:
@@ -785,15 +839,22 @@ def render_steal_event(renderer, event):
         elif event_type == 'pickoff':
             where = f' at {base or base_names.get(origin)}' if base or origin in base_names else ''
             lines.append(f'{lead} is picked off{where}.')
-        elif event_type == 'caught_stealing':
-            if target == origin and base:
+        elif event_type in ('caught_stealing', 'stolen_base'):
+            # The throw, when the movement records one ("Throw to second is
+            # not in time. Vance steals second."): built, then gated.
+            pool = _throw_pool(movement.get('throw'), movement.get('slide'), is_out)
+            if pool and base and target != origin:
+                throw_text = renderer.rng_play.choice(pool).format(base=base, runner=name.split()[-1])
+                if renderer._optional('steal_throw'):
+                    lines.append(throw_text)
+            if event_type == 'stolen_base':
+                lines.append(f'{lead} steals {base}.' if base else f'{lead} steals a base.')
+            elif target == origin and base:
                 lines.append(f'{lead} is tagged out heading back to {base}.')
             elif base:
                 lines.append(f'{lead} is caught stealing {base}.')
             else:
                 lines.append(f'{lead} is caught stealing.')
-        elif event_type == 'stolen_base':
-            lines.append(f'{lead} steals {base}.' if base else f'{lead} steals a base.')
         elif event_type in ('wild_pitch', 'passed_ball'):
             cause = 'wild pitch' if event_type == 'wild_pitch' else 'passed ball'
             if is_out:

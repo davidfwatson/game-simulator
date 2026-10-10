@@ -55,6 +55,9 @@ def fields(template):
 
 
 def supported(pool):
+    if pool == 'narrative_strings.inning_end_123':
+        # A clean half-inning: who pitched it, and which half it was.
+        return {'pitcher_name', 'pitcher_full', 'inning_ordinal', 'half_lower'}
     if pool in FIELDS:
         return FIELDS[pool]
     if pool.startswith('radio_strings.inning_'):

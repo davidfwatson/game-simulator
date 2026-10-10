@@ -1945,5 +1945,680 @@
     "expected": "bases empty, and two outs now for benny standingbear, who will pinch-hit for frank gibson",
     "requires": "Pinch hitter (Offensive Substitution action) with the bases empty, with a recorded replacedPlayer.",
     "source_text": "Bases empty, and two outs now for Benny Standingbear, who will pinch-hit for Frank Gibson."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally",
+    "template": "And that's the {ordinal} strikeout of the evening for {pitcher}.",
+    "episode": 11,
+    "line": 213,
+    "expected": "that's the fourth strikeout of the evening for cooper",
+    "requires": "A strikeout; the count comes from the plays.",
+    "source_text": "And that's the fourth strikeout of the evening for Cooper."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally",
+    "template": "And that's the {ordinal} strikeout of the night for {pitcher}.",
+    "episode": 11,
+    "line": 165,
+    "expected": "that's the third strikeout of the night for three finger cooper",
+    "requires": "A strikeout; the count comes from the plays.",
+    "source_text": "And that's the third strikeout of the night for Three Finger Cooper."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally",
+    "template": "And that's the {ordinal} strikeout of the game for {pitcher}.",
+    "episode": 20,
+    "line": 260,
+    "expected": "that's the ninth strikeout of the game for virgil hughes",
+    "requires": "A strikeout; the count comes from the plays.",
+    "source_text": "And that's the ninth strikeout of the game for Virgil Hughes."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally",
+    "template": "And that's {possessive} {ordinal} strikeout of the evening.",
+    "episode": 13,
+    "line": 538,
+    "expected": "that's nomo's thirteenth strikeout of the evening",
+    "requires": "A strikeout; the count comes from the plays.",
+    "source_text": "And that's Nomo's thirteenth strikeout of the evening."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally",
+    "template": "And that's {possessive} {ordinal} strikeout of the game so far.",
+    "episode": 13,
+    "line": 318,
+    "expected": "that's nomo's eighth strikeout of the game so far",
+    "requires": "A strikeout; the count comes from the plays.",
+    "source_text": "And that's Nomo's eighth strikeout of the game so far, he is looking sharp this evening."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally",
+    "template": "That was the {ordinal} strikeout of the game from {last_name}.",
+    "episode": 1,
+    "line": 230,
+    "expected": "that was the fourth strikeout of the game from malone",
+    "requires": "A strikeout; the count comes from the plays.",
+    "source_text": "And that will bring up Brink Filbert. That was the fourth strikeout of the game from Malone, who has held the Timbers to a single run so far."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally_in_a_row",
+    "template": "And that's the {in_a_row_ordinal} strikeout in a row for {pitcher}.",
+    "episode": 13,
+    "line": 231,
+    "expected": "that's the sixth strikeout in a row for hiroki nomo",
+    "requires": "Consecutive strikeouts by one pitcher.",
+    "source_text": "And that's the sixth strikeout in a row for Hiroki Nomo."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally_in_a_row",
+    "template": "And that's his {in_a_row_ordinal} strikeout in a row.",
+    "episode": 13,
+    "line": 180,
+    "expected": "that's his fifth strikeout in a row",
+    "requires": "Consecutive strikeouts by one pitcher.",
+    "source_text": "Hiroki Nomo strikes out the side here in the bottom of the third, and that's his fifth strikeout in a row."
+  },
+  {
+    "pool": "narrative_strings.strikeout_tally_in_a_row",
+    "template": "{in_a_row_word} strikeouts in a row for {last_name}.",
+    "episode": 1,
+    "line": 435,
+    "expected": "two strikeouts in a row for inohosa",
+    "requires": "Consecutive strikeouts by one pitcher.",
+    "source_text": "The pitch. And Hickson swings and misses for a strikeout, two strikeouts in a row for Inohosa."
+  },
+  {
+    "pool": "narrative_strings.strikes_out_the_side",
+    "template": "{pitcher} strikes out the side here in the {half_lower} of the {inning_ordinal}.",
+    "episode": 13,
+    "line": 180,
+    "expected": "hiroki nomo strikes out the side here in the bottom of the third",
+    "requires": "All three outs of the half-inning are one pitcher's strikeouts.",
+    "source_text": "Hiroki Nomo strikes out the side here in the bottom of the third, and that's his fifth strikeout in a row."
+  },
+  {
+    "pool": "narrative_strings.complete_game",
+    "template": "{pitcher} pitches a complete game.",
+    "episode": 35,
+    "line": 401,
+    "expected": "hiroki nomo pitches a complete game",
+    "requires": "One pitcher for the winners in a finished game.",
+    "source_text": "Hiroki Nomo pitches a complete game, notches another win on the season, and Frank Gibson takes the loss."
+  },
+  {
+    "pool": "narrative_strings.complete_game_shutout",
+    "template": "{pitcher} pitches a complete game shutout.",
+    "episode": 49,
+    "line": 462,
+    "expected": "zach valentine pitches a complete game shutout",
+    "requires": "One pitcher for the winners, no runs allowed.",
+    "source_text": "Zach Valentine pitches a complete game shutout."
+  },
+  {
+    "pool": "narrative_strings.complete_game_no_hitter",
+    "template": "{pitcher} throws a no-hitter.",
+    "episode": 13,
+    "line": 558,
+    "expected": "hiroki nomo throws a no-hitter",
+    "requires": "One pitcher for the winners, no hits allowed.",
+    "source_text": "Hiroki Nomo throws a no-hitter, thirteen strikeouts, four walks, and one hit batter."
+  },
+  {
+    "pool": "narrative_strings.complete_game_no_hitter",
+    "template": "And that's a no-hitter for {pitcher}.",
+    "episode": 13,
+    "line": 554,
+    "expected": "that's a no-hitter for hiroki nomo",
+    "requires": "One pitcher for the winners, no hits allowed.",
+    "source_text": "And that's a no-hitter for Hiroki Nomo."
+  },
+  {
+    "pool": "narrative_strings.decision_win",
+    "template": "{pitcher} gets the win.",
+    "episode": 29,
+    "line": 442,
+    "expected": "giorgio mullins gets the win",
+    "requires": "liveData.decisions.winner.",
+    "source_text": "Giorgio Mullins gets the win for the Tigers."
+  },
+  {
+    "pool": "narrative_strings.decision_win",
+    "template": "{pitcher} gets the win for the {team_short}.",
+    "episode": 29,
+    "line": 442,
+    "expected": "giorgio mullins gets the win for the tigers",
+    "requires": "liveData.decisions.winner.",
+    "source_text": "Giorgio Mullins gets the win for the Tigers."
+  },
+  {
+    "pool": "narrative_strings.decision_loss",
+    "template": "{pitcher} takes the loss.",
+    "episode": 29,
+    "line": 443,
+    "expected": "philip jeffries takes the loss",
+    "requires": "liveData.decisions.loser.",
+    "source_text": "Philip Jeffries takes the loss for the River Rats, although he also pitched a scoreless inning in relief for the Tigers after being traded mid-game."
+  },
+  {
+    "pool": "narrative_strings.decision_loss",
+    "template": "{pitcher} takes the loss for the {team_short}.",
+    "episode": 29,
+    "line": 443,
+    "expected": "philip jeffries takes the loss for the river",
+    "requires": "liveData.decisions.loser.",
+    "source_text": "Philip Jeffries takes the loss for the River Rats, although he also pitched a scoreless inning in relief for the Tigers after being traded mid-game."
+  },
+  {
+    "pool": "narrative_strings.decision_save",
+    "template": "{pitcher} gets the save.",
+    "episode": 37,
+    "line": 410,
+    "expected": "buddy dwyer gets the save",
+    "requires": "liveData.decisions.save.",
+    "source_text": "So the Timbers take this one at home, two to one. Brocktune Shemper notches a win, Buddy Dwyer gets the save."
+  },
+  {
+    "pool": "narrative_strings.decision_save",
+    "template": "{pitcher} gets the save for the {team_short}.",
+    "episode": 39,
+    "line": 509,
+    "expected": "ron nancy gets the save for the bombers",
+    "requires": "liveData.decisions.save.",
+    "source_text": "Edgar Whitehouse notches another win, Billy the Borough Brello takes the loss, and Ron Nancy gets the save for the Bombers."
+  },
+  {
+    "pool": "narrative_strings.decision_save",
+    "template": "{pitcher} notches another save.",
+    "episode": 52,
+    "line": 379,
+    "expected": "masaki harrington notches another save",
+    "requires": "liveData.decisions.save, in a strictFacts broadcast.",
+    "source_text": "Max Fannin gets the win. Masaki Harrington notches another save."
+  },
+  {
+    "pool": "narrative_strings.throw_not_in_time",
+    "template": "The throw to {base} is not in time.",
+    "episode": 41,
+    "line": 115,
+    "expected": "the throw to first is not in time",
+    "requires": "A safe runner's recorded throw: not_in_time.",
+    "source_text": "The oh-one pitch... Bouncer to third. Sessions has it, and steps on third to retire Nakamura. The throw to first is not in time."
+  },
+  {
+    "pool": "narrative_strings.throw_not_in_time",
+    "template": "The throw is not in time.",
+    "episode": 51,
+    "line": 221,
+    "expected": "the throw is not in time",
+    "requires": "A safe runner's recorded throw: not_in_time.",
+    "source_text": "The two-two, swung on, grounder to third. Tough play for Patterson. The throw is not in time, and Stipe is aboard with a leadoff single."
+  },
+  {
+    "pool": "narrative_strings.throw_beaten",
+    "template": "And he will beat the throw.",
+    "episode": 35,
+    "line": 157,
+    "expected": "and he will beat the throw",
+    "requires": "A safe runner's recorded throw: beaten.",
+    "source_text": "The one-two pitch... Ripped into deep left field, Kosinski racing back, and that one is going to bounce off the wall. Piña hustling to second, and he will beat the throw. And that's a leadoff double for Hector Piña here in the top of the fourth."
+  },
+  {
+    "pool": "narrative_strings.throw_beaten",
+    "template": "And he's going to beat the throw to {base}.",
+    "episode": 41,
+    "line": 175,
+    "expected": "and he's going to beat the throw to second",
+    "requires": "A safe runner's recorded throw: beaten.",
+    "source_text": "Stern tags at first, and he's going to beat the throw to second."
+  },
+  {
+    "pool": "narrative_strings.slide_safe",
+    "template": "And {runner} slides in safely.",
+    "episode": 1,
+    "line": 362,
+    "expected": "and gasparro slides in safely",
+    "requires": "A safe runner's recorded slide.",
+    "source_text": "The pitch. And that's lined into left field. Way into the corner. Nobody's going to get there. Gasparro is going to go for two. There will be a play at the plate, and Gasparro slides in safely. He has himself a double, in the bottom of the Cadillac sixth."
+  },
+  {
+    "pool": "narrative_strings.slide_ahead_of_throw",
+    "template": "And he will slide in safely ahead of the throw.",
+    "episode": 46,
+    "line": 390,
+    "expected": "and he will slide in safely ahead of the throw",
+    "requires": "A recorded slide with a throw that did not get him.",
+    "source_text": "Bentley comes in to score, Gonzalez racing home, and he will slide in safely ahead of the throw."
+  },
+  {
+    "pool": "narrative_strings.slide_under_tag",
+    "template": "{runner} slides in safely under the tag.",
+    "episode": 35,
+    "line": 181,
+    "expected": "jefferson slides in safely under the tag",
+    "requires": "A recorded slide: under_tag.",
+    "source_text": "The play at the plate is not in time, as Jefferson slides in safely under the tag."
+  },
+  {
+    "pool": "narrative_strings.slide_ahead_of_tag",
+    "template": "And he will slide in safely ahead of the tag.",
+    "episode": 51,
+    "line": 265,
+    "expected": "and he will slide in safely ahead of the tag",
+    "requires": "A recorded slide: ahead_of_tag.",
+    "source_text": "And he will slide in safely ahead of the tag."
+  },
+  {
+    "pool": "narrative_strings.new_pitcher",
+    "template": "{descriptor} takes the mound.",
+    "episode": 52,
+    "line": 363,
+    "expected": "closer masaki harrington takes the mound",
+    "requires": "A pitcher other than the one who last pitched for his team, unnamed by the introductions.",
+    "source_text": "Ravens' closer Masaki Harrington takes the mound. He's a righty, and Dieter Gomez digs in for the Bombers. Gomez is oh for three this evening."
+  },
+  {
+    "pool": "narrative_strings.new_pitcher",
+    "template": "{pitcher} will take the mound for {team_location} in relief.",
+    "episode": 20,
+    "line": 374,
+    "expected": "stretch parsons will take the mound for baraboo in relief",
+    "requires": "A new pitcher, unnamed by the introductions.",
+    "source_text": "Stretch Parsons will take the mound for Baraboo in relief."
+  },
+  {
+    "pool": "narrative_strings.new_pitcher",
+    "template": "There's a new pitcher on the mound for {team_location}, and that is {pitcher}.",
+    "episode": 1,
+    "line": 378,
+    "expected": "there's a new pitcher on the mound for cadillac, and that is brock niedermeier",
+    "requires": "A new pitcher, unnamed by the introductions.",
+    "source_text": "There's a new pitcher on the mound for Cadillac, and that is Brock Niedermeier."
+  },
+  {
+    "pool": "narrative_strings.new_pitcher",
+    "template": "On the mound for the {team_short} is {plain_descriptor}.",
+    "episode": 41,
+    "line": 364,
+    "expected": "on the mound for the tigers is left-handed relief pitcher miguel rockford",
+    "requires": "A new pitcher, unnamed by the introductions.",
+    "source_text": "And Charlie Tate will step into the box to pinch hit for Blinky Malone. On the mound for the Tigers is left-handed relief pitcher Miguel Rockford."
+  },
+  {
+    "pool": "narrative_strings.new_pitcher",
+    "template": "{plain_descriptor} will enter the game for the {team_short} here in the {half_lower} of the {inning_ordinal}.",
+    "episode": 29,
+    "line": 345,
+    "expected": "reliever rex tanya will enter the game for the river rats here in the top of the seventh",
+    "requires": "A new pitcher, unnamed by the introductions.",
+    "source_text": "Right-handed reliever Rex Tanya will enter the game for the River Rats here in the top of the seventh. The Tigers lead 2-nothing. Bases loaded, one out for Von Kramer. Kramer is three-for-three this evening."
+  },
+  {
+    "pool": "narrative_strings.new_pitcher_faces",
+    "template": "{pitcher} is the new {team_short} pitcher, and he'll face {batter}.",
+    "episode": 1,
+    "line": 417,
+    "expected": "foghorn field. belden inohosa is the new timbers pitcher, and he'll face giovanni gasparro",
+    "requires": "A new pitcher in a strictFacts broadcast.",
+    "source_text": "And welcome back to Foghorn Field. Belden Inohosa is the new Timbers pitcher, and he'll face Giovanni Gasparro with runners at first and second, two away."
+  },
+  {
+    "pool": "narrative_strings.new_pitcher_faces",
+    "template": "And {role} {pitcher} will be on the mound for the {team_short} to face {batter}.",
+    "episode": 5,
+    "line": 396,
+    "expected": "and reliever jimmy shirley will be on the mound for the tigers to face shiny patterson. patterson",
+    "requires": "A new pitcher in a strictFacts broadcast.",
+    "source_text": "And welcome back with us to Foghorn Field in Cadillac, Michigan. As we begin the bottom of the ninth, the Tomah Tigers lead four to two after scoring four runs in the top of the ninth. And reliever Jimmy Shirley will be on the mound for the Tigers to face Shiny Patterson. Patterson belted a solo home run in the seventh inning."
+  },
+  {
+    "pool": "narrative_strings.reliever_season",
+    "template": "{last_name} has pitched {innings} innings of work this season with an ERA of {era}.",
+    "episode": 52,
+    "line": 326,
+    "expected": "fuller has pitched 12 innings of work this season with an era of 2.67",
+    "requires": "A new pitcher's seasonStats.pitching inningsPitched and era.",
+    "source_text": "Ravens leading three-nothing as we enter the top of the eighth. And Tiny Howl digs in against Ravens' right-handed reliever Dom Fuller. Fuller has pitched 12 innings of work this season with an ERA of 2.67."
+  },
+  {
+    "pool": "narrative_strings.reliever_season",
+    "template": "{last_name} has pitched {innings_word} innings of work this season with an ERA of {era}.",
+    "episode": 5,
+    "line": 332,
+    "expected": "nixon has pitched five innings of work this season with an era of 1.80",
+    "requires": "A new pitcher's seasonStats.pitching inningsPitched and era.",
+    "source_text": "And welcome back with us. Cesar Nixon is the new hurler for the Tomah Tigers, and he'll face Gilligan Parker at the top of the Cadillac order. Nixon has pitched five innings of work this season with an ERA of 1.80."
+  },
+  {
+    "pool": "radio_strings.inning_outro_streak",
+    "template": "And that's {consecutive_retired_word} in a row retired by {pitcher_full}.",
+    "episode": 5,
+    "line": 134,
+    "expected": "that's seven in a row retired by todd gonzalez",
+    "requires": "Seven or more batters retired in a row by the pitcher.",
+    "source_text": "And the pitch... And that's popped into left field. Kosinski is there to make the catch for out number two. And that's seven in a row retired by Todd Gonzalez."
+  },
+  {
+    "pool": "radio_strings.network_presents",
+    "template": "{network_name} presents Sleep Baseball.",
+    "episode": 1,
+    "line": 2,
+    "expected": "the northwoods baseball radio network presents sleep baseball",
+    "requires": "The pregame.",
+    "source_text": "The Northwoods Baseball Radio Network presents Sleep Baseball."
+  },
+  {
+    "pool": "radio_strings.station_intro_city",
+    "template": "You're drifting off with {station_call} AM, {station_city}.",
+    "episode": 1,
+    "line": 1,
+    "expected": "you're drifting off with wslp am, big rapids",
+    "requires": "A broadcast with a recorded station_city.",
+    "source_text": "You're drifting off with WSLP AM, Big Rapids."
+  },
+  {
+    "pool": "radio_strings.pregame_opener",
+    "template": "This evening, from {venue_location}, it's the {home_team_name}, hosting the {away_team_name}{away_of}.",
+    "episode": 49,
+    "line": 3,
+    "expected": "this evening, from kittamori park in tomah, wisconsin, it's the tomah tigers, hosting the big rapids timbers of big rapids, michigan",
+    "requires": "The pregame.",
+    "source_text": "This evening, from Kittamori Park in Tomah, Wisconsin, it's the Tomah Tigers, hosting the Big Rapids Timbers of Big Rapids, Michigan."
+  },
+  {
+    "pool": "radio_strings.host_intro",
+    "template": "And now your host, Wally McCarthy.",
+    "episode": 5,
+    "line": 3,
+    "expected": "and now your host, wally mccarthy",
+    "requires": "The pregame.",
+    "source_text": "And now your host, Wally McCarthy."
+  },
+  {
+    "pool": "radio_strings.host_intro",
+    "template": "And now, the voice of the Quint Cities, Wally McCarthy.",
+    "episode": 35,
+    "line": 4,
+    "expected": "and now, the voice of the quint cities, wally mccarthy",
+    "requires": "The pregame.",
+    "source_text": "And now, the voice of the Quint Cities, Wally McCarthy."
+  },
+  {
+    "pool": "radio_strings.host_back",
+    "template": "It's Wally McCarthy and producer Phil, back with you from beautiful {venue} here in {location_with_state}.",
+    "episode": 46,
+    "line": 7,
+    "expected": "it's wally mccarthy and producer phil, back with you from beautiful sylvan field here in south haven, michigan",
+    "requires": "The pregame.",
+    "source_text": "It's Wally McCarthy and producer Phil, back with you from beautiful Sylvan Field here in South Haven, Michigan."
+  },
+  {
+    "pool": "radio_strings.host_back",
+    "template": "It's Wally McCarthy and producer Phil, back with you.",
+    "episode": 35,
+    "line": 6,
+    "expected": "it's wally mccarthy and producer phil, back with you",
+    "requires": "The pregame.",
+    "source_text": "It's Wally McCarthy and producer Phil, back with you."
+  },
+  {
+    "pool": "radio_strings.pregame_perfect_night",
+    "template": "It is a perfect night for a ball game.",
+    "episode": 1,
+    "line": 5,
+    "expected": "it is a perfect night for a ball game",
+    "requires": "A feed with weather.",
+    "source_text": "Good evening, everybody, and welcome to Foghorn Field. It is a perfect night for a ball game."
+  },
+  {
+    "pool": "radio_strings.pregame_perfect_night",
+    "template": "And tonight is a perfect night for a ball game.",
+    "episode": 49,
+    "line": 12,
+    "expected": "and tonight is a perfect night for a ball game",
+    "requires": "A feed with weather.",
+    "source_text": "And tonight is a perfect night for a ball game."
+  },
+  {
+    "pool": "radio_strings.pregame_perfect_night",
+    "template": "And it is a perfect night for a ball game here in {location}.",
+    "episode": 35,
+    "line": 9,
+    "expected": "and it is a perfect night for a ball game here in wisconsin",
+    "requires": "A feed with weather.",
+    "source_text": "And it is a perfect night for a ball game here in Wisconsin. 74 degrees at game time, with a light breeze blowing out to left center."
+  },
+  {
+    "pool": "radio_strings.pregame_weather_wind",
+    "template": "{temp} degrees at game time, with a light breeze blowing {wind}.",
+    "episode": 13,
+    "line": 11,
+    "expected": "68 degrees at game time, with a light breeze blowing in from right field",
+    "requires": "gameData.weather temp and wind.",
+    "source_text": "It is a perfect night for the first game of the new season. 68 degrees at game time, with a light breeze blowing in from right field."
+  },
+  {
+    "pool": "radio_strings.pregame_weather_wind",
+    "template": "{temp} degrees at game time, with a gentle breeze blowing {wind}.",
+    "episode": 46,
+    "line": 10,
+    "expected": "74 degrees at game time, with a gentle breeze blowing out to center field",
+    "requires": "gameData.weather temp and wind.",
+    "source_text": "74 degrees at game time, with a gentle breeze blowing out to center field."
+  },
+  {
+    "pool": "radio_strings.pregame_weather_wind",
+    "template": "{temp} degrees at game time, and just a gentle breeze blowing {wind}.",
+    "episode": 5,
+    "line": 6,
+    "expected": "76 degrees at game time, and just a gentle breeze blowing out",
+    "requires": "gameData.weather temp and wind.",
+    "source_text": "It is a perfect night for a ball game. 76 degrees at game time, and just a gentle breeze blowing out."
+  },
+  {
+    "pool": "radio_strings.crew_chief_play_ball",
+    "template": "And crew chief {umpire} has signaled that it's time to play ball.",
+    "episode": 5,
+    "line": 23,
+    "expected": "and crew chief v.r. montebianco has signaled that it's time to play ball",
+    "requires": "gameData.umpires[0].",
+    "source_text": "And crew chief V.R. Montebianco has signaled that it's time to play ball, and we are underway."
+  },
+  {
+    "pool": "radio_strings.crew_chief_play_ball",
+    "template": "And crew chief {umpire} hollers, play ball.",
+    "episode": 49,
+    "line": 42,
+    "expected": "and crew chief v.r. montebianco hollers, play ball",
+    "requires": "gameData.umpires[0].",
+    "source_text": "And crew chief V.R. Montebianco hollers, play ball."
+  },
+  {
+    "pool": "radio_strings.crew_chief_play_ball",
+    "template": "And crew chief {umpire} says, play ball.",
+    "episode": 37,
+    "line": 42,
+    "expected": "and crew chief v.r. montebianco says, play ball",
+    "requires": "gameData.umpires[0].",
+    "source_text": "And crew chief V.R. Montebianco says, play ball."
+  },
+  {
+    "pool": "radio_strings.crew_chief_play_ball",
+    "template": "And crew chief {umpire} signals play ball.",
+    "episode": 51,
+    "line": 58,
+    "expected": "and crew chief v.r. montebianco signals play ball",
+    "requires": "gameData.umpires[0].",
+    "source_text": "And crew chief V.R. Montebianco signals play ball."
+  },
+  {
+    "pool": "radio_strings.final_score_home",
+    "template": "So the {win_short} take this one at home by a score of {final_score}.",
+    "episode": 41,
+    "line": 403,
+    "expected": "so the cars take this one at home by a score of two to one",
+    "requires": "A finished game the home team won.",
+    "source_text": "So the Cars take this one at home by a score of two to one."
+  },
+  {
+    "pool": "radio_strings.final_score_home",
+    "template": "So the {win_short} take this one at home, {final_score}.",
+    "episode": 37,
+    "line": 410,
+    "expected": "so the timbers take this one at home, two to one",
+    "requires": "A finished game the home team won.",
+    "source_text": "So the Timbers take this one at home, two to one. Brocktune Shemper notches a win, Buddy Dwyer gets the save."
+  },
+  {
+    "pool": "radio_strings.final_score_home",
+    "template": "The {win_short} take this one at home by a score of {final_score}.",
+    "episode": 39,
+    "line": 508,
+    "expected": "the bombers take this one at home by a score of three to two",
+    "requires": "A finished game the home team won.",
+    "source_text": "The Bombers take this one at home by a score of three to two."
+  },
+  {
+    "pool": "radio_strings.final_score_road",
+    "template": "So the {win_short} take this one on the road by a score of {final_score}.",
+    "episode": 50,
+    "line": 338,
+    "expected": "so the ravens take this one on the road by a score of 3 to 1",
+    "requires": "A finished game the visitors won.",
+    "source_text": "So the Ravens take this one on the road by a score of 3 to 1."
+  },
+  {
+    "pool": "radio_strings.final_score_road",
+    "template": "So the {win_team} take this one on the road here in {location} by a score of {final_score}.",
+    "episode": 46,
+    "line": 483,
+    "expected": "so the manistee eagles take this one on the road here in south haven by a score of four to three",
+    "requires": "A finished game the visitors won.",
+    "source_text": "So the Manistee Eagles take this one on the road here in South Haven by a score of four to three. Edison Vado notches another win. This guy, you know, gets the save."
+  },
+  {
+    "pool": "radio_strings.game_summary_home_win",
+    "template": "For the victorious {win_team}, {win_runs} runs on {win_hits} hits, {win_errors} errors. And for the visiting {lose_team}, {lose_runs} runs on {lose_hits} hits, and {lose_errors} errors.",
+    "episode": 49,
+    "line": 465,
+    "expected": "and for the visiting big rapids timbers, no runs on two hits, and no errors",
+    "requires": "A finished game the home team won.",
+    "source_text": "And for the visiting Big Rapids Timbers, no runs on two hits, and no errors."
+  },
+  {
+    "pool": "lineup_strings.batting_1",
+    "template": "{player_name} will lead off {at_place}.",
+    "episode": 29,
+    "line": 28,
+    "expected": "teddy flowerman will lead off at shortstop",
+    "requires": "The lineup's first hitter.",
+    "source_text": "Teddy Flowerman will lead off at shortstop."
+  },
+  {
+    "pool": "lineup_strings.batting_1",
+    "template": "Leading off and playing {position_place}, {player_name}.",
+    "episode": 1,
+    "line": 8,
+    "expected": "leading off and playing second base for the timbers, jesus ferguson",
+    "requires": "The lineup's first hitter.",
+    "source_text": "Leading off and playing second base for the Timbers, Jesus Ferguson."
+  },
+  {
+    "pool": "lineup_strings.batting_1",
+    "template": "Leading off, {position} {player_name}.",
+    "episode": 29,
+    "line": 17,
+    "expected": "leading off, center fielder schmitty diaz",
+    "requires": "The lineup's first hitter.",
+    "source_text": "Leading off, center fielder Schmitty Diaz."
+  },
+  {
+    "pool": "lineup_strings.batting_1",
+    "template": "{player_name} leads off {at_place}.",
+    "episode": 49,
+    "line": 27,
+    "expected": "schmitty diaz leads off in center field",
+    "requires": "The lineup's first hitter.",
+    "source_text": "Schmitty Diaz leads off in center field."
+  },
+  {
+    "pool": "lineup_strings.batting_2",
+    "template": "{position} {player_name} will bat second.",
+    "episode": 35,
+    "line": 21,
+    "expected": "shortstop shorty bush will bat second",
+    "requires": "The lineup's second hitter.",
+    "source_text": "Shortstop Shorty Bush will bat second."
+  },
+  {
+    "pool": "lineup_strings.batting_3",
+    "template": "Batting third, {position} {player_name}.",
+    "episode": 11,
+    "line": 19,
+    "expected": "batting third, left fielder buck timberline",
+    "requires": "The lineup's third hitter.",
+    "source_text": "Batting third, left fielder Buck Timberline."
+  },
+  {
+    "pool": "lineup_strings.batting_3",
+    "template": "Batting third and playing {position_place}, {player_name}.",
+    "episode": 29,
+    "line": 19,
+    "expected": "batting third and playing third base, burke sessions",
+    "requires": "The lineup's third hitter.",
+    "source_text": "Batting third and playing third base, Burke Sessions."
+  },
+  {
+    "pool": "lineup_strings.batting_4",
+    "template": "{position} {player_name} will bat cleanup.",
+    "episode": 20,
+    "line": 19,
+    "expected": "third baseman dieter gomez will bat cleanup",
+    "requires": "The lineup's fourth hitter.",
+    "source_text": "Third baseman Dieter Gomez will bat cleanup."
+  },
+  {
+    "pool": "lineup_strings.batting_4",
+    "template": "{position} {player_name} is in the cleanup spot this evening.",
+    "episode": 13,
+    "line": 16,
+    "expected": "third baseman burke sessions is in the cleanup spot this evening",
+    "requires": "The lineup's fourth hitter.",
+    "source_text": "Third baseman Burke Sessions is in the cleanup spot this evening."
+  },
+  {
+    "pool": "lineup_strings.batting_4",
+    "template": "In the cleanup spot this evening for the {team_short}, {position} {player_name}.",
+    "episode": 49,
+    "line": 30,
+    "expected": "in the cleanup spot this evening for the tigers, third baseman burke sessions",
+    "requires": "The lineup's fourth hitter.",
+    "source_text": "In the cleanup spot this evening for the Tigers, third baseman Burke Sessions."
+  },
+  {
+    "pool": "lineup_strings.batting_5",
+    "template": "Batting fifth and playing {position_place}, {player_name}.",
+    "episode": 11,
+    "line": 21,
+    "expected": "batting fifth and playing center field, timmy von trimble",
+    "requires": "The lineup's fifth hitter.",
+    "source_text": "Batting fifth and playing center field, Timmy Von Trimble."
+  },
+  {
+    "pool": "lineup_strings.batting_6",
+    "template": "{position} {player_name} will bat sixth.",
+    "episode": 1,
+    "line": 13,
+    "expected": "catcher henny oldman will bat sixth",
+    "requires": "The lineup's sixth hitter.",
+    "source_text": "Catcher Henny Oldman will bat sixth."
+  },
+  {
+    "pool": "lineup_strings.batting_8",
+    "template": "Batting eighth, {position} {player_name}.",
+    "episode": 1,
+    "line": 15,
+    "expected": "batting eighth, center fielder dutch moon",
+    "requires": "The lineup's eighth hitter.",
+    "source_text": "Batting eighth, center fielder Dutch Moon."
   }
 ]

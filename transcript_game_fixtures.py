@@ -43,6 +43,27 @@ def hand(code):
     return {'code': code, 'description': {'L': 'Left', 'R': 'Right', 'S': 'Switch'}.get(code, 'Unknown')}
 
 
+THROWS = ('not_in_time', 'beaten', 'none', 'in_time')
+SLIDES = (True, 'under_tag', 'ahead_of_tag')
+PITCHER_ROLES = ('starter', 'reliever', 'closer')
+DECISIONS = ('winner', 'loser', 'save')
+
+
+def throw_facts(movement, where):
+    """A movement's recorded throw and slide, the extension fields the
+    renderer reads from runner details (a feed has neither)."""
+    facts = {}
+    if 'throw' in movement:
+        if movement['throw'] not in THROWS:
+            raise ValueError(f'{where}: a throw is one of {THROWS}')
+        facts['throw'] = movement['throw']
+    if 'slide' in movement:
+        if movement['slide'] not in SLIDES:
+            raise ValueError(f'{where}: a slide is one of {SLIDES}')
+        facts['slide'] = movement['slide']
+    return facts
+
+
 def compile_game(ledger, source_bytes):
     source_lines = source_bytes.decode('utf-8').splitlines()
     number = ledger['episode']
@@ -77,6 +98,9 @@ def compile_game(ledger, source_bytes):
         teams[side] = {'id': number * 10 + index, 'name': name,
                        'teamName': name.split()[-1], 'locationName': ' '.join(name.split()[:-1]),
                        'manager': game.get(f'{side}_manager', '')}
+        if game.get(f'{side}_state'):
+            # "Tomah, Wisconsin": said only when the hosts say it.
+            teams[side]['state'] = game[f'{side}_state']
         order = []
         for player in game.get(f'{side}_lineup', []):
             order.append(person(player['name'], player.get('position', ''), player.get('bat_side', 'U'))['id'])
@@ -147,7 +171,8 @@ def compile_game(ledger, source_bytes):
                 }.get(action_type, 'Action')
                 details['runners'] = [
                     dict(runner=person(movement['name']), fromBase=movement.get('start'),
-                         toBase=movement.get('end'), isOut=movement.get('out', False))
+                         toBase=movement.get('end'), isOut=movement.get('out', False),
+                         **throw_facts(movement, f'Play {index}'))
                     for movement in pitch.get('runners', [])
                 ]
                 if details['runners']:
@@ -245,7 +270,8 @@ def compile_game(ledger, source_bytes):
                 'isOut': movement.get('out', False),
                 'outNumber': out_number if movement.get('out') else None,
             }, 'details': {'runner': person(movement['name']), 'event': outcome,
-                           'eventType': event_type, 'isScoringEvent': movement.get('end') == 'score' and not movement.get('out')},
+                           'eventType': event_type, 'isScoringEvent': movement.get('end') == 'score' and not movement.get('out'),
+                           **throw_facts(movement, f'Play {index}')},
                 'credits': copy.deepcopy(credits)})
         for movement in movements:
             for base, occupant in list(bases.items()):
@@ -318,14 +344,37 @@ def compile_game(ledger, source_bytes):
         pid = names[name]
         boxes[sides[name]].setdefault('players', {})[f'ID{pid}'] = {
             'person': {'id': pid, 'fullName': name}, 'seasonStats': copy.deepcopy(season)}
+    # "Closer" is a role no feed records: an extension field on the player.
+    for name, role in game.get('pitcher_roles', {}).items():
+        if name not in names or role not in PITCHER_ROLES:
+            raise ValueError(f'pitcher_roles: {name!r} must be a known pitcher with a role in {PITCHER_ROLES}')
+        players[f'ID{names[name]}']['pitcherRole'] = role
+    # The pitchers of record, where a StatsAPI feed keeps them.
+    decisions = {}
+    for role, name in game.get('decisions', {}).items():
+        if role not in DECISIONS or name not in names:
+            raise ValueError(f'decisions: {role!r} must be one of {DECISIONS} and name a known player')
+        decisions[role] = {'id': names[name], 'fullName': name}
+    live_extra = {'decisions': decisions} if decisions else {}
+    # The weather as a StatsAPI feed gives it ({"temp": "74", "wind": "In
+    # From CF"}), and the crew chief as the first of the game's umpires.
+    game_extra = {}
+    if game.get('weather'):
+        if set(game['weather']) - {'temp', 'wind'} or not str(game['weather'].get('temp', '')).isdigit():
+            raise ValueError('weather holds a numeric temp and an optional wind ("In From CF", "Out To LCF", "Out")')
+        game_extra['weather'] = copy.deepcopy(game['weather'])
+    if game.get('crew_chief'):
+        game_extra['umpires'] = [game['crew_chief']]
     return {'gameData': {'commentarySeed': number, 'teams': teams, 'players': players,
              'game': {'scheduledInnings': game.get('scheduled_innings', 9)},
              'venue': game.get('venue', 'the ballpark'),
+             **game_extra,
              'broadcast': {'network_name': 'Northwoods Baseball Radio Network',
-                           'station_call': 'WSLP', 'complete': ledger.get('complete', False), 'strictFacts': True},
+                           'station_call': 'WSLP', 'station_city': 'Big Rapids',
+                           'complete': ledger.get('complete', False), 'strictFacts': True},
              'source': {'file': ledger['source_file'], 'sha256': hashlib.sha256(source_bytes).hexdigest()}},
             'liveData': {'plays': {'allPlays': plays}, 'boxscore': {'teams': boxes},
-                         'linescore': {'teams': totals}}}
+                         'linescore': {'teams': totals}, **live_extra}}
 
 
 def build_all():

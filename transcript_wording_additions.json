@@ -805,7 +805,7 @@
    }
   ],
   "original_pool_size": 8,
-  "weight": 0.2425
+  "weight": 0.2791
  },
  {
   "pool": "radio_strings.inning_summary_remains",
@@ -872,7 +872,459 @@
    }
   ],
   "original_pool_size": 8,
-  "weight": 2.5815
+  "weight": 2.9715
+ },
+ {
+  "pool": "radio_strings.inning_summary_remains",
+  "template": "And after {innings_word}, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+  "pattern": "and after {n}(?: and a half)?,? it remains {short}",
+  "slot": "break",
+  "said": 26,
+  "opportunities": 268,
+  "rate": 0.097,
+  "episodes": [
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "episode_052",
+   "episode_053",
+   "pbp_example_3"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_029",
+    "line": 262,
+    "expected": "And after four and a half, it remains Tigers",
+    "source_text": "And after four and a half, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_029",
+    "line": 386,
+    "expected": "And after seven and a half, it remains Tigers",
+    "source_text": "And after seven and a half, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 128,
+    "expected": "And after two and a half, it remains Tigers",
+    "source_text": "The Ravens do not score. And after two and a half, it remains Tigers one, Ravens nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 255,
+    "expected": "and after five and a half, it remains Tigers",
+    "source_text": "The Ravens do not score, and after five and a half, it remains Tigers two, Ravens one."
+   },
+   {
+    "source": "episode_037",
+    "line": 233,
+    "expected": "And after four and a half, it remains Ravens",
+    "source_text": "And that's a one-two-three inning for Brocktune Shemper. And after four and a half, it remains Ravens one, Timbers nothing."
+   },
+   {
+    "source": "episode_037",
+    "line": 284,
+    "expected": "And after five and a half, it remains Ravens",
+    "source_text": "The Ravens do not score. And after five and a half, it remains Ravens one, Timbers nothing."
+   }
+  ],
+  "original_pool_size": 8,
+  "weight": 1.2085
+ },
+ {
+  "pool": "radio_strings.inning_summary_score",
+  "template": "And with {inning_count_word} in the books, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+  "pattern": "with {n} in the books,? it's {short} {n},? {short}",
+  "slot": "break_top",
+  "said": 18,
+  "opportunities": 130,
+  "rate": 0.1385,
+  "episodes": [
+   "episode_035",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_049",
+   "episode_050",
+   "episode_051",
+   "episode_052",
+   "pbp_example_1",
+   "pbp_example_2"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_035",
+    "line": 102,
+    "expected": "with two in the books, it's Tigers one, Ravens",
+    "source_text": "But the Tigers get on the board, thanks to a solo home run by Prudence Jefferson, and with two in the books, it's Tigers one, Ravens nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 187,
+    "expected": "with four in the books, it's Tigers two, Ravens",
+    "source_text": "But the Tigers get another run on the board, and with four in the books, it's Tigers two, Ravens one."
+   },
+   {
+    "source": "episode_039",
+    "line": 289,
+    "expected": "with four in the books, it's Eagles two, Bombers",
+    "source_text": "But the Bombers get on the board, thanks to a solo home run by Buddy Lamont, and with four in the books, it's Eagles two, Bombers one."
+   },
+   {
+    "source": "episode_039",
+    "line": 487,
+    "expected": "with eight in the books, it's Bombers three, Eagles",
+    "source_text": "But the Bombers pull ahead, courtesy of a two-run blast by Blaze Winterbottom, and with eight in the books, it's Bombers three, Eagles two."
+   },
+   {
+    "source": "episode_041",
+    "line": 294,
+    "expected": "with six in the books, it's Cars two, Tigers",
+    "source_text": "And with six in the books, it's Cars two, Tigers one."
+   },
+   {
+    "source": "episode_045",
+    "line": 106,
+    "expected": "with one in the books, it's Timbers one, Cars",
+    "source_text": "But the Timbers are on the board. And with one in the books, it's Timbers one, Cars nothing."
+   }
+  ],
+  "original_pool_size": 9,
+  "weight": 1.4855
+ },
+ {
+  "pool": "radio_strings.inning_summary_score",
+  "template": "And after {innings_word}, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+  "pattern": "after {n}(?: and a half)?,? it's {short} {n},? {short}",
+  "slot": "break",
+  "said": 6,
+  "opportunities": 268,
+  "rate": 0.0224,
+  "episodes": [
+   "episode_037",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "episode_050",
+   "episode_053",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_3"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_037",
+    "line": 195,
+    "expected": "after three and a half, it's Ravens one, Timbers",
+    "source_text": "But the Ravens get on the board, and after three and a half, it's Ravens one, Timbers nothing."
+   },
+   {
+    "source": "episode_041",
+    "line": 97,
+    "expected": "after one and a half, it's Tigers one, Cars",
+    "source_text": "But the Tigers are on the board, thanks to a solo home run by Bruford Kosinski, and after one and a half, it's Tigers one, Cars nothing."
+   },
+   {
+    "source": "episode_045",
+    "line": 138,
+    "expected": "after one and a half, it's Cars one, Timbers",
+    "source_text": "But the Cars answer back, and after one and a half, it's Cars one, Timbers one."
+   },
+   {
+    "source": "episode_046",
+    "line": 272,
+    "expected": "after four and a half, it's Eagles four, Ravens",
+    "source_text": "But the Eagles get another run across, and after four and a half, it's Eagles four, Ravens one."
+   },
+   {
+    "source": "episode_050",
+    "line": 164,
+    "expected": "after three and a half, it's Ravens three, Eagles",
+    "source_text": "But the Ravens add a pair, and after three and a half, it's Ravens three, Eagles one."
+   },
+   {
+    "source": "episode_053",
+    "line": 232,
+    "expected": "after five and a half, it's Loons one, Cars",
+    "source_text": "But the Loons get on the board, and after five and a half, it's Loons one, Cars nothing."
+   }
+  ],
+  "original_pool_size": 9,
+  "weight": 0.2403
+ },
+ {
+  "pool": "radio_strings.inning_summary_scoreless",
+  "template": "And with {inning_count_word} in the books, it's a scoreless contest here at {venue}.",
+  "pattern": "with {n} in the books,? it's (?:still )?a scoreless",
+  "slot": "break_top",
+  "said": 2,
+  "opportunities": 130,
+  "rate": 0.0154,
+  "episodes": [
+   "episode_049",
+   "episode_051"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_049",
+    "line": 100,
+    "expected": "with one in the books, it's a scoreless",
+    "source_text": "And with one in the books, it's a scoreless contest here at Kittamori Park."
+   },
+   {
+    "source": "episode_051",
+    "line": 97,
+    "expected": "with one in the books, it's a scoreless",
+    "source_text": "The Loons do not score, and with one in the books, it's a scoreless contest here at Goodhue Field."
+   }
+  ],
+  "original_pool_size": 12,
+  "weight": 0.1877
+ },
+ {
+  "pool": "radio_strings.inning_break_outro",
+  "template": "We'll be back in a moment with the {next_inning_ordinal} inning here on {station_call} and {network_name}.",
+  "pattern": "be back in a moment with the {ordinal} inning,? here on {station},? and {network}",
+  "slot": "break_top",
+  "said": 5,
+  "opportunities": 130,
+  "rate": 0.0385,
+  "episodes": [
+   "episode_049",
+   "episode_050",
+   "episode_052",
+   "episode_053",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_049",
+    "line": 101,
+    "expected": "be back in a moment with the second inning here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "We'll be back in a moment with the second inning here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_049",
+    "line": 295,
+    "expected": "be back in a moment with the sixth inning, here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "We'll be back in a moment with the sixth inning, here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_050",
+    "line": 139,
+    "expected": "be back in a moment with the fourth inning here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "We'll be back in a moment with the fourth inning here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_052",
+    "line": 87,
+    "expected": "be back in a moment with the second inning here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "We'll be back in a moment with the second inning here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_053",
+    "line": 295,
+    "expected": "be back in a moment with the eighth inning here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "We'll be back in a moment with the eighth inning here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "pbp_example_4",
+    "line": 225,
+    "expected": "be back in a moment with the fourth inning here on WSLP and the Northwoods Baseball Radio Network",
+    "source_text": "The three-one pitch... Lifted to right-center, playable for Bradleys. And he makes the catch to end the inning. The Cars do not score, and with three in the books, it remains Cadillac 3, Lake City nothing. We'll be back in a moment with the fourth inning here on WSLP and the Northwoods Baseball Radio Network."
+   }
+  ],
+  "original_pool_size": 15,
+  "weight": 0.6006
+ },
+ {
+  "pool": "narrative_strings.inning_end_123",
+  "template": "And that's a one-two-three inning for {pitcher_full} here in the {half_lower} of the {inning_ordinal}.",
+  "pattern": "that's a (?:one-two-three|1-2-3) inning for {player} here in the (?:top|bottom|last) of the {ordinal}",
+  "slot": "break",
+  "said": 8,
+  "opportunities": 268,
+  "rate": 0.0299,
+  "episodes": [
+   "episode_013",
+   "episode_020",
+   "episode_029",
+   "episode_037",
+   "episode_049",
+   "episode_052",
+   "pbp_example_2"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_013",
+    "line": 114,
+    "expected": "that's a one-two-three inning for Blinky Malone here in the top of the second",
+    "source_text": "And that's a one-two-three inning for Blinky Malone here in the top of the second."
+   },
+   {
+    "source": "episode_020",
+    "line": 105,
+    "expected": "that's a one-two-three inning for Virgil Hughes here in the top of the second",
+    "source_text": "And that's a one-two-three inning for Virgil Hughes here in the top of the second, and it remains Baraboo 2, Cadillac 1."
+   },
+   {
+    "source": "episode_029",
+    "line": 224,
+    "expected": "that's a one-two-three inning for Philip Jeffries here in the top of the fourth",
+    "source_text": "And that's a one-two-three inning for Philip Jeffries here in the top of the fourth, and it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_029",
+    "line": 299,
+    "expected": "that's a one-two-three inning for Philip Jeffries here in the top of the sixth",
+    "source_text": "And that's a one-two-three inning for Philip Jeffries here in the top of the sixth, and it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_037",
+    "line": 138,
+    "expected": "that's a one-two-three inning for Brocktune Shemper here in the top of the third",
+    "source_text": "And that's a one-two-three inning for Brocktune Shemper here in the top of the third, and it remains Ravens nothing, Timbers nothing."
+   },
+   {
+    "source": "episode_049",
+    "line": 118,
+    "expected": "that's a one-two-three inning for Zach Valentine here in the top of the second",
+    "source_text": "And that's a one-two-three inning for Zach Valentine here in the top of the second, and it remains a scoreless ballgame."
+   }
+  ],
+  "original_pool_size": 9,
+  "weight": 0.2944
+ },
+ {
+  "pool": "narrative_strings.inning_end_123",
+  "template": "Three up, three down for {pitcher_full} here in the {half_lower} of the {inning_ordinal}.",
+  "pattern": "three up,? three down for {player} here in the (?:top|bottom|last) of the {ordinal}",
+  "slot": "break",
+  "said": 4,
+  "opportunities": 268,
+  "rate": 0.0149,
+  "episodes": [
+   "episode_049",
+   "episode_052",
+   "pbp_example_2"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_049",
+    "line": 161,
+    "expected": "Three up, three down for Zach Valentine here in the top of the third",
+    "source_text": "Three up, three down for Zach Valentine here in the top of the third, and it remains a scoreless ballgame."
+   },
+   {
+    "source": "episode_049",
+    "line": 264,
+    "expected": "Three up, three down for Zach Valentine here in the top of the fifth",
+    "source_text": "Three up, three down for Zach Valentine here in the top of the fifth, and it remains Tigers 2, Timbers nothing."
+   },
+   {
+    "source": "episode_049",
+    "line": 398,
+    "expected": "Three up, three down for Brocktune Shemper here in the bottom of the seventh",
+    "source_text": "Three up, three down for Brocktune Shemper here in the bottom of the seventh, and it remains Tigers 5, Timbers nothing."
+   },
+   {
+    "source": "episode_052",
+    "line": 248,
+    "expected": "Three up, three down for Whitey Flatbush here in the last of the fifth",
+    "source_text": "Three up, three down for Whitey Flatbush here in the last of the fifth. And it remains Ravens one, Bombers nothing."
+   },
+   {
+    "source": "pbp_example_2",
+    "line": 274,
+    "expected": "Three up three down for Rick Stetson here in the top of the fourth",
+    "source_text": "Three up three down for Rick Stetson here in the top of the fourth. And it remains a scoreless contest. We'll be back in a moment with more baseball here on WSLP and the Northwoods baseball radio network."
+   },
+   {
+    "source": "pbp_example_2",
+    "line": 391,
+    "expected": "Three up three down for Rick Stetson here in the top of the sixth",
+    "source_text": "Three up three down for Rick Stetson here in the top of the sixth. It remains a scoreless contest here at Evermore Park. We'll be back in a moment with more baseball here on the Northwoods baseball radio network."
+   }
+  ],
+  "original_pool_size": 9,
+  "weight": 0.1467
+ },
+ {
+  "pool": "narrative_strings.inning_end_123",
+  "template": "{pitcher_full} sets them down in order here in the {half_lower} of the {inning_ordinal}.",
+  "pattern": "{player} sets them down in order here in the (?:top|bottom|last) of the {ordinal}",
+  "slot": "break",
+  "said": 11,
+  "opportunities": 268,
+  "rate": 0.041,
+  "episodes": [
+   "episode_011",
+   "episode_029",
+   "episode_035",
+   "episode_037",
+   "episode_039",
+   "episode_041",
+   "episode_045",
+   "episode_046",
+   "pbp_example_1",
+   "pbp_example_2",
+   "pbp_example_4"
+  ],
+  "generic": false,
+  "provenance": [
+   {
+    "source": "episode_011",
+    "line": 63,
+    "expected": "Three Finger Cooper sets them down in order here in the top of the first",
+    "source_text": "Three Finger Cooper sets them down in order here in the top of the first."
+   },
+   {
+    "source": "episode_029",
+    "line": 95,
+    "expected": "Giorgio Mullins sets them down in order here in the bottom of the first",
+    "source_text": "Giorgio Mullins sets them down in order here in the bottom of the first, and with one in the book, it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_029",
+    "line": 243,
+    "expected": "Giorgio Mullins sets them down in order here in the bottom of the fourth",
+    "source_text": "And Giorgio Mullins sets them down in order here in the bottom of the fourth, and it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_029",
+    "line": 422,
+    "expected": "Rex Tanya sets them down in order here in the top of the ninth",
+    "source_text": "Rex Tanya sets them down in order here in the top of the ninth, and it remains Tigers 2, River Rats nothing."
+   },
+   {
+    "source": "episode_035",
+    "line": 48,
+    "expected": "Hiroki Nomo sets them down in order here in the top of the first",
+    "source_text": "Hiroki Nomo sets them down in order here in the top of the first, and after a half, it's Ravens nothing, Tigers coming up, here on WSLP and the Northwoods Baseball Radio Network."
+   },
+   {
+    "source": "episode_037",
+    "line": 120,
+    "expected": "Frank Gibson sets them down in order here in the bottom of the second",
+    "source_text": "Frank Gibson sets them down in order here in the bottom of the second, and with two in the books, it is still a scoreless game here in Big Rapids."
+   }
+  ],
+  "original_pool_size": 9,
+  "weight": 0.4036
  },
  {
   "pool": "radio_strings.inning_summary_tied",
@@ -1036,8 +1488,8 @@
     "source_text": "The Eagles do not score, and as we head into the stretch, it remains Eagles two, Bombers one."
    }
   ],
-  "original_pool_size": 10,
-  "weight": 40.0
+  "original_pool_size": 11,
+  "weight": 44.0
  },
  {
   "pool": "radio_strings.inning_summary_score_stretch",
@@ -1105,8 +1557,8 @@
     "source_text": "The Eagles do not score, and as we head into the stretch, it remains Eagles two, Bombers one."
    }
   ],
-  "original_pool_size": 9,
-  "weight": 36.0
+  "original_pool_size": 11,
+  "weight": 44.0
  },
  {
   "pool": "radio_strings.inning_summary_tied_stretch",
@@ -1243,8 +1695,8 @@
     "source_text": "The Eagles do not score, and as we head into the stretch, it remains Eagles two, Bombers one."
    }
   ],
-  "original_pool_size": 12,
-  "weight": 48.0
+  "original_pool_size": 13,
+  "weight": 52.0
  },
  {
   "pool": "radio_strings.station_intro",

@@ -323,8 +323,352 @@ class TestAnnotation(unittest.TestCase):
         self.assertEqual(substitutions, 26)
         stats = sum(len(json.loads(path.read_text())['game'].get('season_stats', {}))
                     for path in LEDGER_DIR.glob('episode_*.json'))
-        self.assertEqual(stats, 26)
+        # 26 starters' records and two relievers' innings and ERA.
+        self.assertEqual(stats, 28)
 
 
 if __name__ == '__main__':
     unittest.main()
+
+
+# --- the pitcher's game line, throws and slides, pitchers entering the game ---
+
+def synthetic(records, complete=False, **game):
+    from test_transcript_games import ledger_with
+    ledger = ledger_with(records, complete=complete)
+    ledger['game'].update(game)
+    return compile_game(ledger, ('Source.\n' * 400).encode())
+
+
+def half(inning, top, outcomes, pitcher, first, score=(0, 0), start=1):
+    """Three (or more) appearances of one half-inning; outs counted from the outcomes."""
+    from test_transcript_games import record
+    side = 'Away' if top else 'Home'
+    records, outs = [], 0
+    for offset, outcome in enumerate(outcomes):
+        outs += outcome not in ('Single', 'Walk', 'Double')
+        records.append(record(batter=f'{side} Batter {(first + offset - 1) % 9 + 1}', outcome=outcome, inning=inning,
+                              top=top, pitcher=pitcher, outs=outs, score=list(score),
+                              start=start + offset, end=start + offset))
+    return records
+
+
+class TestPitcherGameLine(unittest.TestCase):
+    def game(self, home_outcomes=('Strikeout',) * 3):
+        records = half(1, True, home_outcomes, 'Home Pitcher', 1)
+        records += half(1, False, ['Groundout'] * 3, 'Away Pitcher', 1, start=10)
+        records += half(2, True, ['Strikeout', 'Flyout', 'Strikeout'], 'Home Pitcher', 4, start=20)
+        records += half(2, False, ['Groundout'], 'Away Pitcher', 4, start=30)
+        return synthetic(records)
+
+    def test_strikeouts_are_counted_from_the_plays(self):
+        renderer = SayEverything(self.game())
+        text = renderer.render()
+        third = play_text(renderer, text, 2)
+        self.assertRegex(third, r"third strikeout (of the (evening|night|game)|in a row)|three strikeouts in a row")
+        fifth = play_text(renderer, text, 8)
+        self.assertRegex(fifth, r"fifth strikeout of the (evening|night|game)")
+        # The strikeout after a fly ball is not "in a row".
+        self.assertNotIn('in a row', fifth)
+        # A groundout says nothing about strikeouts.
+        self.assertNotIn('strikeout', play_text(renderer, text, 4).split('\n')[-1])
+
+    def test_strikes_out_the_side_needs_three_strikeouts(self):
+        text = SayEverything(self.game()).render()
+        self.assertIn('Home Pitcher strikes out the side', text)
+        self.assertEqual(text.count('strikes out the side'), 1)
+        text = SayEverything(self.game(('Strikeout', 'Strikeout', 'Groundout'))).render()
+        self.assertNotIn('strikes out the side', text)
+
+    def test_retired_in_a_row_is_said_at_the_break_from_seven(self):
+        records = []
+        for inning in (1, 2, 3):
+            records += half(inning, True, ['Groundout'] * 3, 'Home Pitcher', 3 * inning - 2, start=20 * inning)
+            records += half(inning, False, ['Flyout'] * 3, 'Away Pitcher', 3 * inning - 2, start=20 * inning + 10)
+        records += half(4, True, ['Groundout'], 'Home Pitcher', 1, start=90)
+        text = SayEverything(synthetic(records)).render()
+        # Six in a row after two innings is not called; nine after three is.
+        self.assertNotRegex(text, r"\b(?:6|six) in a row|retired (?:6|six) straight")
+        self.assertRegex(text, r"(?:9|nine) in a row|retired (?:9|nine) straight")
+
+    def test_complete_game_and_decisions(self):
+        def nine_innings(first_inning):
+            records = []
+            for inning in range(1, 10):
+                outcomes = first_inning if inning == 1 else ['Groundout'] * 3
+                records += half(inning, True, outcomes, 'Home Pitcher', 1, start=10 * inning)
+                if inning < 9:
+                    records += half(inning, False, ['Flyout'] * 3, 'Away Pitcher', 1, start=10 * inning + 5)
+            for item in records[len(first_inning) + 3:]:
+                item['score'] = [0, 1]
+            return records
+
+        records = nine_innings(['Single', 'Groundout', 'Groundout', 'Groundout'])
+        data = synthetic(records, complete=True, decisions={'winner': 'Home Pitcher', 'loser': 'Away Pitcher'})
+        self.assertEqual(data['liveData']['decisions']['winner']['fullName'], 'Home Pitcher')
+        text = SayEverything(data).render()
+        self.assertRegex(text, r"Home Pitcher pitches a (complete game )?shutout")
+        self.assertNotIn('no-hitter', text)
+        self.assertIn('no-hitter', SayEverything(synthetic(nine_innings(['Groundout'] * 3), complete=True)).render())
+        # Two pitchers: nobody pitched a complete game.
+        relieved = copy.deepcopy(records)
+        for item in relieved[-3:]:
+            item['pitcher'] = 'Relief Pitcher'
+        self.assertNotRegex(SayEverything(synthetic(relieved, complete=True)).render(), r"complete game|shutout")
+        self.assertRegex(text, r"Home Pitcher gets the win")
+        self.assertRegex(text, r"Away Pitcher takes the loss")
+        # No decision is said that the feed does not record.
+        plain = SayEverything(synthetic(records, complete=True)).render()
+        self.assertNotIn('gets the win', plain)
+        self.assertNotIn('takes the loss', plain)
+        with self.assertRaises(ValueError):
+            synthetic(records, complete=True, decisions={'winner': 'Nobody Known'})
+
+    def test_hosts_rates_are_measured(self):
+        from optional_sentence_rates import measure
+        from renderers.narrative.renderer import OPTIONAL_SENTENCE_RATES
+        rows = {row['gate']: row for row in measure()}
+        # Scaled down for the simulator's strikeout-heavy half-innings.
+        self.assertLess(OPTIONAL_SENTENCE_RATES['strikes_out_side'], rows['strikes_out_side']['rate'])
+        for gate in ('strikeout_tally', 'retired_in_a_row', 'complete_game',
+                     'pitching_decisions', 'new_pitcher_intro', 'new_pitcher_season', 'steal_throw',
+                     'network_presents', 'host_intro', 'host_back', 'crew_chief', 'final_score'):
+            self.assertGreater(rows[gate]['opportunities'], 5, gate)
+            self.assertAlmostEqual(OPTIONAL_SENTENCE_RATES[gate], rows[gate]['rate'], delta=0.03, msg=gate)
+
+
+class TestThrowsAndSlides(unittest.TestCase):
+    def play(self, **facts):
+        from test_transcript_games import movement, record
+        runner = dict(movement('Away Batter 1', '2B', 'score'), **facts)
+        return [record(batter='Away Batter 1', outcome='Double', start=1, end=1, runners=[movement('Away Batter 1', None, '2B')]),
+                record(batter='Away Batter 2', outcome='Single', start=2, end=2, score=[1, 0],
+                       pitches=[{'code': 'X', 'line': 2}], hit={'location': 'RF', 'trajectory': 'line_drive'},
+                       runners=[runner])]
+
+    def test_compiled_onto_the_runner_and_narrated(self):
+        data = synthetic(self.play(throw='not_in_time'))
+        details = data['liveData']['plays']['allPlays'][1]['runners'][0]['details']
+        self.assertEqual(details['throw'], 'not_in_time')
+        renderer = SayEverything(data)
+        self.assertRegex(play_text(renderer, renderer.render(), 1), r"[Tt]hrow (to the plate )?is not in time")
+        data = synthetic(self.play(slide='under_tag'))
+        renderer = SayEverything(data)
+        self.assertIn('safely under the tag', play_text(renderer, renderer.render(), 1))
+
+    def test_nothing_is_said_of_an_unrecorded_throw(self):
+        renderer = SayEverything(synthetic(self.play()))
+        text = play_text(renderer, renderer.render(), 1)
+        for phrase in ('not in time', 'slide', 'beat the throw', 'No play'):
+            self.assertNotIn(phrase, text)
+
+    def test_unknown_values_are_rejected(self):
+        with self.assertRaises(ValueError):
+            synthetic(self.play(throw='wild'))
+        with self.assertRaises(ValueError):
+            synthetic(self.play(slide='feet_first'))
+
+    def test_steal_throw(self):
+        from test_transcript_games import record
+        steal = {'code': 'A', 'line': 2, 'eventType': 'stolen_base',
+                 'runners': [{'name': 'Away Batter 1', 'start': '1B', 'end': '2B', 'throw': 'not_in_time'}]}
+        records = [record(batter='Away Batter 1', outcome='Single', start=1, end=1),
+                   record(batter='Away Batter 2', outcome='Incomplete', start=2, end=2,
+                          pitches=[{'code': 'B', 'line': 2}, steal])]
+        data = synthetic(records)
+        self.assertEqual(data['liveData']['plays']['allPlays'][1]['playEvents'][1]['details']['runners'][0]['throw'],
+                         'not_in_time')
+        renderer = SayEverything(data)
+        text = play_text(renderer, renderer.render(), 1)
+        self.assertRegex(text, r"not in time|too late|is late|[Bb]eats the throw|Safe at second")
+        self.assertIn('Away Batter 1 steals second.', text)
+        del steal['runners'][0]['throw']
+        renderer = SayEverything(synthetic(records))
+        self.assertNotRegex(play_text(renderer, renderer.render(), 1), r"throw|Safe at")
+
+    def test_words_to_facts(self):
+        from annotate_transcript_facts import decisions_from_words, pitcher_entry_facts, throw_facts_from_words
+        runner = {'name': 'Nate Colbert', 'start': '2B', 'end': 'score'}
+        batter = {'name': 'Billy De Jesus', 'start': None, 'end': '2B'}
+        self.assertEqual(throw_facts_from_words('Colbert rounding third, the throw to the plate is not in time.',
+                                                [runner, batter], 'Billy De Jesus'),
+                         {'Nate Colbert': {'throw': 'not_in_time'}})
+        self.assertEqual(throw_facts_from_words('De Jesus heading for second. And he will slide in safely ahead of the tag.',
+                                                [runner, batter], 'Billy De Jesus'),
+                         {'Billy De Jesus': {'slide': 'ahead_of_tag'}})
+        self.assertEqual(throw_facts_from_words('No play at the plate as Colbert comes in to score.', [runner, batter], None),
+                         {'Nate Colbert': {'throw': 'none'}})
+        # An offline throw is not a late one, and a routine out is no fact.
+        self.assertEqual(throw_facts_from_words('The throw to the plate is offline, not in time.', [runner, batter], None), {})
+        self.assertEqual(throw_facts_from_words('Slauson fires to first in time to retire Bush.', [batter], None), {})
+        self.assertEqual(pitcher_entry_facts('Ron Nancy', "against the Bombers' right-handed closer, Ron Nancy."),
+                         {'pitch_hand': 'R', 'role': 'closer'})
+        self.assertEqual(pitcher_entry_facts('Dom Fuller', 'reliever Dom Fuller. Fuller has pitched 12 innings of work '
+                                                           'this season with an ERA of 2.67.'),
+                         {'season': {'inningsPitched': '12.0', 'era': '2.67'}})
+        self.assertEqual(decisions_from_words('Edgar Whitehouse notches another win, Billy Brello takes the loss, and '
+                                              'Ron Nancy gets the save for the Bombers.',
+                                              ['Edgar Whitehouse', 'Billy Brello', 'Ron Nancy']),
+                         {'winner': 'Edgar Whitehouse', 'loser': 'Billy Brello', 'save': 'Ron Nancy'})
+
+    def test_ledgers_record_the_hosts_throws(self):
+        runner = next(r for r in episode(51)['liveData']['plays']['allPlays'][33]['runners']
+                      if r['details'].get('throw'))
+        self.assertEqual(runner['details']['throw'], 'not_in_time')
+        self.assertEqual(ledger(39)['game']['decisions']['save'], 'Ron Nancy')
+        self.assertEqual(ledger(39)['game']['pitcher_roles']['Ron Nancy'], 'closer')
+
+
+class TestNewPitcher(unittest.TestCase):
+    def game(self, strict=True, **game):
+        records = half(1, True, ['Groundout'] * 3, 'Home Pitcher', 1)
+        records += half(1, False, ['Groundout'] * 3, 'Away Pitcher', 1, start=10)
+        records += half(2, True, ['Groundout'] * 3, 'Relief Pitcher', 4, start=20)
+        for item in records[6:9]:
+            item['pitch_hand'] = 'L'
+        data = synthetic(records, **game)
+        if not strict:
+            del data['gameData']['broadcast']['strictFacts']
+        return data
+
+    def test_he_is_brought_in_by_name_once_and_never_by_a_banner(self):
+        for strict in (True, False):
+            renderer = SayEverything(self.game(strict))
+            text = renderer.render()
+            self.assertNotIn('Pitching Change', text)
+            self.assertNotIn('replaces', text)
+            entrance = play_text(renderer, text, 6)
+            self.assertIn('Relief Pitcher', entrance, strict)
+            self.assertRegex(entrance, r"(?i)reliever|relief|new pitcher|new \w+ pitcher|new man")
+            self.assertLessEqual(entrance.count('takes the mound') + entrance.count('new pitcher'), 1)
+            # The next batter does not bring him in again.
+            self.assertNotRegex(play_text(renderer, text, 7), r"takes the mound|new pitcher|in relief")
+
+    def test_hand_and_closer_only_when_recorded(self):
+        renderer = NarrativeRenderer(self.game())
+        team, person = renderer.home_team, {'id': 999024, 'fullName': 'Relief Pitcher'}
+        pid = next(p['id'] for p in renderer.gameday_data['gameData']['players'].values()
+                   if p['fullName'] == 'Relief Pitcher')
+        options = renderer._new_pitcher_descriptors(team, {'id': pid, 'fullName': 'Relief Pitcher'})
+        self.assertIn("Hosts' left-handed reliever Relief Pitcher", options)
+        self.assertIn('Example lefty reliever Relief Pitcher', options)
+        self.assertFalse(any('closer' in option for option in options))
+        closer = NarrativeRenderer(self.game(pitcher_roles={'Relief Pitcher': 'closer'}))
+        options = closer._new_pitcher_descriptors(team, {'id': pid, 'fullName': 'Relief Pitcher'})
+        self.assertTrue(all('closer' in option for option in options))
+        del closer.gameday_data['gameData']['players'][f'ID{pid}']['pitchHand']
+        self.assertFalse(any('handed' in option or 'lefty' in option
+                             for option in closer._new_pitcher_descriptors(team, {'id': pid, 'fullName': 'Relief Pitcher'})))
+        with self.assertRaises(ValueError):
+            self.game(pitcher_roles={'Relief Pitcher': 'fireman'})
+
+    def test_season_line_from_the_boxscore(self):
+        stats = {'Relief Pitcher': {'pitching': {'inningsPitched': '12.0', 'era': '2.67'}}}
+        text = SayEverything(self.game(season_stats=stats)).render()
+        self.assertRegex(text, r"Pitcher has pitched (12|twelve) innings of work this season with an ERA of 2\.67\.")
+        self.assertNotIn('innings of work', SayEverything(self.game()).render())
+
+    def test_a_fixture_may_leave_him_unsaid_but_a_simulated_game_may_not(self):
+        class SayNothing(NarrativeRenderer):
+            def _optional(self, name):
+                super()._optional(name)
+                return False
+        named = 0
+        for seed in range(12):
+            data = self.game(strict=False)
+            data['gameData']['commentarySeed'] = seed
+            renderer = SayNothing(data)
+            named += 'Relief Pitcher' in play_text(renderer, renderer.render(), 6)
+        self.assertEqual(named, 12)
+
+
+class TestPregameAndPostgame(unittest.TestCase):
+    FACTS = dict(home_state='Wisconsin', away_state='Michigan', weather={'temp': '74', 'wind': 'In From CF'},
+                 crew_chief='V.R. Montebianco')
+
+    def game(self, complete=False, **game):
+        records = half(1, True, ['Groundout'] * 3, 'Home Pitcher', 1)
+        records += half(1, False, ['Flyout'] * 3, 'Away Pitcher', 1, start=10)
+        if complete:
+            for inning in range(2, 10):
+                records += half(inning, True, ['Groundout'] * 3, 'Home Pitcher', 1, start=20 * inning)
+                if inning < 9:
+                    records += half(inning, False, ['Flyout'] * 3, 'Away Pitcher', 1, start=20 * inning + 10)
+            for item in records[9:]:
+                item['score'] = [0, 2]
+        return synthetic(records, complete=complete, **game)
+
+    def test_recorded_pregame_facts_are_compiled_where_a_feed_keeps_them(self):
+        data = self.game(**self.FACTS)
+        game = data['gameData']
+        self.assertEqual(game['teams']['home']['state'], 'Wisconsin')
+        self.assertEqual(game['weather'], {'temp': '74', 'wind': 'In From CF'})
+        self.assertEqual(game['umpires'], ['V.R. Montebianco'])
+        self.assertEqual(game['broadcast']['station_city'], 'Big Rapids')
+        with self.assertRaises(ValueError):
+            self.game(weather={'temp': 'warm'})
+
+    def test_they_are_said_only_when_recorded(self):
+        pregame = SayEverything(self.game(**self.FACTS)).render().split('[TTS')[0]
+        self.assertIn('from Example Field in Example, Wisconsin', pregame)
+        self.assertIn('of Sample, Michigan.', pregame)
+        self.assertRegex(pregame, r"74 degrees at game time,? (with a (light|gentle)|and just a gentle) breeze "
+                                  r"blowing in from center field\.")
+        self.assertRegex(pregame, r"And crew chief V\.R\. Montebianco (has signaled that it's time to play ball|"
+                                  r"hollers, play ball|says, play ball|signals play ball)\.")
+        self.assertIn('presents Sleep Baseball.', pregame)
+        bare = SayEverything(self.game()).render().split('[TTS')[0]
+        for phrase in ('Wisconsin', 'Michigan', 'degrees', 'breeze', 'crew chief', 'perfect night'):
+            self.assertNotIn(phrase, bare)
+
+    def test_each_lineup_and_the_postgame_have_their_own_draws(self):
+        data = self.game(complete=True)
+        batting_second = ['Batting second and playing second base, {}.', 'Batting second, second baseman {}.',
+                          'Second baseman {} will bat second.']
+        for away in range(3):
+            for home in range(3):
+                fixture = copy.deepcopy(data)
+                fixture['gameData']['commentaryRng'] = {'lineup_away': {'color': [0, 0, away]},
+                                                        'lineup_home': {'color': [0, 0, 0, home]}}
+                text = NarrativeRenderer(fixture).render()
+                self.assertIn(batting_second[away].format('Away Batter 2'), text)
+                self.assertIn(batting_second[home].format('Home Batter 2'), text)
+        fixture = copy.deepcopy(data)
+        fixture['gameData']['commentaryRng'] = {'postgame': {'color': [1], 'optional': [0]}}
+        closing = NarrativeRenderer(fixture).render().split('to end the ball game')[-1]
+        self.assertIn('So the Hosts take this one at home, two to nothing.', closing)
+        # The final score, then the line score, then the sign-off.
+        self.assertLess(closing.index('take this one'), closing.index('runs'))
+        fixture['gameData']['commentaryRng'] = {'postgame': {'optional': [99]}}
+        self.assertNotIn('take this one', NarrativeRenderer(fixture).render())
+
+    def test_the_fitter_scores_templates_as_they_will_be_said(self):
+        from fit_transcript_games import filled, option_score, pregame_windows, tokens
+        context = {'away_short': 'Timbers', 'away_team_name': 'Big Rapids Timbers'}
+        target = tokens('Those are the Timbers.')
+        short, full = (filled(t, context) for t in ('Those are the {away_short}.', 'Those are the {away_team_name}.'))
+        self.assertEqual(short, 'Those are the Timbers.')
+        self.assertGreater(option_score(short, target), option_score(full, target))
+        # Without the values the two templates tie, and an unknown slot stays a slot.
+        self.assertEqual(option_score('Those are the {away_short}.', target),
+                         option_score('Those are the {away_team_name}.', target))
+        self.assertEqual(filled('{batter_name} steps in against {pitcher_name}.', {'batter_name': 'Rio Nunez'}),
+                         'Rio Nunez steps in against {pitcher_name}.')
+        lines = (['Welcome.', "Let's take a look at the starting nine for the visiting Timbers."] + ['A hitter.'] * 9
+                 + ['Those are the Timbers.', 'Here are the Tigers.'] + ['A hitter.'] * 9
+                 + ['And crew chief Montebianco hollers, play ball.', 'So we are underway.'])
+        self.assertEqual(pregame_windows(lines),
+                         {'init': (0, 1), 'lineup:away': (1, 11), 'lineup:home': (11, 22), 'first_pitch': (22, 24)})
+        self.assertEqual(set(pregame_windows(['Welcome.', 'Play ball.']).values()), {(0, 2)})
+
+    def test_pregame_words_to_facts(self):
+        from annotate_transcript_facts import pregame_facts
+        game = {'away': 'Big Rapids Timbers', 'home': 'Tomah Tigers'}
+        lines = ['Tonight, from Kittamori Park in Tomah, Wisconsin, it\'s the Tomah Tigers, hosting the Big Rapids '
+                 'Timbers of Big Rapids, Michigan.',
+                 '74 degrees at game time with a gentle breeze blowing out to left center.',
+                 'And crew chief V.R. Montebianco hollers, play ball.']
+        self.assertEqual(pregame_facts(game, lines, lines),
+                         {'away_state': 'Michigan', 'home_state': 'Wisconsin',
+                          'weather': {'temp': '74', 'wind': 'Out To LCF'}, 'crew_chief': 'V.R. Montebianco'})
+        self.assertEqual(pregame_facts(game, ['A quiet night.'], ['A quiet night.']), {})

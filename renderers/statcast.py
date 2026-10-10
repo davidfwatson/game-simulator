@@ -10,10 +10,19 @@ class StatcastRenderer(GameRenderer):
         lines.append("=" * 20 + " GAME START " + "=" * 20)
         lines.append(f"{self.away_team['name']} vs. {self.home_team['name']}")
         if 'venue' in self.gameday_data['gameData']: lines.append(f"Venue: {self.gameday_data['gameData']['venue']}")
-        if 'weather' in self.gameday_data['gameData']: lines.append(f"Weather: {self.gameday_data['gameData']['weather']}")
-        if 'umpires' in self.gameday_data['gameData']:
-            u = self.gameday_data['gameData']['umpires']
+        weather = self.gameday_data['gameData'].get('weather')
+        if isinstance(weather, dict):
+            # A feed's weather: {"temp": "74", "wind": "In From CF"}.
+            weather = ', '.join(part for part in (
+                f"{weather['temp']}°F" if weather.get('temp') else '',
+                f"Wind {weather['wind']}" if weather.get('wind') else '') if part)
+        if weather: lines.append(f"Weather: {weather}")
+        u = self.gameday_data['gameData'].get('umpires') or []
+        if len(u) >= 4:
             lines.append(f"Umpires: HP: {u[0]}, 1B: {u[1]}, 2B: {u[2]}, 3B: {u[3]}")
+        elif u:
+            # A broadcast that names only its crew chief.
+            lines.append(f"Umpires: Crew chief: {u[0]}")
         lines.append("-" * 50)
 
         current_inning_state = (0, '')

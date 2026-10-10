@@ -22,6 +22,10 @@ NUMBERED_CALL = re.compile(r'\b(ball|strike) (one|two|three)\b', re.I)
 # A sentence that returns from a between-innings break.
 BREAK_RETURN = re.compile(r"^(?:And )?(?:welcome back|we're back|greetings again|Wally McCarthy and Producer Phil)", re.I)
 
+# The shortest run of batters retired the hosts call out ("And that's seven
+# in a row retired by Todd Gonzalez").
+RETIRED_IN_A_ROW_MINIMUM = 7
+
 OPTIONAL_SENTENCE_RATES = {
     # The count after a call that already numbers it ("Inside for ball two.
     # Two and oh."): said after 16 of 159 numbered calls, 10.1%.
@@ -46,6 +50,61 @@ OPTIONAL_SENTENCE_RATES = {
     # Kittamori Park.", "Wally McCarthy and producer Phil back with you."):
     # 163 of 326 breaks, 50.0%. It was a 15% colour gate before.
     'break_return': 0.50,
+    # --- the pitcher's game line ---
+    # "And that's the ninth strikeout of the evening for Butch Flores.":
+    # after 13 of 164 strikeouts that were a pitcher's third or later, or his
+    # third in a row, 7.9%.
+    'strikeout_tally': 0.08,
+    # "Hiroki Nomo strikes out the side here in the bottom of the third.":
+    # 5 of the 7 half-innings whose three outs were strikeouts, 71.4%. But
+    # simulated pitchers strike out the side about twice as often as the
+    # hosts' (0.70 a game against 0.33), so the rate is halved to keep the
+    # sentence to the hosts' count per game.
+    'strikes_out_side': 0.34,
+    # "And that's 13 in a row set down by Scooter McKeever", at the break
+    # after a scoreless half with seven or more retired in a row: 2 of 28, 7.1%.
+    'retired_in_a_row': 0.07,
+    # "Zach Valentine pitches a complete game shutout", after the final line:
+    # 5 of 9 complete games by the winner, 55.6%.
+    'complete_game': 0.56,
+    # "Ron Nancy gets the save for the Bombers", from the feed's decisions:
+    # in 11 of 19 finished broadcasts, 57.9%.
+    'pitching_decisions': 0.58,
+    # --- a pitcher entering the game ---
+    # The sentence that brings him in when no introduction names him: 32 of
+    # 34 new pitchers are named before their first pitch, 94.1%. A simulated
+    # game always names him; only a fixture can leave him unsaid.
+    'new_pitcher_intro': 0.94,
+    # "Fuller has pitched 12 innings of work this season with an ERA of
+    # 2.67.": for 2 of 34 new pitchers, 5.9%.
+    'new_pitcher_season': 0.06,
+    # --- the pregame and the postgame, once a game each ---
+    # "The Northwoods Baseball Radio Network presents Sleep Baseball.", after
+    # the station's own line: 18 of 21 broadcasts, 85.7%.
+    'network_presents': 0.86,
+    # "And now your host, Wally McCarthy.": 9 of 21, 42.9%.
+    'host_intro': 0.43,
+    # "It's Wally McCarthy and producer Phil, back with you from beautiful
+    # Kittamori Park here in Tomah, Wisconsin.": 10 of 21, 47.6%.
+    'host_back': 0.48,
+    # "It is a perfect night for a ball game.", before the temperature: every
+    # broadcast. Just under one, so a fixture's draw can still leave it unsaid.
+    'perfect_night': 0.97,
+    # "And crew chief V.R. Montebianco hollers, play ball.": 19 of 21, 90.5%.
+    'crew_chief': 0.90,
+    # "So the Tigers take this one at home by a score of five to nothing.":
+    # 15 of 19 finished broadcasts, 78.9%.
+    'final_score': 0.79,
+    # --- throws and slides ---
+    # A recorded throw or slide on a ball in play ("The throw to first is not
+    # in time.", "And he will slide in safely ahead of the throw."). The
+    # hosts state one about 1.7 times a game and a ledger records it only
+    # then; the simulator's field model records a close play about once in
+    # three games, so every one is said (a fixture can still drop it).
+    'throw_detail': 1.0,
+    # The throw on a steal ("The throw to second is not in time."): stated
+    # for 3 of 11 steals and caught stealings, 27.3%.
+    'steal_throw': 0.27,
 }
 
 
@@ -257,14 +316,20 @@ class NarrativeRenderer(GameRenderer):
     def _get_number_word(self, n):
         return get_number_word(n)
 
+    def _choose(self, rng, options, context):
+        """Draw one template. ``context`` holds the values it will be filled
+        with: this renderer ignores it, the offline fitter scores each option
+        as it would be said."""
+        return rng.choice(options)
+
     def _get_narrative_string(self, key, context=None, rng=None):
         if context is None: context = {}
         selected_rng = rng if rng else self.rng_play
-        return selected_rng.choice(GAME_CONTEXT['narrative_strings'].get(key, [""])).format(**context)
+        return self._choose(selected_rng, GAME_CONTEXT['narrative_strings'].get(key, [""]), context).format(**context)
 
     def _get_radio_string(self, key, context=None):
         if context is None: context = {}
-        return self.rng_color.choice(GAME_CONTEXT['radio_strings'].get(key, [""])).format(**context)
+        return self._choose(self.rng_color, GAME_CONTEXT['radio_strings'].get(key, [""]), context).format(**context)
 
     def _get_spoken_count(self, balls, strikes, connector="and"):
         return get_spoken_count(balls, strikes, connector)
@@ -290,10 +355,10 @@ class NarrativeRenderer(GameRenderer):
 
         if balls == 0 and strikes == 0:
             if runners_on_base and self.rng_flow.random() < 0.5:
-                 return self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('pitch_connectors_stretch', ["And the pitch..."])).format(**context)
+                 return self._choose(self.rng_flow, GAME_CONTEXT['narrative_strings'].get('pitch_connectors_stretch', ["And the pitch..."]), context).format(**context)
 
             templates = GAME_CONTEXT['narrative_strings'].get('pitch_connectors_00', ["And the pitch..."])
-            return self.rng_flow.choice(templates).format(**context)
+            return self._choose(self.rng_flow, templates, context).format(**context)
 
         templates = GAME_CONTEXT['narrative_strings'].get('pitch_connectors', [
             "And the {count_str}...",
@@ -301,7 +366,7 @@ class NarrativeRenderer(GameRenderer):
             "And the {count_str} pitch..."
         ])
 
-        return self.rng_flow.choice(templates).format(**context)
+        return self._choose(self.rng_flow, templates, context).format(**context)
 
     def _simplify_pitch_type(self, pitch_type: str, capitalize=False) -> str:
         return simplify_pitch_type(pitch_type, self.rng_pitch, capitalize)
@@ -420,6 +485,189 @@ class NarrativeRenderer(GameRenderer):
         return template.format(last_name=last_name, wins=wins, losses=losses, era=era,
                                wins_word=self._get_number_word(wins) if spelled else '',
                                losses_word=self._get_number_word(losses) if spelled else '')
+
+    def _strict(self):
+        return bool(self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts'))
+
+    def _team_location(self, team):
+        """'Big Rapids' of the Big Rapids Timbers: the hosts say "Big Rapids
+        reliever Shep Preston" as readily as "Timbers reliever"."""
+        location = team.get('locationName')
+        if not location:
+            short = self._get_short_team_name(team)
+            name = team.get('name', '')
+            location = name[:-len(short)].strip() if short and name.endswith(short) else ''
+        return location
+
+    def _pitcher_role_word(self, pitcher):
+        person = self.gameday_data['gameData'].get('players', {}).get(f"ID{pitcher['id']}", {})
+        return {'closer': 'closer', 'starter': 'starting pitcher'}.get(person.get('pitcherRole'), 'reliever')
+
+    def _new_pitcher_descriptors(self, team, pitcher):
+        """How the hosts name a pitcher entering the game: "Ravens' right-handed
+        reliever Dom Fuller", "Baraboo closer Buddy Malone", "reliever Jimmy
+        Shirley". His hand is said only when the feed records it, "closer"
+        only for a recorded ``pitcherRole``; anyone who follows the starter
+        is a reliever."""
+        person = self.gameday_data['gameData'].get('players', {}).get(f"ID{pitcher['id']}", {})
+        name = pitcher['fullName']
+        hand = {'L': 'left', 'R': 'right'}.get((person.get('pitchHand') or {}).get('code'))
+        role = self._pitcher_role_word(pitcher)
+        short = self._get_short_team_name(team)
+        possessive = short + ("'" if short.endswith('s') else "'s")
+        location = self._team_location(team)
+        options = [f"{role} {name}", f"{possessive} {role} {name}", f"the {possessive} {role} {name}"]
+        if location:
+            options.append(f"{location} {role} {name}")
+        if hand:
+            options += [f"{hand}-handed {role} {name}", f"{possessive} {hand}-handed {role} {name}",
+                        f"the {possessive} {hand}-handed {role} {name}"]
+            if location:
+                options += [f"{location} {hand}-handed {role} {name}",
+                            f"{location} {'lefty' if hand == 'left' else 'righty'} {role} {name}"]
+            if role == 'reliever':
+                options.append(f"{hand}-handed relief pitcher {name}")
+                if location:
+                    options.append(f"{location} {hand}-handed relief pitcher {name}")
+        return options
+
+    def _new_pitcher_sentence(self, team, pitcher, previous, descriptor, batter_name, about, mid_inning):
+        """The sentence that brings a new pitcher in when nothing else has
+        named him: "Ravens' closer Masaki Harrington takes the mound."""
+        pools = GAME_CONTEXT['narrative_strings']
+        templates = list(pools['new_pitcher'])
+        if mid_inning:
+            templates += pools['new_pitcher_mid_inning']
+        if self._strict():
+            # These name the batter too; a simulated game's introduction
+            # follows at once and would say him twice.
+            templates += pools['new_pitcher_faces']
+        short = self._get_short_team_name(team)
+        plain = re.sub(rf"^(?:the )?{re.escape(short)}'s? ", '', descriptor)
+        location = self._team_location(team)
+        if location and plain.startswith(location + ' '):
+            plain = plain[len(location) + 1:]
+        if not location:
+            templates = [t for t in templates if '{team_location}' not in t] or templates
+        text = self.rng_flow.choice(templates).format(
+            descriptor=descriptor, plain_descriptor=plain, pitcher=pitcher['fullName'],
+            team_short=short, team_location=location, batter=batter_name,
+            previous=(previous or '').split()[-1] if previous else 'the starter',
+            role=self._pitcher_role_word(pitcher),
+            half_lower='top' if about['isTopInning'] else 'bottom',
+            inning_ordinal=self._get_ordinal(about['inning']))
+        return text[:1].upper() + text[1:]
+
+    def _reliever_season_line(self, team_type, pitcher):
+        """"Nixon has pitched five innings of work this season with an ERA of
+        1.80." From the boxscore's seasonStats, when it holds both."""
+        stats = self._season_pitching(team_type, pitcher['id'])
+        innings, era = stats.get('inningsPitched'), stats.get('era')
+        if innings is None or era is None:
+            return None
+        whole = str(innings).split('.')[0]
+        innings_word = self._score_word(int(whole)) if whole.isdigit() else str(innings)
+        template = self.rng_color.choice(GAME_CONTEXT['narrative_strings']['reliever_season'])
+        return template.format(last_name=pitcher['fullName'].split()[-1], innings=whole,
+                               innings_word=innings_word, era=era)
+
+    def _strikeout_tally_sentence(self, play, outcome):
+        """"And that's the ninth strikeout of the evening for Butch Flores."
+        Counted from the plays; built on every strikeout, said when its gate
+        opens."""
+        pitcher = play['matchup']['pitcher']
+        line = self._pitcher_lines.setdefault(pitcher['id'], {'strikeouts': 0, 'in_a_row': 0})
+        if not outcome.startswith('Strikeout'):
+            if outcome != 'Incomplete':
+                line['in_a_row'] = 0
+            return None
+        line['strikeouts'] += 1
+        line['in_a_row'] += 1
+        pools = GAME_CONTEXT['narrative_strings']
+        templates = list(pools['strikeout_tally'])
+        if line['in_a_row'] >= 2:
+            templates += pools['strikeout_tally_in_a_row']
+        name = pitcher['fullName']
+        last = name.split()[-1]
+        sentence = self.rng_play.choice(templates).format(
+            pitcher=name, last_name=last, possessive=last + ("'" if last.endswith('s') else "'s"),
+            ordinal=self._get_ordinal(line['strikeouts']), in_a_row_ordinal=self._get_ordinal(line['in_a_row']),
+            in_a_row_word=self._score_word(line['in_a_row']))
+        said = self._optional('strikeout_tally')
+        if not self._strict() and line['strikeouts'] < 3 and line['in_a_row'] < 3:
+            # A second strikeout is no milestone; the hosts counted from one
+            # only once.
+            return None
+        return sentence if said else None
+
+    def _struck_out_the_side(self, plays):
+        """The pitcher, when every out of the half-inning was his strikeout."""
+        strikeouts = [p for p in plays if p['result'].get('event') == 'Strikeout'
+                      and any(r['movement'].get('isOut') and r['details'].get('runner', {}).get('id')
+                              == p['matchup']['batter'].get('id') for r in p.get('runners', []))]
+        outs = sum(bool(r['movement'].get('isOut')) for p in plays for r in p.get('runners', []))
+        pitchers = {p['matchup']['pitcher']['id'] for p in plays}
+        if len(strikeouts) == 3 and outs == 3 and len(pitchers) == 1:
+            return plays[0]['matchup']['pitcher']
+        return None
+
+    def _postgame_pitching_sentences(self, win_side):
+        """What the hosts add to the final line: a complete game ("Zach
+        Valentine pitches a complete game shutout."), counted from the plays,
+        and the decisions a feed records ("Ron Nancy gets the save for the
+        Bombers."). Each is built, then said when its gate opens."""
+        plays = self.gameday_data['liveData']['plays']['allPlays']
+        pools = GAME_CONTEXT['narrative_strings']
+        team = self.home_team if win_side == 'home' else self.away_team
+        lose_team = self.away_team if win_side == 'home' else self.home_team
+        sentences = []
+        winners = list(dict.fromkeys(p['matchup']['pitcher']['fullName'] for p in plays
+                                     if p['about']['isTopInning'] == (win_side == 'home')))
+        halves = {(p['about']['inning'], p['about']['isTopInning']) for p in plays}
+        whole_game = all((inning, win_side == 'home') in halves for inning in range(1, max(i for i, _ in halves) + 1))
+        if len(winners) == 1 and whole_game:
+            against = [p for p in plays if p['about']['isTopInning'] == (win_side == 'home')]
+            runs = (self.current_score[0] if win_side == 'home' else self.current_score[1])
+            hits = sum(p['result'].get('event') in ('Single', 'Double', 'Triple', 'Home Run', 'Hit') for p in against)
+            key = 'complete_game_no_hitter' if hits == 0 else 'complete_game_shutout' if runs == 0 else 'complete_game'
+            sentence = self.rng_color.choice(pools[key]).format(pitcher=winners[0], team_short=self._get_short_team_name(team))
+            if self._optional('complete_game'):
+                sentences.append(sentence)
+        decisions = self.gameday_data['liveData'].get('decisions') or {}
+        built = []
+        for role, key, side_team in (('winner', 'decision_win', team), ('loser', 'decision_loss', lose_team),
+                                     ('save', 'decision_save', team)):
+            person = decisions.get(role)
+            if person and person.get('fullName'):
+                # "Notches another save" claims a season no simulated game has.
+                templates = [t for t in pools[key] if self._strict() or 'another' not in t]
+                built.append(self.rng_color.choice(templates).format(
+                    pitcher=person['fullName'], team_short=self._get_short_team_name(side_team)))
+        if built and self._optional('pitching_decisions'):
+            sentences.extend(built)
+        return sentences
+
+    def _weather_line(self, weather):
+        """"74 degrees at game time, with a light breeze blowing in from center
+        field." from a feed's weather ({"temp": "74", "wind": "8 mph, In From
+        CF"}); only the parts it holds."""
+        temp = str(weather.get('temp') or '').strip()
+        if not temp.isdigit():
+            return None
+        fields = {'LF': 'left field', 'CF': 'center field', 'RF': 'right field', 'LCF': 'left center',
+                  'RCF': 'right center'}
+        wind = re.search(r'(In From|Out To)\s+(LCF|RCF|LF|CF|RF)\b', str(weather.get('wind') or ''), re.I)
+        blowing = re.search(r'\b(In|Out)\b', str(weather.get('wind') or ''), re.I)
+        context = {'temp': temp}
+        if wind:
+            key = 'pregame_weather_wind'
+            context['wind'] = ('in from ' if wind.group(1).lower() == 'in from' else 'out to ') + fields[wind.group(2).upper()]
+        elif blowing:
+            key = 'pregame_weather_wind'
+            context['wind'] = blowing.group(1).lower()
+        else:
+            key = 'pregame_weather'
+        return self._get_radio_string(key, context)
 
     def _out_context(self, result_outs, play=None):
         """Which out it was: "for out number two", "for the second out of the
@@ -564,6 +812,8 @@ class NarrativeRenderer(GameRenderer):
     def _sentence_starts(text):
         """Capitalize a sentence a lowercase phrase opens ("...here at
         Waterfront Park. tied at two and..."); an ellipsis is no sentence end."""
+        # "Still {score_phrase} here at..." with "still no score".
+        text = re.sub(r'\b([Ss]till) still\b', r'\1', text)
         return re.sub(r'(?<=[a-z][.!?] )[a-z]', lambda m: m.group().upper(), text)
 
     def _get_natural_score_phrase(self, score_away, score_home):
@@ -828,16 +1078,49 @@ class NarrativeRenderer(GameRenderer):
         location_context = get_location_phrases(self.home_team)
         home_location = location_context['location_with_state']
         away_location = get_location_phrases(self.away_team)['location_with_state']
-        station_intro = self._get_radio_string('station_intro', {'network_name': network_name,
-                                                                 'station_call': station_call})
+        radio = GAME_CONTEXT['radio_strings']
+        strict = self._strict()
+        station_ctx = {'network_name': network_name, 'station_call': station_call,
+                       'station_city': broadcast.get('station_city', '')}
+        station_pool = radio['station_intro'] + (radio['station_intro_city'] if station_ctx['station_city'] else [])
+        station_intro = self._choose(self.rng_color, station_pool, station_ctx).format(**station_ctx)
         add_line(station_intro[:1].upper() + station_intro[1:])
-        welcome = self._get_radio_string('welcome_intro')
-        venue_loc = f"{venue} in {home_location}" if home_location else venue
-        away_loc = f" of {away_location}" if away_location else ""
-        add_line(f"Tonight, from {venue_loc}, it's the {self.home_team['name']} hosting the {self.away_team['name']}{away_loc}. {welcome}")
+        # "The Northwoods Baseball Radio Network presents Sleep Baseball.",
+        # after the station's own line in 15 of the 17 broadcasts.
+        presents = self._get_radio_string('network_presents', station_ctx)
+        if 'presents' not in station_intro and self._optional('network_presents'):
+            add_line(presents[:1].upper() + presents[1:])
+        opener_ctx = {'venue': venue, 'venue_location': f"{venue} in {home_location}" if home_location else venue,
+                      'home_team_name': self.home_team['name'], 'away_team_name': self.away_team['name'],
+                      'away_of': f" of {away_location}" if away_location else "",
+                      'location': location_context['location'], 'location_with_state': home_location}
+        add_line(self._get_radio_string('pregame_opener', opener_ctx))
+        # "And now your host, Wally McCarthy." and the hosts' return ("It's
+        # Wally McCarthy and producer Phil, back with you from beautiful
+        # Kittamori Park here in Tomah, Wisconsin."): each built, then gated.
+        host_intro = self._get_radio_string('host_intro', opener_ctx)
+        if self._optional('host_intro'):
+            add_line(host_intro)
+        add_line(self._get_radio_string('welcome_intro'))
+        host_back = self._get_radio_string('host_back', opener_ctx)
+        if self._optional('host_back'):
+            add_line(host_back)
 
         weather = self.gameday_data['gameData'].get('weather')
-        if weather:
+        if isinstance(weather, str) and re.match(r'\d+°F', weather) and not strict:
+            # The simulator's "72°F, Clear": its temperature, said as a feed's.
+            weather = {'temp': re.match(r'\d+', weather).group()}
+        if isinstance(weather, dict):
+            # A feed's weather: "It is a perfect night for a ball game. 74
+            # degrees at game time, with a light breeze blowing in from
+            # center field."
+            perfect = self._get_radio_string('pregame_perfect_night', opener_ctx)
+            if self._optional('perfect_night'):
+                add_line(perfect)
+            weather_line = self._weather_line(weather)
+            if weather_line:
+                add_line(weather_line)
+        elif weather:
              add_line(f"And it is a perfect night for a ball game: {weather}.")
 
         # STARTING LINEUPS
@@ -875,25 +1158,25 @@ class NarrativeRenderer(GameRenderer):
                 return pos_name.lower()
 
             def build_lineup(team_type):
+                # Each lineup is its own reseed point, so a fixture's draws for
+                # the visitors' eighth hitter are fitted to the visitors' lines.
+                self._reseed_for_point(self.gameday_data['gameData'], f"lineup_{team_type}", '', f"lineup:{team_type}")
                 team_box = boxscore['teams'][team_type]
                 batting_order = team_box.get('battingOrder', [])
                 team_name = team_box['team']['name']
 
+                team_ctx = {'team_name': team_name, 'away_team_name': self.away_team['name'],
+                            'away_short': self._get_short_team_name(self.away_team),
+                            'home_team_name': self.home_team['name'],
+                            'home_short': self._get_short_team_name(self.home_team)}
                 if team_type == 'away':
-                    intro_template = self.rng_color.choice(lineup_strings.get('intro_away', ["Let's take a look at the Starting 9 for the visiting {team_name}."]))
-                    add_line(intro_template.format(team_name=team_name))
+                    add_line(self._choose(self.rng_color, lineup_strings['intro_away'], team_ctx).format(**team_ctx))
                 else:
                     # Away outro ("Those are the Bombers.") on its own line
-                    away_name = self.away_team['name']
-                    outro_templates = lineup_strings.get('outro_away', ["Those are the {away_team_name}."])
-                    add_line(self.rng_color.choice(outro_templates).format(
-                        away_team_name=away_name,
-                        away_short=self._get_short_team_name(self.away_team)
-                    ))
+                    add_line(self._choose(self.rng_color, lineup_strings['outro_away'], team_ctx).format(**team_ctx))
                     add_line("")  # blank line between teams
                     # Home intro on its own line
-                    intro_template = self.rng_color.choice(lineup_strings.get('intro_home', ["Here are the {home_team_name}."]))
-                    add_line(intro_template.format(away_team_name=away_name, home_team_name=self.home_team['name']))
+                    add_line(self._choose(self.rng_color, lineup_strings['intro_home'], team_ctx).format(**team_ctx))
 
                 for idx, p_id in enumerate(batting_order):
                     player_key = f"ID{p_id}"
@@ -911,9 +1194,12 @@ class NarrativeRenderer(GameRenderer):
 
                         context = {
                             'team_name': team_name,
+                            'team_short': self._get_short_team_name(team_box['team']),
                             'player_name': p_name,
                             'position': pos_str,
                             'position_place': pos_place_str,
+                            # "in center field", but "at shortstop".
+                            'at_place': ('in ' if pos_code in ('7', '8', '9') else 'at ') + pos_place_str,
                             'pitch_hand': pitch_hand
                         }
 
@@ -946,7 +1232,7 @@ class NarrativeRenderer(GameRenderer):
                                 # times the hosts say the ninth spot; never "Batting 9").
                                 string_options = [f"And batting {self._get_ordinal(batting_pos)}, {pos_str} {{player_name}}."]
 
-                        template = self.rng_color.choice(string_options)
+                        template = self._choose(self.rng_color, string_options, context)
 
                         # For lead-off and others, sometimes they are formatted "Name will lead off in position"
                         # Handle name at beginning
@@ -977,14 +1263,23 @@ class NarrativeRenderer(GameRenderer):
                     manager_templates = lineup_strings.get('manager_away', ["And the {team_name} are managed by {manager_name}."])
                 else:
                     manager_templates = lineup_strings.get('manager_home', ["The {team_name} are managed by {manager_name}."])
-                manager_template = self.rng_color.choice(manager_templates)
-                add_line(manager_template.format(team_name=team_name, manager_name=manager_name))
+                manager_ctx = {'team_name': team_name, 'manager_name': manager_name,
+                               'team_short': self._get_short_team_name(team_box['team'])}
+                add_line(self._choose(self.rng_color, manager_templates, manager_ctx).format(**manager_ctx))
 
             build_lineup('away')
             build_lineup('home')
 
+        self._reseed_for_point(self.gameday_data['gameData'], "first_pitch", '', "first_pitch")
         if self.rng_color.random() < 0.5:
             add_line(self._get_radio_string('pregame_color', {'venue': venue}))
+        # "And crew chief V.R. Montebianco hollers, play ball.": the first
+        # name in the feed's umpires. Built, then gated.
+        umpires = self.gameday_data['gameData'].get('umpires') or []
+        if umpires:
+            play_ball = self._get_radio_string('crew_chief_play_ball', {'umpire': umpires[0], 'venue': venue})
+            if self._optional('crew_chief'):
+                add_line(play_ball)
         underway_options = [
             "And we are underway.",
             f"So, we are underway here at {venue}.",
@@ -1002,6 +1297,7 @@ class NarrativeRenderer(GameRenderer):
         self._score_at_half_start = (0, 0)
         self.plays_in_half_inning = []
         self.batter_history = {}  # batter_id -> [{'event': str, 'inning': int, 'scored': bool}]
+        self._pitcher_lines = {}  # pitcher_id -> strikeouts so far and in a row
 
         plays = self.gameday_data['liveData']['plays']['allPlays']
 
@@ -1019,6 +1315,20 @@ class NarrativeRenderer(GameRenderer):
             # Capture recap value immediately after reseed, before inning
             # transitions consume color digits
             recap_val = self.rng_color.random()
+
+            # A new pitcher is introduced once, the way the hosts do it: by
+            # the inning's or the batter's introduction ("...will step in
+            # against Baraboo closer Buddy Malone"), else in a sentence of his
+            # own. His description is drawn here so either can use it.
+            pitching_team_key = 'home' if about['isTopInning'] else 'away'
+            pitcher_id = matchup['pitcher']['id']
+            prev_info = self.current_pitcher_info[pitching_team_key]
+            new_pitcher = bool(prev_info and prev_info['id'] != pitcher_id)
+            pitcher_descriptor = None
+            lines_at_play_start = len(lines)
+            if new_pitcher:
+                pitcher_descriptor = self.rng_flow.choice(self._new_pitcher_descriptors(
+                    self.home_team if about['isTopInning'] else self.away_team, matchup['pitcher']))
 
             if (inning, half) != current_inning_state:
                 if current_inning_state[0] != 0 and not about.get('coverageGapBefore'):
@@ -1059,7 +1369,7 @@ class NarrativeRenderer(GameRenderer):
                      innings_word = self._get_innings_word(full_innings, 'Bottom' if prev_half == 'Top' else 'Top')
                      batting_team_prev = self.away_team['name'] if prev_half == 'Top' else self.home_team['name']
                      fielding_team_prev = self.home_team['name'] if prev_half == 'Top' else self.away_team['name']
-                     next_pitcher_name = ' '.join(play['matchup']['pitcher']['fullName'].split()[1:])
+                     next_pitcher_name = pitcher_descriptor or play['matchup']['pitcher']['fullName']
                      next_batting_team_key = 'away' if about['isTopInning'] else 'home'
                      next_batting_team = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
                      due_up_desc = self._get_due_up_desc(plays, play, next_batting_team_key)
@@ -1130,6 +1440,26 @@ class NarrativeRenderer(GameRenderer):
                              upto=play_idx,
                              pitcher_id=self.plays_in_half_inning[-1]['matchup']['pitcher']['id'] if self.plays_in_half_inning else None)
                      }
+                     ctx['consecutive_retired_word'] = self._score_word(ctx['consecutive_retired'])
+                     ctx['pitcher_full'] = (self.current_pitcher_info[pitching_team] or {}).get('name') or pitcher_name
+
+                     # The pitcher's game so far, said at the break: "Hiroki
+                     # Nomo strikes out the side here in the bottom of the
+                     # third.", "And that's 13 in a row set down by Scooter
+                     # McKeever." Each is built, then gated.
+                     side_pitcher = self._struck_out_the_side(self.plays_in_half_inning)
+                     side_sentence = None
+                     if side_pitcher:
+                         side_sentence = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['strikes_out_the_side']).format(
+                             pitcher=side_pitcher['fullName'], half_lower=prev_half.lower(),
+                             inning_ordinal=self._get_ordinal(completed_innings))
+                         if not self._optional('strikes_out_side'):
+                             side_sentence = None
+                     streak_sentence = None
+                     if ctx['consecutive_retired'] >= RETIRED_IN_A_ROW_MINIMUM and runs_scored_this_half == 0:
+                         streak_sentence = self._get_radio_string('inning_outro_streak', ctx)
+                         if not self._optional('retired_in_a_row'):
+                             streak_sentence = None
 
                      summary_lines = []
 
@@ -1145,14 +1475,12 @@ class NarrativeRenderer(GameRenderer):
                              # when Miller got one out of it reads as a glitch.
                              templates = ["Three up, three down.", "They go down in order.",
                                           "And the side is retired in order."]
-                         template = self.rng_flow.choice(templates)
-                         summary_lines.append(template.format(pitcher_name=pitcher_name, inning_ordinal=self._get_ordinal(completed_innings)))
+                         order_ctx = {'pitcher_name': pitcher_name, 'inning_ordinal': self._get_ordinal(completed_innings),
+                                      'pitcher_full': (self.current_pitcher_info[pitching_team] or {}).get('name') or pitcher_name,
+                                      'half_lower': prev_half.lower()}
+                         summary_lines.append(self._choose(self.rng_flow, templates, order_ctx).format(**order_ctx))
                      elif runs_scored_this_half == 0:
-                         # Check for consecutive retired streak (impressive enough to mention)
-                         consec = ctx['consecutive_retired']
-                         if consec >= 9 and self.rng_flow.random() < 0.7:
-                             summary_lines.append(self._get_radio_string('inning_outro_streak', ctx))
-                         elif self.rng_flow.random() < 0.5:
+                         if self.rng_flow.random() < 0.5:
                              # Pick situationally appropriate no-score outro
                              had_baserunners = hits_in_inning > 0 or lob > 0 or any(
                                  p['result']['event'] in ('Walk', 'Hit By Pitch', 'HBP', 'Field Error')
@@ -1174,7 +1502,7 @@ class NarrativeRenderer(GameRenderer):
                                  elif self.runners_on_base.get('3B'):
                                      keys.append('inning_outro_no_score_third')
                                  templates = [t for key in keys for t in GAME_CONTEXT['radio_strings'].get(key, [])]
-                                 summary_lines.append(self.rng_color.choice(templates).format(**ctx))
+                                 summary_lines.append(self._choose(self.rng_color, templates, ctx).format(**ctx))
                              else:
                                  summary_lines.append(self._get_radio_string('inning_outro_no_score', ctx))
                      else:
@@ -1205,7 +1533,15 @@ class NarrativeRenderer(GameRenderer):
                                  # "push a run across" after a grand slam
                                  templates = [t.replace('push a run across', 'push {runs_scored_word} across')
                                               for t in templates]
-                             summary_lines.append(self.rng_color.choice(templates).format(**ctx))
+                             summary_lines.append(self._choose(self.rng_color, templates, ctx).format(**ctx))
+
+                     if side_sentence or streak_sentence:
+                         # They are a clean half-inning's outro: no "three up,
+                         # three down" on top of them. A jam he struck his way
+                         # out of is still said.
+                         if is_123 or streak_sentence:
+                             summary_lines = []
+                         summary_lines[:0] = [text for text in (side_sentence, streak_sentence) if text]
 
                      # --- SCORE SUMMARY ---
                      # Skip if outro already includes score info
@@ -1227,14 +1563,22 @@ class NarrativeRenderer(GameRenderer):
                              # "And as we head into the stretch, it remains..."
                              templates += GAME_CONTEXT['radio_strings'].get(key + '_stretch', [])
                          if prev_half == 'Top':
-                             # "Four in the books" only ever ends a full inning.
-                             templates = [t for t in templates if 'in the books' not in t] or templates
-                         summary_lines.append(self.rng_color.choice(templates).format(**ctx))
+                             # "Four in the books" only ever ends a full inning,
+                             # and so does "as we head into the fifth": after
+                             # three and a half the fourth is still being played.
+                             templates = [t for t in templates if 'in the books' not in t
+                                          and 'head into the {next_inning_ordinal}' not in t] or templates
+                         summary_lines.append(self._choose(self.rng_color, templates, ctx).format(**ctx))
 
                      # --- "WE'LL BE BACK" CLOSER ---
                      if half == 'Top':
                          # Full inning break (Bot→Top): use full closing with inning ordinal
-                         summary_lines.append(self._get_radio_string('inning_break_outro', ctx))
+                         closers = GAME_CONTEXT['radio_strings']['inning_break_outro']
+                         if any('as we head into' in text.lower() for text in summary_lines):
+                             # "And as we head into the fifth, it's ... As we go
+                             # into the fifth inning in a moment": said once.
+                             closers = [t for t in closers if not t.startswith('As we go into')] or closers
+                         summary_lines.append(self._choose(self.rng_color, closers, ctx).format(**ctx))
                      else:
                          # Mid-inning break (Top→Bot): simpler closing without "next inning"
                          mid_closers = [
@@ -1244,7 +1588,7 @@ class NarrativeRenderer(GameRenderer):
                              "We'll be back in a moment here on {station_call} and {network_name}."
                          ]
                          mid_closers += GAME_CONTEXT['radio_strings'].get('inning_break_mid_outro', [])
-                         summary_lines.append(self.rng_color.choice(mid_closers).format(**ctx))
+                         summary_lines.append(self._choose(self.rng_color, mid_closers, ctx).format(**ctx))
 
                      summary_text = " ".join(summary_lines)
                      lines.append(summary_text)
@@ -1283,13 +1627,17 @@ class NarrativeRenderer(GameRenderer):
                      # the return never shifts a colour draw.
                      returns = (GAME_CONTEXT['radio_strings']['inning_break_intro']
                                 + GAME_CONTEXT['radio_strings']['inning_break_return'])
-                     return_template = self.rng_color.choice(returns + returning)
-                     intro_template = self.rng_color.choice(plain)
+                     return_template = self._choose(self.rng_color, returns + returning, intro_ctx)
+                     intro_template = self._choose(self.rng_color, plain, intro_ctx)
                      if self._optional('break_return'):
                          if return_template in returning:
                              intro_template = return_template
                          else:
                              add_line(self._sentence_starts(return_template.format(**intro_ctx)))
+                             if pitcher_descriptor and '{pitcher_name}' in return_template:
+                                 # The return brought the new pitcher in: the
+                                 # introduction after it only names him.
+                                 intro_ctx = {**intro_ctx, 'pitcher_name': matchup['pitcher']['fullName']}
                      add_line(self._sentence_starts(intro_template.format(**intro_ctx)))
                      lines.append("")
 
@@ -1299,7 +1647,7 @@ class NarrativeRenderer(GameRenderer):
                         # Rich header with score, venue, due-up info
                         score_away, score_home = self.current_score
                         score_phrase = self._get_natural_score_phrase(score_away, score_home)
-                        next_pitcher_name = ' '.join(play['matchup']['pitcher']['fullName'].split()[1:])
+                        next_pitcher_name = pitcher_descriptor or play['matchup']['pitcher']['fullName']
                         next_batting_team_key = 'away' if about['isTopInning'] else 'home'
                         next_batting_team = self.away_team['name'] if about['isTopInning'] else self.home_team['name']
                         due_up_desc = self._get_due_up_desc(plays, play, next_batting_team_key)
@@ -1345,14 +1693,23 @@ class NarrativeRenderer(GameRenderer):
                          # after the play, and he used to go unannounced ("A
                          # runner on second, one away" out of nowhere).
                          still_there = matchup.get('postOnSecond')
+                         gone_from_second = next(
+                             (movement['runner']['fullName'] for event in play['playEvents']
+                              for movement in (event.get('details', {}).get('runners') or [])
+                              if movement.get('fromBase') == '2B' and movement.get('runner', {}).get('fullName')), None)
                          if self.gameday_data['gameData'].get('broadcast', {}).get('strictFacts'):
                              pass
                          elif still_there and still_there.get('id') != matchup['batter'].get('id'):
                              self.runners_on_base['2B'] = still_there['fullName']
                              add_line(f"Automatic runner on second: {still_there['fullName']} jogs out to take his lead.")
-                         elif matchup.get('splits', {}).get('menOnBase') == 'RISP':
+                         elif gone_from_second:
                              # Gone before the play ended (caught stealing
-                             # third): the feed never names him.
+                             # third): the steal's own movement names him.
+                             self.runners_on_base['2B'] = gone_from_second
+                             add_line(f"Automatic runner on second: {gone_from_second} jogs out to take his lead.")
+                         elif matchup.get('splits', {}).get('menOnBase') == 'RISP':
+                             # Gone before the play ended, in a feed whose
+                             # steal names nobody.
                              self.runners_on_base['2B'] = 'the runner'
                              self._unnamed_runner = True
                              add_line("Automatic runner on second to start the inning.")
@@ -1360,16 +1717,14 @@ class NarrativeRenderer(GameRenderer):
                 current_inning_state = (inning, half)
                 self.outs_tracker = 0
 
-            pitching_team_key = 'home' if about['isTopInning'] else 'away'
-            pitcher_id = matchup['pitcher']['id']
-            prev_info = self.current_pitcher_info[pitching_team_key]
-
-            if prev_info and prev_info['id'] != pitcher_id:
-                 team_name = self.home_team['name'] if about['isTopInning'] else self.away_team['name']
-                 add_line(f"Pitching Change for {team_name}: {matchup['pitcher']['fullName']} replaces {prev_info['name']}.")
-                 lines.append("")
-
             self.current_pitcher_info[pitching_team_key] = {'id': pitcher_id, 'name': matchup['pitcher']['fullName']}
+            if new_pitcher and matchup['pitcher']['fullName'] in ' '.join(lines[lines_at_play_start:]):
+                # The inning's introduction brought him in ("...up against
+                # Ravens' right-handed reliever Dom Fuller"): he is described
+                # once.
+                intro_descriptor = None
+            else:
+                intro_descriptor = pitcher_descriptor
 
             batter_name = matchup['batter']['fullName']
             play_text_blocks = []
@@ -1387,6 +1742,14 @@ class NarrativeRenderer(GameRenderer):
             if bases_dict.get('3B'): runners.append("third")
 
             intro_template = ""
+            # What an introduction will be filled with, for the fitter.
+            intro_team_short = self._get_short_team_name(self.home_team if not about['isTopInning'] else self.away_team)
+            intro_fill = {
+                'batter_name': batter_name, 'team_name': team_name, 'team_short': intro_team_short,
+                'team_short_possessive': intro_team_short + ("'" if intro_team_short.endswith('s') else "'s"),
+                'outs_str': outs_str,
+                'pitcher_name': intro_descriptor or self.current_pitcher_info[pitching_team_key]['name'],
+            }
             prev_play_event = plays[play_idx - 1]['result'].get('event', '') if play_idx > 0 else ''
             prev_same_half = (play_idx > 0 and
                               plays[play_idx - 1]['about'].get('inning') == inning and
@@ -1411,11 +1774,11 @@ class NarrativeRenderer(GameRenderer):
                          if not is_one_hole:
                              banned += ['Batting first', 'top of the']
                          leadoff_pool = [t for t in leadoff_pool if not any(b in t for b in banned)] or leadoff_pool
-                     intro_template = self.rng_flow.choice(leadoff_pool)
+                     intro_template = self._choose(self.rng_flow, leadoff_pool, intro_fill)
                 elif bases_just_cleared:
-                     intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings'].get('batter_intro_bases_cleared', GAME_CONTEXT['narrative_strings']['batter_intro_empty']))
+                     intro_template = self._choose(self.rng_flow, GAME_CONTEXT['narrative_strings'].get('batter_intro_bases_cleared', GAME_CONTEXT['narrative_strings']['batter_intro_empty']), intro_fill)
                 else:
-                     intro_template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_empty'])
+                     intro_template = self._choose(self.rng_flow, GAME_CONTEXT['narrative_strings']['batter_intro_empty'], intro_fill)
 
                 # Fetch position from gameData players if available
                 batter_pos = "batter"
@@ -1428,7 +1791,7 @@ class NarrativeRenderer(GameRenderer):
                     intro_template = intro_template.replace('playing {position}', f'playing {batter_pos.lower()}')
                     batter_pos = re.sub(r'(?i)\b(base|field)$', lambda m: m.group(1) + ('man' if m.group(1).lower() == 'base' else 'er'), batter_pos)
 
-                pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
+                pitcher_name = intro_descriptor or self.current_pitcher_info[pitching_team_key]['name']
                 team_short = self._get_short_team_name(self.home_team if not about['isTopInning'] else self.away_team)
                 intro_txt = intro_template.format(
                     batter_name=batter_name,
@@ -1452,7 +1815,7 @@ class NarrativeRenderer(GameRenderer):
                      base_desc = f"{runners[0]}"
                      runner_desc = f"a runner on {runners[0]}"
 
-                 template = self.rng_flow.choice(GAME_CONTEXT['narrative_strings']['batter_intro_runners'])
+                 template = self._choose(self.rng_flow, GAME_CONTEXT['narrative_strings']['batter_intro_runners'], intro_fill)
                  val_to_use = runner_desc
 
                  if "Runner on {runners_str}" in template:
@@ -1487,7 +1850,7 @@ class NarrativeRenderer(GameRenderer):
                  elif ". {runners_str}" in template:
                      val_to_use = val_to_use[0].upper() + val_to_use[1:]
 
-                 pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
+                 pitcher_name = intro_descriptor or self.current_pitcher_info[pitching_team_key]['name']
                  intro_txt = template.format(
                      batter_name=batter_name,
                      runners_str=val_to_use,
@@ -1520,6 +1883,25 @@ class NarrativeRenderer(GameRenderer):
                                  if event.get('details', {}).get('eventType') == 'offensive_substitution'), None)
             if substitution:
                 play_text_blocks[0] = self._pinch_hitter_intro(substitution, batter_name, about, runners, outs_str)
+
+            if new_pitcher:
+                # Both sentences are built before their gates. A simulated game
+                # always brings him in by name; a fixture says what its
+                # broadcast said.
+                pitching_team = self.home_team if about['isTopInning'] else self.away_team
+                entrance = self._new_pitcher_sentence(
+                    pitching_team, matchup['pitcher'], prev_info['name'], pitcher_descriptor, batter_name,
+                    about, mid_inning=bool(self.plays_in_half_inning))
+                season_line = self._reliever_season_line(pitching_team_key, matchup['pitcher'])
+                said_so_far = ' '.join(lines[lines_at_play_start:] + play_text_blocks[:1])
+                # By his full name: the break's summary may have just named
+                # the other side's pitcher, and last names can be shared.
+                named = matchup['pitcher']['fullName'] in said_so_far
+                if not named and (self._optional('new_pitcher_intro') or not self._strict()):
+                    play_text_blocks[0] = entrance + ' ' + play_text_blocks[0]
+                    named = True
+                if season_line and named and self._optional('new_pitcher_season'):
+                    play_text_blocks.append(season_line)
 
             # Append prior at-bat recap after batter intro
             # recap_val was captured right after reseed (before inning transitions)
@@ -1948,17 +2330,18 @@ class NarrativeRenderer(GameRenderer):
                     templates = strikeout_templates(pool_key, terminal_details, pitch_batter_hand)
                     if templates and not post_outcome_text and self.rng_play.random() < 0.65:
                         pitch_type = self._simplify_pitch_type(terminal_details.get('type', {}).get('description', 'pitch'))
-                        k_template = self.rng_play.choice(templates)
-                        if not k_template.startswith('{pitch_type}'):
-                            pitch_type = pitch_type.lower()
-                        outcome_text = self._with_pitch_lead_in(last_pitch_context, k_template.format(
-                            batter_name=batter_name, pitch_type=pitch_type,
-                            out_context_str=out_context_str, result_outs_word=result_outs_word,
-                            result_outs=result_outs,
-                            pitch_type_short=get_pitch_type_short(pitch_type),
-                            pitch_type_family=get_pitch_type_family(pitch_type),
-                            batter_last_name=self.gameday_data.get('gameData', {}).get('players', {}).get(
-                                f"ID{matchup['batter']['id']}", {}).get('lastName') or batter_name.split()[-1]))
+                        def k_fill(spoken_type):
+                            return dict(
+                                batter_name=batter_name, pitch_type=spoken_type,
+                                out_context_str=out_context_str, result_outs_word=result_outs_word,
+                                result_outs=result_outs,
+                                pitch_type_short=get_pitch_type_short(spoken_type),
+                                pitch_type_family=get_pitch_type_family(spoken_type),
+                                batter_last_name=self.gameday_data.get('gameData', {}).get('players', {}).get(
+                                    f"ID{matchup['batter']['id']}", {}).get('lastName') or batter_name.split()[-1])
+                        k_template = self._choose(self.rng_play, templates, k_fill(pitch_type.lower()))
+                        k_fill = k_fill(pitch_type if k_template.startswith('{pitch_type}') else pitch_type.lower())
+                        outcome_text = self._with_pitch_lead_in(last_pitch_context, k_template.format(**k_fill))
                         template_found = True
                 if not template_found and k_type == 'swinging' and self.verbose and not post_outcome_text:
                     pitch_type = self._simplify_pitch_type(terminal_details.get('type', {}).get('description', 'pitch'))
@@ -2063,7 +2446,7 @@ class NarrativeRenderer(GameRenderer):
                  valid_templates = [t for t in templates if not ("{last_pitch_context}" in t and not last_pitch_context)]
                  if not valid_templates: valid_templates = ["{batter_name} draws a walk."]
 
-                 chosen = self.rng_play.choice(valid_templates)
+                 chosen = self._choose(self.rng_play, valid_templates, walk_context)
                  outcome_text = chosen.format(**walk_context)
                  if last_pitch_context and "{last_pitch_context}" not in chosen:
                      # A summary like "That's a four-pitch walk for X." must
@@ -2292,7 +2675,7 @@ class NarrativeRenderer(GameRenderer):
                                   .replace('{team_name_short} extend their lead to', '{trailing_team_short} cut the lead to')
                                   .replace('{team_name} now lead', '{trailing_team} make it')
                                  for t in GAME_CONTEXT['radio_strings']['score_update_extend']]
-                         score_lines.append(self.rng_color.choice(pool).format(**ctx))
+                         score_lines.append(self._choose(self.rng_color, pool, ctx).format(**ctx))
                     elif old_away != old_home and old_lead_team == lead_team:
                          score_lines.append(self._get_radio_string('score_update_extend', ctx))
                     else:
@@ -2312,6 +2695,10 @@ class NarrativeRenderer(GameRenderer):
                         play_text_blocks[-1] = last_block + " " + score_update_text + "."
                 else:
                     play_text_blocks.append(score_update_text[0].upper() + score_update_text[1:] + ".")
+
+            tally = self._strikeout_tally_sentence(play, outcome)
+            if tally:
+                play_text_blocks.append(tally)
 
             self.current_score = (new_away, new_home)
             self.outs_tracker = play['count']['outs']
@@ -2382,31 +2769,39 @@ class NarrativeRenderer(GameRenderer):
              lose_hits = home_hits
              lose_errors = home_errors
 
-        summary_lines = []
+        # The postgame is its own reseed point: its draws are fitted to the
+        # words after the last out, not to the last play's call.
+        self._reseed_for_point(self.gameday_data['gameData'], "postgame", '', "postgame")
+        home_won = home_runs > away_runs
+        winner, loser = (self.home_team, self.away_team) if home_won else (self.away_team, self.home_team)
         ctx = {
             'win_team': win_team, 'win_runs': win_runs, 'win_hits': win_hits, 'win_errors': win_errors,
             'lose_team': lose_team, 'lose_runs': lose_runs, 'lose_hits': lose_hits, 'lose_errors': lose_errors,
+            'win_short': self._get_short_team_name(winner), 'lose_short': self._get_short_team_name(loser),
+            'location': location_context['location'], 'venue': venue,
+            'final_score': (f"{self._score_word(max(home_runs, away_runs))} to "
+                            f"{self._score_word(min(home_runs, away_runs))}"),
             'network_name': getattr(self, '_network_name', self._network_with_article(
                 GAME_CONTEXT.get('network_name', 'The Pacific Coast Baseball Network'))),
             'station_call': getattr(self, '_station_call', GAME_CONTEXT.get('station_call', 'KSLP')),
         }
         for key in ('win_runs', 'win_hits', 'win_errors', 'lose_runs', 'lose_hits', 'lose_errors'):
             ctx[key] = self._score_word(ctx[key], zero='no')
-        summary_text = self._get_radio_string('game_summary', ctx)
+        # "So the Tigers take this one at home by a score of five to nothing."
+        final_score = self._get_radio_string('final_score_home' if home_won else 'final_score_road', ctx)
+        if self._optional('final_score'):
+            lines.append(final_score)
+        # The pitchers come before the line score, as the hosts have them.
+        pitching_lines = self._postgame_pitching_sentences('home' if home_won else 'away')
+        if pitching_lines:
+            lines.append(' '.join(pitching_lines))
+        summary_pool = GAME_CONTEXT['radio_strings']['game_summary'] + (
+            GAME_CONTEXT['radio_strings']['game_summary_home_win'] if home_won else [])
+        summary_text = self._choose(self.rng_color, summary_pool, ctx).format(**ctx)
         # "one runs on one hits" -> "one run on one hit"
         summary_text = re.sub(r'\bone (run|hit|error)s\b', r'one \1', summary_text)
-
-
-        outro_text = self._get_radio_string('outro', ctx)
-
-
-
-
-        if summary_text:
-             lines.append(summary_text)
-        if outro_text:
-             lines.append(outro_text)
-
+        lines.append(summary_text)
+        lines.append(self._get_radio_string('outro', ctx))
 
         lines.append("")
 

@@ -408,3 +408,137 @@ class TestPitchArsenals(SimulationBatch):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestLeftoverTells(SimulationBatch):
+    """Small things a reader of several simulated games notices."""
+
+    def test_linescore_has_no_inning_that_was_not_played(self):
+        """A visitors' win in nine left a 0-0 tenth in the linescore."""
+        visitors_in_nine = 0
+        for seed, data in self.games.items():
+            played = max(p['about']['inning'] for p in self.all_plays[seed])
+            innings = data['liveData']['linescore']['innings']
+            self.assertEqual([i['num'] for i in innings], list(range(1, played + 1)), f"seed {seed}")
+            final = self.all_plays[seed][-1]['result']
+            visitors_in_nine += played == 9 and final['awayScore'] > final['homeScore']
+        self.assertGreater(visitors_in_nine, 20)
+
+    def test_steals_name_their_runner(self):
+        steals = 0
+        for seed, plays in self.all_plays.items():
+            for play in plays:
+                for event in play['playEvents']:
+                    details = event.get('details', {})
+                    if details.get('eventType') not in ('stolen_base', 'caught_stealing'):
+                        continue
+                    steals += 1
+                    (movement,) = details['runners']
+                    self.assertTrue(movement['runner']['fullName'] and movement['runner']['id'])
+                    self.assertEqual(movement['isOut'], details['eventType'] == 'caught_stealing')
+                    self.assertEqual(int(movement['toBase'][0]), int(movement['fromBase'][0]) + 1)
+                    self.assertEqual(movement['throw'], 'in_time' if movement['isOut'] else 'not_in_time')
+        self.assertGreater(steals, 200)
+
+    def test_automatic_runner_caught_stealing_is_announced_by_name(self):
+        """Caught stealing third before the inning's first play ends: no
+        other record of the play names him."""
+        from baseball import BaseballSimulator
+        game = BaseballSimulator(TEAMS["BAY_BOMBERS"], TEAMS["PC_PILOTS"], game_seed=9000)
+        game.play_game()
+        data = game.gameday_data
+        play = next(p for p in data['liveData']['plays']['allPlays'] if p['about']['isTopInning'])
+        runner = play['matchup']['batter']
+        play = {**play, 'about': {**play['about'], 'inning': 10, 'isTopInning': True},
+                'matchup': {k: v for k, v in play['matchup'].items() if not k.startswith('postOn')},
+                'runners': [r for r in play['runners'] if r['movement'].get('start') != '2B']}
+        play['matchup']['splits'] = {'menOnBase': 'RISP'}
+        pitch = next(e for e in play['playEvents'] if e.get('isPitch'))
+        steal = {'isPitch': False, 'index': 99, 'count': dict(pitch['count']),
+                 'details': {'description': 'Caught Stealing 3B', 'code': 'X', 'eventType': 'caught_stealing',
+                             'runners': [game._steal_movement({'id': 1, 'legal_name': 'Otis Runner'}, 3, True)]}}
+        play['playEvents'] = [pitch, steal] + [e for e in play['playEvents'] if e is not pitch]
+        data = {**data, 'liveData': {**data['liveData'], 'plays': {'allPlays': [play]}}}
+        text = NarrativeRenderer(data, seed=1).render()
+        self.assertIn('Automatic runner on second: Otis Runner jogs out to take his lead.', text)
+        self.assertNotIn('Automatic runner on second to start the inning.', text)
+        self.assertIn('Otis Runner is caught stealing third.', text)
+
+    def test_head_into_the_next_inning_only_after_a_full_inning(self):
+        """"And as we head into the fifth" was said after three and a half,
+        and again in the sign-off ("As we go into the fifth inning")."""
+        said = 0
+        ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', '10th',
+                    '11th', '12th', '13th', '14th', '15th']
+        for seed in list(self.games)[:60]:
+            renderer = NarrativeRenderer(self.games[seed], seed=seed)
+            lines = renderer.render().split('\n')
+            for index, play in enumerate(self.all_plays[seed]):
+                low, high = renderer._play_line_map[index]
+                for line in lines[low:high]:
+                    match = re.search(r'as we head into the (?!stretch)(\w+),', line)
+                    if not match:
+                        continue
+                    said += 1
+                    # The break it closes is the one before the top of that inning.
+                    self.assertTrue(play['about']['isTopInning'], f"seed {seed}: {line}")
+                    self.assertEqual(match.group(1), ordinals[play['about']['inning'] - 1], f"seed {seed}: {line}")
+                    self.assertNotIn('As we go into', line, f"seed {seed}")
+        self.assertGreater(said, 10)
+
+    def test_a_pitching_change_is_spoken_once_before_the_new_man_pitches(self):
+        changes = 0
+        for seed in list(self.games)[:40]:
+            data = self.games[seed]
+            renderer = NarrativeRenderer(data, seed=seed)
+            text = renderer.render()
+            self.assertNotIn('Pitching Change', text)
+            self.assertNotRegex(text, r'\breplaces\b')
+            lines = text.split('\n')
+            current = {}
+            for index, play in enumerate(self.all_plays[seed]):
+                pitcher, top = play['matchup']['pitcher'], play['about']['isTopInning']
+                if top in current and current[top] != pitcher['id']:
+                    changes += 1
+                    low, high = renderer._play_line_map[index]
+                    block = [l for l in lines[low:high] if not l.startswith('[TTS')]
+                    intro = '\n'.join(block).split('...')[0]
+                    described = len(re.findall(rf"(?i)(?:reliever|relief pitcher|closer|starting pitcher),? "
+                                               rf"{re.escape(pitcher['fullName'])}|{re.escape(pitcher['fullName'])} "
+                                               rf"(?:will take the mound|is the new)|that is {re.escape(pitcher['fullName'])}",
+                                               intro))
+                    self.assertEqual(described, 1, f"seed {seed} play {index}: {intro}")
+                current[top] = pitcher['id']
+        self.assertGreater(changes, 100)
+
+    def test_closer_is_called_one_only_when_he_is(self):
+        data = self.games[9000]
+        roles = {p['fullName']: p.get('pitcherRole') for p in data['gameData']['players'].values()
+                 if p['primaryPosition']['abbreviation'] == 'P'}
+        self.assertEqual(roles['Victor Stone'], 'closer')
+        self.assertEqual(roles['Joe Gibson'], 'starter')
+        self.assertEqual(roles['Colin Miller'], 'reliever')
+        for seed in list(self.games)[:40]:
+            text = NarrativeRenderer(self.games[seed], seed=seed).render()
+            for name in re.findall(r'closer,? ([A-Z]\w+ [A-Z]\w+)', text):
+                self.assertEqual(roles.get(name), 'closer', f"seed {seed}: {name}")
+
+    def test_decisions_name_pitchers_of_the_right_teams(self):
+        saves = 0
+        for seed, data in self.games.items():
+            plays = self.all_plays[seed]
+            final = plays[-1]['result']
+            home_won = final['homeScore'] > final['awayScore']
+            decisions = data['liveData']['decisions']
+            winners = {p['matchup']['pitcher']['id'] for p in plays if p['about']['isTopInning'] == home_won}
+            losers = {p['matchup']['pitcher']['id'] for p in plays if p['about']['isTopInning'] != home_won}
+            self.assertIn(decisions['winner']['id'], winners)
+            self.assertIn(decisions['loser']['id'], losers)
+            if 'save' in decisions:
+                saves += 1
+                self.assertIn(decisions['save']['id'], winners)
+                self.assertNotEqual(decisions['save']['id'], decisions['winner']['id'])
+                self.assertEqual(decisions['save']['id'],
+                                 [p for p in plays if p['about']['isTopInning'] == home_won][-1]['matchup']['pitcher']['id'])
+        # Real: a save in roughly half of all games.
+        self.assertTrue(0.25 <= saves / len(self.games) <= 0.7, saves / len(self.games))
