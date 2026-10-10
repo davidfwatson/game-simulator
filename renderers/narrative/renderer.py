@@ -1329,6 +1329,7 @@ class NarrativeRenderer(GameRenderer):
 
                 self.plays_in_half_inning = []
                 self.runners_on_base = {'1B': None, '2B': None, '3B': None}
+                self._unnamed_runner = False
                 self._prev_matchup_key = None
 
                 if inning >= 10:
@@ -1338,6 +1339,23 @@ class NarrativeRenderer(GameRenderer):
                              self.runners_on_base['2B'] = runner_name
                              add_line(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
                              break
+                     else:
+                         # The feed lists only runners who move: when the first
+                         # batter strikes out the runner is still on second
+                         # after the play, and he used to go unannounced ("A
+                         # runner on second, one away" out of nowhere).
+                         still_there = matchup.get('postOnSecond')
+                         if self.gameday_data['gameData'].get('broadcast', {}).get('strictFacts'):
+                             pass
+                         elif still_there and still_there.get('id') != matchup['batter'].get('id'):
+                             self.runners_on_base['2B'] = still_there['fullName']
+                             add_line(f"Automatic runner on second: {still_there['fullName']} jogs out to take his lead.")
+                         elif matchup.get('splits', {}).get('menOnBase') == 'RISP':
+                             # Gone before the play ended (caught stealing
+                             # third): the feed never names him.
+                             self.runners_on_base['2B'] = 'the runner'
+                             self._unnamed_runner = True
+                             add_line("Automatic runner on second to start the inning.")
 
                 current_inning_state = (inning, half)
                 self.outs_tracker = 0
@@ -1404,6 +1422,11 @@ class NarrativeRenderer(GameRenderer):
                 batter_id = f"ID{matchup['batter']['id']}"
                 if 'players' in self.gameday_data['gameData'] and batter_id in self.gameday_data['gameData']['players']:
                     batter_pos = self.gameday_data['gameData']['players'][batter_id]['primaryPosition']['name']
+                if not self.gameday_data['gameData'].get('broadcast', {}).get('strictFacts'):
+                    # "bases empty for second base Alex Chase" -> "second baseman"
+                    # (but still "playing second base")
+                    intro_template = intro_template.replace('playing {position}', f'playing {batter_pos.lower()}')
+                    batter_pos = re.sub(r'(?i)\b(base|field)$', lambda m: m.group(1) + ('man' if m.group(1).lower() == 'base' else 'er'), batter_pos)
 
                 pitcher_name = self.current_pitcher_info[pitching_team_key]['name']
                 team_short = self._get_short_team_name(self.home_team if not about['isTopInning'] else self.away_team)
@@ -2317,6 +2340,9 @@ class NarrativeRenderer(GameRenderer):
             if current_group:
                 collapsed.append(" ".join(current_group))
 
+            if getattr(self, '_unnamed_runner', False):
+                # The unnamed automatic runner, at the start of a sentence.
+                collapsed = [re.sub(r'([.!?] )the runner\b', r'\1The runner', block) for block in collapsed]
             lines.append("\n".join(collapsed))
             lines.append("")
             self._play_line_map[play_idx] = (

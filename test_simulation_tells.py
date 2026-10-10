@@ -355,6 +355,27 @@ class TestWhoFieldsWhat(SimulationBatch):
         self.assertTrue(1.1 <= total / len(self.games) <= 2.0, total / len(self.games))
 
 
+class TestNarrationOfSimulatedGames(SimulationBatch):
+    def test_automatic_runner_is_announced_every_extra_half_inning(self):
+        """The feed lists only runners who move, so when the first batter of
+        an extra inning struck out the runner on second went unannounced."""
+        checked = 0
+        for seed, plays in self.all_plays.items():
+            halves = {(p['about']['inning'], p['about']['isTopInning']) for p in plays if p['about']['inning'] >= 10}
+            if not halves or checked >= 12:
+                continue
+            text = NarrativeRenderer(self.games[seed], seed=seed).render()
+            self.assertEqual(text.count('Automatic runner on second'), len(halves), f"seed {seed}")
+            checked += 1
+        self.assertGreater(checked, 3)
+
+    def test_batter_intros_name_the_player_not_the_place(self):
+        for seed in list(SEEDS)[:25]:
+            text = NarrativeRenderer(self.games[seed], seed=seed).render()
+            self.assertNotRegex(text, r"for (first|second|third) base [A-Z]|for (left|center|right) field [A-Z]")
+            self.assertNotRegex(text, r"playing \w+ (baseman|fielder)")
+
+
 class TestPitchArsenals(SimulationBatch):
     """Real, distinct pitch types thrown in a game: starters 4-6 (mean 5.0),
     relievers 2-4 (mean 3.5), 5 or more from a reliever one time in six."""

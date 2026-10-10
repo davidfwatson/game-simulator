@@ -670,6 +670,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         final_description = re.sub(r'\b(throws|fires|toss it|tosses) to first\b',
                                    r'\1 to the second baseman covering first', final_description, count=1)
     if tracked:
+        # "Hit into deep the left-center gap"
+        final_description = re.sub(r'\bdeep the ((left|right)-center gap)', r'the \1', final_description)
         # "tracks it down down the right field line"; "Popped up, left."
         final_description = re.sub(r'\bdown down the\b', 'down the', final_description)
         final_description = re.sub(r'\b(left|right) field side\b', r'\1 side', final_description)
