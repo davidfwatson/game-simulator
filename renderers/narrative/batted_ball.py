@@ -80,6 +80,60 @@ def with_derived_spot(hit_data, outcome):
     return {**hit_data, **facts} if facts else hit_data
 
 
+INFIELDERS = {'P': 'the pitcher', 'C': 'the catcher', '1B': 'the first baseman', '2B': 'the second baseman',
+              '3B': 'the third baseman', 'SS': 'the shortstop'}
+INFIELD_CODES = {'1': 'P', '2': 'C', '3': '1B', '4': '2B', '5': '3B', '6': 'SS'}
+# Templates that only fit a ball an infielder was beaten by.
+BY_INFIELDER = re.compile(r'past a diving \{fielder_name\}|squeak past \{fielder_name\}|'
+                          r'\{fielder_name\} will not get there|roll into the outfield', re.I)
+# Contact words for a ball in the air; a ground ball is none of them.
+AIRBORNE = re.compile(r'\blined\b|\bliner\b|line drive|drops? in\b|falls? in\b|in the air|fly ball|'
+                      r'bloop|looper|flare|lifted|lofted', re.I)
+# A weakly hit ball: not what a hard-hit one is called.
+WEAK_CONTACT = re.compile(r'tapper|\btapped\b|dribbler|nubber|squibber|slow roller|off the plate', re.I)
+
+
+def infield_position(hit_data):
+    """'SS' when an infielder fielded the ball (location 'SS' or '6'), else None."""
+    location = str((hit_data or {}).get('location') or '')
+    location = INFIELD_CODES.get(location, location)
+    return location if location in INFIELDERS else None
+
+
+def spray_angle(hit_data):
+    """Degrees off straightaway center (negative to left) from ``coordinates``."""
+    coordinates = (hit_data or {}).get('coordinates') or {}
+    x, y = coordinates.get('coordX'), coordinates.get('coordY')
+    if x is None or y is None:
+        return None
+    return math.degrees(math.atan2(x - HOME_X, HOME_Y - y))
+
+
+def passed_infielder(hit_data):
+    """The infielder a ball through the infield got by ('the shortstop').
+
+    A grounder into the outfield, or a liner down a line: such a ball goes
+    past the second baseman, never "past the right fielder". None when the
+    ball stayed in the infield, was in the air, or its side is unrecorded.
+    """
+    hit_data = hit_data or {}
+    lane, trajectory = hit_data.get('lane'), hit_data.get('trajectory')
+    if infield_position(hit_data):
+        return None
+    if trajectory != 'ground_ball' and not (trajectory == 'line_drive' and lane in LINE_SIDES):
+        return None
+    if lane in LINE_SIDES:
+        return 'the third baseman' if LINE_SIDES[lane] == 'left' else 'the first baseman'
+    angle = spray_angle(hit_data)
+    if angle is None:
+        return {'left_side': 'the shortstop', 'right_side': 'the second baseman'}.get(lane)
+    if angle <= -30:
+        return 'the third baseman'
+    if angle >= 30:
+        return 'the first baseman'
+    return 'the shortstop' if angle < 0 else 'the second baseman'
+
+
 def has_spot_facts(hit_data):
     return any((hit_data or {}).get(name) for name in HIT_SPOT_FIELDS)
 

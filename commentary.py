@@ -705,6 +705,25 @@ GAME_CONTEXT = {
             "infield_knockdown": [
                 "Hard grounder {direction}. {fielder_name} is able to knock it down, but he will not have a play."
             ],
+            "infield_hit": [
+                "Slow roller {direction}. {fielder_name} charges, but the throw is not in time. An infield hit for {batter_name}.",
+                "Slow roller {direction}, and {batter_name} is going to beat it out for an infield single.",
+                "Dribbler {direction}. {fielder_name} barehands it, and the throw is late. {batter_name} beats it out.",
+                "Chopper {direction}. {fielder_name} has to wait on it, and {batter_name} beats it out for an infield hit.",
+                "Grounder {direction}. Tough play for {fielder_name}. The throw is not in time.",
+                "Ground ball {direction}. {fielder_name} has it, but there's no play. That's an infield single for {batter_name}.",
+                "Hit on the ground {direction}. {fielder_name} gets to it, but he has no play. An infield hit.",
+                "Bouncer {direction}. {fielder_name} fields it and throws to first, not in time. An infield single for {batter_name}.",
+                "Chopped {direction}. {fielder_name} comes up throwing, and {batter_name} beats the throw.",
+            ],
+            "infield_hit_1b": [
+                "Slow roller {direction}. {fielder_name} has it, but {batter_name} beats the pitcher to the bag.",
+                "Dribbler {direction}. {fielder_name} charges, and he has no play. An infield hit for {batter_name}.",
+                "Grounder {direction}. {fielder_name} gloves it, but nobody is covering the bag. An infield hit for {batter_name}.",
+                "Chopper {direction}. {fielder_name} flips to the pitcher covering, not in time. An infield single for {batter_name}.",
+                "Hit on the ground {direction}. {fielder_name} dives to stop it, and {batter_name} beats it out.",
+                "Ground ball {direction}. {fielder_name} ranges to his right for it, and the toss to the pitcher covering is late.",
+            ],
             "throwing_error": [
                 "Grounder {direction}. The throw to first sails over the bag, and {batter_name} will scoot up to second base safely."
             ],

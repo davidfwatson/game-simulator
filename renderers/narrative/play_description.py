@@ -1,7 +1,10 @@
 import re
 from commentary import GAME_CONTEXT
 from .helpers import simplify_pitch_type
-from .batted_ball import gate_templates, has_spot_facts, spot_direction, supported_claims, with_derived_spot
+from .batted_ball import (
+    AIRBORNE, BY_INFIELDER, INFIELDERS, LINE_SIDES, WEAK_CONTACT, gate_templates, has_spot_facts,
+    infield_position, passed_infielder, spot_direction, supported_claims, with_derived_spot,
+)
 
 POS_NUMBERS = {'P': 1, 'C': 2, '1B': 3, '2B': 4, '3B': 5, 'SS': 6, 'LF': 7, 'CF': 8, 'RF': 9}
 
@@ -295,6 +298,21 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             cat = 'popup_error'
 
     strict = renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')
+    # A hit on the ground is described as one: beaten out in the infield, or
+    # through it and past an infielder, never "lined to short" or a dribbler
+    # that gets "past the right fielder".
+    # Only for a tracked ball (a simulated or real feed, with coordinates): a
+    # transcript ledger's location is the direction the hosts gave, not who
+    # fielded it.
+    tracked = not strict and bool(hit_data.get('coordinates'))
+    is_hit = template_outcome in ('Single', 'Double', 'Triple')
+    ground_hit = tracked and is_hit and hit_data.get('trajectory') == 'ground_ball' and not is_bunt
+    infield_pos = infield_position(hit_data) if hit_data.get('trajectory') == 'ground_ball' and tracked else None
+    ground_single = ground_hit and template_outcome == 'Single' and not cat_override
+    if ground_single:
+        # The first baseman doesn't throw to first: he races the batter or
+        # flips to the pitcher covering.
+        cat = 'infield_hit_1b' if infield_pos == '1B' else 'infield_hit' if infield_pos else 'grounder'
     if (template_outcome == 'Flyout' and fielder_pos in ('P', 'C', '1B', '2B', '3B', 'SS')
             and not strict):
         # An infielder doesn't catch a ball "on the warning track" or "deep to
@@ -307,6 +325,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         specific_templates = outcome_templates.get(cat, [])
         if not specific_templates:
             specific_templates = outcome_templates.get('default', [])
+
+        if ground_single and cat == 'grounder':
+            # "Tough play ... the throw is not in time" is an infield hit.
+            specific_templates = [t for t in specific_templates + outcome_templates.get('ground_ball', [])
+                                  if 'Tough play' not in t]
 
         if template_outcome == 'Double' and cat == 'default' and not strict:
             # 13 of the 18 stock doubles reach the wall or the corner; judges
@@ -382,7 +405,18 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if has_spot_facts(hit_data):
         # A recorded depth or lane says where the ball went more exactly
         # than the fielder's position ("down the left field line").
-        direction, direction_noun = spot_direction(hit_data, template_outcome, direction, direction_noun)
+        spot = spot_direction(hit_data, template_outcome, direction, direction_noun)
+        fielded_by = fielder_pos if fielder_pos in infield_nouns else infield_pos
+        if tracked and fielded_by in infield_nouns and hit_data.get('trajectory') == 'ground_ball':
+            # An infielder fielded it: the lane can say how it got to him
+            # ("up the middle", "down the third base line"), but the ball is
+            # still "to short", not "to center field" or "through the left side".
+            if fielded_by not in ('P', 'C') and (hit_data.get('lane') in LINE_SIDES or hit_data.get('lane') == 'middle'):
+                direction = spot[0]
+            if direction_noun.endswith('field'):
+                direction_noun = infield_nouns[fielded_by]
+        else:
+            direction, direction_noun = spot
 
     # Strip "deep " prefix to avoid "deep deep center field" in templates
     if direction_noun.startswith("deep "):
@@ -435,6 +469,26 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
                      or gate_templates(GAME_CONTEXT.get('unlocated_contact', {}).get(template_outcome, []), supported))
         specific_templates = gated or specific_templates
 
+    infielder = passed_infielder(hit_data) if is_hit and tracked else None
+    if specific_templates and is_hit and tracked:
+        if not infielder:
+            # Only a ball through the infield gets "past a diving" infielder
+            # and "rolls into the outfield".
+            specific_templates = [t for t in specific_templates if not BY_INFIELDER.search(t)] or specific_templates
+        if ground_hit:
+            specific_templates = [t for t in specific_templates if not AIRBORNE.search(t)] or specific_templates
+    if specific_templates and tracked and hit_data.get('depth') in ('deep', 'warning_track', 'wall'):
+        # Nobody is "racing in" for a ball hit deep.
+        specific_templates = [t for t in specific_templates
+                              if not re.search(r'\b(racing|drifting|jogging|charging) in\b', t)] or specific_templates
+    if (specific_templates and tracked and template_outcome == 'Pop Out'
+            and not re.fullmatch(r'(shallow )?(left|right)( field)?', direction_noun)):
+        # "Popped up on the infield, back to the mound side"
+        specific_templates = [t for t in specific_templates if '{direction_noun}' not in t] or specific_templates
+    if specific_templates and tracked and hit_data.get('hardness') == 'hard':
+        # A 105 mph ground ball is no "tapper" for the fielder to charge.
+        specific_templates = [t for t in specific_templates if not WEAK_CONTACT.search(t)] or specific_templates
+
     # Highlight-reel plays are rare: two "spectacular catch"es in three
     # innings read as a template firing. Keep them ~25 balls in play apart.
     renderer._balls_in_play = getattr(renderer, '_balls_in_play', 0) + 1
@@ -449,7 +503,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
                               if not (template_outcome == 'Triple' and t.startswith('Blooper'))
                               and 'for the force. He fires to second' not in t] or specific_templates
 
-    if specific_templates and (cat == "bunt" or renderer.rng_flow.random() < 0.8):
+    if specific_templates and (cat == "bunt" or ground_single or renderer.rng_flow.random() < 0.8):
         template = renderer.rng_play.choice(specific_templates)
 
     orig_pitch_type = pitch_details.get('type', 'pitch')
@@ -490,6 +544,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
          if not template: template = renderer.rng_play.choice(specific_templates)
          if result_outs and '{out_context_str}' in template:
              context['out_context_str'] = renderer._out_context(result_outs, play)
+         if is_hit and tracked and not fielder_name:
+             if infielder and BY_INFIELDER.search(template):
+                 context['fielder_name'] = infielder
+             elif infield_pos:
+                 context['fielder_name'] = INFIELDERS[infield_pos]
          final_description = prefix + template.format(**context)
          if re.search(r'spectacular|diving|leaping|great pick|backhanded|on the warning track', template, re.I):
              renderer._last_highlight = renderer._balls_in_play
@@ -530,6 +589,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         # The first baseman can't throw to himself: it's a toss to the pitcher covering (3-1).
         final_description = re.sub(r'\b(fires|throws|flips|tosses|shovels|underhands|lobs)( it)? to first\b',
                                    r'\1\2 to the pitcher covering first', final_description, count=1)
+    if tracked:
+        # "tracks it down down the right field line"; "Popped up, left."
+        final_description = re.sub(r'\bdown down the\b', 'down the', final_description)
+        final_description = re.sub(r'\b(left|right) field side\b', r'\1 side', final_description)
+        final_description = re.sub(r'\b(Popped up|Pop fly), (left|right)\.', r'\1, \2 side.', final_description)
     # A template that starts a sentence with {fielder_name} ("the fielder
     # racing back") needs a capital.
     final_description = re.sub(r'([.!?] )(the )', lambda m: m.group(1) + 'The ', final_description)
@@ -564,8 +628,12 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
              if batter_name in final_description and status_str.startswith(batter_name):
                  rest = status_str[len(batter_name):]
                  # "Kramer heading for second" -> keep a name; "He heading" isn't English.
-                 status_str = (batter_last_name if rest.startswith(" heading") else "He") + rest
-             final_description += " " + status_str
+                 status_str = (batter_last_name if re.match(r" \w+ing\b", rest) else "He") + rest
+                 if rest.strip() in final_description:
+                     # "...will be aboard with a stand-up double. He will be
+                     # aboard with a stand-up double."
+                     status_str = ""
+             final_description = (final_description + " " + status_str).rstrip()
 
     return final_description
 

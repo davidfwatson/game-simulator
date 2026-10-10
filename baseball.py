@@ -1163,6 +1163,10 @@ class BaseballSimulator:
                 if pitch_outcome_text == "foul" or balls == 4:
                     # On ball four the runner is waved down (or forced): no steal.
                     pass
+                elif strikes == 3 and self.outs >= 2:
+                    # Strike three is the third out: the inning is over, and
+                    # no steal or caught stealing is scored behind it.
+                    pass
                 else:
                     caught_stealing = self._resolve_steal_attempt(steal_attempt_base, play_events, balls, strikes)
                     if caught_stealing and self.outs >= 3:

@@ -560,6 +560,12 @@ class NarrativeRenderer(GameRenderer):
         tail = f"{self._score_word(high)} nothing" if low == 0 else f"{self._score_word(high)} to {self._score_word(low)}"
         return f"The {lead} lead the {trail} {tail}"
 
+    @staticmethod
+    def _sentence_starts(text):
+        """Capitalize a sentence a lowercase phrase opens ("...here at
+        Waterfront Park. tied at two and..."); an ellipsis is no sentence end."""
+        return re.sub(r'(?<=[a-z][.!?] )[a-z]', lambda m: m.group().upper(), text)
+
     def _get_natural_score_phrase(self, score_away, score_home):
         """Get a natural language score phrase for intros and recaps.
 
@@ -719,9 +725,13 @@ class NarrativeRenderer(GameRenderer):
             'Forceout': 'grounded out',
         }
 
+        def scored_for(entry):
+            return bool(entry['scored'] and entry['event'] in (
+                'Single', 'Double', 'Triple', 'Walk', 'Hit By Pitch', 'HBP', 'Field Error'))
+
         def verb_for(entry):
             v = EVENT_VERBS.get(entry['event'], 'reached')
-            if entry['scored'] and entry['event'] in ('Single', 'Double', 'Triple', 'Walk', 'Hit By Pitch', 'HBP', 'Field Error'):
+            if scored_for(entry):
                 v += ' and scored a run'
             return v
 
@@ -736,6 +746,20 @@ class NarrativeRenderer(GameRenderer):
         e1, e2 = entries
         v1, v2 = verb_for(e1), verb_for(e2)
         when1, when2 = self._when(e1['inning']), self._when(e2['inning'])
+        base1 = EVENT_VERBS.get(e1['event'], 'reached')
+        if base1 == EVENT_VERBS.get(e2['event'], 'reached'):
+            # The same result twice: "struck out in the first and again in
+            # the fourth", never "had a base hit and had a base hit in the third".
+            counted = re.match(r'had an? (.+)$', base1)
+            if when1 == when2:
+                twice = f"had two {counted.group(1)}s" if counted else f"{base1} twice"
+                return f"{batter_last_name} {twice} {when1}."
+            if scored_for(e1) == scored_for(e2):
+                return f"{batter_last_name} {v1} {when1} and {'another' if counted else 'again'} {when2}."
+            again = f"had another {counted.group(1)}" if counted else f"{base1} again"
+            if scored_for(e2):
+                again += ' and scored a run'
+            return f"{batter_last_name} {v1} {when1} and {again} {when2}."
         if when1 == when2:
             return f"{batter_last_name} {v1} and {v2} {when1}."
         return f"{batter_last_name} {v1} {when1} and {v2} {when2}."
@@ -1265,8 +1289,8 @@ class NarrativeRenderer(GameRenderer):
                          if return_template in returning:
                              intro_template = return_template
                          else:
-                             add_line(return_template.format(**intro_ctx))
-                     add_line(intro_template.format(**intro_ctx))
+                             add_line(self._sentence_starts(return_template.format(**intro_ctx)))
+                     add_line(self._sentence_starts(intro_template.format(**intro_ctx)))
                      lines.append("")
 
                 else:
@@ -1295,9 +1319,9 @@ class NarrativeRenderer(GameRenderer):
                             'score_lead': self._score_lead(score_away, score_home),
                         }
                         if half == "Top":
-                            add_line(self._get_radio_string('inning_break_intro_top', intro_ctx))
+                            add_line(self._sentence_starts(self._get_radio_string('inning_break_intro_top', intro_ctx)))
                         else:
-                            add_line(self._get_radio_string('inning_break_intro_bottom', intro_ctx))
+                            add_line(self._sentence_starts(self._get_radio_string('inning_break_intro_bottom', intro_ctx)))
                         lines.append("")
 
                 # Track score at start of new half-inning
@@ -1576,14 +1600,16 @@ class NarrativeRenderer(GameRenderer):
 
             first_event_index = next((index for index, event in enumerate(play_events)
                                       if event.get('details', {}).get('eventType') != 'offensive_substitution'), 0)
+            void_steal_event = None
             while i < len(play_events):
                 event = play_events[i]
 
                 self._reseed_for_point(event, "event", event.get('startTime', ''),
                                        f"play:{play_idx}:event:{i}")
 
-                if event.get('details', {}).get('eventType') == 'offensive_substitution':
-                    # Narrated with the batter's introduction.
+                if (event.get('details', {}).get('eventType') == 'offensive_substitution'
+                        or event is void_steal_event):
+                    # A substitution is narrated with the batter's introduction.
                     i += 1
                     continue
 
@@ -1621,6 +1647,13 @@ class NarrativeRenderer(GameRenderer):
                     if next_event['details'].get('eventType') in ['stolen_base', 'caught_stealing']:
                         is_steal_attempt = True
                         steal_event = next_event
+                    if (is_steal_attempt and event is last_pitch_event and outcome == 'Strikeout'
+                            and play['count'].get('outs') == 3
+                            and steal_event['details'].get('eventType') == 'stolen_base'):
+                        # Strike three ended the inning: there is no steal
+                        # behind it, whatever the runner did on the pitch.
+                        is_steal_attempt, steal_event = False, None
+                        void_steal_event = next_event
 
                 orig_pitch_type = details.get('type', {}).get('description', 'pitch')
                 pitch_type = self._simplify_pitch_type(orig_pitch_type, capitalize=True)
@@ -1705,6 +1738,10 @@ class NarrativeRenderer(GameRenderer):
                         # And possibly random variation.
 
                         use_comma = self.rng_flow.random() < 0.6
+                        if connector.rstrip().endswith(('.', '!', '?')) and not connector.rstrip().endswith('...'):
+                            # "And the oh-two delivery. fouled back": the
+                            # connector ended its sentence.
+                            pbp_line = pbp_line[:1].upper() + pbp_line[1:]
                         if use_comma:
                              pbp_line = f"{connector} {pbp_line},"
                         else:
