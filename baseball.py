@@ -177,6 +177,10 @@ class BaseballSimulator:
                     "mlbDebutDate": debut_date,
                     "batSide": p.get('batSide', {'code': 'R', 'description': 'Right'}),
                     "pitchHand": p.get('pitchHand', {'code': 'R', 'description': 'Right'}),
+                    # Extension field (a feed has no role): "closer" is said of
+                    # a pitcher only when this records it.
+                    **({"pitcherRole": {'Starter': 'starter', 'Closer': 'closer'}.get(p.get('type'), 'reliever')}
+                       if p['position']['abbreviation'] == 'P' else {}),
                     "strikeZoneTop": 3.5, # Default
                     "strikeZoneBottom": 1.5 # Default
                 }
@@ -934,6 +938,17 @@ class BaseballSimulator:
         })
         self._pitch_event_seq += 1
 
+    @staticmethod
+    def _steal_movement(runner, base_to_steal, is_out):
+        """Who ran, as a feed's runner movement for the steal names him. An
+        automatic runner caught stealing before the first play of an extra
+        inning ends is in no other record of that play."""
+        return {'runner': {'id': runner['id'], 'fullName': runner['legal_name']},
+                'fromBase': f'{base_to_steal - 1}B', 'toBase': f'{base_to_steal}B', 'isOut': is_out,
+                # Extension fields (a feed has neither): the catcher's throw
+                # and the slide, for the narration.
+                'throw': 'in_time' if is_out else 'not_in_time', 'slide': True}
+
     def _resolve_steal_attempt(self, base_to_steal, play_events: list[PlayEvent], balls, strikes):
         is_home_team_batting = not self.top_of_inning
         batting_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
@@ -970,7 +985,8 @@ class BaseballSimulator:
                      'code': 'X', # In play/action?
                      'isStrike': False,
                      'type': {'code': 'AS', 'description': 'Action'},
-                     'eventType': 'stolen_base'
+                     'eventType': 'stolen_base',
+                     'runners': [self._steal_movement(runner_data, base_to_steal, False)],
                  }
              }
             play_events.append(event)
@@ -993,7 +1009,8 @@ class BaseballSimulator:
                      'code': 'X',
                      'isStrike': False,
                      'type': {'code': 'AS', 'description': 'Action'},
-                     'eventType': 'caught_stealing'
+                     'eventType': 'caught_stealing',
+                     'runners': [self._steal_movement(runner_data, base_to_steal, True)],
                  }
              }
             play_events.append(event)
@@ -1233,7 +1250,11 @@ class BaseballSimulator:
         if FIELD_SIM and field is not None and not was_error and hit_type in ('Single', 'Double'):
             # The field model says how far each runner gets before the throw.
             old_bases = self.bases[:]
-            dests, thrown_out = fieldsim.advance_on_hit(field, hit_type, self._runner_speeds(), self.outs, self.game_rng)
+            close = {}
+            dests, thrown_out = fieldsim.advance_on_hit(field, hit_type, self._runner_speeds(), self.outs,
+                                                        self.game_rng, close=close)
+            # Runners who took the extra base just ahead of the throw.
+            self._close_plays = {old_bases[base - 1] for base in close}
             runs = self._apply_runner_dests(dests)
             for base, dest in sorted(dests.items(), reverse=True):
                 name = old_bases[base - 1]
@@ -1749,6 +1770,7 @@ class BaseballSimulator:
 
             self._play_field = None
             self._thrown_out = []
+            self._close_plays = set()
             outcome, description, play_events = self._simulate_at_bat(batter, pitcher)
             self._free_pass_pitcher = pitcher_name if outcome in ("Walk", "Hit By Pitch", "HBP") else None
 
@@ -1954,6 +1976,9 @@ class BaseballSimulator:
                             is_scoring=scored, is_rbi=scored and not was_error,
                             responsible_pitcher=pitcher if scored else None
                         )
+                        if runner_entry and runner_name in getattr(self, '_close_plays', ()):
+                            # Extension fields: the throw came and he slid in.
+                            runner_entry['details'].update(throw='not_in_time', slide=True)
                         if runner_entry: runner_list.append(runner_entry)
 
                 batter_end = {"Single": "1B", "Double": "2B", "Triple": "3B", "Home Run": "score"}[outcome]
@@ -2196,7 +2221,53 @@ class BaseballSimulator:
             if is_home_team_batting and self.team1_score > self.team2_score and self.inning >= 9:
                 return
 
+    def _record_decisions(self):
+        """The pitchers of record, as a feed's liveData.decisions: the win to
+        the pitcher of record when his team went ahead for good (a starter
+        needs five innings), the loss to the man on the mound for that run,
+        a save to a finisher who protected a lead of three or fewer for an
+        inning or pitched the last three."""
+        plays = self.gameday_data['liveData']['plays']['allPlays']
+        if not plays or self.team1_score == self.team2_score:
+            return
+        home_won = self.team1_score > self.team2_score
+        ahead = lambda result: (result['homeScore'] > result['awayScore']) if home_won else (
+            result['awayScore'] > result['homeScore'])
+        go_ahead = next(i for i in range(len(plays))
+                        if all(ahead(play['result']) for play in plays[i:]))
+        # The winners pitch the half-innings in which the losers bat.
+        mine = [(i, play) for i, play in enumerate(plays) if play['about']['isTopInning'] == home_won]
+        outs = {}
+        for i, play in mine:
+            before = plays[i - 1]['count']['outs'] if i and plays[i - 1]['about']['halfInning'] == play['about']['halfInning'] \
+                and plays[i - 1]['about']['inning'] == play['about']['inning'] else 0
+            pid = play['matchup']['pitcher']['id']
+            outs[pid] = outs.get(pid, 0) + max(0, play['count']['outs'] - before)
+        order = list(dict.fromkeys(play['matchup']['pitcher']['id'] for _, play in mine))
+        names = {play['matchup']['pitcher']['id']: play['matchup']['pitcher']['fullName'] for play in plays}
+        earlier = [play['matchup']['pitcher']['id'] for i, play in mine if i < go_ahead]
+        winner = earlier[-1] if earlier else order[0]
+        if winner == order[0] and outs.get(winner, 0) < 15 and len(order) > 1:
+            winner = max(order[1:], key=lambda pid: outs.get(pid, 0))
+        loser = plays[go_ahead]['matchup']['pitcher']['id']
+        decisions = {'winner': {'id': winner, 'fullName': names[winner]},
+                     'loser': {'id': loser, 'fullName': names[loser]}}
+        finisher = order[-1]
+        if finisher != winner:
+            entered = next(i for i, play in mine if play['matchup']['pitcher']['id'] == finisher)
+            before = plays[entered - 1]['result'] if entered else {'homeScore': 0, 'awayScore': 0}
+            lead = abs(before['homeScore'] - before['awayScore'])
+            led = entered and ahead(before)
+            if led and ((lead <= 3 and outs.get(finisher, 0) >= 3) or outs.get(finisher, 0) >= 9):
+                decisions['save'] = {'id': finisher, 'fullName': names[finisher]}
+        self.gameday_data['liveData']['decisions'] = decisions
+
     def play_game(self):
+        self._play_innings()
+        if self.max_innings is None:
+            self._record_decisions()
+
+    def _play_innings(self):
         should_continue = lambda: (self.inning <= 9 or self.team1_score == self.team2_score) if self.max_innings is None else self.inning <= self.max_innings
 
         while should_continue():
@@ -2221,7 +2292,11 @@ class BaseballSimulator:
             self.top_of_inning = False
             self._simulate_half_inning()
 
-            if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score:
+            # Nine (or more) complete innings and somebody leads: the game is
+            # over. Checked before the next inning is opened, or a visitors'
+            # win in nine left a phantom 0-0 tenth in the linescore.
+            if self.inning >= 9 and (self.team1_score > self.team2_score or (
+                    self.max_innings is None and self.team1_score != self.team2_score)):
                 break
 
             if self.max_innings and self.inning >= self.max_innings:

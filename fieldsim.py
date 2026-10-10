@@ -484,6 +484,7 @@ RUN_PARAMS = {
     'force_margin': 0.4,    # s the force at second must win by
     'corner_force': 0.7,    # s more a corner infielder or the pitcher wants before going to second for one out
     'two_out_force': 0.45,  # with two out, s quicker the force at second must be to go there over first
+    'close_play': 0.6,      # s: safe by less than this past the out margin and the throw was a play on him
     'unforced_home': -0.3,  # s a runner on third gives the throw home on a grounder
     'r2_go_release': 1.7,   # s: a runner on second takes third if the ball is hit to his left and fielded this late
 }
@@ -505,7 +506,7 @@ def _throw_time(ball, base, params=PARAMS, rp=RUN_PARAMS):
     return t + (rp['tag'] if base == 4 or base == 3 else 0.0)
 
 
-def advance_on_hit(ball, outcome, runners, outs, rng, rp=RUN_PARAMS):
+def advance_on_hit(ball, outcome, runners, outs, rng, rp=RUN_PARAMS, close=None):
     """Where the runners end up on a Single or Double: (dest, thrown_out).
 
     dest maps each runner who is safe to his destination; thrown_out maps a
@@ -544,6 +545,9 @@ def advance_on_hit(ball, outcome, runners, outs, rng, rp=RUN_PARAMS):
                         thrown_out[base] = extra
                         continue
                     target = extra
+                    if close is not None and cushion < (rp['out_home'] if extra == 4 else rp['out_third']) + rp['close_play']:
+                        # Safe, but the throw came: a play at the base.
+                        close[base] = extra
         # A runner can't pass the man ahead of him or stay on the batter's base.
         while target < 4 and (target in dest.values() or target in occupied_after):
             target += 1
