@@ -111,7 +111,7 @@ def get_our_schema_fields():
                         'index': None,
                         'count': ['balls', 'strikes'],
                         'details': ['code', 'description', 'isStrike', 'type', 'eventType'],
-                        'pitchData': ['startSpeed', 'breaks'],
+                        'pitchData': ['startSpeed', 'breaks', 'zone'],
                         'hitData': ['launchSpeed', 'launchAngle', 'trajectory', 'location', 'hardness',
                                     'totalDistance', 'coordinates'],
                         'isBunt': None
@@ -589,6 +589,12 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                                 pd['startSpeed'] = event['pitchData']['startSpeed']
                             if 'breaks' in event['pitchData'] and 'spinRate' in event['pitchData']['breaks']:
                                 pd['breaks'] = {'spinRate': event['pitchData']['breaks']['spinRate']}
+                            # The zone is where the pitch was, not who threw it. The
+                            # renderer reads it from details, as the simulator writes it.
+                            zone = event['pitchData'].get('zone')
+                            if isinstance(zone, int) and 'details' in filtered_event:
+                                pd['zone'] = zone
+                                filtered_event['details']['zone'] = zone
                             filtered_event['pitchData'] = pd
 
                         if 'hitData' in event:

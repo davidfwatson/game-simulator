@@ -32,3 +32,20 @@ class TestBlindJudgeNames(unittest.TestCase):
             self.assertTrue(set(order[True]) <= pen)
         self.assertGreaterEqual(len(firsts), 4, firsts)
         self.assertLess(max(firsts.values()), 12, firsts)
+
+
+class TestRealPitchZones(unittest.TestCase):
+    def test_real_pitches_keep_their_zone(self):
+        """Real excerpts called a location on 4% of pitches against 42% for
+        simulated and hand-written ones, because the zone was dropped."""
+        from pathlib import Path
+        import json
+        from anonymize_real_gameday import anonymize_gameday_data
+        path = Path('real_gameday.json')
+        if not path.exists():
+            self.skipTest("real_gameday.json not found")
+        data = anonymize_gameday_data(json.loads(path.read_text()), TEAMS, seed=1)
+        pitches = [event for play in data['liveData']['plays']['allPlays']
+                   for event in play['playEvents'] if event.get('pitchData')]
+        zoned = [event for event in pitches if isinstance(event['details'].get('zone'), int)]
+        self.assertGreater(len(zoned), 0.9 * len(pitches))
