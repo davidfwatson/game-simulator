@@ -120,7 +120,8 @@ Curated fixtures can override any number of draws with `commentaryRng`:
 }
 ```
 
-Store `init` under `gameData`, `play_start` and `play_outcome` on the play,
+Store `init` (and the pregame's `lineup_away`, `lineup_home` and `first_pitch`,
+and `postgame`) under `gameData`, `play_start` and `play_outcome` on the play,
 and `event` on a pitch/event. Each list entry controls one call: `choice()` uses
 an index modulo the pool size, and `random()` uses the last two digits as
 hundredths. Missing or exhausted lists continue with the seeded stream; they do

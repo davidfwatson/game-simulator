@@ -7,14 +7,16 @@
         "name": "Tomah Tigers",
         "teamName": "Tigers",
         "locationName": "Tomah",
-        "manager": ""
+        "manager": "",
+        "state": "Wisconsin"
       },
       "home": {
         "id": 411,
         "name": "Cadillac Cars",
         "teamName": "Cars",
         "locationName": "Cadillac",
-        "manager": ""
+        "manager": "",
+        "state": "Michigan"
       }
     },
     "players": {
@@ -412,16 +414,25 @@
         "pitchHand": {
           "code": "R",
           "description": "Right"
-        }
+        },
+        "pitcherRole": "closer"
       }
     },
     "game": {
       "scheduledInnings": 9
     },
     "venue": "Foghorn Field",
+    "weather": {
+      "temp": "72",
+      "wind": "In From LCF"
+    },
+    "umpires": [
+      "V.R. Montebianco"
+    ],
     "broadcast": {
       "network_name": "Northwoods Baseball Radio Network",
       "station_call": "WSLP",
+      "station_city": "Big Rapids",
       "complete": true,
       "strictFacts": true
     },
@@ -435,35 +446,90 @@
         "pitch": [],
         "flow": [],
         "color": [
-          10,
-          4,
+          11,
           0,
           0,
           1,
+          5,
+          2,
+          2,
+          0
+        ],
+        "optional": [
           0,
+          0,
+          0,
+          0
+        ]
+      },
+      "lineup_away": {
+        "play": [],
+        "pitch": [],
+        "flow": [],
+        "color": [
+          0,
+          0,
+          2,
+          1,
+          4,
+          0,
+          3,
+          0,
+          1,
+          0
+        ],
+        "optional": []
+      },
+      "lineup_home": {
+        "play": [],
+        "pitch": [],
+        "flow": [],
+        "color": [
+          1,
+          0,
+          0,
+          2,
+          1,
           0,
           1,
           2,
           1,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0,
-          0,
-          0,
-          1,
-          0,
+          3,
           0,
           1
         ],
         "optional": []
+      },
+      "first_pitch": {
+        "play": [],
+        "pitch": [],
+        "flow": [],
+        "color": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "optional": [
+          0
+        ]
+      },
+      "postgame": {
+        "play": [],
+        "pitch": [],
+        "flow": [],
+        "color": [
+          0,
+          0,
+          2,
+          2,
+          3,
+          3
+        ],
+        "optional": [
+          0,
+          0
+        ]
       }
     }
   },
@@ -794,7 +860,7 @@
               "pitch": [],
               "flow": [
                 0,
-                15,
+                10,
                 0
               ],
               "color": [
@@ -1094,12 +1160,15 @@
               "play": [
                 1,
                 99,
-                1
+                1,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -1214,7 +1283,7 @@
                     14
                   ],
                   "flow": [
-                    8,
+                    16,
                     99
                   ],
                   "color": [],
@@ -1253,7 +1322,7 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    26
+                    1
                   ],
                   "color": [],
                   "optional": []
@@ -1305,7 +1374,7 @@
               "play": [],
               "pitch": [],
               "flow": [
-                3,
+                10,
                 0,
                 11,
                 0
@@ -1313,10 +1382,10 @@
               "color": [
                 99,
                 5,
-                6,
                 3,
-                2,
-                8,
+                3,
+                13,
+                5,
                 0,
                 0,
                 1
@@ -1634,7 +1703,7 @@
             },
             "play_outcome": {
               "play": [
-                9,
+                6,
                 2
               ],
               "pitch": [],
@@ -1793,7 +1862,7 @@
                     6
                   ],
                   "flow": [
-                    8,
+                    16,
                     99
                   ],
                   "color": [],
@@ -1831,7 +1900,7 @@
                     27
                   ],
                   "flow": [
-                    26,
+                    1,
                     0
                   ],
                   "color": [],
@@ -1921,12 +1990,15 @@
               "play": [
                 0,
                 99,
-                0
+                0,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -2092,17 +2164,17 @@
               "flow": [
                 99,
                 0,
-                3,
+                11,
                 99,
                 0
               ],
               "color": [
                 47,
-                6,
-                4,
-                0,
                 12,
                 1,
+                0,
+                12,
+                2,
                 0,
                 0
               ],
@@ -2112,7 +2184,7 @@
             },
             "play_outcome": {
               "play": [
-                15,
+                0,
                 0
               ],
               "pitch": [],
@@ -2295,7 +2367,7 @@
                 0
               ],
               "color": [
-                1
+                3
               ],
               "optional": [
                 0
@@ -2502,7 +2574,7 @@
               "pitch": [],
               "flow": [
                 0,
-                0,
+                2,
                 0
               ],
               "color": [
@@ -2514,12 +2586,12 @@
             },
             "play_outcome": {
               "play": [
-                3,
+                21,
                 0
               ],
               "pitch": [],
               "flow": [
-                0
+                99
               ],
               "color": [],
               "optional": []
@@ -2751,12 +2823,12 @@
             },
             "play_outcome": {
               "play": [
-                14,
+                15,
                 0
               ],
               "pitch": [],
               "flow": [
-                0
+                99
               ],
               "color": [],
               "optional": []
@@ -2985,7 +3057,7 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    26
+                    1
                   ],
                   "color": [],
                   "optional": []
@@ -3049,7 +3121,7 @@
               "play": [],
               "pitch": [],
               "flow": [
-                99,
+                0,
                 0,
                 24,
                 99,
@@ -3057,11 +3129,12 @@
               ],
               "color": [
                 12,
+                4,
                 6,
                 2,
                 7,
                 6,
-                42,
+                37,
                 99
               ],
               "optional": [
@@ -3191,7 +3264,7 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    16
+                    1
                   ],
                   "color": [],
                   "optional": []
@@ -3231,7 +3304,7 @@
               "pitch": [],
               "flow": [
                 0,
-                15,
+                10,
                 0
               ],
               "color": [
@@ -3247,7 +3320,7 @@
               ],
               "pitch": [],
               "flow": [
-                16
+                1
               ],
               "color": [],
               "optional": []
@@ -3435,11 +3508,12 @@
             },
             "play_outcome": {
               "play": [
-                3,
+                5,
                 0
               ],
               "pitch": [],
               "flow": [
+                99,
                 0
               ],
               "color": [],
@@ -3590,7 +3664,8 @@
                 },
                 "event": "Forceout",
                 "eventType": "force_out",
-                "isScoringEvent": false
+                "isScoringEvent": false,
+                "throw": "not_in_time"
               },
               "credits": [
                 {
@@ -3698,14 +3773,17 @@
             "play_outcome": {
               "play": [
                 0,
-                2
+                2,
+                0
               ],
               "pitch": [],
               "flow": [
                 0
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -3941,7 +4019,7 @@
               "pitch": [],
               "flow": [
                 0,
-                11,
+                3,
                 0
               ],
               "color": [
@@ -3955,13 +4033,17 @@
             "play_outcome": {
               "play": [
                 0,
-                99,
-                0
+                0,
+                0,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                0,
+                99
+              ]
             }
           }
         },
@@ -4127,9 +4209,9 @@
               "color": [
                 7,
                 6,
+                5,
                 0,
-                3,
-                2,
+                13,
                 7,
                 0,
                 0,
@@ -4461,12 +4543,15 @@
               "play": [
                 0,
                 99,
-                1
+                1,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -4782,13 +4867,15 @@
               "play": [
                 0,
                 0,
-                4
+                4,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
               "optional": [
-                0
+                0,
+                99
               ]
             }
           }
@@ -5061,7 +5148,7 @@
               "color": [
                 99,
                 7,
-                2,
+                1,
                 11,
                 8,
                 0,
@@ -5075,8 +5162,9 @@
             "play_outcome": {
               "play": [
                 2,
-                0,
-                2
+                99,
+                3,
+                6
               ],
               "pitch": [],
               "flow": [],
@@ -5272,12 +5360,12 @@
             },
             "play_outcome": {
               "play": [
-                27,
+                22,
                 0
               ],
               "pitch": [],
               "flow": [
-                0
+                99
               ],
               "color": [],
               "optional": []
@@ -5468,7 +5556,7 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    26
+                    1
                   ],
                   "color": [],
                   "optional": []
@@ -5771,8 +5859,8 @@
                 0,
                 7,
                 3,
-                2,
-                16,
+                13,
+                0,
                 77,
                 99
               ],
@@ -5782,7 +5870,7 @@
             },
             "play_outcome": {
               "play": [
-                15,
+                0,
                 0
               ],
               "pitch": [],
@@ -5910,7 +5998,7 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    26
+                    1
                   ],
                   "color": [],
                   "optional": []
@@ -5950,7 +6038,7 @@
               "pitch": [],
               "flow": [
                 0,
-                15,
+                10,
                 99
               ],
               "color": [
@@ -6187,7 +6275,8 @@
                 },
                 "event": "Flyout",
                 "eventType": "field_out",
-                "isScoringEvent": false
+                "isScoringEvent": false,
+                "throw": "beaten"
               },
               "credits": [
                 {
@@ -6228,15 +6317,18 @@
             },
             "play_outcome": {
               "play": [
-                6,
+                0,
+                2,
                 2
               ],
               "pitch": [],
               "flow": [
-                0
+                99
               ],
               "color": [],
-              "optional": []
+              "optional": [
+                0
+              ]
             }
           }
         },
@@ -6950,9 +7042,9 @@
               "color": [
                 0,
                 6,
-                2,
+                8,
                 0,
-                4,
+                3,
                 4,
                 52,
                 99
@@ -6968,7 +7060,7 @@
               ],
               "pitch": [],
               "flow": [
-                99
+                0
               ],
               "color": [],
               "optional": []
@@ -7483,7 +7575,7 @@
               "pitch": [],
               "flow": [
                 0,
-                15,
+                10,
                 99
               ],
               "color": [
@@ -7654,21 +7746,23 @@
               "play": [],
               "pitch": [],
               "flow": [
-                7,
+                11,
                 0,
                 24,
                 99
               ],
               "color": [
-                0,
-                0,
+                17,
+                6,
+                9,
                 3,
-                2,
+                13,
                 7,
-                77,
+                99,
                 99
               ],
               "optional": [
+                99,
                 99
               ]
             },
@@ -8155,13 +8249,17 @@
             "play_outcome": {
               "play": [
                 0,
-                99,
-                0
+                0,
+                0,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                0,
+                99
+              ]
             }
           }
         },
@@ -8313,16 +8411,16 @@
               "play": [],
               "pitch": [],
               "flow": [
-                6,
+                9,
                 0,
                 11,
                 99
               ],
               "color": [
                 0,
-                2,
-                2,
-                2,
+                8,
+                1,
+                13,
                 6,
                 77,
                 99
@@ -8461,7 +8559,7 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    26
+                    1
                   ],
                   "color": [],
                   "optional": []
@@ -8501,7 +8599,7 @@
               "pitch": [],
               "flow": [
                 0,
-                15,
+                11,
                 0
               ],
               "color": [
@@ -8670,7 +8768,7 @@
               "pitch": [],
               "flow": [
                 0,
-                13,
+                0,
                 99
               ],
               "color": [
@@ -9346,11 +9444,11 @@
               ],
               "color": [
                 0,
-                1,
-                0,
-                3,
                 2,
-                7,
+                5,
+                3,
+                13,
+                0,
                 0,
                 99
               ],
@@ -9815,11 +9913,12 @@
             },
             "play_outcome": {
               "play": [
-                0,
+                6,
                 2
               ],
               "pitch": [],
               "flow": [
+                99,
                 0
               ],
               "color": [],
@@ -10111,12 +10210,15 @@
               "play": [
                 0,
                 99,
-                0
+                0,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -10422,14 +10524,13 @@
               "play": [],
               "pitch": [],
               "flow": [
+                99,
                 0,
-                0,
-                3,
+                25,
                 99
               ],
               "color": [
                 0,
-                3,
                 6,
                 2,
                 4,
@@ -11576,12 +11677,12 @@
                 99
               ],
               "color": [
-                12,
                 0,
-                3,
-                2,
                 9,
-                62,
+                0,
+                13,
+                0,
+                52,
                 99
               ],
               "optional": [
@@ -12290,12 +12391,12 @@
             },
             "play_outcome": {
               "play": [
-                12,
+                9,
                 0
               ],
               "pitch": [],
               "flow": [
-                0
+                99
               ],
               "color": [],
               "optional": []
@@ -12419,16 +12520,16 @@
               ],
               "color": [
                 42,
-                1,
-                8,
                 2,
-                10,
+                9,
+                2,
+                13,
                 8,
                 0,
                 99
               ],
               "optional": [
-                0
+                99
               ]
             },
             "play_outcome": {
@@ -12725,13 +12826,15 @@
               "play": [
                 1,
                 0,
-                8
+                8,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
               "optional": [
-                0
+                0,
+                99
               ]
             }
           }
@@ -13208,18 +13311,19 @@
               "play": [],
               "pitch": [],
               "flow": [
-                99,
                 0,
-                27,
+                0,
+                6,
                 9,
                 0
               ],
               "color": [
                 99,
+                4,
+                9,
                 0,
-                3,
-                2,
-                16,
+                13,
+                15,
                 0,
                 99
               ],
@@ -13755,12 +13859,15 @@
               "play": [
                 0,
                 99,
-                1
+                1,
+                6
               ],
               "pitch": [],
               "flow": [],
               "color": [],
-              "optional": []
+              "optional": [
+                99
+              ]
             }
           }
         },
@@ -14371,23 +14478,27 @@
               "play": [],
               "pitch": [],
               "flow": [
-                99,
+                9,
+                0,
                 0,
                 16,
                 5,
+                3,
                 0
               ],
               "color": [
                 99,
                 2,
+                8,
                 0,
-                2,
+                13,
                 7,
                 0,
                 99
               ],
               "optional": [
-                99
+                99,
+                0
               ]
             },
             "play_outcome": {
@@ -14943,7 +15054,7 @@
               "pitch": [],
               "flow": [
                 0,
-                15,
+                10,
                 0
               ],
               "color": [
@@ -15189,7 +15300,7 @@
                   "play": [],
                   "pitch": [],
                   "flow": [
-                    26
+                    1
                   ],
                   "color": [],
                   "optional": []
@@ -15253,23 +15364,26 @@
               "play": [],
               "pitch": [],
               "flow": [
+                4,
                 99,
                 0,
                 24,
                 99,
+                0,
                 0
               ],
               "color": [
                 0,
-                2,
-                3,
-                2,
                 7,
+                0,
+                13,
+                0,
                 0,
                 99
               ],
               "optional": [
-                99
+                99,
+                0
               ]
             },
             "play_outcome": {
@@ -15769,7 +15883,7 @@
               "pitch": [],
               "flow": [
                 0,
-                15,
+                10,
                 0
               ],
               "color": [
@@ -15783,15 +15897,15 @@
               "play": [
                 1,
                 99,
-                2
+                2,
+                6
               ],
               "pitch": [],
               "flow": [],
-              "color": [
-                2,
-                1
-              ],
-              "optional": []
+              "color": [],
+              "optional": [
+                99
+              ]
             }
           }
         }
@@ -15805,7 +15919,8 @@
             "name": "Tomah Tigers",
             "teamName": "Tigers",
             "locationName": "Tomah",
-            "manager": ""
+            "manager": "",
+            "state": "Wisconsin"
           },
           "battingOrder": [
             41001,
@@ -15825,7 +15940,8 @@
             "name": "Cadillac Cars",
             "teamName": "Cars",
             "locationName": "Cadillac",
-            "manager": ""
+            "manager": "",
+            "state": "Michigan"
           },
           "battingOrder": [
             41010,
@@ -15868,6 +15984,20 @@
           "hits": 6,
           "runs": 2
         }
+      }
+    },
+    "decisions": {
+      "winner": {
+        "id": 41018,
+        "fullName": "Blinky Malone"
+      },
+      "save": {
+        "id": 41022,
+        "fullName": "Burgess Hepburn"
+      },
+      "loser": {
+        "id": 41009,
+        "fullName": "Zach Valentine"
       }
     }
   }

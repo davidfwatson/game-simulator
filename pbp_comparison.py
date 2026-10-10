@@ -50,16 +50,21 @@ class PBPExample:
 # points below it, rounded down; the batted-ball, runner, season-record and
 # pinch-hitter facts (missed_words.py) raised them again the same way, and so
 # did the wording pass (wording_additions.py, slot gaps and paired gates in
-# fit_transcript_games.py).
+# fit_transcript_games.py), and the pass that added the pitcher's game line,
+# throws and slides, new-pitcher introductions and filled-template scoring.
+# ``rendered_skip`` keeps the comparison where it has always started, at the
+# rendering's "we are underway" line or just after it: the pregame grew by two
+# or three lines when it took the hosts' order (the network's line, the host,
+# the crew chief), so each example's skip grew with it.
 PBP_EXAMPLES = (
-    PBPExample(1, target_skip=28, jaccard_min=0.67, ngram_min=0.38,
+    PBPExample(1, target_skip=28, rendered_skip=32, jaccard_min=0.70, ngram_min=0.43,
                line_exact_min=0.57, content_exact_min=0.29),
-    PBPExample(2, target_skip=35, jaccard_min=0.67, ngram_min=0.46,
+    PBPExample(2, target_skip=35, rendered_skip=33, jaccard_min=0.72, ngram_min=0.50,
                line_exact_min=0.60, content_exact_min=0.28),
-    PBPExample(3, target_skip=33, jaccard_min=0.68, ngram_min=0.40,
-               line_exact_min=0.46, content_exact_min=0.07),
-    PBPExample(4, target_skip=27, jaccard_min=0.65, ngram_min=0.38,
-               line_exact_min=0.58, content_exact_min=0.22),
+    PBPExample(3, target_skip=33, rendered_skip=33, jaccard_min=0.69, ngram_min=0.41,
+               line_exact_min=0.46, content_exact_min=0.08),
+    PBPExample(4, target_skip=27, rendered_skip=32, jaccard_min=0.68, ngram_min=0.43,
+               line_exact_min=0.59, content_exact_min=0.23),
 )
 
 # Each transcript case must pass an ordered source-phrase comparison and exact
@@ -77,21 +82,23 @@ TRANSCRIPT_CASE_MINIMUMS = {
 # gates were fitted per point (fit_transcript_games.py), wording minimums more
 # than four points below the measurement were raised to three points below
 # it, rounded down, and again after the batted-ball, runner, season-record and
-# pinch-hitter facts were recorded (missed_words.py), and after the wording
-# pass (wording_additions.py, slot gaps and paired gates in the fitter).
+# pinch-hitter facts were recorded (missed_words.py), after the wording
+# pass (wording_additions.py, slot gaps and paired gates in the fitter), and
+# after the pitcher's game line, throws and slides, new-pitcher introductions,
+# the hosts' pregame and postgame, and filled-template scoring in the fitter.
 FULL_TRANSCRIPT_MINIMUMS = {
     episode: dict(appearances=appearances, pitches=pitches,
                   ngram=ngram, mean_play_word_coverage=coverage)
     for episode, appearances, pitches, ngram, coverage in (
-        (1, 73, 254, .16, .52), (5, 73, 270, .33, .73),
-        (11, 50, 198, .32, .74), (13, 70, 295, .36, .76),
-        (20, 67, 223, .42, .80), (29, 68, 217, .39, .74),
-        (35, 63, 207, .44, .76), (37, 64, 220, .49, .83),
-        (39, 68, 224, .47, .83), (41, 62, 199, .52, .84),
-        (45, 72, 237, .44, .77), (46, 76, 254, .49, .82),
-        (49, 63, 214, .51, .86), (50, 66, 170, .46, .80),
-        (51, 47, 152, .40, .77), (52, 62, 200, .45, .79),
-        (53, 62, 193, .46, .81),
+        (1, 73, 254, .18, .53), (5, 73, 270, .37, .74),
+        (11, 50, 198, .37, .75), (13, 70, 295, .40, .78),
+        (20, 67, 223, .48, .81), (29, 68, 217, .44, .75),
+        (35, 63, 207, .52, .78), (37, 64, 220, .57, .85),
+        (39, 68, 224, .55, .83), (41, 62, 199, .60, .85),
+        (45, 72, 237, .51, .79), (46, 76, 254, .55, .83),
+        (49, 63, 214, .58, .86), (50, 66, 170, .54, .80),
+        (51, 47, 152, .45, .78), (52, 62, 200, .52, .80),
+        (53, 62, 193, .51, .81),
     )
 }
 
