@@ -158,6 +158,12 @@ class StatcastRenderer(GameRenderer):
 
             if batted_ball_str: result_line += batted_ball_str
             if rbis > 0 and not was_error: result_line += f" {batter_name} drives in {rbis}."
+            if not self.gameday_data['gameData'].get('broadcast', {}).get('strictFacts'):
+                # A runner cut down on the bases after the hit (or the batter, stretching it).
+                for r in play['runners']:
+                    if r['movement'].get('isOut') and r['details'].get('movementReason') in ('r_thrown_out', 'r_out_stretching'):
+                        base = {'2B': 'second', '3B': 'third'}.get(r['movement'].get('outBase'), 'home')
+                        result_line += f" {r['details']['runner']['fullName']} is thrown out at {base}."
 
             lines.append(f"Result: {result_line}")
 

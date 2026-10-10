@@ -140,6 +140,148 @@ class TestRunawayGames(SimulationBatch):
             self.assertLess(walks, 15, f"seed {seed}")
 
 
+class TestOutsOnTheBases(SimulationBatch):
+    """Real: 0.29 a game of runners thrown out taking an extra base on a hit
+    (first to third, second to home, first to home on a double, the batter
+    stretching), with the advancement rates the field model was fit to."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.plays = [(seed, index, play) for seed, plays in cls.all_plays.items()
+                     for index, play in enumerate(plays)
+                     if any(r['details']['movementReason'] in THROWN_OUT for r in play['runners'])]
+
+    def test_rate(self):
+        rate = len(self.plays) / len(self.games)
+        self.assertTrue(0.15 <= rate <= 0.42, rate)
+        kinds = {(r['details']['movementReason'], r['movement']['outBase'])
+                 for _, _, play in self.plays for r in play['runners'] if r['movement']['isOut']}
+        self.assertLessEqual({('r_thrown_out', '3B'), ('r_thrown_out', '4B'), ('r_out_stretching', '2B')}, kinds)
+
+    def test_advancement_rates_hold(self):
+        second_home, first_third = collections.Counter(), collections.Counter()
+        for plays in self.all_plays.values():
+            for play in plays:
+                if play['result']['eventType'] != 'single':
+                    continue
+                outs_before = play['count']['outs'] - sum(r['movement']['isOut'] for r in play['runners'])
+                for runner in play['runners']:
+                    movement = runner['movement']
+                    safe_at = None if movement['isOut'] else movement['end']
+                    if movement['originBase'] == '2B' and outs_before < 2:
+                        second_home['n'] += 1
+                        second_home['scored'] += safe_at == 'score'
+                    if movement['originBase'] == '1B':
+                        first_third['n'] += 1
+                        first_third['third'] += safe_at in ('3B', 'score')
+        self.assertTrue(0.2 <= second_home['scored'] / second_home['n'] <= 0.36, second_home)
+        self.assertTrue(0.28 <= first_third['third'] / first_third['n'] <= 0.42, first_third)
+
+    def test_the_feed_carries_the_out(self):
+        for seed, index, play in self.plays:
+            where = f"seed {seed} play {index}"
+            self.assertIn(play['result']['eventType'], HITS, where)
+            out = [r for r in play['runners'] if r['movement']['isOut']]
+            self.assertEqual(len(out), 1, where)
+            runner = out[0]
+            self.assertEqual(runner['details']['eventType'], 'other_out', where)
+            self.assertIn(runner['movement']['outBase'], ('2B', '3B', '4B'), where)
+            self.assertIsNone(runner['movement']['end'], where)
+            self.assertEqual(runner['movement']['outNumber'], play['count']['outs'], where)
+            chain = credit_chain(runner)
+            self.assertEqual(chain[-1][0], 'putout', where)
+            self.assertIn(chain[0], [('assist', 'LF'), ('assist', 'CF'), ('assist', 'RF')], where)
+            self.assertEqual(chain[-1][1], {'4B': 'C', '3B': '3B'}.get(runner['movement']['outBase'], chain[-1][1]), where)
+            self.assertIn(' out at ', play['result']['description'], where)
+            # The out is on top of the outs there were, and the inning is over at three.
+            previous = self.all_plays[seed][index - 1] if index else None
+            same_half = previous and previous['about']['inning'] == play['about']['inning'] \
+                and previous['about']['isTopInning'] == play['about']['isTopInning']
+            self.assertEqual(play['count']['outs'], (previous['count']['outs'] if same_half else 0) + 1, where)
+            if play['count']['outs'] == 3 and index + 1 < len(self.all_plays[seed]):
+                following = self.all_plays[seed][index + 1]['about']
+                self.assertNotEqual((following['inning'], following['isTopInning']),
+                                    (play['about']['inning'], play['about']['isTopInning']), where)
+            # The batter keeps his hit, and is on base unless he was the one thrown out.
+            batter_id = play['matchup']['batter']['id']
+            batter_moves = [r for r in play['runners'] if r['details']['runner']['id'] == batter_id]
+            self.assertEqual(batter_moves[0]['details']['eventType'], play['result']['eventType'], where)
+            self.assertFalse(batter_moves[0]['movement']['isOut'], where)
+            if runner['details']['movementReason'] == 'r_out_stretching':
+                self.assertEqual(runner['details']['runner']['id'], batter_id, where)
+                self.assertEqual(len(batter_moves), 2, where)
+            else:
+                self.assertNotEqual(runner['details']['runner']['id'], batter_id, where)
+
+    def test_the_batter_is_credited_with_his_hit(self):
+        seed, _, _ = self.plays[0]
+        data = self.games[seed]
+        hits = collections.Counter()
+        for play in data['liveData']['plays']['allPlays']:
+            if play['result']['eventType'] in HITS + ('home_run',):
+                hits['away' if play['about']['isTopInning'] else 'home'] += 1
+        for side in ('home', 'away'):
+            self.assertEqual(data['liveData']['linescore']['teams'][side]['hits'], hits[side])
+            self.assertEqual(data['liveData']['boxscore']['teams'][side]['teamStats']['batting']['hits'], hits[side])
+        # Every out is charged to a pitcher, the ones on the bases too.
+        for side, top in (('home', True), ('away', False)):
+            innings = sum(1 for half in {(p['about']['inning']) for p in data['liveData']['plays']['allPlays']
+                                         if p['about']['isTopInning'] == top
+                                         and p['count']['outs'] == 3})
+            self.assertGreaterEqual(data['liveData']['boxscore']['teams'][side]['teamStats']['pitching']['outs'], innings * 3)
+
+    def _rendered_play(self, seed, index):
+        renderer = NarrativeRenderer(self.games[seed], seed=seed)
+        lines = renderer.render().split('\n')
+        start, end = renderer._play_line_map[index]
+        return ' '.join(lines[start:end])
+
+    def _first(self, reason, base, third_out):
+        for seed, index, play in self.plays:
+            runner = next(r for r in play['runners'] if r['movement']['isOut'])
+            if (runner['details']['movementReason'] == reason and runner['movement']['outBase'] == base
+                    and (play['count']['outs'] == 3) == third_out):
+                return seed, index, play, runner
+        self.fail(f"no {reason} at {base} (third out: {third_out}) in the batch")
+
+    def test_narration_of_a_runner_thrown_out_at_the_plate(self):
+        seed, index, play, runner = self._first('r_thrown_out', '4B', third_out=False)
+        text = self._rendered_play(seed, index)
+        name = runner['details']['runner']['fullName'].split()[-1]
+        self.assertRegex(text, rf"{name} (is being waved around third|tries to score|rounds third and heads for home)|sending {name}")
+        self.assertRegex(text, r"out at the plate|they got him|out at home")
+        self.assertRegex(text, r"for (out number (one|two)|the (first|second) out)|\b(one|two) (out|away|down)")
+        self.assertNotIn(f"{name} will score", text)
+        self.assertNotIn(f"{name} scores", text)
+
+    def test_narration_when_the_out_on_the_bases_ends_the_inning(self):
+        for reason, base in (('r_thrown_out', '4B'), ('r_thrown_out', '3B')):
+            seed, index, play, runner = self._first(reason, base, third_out=True)
+            text = self._rendered_play(seed, index)
+            name = runner['details']['runner']['fullName'].split()[-1]
+            self.assertIn(name, text)
+            self.assertRegex(text, r"to end the (inning|ball ?game)|retire the side|side is retired|inning is over|"
+                                   r"that('s| is| will do it for) the|for (out number three|the (third|final) out)")
+            # Nothing about the hit's situation after the inning is over.
+            self.assertNotRegex(text.split(name)[-1], r"(single|double|base hit) for ")
+            # The next thing rendered is the other half, with nobody on.
+            following = self.all_plays[seed][index + 1] if index + 1 < len(self.all_plays[seed]) else None
+            if following:
+                self.assertEqual(following['matchup']['splits']['menOnBase'], 'Empty')
+
+    def test_narration_of_a_batter_out_stretching(self):
+        seed, index, play, runner = self._first('r_out_stretching', '2B', third_out=False)
+        text = self._rendered_play(seed, index)
+        self.assertRegex(text, r"thinking double|stretch it into a double|trying for a double")
+        self.assertNotRegex(text, r"\baboard\b|stand-up")
+
+    def test_statcast_log_says_the_runner_was_thrown_out(self):
+        seed, index, play, runner = self._first('r_thrown_out', '3B', third_out=False)
+        text = StatcastRenderer(self.games[seed], seed=seed).render()
+        self.assertIn(f"{runner['details']['runner']['fullName']} is thrown out at third.", text)
+
+
 class TestWhoFieldsWhat(SimulationBatch):
     @classmethod
     def setUpClass(cls):

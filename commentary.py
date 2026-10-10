@@ -1331,6 +1331,27 @@ GAME_CONTEXT = {
             "{runner} advances to third on the play.",
             "{runner} is hustling to third."
         ],
+        # A runner cut down trying for an extra base on a hit (movementReason
+        # r_thrown_out), and a batter out stretching (r_out_stretching).
+        "runner_thrown_out_home": [
+            "{runner} is being waved around third. Here comes the throw from {fielder}... and he's out at the plate {out_context_str}!",
+            "{runner} tries to score from {origin}. The throw home from {fielder}... they got him, {out_context_str}!",
+            "They're sending {runner}. {fielder} comes up throwing... and {runner} is out at home {out_context_str}.",
+            "{runner} rounds third and heads for home. The throw from {fielder} is on the money, and he is out at the plate {out_context_str}."
+        ],
+        "runner_thrown_out_third": [
+            "{runner} tries to go from {origin} to third. The throw from {fielder}... and he's out at third {out_context_str}!",
+            "{runner} is going for third. The throw from {fielder} is there in time, and he is out {out_context_str}.",
+            "{runner} never stops at second, but {fielder} throws a strike to third, and he is out {out_context_str}."
+        ],
+        "runner_thrown_out": [
+            "{runner} tries to take {base} on the play, and the throw from {fielder} gets him {out_context_str}."
+        ],
+        "batter_thrown_out": [
+            "{runner} is thinking {stretch_hit} all the way. The throw from {fielder} to {base}... and he's out {out_context_str}!",
+            "{runner} tries to stretch it into a {stretch_hit}, but the throw from {fielder} beats him to {base}, and he is out {out_context_str}.",
+            "{runner} keeps on running. The throw to {base} from {fielder}, the tag, and he is out trying for a {stretch_hit}, {out_context_str}."
+        ],
         # A run-scoring hit's situation sentence, from its recorded RBI.
         "rbi_hit": [
             "And that's an RBI {hit} for {batter_name}.",

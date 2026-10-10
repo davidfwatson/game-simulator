@@ -89,6 +89,52 @@ def runner_sentences(renderer, play, said):
     return ' '.join(sentences)
 
 
+THROWN_OUT_REASONS = ('r_thrown_out', 'r_out_stretching')
+# What a hit's own call may not say once the batter is thrown out stretching it.
+BATTER_STAYS = re.compile(r'aboard|stand-up|standing|pulls in|cruises|coasts|slides in safely|is in (at|with)|easily', re.I)
+
+
+def thrown_out_runners(play):
+    """Runners cut down on the bases after a hit (and a batter out stretching)."""
+    return [r for r in (play or {}).get('runners', [])
+            if r.get('movement', {}).get('isOut')
+            and r.get('details', {}).get('movementReason') in THROWN_OUT_REASONS]
+
+
+def thrown_out_sentences(renderer, play):
+    """"They're sending Vance. Hawkins comes up throwing... and Vance is out
+    at home to end the inning." One sentence per runner thrown out on a hit,
+    from the recorded movement and credits."""
+    strings = GAME_CONTEXT['narrative_strings']
+    players = renderer.gameday_data.get('gameData', {}).get('players', {})
+    sentences = []
+    for runner in thrown_out_runners(play):
+        movement, details = runner['movement'], runner['details']
+        base = movement.get('outBase')
+        thrower = next((c for c in runner.get('credits', []) if str(c.get('credit', '')).endswith('assist')), None)
+        fielder = 'the outfield'
+        if thrower:
+            person = thrower.get('player', {})
+            fielder = (players.get(f"ID{person.get('id')}", {}).get('lastName')
+                       or (person.get('fullName') or 'the outfielder').split()[-1])
+        if details.get('movementReason') == 'r_out_stretching':
+            key = 'batter_thrown_out'
+        elif base in ('4B', 'score', 'home'):
+            key = 'runner_thrown_out_home'
+        elif base == '3B' and (movement.get('originBase') or movement.get('start')) in BASE_WORDS:
+            key = 'runner_thrown_out_third'
+        else:
+            key = 'runner_thrown_out'
+        outs = movement.get('outNumber') or play.get('count', {}).get('outs')
+        sentences.append(renderer.rng_play.choice(strings[key]).format(
+            runner=_last_name(renderer, details.get('runner', {})), fielder=fielder,
+            origin=BASE_WORDS.get(movement.get('originBase') or movement.get('start'), 'first'),
+            base=BASE_WORDS.get(base, 'the plate'),
+            stretch_hit={'2B': 'double', '3B': 'triple'}.get(base, 'inside-the-park home run'),
+            out_context_str=renderer._out_context(outs, play)))
+    return ' '.join(sentences)
+
+
 def rbi_status_templates(outcome, rbi, result_outs):
     """The hit's situation sentence when it drove in runs ("And that's an
     RBI single for Ali Nunez", "a two-out RBI double", "a three-run triple")."""
@@ -481,6 +527,12 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
                      or gate_templates(GAME_CONTEXT.get('unlocated_contact', {}).get(template_outcome, []), supported))
         specific_templates = gated or specific_templates
 
+    # A runner (or the batter) thrown out on the bases after the hit. A
+    # transcript ledger keeps its recorded wording.
+    thrown_out = thrown_out_runners(play) if is_hit and not strict else []
+    if specific_templates and any(r['details'].get('movementReason') == 'r_out_stretching' for r in thrown_out):
+        specific_templates = [t for t in specific_templates if not BATTER_STAYS.search(t)] or specific_templates
+
     infielder = passed_infielder(hit_data) if is_hit and tracked else None
     if specific_templates and is_hit and tracked:
         if not infielder:
@@ -637,6 +689,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         runs_text = home_run_runs_sentence(renderer, play, batter_name, final_description)
         if runs_text:
             final_description = final_description.rstrip() + ' ' + runs_text
+
+    if thrown_out:
+        # The out is the last word on the play: no "a one-out single for..."
+        # after the throw that ended the inning.
+        return final_description.rstrip() + ' ' + thrown_out_sentences(renderer, play)
 
     if outcome in ["Single", "Double", "Triple"]:
          rbi = (play or {}).get('result', {}).get('rbi') or 0
