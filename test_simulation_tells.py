@@ -62,6 +62,84 @@ class SimulationBatch(unittest.TestCase):
         cls.all_plays = {seed: data['liveData']['plays']['allPlays'] for seed, data in cls.games.items()}
 
 
+class TestPitchingChanges(SimulationBatch):
+    """Real: 3.29 relievers per team-game; starters 4.7 innings on 76 pitches
+    (sd 24), from one inning to eight; a third of the changes mid-inning."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.relievers, cls.starter_outs, cls.starter_pitches = [], [], []
+        cls.same_exit = cls.mid = cls.between = cls.short_stints = 0
+        for plays in cls.all_plays.values():
+            exits = []
+            for top in (True, False):
+                side, stints = pitcher_stints(plays, top)
+                cls.relievers.append(len(stints) - 1)
+                for n, (_, stint, clean) in enumerate(stints):
+                    last_index, last_play = stint[-1]
+                    finished = last_play['count']['outs'] >= 3 or last_index == len(side) - 1
+                    if n == 0:
+                        outs = outs_recorded(side, stint)
+                        cls.starter_outs.append(outs)
+                        cls.starter_pitches.append(sum(e.get('isPitch', False) for _, p in stint for e in p['playEvents']))
+                        exits.append(outs)
+                    else:
+                        cls.mid += not clean
+                        cls.between += clean
+                        cls.short_stints += len(stint) < 3 and not finished
+            cls.same_exit += exits[0] == exits[1]
+
+    def test_relievers_per_team_game(self):
+        self.assertTrue(2.9 <= statistics.mean(self.relievers) <= 3.9, statistics.mean(self.relievers))
+        # Not the same number every night: real teams use from one to six.
+        self.assertGreaterEqual(len(set(self.relievers)), 5)
+        self.assertLess(max(collections.Counter(self.relievers).values()) / len(self.relievers), 0.45)
+
+    def test_starters_do_not_all_leave_on_the_same_schedule(self):
+        innings = [outs / 3 for outs in self.starter_outs]
+        self.assertTrue(4.2 <= statistics.mean(innings) <= 5.3, statistics.mean(innings))
+        self.assertTrue(66 <= statistics.mean(self.starter_pitches) <= 88, statistics.mean(self.starter_pitches))
+        self.assertGreaterEqual(statistics.pstdev(self.starter_pitches), 16)
+        # Some are gone by the third, some go seven.
+        self.assertGreater(sum(i < 3 for i in innings) / len(innings), 0.04)
+        self.assertGreater(sum(i >= 7 for i in innings) / len(innings), 0.04)
+        # Both starters out after the same number of outs: 17% in the real feeds.
+        self.assertLess(self.same_exit / len(self.games), 0.22)
+
+    def test_some_changes_come_mid_inning_but_most_do_not(self):
+        share = self.mid / (self.mid + self.between)
+        self.assertTrue(0.2 <= share <= 0.45, share)
+
+    def test_three_batter_minimum(self):
+        self.assertEqual(self.short_stints, 0)
+
+
+class TestRunawayGames(SimulationBatch):
+    def test_seed_71_is_not_a_blowout(self):
+        """Seed 71 ended 49-2: the closer, last man in a three-man bullpen,
+        pitched from the fourth on and walked 27 in the ninth."""
+        game = simulate(71)
+        runs = game.gameday_data['liveData']['linescore']['teams']
+        self.assertLess(max(runs['home']['runs'], runs['away']['runs']), 20)
+        self.assertLess(max(game.pitch_counts.values()), 135)
+
+    def test_twenty_run_games_are_rare(self):
+        """Twenty runs is a once-a-season game."""
+        totals = [runs for plays in self.all_plays.values()
+                  for runs in (plays[-1]['result']['awayScore'], plays[-1]['result']['homeScore'])]
+        self.assertLessEqual(sum(runs >= 20 for runs in totals), 1)
+        self.assertLess(max(totals), 26)
+
+    def test_a_team_out_of_relievers_still_throws_strikes(self):
+        """A pitcher left in with nobody behind him tires, but only so far."""
+        for seed in (1, 2, 3):
+            game = simulate(seed, home="CADILLAC_CARS")   # one pitcher on the roster
+            walks = sum(p['result']['event'] == 'Walk' and p['about']['isTopInning']
+                        for p in game.gameday_data['liveData']['plays']['allPlays'])
+            self.assertLess(walks, 15, f"seed {seed}")
+
+
 class TestWhoFieldsWhat(SimulationBatch):
     @classmethod
     def setUpClass(cls):
