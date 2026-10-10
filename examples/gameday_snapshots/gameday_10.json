@@ -1259,23 +1259,23 @@
         "isTopInning": false,
         "inning": 2,
         "isScoringPlay": true,
-        "startTime": "2025-09-27T23:29:17.678393+00:00",
-        "endTime": "2025-09-27T23:29:55.588595+00:00"
+        "startTime": "2025-09-27T23:30:29.371507+00:00",
+        "endTime": "2025-09-27T23:31:37.058978+00:00"
       },
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 0
+        "outs": 2
       },
       "matchup": {
         "batter": {
-          "id": 585406,
-          "fullName": "Gabriel Moreno",
-          "link": "/api/v1/people/585406"
+          "id": 585407,
+          "fullName": "Joc Pederson",
+          "link": "/api/v1/people/585407"
         },
         "batSide": {
-          "code": "R",
-          "description": "Right"
+          "code": "L",
+          "description": "Left"
         },
         "pitcher": {
           "id": 605110,
@@ -1288,15 +1288,15 @@
         },
         "splits": {
           "batter": "vs_RHP",
-          "pitcher": "vs_RHB",
-          "menOnBase": "RISP"
+          "pitcher": "vs_LHB",
+          "menOnBase": "Men_On"
         }
       },
       "playEvents": [
         {
-          "index": 42,
-          "startTime": "2025-09-27T23:29:17.678393+00:00",
-          "endTime": "2025-09-27T23:29:37.286231+00:00",
+          "index": 44,
+          "startTime": "2025-09-27T23:30:29.371507+00:00",
+          "endTime": "2025-09-27T23:30:55.325466+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
@@ -1310,24 +1310,51 @@
               "code": "FF",
               "description": "Four-seam fastball"
             },
-            "zone": 1
+            "zone": 4
           },
           "pitchData": {
-            "startSpeed": 95.2,
-            "zone": 1,
+            "startSpeed": 95.4,
+            "zone": 4,
             "breaks": {
-              "spinRate": 2313
+              "spinRate": 2211
             }
           }
         },
         {
-          "index": 43,
-          "startTime": "2025-09-27T23:29:37.286231+00:00",
-          "endTime": "2025-09-27T23:29:55.588595+00:00",
+          "index": 45,
+          "startTime": "2025-09-27T23:30:55.325466+00:00",
+          "endTime": "2025-09-27T23:31:18.647303+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
             "strikes": 1
+          },
+          "details": {
+            "code": "C",
+            "description": "Called Strike",
+            "isStrike": true,
+            "type": {
+              "code": "FF",
+              "description": "Four-seam fastball"
+            },
+            "zone": 3
+          },
+          "pitchData": {
+            "startSpeed": 94.5,
+            "zone": 3,
+            "breaks": {
+              "spinRate": 2493
+            }
+          }
+        },
+        {
+          "index": 46,
+          "startTime": "2025-09-27T23:31:18.647303+00:00",
+          "endTime": "2025-09-27T23:31:37.058978+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 0,
+            "strikes": 2
           },
           "details": {
             "code": "X",
@@ -1337,27 +1364,27 @@
               "code": "SL",
               "description": "Slider"
             },
-            "zone": 5
+            "zone": 2
           },
           "pitchData": {
-            "startSpeed": 86.2,
-            "zone": 5,
+            "startSpeed": 87.5,
+            "zone": 2,
             "breaks": {
-              "spinRate": 2630
+              "spinRate": 2555
             }
           },
           "hitData": {
-            "launchSpeed": 113.0,
-            "launchAngle": 30.8,
+            "launchSpeed": 112.5,
+            "launchAngle": 30.6,
             "trajectory": "fly_ball",
             "coordinates": {
-              "coordX": 98.33,
-              "coordY": 27.22
+              "coordX": 164.8,
+              "coordY": 30.37
             },
-            "totalDistance": 432,
+            "totalDistance": 430,
             "hardness": "hard",
             "depth": null,
-            "lane": "left_center",
+            "lane": "right_center",
             "location": "DCF"
           }
         }
@@ -1365,8 +1392,8 @@
       "runners": [
         {
           "movement": {
-            "originBase": "2B",
-            "start": "2B",
+            "originBase": "1B",
+            "start": "1B",
             "end": "score",
             "outBase": null,
             "isOut": false,
@@ -1377,15 +1404,15 @@
             "eventType": "home_run",
             "movementReason": "r_adv_play",
             "runner": {
-              "id": 585405,
-              "fullName": "Eugenio Suarez",
-              "link": "/api/v1/people/585405"
+              "id": 585406,
+              "fullName": "Gabriel Moreno",
+              "link": "/api/v1/people/585406"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 1,
+            "playIndex": 2,
             "responsiblePitcher": {
               "id": 605110,
               "link": "/api/v1/people/605110"
@@ -1407,15 +1434,15 @@
             "eventType": "home_run",
             "movementReason": null,
             "runner": {
-              "id": 585406,
-              "fullName": "Gabriel Moreno",
-              "link": "/api/v1/people/585406"
+              "id": 585407,
+              "fullName": "Joc Pederson",
+              "link": "/api/v1/people/585407"
             },
             "isScoringEvent": true,
             "rbi": true,
             "earned": true,
             "teamUnearned": false,
-            "playIndex": 1,
+            "playIndex": 2,
             "responsiblePitcher": {
               "id": 605110,
               "link": "/api/v1/people/605110"
@@ -1580,6 +1607,19 @@
                 "code": "3",
                 "name": "First Base",
                 "abbreviation": "1B"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 685410,
+                "fullName": "Zac Gallen",
+                "link": "/api/v1/people/685410"
+              },
+              "position": {
+                "code": "1",
+                "name": "Pitcher",
+                "abbreviation": "P"
               },
               "credit": "putout"
             }
@@ -2010,9 +2050,9 @@
     {
       "result": {
         "type": "atBat",
-        "event": "Forceout",
-        "eventType": "force_out",
-        "description": "",
+        "event": "Double Play",
+        "eventType": "grounded_into_double_play",
+        "description": "Christian Walk grounds into a double play, shortstop Caleb Jones to second base Nate Diaz to first base Owen Chen. Corbin Carroll out at 2nd. Christian Walk out at 1st.",
         "rbi": 0,
         "awayScore": 0,
         "homeScore": 0
@@ -2029,7 +2069,7 @@
       "count": {
         "balls": 0,
         "strikes": 0,
-        "outs": 2
+        "outs": 3
       },
       "matchup": {
         "batter": {
@@ -2054,11 +2094,6 @@
           "batter": "vs_RHP",
           "pitcher": "vs_RHB",
           "menOnBase": "Men_On"
-        },
-        "postOnFirst": {
-          "id": 585403,
-          "fullName": "Christian Walk",
-          "link": "/api/v1/people/585403"
         }
       },
       "playEvents": [
@@ -2169,8 +2204,8 @@
             "outNumber": 2
           },
           "details": {
-            "event": "Forceout",
-            "eventType": "force_out",
+            "event": "Grounded Into DP",
+            "eventType": "grounded_into_double_play",
             "movementReason": "r_force_out",
             "runner": {
               "id": 585402,
@@ -2216,14 +2251,14 @@
           "movement": {
             "originBase": null,
             "start": null,
-            "end": "1B",
-            "outBase": null,
-            "isOut": false,
-            "outNumber": null
+            "end": null,
+            "outBase": "1B",
+            "isOut": true,
+            "outNumber": 3
           },
           "details": {
-            "event": "Forceout",
-            "eventType": "force_out",
+            "event": "Grounded Into DP",
+            "eventType": "grounded_into_double_play",
             "movementReason": null,
             "runner": {
               "id": 585403,
@@ -2236,15 +2271,42 @@
             "teamUnearned": false,
             "playIndex": 2
           },
-          "credits": []
+          "credits": [
+            {
+              "player": {
+                "id": 545106,
+                "fullName": "Nate Diaz",
+                "link": "/api/v1/people/545106"
+              },
+              "position": {
+                "code": "4",
+                "name": "Second Base",
+                "abbreviation": "2B"
+              },
+              "credit": "assist"
+            },
+            {
+              "player": {
+                "id": 545107,
+                "fullName": "Owen Chen",
+                "link": "/api/v1/people/545107"
+              },
+              "position": {
+                "code": "3",
+                "name": "First Base",
+                "abbreviation": "1B"
+              },
+              "credit": "putout"
+            }
+          ]
         }
       ]
     }
   ],
-  "playCount": 68,
+  "playCount": 67,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 68,
+    "totalPlaysInGame": 67,
     "snapshotPlayCount": 6
   }
 }

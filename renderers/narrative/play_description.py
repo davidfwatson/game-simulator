@@ -346,6 +346,18 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             unassisted_templates = outcome_templates.get('unassisted_1b', [])
             strict_facts = renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')
             method = hit_data.get('putoutMethod')
+            if not method and not strict_facts and play:
+                # The credits say which it was: 3 unassisted, or 3-1 with
+                # the pitcher covering (it was a coin flip here, so one
+                # game could have the pitcher covering three times).
+                chain = [(str(c.get('credit', '')).replace('f_', ''), c.get('position', {}).get('abbreviation'))
+                         for r in play.get('runners', []) if r.get('movement', {}).get('isOut')
+                         and r.get('details', {}).get('runner', {}).get('id') == play.get('matchup', {}).get('batter', {}).get('id')
+                         for c in r.get('credits', [])]
+                if chain == [('putout', '1B')]:
+                    method = 'unassisted'
+                elif ('putout', 'P') in chain:
+                    method = 'throw'
             if unassisted_templates and (method == 'unassisted' or (not strict_facts and not method and renderer.rng_flow.random() < 0.5)):
                 specific_templates = unassisted_templates
             elif strict_facts and method not in ('throw', 'unassisted'):
@@ -587,8 +599,24 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if (fielder_pos == '1B' and template_outcome == 'Groundout'
             and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
         # The first baseman can't throw to himself: it's a toss to the pitcher covering (3-1).
-        final_description = re.sub(r'\b(fires|throws|flips|tosses|shovels|underhands|lobs)( it)? to first\b',
-                                   r'\1\2 to the pitcher covering first', final_description, count=1)
+        # (and from thirty feet away it's a flip, not "fires across"). The
+        # wording rotates, so two in a game don't come out word for word.
+        pitcher = _last_name(renderer, (play or {}).get('matchup', {}).get('pitcher', {})) if play else 'the pitcher'
+        renderer._covering_calls = getattr(renderer, '_covering_calls', 0) + 1
+        toss = ('flips to the pitcher covering first', f'tosses to {pitcher} covering',
+                f'flips to {pitcher} at the bag', 'underhands it to the pitcher covering')[(renderer._covering_calls - 1) % 4]
+        final_description, flipped = re.subn(
+            r'\b(?:fires|throws|flips|tosses|shovels|underhands|lobs)(?: it)?(?: over| across)? to first\b',
+            toss, final_description, count=1)
+        if not flipped:
+            final_description = re.sub(r'\bover to first\b', 'over to the pitcher covering first',
+                                       final_description, count=1)
+            final_description = re.sub(r'\b([Tt])he throw to first\b', r'\1he toss to the pitcher covering first',
+                                       final_description, count=1)
+    if (fielder_pos == '1B' and template_outcome in ('Sacrifice Bunt', 'Bunt Ground Out') and not strict):
+        # The first baseman charged the bunt: somebody else has the bag.
+        final_description = re.sub(r'\b(throws|fires|toss it|tosses) to first\b',
+                                   r'\1 to the second baseman covering first', final_description, count=1)
     if tracked:
         # "tracks it down down the right field line"; "Popped up, left."
         final_description = re.sub(r'\bdown down the\b', 'down the', final_description)

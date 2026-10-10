@@ -89,6 +89,13 @@ PARAMS = {
     'extra_base_margin': 1.0,  # s: a runner only tries for the next base with this much to spare
     'triple_margin': 0.2,      # s more a runner wants before trying for third
     'wall_carom': 2.1,         # s lost when the ball reaches the wall
+    'pitcher_reach': 0.33,     # s the pitcher's follow-through costs him on a grounder
+    'cover_first': 3.95,       # s for the pitcher to get over and cover first
+    'bag_speed': 12.7,         # ft/s, the first baseman carrying the ball to the bag
+    'toss_speed': 70.0,        # ft/s, the first baseman's underhand toss to him
+    'third_slow_roller': 1.2,  # s lost per 10 mph under 65 on a roller the third baseman has to charge
+    'third_range': 0.8,        # s lost when he only just reaches a ball (a dive, a backhand behind the bag)
+    'third_range_margin': 0.25,
     'fence_scale': 1.004,
 }
 
@@ -163,6 +170,9 @@ class BattedBall:
     # catch, or the outfielder picking up a hit. Runner advancement races this.
     release: float = 0.0
     release_point: tuple = None
+    # A grounder the first baseman fielded too far from the bag to beat the
+    # batter there himself: he tossed to the pitcher covering (3-1).
+    pitcher_covers: bool = False
 
     @property
     def coordinates(self):
@@ -237,7 +247,7 @@ def _ground_ball(ev, la, spray, rng, defense, batter_speed, params):
         reach = p['if_react'] + lateral / defense.speed(pos, p['if_lateral'])
         margin = t_ball + p['gb_slack'] - reach
         if pos == 'P':
-            margin -= 0.25   # follow-through: the pitcher gets only what's hit at him
+            margin -= p['pitcher_reach']   # follow-through: the pitcher gets only what's hit at him
         if best is None or margin > best[1]:
             best = (pos, margin, t_ball, reach, depth)
     pos, margin, t_ball, reach, depth = best
@@ -252,16 +262,30 @@ def _ground_ball(ev, la, spray, rng, defense, batter_speed, params):
         return BattedBall('Single', of, 'ground_ball', _location_code('Single', spray, 150, 'ground_ball'),
                           spray, ball, distance((0, 0), ball), release=release, release_point=meet)
     t_fielded = max(t_ball, reach) + p['transfer']
-    if pos == '1B' and distance(spot, FIRST_BASE) < 45:
-        t_out = t_fielded - p['transfer'] + distance(spot, FIRST_BASE) / defense.speed(pos, p['if_speed'])
+    pitcher_covers = False
+    if pos == '1B':
+        # He takes it to the bag himself, or flips to the pitcher covering,
+        # whichever gets the out sooner.
+        t_out = t_fielded - p['transfer'] + distance(spot, FIRST_BASE) / defense.speed(pos, p['bag_speed'])
+        toss = max(t_fielded + distance(spot, FIRST_BASE) / p['toss_speed'], p['cover_first'])
+        if toss < t_out:
+            t_out, pitcher_covers = toss, True
     else:
         t_out = t_fielded + distance(spot, FIRST_BASE) / p['throw_speed']
-    # A slow roller the fielder has to charge: he gains ground coming in.
-    if ev < 65:
+    if pos == '3B':
+        # The long throw makes third the hard place to field a slow roller
+        # (charged, barehanded, thrown on the run) or a ball he has to dive
+        # for: most infield hits go to the left side.
+        if ev < 65:
+            t_out += p['third_slow_roller'] * (65 - ev) / 10.0
+        if margin < p['third_range_margin']:
+            t_out += p['third_range']
+    elif ev < 65:
+        # A slow roller the fielder has to charge: he gains ground coming in.
         t_out -= 0.3
     if t_out < home_to_first:
         return BattedBall('Groundout', pos, 'ground_ball', pos, spray, spot, depth,
-                          release=t_fielded, release_point=spot)
+                          release=t_fielded, release_point=spot, pitcher_covers=pitcher_covers)
     return BattedBall('Single', pos, 'ground_ball', pos, spray, spot, depth,
                       release=t_fielded, release_point=spot)
 
@@ -296,6 +320,10 @@ def _air_ball(ev, la, spray, rng, defense, batter_speed, params):
         spare -= 0.5   # catching it at the wall
     p_catch = 1.0 / (1.0 + math.exp(-p['catch_k'] * (spare + p['catch_bias'])))
     if rng.random() < p_catch:
+        if pos == 'P' and flight.hang_time > 2.0:
+            # A pitcher catches the liner hit back at him; on a pop-up he
+            # gets out of the way and an infielder takes it.
+            pos = min(('C', '1B', '2B', '3B', 'SS'), key=lambda o: distance(defense.spots[o], land))
         # StatsAPI names caught balls by launch angle, not by who caught them:
         # Lineout to ~27 degrees, Flyout to ~57, Pop Out above (real feeds).
         if la >= 57:
@@ -426,7 +454,14 @@ RUN_PARAMS = {
     'tag_third': 0.15,
     'tag_second': 1.6,
     'pivot': 1.0,           # s for the pivot man to catch, step and throw
+    # ...and how much longer or shorter the turn is by who starts it: a short
+    # feed from the middle infield, the long throw from third, the pitcher
+    # wheeling to a moving target, the first baseman throwing past the runner
+    # with nobody yet back at the bag. Real double plays start at short or
+    # second about two times in three.
+    'pivot_by_starter': {'SS': -0.9, '2B': -0.35, '3B': 0.0, 'P': 0.8, '1B': 0.5, 'C': 0.8},
     'force_margin': 0.4,    # s the force at second must win by
+    'corner_force': 0.7,    # s more a corner infielder or the pitcher wants before going to second for one out
     'two_out_force': 0.45,  # with two out, s quicker the force at second must be to go there over first
     'unforced_home': -0.3,  # s a runner on third gives the throw home on a grounder
     'r2_go_release': 1.7,   # s: a runner on second takes third if the ball is hit to his left and fielded this late
@@ -512,12 +547,13 @@ def ground_out_play(ball, runners, outs, batter_speed, rng, params=PARAMS, rp=RU
     play = 'first'
     if 1 in runners and outs < 2:
         beat_runner = t_second + rp['force_margin'] < runner_time(1, 2)
-        relay = t_second + rp['pivot'] + distance(SECOND_BASE, FIRST_BASE) / p['throw_speed']
+        relay = (t_second + rp['pivot'] + rp['pivot_by_starter'].get(pos, 0.0)
+                 + distance(SECOND_BASE, FIRST_BASE) / p['throw_speed'])
         if beat_runner and relay < home_to_first:
             play = 'dp'
         elif 3 in forced and t_home + rp['force_margin'] < runner_time(3, 4):
             play = 'force_home'
-        elif beat_runner:
+        elif beat_runner and (pos in ('SS', '2B') or t_second + rp['force_margin'] + rp['corner_force'] < runner_time(1, 2)):
             play = 'force_second'
     elif 1 in runners and outs == 2:
         # Two out: take whichever out is surer.

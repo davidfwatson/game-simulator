@@ -1388,6 +1388,12 @@ class BaseballSimulator:
             fielder = self._defense_positions().get(field.fielder)
         if fielder is not None:
             pass
+        elif out_type == 'Sacrifice Bunt':
+            # A bunt is fielded in front of the plate: by the pitcher, a
+            # charging corner infielder or the catcher, never "to short".
+            bunt_fielders = [(pitcher, 45), (defense.get('3B'), 30), (first_baseman, 15), (catcher, 10)]
+            bunt_fielders = [(p, w) for p, w in bunt_fielders if p]
+            fielder = self.game_rng.choices([p for p, _ in bunt_fielders], weights=[w for _, w in bunt_fielders], k=1)[0]
         elif out_type in ['Groundout', 'Sacrifice Bunt', 'Lineout', 'Pop Out', 'Forceout', 'Grounded Into DP', 'Double Play']:
             grounder_candidates = [(p, 6) for p in infielders] + [(pitcher, 1)] + ([(catcher, 0.25)] if catcher else [])
             fielder = self.game_rng.choices([c[0] for c in grounder_candidates], weights=[c[1] for c in grounder_candidates], k=1)[0]
@@ -1523,7 +1529,10 @@ class BaseballSimulator:
                 rbis = 0  # No RBI on a sacrifice
             specific_event = final_out_type
 
-        if fielder['position']['abbreviation'] == '1B' and first_baseman:
+        if out_type == 'Sacrifice Bunt' and fielder['position']['abbreviation'] == '1B' and defense.get('2B'):
+            # The first baseman charged the bunt; the second baseman covers first.
+            credits = [self._create_credit(fielder, 'assist'), self._create_credit(defense['2B'], 'putout')]
+        elif fielder['position']['abbreviation'] == '1B' and first_baseman:
             credits = [self._create_credit(first_baseman, 'putout')]
         elif first_baseman:
             credits = [self._create_credit(fielder, 'assist'), self._create_credit(first_baseman, 'putout')]
@@ -1553,7 +1562,8 @@ class BaseballSimulator:
                 cover = catcher
                 self._last_force = (forced, '3B', 'score')
             else:
-                cover = (defense.get('2B') if pos == 'SS' else defense.get('SS'))
+                # The second baseman covers on a ball to the left side.
+                cover = (defense.get('2B') if pos in ('SS', '3B') else defense.get('SS'))
                 self._last_force = (forced, '1B', '2B')
             if pos in ('2B', 'SS') and play == 'force_second' and fieldsim.distance(field.release_point, fieldsim.SECOND_BASE) < 30:
                 credits = [self._create_credit(fielder, 'putout')]
@@ -1564,7 +1574,11 @@ class BaseballSimulator:
             return runs, False, runs, credits, [], credits, False, "Forceout", forced
         self.outs += 1
         runs = self._apply_runner_dests(dests)
-        if pos == '1B' and first_baseman:
+        if pos == '1B' and first_baseman and field.pitcher_covers:
+            # 3-1: the toss to the pitcher covering first.
+            credits = [self._create_credit(first_baseman, 'assist'),
+                       self._create_credit(self._defense_positions()['P'], 'putout')]
+        elif pos == '1B' and first_baseman:
             credits = [self._create_credit(first_baseman, 'putout')]
         elif first_baseman:
             credits = [self._create_credit(fielder, 'assist'), self._create_credit(first_baseman, 'putout')]
