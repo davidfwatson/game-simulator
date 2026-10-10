@@ -205,11 +205,19 @@ def player_sides(data):
     return sides
 
 
-def remap_names(data, template_game_data):
-    """Give every player, team and the venue our names, consistently."""
+def remap_names(data, template_game_data, seed=None):
+    """Give every player, team and the venue our names, consistently.
+
+    Relievers draw their names in an order seeded per game (``seed``, else the
+    game's own players): the simulator's first man out of the pen varies, so
+    a real or hand-written game whose first reliever was always the first
+    free roster pitcher ("Colin Miller replaces Joe Gibson") stood out.
+    """
     data = copy.deepcopy(data)
     players = data["gameData"]["players"]
     by_id = {p["id"]: p for p in players.values()}
+    rng = random.Random(str(seed) if seed is not None
+                        else "|".join(sorted(str(p.get("fullName")) for p in players.values())))
     sides = player_sides(data)
     # Only players who appear in the plays need names; a real feed's
     # gameData.players also lists the whole bench.
@@ -244,18 +252,36 @@ def remap_names(data, template_game_data):
         pos = {p["legal_name"]: p["position"]["code"] for p in TEAMS[key]["players"]}
         spare = list(OVERFLOW[side])
         free = list(roster)
+        # The starter keeps the roster's starter; everyone after him comes
+        # out of the seven-man pen in this game's order, then off the
+        # overflow list, also shuffled.
+        pen = [n for n in roster if pos[n] == "1"][1:]
+        rng.shuffle(pen)
+        extra_arms = list(spare)
+        rng.shuffle(extra_arms)
+        pitchers_named = 0
         for pid in order:
             if sides[pid] != side:
                 continue
             code = (by_id[pid].get("primaryPosition") or {}).get("code")
             pick = next((n for n in free if pos[n] == code), None)
+            if code == "1":
+                if pitchers_named and pen:
+                    pick = pen.pop(0)
+                elif pitchers_named:
+                    pick = next((n for n in extra_arms if n in spare), None)
+                    if pick is not None:
+                        spare.remove(pick)
+                pitchers_named += 1
             if pick is None:
                 hitters = [n for n in free if pos[n] != "1"] if code != "1" else []
                 pick = (hitters or [n for n in free if code == "1" and pos[n] == "1"] or [None])[0]
             if pick is None:
                 pick = spare.pop(0) if spare else next(invented)
-            else:
+            elif pick in free:
                 free.remove(pick)
+                if pick in pen:
+                    pen.remove(pick)
             id_names[pid] = pick
 
     # Anyone else in the player table (a fielder only named in a credit the
@@ -378,8 +404,8 @@ def build(out, count, real_feeds, seed, span=1):
         feed = feeds[(n - 1) % len(feeds)]
         sim_seed = rng.randrange(1, 10 ** 6)
         sources = {
-            "sleep": remap_names(sleep_game(episode), template),
-            "real": remap_names(real_game(feed, seed=sim_seed), template),
+            "sleep": remap_names(sleep_game(episode), template, seed=f"{sim_seed}:sleep"),
+            "real": remap_names(real_game(feed, seed=sim_seed), template, seed=f"{sim_seed}:real"),
             "sim": sim_game(sim_seed),
         }
         last = min(9, *(innings_played(d) for d in sources.values())) - span + 1
