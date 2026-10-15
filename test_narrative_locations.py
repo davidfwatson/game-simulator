@@ -96,8 +96,10 @@ class TestNarrativeLocations(unittest.TestCase):
         self.assertNotIn("the the Bay Area", text)
         for call in radio.call_args_list:
             pool = call.args[0]
-            if any("{location" in template for template in GAME_CONTEXT["radio_strings"].get(pool, [])):
+            templates = GAME_CONTEXT["radio_strings"].get(pool, [])
+            if any("{location}" in template for template in templates):
                 self.assertEqual(call.args[1]["location"], "the Bay Area")
+            if any("{location_with_state}" in template for template in templates):
                 self.assertEqual(call.args[1]["location_with_state"], "California's Bay Area")
         # Inning summaries and introductions draw their pools directly (the
         # break return and the stretch merge pools), so count the phrases.
