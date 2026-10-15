@@ -109,6 +109,8 @@ class BaseballSimulator:
         self._stolen_second_this_inning = set()
         self.commentary_seed = (game_seed if game_seed is not None
                                 else random.SystemRandom().randrange(2 ** 63))
+        # Managerial choices must not consume the next pitch's random draws.
+        self.strategy_rng = random.Random(self.commentary_seed + 48271)
         # Throw and slide details must not change the game's results.
         self.steal_rng = random.Random(self.commentary_seed + 1)
 
@@ -119,7 +121,7 @@ class BaseballSimulator:
         self.team2_bench = [p.copy() for p in self.team2_data.get('bench', [])]
         self._pending_defensive_switches = {'team1': [], 'team2': []}
         # Visits change the broadcast's texture without changing pitch outcomes.
-        self.texture_rng = random.Random((game_seed or 0) + 293837)
+        self.texture_rng = random.Random(self.commentary_seed + 293837)
         
         self._setup_pitchers(self.team1_data, 'team1')
         self._setup_pitchers(self.team2_data, 'team2')
@@ -152,8 +154,8 @@ class BaseballSimulator:
         self._initialize_gameday_data()
 
         # Game context
-        self.umpires = self.game_rng.sample(GAME_CONTEXT["umpires"], 4)
-        self.weather = self.game_rng.choice(GAME_CONTEXT["weather_conditions"])
+        self.umpires = self.texture_rng.sample(GAME_CONTEXT["umpires"], 4)
+        self.weather = self.texture_rng.choice(GAME_CONTEXT["weather_conditions"])
         self.venue = self.team1_data["venue"]
 
         # Add context to gameday data
@@ -451,7 +453,7 @@ class BaseballSimulator:
         bullpen_candidates = [p['legal_name'] for p in all_pitchers if p['type'] != 'Starter']
         closers = [name for name in bullpen_candidates if pitcher_stats[name]['type'] == 'Closer']
         non_closers = [name for name in bullpen_candidates if pitcher_stats[name]['type'] != 'Closer']
-        self.game_rng.shuffle(non_closers)
+        self.strategy_rng.shuffle(non_closers)
         available_bullpen = non_closers + closers
         current_pitcher_name = next(p['legal_name'] for p in all_pitchers if p['type'] == 'Starter')
 
@@ -464,9 +466,9 @@ class BaseballSimulator:
         self._batters_faced.update({name: 0 for name in pitcher_stats})
         self._runs_allowed.update({name: 0 for name in pitcher_stats})
         starter = pitcher_stats[current_pitcher_name]
-        budget = self.game_rng.gauss(starter['stamina'] + STARTER_PITCH_BUDGET, STARTER_BUDGET_SD)
-        if self.game_rng.random() < SHORT_LEASH_RATE:
-            budget = self.game_rng.uniform(*SHORT_LEASH_RANGE)
+        budget = self.strategy_rng.gauss(starter['stamina'] + STARTER_PITCH_BUDGET, STARTER_BUDGET_SD)
+        if self.strategy_rng.random() < SHORT_LEASH_RATE:
+            budget = self.strategy_rng.uniform(*SHORT_LEASH_RANGE)
         self._pitch_budget[current_pitcher_name] = budget
 
     def _setup_defense(self, team_prefix, team_data):
@@ -581,7 +583,7 @@ class BaseballSimulator:
                 candidates = [p for p in bench if self._can_replace(p, runner)
                               and p['batting_profile']['stealing_tendency'] >= 0.15]
                 if (runner['batting_profile']['stealing_tendency'] <= 0.02 and candidates
-                        and self.game_rng.random() < 0.35):
+                        and self.strategy_rng.random() < 0.35):
                     incoming = max(candidates, key=self._speed_of)
                     events.append(self._substitute(prefix, runner_slot, incoming, 'PR'))
                     self.bases[base] = incoming['legal_name']
@@ -599,7 +601,7 @@ class BaseballSimulator:
         candidates = [p for p in bench if self._can_replace(p, batter)]
         if same_hand:
             candidates = [p for p in candidates if p['batSide']['code'] != pitcher.get('pitchHand', {}).get('code', 'R')]
-        if candidates and self.game_rng.random() < (0.24 if self.inning == 6 else 0.48):
+        if candidates and self.strategy_rng.random() < (0.24 if self.inning == 6 else 0.48):
             incoming = max(candidates, key=lambda p: p['batting_profile']['contact'] + 0.3 * p['batting_profile']['power'])
             events.append(self._substitute(prefix, slot, incoming, 'PH'))
         return events
@@ -628,7 +630,7 @@ class BaseballSimulator:
             candidates = [(i, p) for i, starter in enumerate(lineup) for p in bench
                           if starter['position']['abbreviation'] not in ('C', 'DH')
                           and self._can_replace(p, starter) and p['fielding_ability'] - starter['fielding_ability'] >= 0.008]
-            if candidates and self.game_rng.random() < (0.24 if self.inning == 7 else 0.55):
+            if candidates and self.strategy_rng.random() < (0.24 if self.inning == 7 else 0.55):
                 slot, incoming = max(candidates, key=lambda ip: ip[1]['fielding_ability'] - lineup[ip[0]]['fielding_ability'])
                 natural_position = incoming['position'].copy()
                 event = self._substitute(prefix, slot, incoming, 'defense')
@@ -850,7 +852,7 @@ class BaseballSimulator:
         rate = BUNT_RATE_FACTOR if sacrifice else BUNT_FOR_HIT_FACTOR
         if self.inning == 1:
             rate *= 0.2
-        return self.game_rng.random() < min(0.45, propensity * rate), sacrifice
+        return self.strategy_rng.random() < min(0.45, propensity * rate), sacrifice
 
     def _determine_outcome_from_trajectory(self, ev, la):
         """Determines the outcome of a batted ball from its physics."""
@@ -1129,7 +1131,7 @@ class BaseballSimulator:
                 if runner_name in self._stolen_second_this_inning:
                     third_modifier *= 0.65
                 attempt_chance = runner_data['batting_profile']['stealing_tendency'] * STEAL_THIRD_FACTOR * count_modifier * third_modifier * score_modifier
-                if self.game_rng.random() < attempt_chance:
+                if self.strategy_rng.random() < attempt_chance:
                     return 3
 
         if self.bases[0] and not self.bases[1]:
@@ -1137,7 +1139,7 @@ class BaseballSimulator:
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
                 attempt_chance = runner_data['batting_profile']['stealing_tendency'] * STEAL_SECOND_FACTOR * count_modifier * outs_modifier * score_modifier
-                if self.game_rng.random() < attempt_chance:
+                if self.strategy_rng.random() < attempt_chance:
                     return 2
 
         return None
@@ -1169,10 +1171,10 @@ class BaseballSimulator:
         runner = next(p for p in batting_lineup if p['legal_name'] == runner_name)
         start_time = self.current_time.isoformat()
         self.current_time += timedelta(seconds=self.time_rng.uniform(4.0, 8.0))
-        draw = self.game_rng.random()
+        draw = self.strategy_rng.random()
         is_out = draw < PICKOFF_OUT_RATE
         is_error = not is_out and draw < PICKOFF_OUT_RATE + PICKOFF_ERROR_RATE and not self.bases[2]
-        caught_stealing = is_out and base < 3 and not self.bases[base] and self.game_rng.random() < 0.5
+        caught_stealing = is_out and base < 3 and not self.bases[base] and self.strategy_rng.random() < 0.5
         target = base + 1 if caught_stealing else base
         event_type = (f'pickoff_caught_stealing_{target}b' if caught_stealing else f'pickoff_{base}b') if is_out else ''
         event = {
@@ -1357,11 +1359,11 @@ class BaseballSimulator:
             pitch_start_time = self.current_time.isoformat()
             # Batters give up the bunt with two strikes: a foul bunt there is
             # strike three, so only the rare (pitcher-ish) bunter keeps it on.
-            bunting_now = is_bunting and (strikes < 2 or self.game_rng.random() < 0.1)
+            bunting_now = is_bunting and (strikes < 2 or self.strategy_rng.random() < 0.1)
             if bunting_now and any(e.get('isBunt') for e in play_events):
                 # After a failed attempt he usually swings away; three bunt
                 # tries in one at-bat was a tell.
-                is_bunting = bunting_now = self.game_rng.random() < 0.2
+                is_bunting = bunting_now = self.strategy_rng.random() < 0.2
             # Two disengagements per plate appearance under the pitch clock,
             # and a second throw over is rarer than the first.
             throws_this_pa = sum(1 for e in play_events if e.get('type') == 'pickoff'
@@ -1369,7 +1371,7 @@ class BaseballSimulator:
             base = next((i + 1 for i, name in enumerate(self.bases) if name), None)
             if base and throws_this_pa < 2:
                 rate = {1: PICKOFF_THROW_RATE, 2: 0.011, 3: 0.008}[base]
-                if self.game_rng.random() < rate * (0.5 if throws_this_pa else 1):
+                if self.strategy_rng.random() < rate * (0.5 if throws_this_pa else 1):
                     self._record_pickoff_throw(play_events, balls, strikes, pitcher, base)
                     if self.outs >= 3:
                         return play_events[-1]['details']['event'], None, play_events
@@ -1701,7 +1703,7 @@ class BaseballSimulator:
         prefix, name, stats, bullpen = self._pitching_side()
         if not bullpen:
             return
-        rng = self.game_rng
+        rng = self.strategy_rng
         pitches = self.pitch_counts[name]
         faced = self._batters_faced[name]
         if faced < 3:
@@ -1756,7 +1758,7 @@ class BaseballSimulator:
         prefix, name, stats, bullpen = self._pitching_side()
         if not bullpen:
             return
-        rng = self.game_rng
+        rng = self.strategy_rng
         pitches = self.pitch_counts[name]
         faced = self._batters_faced[name]
         runs = self._runs_allowed[name]

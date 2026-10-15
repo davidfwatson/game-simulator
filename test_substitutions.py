@@ -56,7 +56,7 @@ class TestSubstitutionState(unittest.TestCase):
         outgoing = game.team2_lineup[3]
         game.bases[0] = outgoing['legal_name']
         pitcher = game.team1_pitcher_stats[game.team1_current_pitcher_name]
-        with patch.object(game.game_rng, 'random', return_value=0):
+        with patch.object(game.strategy_rng, 'random', return_value=0):
             events = game._manage_offensive_substitutions(2, pitcher)
         self.assertEqual(len(events), 1)
         event = events[0]
@@ -73,7 +73,7 @@ class TestSubstitutionState(unittest.TestCase):
         game.inning, game.team1_score = 8, 2
         game.team1_bench[:] = [game.team1_bench[2]]
         center = game.team1_lineup[0]
-        with patch.object(game.game_rng, 'random', return_value=0):
+        with patch.object(game.strategy_rng, 'random', return_value=0):
             events = game._manage_defensive_substitutions()
         self.assertEqual([e['details']['eventType'] for e in events],
                          ['defensive_switch', 'defensive_substitution'])
@@ -137,7 +137,7 @@ class TestSubstitutionState(unittest.TestCase):
         def at_bat(batter, pitcher):
             outcome = next(outcomes)
             if outcome.startswith('Pickoff'):
-                with patch.object(game.game_rng, 'random', side_effect=[0.01, 0.9]):
+                with patch.object(game.strategy_rng, 'random', side_effect=[0.01, 0.9]):
                     events = []
                     game._record_pickoff_throw(events, 1, 1, pitcher)
                 return outcome, None, events
@@ -163,7 +163,7 @@ class TestSubstitutionState(unittest.TestCase):
         game._between_pitch_runners = []
         pitcher = game.team1_pitcher_stats[game.team1_current_pitcher_name]
         events = []
-        with patch.object(game.game_rng, 'random', return_value=0.035):
+        with patch.object(game.strategy_rng, 'random', return_value=0.035):
             game._record_pickoff_throw(events, 0, 1, pitcher)
         self.assertEqual(game.outs, 0)
         self.assertIsNone(game.bases[0])

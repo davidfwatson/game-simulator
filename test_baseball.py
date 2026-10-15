@@ -155,7 +155,7 @@ class TestRelieverSelection(unittest.TestCase):
                 self.assertTrue(game._entered_mid_inning[reliever])
 
                 game.inning, game.outs = 7, 0
-                with patch.object(game.game_rng, 'random', return_value=0.0):
+                with patch.object(game.strategy_rng, 'random', return_value=0.0):
                     game._manage_between_innings()
                 replacement = getattr(game, f'{prefix}_current_pitcher_name')
                 self.assertNotEqual(replacement, reliever)

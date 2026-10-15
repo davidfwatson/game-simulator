@@ -73,7 +73,7 @@ class TestUnfinishedPlateAppearance(unittest.TestCase):
                      'count': {'balls': 0, 'strikes': 0}, 'details': {'code': 'B'}}
             if outcome == 'Pickoff 1B':
                 events = []
-                with patch.object(game.game_rng, 'random', side_effect=[0.01, 0.9]):
+                with patch.object(game.strategy_rng, 'random', side_effect=[0.01, 0.9]):
                     game._record_pickoff_throw(events, 0, 0, pitcher)
                 return outcome, None, events
             return outcome, None, [event]
