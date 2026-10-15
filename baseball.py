@@ -1067,7 +1067,6 @@ class BaseballSimulator:
             return True # Caught stealing
 
     def _simulate_at_bat(self, batter, pitcher):
-        self._update_batting_stat(self._batting_team_key, batter['id'], 'plateAppearances')
         balls, strikes = 0, 0
         play_events: list[PlayEvent] = []
         
@@ -1321,14 +1320,26 @@ class BaseballSimulator:
         new_bases = [None, None, None]
         if hit_type == 'Single':
             if old_bases[2]: runs += 1; rbis += (1 if batter_gets_rbi else 0); advances.append(f"{old_bases[2]} scores")
-            if old_bases[1]: new_bases[2] = old_bases[1]; advances.append(f"{old_bases[1]} to 3B")
-            if old_bases[0]: new_bases[1] = old_bases[0]; advances.append(f"{old_bases[0]} to 2B")
+            if old_bases[1]:
+                # With two out the runners go on contact instead of waiting
+                # to see the ball fall. The field model times this above.
+                if self.game_rng.random() < (0.78 if self.outs == 2 else 0.50):
+                    runs += 1; rbis += (1 if batter_gets_rbi else 0); advances.append(f"{old_bases[1]} scores")
+                else:
+                    new_bases[2] = old_bases[1]; advances.append(f"{old_bases[1]} to 3B")
+            if old_bases[0]:
+                target = 2 if not new_bases[2] and self.game_rng.random() < (0.40 if self.outs == 2 else 0.25) else 1
+                new_bases[target] = old_bases[0]; advances.append(f"{old_bases[0]} to {target + 1}B")
             new_bases[0] = batter_name
             if include_batter_advance: advances.append(f"{batter_name} to 1B")
         elif hit_type == 'Double':
             if old_bases[2]: runs += 1; rbis += (1 if batter_gets_rbi else 0); advances.append(f"{old_bases[2]} scores")
             if old_bases[1]: runs += 1; rbis += (1 if batter_gets_rbi else 0); advances.append(f"{old_bases[1]} scores")
-            if old_bases[0]: new_bases[2] = old_bases[0]; advances.append(f"{old_bases[0]} to 3B")
+            if old_bases[0]:
+                if self.game_rng.random() < (0.55 if self.outs == 2 else 0.20):
+                    runs += 1; rbis += (1 if batter_gets_rbi else 0); advances.append(f"{old_bases[0]} scores")
+                else:
+                    new_bases[2] = old_bases[0]; advances.append(f"{old_bases[0]} to 3B")
             new_bases[1] = batter_name
             if include_batter_advance: advances.append(f"{batter_name} to 2B")
         elif hit_type == 'Triple':
@@ -1818,6 +1829,9 @@ class BaseballSimulator:
             self._thrown_out = []
             self._close_plays = set()
             outcome, description, play_events = self._simulate_at_bat(batter, pitcher)
+            pa_complete = not outcome.startswith(('Caught Stealing', 'Pickoff'))
+            if pa_complete:
+                self._update_batting_stat(self._batting_team_key, batter['id'], 'plateAppearances')
             self._free_pass_pitcher = pitcher_name if outcome in ("Walk", "Hit By Pitch", "HBP") else None
 
             ab_end_time = self.current_time.isoformat()
@@ -1833,9 +1847,8 @@ class BaseballSimulator:
             # Store pre-advance base state
             old_bases = self.bases[:]
 
-            if outcome == "Caught Stealing":
-                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
-                pass
+            if not pa_complete:
+                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs', self.outs - old_outs)
             elif outcome in ["Groundout", "Flyout", "Sacrifice Bunt", "Lineout", "Pop Out", "Forceout", "Grounded Into DP", "Bunt Ground Out", "Double Play"]:
                 result = self._handle_batted_ball_out(outcome, batter, description)
                 new_runs, was_error, new_rbis, credits_from_out, credits_batter_dp, credits_runner_dp, is_dp, specific_event, runner_out_dp = result
@@ -1977,7 +1990,8 @@ class BaseballSimulator:
             if rbis > 0:
                  self._update_batting_stat(self._batting_team_key, batter['id'], 'rbi', rbis)
 
-            self._batters_faced[pitcher_name] += 1
+            if pa_complete:
+                self._batters_faced[pitcher_name] += 1
             self._runs_allowed[pitcher_name] += runs
             # Pitching Runs
             if runs > 0:
@@ -2188,28 +2202,20 @@ class BaseballSimulator:
                 )
                 if batter_entry: runner_list.append(batter_entry)
 
-            elif outcome == "Caught Stealing":
-                 # 3rd out caught stealing
-                 # Find who was out. _resolve_steal_attempt removed them from base.
-                 # Check difference between old_bases and self.bases.
-                 for i, (old, new) in enumerate(zip(old_bases, self.bases)):
-                     if old and not new:
-                         # This runner disappeared.
-                         origin = base_map[i]
-                         out_base = "2B" if origin == "1B" else "3B" # Assumption
-                         # Wait, steal attempt.
-                         # If caught stealing 2nd, origin 1B.
-                         runner_entry = self._build_runner_entry(
-                            runner_name=old, origin_base=origin, end_base=None,
-                            is_out=True, out_number=self.outs, event="Caught Stealing",
-                            event_type="caught_stealing",
-                            movement_reason=None, play_index=play_index,
-                            is_scoring=False, is_rbi=False
-                        )
-                         # We need to manually fix outBase because _build_runner_entry sets end=None if out
-                         if runner_entry:
-                             runner_entry['movement']['outBase'] = out_base
-                             runner_list.append(runner_entry)
+            elif not pa_complete:
+                # The runner was removed during the pitch sequence, before
+                # old_bases was captured. Use the action's recorded movement.
+                for event in play_events:
+                    for movement in event.get('details', {}).get('runners', []):
+                        if not movement.get('isOut'):
+                            continue
+                        runner_entry = self._build_runner_entry(
+                            runner_name=movement['runner']['fullName'], origin_base=movement['fromBase'],
+                            end_base=movement['toBase'], is_out=True, out_number=self.outs, event=outcome,
+                            event_type=self._get_event_type_code(outcome), movement_reason=None,
+                            play_index=event['index'], is_scoring=False, is_rbi=False)
+                        if runner_entry:
+                            runner_list.append(runner_entry)
 
             # --- End runner tracking ---
 
@@ -2234,6 +2240,8 @@ class BaseballSimulator:
 
             play_result = PlayResult(type="atBat", event=outcome, eventType=self._get_event_type_code(outcome), description=final_description, rbi=rbis, awayScore=self.team2_score, homeScore=self.team1_score)
             play_about = PlayAbout(atBatIndex=at_bat_index, halfInning="bottom" if is_home_team_batting else "top", isTopInning=not is_home_team_batting, inning=self.inning, isScoringPlay=runs > 0, startTime=ab_start_time, endTime=ab_end_time)
+            if not pa_complete:
+                play_about['isComplete'] = False
             final_count = PlayCount(balls=0, strikes=0, outs=self.outs)
             matchup = self._build_matchup(batter, pitcher, pre_play_bases)
             current_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
@@ -2262,7 +2270,8 @@ class BaseballSimulator:
                 if is_home_team_batting: ls['teams']['away']['errors'] += 1
                 else: ls['teams']['home']['errors'] += 1
             
-            setattr(self, batter_idx_ref, (getattr(self, batter_idx_ref) + 1) % 9)
+            if pa_complete:
+                setattr(self, batter_idx_ref, (getattr(self, batter_idx_ref) + 1) % 9)
             if self.outs >= 3: break
             if is_home_team_batting and self.team1_score > self.team2_score and self.inning >= 9:
                 return

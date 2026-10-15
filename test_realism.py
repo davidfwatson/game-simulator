@@ -125,7 +125,9 @@ class TestRealism(unittest.TestCase):
         self.assertGreater(total_walks, 50, "Very few walks over 100 games, indicates a problem with plate discipline logic.")
         self.assertGreater(total_hbps, 2, "Hit by pitches are missing from the simulation.")
         self.assertGreater(total_dps, 20, "Double plays are too rare or missing.")
-        self.assertLess(total_triples, 30, "Too many triples, indicates an issue with hit outcome distribution.")
+        # 136 real feeds average 0.30 triples/game. Count hits, not repeated
+        # mentions in the commentary; leave four standard deviations of room.
+        self.assertLess(total_triples, 55, "Too many triples, indicates an issue with hit outcome distribution.")
         self.assertLess(groundout_2_3_count, 5, "Unrealistically high number of 2-3 groundouts.")
         self.assertGreater(unassisted_3u_count, 10, "3U unassisted groundouts are not being logged correctly.")
         self.assertGreater(popouts, 0, "Infield fly balls are not being classified as 'Pop outs'.")
