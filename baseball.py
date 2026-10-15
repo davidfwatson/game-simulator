@@ -45,9 +45,14 @@ COUNT_ZONE_ADJUSTMENTS = {
     (3, 0): 0.10, (3, 1): 0.04, (3, 2): 0.01,
 }
 ZONE_RATE_OFFSET = 0.085      # subtracted from pitcher control to get zone rate
-PICKOFF_THROW_RATE = 0.043    # per pitch with a runner on first; less often to second or third
+PICKOFF_THROW_RATE = 0.037    # per pitch with a runner on first; less often to second or third
 PICKOFF_OUT_RATE = 0.026     # includes runners caught stealing after the throw over
 PICKOFF_ERROR_RATE = 0.017
+# The combined count model and benches create more running opportunities.
+# 136 real feeds: 1.34/0.25 steal attempts at second/third and 6.22 visits/game.
+STEAL_SECOND_FACTOR = 1.4
+STEAL_THIRD_FACTOR = 0.55
+MOUND_VISIT_RATE = 0.177
 AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk/HBP
 WILD_PITCH_FACTOR = 3.2        # x the pitcher's wild_pitch_rate, per ball with runners on
 LATE_TROUBLE_HOOK_RATE = 0.15  # per PA, innings 6+, close, runner in scoring position
@@ -1118,7 +1123,7 @@ class BaseballSimulator:
                     third_modifier *= 0.25
                 if runner_name in self._stolen_second_this_inning:
                     third_modifier *= 0.65
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 0.75 * count_modifier * third_modifier * score_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * STEAL_THIRD_FACTOR * count_modifier * third_modifier * score_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 3
 
@@ -1126,7 +1131,7 @@ class BaseballSimulator:
             runner_name = self.bases[0]
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.6 * count_modifier * outs_modifier * score_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * STEAL_SECOND_FACTOR * count_modifier * outs_modifier * score_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 2
 
@@ -2115,7 +2120,7 @@ class BaseballSimulator:
             defensive_events = []
             # Most tracked visits are between batters. These are catcher
             # conversations; they neither spend a coach visit nor pull a pitcher.
-            if any(self.bases) and self.texture_rng.random() < 0.19:
+            if any(self.bases) and self.texture_rng.random() < MOUND_VISIT_RATE:
                 pre_events.append({
                     'index': 0, 'startTime': self.current_time.isoformat(), 'endTime': self.current_time.isoformat(),
                     'isPitch': False, 'type': 'action', 'count': {'balls': 0, 'strikes': 0, 'outs': self.outs},
