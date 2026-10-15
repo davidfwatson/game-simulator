@@ -117,6 +117,7 @@ class BaseballSimulator:
         self._half_pitcher_traffic, self._half_pitcher_homers = {}, {}
         self._stolen_second_this_inning = set()
         self._last_mound_visit = {}
+        self._pitcher_entries, self._mound_earned_runs = {}, {}
         self.commentary_seed = (game_seed if game_seed is not None
                                 else random.SystemRandom().randrange(2 ** 63))
         # Managerial choices must not consume the next pitch's random draws.
@@ -1657,6 +1658,7 @@ class BaseballSimulator:
                     elif caught_stealing and strikes == 3:
                         # "Strike 'em out, throw 'em out" double play
                         self.outs += 1
+                        self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
                         self._update_batting_stat(self._batting_team_key, batter['id'], 'strikeOuts')
                         self._update_batting_stat(self._batting_team_key, batter['id'], 'atBats')
                         self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikeOuts')
@@ -1848,6 +1850,18 @@ class BaseballSimulator:
         self._half_pitcher_entry[name] = self.team2_score if self.top_of_inning else self.team1_score
         setattr(self, f"{prefix}_current_pitcher_name", name)
         setattr(self, f"{prefix}_available_bullpen", [n for n in bullpen if n != name])
+        self._record_pitcher_entry()
+
+    def _record_pitcher_entry(self):
+        """Keep the actual entry state; a PA's matchup can predate a change."""
+        pitcher = self._pitching_side()[2]
+        if pitcher['id'] not in self._pitcher_entries:
+            self._pitcher_entries[pitcher['id']] = {
+                'team': self._pitching_team_key,
+                'playIndex': len(self.gameday_data['liveData']['plays']['allPlays']),
+                'inning': self.inning, 'outs': self.outs, 'bases': self.bases[:],
+                'homeScore': self.team1_score, 'awayScore': self.team2_score,
+            }
 
     def _manage_pitching_change(self):
         """The mid-inning hook, before a batter. Mid-inning hooks are for
@@ -2326,11 +2340,7 @@ class BaseballSimulator:
         self._half_pitcher_entry = {}
         self._half_pitcher_traffic, self._half_pitcher_homers = {}, {}
         self._stolen_second_this_inning = set()
-        self._manage_between_innings()
-        defensive_events = self._manage_defensive_substitutions()
         self._free_pass_pitcher = None
-        self._half_pitcher_entry[self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name] = (
-            self.team2_score if self.top_of_inning else self.team1_score)
         is_home_team_batting = not self.top_of_inning
         batting_team_name, lineup, batter_idx_ref = (self.team1_name, self.team1_lineup, 'team1_batter_idx') if is_home_team_batting else (self.team2_name, self.team2_lineup, 'team2_batter_idx')
 
@@ -2338,8 +2348,14 @@ class BaseballSimulator:
             last_batter_idx = (getattr(self, batter_idx_ref) - 1 + 9) % 9
             runner_name = lineup[last_batter_idx]['legal_name']
             self.bases[1] = runner_name
-            self._runner_pitchers[runner_name] = self._pitching_side()[2]
             # Note: Renderer handles "Automatic runner" text
+
+        self._manage_between_innings()
+        defensive_events = self._manage_defensive_substitutions()
+        self._record_pitcher_entry()
+        self._half_pitcher_entry[self._pitching_side()[1]] = self.team2_score if self.top_of_inning else self.team1_score
+        if self.inning >= 10:
+            self._runner_pitchers[runner_name] = self._pitching_side()[2]
 
         first_batter = True
         self._half_plate_appearances = 0
@@ -2383,6 +2399,7 @@ class BaseballSimulator:
             pa_complete = not outcome.startswith(('Caught Stealing', 'Pickoff'))
             if pa_complete:
                 self._update_batting_stat(self._batting_team_key, batter['id'], 'plateAppearances')
+            # Baserunning outs during the PA have already been credited.
             old_outs = self.outs
             for runner_entry in self._between_pitch_runners:
                 runner_entry['details']['playIndex'] += len(pre_events)
@@ -2529,7 +2546,6 @@ class BaseballSimulator:
                 self.outs += 1
                 self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
             elif outcome == "Strikeout Double Play":
-                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs') # CS out is separate?
                 pass # Outs handled
             elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP", "Hit By Pitch"]:
                 bunt_single = outcome == 'Single' and any(e.get('isBunt') and e['details'].get('code') == 'X' for e in play_events)
@@ -2816,6 +2832,8 @@ class BaseballSimulator:
                      runner_entry['details']['teamUnearned'] = on_error
                      if not on_error:
                           self._update_pitching_stat(self._pitching_team_key, responsible_pitcher['id'], 'earnedRuns')
+                          pid = self._pitching_side()[2]['id']
+                          self._mound_earned_runs[pid] = self._mound_earned_runs.get(pid, 0) + 1
             self._runner_pitchers = {name: p for name, p in self._runner_pitchers.items() if name in self.bases}
 
             if runs > 0:
@@ -2870,43 +2888,64 @@ class BaseballSimulator:
                 return
 
     def _record_decisions(self):
-        """The pitchers of record, as a feed's liveData.decisions: the win to
-        the pitcher of record when his team went ahead for good (a starter
-        needs five innings), the loss to the man on the mound for that run,
-        a save to a finisher who protected a lead of three or fewer for an
-        inning or pitched the last three."""
+        """Rule 9.17 wins/losses and 9.19 saves, with a deterministic
+        approximation for the official scorer's choice of effective reliever."""
         plays = self.gameday_data['liveData']['plays']['allPlays']
         if not plays or self.team1_score == self.team2_score:
             return
         home_won = self.team1_score > self.team2_score
         ahead = lambda result: (result['homeScore'] > result['awayScore']) if home_won else (
             result['awayScore'] > result['homeScore'])
-        go_ahead = next(i for i in range(len(plays))
-                        if all(ahead(play['result']) for play in plays[i:]))
-        # The winners pitch the half-innings in which the losers bat.
-        mine = [(i, play) for i, play in enumerate(plays) if play['about']['isTopInning'] == home_won]
-        outs = {}
-        for i, play in mine:
-            before = plays[i - 1]['count']['outs'] if i and plays[i - 1]['about']['halfInning'] == play['about']['halfInning'] \
-                and plays[i - 1]['about']['inning'] == play['about']['inning'] else 0
-            pid = play['matchup']['pitcher']['id']
-            outs[pid] = outs.get(pid, 0) + max(0, play['count']['outs'] - before)
-        order = list(dict.fromkeys(play['matchup']['pitcher']['id'] for _, play in mine))
-        names = {play['matchup']['pitcher']['id']: play['matchup']['pitcher']['fullName'] for play in plays}
-        earlier = [play['matchup']['pitcher']['id'] for i, play in mine if i < go_ahead]
+        go_ahead = len(plays) - 1
+        while go_ahead and ahead(plays[go_ahead - 1]['result']):
+            go_ahead -= 1
+        team = 'home' if home_won else 'away'
+        players = self.gameday_data['liveData']['boxscore']['teams'][team]['players']
+        names = {p['id']: p['fullName'] for p in self.gameday_data['gameData']['players'].values()}
+        order = [pid for pid, entry in self._pitcher_entries.items() if entry['team'] == team]
+        stats = {pid: players[f'ID{pid}']['stats']['pitching'] for pid in order}
+        # Use the out totals credited when each out happened, not PA snapshots.
+        outs = {pid: stats[pid]['outs'] for pid in order}
+        earlier = [pid for pid in order if self._pitcher_entries[pid]['playIndex'] <= go_ahead]
         winner = earlier[-1] if earlier else order[0]
-        if winner == order[0] and outs.get(winner, 0) < 15 and len(order) > 1:
-            winner = max(order[1:], key=lambda pid: outs.get(pid, 0))
-        loser = plays[go_ahead]['matchup']['pitcher']['id']
+
+        def effectiveness(pid):
+            # 9.17(b) needs judgment: prefer fewer runs, earned runs, then
+            # baserunners per out; then more outs. Ties go to the earlier man.
+            line = stats[pid]
+            runners = line['hits'] + line['baseOnBalls'] + line['hitByPitch']
+            return (line['runs'] / outs[pid], line['earnedRuns'] / outs[pid],
+                    runners / outs[pid], -outs[pid])
+
+        if stats[winner]['gamesStarted'] and outs[winner] < 15:
+            relievers = [pid for pid in order if not stats[pid]['gamesStarted'] and outs[pid]]
+            if relievers:
+                winner = min(relievers, key=effectiveness)
+        elif not stats[winner]['gamesStarted'] and outs[winner] <= 3 and self._mound_earned_runs.get(winner, 0) >= 2:
+            # 9.17(c) approximation: <=1 inning with >=2 earned runs scoring,
+            # including inherited runs, is brief and ineffective. A successor
+            # with an out and <=1 earned run scoring per inning is effective.
+            successors = [pid for pid in order[order.index(winner) + 1:]
+                          if outs[pid] and self._mound_earned_runs.get(pid, 0) * 3 <= outs[pid]]
+            if successors:
+                winner = min(successors, key=effectiveness)
+
+        play = plays[go_ahead]
+        before = plays[go_ahead - 1]['result'] if go_ahead else {'homeScore': 0, 'awayScore': 0}
+        needed = before['awayScore'] - before['homeScore'] + 1 if home_won else before['homeScore'] - before['awayScore'] + 1
+        # Runner records are stored first-to-third, not in scoring order.
+        scorers = sorted((r for r in play['runners'] if r['details']['isScoringEvent']),
+                         key=lambda r: {'3B': 0, '2B': 1, '1B': 2}.get(r['movement']['originBase'], 3))
+        loser = scorers[needed - 1]['details']['responsiblePitcher']['id']
         decisions = {'winner': {'id': winner, 'fullName': names[winner]},
                      'loser': {'id': loser, 'fullName': names[loser]}}
         finisher = order[-1]
-        if finisher != winner:
-            entered = next(i for i, play in mine if play['matchup']['pitcher']['id'] == finisher)
-            before = plays[entered - 1]['result'] if entered else {'homeScore': 0, 'awayScore': 0}
-            lead = abs(before['homeScore'] - before['awayScore'])
-            led = entered and ahead(before)
-            if led and ((lead <= 3 and outs.get(finisher, 0) >= 3) or outs.get(finisher, 0) >= 9):
+        if finisher != winner and not stats[finisher]['gamesStarted'] and outs[finisher]:
+            entry = self._pitcher_entries[finisher]
+            lead = entry['homeScore'] - entry['awayScore'] if home_won else entry['awayScore'] - entry['homeScore']
+            runners = sum(bool(name) for name in entry['bases'])
+            if ((0 < lead <= 3 and outs[finisher] >= 3)
+                    or 0 < lead <= runners + 2 or outs[finisher] >= 9):
                 decisions['save'] = {'id': finisher, 'fullName': names[finisher]}
         self.gameday_data['liveData']['decisions'] = decisions
 

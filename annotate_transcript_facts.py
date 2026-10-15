@@ -55,6 +55,8 @@ def _mentions(text, names):
     found = []
     for name in dict.fromkeys(names):
         words = name.split()
+        if not words:
+            continue
         aliases = {name, _surname(name)}
         if words[-1] != _surname(name):
             words = words[:-1]

@@ -689,7 +689,7 @@ TEAMS["BARABOO_BOMBERS"] = {
         },
         {
             "id": 700010,
-            "legal_name": "Chad Rosario",
+            "legal_name": "Curt Ambrose",
             "nickname": None,
             "position": {
                 "code": "1",
