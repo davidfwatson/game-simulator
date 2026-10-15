@@ -169,7 +169,8 @@ class TestThirdOutScoring(unittest.TestCase):
                 game._thrown_out = []
                 batter = game.team2_lineup[0]
                 result = game._advance_runners(outcome, batter)
-                self.assertEqual(result['runs'], 1 if outcome == 'Single' else 2)
+                # Running on contact with two out, the runner from second scores on the single too.
+                self.assertEqual(result['runs'], 2)
                 self.assertEqual(game.outs, 2)
                 self.assertEqual(game._thrown_out, [])
                 self.assertIn(batter['legal_name'], game.bases)

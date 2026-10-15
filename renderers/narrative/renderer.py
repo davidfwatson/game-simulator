@@ -1411,6 +1411,10 @@ class NarrativeRenderer(GameRenderer):
                      if len(self.plays_in_half_inning) == 3 and total_outs == 3:
                          is_123 = True
                          for p in self.plays_in_half_inning:
+                             # A hit is a baserunner even when he's thrown out stretching it.
+                             if p['result'].get('eventType') in ('single', 'double', 'triple', 'home_run'):
+                                 is_123 = False
+                                 break
                              for r in p['runners']:
                                  if not r['movement']['isOut'] and r['movement'].get('end') in ['1B', '2B', '3B', 'score']:
                                      is_123 = False
