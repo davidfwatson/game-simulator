@@ -313,5 +313,209 @@ class TestRealFeedEvents(unittest.TestCase):
             self.assertNotRegex(text, r'^(?:Line drive,|Lined sharply into)[^.]*\.$')
 
 
+class TestRealFeedRunnerAccounting(unittest.TestCase):
+    def test_full_inning_summary_keeps_a_leadoff_single_or_walk_stranded(self):
+        for leadoff, hits in (('Single', 1), ('Walk', 0)):
+            raw = feed(leadoff, runners=[runner(3, None, '1B')])
+            plays = raw['liveData']['plays']['allPlays']
+            plays[0]['matchup']['batter'] = {'id': 3, 'fullName': 'Real Player3'}
+            plays[0]['matchup']['postOnFirst'] = {'id': 3, 'fullName': 'Real Player3'}
+            for outs in (1, 2, 3):
+                play = feed('Groundout', outs=outs, runners=[runner(1, None, '1B', out=True)])['liveData']['plays']['allPlays'][0]
+                play['about']['atBatIndex'] = outs
+                play['runners'][0]['movement']['outNumber'] = outs
+                if outs < 3:
+                    play['matchup']['postOnFirst'] = {'id': 3, 'fullName': 'Real Player3'}
+                plays.append(play)
+            bottom = copy.deepcopy(plays[-1])
+            bottom['about'].update(atBatIndex=4, isTopInning=False, halfInning='bottom')
+            plays.append(bottom)
+            summaries = []
+
+            class CaptureSummary(NarrativeRenderer):
+                def _get_half_inning_stats(self):
+                    stats = super()._get_half_inning_stats()
+                    summaries.append(stats)
+                    return stats
+
+            CaptureSummary(anonymize_gameday_data(raw, TEAMS), seed=1).render()
+            self.assertEqual(summaries, [(hits, 1)])
+
+    def test_third_out_retains_a_runner_who_did_not_move(self):
+        for outcome in ('Groundout', 'Strikeout', 'Flyout'):
+            with self.subTest(outcome=outcome):
+                raw = feed(outcome, outs=3, runners=[runner(1, None, '1B', out=True)])
+                renderer = NarrativeRenderer(raw, seed=1)
+                bases = renderer._post_play_bases(raw['liveData']['plays']['allPlays'][0],
+                                                  {'1B': 'Real Player3', '2B': None, '3B': None})
+                renderer.runners_on_base = bases
+                renderer.plays_in_half_inning = [feed()['liveData']['plays']['allPlays'][0],
+                                                 raw['liveData']['plays']['allPlays'][0]]
+                self.assertEqual(renderer._get_half_inning_stats(), (1, 1))
+
+    def test_third_out_force_at_third_keeps_two_stranded_runners(self):
+        raw = feed('Forceout', outs=3, runners=[runner(4, '2B', '3B', out=True), runner(1, None, '1B')])
+        renderer = NarrativeRenderer(raw, seed=1)
+        bases = renderer._post_play_bases(raw['liveData']['plays']['allPlays'][0],
+                                          {'1B': 'Real Player3', '2B': 'Real Player4', '3B': None})
+        self.assertEqual(bases, {'1B': 'Real Player1', '2B': 'Real Player3', '3B': None})
+
+    def test_third_out_removes_a_runner_who_scores_or_is_retired(self):
+        raw = feed(outs=3, runners=[runner(3, '2B', 'score'), runner(4, '1B', '3B', out=True),
+                                   runner(1, None, '1B')])
+        renderer = NarrativeRenderer(raw, seed=1)
+        bases = renderer._post_play_bases(raw['liveData']['plays']['allPlays'][0],
+                                          {'1B': 'Real Player4', '2B': 'Real Player3', '3B': None})
+        self.assertEqual(bases, {'1B': 'Real Player1', '2B': None, '3B': None})
+
+    def test_hit_with_a_runner_out_is_not_an_in_order_inning(self):
+        raw = feed(outs=1, runners=[runner(1, None, '2B', out=True)])
+        first = raw['liveData']['plays']['allPlays'][0]
+        first['runners'][0]['details']['movementReason'] = 'r_out_stretching'
+        for outs in (2, 3):
+            play = copy.deepcopy(feed('Groundout', outs=outs, runners=[runner(3, None, '1B', out=True)])['liveData']['plays']['allPlays'][0])
+            play['about']['atBatIndex'] = outs - 1
+            raw['liveData']['plays']['allPlays'].append(play)
+        bottom = copy.deepcopy(raw['liveData']['plays']['allPlays'][-1])
+        bottom['about'].update(atBatIndex=3, isTopInning=False, halfInning='bottom')
+        bottom['count']['outs'] = 1
+        raw['liveData']['plays']['allPlays'].append(bottom)
+        for seed in range(12):
+            text = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=seed).render()
+            self.assertNotRegex(text, r'(?i)three up, three down|retired in order|go down in order|1-2-3 inning')
+
+    def test_every_out_on_a_hit_is_called_even_without_a_throw_reason(self):
+        for reason in ('r_rundown', 'r_hbr', 'r_runner_out', None):
+            raw = feed(outs=3, runners=[runner(1, None, '1B'), runner(3, '2B', '3B', out=True)])
+            raw['liveData']['plays']['allPlays'][0]['runners'][1]['details']['movementReason'] = reason
+            data = anonymize_gameday_data(raw, TEAMS)
+            name = data['liveData']['plays']['allPlays'][0]['runners'][1]['details']['runner']['fullName'].split()[-1]
+            for seed in range(12):
+                text = NarrativeRenderer(data, seed=seed).render()
+                self.assertRegex(text, rf'{name}[^\n]*(?:out|thrown)')
+                if reason != 'r_hbr':
+                    self.assertIn('third', text)
+
+    def test_a_prior_runner_action_is_not_replayed_as_an_out_on_the_hit(self):
+        action = {'index': 0, 'isPitch': False, 'details': {'eventType': 'caught_stealing_2b'}}
+        raw = feed(events=[action, pitch(1)], outs=1, runners=[
+            runner(3, '1B', '2B', index=0, kind='caught_stealing_2b', out=True), runner(1, None, '1B', index=1)])
+        text = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=1).render()
+        self.assertEqual(text.count('caught stealing second'), 1)
+        self.assertNotIn('thrown out', text)
+
+    def test_a_runner_hit_by_the_ball_is_out_without_a_throw(self):
+        raw = feed(outs=3, runners=[runner(1, None, '1B'), runner(3, '1B', '2B', out=True)])
+        raw['liveData']['plays']['allPlays'][0]['runners'][1]['details']['movementReason'] = 'r_hbr'
+        text = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=1).render()
+        self.assertIn('The batted ball hits', text)
+        self.assertIn('he is out to end the inning', text)
+        self.assertNotIn('throw from', text)
+
+    def test_caught_ball_advances_explain_the_tag_up(self):
+        for outcome in ('Lineout', 'Flyout', 'Pop Out'):
+            for start, end in (('1B', '2B'), ('2B', '3B')):
+                raw = feed(outcome, outs=1, runners=[runner(1, None, '1B', out=True), runner(3, start, end)])
+                raw['liveData']['plays']['allPlays'][0]['runners'][0]['movement']['outNumber'] = 1
+                data = anonymize_gameday_data(raw, TEAMS)
+                for seed in range(12):
+                    renderer = NarrativeRenderer(data, seed=seed)
+                    renderer._optional = lambda name: False
+                    text = renderer.render()
+                    self.assertIn('tags up and advances to ' + {'2B': 'second', '3B': 'third'}[end], text)
+
+    def test_sacrifice_fly_names_the_runner_without_repeating_his_score(self):
+        raw = feed('Sac Fly', outs=1, runners=[runner(1, None, '1B', out=True), runner(3, '3B', 'score')])
+        raw['liveData']['plays']['allPlays'][0]['result'].update(awayScore=1, rbi=1)
+        data = anonymize_gameday_data(raw, TEAMS)
+        name = data['liveData']['plays']['allPlays'][0]['runners'][1]['details']['runner']['fullName'].split()[-1]
+        for seed in range(12):
+            text = NarrativeRenderer(data, seed=seed).render()
+            self.assertNotIn('The runner', text)
+            self.assertEqual(text.count(name), 1, text)
+
+    def test_a_third_out_catch_does_not_start_a_tag_up(self):
+        from renderers.narrative.play_description import is_tag_up
+        raw = feed('Flyout', outs=3, runners=[runner(1, None, '1B', out=True), runner(3, '2B', '3B')])
+        play = raw['liveData']['plays']['allPlays'][0]
+        self.assertFalse(is_tag_up(play, play['runners'][1]))
+
+    def test_an_extra_advance_is_called_when_the_optional_sentence_is_dropped(self):
+        raw = feed(outs=1, runners=[runner(1, None, '1B'), runner(3, '2B', 'score')])
+        renderer = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=1)
+        renderer._optional = lambda name: False
+        self.assertIn('comes home', renderer.render())
+
+    def test_multistage_hit_advances_use_the_runners_original_base(self):
+        for start, middle, end, expected in (('1B', '2B', '3B', 'moves up to third'),
+                                              ('2B', '3B', 'score', 'comes home')):
+            raw = feed(outs=1, runners=[runner(1, None, '1B'), runner(3, start, middle), runner(3, middle, end)])
+            renderer = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=1)
+            renderer._optional = lambda name: False
+            self.assertIn(expected, renderer.render())
+
+    def test_pickoff_throw_and_its_caught_stealing_result_are_one_action(self):
+        attempt = {'index': 0, 'isPitch': False, 'type': 'pickoff',
+                   'details': {'description': 'Pickoff Attempt 1B', 'code': '1'}}
+        result = {'index': 1, 'isPitch': False,
+                  'details': {'eventType': 'pickoff_caught_stealing_2b', 'description': 'raw log'}}
+        raw = feed('Pickoff Caught Stealing 2B', events=[attempt, result], outs=3,
+                   runners=[runner(3, '1B', '2B', index=1, kind='pickoff_caught_stealing_2b', out=True)])
+        data = anonymize_gameday_data(raw, TEAMS)
+        self.assertEqual(len(data['liveData']['plays']['allPlays'][0]['playEvents']), 1)
+        text = NarrativeRenderer(data, seed=1).render()
+        self.assertNotIn('gets back safely', text)
+        self.assertIn('throw to first', text)
+        self.assertEqual(text.count('caught stealing second'), 1)
+
+    def test_a_pickoff_caught_stealing_is_not_a_steal_on_the_previous_pitch(self):
+        raw = feed('Pickoff Caught Stealing 2B', events=[pitch(0, 'B'),
+                   {'index': 1, 'isPitch': False, 'details': {'eventType': 'pickoff_caught_stealing_2b'}}],
+                   outs=3, runners=[runner(3, '1B', '2B', index=1, kind='pickoff_caught_stealing_2b', out=True)])
+        data = anonymize_gameday_data(raw, TEAMS)
+        action = data['liveData']['plays']['allPlays'][0]['playEvents'][1]
+        self.assertEqual(action['details']['eventType'], 'pickoff_caught_stealing')
+        text = NarrativeRenderer(data, seed=1).render()
+        self.assertIn('throw to first', text)
+        self.assertEqual(text.count('caught stealing second'), 1)
+        self.assertNotRegex(text, r'and (?:the runner (?:goes|breaks|takes off)|there he goes)')
+
+    def test_a_runner_escaping_a_pickoff_on_an_error_is_safe_at_second(self):
+        attempt = {'index': 0, 'isPitch': False, 'type': 'pickoff',
+                   'details': {'description': 'Pickoff Attempt 1B', 'code': '1'}}
+        action = {'index': 1, 'isPitch': False, 'details': {'eventType': 'pickoff_caught_stealing_2b'}}
+        raw = feed('Incomplete', events=[attempt, action], runners=[
+            runner(3, '1B', '2B', index=1, kind='pickoff_caught_stealing_2b',
+                   credits=[credit(2, '1', 'f_throwing_error')])])
+        text = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=1).render()
+        self.assertIn('pickoff throw gets away', text)
+        self.assertIn('takes second', text)
+        self.assertNotIn('gets back safely', text)
+        self.assertNotIn('caught stealing', text)
+
+    def test_a_catcher_finishing_strike_three_is_not_a_safe_pickoff(self):
+        strike = pitch(0, 'S')
+        strike['count']['strikes'] = 3
+        throw = {'index': 1, 'isPitch': False, 'type': 'pickoff',
+                 'details': {'description': 'Pickoff Attempt 1B', 'code': '1', 'isOut': True, 'fromCatcher': True}}
+        raw = feed('Strikeout', events=[strike, throw], outs=3,
+                   runners=[runner(1, None, '1B', index=1, kind='strikeout', out=True)])
+        data = anonymize_gameday_data(raw, TEAMS)
+        self.assertEqual(len(data['liveData']['plays']['allPlays'][0]['playEvents']), 1)
+        text = NarrativeRenderer(data, seed=1).render()
+        self.assertNotIn('gets back safely', text)
+        self.assertNotIn('pickoff', text)
+        self.assertRegex(text, r'strikes out|strike three|struck out|down on strikes|strikeout|gets him swinging')
+
+    def test_a_pickoff_out_never_says_the_runner_returns_safely(self):
+        renderer = NarrativeRenderer(feed(), seed=1)
+        renderer.runners_on_base = {'1B': 'Real Player3', '2B': None, '3B': None}
+        event = {'isPitch': False, 'details': {'eventType': 'pickoff_attempt', 'runners': [
+            {'runner': {'id': 3, 'fullName': 'Real Player3'}, 'fromBase': '1B', 'toBase': '1B', 'isOut': True}]}}
+        text = renderer._render_steal_event(event)
+        self.assertIn('picked off at first', text)
+        self.assertNotIn('safely', text)
+
+
 if __name__ == '__main__':
     unittest.main()

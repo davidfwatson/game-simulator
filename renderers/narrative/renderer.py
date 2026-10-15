@@ -844,6 +844,33 @@ class NarrativeRenderer(GameRenderer):
                 lob += 1
         return hits, lob
 
+    def _post_play_bases(self, play, bases_before):
+        """Keep stranded runners when a third-out feed omits its postOn fields."""
+        matchup = play['matchup']
+        fields = {'1B': 'postOnFirst', '2B': 'postOnSecond', '3B': 'postOnThird'}
+        if play['count']['outs'] < 3 or any(field in matchup for field in fields.values()):
+            return {base: (matchup.get(field) or {}).get('fullName') for base, field in fields.items()}
+        runners = {name: base for base, name in bases_before.items() if name}
+        movements = sorted(enumerate(play.get('runners', [])),
+                           key=lambda item: (item[1].get('details', {}).get('playIndex', item[0]), item[0]))
+        for _, runner in movements:
+            movement = runner.get('movement', {})
+            name = runner.get('details', {}).get('runner', {}).get('fullName')
+            if not name:
+                continue
+            runners.pop(name, None)
+            if not movement.get('isOut') and movement.get('end') in fields:
+                runners[name] = movement['end']
+        bases = dict.fromkeys(fields)
+        batter = matchup.get('batter', {}).get('fullName')
+        for name, base in sorted(runners.items(), key=lambda item: (item[1], item[0] == batter), reverse=True):
+            # On a third-out force at third, the feed may leave the man from
+            # first unmoved while recording the batter safe at first.
+            while bases.get(base) and base != '3B':
+                base = '2B' if base == '1B' else '3B'
+            bases[base] = name
+        return bases
+
     def _get_score_context_phrase(self, score_away, score_home):
         """Get a short score context like 'scoreless contest' or 'one-nothing lead'."""
         if score_away == 0 and score_home == 0:
@@ -1412,7 +1439,7 @@ class NarrativeRenderer(GameRenderer):
                          is_123 = True
                          for p in self.plays_in_half_inning:
                              # A hit is a baserunner even when he's thrown out stretching it.
-                             if p['result'].get('eventType') in ('single', 'double', 'triple', 'home_run'):
+                             if p['result'].get('event') in ('Single', 'Double', 'Triple', 'Home Run'):
                                  is_123 = False
                                  break
                              for r in p['runners']:
@@ -2063,6 +2090,7 @@ class NarrativeRenderer(GameRenderer):
                                     if event.get('isPitch', True)), default=-1)
             post_outcome_text = []
             narrated_runner_outs = set()
+            bases_before_play = dict(self.runners_on_base)
             pitch_batter_hand = resolve_batter_hand(matchup['batSide']['code'], matchup['pitchHand']['code'])
             previous_pitch_type = None
             last_pitch_connector = None
@@ -2741,42 +2769,11 @@ class NarrativeRenderer(GameRenderer):
 
                     outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context, play=play)
 
-            if (outcome_text and play['count'].get('outs', 0) < 3
-                    and not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
-                # Moves on outs, errors and extra bases beyond the batter's
-                # hit need an explanation before the next batter's situation.
-                base_words = {'2B': 'second', '3B': 'third', 'score': 'home', 'home': 'home'}
-                action_indices = {e.get('index') for e in play_events if e.get('isPitch') is False
-                                  and e.get('index') is not None
-                                  and e.get('details', {}).get('runners')}
-                final_movements = {r.get('details', {}).get('runner', {}).get('id'): r
-                                   for r in play.get('runners', [])
-                                   if r.get('details', {}).get('playIndex') not in action_indices}
-                for r in final_movements.values():
-                    mv, det = r.get('movement', {}), r.get('details', {})
-                    name = det.get('runner', {}).get('fullName', '')
-                    start, end = mv.get('start') or mv.get('originBase'), mv.get('end')
-                    batter_move = det.get('runner', {}).get('id') == matchup['batter'].get('id')
-                    extra_base = (batter_move and outcome in ('Single', 'Double', 'Triple')
-                                  and {'2B': 2, '3B': 3, 'score': 4, 'home': 4}.get(end, 0)
-                                  > {'Single': 1, 'Double': 2, 'Triple': 3}[outcome])
-                    on_out = (not batter_move and end in ('2B', '3B')
-                              and outcome in ('Groundout', 'Flyout', 'Lineout', 'Pop Out', 'Bunt Ground Out',
-                                              'Forceout', 'Fielders Choice', 'Double Play', 'Sacrifice Bunt'))
-                    on_error = det.get('eventType') in ('error', 'field_error')
-                    if (not name or not start or start == end or mv.get('isOut') or end not in base_words
-                            or not (extra_base or on_out or on_error)):
-                        continue
-                    last_name = name.split()[-1]
-                    if extra_base or on_error:
-                        destination = r'(?:home|score)' if end in ('score', 'home') else base_words[end]
-                        if re.search(rf'\b{re.escape(last_name)}\b[^.!?]*\b{destination}\b', outcome_text, re.I):
-                            continue
-                    elif last_name in outcome_text:
-                        continue
-                    cause = ' on the error' if on_error else ' on the play' if extra_base else ''
-                    outcome_text += (f" {last_name} comes home{cause}." if end in ('score', 'home')
-                                     else f" {last_name} moves up to {base_words[end]}{cause}.")
+            if outcome_text and not any(e.get('details', {}).get('code') == 'X' for e in pitch_events):
+                from .play_description import advance_sentences
+                advances = advance_sentences(self, play, outcome_text)
+                if advances:
+                    outcome_text += ' ' + advances
             if outcome_text:
                  play_text_blocks.append(outcome_text)
             play_text_blocks.extend(post_outcome_text)
@@ -2854,11 +2851,7 @@ class NarrativeRenderer(GameRenderer):
             self.current_score = (new_away, new_home)
             self.outs_tracker = play['count']['outs']
 
-            post_bases = { '1B': None, '2B': None, '3B': None }
-            if 'postOnFirst' in matchup: post_bases['1B'] = matchup['postOnFirst']['fullName']
-            if 'postOnSecond' in matchup: post_bases['2B'] = matchup['postOnSecond']['fullName']
-            if 'postOnThird' in matchup: post_bases['3B'] = matchup['postOnThird']['fullName']
-            self.runners_on_base = post_bases
+            self.runners_on_base = self._post_play_bases(play, bases_before_play)
 
             self.plays_in_half_inning.append(play)
             self._record_batter_history(play)

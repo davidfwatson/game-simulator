@@ -197,9 +197,13 @@ def action_movements(runners, index, id_mapping, default_kind=None):
             # The feed can label every runner with the play's out, even the
             # man who scored while a different runner was caught stealing.
             kind = 'runner_advance'
+            if (details.get('eventType', '').startswith('pickoff')
+                    and any('error' in credit.get('credit', '') for credit in runner.get('credits', []))):
+                kind = 'pickoff_attempt'
         elif kind == 'stolen_base' and movement.get('isOut'):
             kind = 'caught_stealing'
         person = anonymize_player_reference(details['runner'], id_mapping)
+        pickoff = details.get('eventType', '').startswith('pickoff_caught_stealing')
         # Two rows can describe successive bases on the same advance. Keep
         # distinct steps when a steal is followed by an error on the throw.
         previous = next((m for m in movements if m['runner']['id'] == person['id']
@@ -210,7 +214,9 @@ def action_movements(runners, index, id_mapping, default_kind=None):
         else:
             movements.append({'runner': person, 'fromBase': start, 'toBase': end,
                               'isOut': bool(movement.get('isOut')), 'eventType': kind,
-                              'reason': 'error' if details.get('eventType') in ('error', 'field_error') else ''})
+                              'reason': 'error' if (details.get('eventType') in ('error', 'field_error')
+                                                    or any('error' in credit.get('credit', '') for credit in runner.get('credits', []))) else '',
+                              **({'pickoff': True} if pickoff else {})})
     return movements
 
 
@@ -654,7 +660,7 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                     # MLB records the count AFTER each pitch; our generator and
                     # renderer use the count the pitch was thrown in. Shift by one.
                     count_before = {'balls': 0, 'strikes': 0}
-                    for event in events:
+                    for event_number, event in enumerate(events):
                         kind = event.get('details', {}).get('eventType')
                         if kind in POSITION_ACTIONS:
                             filtered_event = {
@@ -673,7 +679,30 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                             continue
                         ours = action_type(event)
                         if ours:
+                            if ours == 'pickoff_attempt':
+                                rows = [r for r in play.get('runners', [])
+                                        if r.get('details', {}).get('playIndex') == event.get('index')]
+                                if rows and all(r.get('details', {}).get('runner', {}).get('id') == matchup.get('batter', {}).get('id')
+                                                and r.get('details', {}).get('eventType') == 'strikeout' for r in rows):
+                                    # A catcher finishing an uncaught third strike
+                                    # can be logged as a pickoff throw to first.
+                                    continue
+                                following = events[event_number + 1] if event_number + 1 < len(events) else {}
+                                base = (event.get('details', {}).get('code') or '') + 'B'
+                                same_runner = any(r.get('details', {}).get('playIndex') == following.get('index')
+                                                  and (r['movement'].get('start') or r['movement'].get('originBase')) == base
+                                                  for r in play.get('runners', []))
+                                if (not rows and action_type(following) in ('caught_stealing', 'pickoff')
+                                        and not following.get('isPitch') and same_runner):
+                                    # The next action supplies the result of this
+                                    # throw; it is not a separate safe return.
+                                    continue
                             movements = action_movements(play.get('runners', []), event.get('index'), id_mapping, ours)
+                            if ours == 'caught_stealing' and any(m.get('pickoff') for m in movements):
+                                # A break on a pickoff throw is not a steal on
+                                # the preceding pitch, even when it follows it.
+                                ours = ('pickoff_caught_stealing' if any(m.get('isOut') for m in movements)
+                                        else 'pickoff_attempt')
                             if ours == 'pickoff_attempt' and not movements:
                                 base = re.search(r'\b([123])B\b', (event.get('details') or {}).get('description') or '')
                                 if base:
