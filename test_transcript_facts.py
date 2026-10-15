@@ -649,6 +649,31 @@ class TestThrowsAndSlides(unittest.TestCase):
                                               ['Edgar Whitehouse', 'Billy Brello', 'Ron Nancy']),
                          {'winner': 'Edgar Whitehouse', 'loser': 'Billy Brello', 'save': 'Ron Nancy'})
 
+    def test_no_throw_steals_never_narrate_a_throw_or_tag(self):
+        from renderers.narrative.play_description import _throw_pool, render_steal_event
+        from renderers.randomness import ChoiceRNG
+        from test_transcript_games import record
+        for base in ('2B', '3B'):
+            for slide in (False, True):
+                calls = []
+                for draw in range(len(_throw_pool('none', slide))):
+                    renderer = SayEverything(synthetic([record()]))
+                    renderer.rng_play = ChoiceRNG([draw], 0)
+                    origin = '1B' if base == '2B' else '2B'
+                    renderer.runners_on_base = {'1B': None, '2B': None, '3B': None, origin: 'Otis Runner'}
+                    event = {'details': {'eventType': 'stolen_base', 'runners': [
+                        {'runner': {'fullName': 'Otis Runner'}, 'fromBase': origin, 'toBase': base,
+                         'isOut': False, 'throw': 'none', 'slide': slide}]}}
+                    text = render_steal_event(renderer, event)
+                    calls.append(text)
+                    self.assertIn(f'Otis Runner steals {"second" if base == "2B" else "third"}.', text)
+                    self.assertNotRegex(text, r'not in time|beat.*throw|ahead of the throw|tag')
+                    if not slide:
+                        self.assertNotIn('slide', text)
+                    self.assertIsNone(renderer.runners_on_base[origin])
+                    self.assertEqual(renderer.runners_on_base[base], 'Otis Runner')
+                self.assertTrue(any('No throw.' in text or 'No play at' in text for text in calls))
+
     def test_no_throw_destination_selects_the_safe_runner(self):
         from annotate_transcript_facts import throw_facts_from_words
         runner = {'name': 'Nate Colbert', 'start': '1B', 'end': '2B'}

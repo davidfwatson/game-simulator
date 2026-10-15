@@ -77,6 +77,31 @@ class TestBaseballRealism(unittest.TestCase):
         self.assertGreater(events["Error"], 0, "No errors were recorded in the simulations.")
         self.assertGreater(events["Double Play"], 0, "No double plays were recorded in the simulations.")
 
+class TestStealMovements(unittest.TestCase):
+    def test_safe_steals_vary_throws_and_slides_without_changing_game_draws(self):
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=42)
+        runner = {'id': 1, 'legal_name': 'Otis Runner'}
+        game_state, no_throw_rates = game.game_rng.getstate(), {}
+        for base in (2, 3):
+            moves = [game._steal_movement(runner, base, False) for _ in range(2000)]
+            self.assertEqual({m['throw'] for m in moves}, {'none', 'not_in_time'})
+            no_throw_rates[base] = sum(m['throw'] == 'none' for m in moves) / len(moves)
+            self.assertGreater(no_throw_rates[base], 0.05)
+            self.assertLess(no_throw_rates[base], 0.5)
+            for throw in ('none', 'not_in_time'):
+                self.assertEqual({m['slide'] for m in moves if m['throw'] == throw}, {True, False})
+        self.assertGreater(no_throw_rates[3], no_throw_rates[2])
+        self.assertEqual(game.game_rng.getstate(), game_state)
+
+    def test_caught_stealing_always_has_a_throw_in_time(self):
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=42)
+        runner = {'id': 1, 'legal_name': 'Otis Runner'}
+        for base in (2, 3):
+            moves = [game._steal_movement(runner, base, True) for _ in range(200)]
+            self.assertTrue(all(m['isOut'] and m['throw'] == 'in_time' for m in moves))
+            self.assertEqual({m['slide'] for m in moves}, {True, False})
+
+
 class TestRelieverSelection(unittest.TestCase):
     def test_reliever_who_finishes_the_inning_can_leave_before_three_batters(self):
         for top in (True, False):

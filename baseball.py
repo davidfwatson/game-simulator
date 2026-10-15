@@ -70,6 +70,8 @@ class BaseballSimulator:
         self._entered_inning, self._entered_mid_inning = {}, {}
         self.commentary_seed = (game_seed if game_seed is not None
                                 else random.SystemRandom().randrange(2 ** 63))
+        # Throw and slide details must not change the game's results.
+        self.steal_rng = random.Random(self.commentary_seed + 1)
 
         # Setup lineups and pitchers
         self.team1_lineup = [p for p in self.team1_data["players"] if p['position']['abbreviation'] != 'P']
@@ -938,16 +940,20 @@ class BaseballSimulator:
         })
         self._pitch_event_seq += 1
 
-    @staticmethod
-    def _steal_movement(runner, base_to_steal, is_out):
+    def _steal_movement(self, runner, base_to_steal, is_out):
         """Who ran, as a feed's runner movement for the steal names him. An
         automatic runner caught stealing before the first play of an extra
         inning ends is in no other record of that play."""
+        throw = 'in_time'
+        if not is_out:
+            # The catcher may hold the ball with no play, especially at third.
+            no_throw_chance = 0.30 if base_to_steal == 3 else 0.15
+            throw = 'none' if self.steal_rng.random() < no_throw_chance else 'not_in_time'
         return {'runner': {'id': runner['id'], 'fullName': runner['legal_name']},
                 'fromBase': f'{base_to_steal - 1}B', 'toBase': f'{base_to_steal}B', 'isOut': is_out,
                 # Extension fields (a feed has neither): the catcher's throw
                 # and the slide, for the narration.
-                'throw': 'in_time' if is_out else 'not_in_time', 'slide': True}
+                'throw': throw, 'slide': self.steal_rng.random() < (0.4 if throw == 'none' else 0.9)}
 
     def _resolve_steal_attempt(self, base_to_steal, play_events: list[PlayEvent], balls, strikes):
         is_home_team_batting = not self.top_of_inning

@@ -437,7 +437,11 @@ class TestLeftoverTells(SimulationBatch):
                     self.assertTrue(movement['runner']['fullName'] and movement['runner']['id'])
                     self.assertEqual(movement['isOut'], details['eventType'] == 'caught_stealing')
                     self.assertEqual(int(movement['toBase'][0]), int(movement['fromBase'][0]) + 1)
-                    self.assertEqual(movement['throw'], 'in_time' if movement['isOut'] else 'not_in_time')
+                    if movement['isOut']:
+                        self.assertEqual(movement['throw'], 'in_time')
+                    else:
+                        self.assertIn(movement['throw'], ('not_in_time', 'none'))
+                    self.assertIsInstance(movement['slide'], bool)
         self.assertGreater(steals, 200)
 
     def test_automatic_runner_caught_stealing_is_announced_by_name(self):
