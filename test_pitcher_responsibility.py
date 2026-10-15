@@ -49,9 +49,8 @@ class TestPitcherResponsibility(unittest.TestCase):
                     pid = details['responsiblePitcher']['id']
                     recorded[pid] += 1
                     recorded_earned[pid] += details['earned']
-        # Unary + drops zero counts, which Python 3.9 would otherwise compare.
-        self.assertEqual(+recorded, +collections.Counter(expected))
-        self.assertEqual(+recorded_earned, +collections.Counter(earned))
+        self.assertEqual(recorded, collections.Counter(expected))
+        self.assertEqual(recorded_earned, collections.Counter(earned))
         prefix, _, _, _ = game._pitching_side()
         box = game.gameday_data['liveData']['boxscore']['teams'][game._pitching_team_key]
         for name, pitcher in getattr(game, f'{prefix}_pitcher_stats').items():
