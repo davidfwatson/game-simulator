@@ -455,30 +455,35 @@ class NarrativeRenderer(GameRenderer):
         return text
 
     def _position_substitution(self, event):
-        """Announce the recorded player change, including runners and their base."""
+        """Announce one structured change, including a pinch runner's base."""
         players = self.gameday_data['gameData'].get('players', {})
         def name(ref):
-            return ref.get('fullName') or players.get(f"ID{ref.get('id')}", {}).get('fullName')
+            return players.get(f"ID{ref.get('id')}", {}).get('fullName') or ref.get('fullName')
         incoming, replaced = name(event.get('player', {})), name(event.get('replacedPlayer', {}))
         if not incoming:
             return ''
-        position = event.get('position', {}).get('abbreviation')
+        info = event.get('position', {})
+        position = info.get('abbreviation') or {
+            '2': 'C', '3': '1B', '4': '2B', '5': '3B', '6': 'SS',
+            '7': 'LF', '8': 'CF', '9': 'RF', '10': 'DH', 'D': 'DH', '12': 'PR',
+        }.get(str(info.get('code')))
         if position == 'PR':
-            base = next((base for base, runner in self.runners_on_base.items() if runner == replaced), None)
+            # A matchup may already name the incoming runner, especially
+            # when he replaces the automatic runner before an extra inning.
+            base = next((base for base, runner in self.runners_on_base.items()
+                         if runner and runner in (replaced, incoming)), None)
             where = {'1B': ' at first', '2B': ' at second', '3B': ' at third'}.get(base, '')
             if base:
                 self.runners_on_base[base] = incoming
             return f"{incoming} comes in to run" + (f" for {replaced}" if replaced else '') + where + '.'
-        place = {'C': 'catcher', '1B': 'first base', '2B': 'second base', '3B': 'third base',
-                 'SS': 'shortstop', 'LF': 'left field', 'CF': 'center field', 'RF': 'right field',
-                 'DH': 'designated hitter'}.get(position)
-        if not place:
+        where = {'C': 'catch', '1B': 'play first', '2B': 'play second', '3B': 'play third',
+                 'SS': 'play short', 'LF': 'play left', 'CF': 'play center', 'RF': 'play right',
+                 'DH': 'be the designated hitter'}.get(position)
+        if not where:
             return ''
         if event.get('details', {}).get('eventType') == 'defensive_switch':
-            if event.get('replacedPlayer'):
-                return f"{incoming} stays in the game at {place}."
-            return f"{incoming} moves to {place}."
-        return f"On defense, {incoming} takes over at {place}" + (f" for {replaced}" if replaced else '') + '.'
+            return f"{incoming} will {where}."
+        return f"{incoming} comes in to {where}" + (f", replacing {replaced}" if replaced else '') + '.'
 
     def _batting_slot(self, team_key, player_id):
         box = self.gameday_data.get('liveData', {}).get('boxscore', {}).get('teams', {}).get(team_key, {})
@@ -1057,6 +1062,10 @@ class NarrativeRenderer(GameRenderer):
         """The renderer's name for a result: feeds also write "Intent Walk",
         "Strikeout Looking" or "Called Strikeout" for the same events."""
         outcome = result['event']
+        outcome = {'Sac Bunt': 'Sacrifice Bunt', 'Bunt Groundout': 'Bunt Ground Out',
+                   'Bunt Pop Out': 'Pop Out', 'Bunt Lineout': 'Lineout',
+                   'Fielders Choice Out': 'Fielders Choice',
+                   'Sac Fly Double Play': 'Double Play'}.get(outcome, outcome)
         if (outcome in ('Intent Walk', 'Intentional Walk')
                 or result.get('eventType') in ('intent_walk', 'intentional_walk')):
             return 'Intentional Walk'
@@ -1784,7 +1793,8 @@ class NarrativeRenderer(GameRenderer):
                     break
                 event_type = event.get('details', {}).get('eventType')
                 if (event_type in ('defensive_substitution', 'defensive_switch')
-                        or event_type == 'offensive_substitution' and event.get('position', {}).get('abbreviation') == 'PR'):
+                        or event_type == 'offensive_substitution' and (event.get('position', {}).get('abbreviation') == 'PR'
+                        or event.get('position', {}).get('code') == '12')):
                     text = self._position_substitution(event)
                     if text:
                         substitution_lines.append(text)
@@ -1940,6 +1950,7 @@ class NarrativeRenderer(GameRenderer):
             substitution = next((event for event in play['playEvents']
                                  if event.get('details', {}).get('eventType') == 'offensive_substitution'
                                  and event.get('position', {}).get('abbreviation') != 'PR'
+                                 and event.get('position', {}).get('code') != '12'
                                  and event.get('player', {}).get('id', matchup['batter']['id']) == matchup['batter']['id']), None)
             if substitution:
                 play_text_blocks[0] = self._pinch_hitter_intro(substitution, batter_name, about, runners, outs_str)
@@ -2032,6 +2043,7 @@ class NarrativeRenderer(GameRenderer):
             last_pitch_index = max((index for index, event in enumerate(play_events)
                                     if event.get('isPitch', True)), default=-1)
             post_outcome_text = []
+            narrated_runner_outs = set()
             pitch_batter_hand = resolve_batter_hand(matchup['batSide']['code'], matchup['pitchHand']['code'])
             previous_pitch_type = None
             last_pitch_connector = None
@@ -2093,15 +2105,15 @@ class NarrativeRenderer(GameRenderer):
                 code = details.get('code', '')
                 if event.get('isPitch') is False:
                     event_type = details.get('eventType', '')
-                    if (event_type in ('stolen_base', 'caught_stealing', 'pickoff_attempt', 'pickoff', 'wild_pitch', 'passed_ball')
+                    if (event_type in ('stolen_base', 'caught_stealing', 'pickoff_attempt', 'pickoff',
+                                       'wild_pitch', 'passed_ball', 'defensive_indiff', 'balk', 'runner_advance')
                             or event_type.startswith('pickoff_') or event.get('type') == 'pickoff'):
                         action_text = self._render_steal_event(event)
-                        if outcome.startswith('Pickoff') and (details.get('isOut') or any(
-                                movement.get('isOut') for movement in details.get('runners', []))):
-                            # The inning-ending out is announced with the result below.
-                            action_text = ''
                     elif event_type in ('offensive_substitution', 'defensive_substitution', 'defensive_switch'):
                         action_text = self._position_substitution(event)
+                    elif event_type == 'pitching_substitution':
+                        # Pitcher changes are introduced from the matchup.
+                        action_text = ''
                     elif event_type == 'mound_visit':
                         action_text = self.rng_flow.choice([
                             'A quick conference on the mound.',
@@ -2115,6 +2127,8 @@ class NarrativeRenderer(GameRenderer):
                     else:
                         action_text = ''
                     if action_text:
+                        narrated_runner_outs.update(m.get('runner', {}).get('id')
+                                                    for m in (details.get('runners') or []) if m.get('isOut'))
                         destination = post_outcome_text if i > last_pitch_index else play_text_blocks
                         destination.append(action_text)
                     i += 1
@@ -2201,7 +2215,7 @@ class NarrativeRenderer(GameRenderer):
                     if pbp_line and orig_pitch_type.strip().lower() in ('pitch', '', 'unknown'):
                         # No pitch type in the feed: "Pitch, in there for a called
                         # strike" reads as a glitch; drop the placeholder noun.
-                        stripped = re.sub(r'^Pitch,?\s+', '', pbp_line)
+                        stripped = re.sub(r'^(?:Pitch|Unknown),?\s+', '', pbp_line)
                         if stripped != pbp_line and stripped:
                             pbp_line = stripped[0].upper() + stripped[1:]
 
@@ -2307,6 +2321,8 @@ class NarrativeRenderer(GameRenderer):
                             last_pitch_context = pbp_line.rstrip(".,")
                             if is_steal_attempt:
                                 post_outcome_text.append(self._render_steal_event(steal_event))
+                                narrated_runner_outs.update(m.get('runner', {}).get('id')
+                                                            for m in (steal_event['details'].get('runners') or []) if m.get('isOut'))
                                 i += 1
                             i += 1
                             continue
@@ -2318,6 +2334,8 @@ class NarrativeRenderer(GameRenderer):
                         if is_steal_attempt:
                             steal_txt = self._render_steal_event(steal_event)
                             play_text_blocks.append(steal_txt)
+                            narrated_runner_outs.update(m.get('runner', {}).get('id')
+                                                        for m in (steal_event['details'].get('runners') or []) if m.get('isOut'))
                             i += 1
 
                         # Optionally insert runner-status line between pitches
@@ -2566,6 +2584,14 @@ class NarrativeRenderer(GameRenderer):
                 # contradicted a called third strike.
                 outcome_text = "And that's a strike 'em out, throw 'em out double play."
 
+            elif (outcome.startswith(('Caught Stealing', 'Pickoff')) and 'Single' not in outcome
+                  and any(r.get('movement', {}).get('isOut')
+                          and r.get('details', {}).get('runner', {}).get('id') in narrated_runner_outs
+                          for r in play.get('runners', []))):
+                # The action after the pitch already called this out. The
+                # feed repeats it as the result of an unfinished at-bat.
+                pass
+
             elif outcome == "Caught Stealing" or ("Caught Stealing" in outcome and "Single" in outcome):
                  # Handle combined "Caught Stealing 2B / Single" outcomes
                  if "Single" in outcome:
@@ -2634,6 +2660,8 @@ class NarrativeRenderer(GameRenderer):
                      outcome_text = f"An error by {pos} {name} allows the batter to reach base."
                  else:
                      outcome_text = "The batter reaches on a fielding error."
+            elif outcome == 'Catcher Interference':
+                outcome_text = f"{batter_name.split()[-1]} is awarded first on catcher's interference."
             else:
                 x_event = next((e for e in pitch_events if e['details'].get('code') == 'X'), None)
                 if x_event:
@@ -2643,19 +2671,27 @@ class NarrativeRenderer(GameRenderer):
                     fielder_pos = None
                     fielder_name = None
                     out_credits = []
-                    for r in play['runners']:
+                    batted_runners = [r for r in play['runners']
+                                      if r.get('details', {}).get('playIndex') in (None, x_event.get('index'))]
+                    if hit_data.get('trajectory') in ('line_drive', 'fly_ball', 'popup'):
+                        batted_runners.sort(key=lambda r: r.get('details', {}).get('runner', {}).get('id') != batter_id)
+                    for r in batted_runners:
                         if r['movement']['isOut']:
                             out_credits = r.get('credits', [])
                             break
                     if not out_credits:
-                        for r in play['runners']:
+                        for r in batted_runners:
                              if r.get('credits'):
                                  out_credits = r.get('credits')
                                  break
 
                     primary_credit = None
-                    for c in out_credits:
-                        if c['credit'] == 'assist': primary_credit = c; break
+                    if outcome == 'Field Error':
+                        primary_credit = next((c for r in batted_runners for c in r.get('credits', [])
+                                               if c['credit'] in ('fielding_error', 'throwing_error', 'error_dropped_ball')), None)
+                    if not primary_credit:
+                        for c in out_credits:
+                            if c['credit'] == 'assist': primary_credit = c; break
                     if not primary_credit:
                         for c in out_credits:
                              if c['credit'] == 'putout': primary_credit = c; break
@@ -2686,20 +2722,42 @@ class NarrativeRenderer(GameRenderer):
 
                     outcome_text = self._generate_play_description(outcome, hit_data, pitch_details, batter_name, fielder_pos, fielder_name, connector=x_event_connector, result_outs=play['count']['outs'], is_leadoff=is_leadoff, inning_context=inning_context, play=play)
 
-            if (outcome_text and outcome in ('Groundout', 'Flyout', 'Lineout', 'Pop Out', 'Bunt Ground Out')
-                    and play['count'].get('outs', 0) < 3 and not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
-                # A runner who moves up on an out has to be said, or the next
-                # intro's "runner on second" comes out of nowhere.
-                base_words = {'2B': 'second', '3B': 'third'}
-                for r in play.get('runners', []):
+            if (outcome_text and play['count'].get('outs', 0) < 3
+                    and not self.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+                # Moves on outs, errors and extra bases beyond the batter's
+                # hit need an explanation before the next batter's situation.
+                base_words = {'2B': 'second', '3B': 'third', 'score': 'home', 'home': 'home'}
+                action_indices = {e.get('index') for e in play_events if e.get('isPitch') is False
+                                  and e.get('index') is not None
+                                  and e.get('details', {}).get('runners')}
+                final_movements = {r.get('details', {}).get('runner', {}).get('id'): r
+                                   for r in play.get('runners', [])
+                                   if r.get('details', {}).get('playIndex') not in action_indices}
+                for r in final_movements.values():
                     mv, det = r.get('movement', {}), r.get('details', {})
                     name = det.get('runner', {}).get('fullName', '')
                     start, end = mv.get('start') or mv.get('originBase'), mv.get('end')
+                    batter_move = det.get('runner', {}).get('id') == matchup['batter'].get('id')
+                    extra_base = (batter_move and outcome in ('Single', 'Double', 'Triple')
+                                  and {'2B': 2, '3B': 3, 'score': 4, 'home': 4}.get(end, 0)
+                                  > {'Single': 1, 'Double': 2, 'Triple': 3}[outcome])
+                    on_out = (not batter_move and end in ('2B', '3B')
+                              and outcome in ('Groundout', 'Flyout', 'Lineout', 'Pop Out', 'Bunt Ground Out',
+                                              'Forceout', 'Fielders Choice', 'Double Play', 'Sacrifice Bunt'))
+                    on_error = det.get('eventType') in ('error', 'field_error')
                     if (not name or not start or start == end or mv.get('isOut') or end not in base_words
-                            or det.get('runner', {}).get('id') == matchup['batter'].get('id')
-                            or name.split()[-1] in outcome_text):
+                            or not (extra_base or on_out or on_error)):
                         continue
-                    outcome_text += f" {name.split()[-1]} moves up to {base_words[end]}."
+                    last_name = name.split()[-1]
+                    if extra_base or on_error:
+                        destination = r'(?:home|score)' if end in ('score', 'home') else base_words[end]
+                        if re.search(rf'\b{re.escape(last_name)}\b[^.!?]*\b{destination}\b', outcome_text, re.I):
+                            continue
+                    elif last_name in outcome_text:
+                        continue
+                    cause = ' on the error' if on_error else ' on the play' if extra_base else ''
+                    outcome_text += (f" {last_name} comes home{cause}." if end in ('score', 'home')
+                                     else f" {last_name} moves up to {base_words[end]}{cause}.")
             if outcome_text:
                  play_text_blocks.append(outcome_text)
             play_text_blocks.extend(post_outcome_text)

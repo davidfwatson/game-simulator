@@ -25,7 +25,7 @@ import random
 import re
 from pathlib import Path
 
-from anonymize_real_gameday import anonymize_gameday_data
+from anonymize_real_gameday import anonymize_gameday_data, assign_player_names, player_sides
 from baseball import BaseballSimulator
 from renderers import NarrativeRenderer
 from teams import TEAMS
@@ -37,17 +37,6 @@ FIXTURE_DIR = ROOT / "examples" / "transcript_games"
 # same source tells round after round.
 SLEEP_EPISODES = ("045", "046", "049", "050", "052", "053")
 HOME, AWAY = "BAY_BOMBERS", "PC_PILOTS"
-# Extra players (relievers, pinch hitters) beyond our 13-man rosters. Invented
-# names only: the other TEAMS rosters are full of real MLB players (Ricky
-# Henderson, Jason Giambi, Corbin Carroll), which a judge reads as a leak.
-OVERFLOW = {
-    "home": ["Dale Whitcomb", "Ray Pellerin", "Tommy Askew", "Luis Ocampo", "Brent Haddix",
-             "Curtis Vane", "Mel Strand", "Danny Ruehl", "Hector Lasso", "Gil Marchetti",
-             "Wade Kimbrell", "Nico Ferrante", "Jay Tolliver", "Ozzie Quill", "Russ Delacroix"],
-    "away": ["Earl Brannock", "Sid Fennimore", "Rafael Cuenca", "Lyle Gessner", "Mickey Dorr",
-             "Arturo Velez", "Hal Pruitt", "Kip Lindqvist", "Doug Sarratt", "Benny Ochoa",
-             "Clay Rourke", "Manny Ybarra", "Glen Hutchins", "Theo Brakefield", "Abe Calloway"],
-}
 
 SPLIT_RE = re.compile(r"^\[TTS SPLIT HERE DELAY:([\d.]+)s\]$")
 BACK_RE = re.compile(r"\s*(And )?[Ww]e'll be (right )?back\b[^.]*\.")
@@ -118,6 +107,7 @@ def add_designated_hitter(data):
                 swap(v, pid, dh)
 
     used = set()
+    dh_hands = {}
     for play in data["liveData"]["plays"]["allPlays"]:
         batting = "away" if play["about"]["isTopInning"] else "home"
         for pid in pitchers:
@@ -126,6 +116,9 @@ def add_designated_hitter(data):
                 pitcher_ref = play["matchup"]["pitcher"]
                 swap({k: v for k, v in play.items() if k != "matchup"}, pid, DH_IDS[batting])
                 swap(play["matchup"]["batter"], pid, DH_IDS[batting])
+                if play['matchup']['batter']['id'] == DH_IDS[batting]:
+                    original = data['gameData']['players'].get(f'ID{pid}', {})
+                    dh_hands[batting] = original.get('batSide') or play['matchup'].get('batSide')
                 play["matchup"]["pitcher"] = pitcher_ref
                 if json.dumps(play) != before:
                     used.add(batting)
@@ -134,51 +127,16 @@ def add_designated_hitter(data):
         data["gameData"]["players"][f"ID{dh}"] = {
             "id": dh, "fullName": f"Designated Hitter {dh}", "lastName": "Hitter",
             "primaryPosition": {"code": "D", "name": "Designated Hitter", "abbreviation": "DH"},
-            "batSide": {"code": "R", "description": "Right"}, "pitchHand": {"code": "R", "description": "Right"}}
+            "batSide": dh_hands.get(side) or {"code": "R", "description": "Right"},
+            "pitchHand": {"code": "R", "description": "Right"}}
     return data
 
 
 def real_game(path, seed):
-    import anonymize_real_gameday as anon
-    raw = json.loads(Path(path).read_text())
-    captured = {}
-    original = anon.create_player_mapping
-
-    def capture(real_data, our_teams):
-        id_mapping, name_mapping = original(real_data, our_teams)
-        captured.update(id_mapping)
-        return id_mapping, name_mapping
-
-    anon.create_player_mapping = capture
-    try:
-        data = anonymize_gameday_data(raw, TEAMS, seed=seed)
-    finally:
-        anon.create_player_mapping = original
+    data = anonymize_gameday_data(json.loads(Path(path).read_text()), TEAMS, seed=seed)
     players = {p["id"]: p for p in data["gameData"]["players"].values()}
-    # The anonymizer hands each real player a random one of ours, position
-    # and all; put the real positions back so a shortstop isn't announced as
-    # "the pitcher".
-    for real in raw["gameData"]["players"].values():
-        ours = captured.get(real["id"])
-        if ours and ours["id"] in players and real.get("primaryPosition"):
-            players[ours["id"]]["primaryPosition"] = real["primaryPosition"]
-    # A hitter the anonymizer parked on one of our pitchers' ids, with no real
-    # position to restore, was introduced as "the pitcher": in a DH game,
-    # anyone who bats but never pitches is a hitter.
-    pitched = {play["matchup"]["pitcher"]["id"] for play in data["liveData"]["plays"]["allPlays"]}
-    for play in data["liveData"]["plays"]["allPlays"]:
-        person = players.get(play["matchup"]["batter"]["id"])
-        if person and person["id"] not in pitched and (person.get("primaryPosition") or {}).get("code") == "1":
-            person["primaryPosition"] = {"code": "D", "name": "Designated Hitter", "abbreviation": "DH"}
-    # The anonymizer reduces player references to bare ids; the renderer
-    # needs names on them.
-    for play in data["liveData"]["plays"]["allPlays"]:
-        for role in ("batter", "pitcher"):
-            ref = play["matchup"].get(role)
-            if ref and "fullName" not in ref and ref.get("id") in players:
-                ref["fullName"] = players[ref["id"]]["fullName"]
     _fill_names(data, players)
-    return add_designated_hitter(data)
+    return data
 
 
 def _fill_names(node, players):
@@ -194,23 +152,6 @@ def _fill_names(node, players):
 
 # ---------------------------------------------------------------- names
 
-def player_sides(data):
-    """Which team each player played for, including substitutes who never bat."""
-    sides = {}
-    for play in data["liveData"]["plays"]["allPlays"]:
-        top = play["about"]["isTopInning"]
-        batter, pitcher = play["matchup"]["batter"], play["matchup"]["pitcher"]
-        sides.setdefault(batter["id"], "away" if top else "home")
-        sides.setdefault(pitcher["id"], "home" if top else "away")
-        for event in play.get('playEvents', []):
-            kind = event.get('details', {}).get('eventType')
-            if kind not in ('offensive_substitution', 'defensive_substitution', 'defensive_switch'):
-                continue
-            side = ('away' if top else 'home') if kind == 'offensive_substitution' else ('home' if top else 'away')
-            for role in ('player', 'replacedPlayer'):
-                if event.get(role, {}).get('id') is not None:
-                    sides.setdefault(event[role]['id'], side)
-    return sides
 
 
 def remap_names(data, template_game_data, seed=None):
@@ -226,82 +167,7 @@ def remap_names(data, template_game_data, seed=None):
     by_id = {p["id"]: p for p in players.values()}
     rng = random.Random(str(seed) if seed is not None
                         else "|".join(sorted(str(p.get("fullName")) for p in players.values())))
-    sides = player_sides(data)
-    # Only players who appear in the plays need names; a real feed's
-    # gameData.players also lists the whole bench.
-    referenced = []
-
-    def collect(node):
-        if isinstance(node, dict):
-            if node.get("id") in by_id:
-                referenced.append(node["id"])
-            for v in node.values():
-                collect(v)
-        elif isinstance(node, list):
-            for v in node:
-                collect(v)
-
-    collect(data["liveData"])
-    order = list(dict.fromkeys(
-        [ref["id"] for play in data["liveData"]["plays"]["allPlays"]
-         for ref in (play["matchup"]["batter"], play["matchup"]["pitcher"])] + referenced))
-    for pid in order:
-        sides.setdefault(pid, "home")
-    ours = [p["legal_name"] for key in (HOME, AWAY) for p in TEAMS[key]["players"]]
-    firsts = [n.split()[0] for n in ours]
-    lasts = [n.split()[-1] for n in ours]
-    taken = {p["legal_name"] for t in TEAMS.values() for p in t["players"]}
-    invented = (f"{f} {l}" for i, f in enumerate(firsts) for l in lasts[i + 7:] + lasts[:i + 7]
-                if f"{f} {l}" not in taken)
-
-    id_names = {}
-    for side, key in (("home", HOME), ("away", AWAY)):
-        roster = [p["legal_name"] for p in TEAMS[key]["players"]]
-        pos = {p["legal_name"]: p["position"]["code"] for p in TEAMS[key]["players"]}
-        spare = list(OVERFLOW[side])
-        free = list(roster)
-        # The starter keeps the roster's starter; everyone after him comes
-        # out of the seven-man pen in this game's order, then off the
-        # overflow list, also shuffled.
-        pen = [n for n in roster if pos[n] == "1"][1:]
-        rng.shuffle(pen)
-        extra_arms = list(spare)
-        rng.shuffle(extra_arms)
-        pitchers_named = 0
-        for pid in order:
-            if sides[pid] != side:
-                continue
-            code = (by_id[pid].get("primaryPosition") or {}).get("code")
-            pick = next((n for n in free if pos[n] == code), None)
-            if code == "1":
-                if pitchers_named and pen:
-                    pick = pen.pop(0)
-                elif pitchers_named:
-                    pick = next((n for n in extra_arms if n in spare), None)
-                    if pick is not None:
-                        spare.remove(pick)
-                pitchers_named += 1
-            if pick is None:
-                hitters = [n for n in free if pos[n] != "1"] if code != "1" else []
-                pick = (hitters or [n for n in free if code == "1" and pos[n] == "1"] or [None])[0]
-            if pick is None:
-                pick = spare.pop(0) if spare else next(invented)
-            elif pick in free:
-                free.remove(pick)
-                if pick in pen:
-                    pen.remove(pick)
-            id_names[pid] = pick
-
-    # Anyone else in the player table (a fielder only named in a credit the
-    # walk above missed, a bench player) still carries the anonymizer's
-    # placeholder, which is one of OUR roster names ("Power" fielding for the
-    # Bombers while Rex Power bats for the Pilots). Give them invented names.
-    used = set(id_names.values())
-    for pid in by_id:
-        if pid not in id_names:
-            name = next(n for n in invented if n not in used)
-            id_names[pid] = name
-            used.add(name)
+    id_names = assign_player_names(data, TEAMS, rng)
 
     # Structured references are renamed by player id. The anonymizer can give
     # two real players the same placeholder name, so a name-keyed map sent a
@@ -313,11 +179,10 @@ def remap_names(data, template_game_data, seed=None):
     mapping = {by_id[pid]["fullName"]: new for pid, new in id_names.items()
                if name_counts[by_id[pid]["fullName"]] == 1}
     full = sorted(mapping, key=len, reverse=True)
+    pattern = re.compile(r"\b(?:" + "|".join(re.escape(name) for name in full) + r")\b") if full else None
 
     def swap(text):
-        for old in full:
-            text = re.sub(rf"\b{re.escape(old)}\b", mapping[old], text)
-        return text
+        return pattern.sub(lambda m: mapping[m[0]], text) if pattern else text
 
     def walk(node):
         if isinstance(node, dict):
@@ -326,7 +191,8 @@ def remap_names(data, template_game_data, seed=None):
                 new = mapping.get(node["fullName"])
             if new:
                 node["fullName"] = new
-                first, _, last = new.partition(" ")
+                parts = new.split()
+                first, last = parts[0], parts[-1]
                 for k in ("lastName", "useLastName", "boxscoreName"):
                     if k in node:
                         node[k] = last

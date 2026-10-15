@@ -17,7 +17,12 @@ def build_dp_notation(play):
     if not play:
         return ""
     chains = []
+    action_indices = {event.get('index') for event in play.get('playEvents', [])
+                      if event.get('isPitch') is False and event.get('index') is not None
+                      and event.get('details', {}).get('runners')}
     for runner in play.get('runners', []):
+        if runner.get('details', {}).get('playIndex') in action_indices:
+            continue
         positions = [str(POS_NUMBERS[c.get('position', {}).get('abbreviation', '')])
                      for c in runner.get('credits', [])
                      if POS_NUMBERS.get(c.get('position', {}).get('abbreviation', ''))]
@@ -64,7 +69,12 @@ def runner_sentences(renderer, play, said):
     play = play or {}
     batter_id = play.get('matchup', {}).get('batter', {}).get('id')
     final = {}
+    action_indices = {e.get('index') for e in play.get('playEvents', [])
+                      if e.get('isPitch') is False and e.get('index') is not None
+                      and e.get('details', {}).get('runners')}
     for runner in play.get('runners', []):
+        if runner.get('details', {}).get('playIndex') in action_indices:
+            continue
         person = runner.get('details', {}).get('runner', {})
         if person.get('id') is None or person.get('id') == batter_id:
             continue
@@ -485,6 +495,29 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             if not specific_templates:
                 specific_templates = outcome_templates.get('default', [])
 
+    if template_outcome == 'Fielders Choice' and not specific_templates and not strict:
+        runner_out = next((r for r in (play or {}).get('runners', []) if r.get('movement', {}).get('isOut')), None)
+        if runner_out:
+            base = BASE_WORDS.get(runner_out['movement'].get('outBase'), 'home')
+            runner_name = _last_name(renderer, runner_out.get('details', {}).get('runner', {}))
+            specific_templates = [f'Grounder {{direction}}. {{fielder_name}} throws to {base}, '
+                                  f'and {runner_name} is out {{out_context_str}}. '
+                                  "{batter_name} reaches on a fielder's choice."]
+        else:
+            specific_templates = ["Grounder {direction}. {batter_name} is safe on a fielder's choice."]
+    if (template_outcome == 'Double Play' and not strict
+            and hit_data.get('trajectory') in ('line_drive', 'fly_ball', 'popup')
+            and play):
+        runner_out = next((r for r in play.get('runners', []) if r.get('movement', {}).get('isOut')
+                           and r.get('details', {}).get('runner', {}).get('id') != play['matchup']['batter']['id']), None)
+        if runner_out:
+            contact = {'line_drive': 'Line drive', 'fly_ball': 'Fly ball', 'popup': 'Popped up'}[hit_data['trajectory']]
+            runner_name = _last_name(renderer, runner_out.get('details', {}).get('runner', {}))
+            base = BASE_WORDS.get(runner_out['movement'].get('outBase'), 'home')
+            method = 'doubled off' if runner_out.get('details', {}).get('movementReason') == 'r_doubled_off' else 'thrown out'
+            specific_templates = [f'{contact} {{direction}}. {{fielder_name}} makes the catch. '
+                                  f'{runner_name} is {method} at {base}, and that is a double play {{out_context_str}}.']
+
     fact_limited = (renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')
                     and not location_code)
     if fact_limited:
@@ -685,7 +718,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     }
 
     prefix = f"{connector} " if connector else ""
-    force_narrative = (fact_limited or template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play", "Sac Fly", "Field Error", "Forceout", "Fielders Choice"]
+    force_narrative = (fact_limited or template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play", "Sac Fly", "Field Error", "Forceout", "Fielders Choice", "Sacrifice Bunt", "Bunt Ground Out"]
                        or template_outcome == 'Home Run' and not strict)
 
     final_description = ""
@@ -772,6 +805,13 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
 
     if template_outcome == 'Field Error' and 'error' not in final_description.lower():
         final_description += f" An error by {fielder_name or 'the fielder'}."
+
+    if template_outcome == 'Single' and not strict and template in (
+            'Line drive, {direction_noun}.', 'Lined sharply into {direction_noun}.',
+            'Hard grounder through the hole.'):
+        # These contact-only templates need their landing, even when the
+        # optional hit-situation sentence is left unsaid.
+        final_description += " And that's a base hit."
 
     if play and play.get('runners') and template_outcome != 'Home Run':
         runner_text = runner_sentences(renderer, play, final_description)
@@ -864,6 +904,7 @@ def render_steal_event(renderer, event):
     base_names = {'1B': 'first', '2B': 'second', '3B': 'third', 'score': 'home', 'home': 'home'}
     lines = []
     for movement in movements:
+        movement_type = movement.get('eventType', event_type)
         origin, target = movement.get('fromBase'), movement.get('toBase')
         # A feed pickoff throw names the base, not the runner: use whoever is
         # standing there.
@@ -872,7 +913,7 @@ def render_steal_event(renderer, event):
         lead = name[:1].upper() + name[1:]
         base = base_names.get(target)
         is_out = movement.get('isOut', False)
-        if event_type == 'pickoff_attempt' and target and origin and target != origin and not is_out:
+        if movement_type == 'pickoff_attempt' and target and origin and target != origin and not is_out:
             # A pickoff throw that gets away: the runners move up on the error.
             if not lines:
                 lines.append("The pickoff throw gets away!")
@@ -881,15 +922,15 @@ def render_steal_event(renderer, event):
                 renderer.runners_on_base[origin] = None
             if target in renderer.runners_on_base:
                 renderer.runners_on_base[target] = name
-        elif event_type == 'pickoff_attempt':
+        elif movement_type == 'pickoff_attempt':
             if base or origin in base_names:
                 lines.append(f'A throw to {base or base_names[origin]}, and {name} gets back safely.')
             else:
                 lines.append(f'A pickoff attempt, and {name} gets back safely.')
-        elif event_type == 'pickoff':
+        elif movement_type == 'pickoff':
             where = f' at {base or base_names.get(origin)}' if base or origin in base_names else ''
             lines.append(f'{lead} is picked off{where}.')
-        elif event_type in ('caught_stealing', 'stolen_base'):
+        elif movement_type in ('caught_stealing', 'stolen_base'):
             # The throw, when the movement records one ("Throw to second is
             # not in time. Vance steals second."): built, then gated.
             pool = _throw_pool(movement.get('throw'), movement.get('slide'), is_out)
@@ -897,7 +938,7 @@ def render_steal_event(renderer, event):
                 throw_text = renderer.rng_play.choice(pool).format(base=base, runner=name.split()[-1])
                 if renderer._optional('steal_throw'):
                     lines.append(throw_text)
-            if event_type == 'stolen_base':
+            if movement_type == 'stolen_base':
                 lines.append(f'{lead} steals {base}.' if base else f'{lead} steals a base.')
             elif target == origin and base:
                 lines.append(f'{lead} is tagged out heading back to {base}.')
@@ -905,8 +946,8 @@ def render_steal_event(renderer, event):
                 lines.append(f'{lead} is caught stealing {base}.')
             else:
                 lines.append(f'{lead} is caught stealing.')
-        elif event_type in ('wild_pitch', 'passed_ball'):
-            cause = 'wild pitch' if event_type == 'wild_pitch' else 'passed ball'
+        elif movement_type in ('wild_pitch', 'passed_ball'):
+            cause = 'wild pitch' if movement_type == 'wild_pitch' else 'passed ball'
             if is_out:
                 lines.append(f'On a {cause}, {name} is tagged out' + (f' at {base}.' if base else '.'))
             elif target in ('score', 'home'):
@@ -915,7 +956,18 @@ def render_steal_event(renderer, event):
                 lines.append(f'{lead} advances to {base} on a {cause}.')
             else:
                 lines.append(f'A {cause}.')
-        if event_type != 'pickoff_attempt':
+        elif movement_type in ('defensive_indiff', 'balk', 'runner_advance'):
+            if movement_type == 'balk' and not any('balk' in line for line in lines):
+                lines.append('A balk is called.')
+            cause = (' without a throw' if movement_type == 'defensive_indiff'
+                     else ' on the error' if movement.get('reason') == 'error' else '')
+            if is_out:
+                lines.append(f'{lead} is tagged out' + (f' at {base}.' if base else '.'))
+            elif target in ('score', 'home'):
+                lines.append(f'{lead} comes home{cause}.')
+            elif base:
+                lines.append(f'{lead} moves up to {base}{cause}.')
+        if movement_type != 'pickoff_attempt':
             if origin in renderer.runners_on_base:
                 renderer.runners_on_base[origin] = None
             if not is_out and target in renderer.runners_on_base:

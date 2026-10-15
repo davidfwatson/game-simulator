@@ -29,8 +29,6 @@ IGNORED_EVENT_TYPES = {
     'passed_ball', 'defensive_indiff', 'game_delayed', 'game_resumed'
 }
 
-POSITION_ACTIONS = {'offensive_substitution', 'defensive_substitution', 'defensive_switch', 'mound_visit'}
-
 # Keep a conservative pitch code list (adjust to match your generator’s behavior)
 PITCH_CODE_WHITELIST = {'B', 'C', 'S', 'X', 'F', 'D'}
 # MLB pitch codes our generator never emits, folded onto the ones it does.
@@ -40,15 +38,180 @@ PITCH_CODE_WHITELIST = {'B', 'C', 'S', 'X', 'F', 'D'}
 PITCH_CODE_MAP = {'T': 'S', 'W': 'S', 'M': 'S', 'Q': 'S', 'O': 'S',
                   'L': 'F', 'R': 'F', 'E': 'X', 'D': 'X', '*B': 'B', 'V': 'B', 'I': 'B', 'P': 'B'}
 
+SUBSTITUTION_TYPES = {'offensive_substitution', 'defensive_substitution', 'defensive_switch'}
+POSITION_ACTIONS = SUBSTITUTION_TYPES | {'mound_visit'}
+
 # Baserunning actions our renderer narrates, keyed by MLB eventType prefix.
 # Dropping them left real innings visibly broken (an inning ending mid-at-bat
 # on an unnarrated caught stealing, runners appearing from nowhere).
 SCORER_POSITIONS = {'1': 'P', '2': 'C', '3': '1B', '4': '2B', '5': '3B', '6': 'SS',
                     '7': 'LF', '8': 'CF', '9': 'RF'}
 
+# Extra names stay in one team's vocabulary. Their combinations are reserved
+# by position and handedness so the same name never changes roles across games.
+OVERFLOW = {
+    'home': ['Dale Whitcomb', 'Ray Pellerin', 'Tommy Askew', 'Luis Ocampo', 'Brent Haddix',
+             'Curtis Vane', 'Mel Strand', 'Danny Ruehl', 'Hector Lasso', 'Gil Marchetti',
+             'Wade Kimbrell', 'Nico Ferrante', 'Jay Tolliver', 'Ozzie Quill', 'Russ Delacroix'],
+    'away': ['Earl Brannock', 'Sid Fennimore', 'Rafael Cuenca', 'Lyle Gessner', 'Mickey Dorr',
+             'Arturo Velez', 'Hal Pruitt', 'Kip Lindqvist', 'Doug Sarratt', 'Benny Ochoa',
+             'Clay Rourke', 'Manny Ybarra', 'Glen Hutchins', 'Theo Brakefield', 'Abe Calloway'],
+}
+EXTRA_SURNAMES = {
+    'home': ['Hollis', 'Bellamy', 'Caldwell', 'Dunlap', 'Ellery', 'Fossett', 'Garrick', 'Huxley',
+             'Ivers', 'Jardine', 'Kessler', 'Lennox', 'Merritt', 'Norvell', 'Ormsby', 'Prescott',
+             'Ransome', 'Selwyn', 'Trask', 'Ulmer', 'Valence', 'Winslow', 'Yarrow', 'Zeller',
+             'Bramwell', 'Cresswell', 'Dewitt', 'Easton', 'Finlay', 'Haverford'],
+    'away': ['Ashby', 'Bancroft', 'Carrigan', 'Darrow', 'Eddings', 'Farnham', 'Godwin', 'Harwood',
+             'Ingram', 'Jeffers', 'Kendrick', 'Langford', 'Mayhew', 'Nesbitt', 'Oglesby', 'Penrose',
+             'Radford', 'Somerfield', 'Thurston', 'Underhill', 'Varden', 'Walden', 'Yates', 'Zane',
+             'Beckford', 'Colter', 'Densmore', 'Everton', 'Farrow', 'Holtby'],
+}
+
+
+def player_sides(data):
+    """Infer teams for hitters, runners and fielders, including men who never bat."""
+    sides = {}
+    box_teams = data.get('liveData', {}).get('boxscore', {}).get('teams', {})
+    for side in ('home', 'away'):
+        for player in box_teams.get(side, {}).get('players', {}).values():
+            pid = player.get('person', {}).get('id')
+            if pid is not None:
+                sides[pid] = side
+    for play in data.get('liveData', {}).get('plays', {}).get('allPlays', []):
+        batting, fielding = ('away', 'home') if play['about']['isTopInning'] else ('home', 'away')
+        for role, side in (('batter', batting), ('pitcher', fielding)):
+            person = play.get('matchup', {}).get(role, {})
+            if person.get('id') is not None:
+                sides[person['id']] = side
+        for runner in play.get('runners', []):
+            person = runner.get('details', {}).get('runner', {})
+            if person.get('id') is not None:
+                sides[person['id']] = batting
+            for credit in runner.get('credits', []):
+                if credit.get('player', {}).get('id') is not None:
+                    sides[credit['player']['id']] = fielding
+        for event in play.get('playEvents', []):
+            kind = event.get('details', {}).get('eventType', '')
+            if kind in ('offensive_substitution', 'runner_placed'):
+                side = batting
+            elif kind in ('defensive_substitution', 'defensive_switch', 'pitching_substitution'):
+                side = fielding
+            else:
+                continue
+            for role in ('player', 'replacedPlayer'):
+                if event.get(role, {}).get('id') is not None:
+                    sides[event[role]['id']] = side
+    return sides
+
+
+def _position_code(position):
+    code = (position or {}).get('code', 'U')
+    return 'D' if code == '10' else code
+
+
+def _extra_names(side, code, hand):
+    positions = ('1', '2', '3', '4', '5', '6', '7', '8', '9', 'D', 'U', '11', '12')
+    hands = ('R', 'L', 'S', 'U')
+    bucket = positions.index(code if code in positions else 'U') * len(hands)
+    bucket += hands.index(hand if hand in hands else 'U')
+    stride = len(positions) * len(hands)
+    firsts = list(dict.fromkeys([name.split()[0] for names in OVERFLOW.values() for name in names]
+                               + [p['legal_name'].split()[0] for key in ('BAY_BOMBERS', 'PC_PILOTS')
+                                  for p in TEAMS[key]['players']]))
+    lasts = [name.split()[-1] for name in OVERFLOW[side]] + EXTRA_SURNAMES[side]
+    for i in range(bucket, len(firsts) * len(lasts), stride):
+        yield f'{firsts[i % len(firsts)]} {lasts[i // len(firsts)]}'
+
+
+def assign_player_names(data, our_teams, rng):
+    """Use a roster name only when its team, position and hand fit the player."""
+    players = {p['id']: p for p in data.get('gameData', {}).get('players', {}).values()}
+    plays = data.get('liveData', {}).get('plays', {}).get('allPlays', [])
+    order = list(dict.fromkeys([p['matchup'][role]['id'] for p in plays
+                                for role in ('batter', 'pitcher')] + sorted(players)))
+    sides = player_sides(data)
+    positions = {pid: {_position_code(p.get('primaryPosition'))} for pid, p in players.items()}
+    for play in plays:
+        for runner in play.get('runners', []):
+            for credit in runner.get('credits', []):
+                pid = credit.get('player', {}).get('id')
+                if pid in positions and credit.get('position'):
+                    positions[pid].add(_position_code(credit['position']))
+    names, used, used_surnames = {}, set(), set()
+    for side, key in (('home', 'BAY_BOMBERS'), ('away', 'PC_PILOTS')):
+        roster = list(our_teams[key]['players'])
+        starter = next((p for p in roster if p.get('type') == 'Starter'), None)
+        pen = [p for p in roster if p['position']['code'] == '1' and p is not starter]
+        rng.shuffle(pen)
+        pitcher_order = ([starter] if starter else []) + pen
+        pools = {}
+        for pid in order:
+            if pid not in players or sides.get(pid, 'home') != side:
+                continue
+            person = players[pid]
+            code = _position_code(person.get('primaryPosition'))
+            hand_key = 'pitchHand' if code == '1' else 'batSide'
+            hand = person.get(hand_key, {}).get('code', 'U')
+            candidates = pitcher_order if code == '1' else roster
+            match = next((p for p in candidates if p['legal_name'] not in used
+                          and p['legal_name'].split()[-1] not in used_surnames
+                          and positions[pid] == {p['position']['code']}
+                          and p.get(hand_key, {}).get('code', 'R') == hand), None)
+            if match:
+                name = match['legal_name']
+            else:
+                pool = pools.setdefault((code, hand), _extra_names(side, code, hand))
+                name = next(n for n in pool if n not in used and n.split()[-1] not in used_surnames)
+            names[pid] = name
+            used.add(name)
+            used_surnames.add(name.split()[-1])
+    return names
+
 ACTION_TYPES = (('stolen_base', 'stolen_base'), ('pickoff_caught_stealing', 'caught_stealing'),
                 ('caught_stealing', 'caught_stealing'), ('pickoff_error', 'pickoff_attempt'),
-                ('pickoff', 'pickoff'), ('wild_pitch', 'wild_pitch'), ('passed_ball', 'passed_ball'))
+                ('pickoff', 'pickoff'), ('wild_pitch', 'wild_pitch'), ('passed_ball', 'passed_ball'),
+                ('defensive_indiff', 'defensive_indiff'), ('forced_balk', 'balk'), ('balk', 'balk'),
+                ('error', 'runner_advance'), ('field_error', 'runner_advance'),
+                ('other_advance', 'runner_advance'))
+
+
+def runner_action_type(event_type):
+    return next((ours for prefix, ours in ACTION_TYPES if event_type.startswith(prefix)), None)
+
+
+def action_movements(runners, index, id_mapping, default_kind=None):
+    movements = []
+    for runner in runners:
+        details, movement = runner.get('details', {}), runner.get('movement', {})
+        if details.get('playIndex') != index or not details.get('runner'):
+            continue
+        start = movement.get('start') or movement.get('originBase')
+        end = movement.get('end') or movement.get('outBase')
+        if start == end and not movement.get('isOut'):
+            continue
+        kind = runner_action_type(details.get('eventType', '')) or default_kind
+        if not kind:
+            continue
+        if kind in ('caught_stealing', 'pickoff') and not movement.get('isOut'):
+            # The feed can label every runner with the play's out, even the
+            # man who scored while a different runner was caught stealing.
+            kind = 'runner_advance'
+        elif kind == 'stolen_base' and movement.get('isOut'):
+            kind = 'caught_stealing'
+        person = anonymize_player_reference(details['runner'], id_mapping)
+        # Two rows can describe successive bases on the same advance. Keep
+        # distinct steps when a steal is followed by an error on the throw.
+        previous = next((m for m in movements if m['runner']['id'] == person['id']
+                         and m['eventType'] == kind and m['toBase'] == start), None)
+        if previous:
+            previous['toBase'] = end
+            previous['isOut'] = bool(movement.get('isOut'))
+        else:
+            movements.append({'runner': person, 'fromBase': start, 'toBase': end,
+                              'isOut': bool(movement.get('isOut')), 'eventType': kind,
+                              'reason': 'error' if details.get('eventType') in ('error', 'field_error') else ''})
+    return movements
 
 
 def action_type(ev: dict):
@@ -59,10 +222,7 @@ def action_type(ev: dict):
     real = d.get('eventType') or ''
     if not real and (ev.get('type') == 'pickoff' or 'pickoff attempt' in (d.get('description') or '').lower()):
         return 'pickoff_attempt'
-    for prefix, ours in ACTION_TYPES:
-        if real.startswith(prefix):
-            return ours
-    return None
+    return runner_action_type(real)
 
 
 def is_pitch_like(ev: dict) -> bool:
@@ -123,7 +283,8 @@ def get_our_schema_fields():
                         'details': ['event', 'eventType', 'movementReason', 'runner', 'responsiblePitcher', 'isScoringEvent', 'rbi', 'earned', 'teamUnearned', 'playIndex'],
                         'credits': {
                             'player': ['id'],
-                            'credit': None
+                            'credit': None,
+                            'position': ['code', 'name', 'abbreviation']
                         }
                     }
                 }
@@ -133,99 +294,61 @@ def get_our_schema_fields():
     }
 
 
-def create_player_mapping(real_data, our_teams):
-    """
-    Create a mapping from real player IDs to our fictional players.
+def create_player_mapping(real_data, our_teams, rng=None):
+    """Assign unique fictional identities while retaining the real roles and hands."""
+    players = {p['id']: dict(p) for p in real_data.get('gameData', {}).get('players', {}).values()}
 
-    Args:
-        real_data: Real MLB gameday JSON
-        our_teams: Our TEAMS dictionary
+    def collect(node):
+        if isinstance(node, dict):
+            if 'id' in node and ('fullName' in node or len(node) <= 3):
+                person = players.setdefault(node['id'], {'id': node['id']})
+                if node.get('fullName'):
+                    person.setdefault('fullName', node['fullName'])
+            for value in node.values():
+                collect(value)
+        elif isinstance(node, list):
+            for value in node:
+                collect(value)
 
-    Returns:
-        tuple of (id_mapping dict, name_mapping dict)
-            id_mapping: real player ID -> our player dict
-            name_mapping: real player full name -> our player legal_name
-    """
-    # Get all our players
-    our_players = []
-    for team in our_teams.values():
-        our_players.extend(team['players'])
-
-    # Shuffle to randomize assignment
-    random.shuffle(our_players)
-
-    # Keep track of original count for generating synthetic IDs if needed
-    original_player_count = len(our_players)
-
-    # Extract all unique player IDs and names from real data
-    real_players = {}  # id -> full name
-
-    # From gameData.players
-    if 'gameData' in real_data and 'players' in real_data['gameData']:
-        for player_key in real_data['gameData']['players']:
-            player = real_data['gameData']['players'][player_key]
-            real_players[player['id']] = player.get('fullName', '')
-
-    # From plays (in case some players aren't in gameData.players)
-    if 'liveData' in real_data and 'plays' in real_data['liveData']:
-        for play in real_data['liveData']['plays'].get('allPlays', []):
-            matchup = play.get('matchup', {})
-            if 'batter' in matchup and matchup['batter']['id'] not in real_players:
-                real_players[matchup['batter']['id']] = matchup['batter'].get('fullName', '')
-            if 'pitcher' in matchup and matchup['pitcher']['id'] not in real_players:
-                real_players[matchup['pitcher']['id']] = matchup['pitcher'].get('fullName', '')
-
-            # From runners
-            for runner in play.get('runners', []):
-                if 'details' in runner and 'runner' in runner['details']:
-                    runner_ref = runner['details']['runner']
-                    if runner_ref['id'] not in real_players:
-                        real_players[runner_ref['id']] = runner_ref.get('fullName', '')
-
-    # Create ID mapping - extend our_players list if we have more real players than fictional ones
-    total_real_players = len(real_players)
-    if total_real_players > len(our_players):
-        # Generate synthetic players to ensure 1-to-1 mapping
-        first_names = ['Alex', 'Sam', 'Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Jamie',
-                       'Quinn', 'Drew', 'Avery', 'Reese', 'Dakota', 'Skyler', 'Parker']
-        last_names = ['Smith', 'Johnson', 'Williams', 'Brown', 'Davis', 'Miller', 'Wilson',
-                      'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin']
-
-        base_id = 700000  # Start synthetic IDs at 700000 to avoid conflicts
-        for i in range(total_real_players - original_player_count):
-            synthetic_player = {
-                'id': base_id + i,
-                'legal_name': f"{first_names[i % len(first_names)]} {last_names[i % len(last_names)]}"
-            }
-            our_players.append(synthetic_player)
-
-    # Now create 1-to-1 mapping
-    id_mapping = {}
-    name_mapping = {}
-    for i, (real_id, real_name) in enumerate(sorted(real_players.items())):
-        our_player = our_players[i]  # Direct indexing, no modulo
-        id_mapping[real_id] = our_player
+    plays = real_data.get('liveData', {}).get('plays', {}).get('allPlays', [])
+    collect(plays)
+    for play in plays:
+        for role, hand in (('batter', 'batSide'), ('pitcher', 'pitchHand')):
+            ref = play.get('matchup', {}).get(role)
+            if ref and ref['id'] in players and hand in play['matchup']:
+                players[ref['id']].setdefault(hand, play['matchup'][hand])
+    for team in real_data.get('liveData', {}).get('boxscore', {}).get('teams', {}).values():
+        for box_player in team.get('players', {}).values():
+            pid = box_player.get('person', {}).get('id')
+            if pid in players and box_player.get('position'):
+                position = dict(box_player['position'])
+                position['code'] = _position_code(position)
+                players[pid]['primaryPosition'] = position
+    for person in players.values():
+        if person.get('primaryPosition'):
+            person['primaryPosition'] = {**person['primaryPosition'], 'code': _position_code(person['primaryPosition'])}
+    context = {'gameData': {'players': {f'ID{pid}': p for pid, p in players.items()}},
+               'liveData': real_data.get('liveData', {})}
+    names = assign_player_names(context, our_teams, rng or random.Random(42))
+    canonical = {p['legal_name']: p for team in our_teams.values() for p in team['players']}
+    id_mapping, name_mapping = {}, {}
+    for i, (real_id, person) in enumerate(sorted(players.items())):
+        name = names[real_id]
+        replacement = {'id': canonical[name]['id'] if name in canonical else 9000000 + i,
+                       'legal_name': name}
+        for source, target in (('primaryPosition', 'position'), ('batSide', 'batSide'), ('pitchHand', 'pitchHand')):
+            if person.get(source):
+                replacement[target] = person[source]
+        id_mapping[real_id] = replacement
+        real_name = person.get('fullName', '')
         if real_name:
-            # Add original name (with accents if present)
-            name_mapping[real_name] = our_player['legal_name']
-            # Also add normalized version (without accents) to handle inconsistencies
-            normalized_name = normalize_unicode(real_name)
-            if normalized_name != real_name:
-                name_mapping[normalized_name] = our_player['legal_name']
-
-            # Add first and last names separately for partial match detection
+            name_mapping[real_name] = name
+            name_mapping[normalize_unicode(real_name)] = name
             parts = real_name.split()
             if len(parts) >= 2:
-                name_mapping[parts[0]] = our_player['legal_name'].split()[0]  # First name
-                name_mapping[parts[-1]] = our_player['legal_name'].split()[-1]  # Last name
-                # Also add normalized versions of first/last names
-                normalized_first = normalize_unicode(parts[0])
-                normalized_last = normalize_unicode(parts[-1])
-                if normalized_first != parts[0]:
-                    name_mapping[normalized_first] = our_player['legal_name'].split()[0]
-                if normalized_last != parts[-1]:
-                    name_mapping[normalized_last] = our_player['legal_name'].split()[-1]
-
+                for old, new in ((parts[0], name.split()[0]), (parts[-1], name.split()[-1])):
+                    name_mapping[old] = new
+                    name_mapping[normalize_unicode(old)] = new
     return id_mapping, name_mapping
 
 
@@ -337,7 +460,7 @@ def anonymize_player_reference(player_ref, id_mapping):
         return player_ref
     real_id = player_ref['id']
     mapped = id_mapping.get(real_id)
-    return {'id': (mapped['id'] if mapped else real_id)}
+    return {'id': mapped['id'], 'fullName': mapped['legal_name']} if mapped else {'id': real_id}
 
 
 def _case_like(src: str, repl: str) -> str:
@@ -346,24 +469,14 @@ def _case_like(src: str, repl: str) -> str:
     if src.islower(): return repl.lower()
     return repl
 
-def _compile_name_pattern(name: str):
-    # Boundaries that handle apostrophes; avoid replacing inside other words
-    return re.compile(rf"(?<!\w){re.escape(name)}(?!\w)(?:['’]s)?", re.IGNORECASE)
-
 def anonymize_description(text: str, name_mapping: dict) -> str:
-    if not text:
+    if not text or not name_mapping:
         return text
-    items = sorted(name_mapping.items(), key=lambda kv: len(kv[0]), reverse=True)
-    for real, fake in items:
-        pat = _compile_name_pattern(real)
-        def sub(m):
-            s = m.group(0)
-            poss = ''
-            if s.lower().endswith(("'s","’s")):
-                poss, s = s[-2:], s[:-2]
-            return _case_like(s, fake) + poss
-        text = pat.sub(sub, text)
-    return text
+    names = '|'.join(re.escape(name) for name in sorted(name_mapping, key=len, reverse=True))
+    pattern = re.compile(rf"(?<!\w)({names})(?!\w)(['’]s)?", re.IGNORECASE)
+    mapping = {name.lower(): fake for name, fake in name_mapping.items()}
+    # Replace once: a fictional surname can also be another real player's name.
+    return pattern.sub(lambda m: _case_like(m[1], mapping[m[1].lower()]) + (m[2] or ''), text)
 
 
 def simplify_runner(r, id_mapping, schema):
@@ -395,7 +508,9 @@ def simplify_runner(r, id_mapping, schema):
             if 'player' in credit:
                 anon_credit['player'] = anonymize_player_reference(credit['player'], id_mapping)
             if 'credit' in credit:
-                anon_credit['credit'] = credit['credit']
+                anon_credit['credit'] = credit['credit'].removeprefix('f_')
+            if 'position' in credit:
+                anon_credit['position'] = credit['position']
             out['credits'].append(anon_credit)
 
     return out
@@ -416,7 +531,7 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
     rng = random.Random(seed)
 
     # Create player mappings
-    id_mapping, name_mapping = create_player_mapping(real_data, our_teams)
+    id_mapping, name_mapping = create_player_mapping(real_data, our_teams, rng)
 
     # Get schema
     schema = get_our_schema_fields()
@@ -546,7 +661,7 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                                 'isPitch': False, 'type': 'action', 'index': event.get('index'),
                                 'count': dict(count_before),
                                 'details': {'eventType': kind, 'code': '', 'isStrike': False,
-                                            'description': anonymize_description(event['details'].get('description', ''), name_mapping)},
+                                            'description': ''},
                             }
                             for field in ('isSubstitution', 'position', 'battingOrder'):
                                 if field in event:
@@ -558,19 +673,7 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                             continue
                         ours = action_type(event)
                         if ours:
-                            movements = []
-                            for r in play.get('runners', []):
-                                rd, mv = r.get('details', {}), r.get('movement', {})
-                                if rd.get('playIndex') != event.get('index') or not rd.get('runner'):
-                                    continue
-                                mapped = id_mapping.get(rd['runner'].get('id'))
-                                movements.append({
-                                    'runner': {'id': mapped['id'] if mapped else rd['runner'].get('id'),
-                                               'fullName': mapped['legal_name'] if mapped else rd['runner'].get('fullName')},
-                                    'fromBase': mv.get('start') or mv.get('originBase'),
-                                    'toBase': mv.get('end') or mv.get('outBase'),
-                                    'isOut': bool(mv.get('isOut')),
-                                })
+                            movements = action_movements(play.get('runners', []), event.get('index'), id_mapping, ours)
                             if ours == 'pickoff_attempt' and not movements:
                                 base = re.search(r'\b([123])B\b', (event.get('details') or {}).get('description') or '')
                                 if base:
@@ -638,30 +741,21 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
 
                         anonymized_play['playEvents'].append(filtered_event)
 
-                # Baserunning outs/advances recorded only on a pitch's runner
-                # movement (an inning-ending caught stealing often has no action
-                # event of its own): add the action right after that pitch, or
-                # the inning ends mid at-bat with nothing said.
+                # A baserunning action can live only on the pitch's movement
+                # rows. Insert it once, immediately after that pitch; movements
+                # on a ball in play belong to the batted-ball call instead.
                 covered = {e.get('index') for e in anonymized_play.get('playEvents', []) if not e.get('isPitch')}
                 pitch_at = {e.get('index'): i for i, e in enumerate(anonymized_play.get('playEvents', [])) if e.get('isPitch')}
-                extra = {}
-                for r in play.get('runners', []):
-                    rd, mv = r.get('details', {}), r.get('movement', {})
-                    kind = next((ours for prefix, ours in ACTION_TYPES if (rd.get('eventType') or '').startswith(prefix)), None)
-                    idx = rd.get('playIndex')
-                    if not kind or idx in covered or idx not in pitch_at or not rd.get('runner'):
+                for idx in sorted(pitch_at, key=pitch_at.get, reverse=True):
+                    event = anonymized_play['playEvents'][pitch_at[idx]]
+                    if idx in covered or event.get('details', {}).get('code') == 'X':
                         continue
-                    mapped = id_mapping.get(rd['runner'].get('id'))
-                    extra.setdefault(idx, (kind, []))[1].append({
-                        'runner': {'id': mapped['id'] if mapped else rd['runner'].get('id'),
-                                   'fullName': mapped['legal_name'] if mapped else rd['runner'].get('fullName')},
-                        'fromBase': mv.get('start') or mv.get('originBase'),
-                        'toBase': mv.get('end') or mv.get('outBase'), 'isOut': bool(mv.get('isOut'))})
-                for idx in sorted(extra, key=lambda i: pitch_at[i], reverse=True):
-                    kind, movements = extra[idx]
-                    ev = anonymized_play['playEvents'][pitch_at[idx]]
+                    movements = action_movements(play.get('runners', []), idx, id_mapping)
+                    if not movements:
+                        continue
+                    kind = movements[0]['eventType']
                     anonymized_play['playEvents'].insert(pitch_at[idx] + 1, {
-                        'isPitch': False, 'index': idx, 'count': dict(ev.get('count', {})),
+                        'isPitch': False, 'index': idx, 'count': dict(event.get('count', {})),
                         'details': {'eventType': kind, 'description': kind.replace('_', ' ').title(),
                                     'code': '', 'runners': movements}})
 
@@ -676,10 +770,6 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                 # Matchup: ensure only IDs and basic handedness/splits
                 if 'matchup' in anonymized_play:
                     m = anonymized_play['matchup']
-                    # Make sure postOn* are IDs only; you already anonymize them with anonymize_player_reference
-                    for base in ['postOnFirst', 'postOnSecond', 'postOnThird']:
-                        if base in m and isinstance(m[base], dict):
-                            m[base] = anonymize_player_reference(m[base], id_mapping)
                     # Drop hot/cold zones if present (you set them to [])
                     m.pop('batterHotColdZones', None)
                     m.pop('pitcherHotColdZones', None)
