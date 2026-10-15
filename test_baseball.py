@@ -4,6 +4,7 @@ import random
 import io
 from copy import deepcopy
 from contextlib import redirect_stdout
+from unittest.mock import patch
 from baseball import BaseballSimulator
 from renderers import NarrativeRenderer
 from teams import TEAMS
@@ -77,6 +78,39 @@ class TestBaseballRealism(unittest.TestCase):
         self.assertGreater(events["Double Play"], 0, "No double plays were recorded in the simulations.")
 
 class TestRelieverSelection(unittest.TestCase):
+    def test_reliever_who_finishes_the_inning_can_leave_before_three_batters(self):
+        for top in (True, False):
+            with self.subTest(top=top):
+                game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+                game.inning, game.top_of_inning = 6, top
+                prefix, starter, _, _ = game._pitching_side()
+
+                def at_bat(batter, pitcher):
+                    name = pitcher['legal_name']
+                    game.pitch_counts[name] += 3
+                    if name == starter and game.outs == 1:
+                        game.pitch_counts[name] = game._pitch_budget[name] + 10
+                    return 'Strikeout', None, []
+
+                with patch.object(game, '_simulate_at_bat', side_effect=at_bat):
+                    game._simulate_half_inning()
+                plays = game.gameday_data['liveData']['plays']['allPlays']
+                reliever = getattr(game, f'{prefix}_current_pitcher_name')
+                self.assertEqual([play['matchup']['pitcher']['fullName'] for play in plays],
+                                 [starter, starter, reliever])
+                self.assertNotEqual(reliever, starter)
+                self.assertEqual([play['count']['outs'] for play in plays], [1, 2, 3])
+                self.assertEqual(game._batters_faced[reliever], 1)
+                self.assertTrue(game._entered_mid_inning[reliever])
+
+                game.inning, game.outs = 7, 0
+                with patch.object(game.game_rng, 'random', return_value=0.0):
+                    game._manage_between_innings()
+                replacement = getattr(game, f'{prefix}_current_pitcher_name')
+                self.assertNotEqual(replacement, reliever)
+                self.assertEqual(game._entered_inning[replacement], 7)
+                self.assertFalse(game._entered_mid_inning[replacement])
+
     def test_closer_is_available_for_close_games_in_extra_innings(self):
         game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
         for inning in (9, 10, 12):

@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 import re
 import unittest
+from unittest.mock import patch
 
 import fieldsim
 from annotate_transcript_facts import facts_from_words, season_pitching
@@ -394,6 +395,20 @@ class TestAnnotation(unittest.TestCase):
                 self.assertEqual(annotate_throws(play, lines, [], 'synthetic'), 1)
                 self.assertEqual(play['runners'], [dict(runner, throw='none')])
 
+    def test_throw_annotation_ignores_unexpected_fallback_subjects_and_outcomes(self):
+        from annotate_transcript_facts import annotate_throws
+        from test_transcript_games import record
+        batter = 'Billy De Jesus'
+        for name, outcome in (('Nate Colbert', 'Single'), (batter, 'Incomplete'),
+                              (batter, 'Unrecognised Outcome')):
+            with self.subTest(name=name, outcome=outcome):
+                play = record(batter=batter, outcome=outcome, end=1, pitches=[{'code': 'X', 'line': 1}])
+                before, report = copy.deepcopy(play), []
+                with patch('annotate_transcript_facts.throw_facts_from_words', return_value={name: {'throw': 'none'}}):
+                    self.assertEqual(annotate_throws(play, ['And the pitch... No throw.'], report, 'synthetic'), 0)
+                self.assertEqual(play, before)
+                self.assertEqual(report, [])
+
     def test_words_to_facts(self):
         self.assertEqual(facts_from_words('Hard grounder up the middle, and that one gets through.', 'Single', 'CF', 'ground_ball'),
                          {'lane': 'middle', 'hardness': 'hard'})
@@ -611,6 +626,51 @@ class TestThrowsAndSlides(unittest.TestCase):
                                               ['Edgar Whitehouse', 'Billy Brello', 'Ron Nancy']),
                          {'winner': 'Edgar Whitehouse', 'loser': 'Billy Brello', 'save': 'Ron Nancy'})
 
+    def test_no_throw_destination_selects_the_safe_runner(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runner = {'name': 'Nate Colbert', 'start': '1B', 'end': '2B'}
+        batter = {'name': 'Billy De Jesus', 'start': None, 'end': '1B'}
+        for text in ('No throw to second.', 'No throw at second.', 'No play to second.', 'No play at second.',
+                     'No time to get a throw to second.', 'No chance to get a throw at second.'):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, [runner, batter], batter['name']),
+                                 {'Nate Colbert': {'throw': 'none'}})
+
+    def test_no_throw_without_destination_needs_an_identifiable_runner(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runner = {'name': 'Nate Colbert', 'start': '1B', 'end': '2B'}
+        batter = {'name': 'Billy De Jesus', 'start': None, 'end': '1B'}
+        for text in ('No throw.', 'No play.', 'No time to get a throw.', 'No chance to get him.'):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, [runner], None), {'Nate Colbert': {'throw': 'none'}})
+                self.assertEqual(throw_facts_from_words(text, [runner, batter], batter['name']), {})
+        self.assertEqual(throw_facts_from_words('Colbert advances with no throw.', [runner, batter], batter['name']),
+                         {'Nate Colbert': {'throw': 'none'}})
+
+    def test_decisions_use_the_nearest_pitcher_before_each_verb(self):
+        from annotate_transcript_facts import decisions_from_words
+        pitchers = ['Alex Smith', 'Pat Jones', 'Sam Brown']
+        text = ('After a strong outing from Smith, Jones gets the win, while Jones watches Smith take the mound, '
+                'Smith takes the loss, and after a call from Smith, Brown earns a save.')
+        expected = {'winner': 'Pat Jones', 'loser': 'Alex Smith', 'save': 'Sam Brown'}
+        for names in (pitchers, list(reversed(pitchers))):
+            with self.subTest(pitchers=names):
+                self.assertEqual(decisions_from_words(text, names), expected)
+
+    def test_decisions_do_not_reuse_a_subject_from_an_earlier_clause(self):
+        from annotate_transcript_facts import decisions_from_words
+        pitchers = ['Alex Smith', 'Pat Jones']
+        for text in ('Smith leaves the mound. The bullpen gets the win.',
+                     'Smith leaves the mound; the bullpen gets the win.',
+                     'Jones gets the win and takes the loss.'):
+            with self.subTest(text=text):
+                self.assertEqual(decisions_from_words(text, pitchers),
+                                 {'winner': 'Pat Jones'} if text.startswith('Jones') else {})
+
+    def test_decisions_leave_a_shared_surname_unresolved(self):
+        from annotate_transcript_facts import decisions_from_words
+        self.assertEqual(decisions_from_words('Jones gets the win.', ['Pat Jones', 'Sam Jones']), {})
+
     def test_ledgers_record_the_hosts_throws(self):
         runner = next(r for r in episode(51)['liveData']['plays']['allPlays'][33]['runners']
                       if r['details'].get('throw'))
@@ -772,3 +832,18 @@ class TestPregameAndPostgame(unittest.TestCase):
                          {'away_state': 'Michigan', 'home_state': 'Wisconsin',
                           'weather': {'temp': '74', 'wind': 'Out To LCF'}, 'crew_chief': 'V.R. Montebianco'})
         self.assertEqual(pregame_facts(game, ['A quiet night.'], ['A quiet night.']), {})
+
+    def test_pregame_wind_normalizes_directions_and_keeps_fields(self):
+        from annotate_transcript_facts import pregame_facts
+        game = {'away': 'Big Rapids Timbers', 'home': 'Tomah Tigers'}
+        for words, wind in (('in left field', 'In From LF'), ('in from left field', 'In From LF'),
+                            ('in from center field', 'In From CF'), ('in from right field', 'In From RF'),
+                            ('in from left center', 'In From LCF'), ('in right center', 'In From RCF'),
+                            ('out to left center', 'Out To LCF'), ('out to right center', 'Out To RCF'),
+                            ('out to center field', 'Out To CF'), ('out right field', 'Out To RF'),
+                            ('in from left', 'In From LF'), ('out to right', 'Out To RF'),
+                            ('IN FROM CENTER FIELD', 'In From CF'), ('in', 'In'), ('out', 'Out'),
+                            ('in from', 'In'), ('out to', 'Out')):
+            with self.subTest(words=words):
+                lines = [f'74 degrees at game time, with a light breeze blowing {words}.']
+                self.assertEqual(pregame_facts(game, lines, lines), {'weather': {'temp': '74', 'wind': wind}})

@@ -135,7 +135,8 @@ _BASE = r"(first base|second base|third base|first|second|third|the plate|home p
 THROW_LATE = re.compile(rf"(?:throw|play|toss) (?:to|at) {_BASE}[^.;]{{0,25}}?\bnot in time|"
                         rf"(?:throw|play|toss)[^.;]{{0,25}}?\bnot in time", re.I)
 THROW_BEATEN = re.compile(r"\bbeats? the throw|ahead of the throw", re.I)
-NO_THROW = re.compile(rf"\bno (?:play|throw)(?: at {_BASE})?|\bno (?:time|chance) to get\b(?:[^.;]{{0,25}}? at {_BASE})?", re.I)
+NO_THROW = re.compile(rf"\bno (?:play|throw)(?: (?:to|at) {_BASE})?|"
+                      rf"\bno (?:time|chance) to get\b(?:[^.;]{{0,25}}? (?:to|at) {_BASE})?", re.I)
 SLIDE = re.compile(r"\b(?:slides?|sliding|fl(?:y|ies)) in(?:to \w+)? safely(?:,? (?:just )?(under the tag|ahead of the tag|ahead of the throw))?|"
                    r"\bslide in under the tag", re.I)
 THROW_IN_TIME = re.compile(r"\bthrow\b[^.;]{0,30}?\b(?<!not )in time\b", re.I)
@@ -218,7 +219,10 @@ def annotate_throws(record, lines, report, stem):
             if movement is None:
                 # The batter's own movement, explicit so it can carry the fact.
                 from transcript_game_fixtures import HIT_BASES
-                movement = {'name': name, 'start': None, 'end': HIT_BASES[record['outcome']]}
+                end = HIT_BASES.get(record['outcome'])
+                if name != record['batter'] or end is None:
+                    continue
+                movement = {'name': name, 'start': None, 'end': end}
                 record.setdefault('runners', []).append(movement)
             new = {key: value for key, value in facts.items() if key not in movement}
             if new:
@@ -268,7 +272,7 @@ def pitcher_entry_facts(name, text):
 
 
 DECISION = re.compile(r"(?:gets|takes|picks up|earns|notches) (?:the|another|a) (win|loss|save)\b", re.I)
-SENTENCE = re.compile(r"[^.!?]+")
+SENTENCE = re.compile(r"[^.!?;]+")
 
 
 def decisions_from_words(text, pitchers):
@@ -280,7 +284,10 @@ def decisions_from_words(text, pitchers):
             # "A notches another win, B takes the loss, and C gets the save."
             subject = sentence[start:match.start()]
             start = match.end()
-            named = [name for name in pitchers if re.search(rf"\b{re.escape(name.split()[-1])}\b", subject)]
+            mentions = {name: mention.start() for name in pitchers
+                        for mention in re.finditer(rf"\b{re.escape(name.split()[-1])}\b", subject)}
+            nearest = max(mentions.values(), default=-1)
+            named = [name for name, position in mentions.items() if position == nearest]
             role = {'win': 'winner', 'loss': 'loser', 'save': 'save'}[match.group(1).casefold()]
             if len(named) == 1 and role not in found:
                 found[role] = named[0]
@@ -342,6 +349,7 @@ STATES = ('Michigan', 'Wisconsin', 'Minnesota', 'Iowa', 'Illinois', 'Indiana', '
           'North Dakota', 'Nebraska')
 WIND_FIELDS = {'left center': 'LCF', 'right center': 'RCF', 'left field': 'LF', 'center field': 'CF',
                'right field': 'RF', 'left': 'LF', 'center': 'CF', 'right': 'RF'}
+WIND_DIRECTIONS = {'in from': 'In From', 'out to': 'Out To', 'in': 'In From', 'out': 'Out To'}
 TEMPERATURE = re.compile(r"\b(\d{2,3}) degrees\b", re.I)
 WIND = re.compile(r"breeze blowing (in from|out to|in|out)(?: (left center|right center|left field|center field|"
                   r"right field|left|center|right))?\b", re.I)
@@ -363,9 +371,9 @@ def pregame_facts(game, lines, pregame_lines):
     if temperature:
         weather = {'temp': temperature.group(1)}
         if wind:
-            direction = {'in from': 'In From', 'out to': 'Out To', 'in': 'In', 'out': 'Out'}[wind.group(1).casefold()]
+            direction = WIND_DIRECTIONS[wind.group(1).casefold()]
             field = WIND_FIELDS.get((wind.group(2) or '').casefold())
-            weather['wind'] = f'{direction} {field}' if field and ' ' in direction else direction.split()[0]
+            weather['wind'] = f'{direction} {field}' if field else direction.split()[0]
         facts['weather'] = weather
     if chief:
         facts['crew_chief'] = chief.group(1).strip()
