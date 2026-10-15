@@ -6,7 +6,8 @@ import unittest
 from unittest.mock import patch
 
 from anonymize_real_gameday import (
-    anonymize_description, anonymize_gameday_data, create_player_mapping, validate_player_names,
+    anonymize_description, anonymize_gameday_data, assign_player_names, collect_players,
+    create_player_mapping, validate_player_names,
 )
 import blind_judge
 from renderers import NarrativeRenderer
@@ -48,6 +49,10 @@ def credit(pid, position, kind='f_putout'):
 def feed(event='Single', events=None, runners=None, outs=0):
     people = [person(1, '6', 'R'), person(2, '1', throws='L'),
               person(3, '4', 'L'), person(4, '9', 'R'), person(5, '2', 'R')]
+    box = {side: {'players': {}} for side in ('home', 'away')}
+    for p in people:
+        side = 'away' if p['id'] == 1 else 'home'
+        box[side]['players'][f'ID{p["id"]}'] = {'person': {'id': p['id']}}
     play = {'about': {'atBatIndex': 0, 'isTopInning': True, 'halfInning': 'top', 'inning': 1},
             'matchup': {'batter': {'id': 1, 'fullName': 'Real Player1'},
                         'pitcher': {'id': 2, 'fullName': 'Real Player2'},
@@ -59,11 +64,91 @@ def feed(event='Single', events=None, runners=None, outs=0):
     return {'gameData': {'teams': {'home': {}, 'away': {}},
                          'players': {f'ID{p["id"]}': p for p in people}},
             'liveData': {'plays': {'allPlays': [play]},
+                         'boxscore': {'teams': box},
                          'linescore': {'teams': {side: {'runs': 0, 'hits': 1, 'errors': 0}
                                                 for side in ('home', 'away')}, 'innings': []}}}
 
 
 class TestRealIdentities(unittest.TestCase):
+    def test_non_player_event_references_are_not_named_and_their_descriptions_are_dropped(self):
+        for kind, pid, uid, description in (
+                ('ejection', 667437, 605672,
+                 'Giants manager Tony Vitello ejected by HP umpire Jeremie Rehak.'),
+                ('umpire_substitution', 545402, 545402,
+                 'Umpire change: John Bacon replaces umpire Junior Valentine.')):
+            with self.subTest(kind=kind):
+                event = {'isPitch': False, 'index': -1,
+                         'player': {'id': pid, 'link': f'/api/v1/people/{pid}'},
+                         'umpire': {'id': uid, 'link': f'/api/v1/people/{uid}'},
+                         'details': {'eventType': kind, 'description': description}}
+                raw = feed(events=[event, pitch()])
+                raw['liveData']['boxscore']['officials'] = [
+                    {'official': event['umpire'], 'officialType': 'Home Plate'}]
+                self.assertEqual(set(collect_players(raw)), set(range(1, 6)))
+                self.assertEqual(set(assign_player_names(raw, TEAMS, random.Random(1))), set(range(1, 6)))
+                validate_player_names(raw)
+                data = anonymize_gameday_data(raw, TEAMS)
+                validate_player_names(data)
+                self.assertEqual(len(data['gameData']['players']), 5)
+                self.assertEqual(len(data['liveData']['plays']['allPlays'][0]['playEvents']), 1)
+                for name in ('Tony Vitello', 'Jeremie Rehak', 'John Bacon', 'Junior Valentine'):
+                    self.assertNotIn(name, json.dumps(data))
+
+    def test_zero_violation_placeholder_is_not_a_player(self):
+        event = pitch()
+        event['details']['violation'] = {'type': 'defensive_shift', 'player': {'id': 0}}
+        raw = feed(events=[event])
+        self.assertNotIn(0, collect_players(raw))
+        self.assertNotIn(0, assign_player_names(raw, TEAMS, random.Random(1)))
+        validate_player_names(raw)
+        data = anonymize_gameday_data(raw, TEAMS)
+        validate_player_names(data)
+        self.assertEqual(len(data['gameData']['players']), 5)
+        self.assertNotIn('violation', data['liveData']['plays']['allPlays'][0]['playEvents'][0]['details'])
+
+    def test_boxscore_only_player_is_collected_and_named(self):
+        raw = feed()
+        raw['liveData']['boxscore']['teams']['away']['players']['ID6'] = {
+            'person': {'id': 6, 'fullName': 'Real Player6'}, 'position': POSITIONS['4']}
+        self.assertIn(6, collect_players(raw))
+        self.assertIn(6, assign_player_names(raw, TEAMS, random.Random(1)))
+        data = anonymize_gameday_data(raw, TEAMS)
+        validate_player_names(data)
+        self.assertEqual(len(data['gameData']['players']), 6)
+
+    def test_player_role_does_not_depend_on_reference_size(self):
+        raw = feed()
+        del raw['gameData']['players']['ID1']
+        del raw['liveData']['boxscore']['teams']['away']['players']['ID1']
+        ref = raw['liveData']['plays']['allPlays'][0]['matchup']['batter']
+        ref.pop('fullName')
+        ref.update(link='/api/v1/people/1', firstName='Real', lastName='Player1')
+        raw['liveData']['plays']['allPlays'][0]['runners'] = []
+        self.assertIn(1, collect_players(raw))
+        with self.assertRaisesRegex(ValueError, 'player 1.*missing from gameData.players'):
+            validate_player_names(raw)
+        validate_player_names(anonymize_gameday_data(raw, TEAMS))
+
+    def test_player_without_a_side_is_an_error(self):
+        raw = feed()
+        raw['gameData']['players']['ID6'] = person(6, '6')
+        with self.assertRaisesRegex(ValueError, 'player 6.*no team side'):
+            assign_player_names(raw, TEAMS, random.Random(1))
+
+    def test_unused_roster_players_keep_their_sides_when_remapped(self):
+        raw = feed()
+        box = raw['liveData']['boxscore']['teams']
+        box['away']['players']['ID3'] = box['home']['players'].pop('ID3')
+        mapping, _ = create_player_mapping(raw, TEAMS)
+        data = anonymize_gameday_data(raw, TEAMS)
+        sides = blind_judge.player_sides(data)
+        for pid, side in blind_judge.player_sides(raw).items():
+            self.assertEqual(sides[mapping[pid]['id']], side)
+        remapped = blind_judge.remap_names(data, data['gameData'], seed=17)
+        validate_player_names(remapped)
+        self.assertEqual(blind_judge.player_sides(remapped), sides)
+        self.assert_names_fit(remapped)
+
     def test_credit_and_substitution_only_players_get_distinct_names(self):
         raw = feed(runners=[runner(1, None, '1B', credits=[credit(6, '6'), credit(7, '4')])])
         events = raw['liveData']['plays']['allPlays'][0]['playEvents']
@@ -87,7 +172,7 @@ class TestRealIdentities(unittest.TestCase):
 
     def test_overflow_names_are_unique_across_both_full_rosters(self):
         raw = feed()
-        box = {side: {'players': {}} for side in ('home', 'away')}
+        box = raw['liveData']['boxscore']['teams']
         for pid in range(6, 76):
             raw['gameData']['players'][f'ID{pid}'] = person(pid, '6')
             side = 'home' if pid % 2 else 'away'

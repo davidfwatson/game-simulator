@@ -134,51 +134,73 @@ def _check_unique_player_names(names, label):
             seen[key] = pid
 
 
+def _player_references(data):
+    """Recognize roster members and baseball roles, excluding officials and placeholders."""
+    roster = list(data.get('gameData', {}).get('players', {}).values())
+    for team in data.get('liveData', {}).get('boxscore', {}).get('teams', {}).values():
+        roster.extend(p.get('person', {}) for p in team.get('players', {}).values())
+    player_ids = {p['id'] for p in roster if p.get('id')}
+    yield from (p for p in roster if p.get('id'))
+    roles = {
+        'matchup': ('batter', 'pitcher', 'postOnFirst', 'postOnSecond', 'postOnThird'),
+        'details': ('runner', 'responsiblePitcher'),
+        'credits': ('player',),
+        'reviewDetails': ('player',),
+        'violation': ('player',),
+        'runners': ('runner',),
+    }
+
+    def walk(node, parent=None, player_role=False):
+        if isinstance(node, dict):
+            pid = node.get('id')
+            if pid and (pid in player_ids or player_role):
+                yield node
+            kind = node.get('details', {}).get('eventType', '')
+            for key, value in node.items():
+                if key == 'umpire':
+                    continue
+                in_role = key in roles.get(parent, ())
+                if parent == 'playEvents' and key in ('player', 'replacedPlayer'):
+                    if kind == 'umpire_substitution':
+                        continue
+                    in_role = (kind in SUBSTITUTION_TYPES | {'pitching_substitution', 'runner_placed', 'batter_timeout'}
+                               or runner_action_type(kind) is not None)
+                yield from walk(value, key, in_role)
+        elif isinstance(node, list):
+            for value in node:
+                yield from walk(value, parent, player_role)
+
+    yield from walk(data.get('liveData', {}).get('plays', {}).get('allPlays', []))
+
+
 def validate_player_names(data, label='game'):
     """Fail before rendering if two players share a name or a reference drifts."""
     players = {}
     for player in data.get('gameData', {}).get('players', {}).values():
+        if not player.get('id'):
+            continue
         pid, name = player['id'], player['fullName']
         if pid in players and players[pid] != name:
             raise ValueError(f'{label}: player {pid} has names {players[pid]!r} and {name!r}')
         players[pid] = name
     _check_unique_player_names(players, label)
 
-    def check(node):
-        if isinstance(node, dict):
-            if 'id' in node and ('fullName' in node or len(node) <= 3):
-                pid = node['id']
-                if pid not in players:
-                    raise ValueError(f'{label}: player {pid} is referenced but missing from gameData.players')
-                if node.get('fullName', players[pid]) != players[pid]:
-                    raise ValueError(f'{label}: player {pid} is named {node["fullName"]!r}, expected {players[pid]!r}')
-            for value in node.values():
-                check(value)
-        elif isinstance(node, list):
-            for value in node:
-                check(value)
-
-    check(data.get('liveData', {}).get('plays', {}).get('allPlays', []))
+    for ref in _player_references(data):
+        pid = ref['id']
+        if pid not in players:
+            raise ValueError(f'{label}: player {pid} is referenced but missing from gameData.players')
+        if ref.get('fullName', players[pid]) != players[pid]:
+            raise ValueError(f'{label}: player {pid} is named {ref["fullName"]!r}, expected {players[pid]!r}')
 
 
 def collect_players(data):
     """Include substitutes and references that have no gameData roster entry."""
-    players = {p['id']: dict(p) for p in data.get('gameData', {}).get('players', {}).values()}
-
-    def collect(node):
-        if isinstance(node, dict):
-            if 'id' in node and ('fullName' in node or len(node) <= 3):
-                person = players.setdefault(node['id'], {'id': node['id']})
-                if node.get('fullName'):
-                    person.setdefault('fullName', node['fullName'])
-            for value in node.values():
-                collect(value)
-        elif isinstance(node, list):
-            for value in node:
-                collect(value)
-
+    players = {p['id']: dict(p) for p in data.get('gameData', {}).get('players', {}).values() if p.get('id')}
+    for ref in _player_references(data):
+        person = players.setdefault(ref['id'], {'id': ref['id']})
+        if ref.get('fullName'):
+            person.setdefault('fullName', ref['fullName'])
     plays = data.get('liveData', {}).get('plays', {}).get('allPlays', [])
-    collect(plays)
     for play in plays:
         for role, hand in (('batter', 'batSide'), ('pitcher', 'pitchHand')):
             ref = play.get('matchup', {}).get(role)
@@ -214,6 +236,9 @@ def assign_player_names(data, our_teams, rng):
     order = list(dict.fromkeys([p['matchup'][role]['id'] for p in plays
                                 for role in ('batter', 'pitcher')] + sorted(players)))
     sides = player_sides(data)
+    for pid in players:
+        if pid not in sides:
+            raise ValueError(f'player assignment: player {pid} has no team side')
     positions = {pid: {_position_code(p.get('primaryPosition'))} for pid, p in players.items()}
     for play in plays:
         for runner in play.get('runners', []):
@@ -230,7 +255,7 @@ def assign_player_names(data, our_teams, rng):
         pitcher_order = ([starter] if starter else []) + pen
         pools = {}
         for pid in order:
-            if pid not in players or sides.get(pid, 'home') != side:
+            if pid not in players or sides[pid] != side:
                 continue
             person = players[pid]
             code = _position_code(person.get('primaryPosition'))
@@ -353,6 +378,10 @@ def get_our_schema_fields():
             'umpires': None
         },
         'liveData': {
+            'boxscore': {
+                'teams': {side: {'team': ['id', 'name', 'abbreviation', 'teamName'], 'players': None}
+                          for side in ('home', 'away')}
+            },
             'plays': {
                 'allPlays': {
                     'result': ['type', 'event', 'rbi', 'awayScore', 'homeScore'],
@@ -654,6 +683,15 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
     # Handle liveData
     if 'liveData' in real_data and 'liveData' in schema:
         result['liveData'] = {}
+
+        # Keep membership for unused roster players when the blind judge
+        # assigns names again, without retaining the real boxscore or officials.
+        sides = player_sides(real_data)
+        result['liveData']['boxscore'] = {'teams': {
+            side: {'team': result['gameData']['teams'][side], 'players': {
+                f'ID{p["id"]}': {'person': {'id': p['id'], 'fullName': p['legal_name']}}
+                for pid, p in id_mapping.items() if sides[pid] == side}}
+            for side in ('home', 'away')}}
 
         # Handle plays
         if 'plays' in real_data['liveData']:
