@@ -327,6 +327,29 @@ class TestAnnotation(unittest.TestCase):
         self.assertNotIn('pitcher_roles', data['game'])
         self.assertEqual(report, [])
 
+    def test_pitcher_entry_keeps_abbreviations_and_initials_in_the_introduction(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        for name, introduction in (
+                ('Ron Nancy', 'Left-handed reliever from St. Paul, Ron Nancy takes over.'),
+                ('Ron Nancy', 'Left-handed reliever replacing J.T. King Jr., Ron Nancy takes over.'),
+                ('Ron Nancy', 'Left-handed closer Dr. Ron Nancy takes over.'),
+                ('J.T. Nancy Jr.', 'Left-handed closer J.T. Nancy Jr. takes over.')):
+            with self.subTest(name=name, introduction=introduction):
+                lines = ['The side is retired. Right-handed closer Bob Nancy leaves.', introduction,
+                         'Away Batter 2 steps in.', 'And the pitch... Ball one.']
+                plays = [record(outcome='Groundout', end=1),
+                         record(batter='Away Batter 2', pitcher=name, start=3, end=4,
+                                pitches=[{'code': 'B', 'line': 4}])]
+                data, report = ledger_with(plays), []
+                self.assertEqual(annotate_pitchers(data, lines, report, 'synthetic'), 1)
+                self.assertEqual(plays[1]['pitch_hand'], 'L')
+                self.assertIn(introduction, report[0][-1])
+                if 'closer' in introduction:
+                    self.assertEqual(data['game']['pitcher_roles'], {name: 'closer'})
+                else:
+                    self.assertNotIn('pitcher_roles', data['game'])
+
     def test_pitcher_entry_before_the_play_keeps_its_season_line(self):
         from annotate_transcript_facts import annotate_pitchers
         from test_transcript_games import ledger_with, record

@@ -252,18 +252,28 @@ def annotate_throws(record, lines, report, stem):
 
 # --- pitchers entering the game, and the decisions ----------------------------
 
+ABBREVIATION = re.compile(r"\b(?:Jr|Sr|St|Dr|Mr|Mrs|Ms|[A-Z])\.", re.I)
+
+
+def _sentence_text(text):
+    """Mask abbreviation periods without changing character offsets."""
+    return ABBREVIATION.sub(lambda match: match.group()[:-1] + ' ', text)
+
+
 def pitcher_entry_facts(name, text):
     """A reliever's hand, role and season line from the words that bring him in."""
-    last = re.escape(name.split()[-1])
+    words = name.split()
+    last = re.escape(words[-2] if words[-1].casefold() in ('jr.', 'sr.') else words[-1])
+    text = _sentence_text(text)
     facts = {}
     hand = re.search(rf"\b(right|left)[- ]hand(?:ed|er)\b[^.]{{0,40}}?\b{last}\b|\b(lefty|righty)\b[^.]{{0,25}}?\b{last}\b|"
                      rf"\b{last} is a[^.]{{0,25}}?\b(right|left)[- ]hand", text, re.I)
     if hand:
         word = next(g for g in hand.groups() if g).casefold()
         facts['pitch_hand'] = 'L' if word.startswith('left') else 'R'
-    if re.search(rf"\bcloser,? (?:\w+ ){{0,2}}{last}\b", text, re.I):
+    if re.search(rf"\bcloser,? (?:\w+\s+){{0,2}}{last}\b", text, re.I):
         facts['role'] = 'closer'
-    elif re.search(rf"\bstarting pitcher,? (?:\w+ ){{0,2}}{last}\b", text, re.I):
+    elif re.search(rf"\bstarting pitcher,? (?:\w+\s+){{0,2}}{last}\b", text, re.I):
         facts['role'] = 'starter'
     season = re.search(rf"\b{last} has pitched (\w+) innings of work this season with an ERA of (\d+\.\d\d)", text, re.I)
     if season and _number(season.group(1)) is not None:
@@ -306,7 +316,7 @@ def annotate_pitchers(ledger, lines, report, stem):
             first = min([pitch['line'] for pitch in record.get('pitches', []) if pitch.get('line')]
                         or [record['source_end']])
             text = ' '.join(lines[previous_end:max(first - 1, record['source_start'] - 1)])
-            full_name = rf"\b{re.escape(name)}\b"
+            full_name = rf"(?<!\w){re.escape(name)}(?!\w)"
             named = list(re.finditer(full_name, text, re.I))
             if not named:
                 # An introduction may share the first pitch's line.
@@ -314,7 +324,8 @@ def annotate_pitchers(ledger, lines, report, stem):
                 named = list(re.finditer(full_name, text, re.I))
             if named:
                 # Begin at his introduction, not earlier surname matches.
-                start = max(text.rfind(mark, 0, named[0].start()) for mark in '.!?') + 1
+                boundary_text = _sentence_text(text)
+                start = max(boundary_text.rfind(mark, 0, named[0].start()) for mark in '.!?') + 1
                 text = text[start:]
             facts = pitcher_entry_facts(name, text) if named else {}
             new = {}
