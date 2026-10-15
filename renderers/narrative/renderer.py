@@ -2156,6 +2156,17 @@ class NarrativeRenderer(GameRenderer):
                                        'wild_pitch', 'passed_ball', 'defensive_indiff', 'balk', 'runner_advance')
                             or event_type.startswith('pickoff_') or event.get('type') == 'pickoff'):
                         action_text = self._render_steal_event(event)
+                        previous = play_events[i - 1] if i else {}
+                        if (action_text and (event_type.startswith('pickoff') or event.get('type') == 'pickoff')
+                                and previous.get('details', {}).get('eventType') == 'pickoff_attempt'
+                                and not any(m.get('isOut') or m.get('fromBase') != m.get('toBase')
+                                            for m in previous.get('details', {}).get('runners', []))):
+                            # Two separate throws can follow one pitch. Say
+                            # which throw caught him after the safe return.
+                            action_text, repeated = re.subn(r'^(?:A|The) ((?:pickoff )?throw)\b',
+                                                           r'Another \1', action_text, count=1)
+                            if not repeated:
+                                action_text = 'Another pickoff throw. ' + action_text
                     elif event_type in ('offensive_substitution', 'defensive_substitution', 'defensive_switch'):
                         action_text = self._position_substitution(event)
                     elif event_type == 'pitching_substitution':

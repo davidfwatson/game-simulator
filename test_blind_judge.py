@@ -1,12 +1,31 @@
 """The blind judge's anonymized names must not themselves be a tell."""
 import collections
+import copy
+from pathlib import Path
+import tempfile
 import unittest
+from unittest.mock import patch
 
 import blind_judge
 from teams import TEAMS
 
 
 class TestBlindJudgeNames(unittest.TestCase):
+    def test_build_rejects_duplicate_names_before_writing_a_triplet(self):
+        good = blind_judge.sim_game(1)
+        bad = copy.deepcopy(good)
+        players = list(bad['gameData']['players'].values())
+        players[-1]['fullName'] = players[0]['fullName']
+        with tempfile.TemporaryDirectory() as out:
+            with patch.object(blind_judge, 'sim_game', return_value=bad), \
+                    patch.object(blind_judge, 'sleep_game', return_value=good), \
+                    patch.object(blind_judge, 'real_game', return_value=good), \
+                    patch.object(blind_judge, 'remap_names', return_value=good), \
+                    patch.object(blind_judge.glob, 'glob', return_value=['feed.json']):
+                with self.assertRaisesRegex(ValueError, 'triplet 01 sim: fictional name .* belongs to players'):
+                    blind_judge.build(out, 1, 'feed.json', 17, span=3)
+            self.assertFalse((Path(out) / 'triplet_01').exists())
+
     def test_relievers_are_not_the_same_men_every_game(self):
         """The first reliever of every real and hand-written game was the
         first free roster pitcher, so two of three excerpts could share

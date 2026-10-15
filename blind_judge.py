@@ -25,7 +25,9 @@ import random
 import re
 from pathlib import Path
 
-from anonymize_real_gameday import anonymize_gameday_data, assign_player_names, player_sides
+from anonymize_real_gameday import (
+    anonymize_gameday_data, assign_player_names, collect_players, player_sides, validate_player_names,
+)
 from baseball import BaseballSimulator
 from renderers import NarrativeRenderer
 from teams import TEAMS
@@ -164,20 +166,24 @@ def remap_names(data, template_game_data, seed=None):
     """
     data = copy.deepcopy(data)
     players = data["gameData"]["players"]
+    registered = {p['id'] for p in players.values()}
+    for pid, player in collect_players(data).items():
+        if pid not in registered:
+            players[f'ID{pid}'] = player
     by_id = {p["id"]: p for p in players.values()}
     rng = random.Random(str(seed) if seed is not None
                         else "|".join(sorted(str(p.get("fullName")) for p in players.values())))
     id_names = assign_player_names(data, TEAMS, rng)
 
-    # Structured references are renamed by player id. The anonymizer can give
-    # two real players the same placeholder name, so a name-keyed map sent a
-    # Pilots reliever out as "Leo Vance". Free text is only rewritten for
-    # placeholder names that belong to exactly one player.
+    # Structured references use IDs, including players found only in credits
+    # or substitutions. Rewrite free text only for unambiguous source names.
     name_counts = {}
     for pid in id_names:
-        name_counts[by_id[pid]["fullName"]] = name_counts.get(by_id[pid]["fullName"], 0) + 1
+        name = by_id[pid].get('fullName')
+        if name:
+            name_counts[name] = name_counts.get(name, 0) + 1
     mapping = {by_id[pid]["fullName"]: new for pid, new in id_names.items()
-               if name_counts[by_id[pid]["fullName"]] == 1}
+               if name_counts.get(by_id[pid].get("fullName")) == 1}
     full = sorted(mapping, key=len, reverse=True)
     pattern = re.compile(r"\b(?:" + "|".join(re.escape(name) for name in full) + r")\b") if full else None
 
@@ -186,7 +192,7 @@ def remap_names(data, template_game_data, seed=None):
 
     def walk(node):
         if isinstance(node, dict):
-            new = id_names.get(node.get("id")) if "fullName" in node else None
+            new = id_names.get(node.get("id"))
             if new is None and "fullName" in node:
                 new = mapping.get(node["fullName"])
             if new:
@@ -222,6 +228,7 @@ def remap_names(data, template_game_data, seed=None):
         broadcast.pop(k, None)
     if broadcast:
         gd["broadcast"] = broadcast
+    validate_player_names(data, 'remapped game')
     return data
 
 
@@ -282,6 +289,8 @@ def build(out, count, real_feeds, seed, span=1):
             "real": remap_names(real_game(feed, seed=sim_seed), template, seed=f"{sim_seed}:real"),
             "sim": sim_game(sim_seed),
         }
+        for kind, data in sources.items():
+            validate_player_names(data, f'triplet {n:02d} {kind}')
         last = min(9, *(innings_played(d) for d in sources.values())) - span + 1
         inning = rng.randint(1, max(1, min(last, 9 - span)))
         texts = {k: inning_excerpt(render(d, seed=sim_seed), inning, span) for k, d in sources.items()}
