@@ -62,6 +62,14 @@ BLOWOUT_MARGIN = 5             # runs ahead or behind at which a manager stops s
 FATIGUE_PENALTY_CAP = 0.12     # control lost to fatigue levels off (a team out of arms
                                # used to walk the lineup around twice)
 BUNT_RATE_FACTOR = 0.2        # sac bunts were ~1.5/game; MLB is ~0.3
+# In 136 real feeds, fastball-family usage rises from 43-44% on 0-2/1-2
+# to 72-77% on 2-0/3-1 and 95% on 3-0. These multiply the arsenal weights.
+FASTBALL_COUNT_WEIGHT = {
+    (0, 0): 1.2, (0, 1): 0.85, (0, 2): 0.6,
+    (1, 0): 1.3, (1, 1): 0.95, (1, 2): 0.6,
+    (2, 0): 2.1, (2, 1): 1.2, (2, 2): 0.75,
+    (3, 0): 18.0, (3, 1): 2.65, (3, 2): 1.4,
+}
 
 
 class BaseballSimulator:
@@ -450,6 +458,30 @@ class BaseballSimulator:
         setattr(self, f"{team_prefix}_infielders", [defense[pos] for pos in infielders if pos in defense])
         setattr(self, f"{team_prefix}_outfielders", [defense[pos] for pos in outfielders if pos in defense])
         setattr(self, f"{team_prefix}_catcher", defense.get('C'))
+
+    def _select_pitch_type(self, pitcher, batter, balls=0, strikes=0):
+        """Choose from this pitcher's arsenal for the count and batter's side."""
+        pitcher_hand = pitcher.get('pitchHand', {}).get('code')
+        batter_hand = batter.get('batSide', {}).get('code')
+        if batter_hand == 'S' and pitcher_hand in ('L', 'R'):
+            batter_hand = 'L' if pitcher_hand == 'R' else 'R'
+        known_hands = pitcher_hand in ('L', 'R') and batter_hand in ('L', 'R')
+        same_hand = pitcher_hand == batter_hand
+        weights = []
+        for pitch, details in pitcher['pitch_arsenal'].items():
+            weight = details['prob']
+            if pitch in ('four-seam fastball', 'sinker', 'cutter'):
+                weight *= FASTBALL_COUNT_WEIGHT.get((balls, strikes), 1.0)
+            if known_hands:
+                # Within the same real pitcher-game, changeups/splitters are
+                # about three times as common to the opposite side; sliders
+                # and sweepers are nearly twice as common to the same side.
+                if pitch in ('changeup', 'splitter'):
+                    weight *= 0.55 if same_hand else 1.55
+                elif pitch in ('slider', 'sweeper'):
+                    weight *= 1.2 if same_hand else 0.75
+            weights.append(weight)
+        return self.game_rng.choices(list(pitcher['pitch_arsenal']), weights=weights, k=1)[0]
 
     def _simulate_pitch_trajectory(self, pitcher, batter=None, balls=0, strikes=0):
         """
@@ -1080,7 +1112,7 @@ class BaseballSimulator:
             steal_attempt_base = self._decide_steal_attempt(balls, strikes)
             
             self.pitch_counts[pitcher['legal_name']] += 1
-            pitch_selection = self.game_rng.choices(list(pitcher['pitch_arsenal'].keys()), weights=[v['prob'] for v in pitcher['pitch_arsenal'].values()], k=1)[0]
+            pitch_selection = self._select_pitch_type(pitcher, batter, balls, strikes)
             pitch_details_team = pitcher['pitch_arsenal'][pitch_selection]
             pitch_velo = round(self.game_rng.uniform(*pitch_details_team['velo_range']), 1)
             pitch_spin = self.game_rng.randint(*pitch_details_team.get('spin_range', (2000, 2500))) if self.game_rng.random() > 0.08 else None
