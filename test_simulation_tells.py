@@ -171,13 +171,17 @@ class TestOutsOnTheBases(SimulationBatch):
                 for runner in play['runners']:
                     movement = runner['movement']
                     safe_at = None if movement['isOut'] else movement['end']
-                    if movement['originBase'] == '2B' and outs_before < 2:
-                        second_home['n'] += 1
-                        second_home['scored'] += safe_at == 'score'
+                    if movement['originBase'] == '2B':
+                        second_home[outs_before, 'n'] += 1
+                        second_home[outs_before, 'scored'] += safe_at == 'score'
                     if movement['originBase'] == '1B':
                         first_third['n'] += 1
                         first_third['third'] += safe_at in ('3B', 'score')
-        self.assertTrue(0.2 <= second_home['scored'] / second_home['n'] <= 0.36, second_home)
+        # Join successive real-feed movements on one hit: a runner can be
+        # recorded first going to third, then scoring on the same single.
+        # The 136-feed rates are 34/60/78%, rather than the old pooled 30%.
+        for outs, low, high in ((0, 0.20, 0.45), (1, 0.43, 0.73), (2, 0.65, 0.90)):
+            self.assertTrue(low <= second_home[outs, 'scored'] / second_home[outs, 'n'] <= high, second_home)
         self.assertTrue(0.28 <= first_third['third'] / first_third['n'] <= 0.42, first_third)
 
     def test_the_feed_carries_the_out(self):

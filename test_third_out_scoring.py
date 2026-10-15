@@ -21,9 +21,10 @@ class TestThirdOutScoring(unittest.TestCase):
         return fieldsim.BattedBall(outcome, 'CF', 'line_drive', 'CF', 0.0, (0, 200), 200,
                                   release=release, release_point=(0, 200), batter_out=batter_out)
 
-    def half_inning(self, field, seed=1, outs=2):
+    def half_inning(self, field, seed=1, outs=2, setup=None):
         game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
-        outcomes = iter(['Walk'] * 3 + ['Strikeout'] * outs + [field.outcome] + ['Strikeout'] * 3)
+        setup = ['Walk'] * 3 if setup is None else setup
+        outcomes = iter(setup + ['Strikeout'] * outs + [field.outcome] + ['Strikeout'] * 3)
 
         def at_bat(batter, pitcher):
             outcome = next(outcomes)
@@ -33,7 +34,7 @@ class TestThirdOutScoring(unittest.TestCase):
                                  'type': {'code': 'FF', 'description': 'Fastball'}},
                      'pitchData': {'startSpeed': 94.0}}
             context = None
-            if code == 'X':
+            if code == 'X' and len(game.gameday_data['liveData']['plays']['allPlays']) == len(setup) + outs:
                 game._play_field = field
                 game.game_rng.seed(seed)
                 context = {'batted_ball_data': {'field': field, 'ev': 90.0, 'la': 15.0}}
@@ -46,7 +47,7 @@ class TestThirdOutScoring(unittest.TestCase):
                 patch.object(game, '_runner_speeds', side_effect=lambda: {
                     i + 1: 1.0 for i, name in enumerate(game.bases) if name}):
             game._simulate_half_inning()
-        return game, game.gameday_data['liveData']['plays']['allPlays'][3 + outs]
+        return game, game.gameday_data['liveData']['plays']['allPlays'][len(setup) + outs]
 
     def assert_score(self, game, play, runs):
         self.assertEqual(game.outs, 3)
@@ -64,24 +65,25 @@ class TestThirdOutScoring(unittest.TestCase):
         self.assertEqual(pitching['runs'], runs)
 
     def test_two_out_tag_counts_only_runs_before_the_tag(self):
-        # The throw to third arrives at 6.459s; second to home takes 6.475s.
-        game, play = self.half_inning(self.ball())
+        # Second is clear for the batter's attempt. The lead runner scores
+        # before the tag there; the runner from second has not reached home.
+        game, play = self.half_inning(self.ball(release=4.5, batter_out=2), setup=['Walk', 'Double'])
         self.assert_score(game, play, 1)
         by_origin = {r['movement']['originBase']: r for r in play['runners']}
         self.assertEqual(by_origin['3B']['movement']['end'], 'score')
         self.assertEqual(by_origin['2B']['movement']['end'], '3B')
         self.assertFalse(by_origin['2B']['details']['isScoringEvent'])
         self.assertNotIn('throw', by_origin['2B']['details'])
-        self.assertEqual(by_origin['1B']['movement']['outNumber'], 3)
-        self.assertEqual(by_origin['1B']['movement']['outBase'], '3B')
+        self.assertEqual(by_origin[None]['movement']['outNumber'], 3)
+        self.assertEqual(by_origin[None]['movement']['outBase'], '2B')
         batting = game.gameday_data['liveData']['boxscore']['teams']['away']['players']
-        for origin, runs in (('3B', 1), ('2B', 0), ('1B', 0)):
+        for origin, runs in (('3B', 1), ('2B', 0), (None, 0)):
             pid = by_origin[origin]['details']['runner']['id']
             self.assertEqual(batting[f'ID{pid}']['stats']['batting']['runs'], runs)
 
         renderer = SayRunners(game.gameday_data, seed=1)
         lines = renderer.render().splitlines()
-        low, high = renderer._play_line_map[5]
+        low, high = renderer._play_line_map[play['about']['atBatIndex']]
         text = ' '.join(lines[low:high]).split('...', 1)[-1]
         early = re.escape(by_origin['3B']['details']['runner']['fullName'].split()[-1])
         late = re.escape(by_origin['2B']['details']['runner']['fullName'].split()[-1])
@@ -94,7 +96,7 @@ class TestThirdOutScoring(unittest.TestCase):
         self.assert_score(game, play, 2)
 
     def test_two_out_runner_tagged_at_home_does_not_score(self):
-        game, play = self.half_inning(self.ball(), seed=0)
+        game, play = self.half_inning(self.ball(release=4.0), seed=0)
         self.assert_score(game, play, 1)
         out = next(r for r in play['runners'] if r['movement']['isOut'])
         self.assertEqual(out['movement']['originBase'], '2B')
@@ -102,7 +104,7 @@ class TestThirdOutScoring(unittest.TestCase):
         self.assertFalse(out['details']['isScoringEvent'])
 
     def test_two_out_batter_stretching_preserves_earlier_runs(self):
-        for outcome, out_base, release, runs in (('Single', 2, 7.0, 1), ('Double', 3, 10.0, 2)):
+        for outcome, out_base, release, runs in (('Single', 2, 7.0, 2), ('Double', 3, 11.0, 3)):
             with self.subTest(outcome=outcome):
                 game, play = self.half_inning(self.ball(outcome, release, out_base))
                 self.assert_score(game, play, runs)
@@ -111,7 +113,7 @@ class TestThirdOutScoring(unittest.TestCase):
                 self.assertEqual(out['movement']['outNumber'], 3)
 
     def test_batter_out_stretching_has_one_movement_and_keeps_his_hit(self):
-        for outcome, out_base, release in (('Single', 2, 7.0), ('Double', 3, 10.0)):
+        for outcome, out_base, release in (('Single', 2, 7.0), ('Double', 3, 11.0)):
             for outs in (0, 2):
                 with self.subTest(outcome=outcome, outs=outs):
                     game, play = self.half_inning(self.ball(outcome, release, out_base), outs=outs)
@@ -192,8 +194,8 @@ class TestThirdOutScoring(unittest.TestCase):
                 self.assertEqual(result[7], 'Forceout' if force else 'Groundout')
 
     def test_advancement_continues_when_tag_is_only_the_second_out(self):
-        dests, thrown_out = fieldsim.advance_on_hit(self.ball(release=6.5), 'Single',
-                                                   {1: 1.0, 2: 1.0, 3: 1.0}, 1, random.Random(1))
+        dests, thrown_out = fieldsim.advance_on_hit(self.ball(release=5.5), 'Single',
+                                                   {1: 1.0, 2: 1.0, 3: 1.0}, 1, random.Random(22))
         self.assertEqual(dests, {3: 4, 2: 4})
         self.assertEqual(thrown_out, {1: 3})
 
