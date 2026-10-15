@@ -99,7 +99,10 @@ PARAMS = {
     'third_slow_roller': 1.2,  # s lost per 10 mph under 65 on a roller the third baseman has to charge
     'third_range': 0.8,        # s lost when he only just reaches a ball (a dive, a backhand behind the bag)
     'third_range_margin': 0.25,
-    'fence_scale': 1.004,
+    # The combined contact/running model was at 3.45% HR/PA (136 real
+    # feeds: 3.01%). About two more feet keeps the fair-ball physics while
+    # bringing homers and scoring back toward those rates.
+    'fence_scale': 1.010,
 }
 
 MPH_TO_FPS = 1.4667

@@ -2387,6 +2387,16 @@ GAME_CONTEXT = {
              "Wally McCarthy and Producer Phil back with you from {venue} here in {location}. {score_str}.",
              "Wally McCarthy and Producer Phil back with you here on this {weather_desc} in {location}. {score_str}. {batting_team} will bring {due_up_desc} up to face {pitcher_name}."
         ],
+        # Appended to the combined return choices after the existing pools,
+        # so recorded fixture indices keep selecting the same phrases.
+        "inning_break_return_alternates": [
+             "Good to have you along as we continue from {venue}.",
+             "And we're back here in {location}.",
+             "Wally McCarthy and Producer Phil with you here at {venue}.",
+             "And there's more baseball ahead here at {venue}.",
+             "We're ready to go again at {venue}.",
+             "And back to the ballgame here on {station_call}.",
+        ],
         "inning_outro_no_score": [
              "{batting_team} do not score.",
              "The {batting_team} do not score.",

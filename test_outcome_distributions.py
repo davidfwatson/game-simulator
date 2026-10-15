@@ -8,11 +8,12 @@ from teams import TEAMS
 class TestOutcomeDistributions(unittest.TestCase):
     def test_baseline_outcome_distribution(self):
         """
-        Validates simulation against 2024 MLB League Average statistics for 100 games.
-        Uses a 4-sigma tolerance (approx 99.99% confidence interval) to prevent flaky tests
-        while catching major logic regressions.
+        Validates 100 games against 136 complete real 2026 StatsAPI feeds.
+        Uses a four-sigma Poisson difference, including sampling uncertainty
+        in both the real feeds and simulations, to catch major regressions.
         """
         outcomes = defaultdict(int)
+        plate_appearances = 0
         num_simulations = 100
 
         # Run 100 games
@@ -28,6 +29,7 @@ class TestOutcomeDistributions(unittest.TestCase):
                 # Ensure we only count the final event of the play
                 if 'event' in play['result']:
                     outcomes[play['result']['event']] += 1
+                    plate_appearances += play['about'].get('isComplete') is not False
 
                 # Count events within the play (like Stolen Bases)
                 if 'playEvents' in play:
@@ -42,58 +44,61 @@ class TestOutcomeDistributions(unittest.TestCase):
                             elif etype == 'caught_stealing' and play['result']['event'] != 'Caught Stealing':
                                 outcomes['Caught Stealing'] += 1
 
-        # Baseline: 2024 MLB Stats scaled to 100 games (approx 7,500 Plate Appearances)
-        expected_distribution = {
-            'Strikeout': 1690,
-            'Groundout': 1450,
-            'Flyout': 860,    # 24 real 2026 feeds: 4.3 per team-game
-            'Single': 1060,
-            'Walk': 630,
-            'Lineout': 390,   # real feeds: 2.0 per team-game
-            'Double': 320,
-            'Home Run': 230,
-            'Pop Out': 390,   # real feeds: 2.0 per team-game (StatsAPI names caught balls by launch angle)
-            'Stolen Base': 150, # Added this as it's a key stat now
-            'Double Play': 145,
-            'Field Error': 60,   # batter reached on error (~0.8% of PA), not all charged errors
-            'Hit By Pitch': 85,
-            'Sac Fly': 50,
-            'Forceout': 120,  # 24 real 2026 feeds: 0.62 per team-game (~1.6% of PA)
-            'Caught Stealing': 40,
-            'Triple': 27,
+        # Observed counts in 10,309 completed PA in the real feeds. Scale by
+        # actual PA rather than assuming every 100 games have 7,500 PA; an
+        # inning-ending baserunning out is not a completed plate appearance.
+        # Normalize feed labels to the simulator's result names: all walks
+        # include intentional walks; Double Play includes Grounded Into DP.
+        real_counts = {
+            'Strikeout': 2248,
+            'Groundout': 1727,
+            'Flyout': 1313,
+            'Single': 1512,
+            'Walk': 919,
+            'Lineout': 571,
+            'Double': 395,
+            'Home Run': 310,
+            'Pop Out': 509,
+            'Double Play': 212,
+            'Field Error': 62,   # batter reached on error, not all charged errors
+            'Hit By Pitch': 113,
+            'Sac Fly': 78,
+            'Forceout': 185,
+            'Triple': 41,
         }
-
-        # Overrides for current simulation inaccuracies
-        # We have removed most overrides as the simulation has improved to match MLB bounds.
-        # Lineout and Pop Out are still slightly outside the 4-sigma range.
-        delta_overrides = {
-            'Lineout': 150,
-            'Pop Out': 80,
-        }
+        expected_distribution = {event: count * plate_appearances / 10309
+                                 for event, count in real_counts.items()}
+        # Runner events have opportunities within a PA, so compare their
+        # game rates. Include pickoff-caught-stealing actions in the real CS.
+        expected_distribution.update({'Stolen Base': 186 * num_simulations / 136,
+                                      'Caught Stealing': 30 * num_simulations / 136,
+                                      'Plate Appearance': 10309 * num_simulations / 136})
+        outcomes['Plate Appearance'] = plate_appearances
 
         print("\n--- Simulation Outcome Report ---")
+        print(f"{plate_appearances} completed plate appearances in {num_simulations} games")
         print(f"{'Outcome':<20} | {'Actual':<10} | {'Expected':<10} | {'Delta Limit'}")
         print("-" * 60)
 
         for outcome, expected_count in expected_distribution.items():
             actual_count = outcomes[outcome]
 
-            # Calculate 4-sigma variance (approx 99.99% confidence for Poisson distribution)
-            # For very small counts, we set a minimum floor to avoid brittle failures.
-            sigma = math.sqrt(expected_count)
+            # Var(sim - scale * real) = expected * (1 + scale). The real
+            # baseline is a 136-game sample, not a known population mean.
+            # Keep the original four-sigma rule and small-count floor.
+            scale = plate_appearances / 10309 if outcome in real_counts else num_simulations / 136
+            sigma = math.sqrt(expected_count * (1 + scale))
             delta_limit = max(int(4 * sigma), 15)
 
-            if outcome in delta_overrides:
-                delta_limit = delta_overrides[outcome]
+            print(f"{outcome:<20} | {actual_count:<10} | {expected_count:<10.1f} | +/- {delta_limit}")
 
-            print(f"{outcome:<20} | {actual_count:<10} | {expected_count:<10} | +/- {delta_limit}")
-
-            self.assertAlmostEqual(
-                actual_count,
-                expected_count,
-                delta=delta_limit,
-                msg=f"Outcome '{outcome}' count {actual_count} is outside realistic MLB bounds ({expected_count} +/- {delta_limit})"
-            )
+            with self.subTest(outcome=outcome):
+                self.assertAlmostEqual(
+                    actual_count,
+                    expected_count,
+                    delta=delta_limit,
+                    msg=f"Outcome '{outcome}' count {actual_count} is outside realistic MLB bounds ({expected_count:.1f} +/- {delta_limit})"
+                )
 
 if __name__ == '__main__':
     unittest.main()

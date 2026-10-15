@@ -1628,7 +1628,10 @@ class NarrativeRenderer(GameRenderer):
                      # the return never shifts a colour draw.
                      returns = (GAME_CONTEXT['radio_strings']['inning_break_intro']
                                 + GAME_CONTEXT['radio_strings']['inning_break_return'])
-                     return_template = self._choose(self.rng_color, returns + returning, intro_ctx)
+                     return_template = self._choose(
+                         self.rng_color,
+                         returns + returning + GAME_CONTEXT['radio_strings']['inning_break_return_alternates'],
+                         intro_ctx)
                      intro_template = self._choose(self.rng_color, plain, intro_ctx)
                      if self._optional('break_return'):
                          if return_template in returning:

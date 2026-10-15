@@ -1087,9 +1087,9 @@ class BaseballSimulator:
         
         # HBP happens on a pitch outside the zone, mid at-bat, so the pitches
         # before it get narrated (it used to end the PA before the first pitch).
-        # About two out-of-zone pitches per PA: the batter's HBP rating is
-        # a per-PA rate, scaled to the real feeds' 1.1% of plate appearances.
-        hbp_per_ball = batter['plate_discipline'].get('HBP', 0) * 1.65
+        # The count-dependent model supplies more out-of-zone opportunities;
+        # scale the per-PA rating to keep HBP near the real feeds' 1.1% of PA.
+        hbp_per_ball = batter['plate_discipline'].get('HBP', 0) * 1.4
 
         bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
         # Sacrifice only when a single run matters: not down 9-4.
@@ -1237,7 +1237,10 @@ class BaseballSimulator:
                 if 'ev' in batted_ball_data:
                     hit_data: HitData = {
                         'launchSpeed': batted_ball_data['ev'], 'launchAngle': batted_ball_data['la'],
-                        'trajectory': self._get_trajectory(hit_result, batted_ball_data.get('la'))
+                        'trajectory': self._get_trajectory(hit_result, batted_ball_data.get('la')),
+                        # Exit velocity also describes bunts and balls played
+                        # without the field model; their hardness is known.
+                        'hardness': fieldsim.hardness(batted_ball_data['ev']),
                     }
                     field = batted_ball_data.get('field')
                     if field is not None:
@@ -1246,7 +1249,6 @@ class BaseballSimulator:
                         hit_data['totalDistance'] = round(field.distance)
                         # The field model knows where the ball went: "into
                         # the gap", "on the warning track", "hard grounder".
-                        hit_data['hardness'] = fieldsim.hardness(batted_ball_data['ev'])
                         # Both keys always present: a null says "nothing
                         # notable", so the renderer does not derive its own.
                         hit_data.update({'depth': None, 'lane': None, **fieldsim.spot(field)})

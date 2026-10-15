@@ -109,6 +109,9 @@ class TestRelieverSelection(unittest.TestCase):
                 game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
                 game.inning, game.top_of_inning = 6, top
                 prefix, starter, _, _ = game._pitching_side()
+                # This is his sixth inning, so he has already satisfied the
+                # three-batter minimum before these two strikeouts.
+                game._batters_faced[starter] = 15
 
                 def at_bat(batter, pitcher):
                     name = pitcher['legal_name']

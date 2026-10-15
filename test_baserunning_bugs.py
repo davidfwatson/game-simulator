@@ -22,34 +22,46 @@ def renderer(seed=0):
 
 class TestUnfinishedPlateAppearance(unittest.TestCase):
     def test_caught_stealing_third_out_keeps_the_same_batter(self):
-        game = simulate(30105)
-        plays = game.gameday_data['liveData']['plays']['allPlays']
-        announcer = NarrativeRenderer(game.gameday_data, seed=30105)
-        lines = announcer.render().splitlines()
-        caught = 0
-        for index, play in enumerate(plays):
-            if play['result']['event'] != 'Caught Stealing' or play['count']['outs'] != 3:
-                continue
-            following = next((p for p in plays[index + 1:]
-                              if p['about']['isTopInning'] == play['about']['isTopInning']), None)
-            if following is None:
-                continue
-            caught += 1
-            self.assertEqual(play['matchup']['batter'], following['matchup']['batter'])
-            self.assertFalse(play['about']['isComplete'])
-            self.assertTrue(any(r['movement']['isOut'] for r in play['runners']))
-            low, high = announcer._play_line_map[index]
-            self.assertEqual(' '.join(lines[low:high]).count('is caught stealing'), 1)
-            first_pitch = next(e for e in following['playEvents'] if e.get('isPitch'))
-            self.assertEqual(first_pitch['count']['balls'], 0)
-            self.assertEqual(first_pitch['count']['strikes'], 0)
-        self.assertGreater(caught, 0)
-        for side in ('away', 'home'):
-            team = game.gameday_data['liveData']['boxscore']['teams'][side]
-            for player_id, player in team['players'].items():
-                appearances = sum(p['matchup']['batter']['id'] == int(player_id[2:])
-                                  and p['about'].get('isComplete') is not False for p in plays)
-                self.assertEqual(player['stats']['batting']['plateAppearances'], appearances)
+        for top in (True, False):
+            with self.subTest(top=top):
+                game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+                # Two called strikeouts, a walk, then a ball on which the
+                # runner is caught. Play the opposing half and the next half
+                # through the real at-bat engine to check the lineup/count reset.
+                locations = iter([(True, 5)] * 6 + [(False, 12)] * 5 + [(True, 5)] * 18)
+                with patch.object(game, '_simulate_pitch_trajectory', side_effect=lambda *args: next(locations)), \
+                        patch.object(game, '_simulate_bat_swing', return_value=False), \
+                        patch.object(game, '_decide_steal_attempt', side_effect=lambda *args:
+                                     2 if game.outs == 2 and game.bases[0] else None), \
+                        patch.object(game.game_rng, 'random', return_value=0.99), \
+                        patch.object(game, '_manage_between_innings'), \
+                        patch.object(game, '_manage_pitching_change'):
+                    for inning, half in ((1, top), (1 if top else 2, not top), (2, top)):
+                        game.inning, game.top_of_inning = inning, half
+                        game._simulate_half_inning()
+                plays = game.gameday_data['liveData']['plays']['allPlays']
+                announcer = NarrativeRenderer(game.gameday_data, seed=0)
+                lines = announcer.render().splitlines()
+                caught = [(i, p) for i, p in enumerate(plays) if p['result']['event'] == 'Caught Stealing']
+                self.assertEqual(len(caught), 1)
+                index, play = caught[0]
+                self.assertEqual(play['count']['outs'], 3)
+                following = next(p for p in plays[index + 1:]
+                                 if p['about']['isTopInning'] == play['about']['isTopInning'])
+                self.assertEqual(play['matchup']['batter'], following['matchup']['batter'])
+                self.assertFalse(play['about']['isComplete'])
+                self.assertTrue(any(r['movement']['isOut'] for r in play['runners']))
+                low, high = announcer._play_line_map[index]
+                self.assertEqual(' '.join(lines[low:high]).count('is caught stealing'), 1)
+                first_pitch = next(e for e in following['playEvents'] if e.get('isPitch'))
+                self.assertEqual(first_pitch['count']['balls'], 0)
+                self.assertEqual(first_pitch['count']['strikes'], 0)
+                for side in ('away', 'home'):
+                    team = game.gameday_data['liveData']['boxscore']['teams'][side]
+                    for player_id, player in team['players'].items():
+                        appearances = sum(p['matchup']['batter']['id'] == int(player_id[2:])
+                                          and p['about'].get('isComplete') is not False for p in plays)
+                        self.assertEqual(player['stats']['batting']['plateAppearances'], appearances)
 
     def test_pickoff_third_out_also_keeps_the_batter(self):
         game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=1)
