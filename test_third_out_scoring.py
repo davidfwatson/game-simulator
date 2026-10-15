@@ -195,5 +195,15 @@ class TestThirdOutScoring(unittest.TestCase):
         self.assertEqual(thrown_out, {1: 3})
 
 
+class TestResponsiblePitcher(unittest.TestCase):
+    def test_runner_with_no_recorded_pitcher_is_charged_to_the_pitcher_on_the_mound(self):
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+        game.top_of_inning = True
+        on_mound = game._pitching_side()[2]
+        self.assertIs(game._responsible_pitcher('Nobody Recorded'), on_mound)
+        game._runner_pitchers['Someone'] = {'id': 1, 'legal_name': 'Earlier Pitcher'}
+        self.assertEqual(game._responsible_pitcher('Someone')['legal_name'], 'Earlier Pitcher')
+
+
 if __name__ == '__main__':
     unittest.main()

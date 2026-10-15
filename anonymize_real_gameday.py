@@ -592,7 +592,8 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                             # The zone is where the pitch was, not who threw it. The
                             # renderer reads it from details, as the simulator writes it.
                             zone = event['pitchData'].get('zone')
-                            if isinstance(zone, int) and 'details' in filtered_event:
+                            if (isinstance(zone, int) and not isinstance(zone, bool) and 1 <= zone <= 14
+                                    and 'details' in filtered_event):
                                 pd['zone'] = zone
                                 filtered_event['details']['zone'] = zone
                             filtered_event['pitchData'] = pd

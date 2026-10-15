@@ -852,7 +852,7 @@ class BaseballSimulator:
 
         # Add responsible pitcher if runner scored
         if is_scoring:
-            responsible_pitcher = self._runner_pitchers[runner_name]
+            responsible_pitcher = self._responsible_pitcher(runner_name)
             runner_entry["details"]["responsiblePitcher"] = {
                 "id": responsible_pitcher['id'],
                 "link": f"/api/v1/people/{responsible_pitcher['id']}"
@@ -1312,6 +1312,11 @@ class BaseballSimulator:
         if self.bases[1]: runners.append(f"2B: {self.bases[1]}")
         if self.bases[0]: runners.append(f"1B: {self.bases[0]}")
         return ", ".join(runners) if runners else "Bases empty"
+
+    def _responsible_pitcher(self, runner_name):
+        """Who put this runner on base, or the pitcher on the mound if no one was
+        recorded for him (a runner who came on some other way)."""
+        return self._runner_pitchers.get(runner_name) or self._pitching_side()[2]
 
     def _pitching_side(self):
         """(prefix, current pitcher's name, his stats, the bullpen) for the team in the field."""
@@ -2173,7 +2178,7 @@ class BaseballSimulator:
                      runner_id = runner_entry['details']['runner']['id']
                      self._update_batting_stat(self._batting_team_key, runner_id, 'runs')
                      runner_name = runner_entry['details']['runner']['fullName']
-                     responsible_pitcher = self._runner_pitchers[runner_name]
+                     responsible_pitcher = self._responsible_pitcher(runner_name)
                      self._runs_allowed[responsible_pitcher['legal_name']] += 1
                      self._update_pitching_stat(self._pitching_team_key, responsible_pitcher['id'], 'runs')
                      # Keep the feed and box score's simplified earned-run accounting together.
