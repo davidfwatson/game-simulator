@@ -1057,6 +1057,7 @@ class NarrativeRenderer(GameRenderer):
         self._reset_render_state()
         # Highlight spacing counts balls in play from the start of each render.
         self._balls_in_play, self._last_highlight = 0, -99
+        self._used_hit_templates = {}
         self.last_foul_phrase = ""
         self.consecutive_fouls = 0
         self._prev_matchup_key = None
@@ -2514,7 +2515,9 @@ class NarrativeRenderer(GameRenderer):
                              outcome_text = cs_text
                  else:
                      runner_out = next((r for r in play['runners'] if r['movement']['isOut']), None)
-                     if runner_out:
+                     if runner_out and not any(e.get('details', {}).get('eventType') == 'caught_stealing' for e in play_events):
+                         # The action event already called the out with the
+                         # pitch. The runner list supplies scoring, not a replay.
                          ob = runner_out['movement']['outBase']
                          base_name = "second" if ob == "2B" else "third" if ob == "3B" else "home"
                          outcome_text = f"{runner_out['details']['runner']['fullName']} is caught stealing {base_name}!"

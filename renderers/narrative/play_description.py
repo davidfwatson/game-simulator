@@ -301,13 +301,20 @@ def factual_play_category(renderer, outcome, hit_data, pitch_details, fielder_po
     if outcome == 'Forceout' and len(runner_outs) == 1 and grounder:
         runner = runner_outs[0]
         base = runner['movement'].get('outBase')
-        positions = [c.get('position', {}).get('abbreviation') for c in runner.get('credits', [])]
+        positions = [c.get('position', {}).get('abbreviation') for c in runner.get('credits', [])
+                     if c.get('credit') in (None, 'assist', 'putout', 'f_assist', 'f_putout')]
+        mechanism = hit_data.get('forceMechanism')
+        if (not mechanism and any(c.get('credit') in ('putout', 'f_putout') for c in runner.get('credits', []))
+                and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+            # Feeds and simulated plays record the sequence in the credits;
+            # only transcript ledgers carry the explicit mechanism field.
+            mechanism = 'unassisted' if len(positions) == 1 else 'throw' if len(positions) >= 2 else None
         if base == '2B':
-            if hit_data.get('forceMechanism') == 'unassisted' and len(positions) == 1 and positions[0] in ('SS', '2B'):
+            if mechanism == 'unassisted' and len(positions) == 1 and positions[0] in ('SS', '2B'):
                 return 'second_base'
-            if hit_data.get('forceMechanism') == 'throw' and len(positions) >= 2 and positions[-1] in ('SS', '2B'):
+            if mechanism == 'throw' and len(positions) >= 2 and positions[-1] in ('SS', '2B'):
                 return 'second_base_throw'
-        if base == '3B' and positions == ['3B'] and hit_data.get('forceMechanism') == 'unassisted':
+        if base == '3B' and positions == ['3B'] and mechanism == 'unassisted':
             return 'third_base'
         if base in ('score', 'home', '4B'):
             return 'home_force'
@@ -422,6 +429,12 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         specific_templates = outcome_templates.get(cat, [])
         if not specific_templates:
             specific_templates = outcome_templates.get('default', [])
+        if template_outcome == 'Forceout' and cat == 'second_base_throw' and not strict:
+            specific_templates = outcome_templates['second_base_throw_named']
+        if template_outcome == 'Forceout' and cat == 'default' and strict:
+            # A transcript may omit who made the force. Keep its wording
+            # rather than supply a fielding sequence the ledger lacks.
+            specific_templates = outcome_templates['unrecorded']
 
         if ground_single and cat == 'grounder':
             # "Tough play ... the throw is not in time" is an infield hit.
@@ -618,6 +631,15 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
                               if not (template_outcome == 'Triple' and t.startswith('Blooper'))
                               and 'for the force. He fires to second' not in t] or specific_templates
 
+    hit_templates = None
+    if specific_templates and tracked and template_outcome in ('Single', 'Double', 'Triple', 'Home Run'):
+        # Two wall doubles by the same batter need not have identical calls.
+        used = getattr(renderer, '_used_hit_templates', {})
+        batter_key = (play or {}).get('matchup', {}).get('batter', {}).get('id', batter_name)
+        hit_templates = used.setdefault(batter_key, set())
+        renderer._used_hit_templates = used
+        specific_templates = [t for t in specific_templates if t not in hit_templates] or specific_templates
+
     if specific_templates and (cat == "bunt" or ground_single or renderer.rng_flow.random() < 0.8):
         template = renderer.rng_play.choice(specific_templates)
 
@@ -635,6 +657,16 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     dp_notation = build_dp_notation(play) if play and template_outcome == "Double Play" else ""
 
     batter_last_name = batter_name.split()[-1] if batter_name else "the batter"
+    force_base, receiver_name = 'second', 'the covering infielder'
+    if template_outcome == 'Forceout':
+        forced = next((r for r in (play or {}).get('runners', []) if r.get('movement', {}).get('isOut')), None)
+        if forced:
+            base = forced['movement'].get('outBase')
+            force_base = {**BASE_WORDS, '4B': 'the plate', 'score': 'the plate', 'home': 'the plate'}.get(base, 'second')
+            receiver = next((c for c in reversed(forced.get('credits', []))
+                             if c.get('credit') in ('putout', 'f_putout')), None)
+            if receiver:
+                receiver_name = _last_name(renderer, receiver.get('player', {}))
 
     context = {
         'batter_name': batter_name,
@@ -643,8 +675,9 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         'direction_noun': direction_noun,
         'pitch_type': simple_pitch_type,
         'pitch_type_lower': simple_pitch_type.lower(),
-        'pitch_velo': pitch_details.get('velo', 'N/A'),
         'fielder_name': fielder_name or _position_noun(hit_data, direction) or "the fielder",
+        'receiver_name': receiver_name,
+        'force_base': force_base,
         'result_outs': result_outs,
         'result_outs_word': result_outs_word,
         'out_context_str': out_context_str,
@@ -652,7 +685,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     }
 
     prefix = f"{connector} " if connector else ""
-    force_narrative = fact_limited or template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play", "Sac Fly", "Field Error", "Forceout", "Fielders Choice"]
+    force_narrative = (fact_limited or template_outcome in ["Groundout", "Flyout", "Pop Out", "Lineout", "Double Play", "Sac Fly", "Field Error", "Forceout", "Fielders Choice"]
+                       or template_outcome == 'Home Run' and not strict)
 
     final_description = ""
     if template or (specific_templates and (force_narrative or renderer.rng_flow.random() < 0.8)):
@@ -665,6 +699,8 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
              elif infield_pos:
                  context['fielder_name'] = INFIELDERS[infield_pos]
          final_description = prefix + template.format(**context)
+         if hit_templates is not None:
+             hit_templates.add(template)
          if re.search(r'spectacular|diving|leaping|great pick|backhanded|on the warning track', template, re.I):
              renderer._last_highlight = renderer._balls_in_play
          # Clean up double spaces when dp_notation is empty
@@ -687,6 +723,9 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             context['noun'] = phrase
             context['noun_capitalized'] = phrase.capitalize()
         final_description = prefix + template.format(**context)
+
+    if template_outcome == 'Home Run' and not re.search(r'home run|homers?|gone|over the (?:wall|fence)|in the seats|goes yard', final_description, re.I):
+        final_description += ' And that one carries over the wall.'
 
     final_description = final_description.replace("a diving the ", "the diving ")
     # "Sent deep {direction}" with a recorded deep direction: "Sent deep to deep left field".

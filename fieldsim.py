@@ -72,7 +72,7 @@ PARAMS = {
     'lift_cl': 0.20,          # backspin lift on balls hit in the air
     'of_speed': 19.8,          # ft/s, outfielders
     'if_speed': 14.0,          # ft/s, infielders moving to a ball in the air
-    'if_lateral': 13.4,        # ft/s, infielders ranging to a grounder
+    'if_lateral': 12.1,        # ft/s, infielders ranging to a grounder
     'of_react': 0.63,          # s before an outfielder is moving
     'if_react': 0.1,
     'catch_k': 5.55,            # steepness of catch probability vs time to spare
@@ -461,6 +461,7 @@ RUN_PARAMS = {
     'cutoff': 0.35,         # s added to a long outfield throw for the hop or relay
     'tag': 0.15,            # s to apply the tag
     'send_home': 0.17,      # s the throw must lose by, as the coach reads it, before the runner is sent home
+    'double_send_home': 0.5,  # s more cushion to send a runner all the way from first on a double
     'send_third': -0.3,
     'two_out_send': 0.1,    # s less a runner on second needs with two out: make them throw him out
     'send_read': 0.3,       # s of error in the coach's read of the play
@@ -482,8 +483,8 @@ RUN_PARAMS = {
     # second about two times in three.
     'pivot_by_starter': {'SS': -0.9, '2B': -0.35, '3B': 0.0, 'P': 0.8, '1B': 0.5, 'C': 0.8},
     'force_margin': 0.4,    # s the force at second must win by
-    'corner_force': 0.7,    # s more a corner infielder or the pitcher wants before going to second for one out
-    'two_out_force': 0.45,  # with two out, s quicker the force at second must be to go there over first
+    'corner_force': 0.9,    # s more a corner infielder or the pitcher wants before going to second for one out
+    'two_out_force': 0.1,   # with two out, s quicker the force at second must be to go there over first
     'close_play': 0.6,      # s: safe by less than this past the out margin and the throw was a play on him
     'unforced_home': -0.3,  # s a runner on third gives the throw home on a grounder
     'r2_go_release': 1.7,   # s: a runner on second takes third if the ball is hit to his left and fielded this late
@@ -526,7 +527,7 @@ def advance_on_hit(ball, outcome, runners, outs, rng, rp=RUN_PARAMS, close=None)
     for base in sorted(runners, reverse=True):
         speed = runners[base]
         forced = all(b in runners for b in range(1, base))
-        minimum = min(4, base + bases_taken) if not infield_hit else (base + 1 if forced else base)
+        minimum = min(4, base + bases_taken) if not infield_hit or bases_taken == 2 else (base + 1 if forced or outs == 2 else base)
         target = minimum
         if not infield_hit and minimum < 4 and not thrown_out and not ball.batter_out:
             extra = minimum + 1
@@ -536,6 +537,10 @@ def advance_on_hit(ball, outcome, runners, outs, rng, rp=RUN_PARAMS, close=None)
                 run = _run_time(base, extra, speed, lead, delay, rp)
                 throw = _throw_time(ball, extra)
                 need = rp['send_home'] if extra == 4 else rp['send_third']
+                if outcome == 'Double' and base == 1:
+                    # The coach holds more runners making two turns from
+                    # first; 136 real feeds score about a third of them.
+                    need += rp['double_send_home']
                 if extra == 4 and base == 2 and outs == 2:
                     need -= rp['two_out_send']
                 if throw - run + rng.gauss(0, rp['send_read']) > need:
