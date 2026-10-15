@@ -59,6 +59,89 @@ def _last_name(renderer, person):
     return player.get('lastName') or (person.get('fullName') or 'the runner').split()[-1]
 
 
+def final_batted_movements(play):
+    """Collapse each runner's steps on the batted ball, excluding earlier actions."""
+    action_indices = {e.get('index') for e in play.get('playEvents', [])
+                      if e.get('isPitch') is False and e.get('index') is not None
+                      and e.get('details', {}).get('runners')}
+    final, starts = {}, {}
+    for _, runner in sorted(enumerate(play.get('runners', [])),
+                            key=lambda item: (item[1].get('details', {}).get('playIndex', item[0]), item[0])):
+        if runner.get('details', {}).get('playIndex') not in action_indices:
+            details, movement = runner.get('details', {}), runner.get('movement', {})
+            pid = details.get('runner', {}).get('id')
+            key = (pid, details.get('playIndex'))
+            start = movement.get('start') or movement.get('originBase')
+            if start:
+                starts.setdefault(key, start)
+                runner = {**runner, 'movement': {**movement, 'start': starts[key]}}
+            final[pid] = runner
+    return list(final.values())
+
+
+def is_tag_up(play, runner):
+    outcome = play.get('result', {}).get('event')
+    if outcome not in ('Flyout', 'Lineout', 'Pop Out', 'Sac Fly', 'Sacrifice Fly',
+                       'Double Play', 'Sac Fly Double Play', 'Bunt Pop Out', 'Bunt Lineout'):
+        return False
+    details = runner.get('details', {})
+    if details.get('eventType') in ('error', 'field_error'):
+        return False
+    index = details.get('playIndex')
+    batter_id = play.get('matchup', {}).get('batter', {}).get('id')
+    caught = any(r.get('movement', {}).get('isOut')
+                 and r.get('details', {}).get('runner', {}).get('id') == batter_id
+                 and r.get('details', {}).get('playIndex') == index
+                 and (r['movement'].get('outNumber') or play.get('count', {}).get('outs', 0)) < 3
+                 for r in play.get('runners', []))
+    if outcome in ('Double Play', 'Sac Fly Double Play'):
+        return caught and any(e.get('hitData', {}).get('trajectory') in ('line_drive', 'fly_ball', 'popup')
+                              for e in play.get('playEvents', []) if e.get('index') == index)
+    return caught
+
+
+def advance_sentences(renderer, play, said):
+    """Explain advances that the hit or a forced award does not imply."""
+    if renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts'):
+        return ''
+    result = play.get('result', {})
+    outcome = renderer._normalized_outcome(result) if result.get('event') else ''
+    hit_bases = {'Single': 1, 'Double': 2, 'Triple': 3, 'Home Run': 4}
+    rank = {'1B': 1, '2B': 2, '3B': 3, 'score': 4, 'home': 4}
+    batter_id = play.get('matchup', {}).get('batter', {}).get('id')
+    sentences = []
+    for runner in final_batted_movements(play):
+        movement, details = runner.get('movement', {}), runner.get('details', {})
+        start, end = movement.get('start') or movement.get('originBase'), movement.get('end')
+        if movement.get('isOut') or not start or start == end or end not in rank:
+            continue
+        batter = details.get('runner', {}).get('id') == batter_id
+        extra_base = batter and outcome in hit_bases and rank[end] > hit_bases[outcome]
+        on_error = details.get('eventType') in ('error', 'field_error')
+        if batter and not (extra_base or on_error):
+            continue
+        if not batter and outcome in hit_bases and rank[end] <= rank.get(start, 0) + hit_bases[outcome] and not on_error:
+            continue
+        if (outcome in ('Walk', 'Intentional Walk', 'Hit By Pitch', 'HBP', 'Catcher Interference')
+                and details.get('movementReason') == 'r_adv_force' and not on_error):
+            continue
+        if play.get('count', {}).get('outs', 0) >= 3 and outcome not in hit_bases and not details.get('isScoringEvent'):
+            continue
+        name = _last_name(renderer, details.get('runner', {}))
+        destination = r'(?:home|scores?|scoring|plate)' if end in ('score', 'home') else BASE_WORDS[end]
+        if re.search(rf'\b{re.escape(name)}\b[^.!?]*\b{destination}\b', said, re.I):
+            continue
+        cause = ' on the error' if on_error else ' on the play' if extra_base else ''
+        if is_tag_up(play, runner):
+            sentence = (f'{name} tags up and scores.' if end in ('score', 'home')
+                        else f'{name} tags up and advances to {BASE_WORDS[end]}.')
+        else:
+            sentence = (f'{name} comes home{cause}.' if end in ('score', 'home')
+                        else f'{name} moves up to {BASE_WORDS[end]}{cause}.')
+        sentences.append(sentence)
+    return ' '.join(sentences)
+
+
 def runner_sentences(renderer, play, said):
     """Name the runners who score or reach third on a ball in play.
 
@@ -69,22 +152,25 @@ def runner_sentences(renderer, play, said):
     play = play or {}
     batter_id = play.get('matchup', {}).get('batter', {}).get('id')
     final = {}
-    action_indices = {e.get('index') for e in play.get('playEvents', [])
-                      if e.get('isPitch') is False and e.get('index') is not None
-                      and e.get('details', {}).get('runners')}
-    for runner in play.get('runners', []):
-        if runner.get('details', {}).get('playIndex') in action_indices:
-            continue
+    for runner in final_batted_movements(play):
         person = runner.get('details', {}).get('runner', {})
         if person.get('id') is None or person.get('id') == batter_id:
             continue
-        final[person['id']] = (person, runner.get('movement', {}))
+        final[person['id']] = (person, runner.get('movement', {}), runner)
     order = {'3B': 0, '2B': 1, '1B': 2}
     sentences, used = [], set()
-    for person, movement in sorted(final.values(), key=lambda item: order.get(item[1].get('start') or item[1].get('originBase'), 3)):
+    for person, movement, runner in sorted(final.values(), key=lambda item: order.get(item[1].get('start') or item[1].get('originBase'), 3)):
         start = movement.get('start') or movement.get('originBase')
         end = movement.get('end')
         if movement.get('isOut') or start not in BASE_WORDS:
+            continue
+        if (start != end and end in ('2B', '3B', 'score', 'home') and is_tag_up(play, runner)
+                and not renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts')):
+            name = _last_name(renderer, person)
+            if re.search(rf'\b{re.escape(name)}\b', said):
+                continue
+            sentences.append(f'{name} tags up and scores.' if end in ('score', 'home')
+                             else f'{name} tags up and advances to {BASE_WORDS[end]}.')
             continue
         if end in ('score', 'home'):
             pool = GAME_CONTEXT['narrative_strings']['runner_scores']
@@ -157,9 +243,10 @@ BATTER_STAYS = re.compile(r'aboard|stand-up|standing|pulls in|cruises|coasts|sli
 
 def thrown_out_runners(play):
     """Runners cut down on the bases after a hit (and a batter out stretching)."""
-    return [r for r in (play or {}).get('runners', [])
+    return [r for r in final_batted_movements(play or {})
             if r.get('movement', {}).get('isOut')
-            and r.get('details', {}).get('movementReason') in THROWN_OUT_REASONS]
+            and (r.get('details', {}).get('movementReason') in THROWN_OUT_REASONS
+                 or (play or {}).get('result', {}).get('event') in ('Single', 'Double', 'Triple'))]
 
 
 def thrown_out_sentences(renderer, play):
@@ -172,13 +259,24 @@ def thrown_out_sentences(renderer, play):
     for runner in thrown_out_runners(play):
         movement, details = runner['movement'], runner['details']
         base = movement.get('outBase')
+        outs = movement.get('outNumber') or play.get('count', {}).get('outs')
+        name = _last_name(renderer, details.get('runner', {}))
+        if details.get('movementReason') == 'r_hbr':
+            sentences.append(f'The batted ball hits {name}, and he is out {renderer._out_context(outs, play)}.')
+            continue
+        if details.get('movementReason') == 'r_rundown':
+            sentences.append(f'{name} is caught in a rundown and tagged out at '
+                             f'{BASE_WORDS.get(base, "the plate")} {renderer._out_context(outs, play)}.')
+            continue
         thrower = next((c for c in runner.get('credits', []) if str(c.get('credit', '')).endswith('assist')), None)
         fielder = 'the outfield'
         if thrower:
             person = thrower.get('player', {})
             fielder = (players.get(f"ID{person.get('id')}", {}).get('lastName')
                        or (person.get('fullName') or 'the outfielder').split()[-1])
-        if details.get('movementReason') == 'r_out_stretching':
+        if (details.get('movementReason') == 'r_out_stretching'
+                or details.get('runner', {}).get('id') == play.get('matchup', {}).get('batter', {}).get('id')
+                and base in ('2B', '3B', '4B', 'score', 'home')):
             key = 'batter_thrown_out'
         elif base in ('4B', 'score', 'home'):
             key = 'runner_thrown_out_home'
@@ -186,7 +284,6 @@ def thrown_out_sentences(renderer, play):
             key = 'runner_thrown_out_third'
         else:
             key = 'runner_thrown_out'
-        outs = movement.get('outNumber') or play.get('count', {}).get('outs')
         sentences.append(renderer.rng_play.choice(strings[key]).format(
             runner=_last_name(renderer, details.get('runner', {})), fielder=fielder,
             origin=BASE_WORDS.get(movement.get('originBase') or movement.get('start'), 'first'),
@@ -627,7 +724,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     # A runner (or the batter) thrown out on the bases after the hit. A
     # transcript ledger keeps its recorded wording.
     thrown_out = thrown_out_runners(play) if is_hit and not strict else []
-    if specific_templates and any(r['details'].get('movementReason') == 'r_out_stretching' for r in thrown_out):
+    if specific_templates and any(r['details'].get('runner', {}).get('id') == (play or {}).get('matchup', {}).get('batter', {}).get('id') for r in thrown_out):
         specific_templates = [t for t in specific_templates if not BATTER_STAYS.search(t)] or specific_templates
 
     infielder = passed_infielder(hit_data) if is_hit and tracked else None
@@ -813,6 +910,12 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         # optional hit-situation sentence is left unsaid.
         final_description += " And that's a base hit."
 
+    if template_outcome == 'Sac Fly' and not strict:
+        scoring = [r for r in final_batted_movements(play or {})
+                   if not r.get('movement', {}).get('isOut') and r.get('movement', {}).get('end') in ('score', 'home')]
+        if len(scoring) == 1:
+            final_description = re.sub(r'\b[Tt]he runner\b', _last_name(renderer, scoring[0]['details']['runner']), final_description)
+
     if play and play.get('runners') and template_outcome != 'Home Run':
         runner_text = runner_sentences(renderer, play, final_description)
         if runner_text:
@@ -824,6 +927,11 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         runs_text = home_run_runs_sentence(renderer, play, batter_name, final_description)
         if runs_text:
             final_description = final_description.rstrip() + ' ' + runs_text
+
+    if play:
+        advances = advance_sentences(renderer, play, final_description)
+        if advances:
+            final_description = final_description.rstrip() + ' ' + advances
 
     if thrown_out:
         # The out is the last word on the play: no "a one-out single for..."
@@ -881,7 +989,7 @@ def render_steal_event(renderer, event):
     event_type = details.get('eventType', '')
     if event_type.startswith('pickoff_caught_stealing'):
         event_type = 'caught_stealing'
-    elif event_type.startswith('pickoff_error') or event.get('type') == 'pickoff':
+    elif event_type.startswith('pickoff_error') or not event_type and event.get('type') == 'pickoff':
         event_type = 'pickoff_attempt'
     elif event_type.startswith('pickoff_') and event_type != 'pickoff_attempt':
         event_type = 'pickoff'
@@ -913,6 +1021,8 @@ def render_steal_event(renderer, event):
         lead = name[:1].upper() + name[1:]
         base = base_names.get(target)
         is_out = movement.get('isOut', False)
+        if movement_type == 'pickoff_attempt' and is_out:
+            movement_type = 'pickoff'
         if movement_type == 'pickoff_attempt' and target and origin and target != origin and not is_out:
             # A pickoff throw that gets away: the runners move up on the error.
             if not lines:
@@ -938,6 +1048,9 @@ def render_steal_event(renderer, event):
                 throw_text = renderer.rng_play.choice(pool).format(base=base, runner=name.split()[-1])
                 if renderer._optional('steal_throw'):
                     lines.append(throw_text)
+            if movement.get('pickoff') and movement_type == 'caught_stealing':
+                where = base_names.get(origin, 'first')
+                lines.append(f'The throw to {where} catches {name} off the bag.')
             if movement_type == 'stolen_base':
                 lines.append(f'{lead} steals {base}.' if base else f'{lead} steals a base.')
             elif target == origin and base:
