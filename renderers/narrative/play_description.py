@@ -56,6 +56,11 @@ def _choose(renderer, rng, options, context):
 
 def _last_name(renderer, person):
     player = renderer.gameday_data.get('gameData', {}).get('players', {}).get(f"ID{person.get('id')}", {})
+    full_name = person.get('fullName')
+    if full_name and full_name != player.get('fullName'):
+        # Stitched transcript fixtures can rename play references while the
+        # roster still has the original simulator identity. Follow the play.
+        return full_name.split()[-1]
     return player.get('lastName') or (person.get('fullName') or 'the runner').split()[-1]
 
 

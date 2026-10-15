@@ -146,6 +146,15 @@ class TestRealIdentities(unittest.TestCase):
 
 
 class TestRealFeedEvents(unittest.TestCase):
+    def test_runner_advances_keep_transcript_names_over_stale_roster_names(self):
+        from pbp_comparison import discover_pbp_examples, render_example
+        example = next(e for e in discover_pbp_examples() if e.number == 3)
+        text = render_example(example)
+        self.assertIn('Greco moves up to third. Silver moves up to second.', text)
+        self.assertIn('Greco comes home on the error. Silver comes home on the error', text)
+        self.assertNotIn('Washington moves up to third.', text)
+        self.assertNotIn('Barrett comes home on the error.', text)
+
     def test_simulated_pickoff_caught_stealing_keeps_the_throw_over(self):
         # The simulator identifies this in eventType; the real-feed adapter
         # also puts a pickoff flag on the movement. Both must keep the cause.
