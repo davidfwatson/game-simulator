@@ -160,15 +160,18 @@ def throw_facts_from_words(text, movements, batter):
         at_base = [m for m in safe if base and m.get('end') == base]
         if len(at_base) == 1:
             return at_base[0]
+        before = before.rsplit(',', 1)[-1]
         earlier = [m for m in safe if re.search(rf"\b{re.escape(m['name'].split()[-1])}\b", before)]
-        if base is None and earlier:
-            # "He" is the runner the call named last.
-            return max(earlier, key=lambda m: before.rfind(m['name'].split()[-1]))
+        if base is None and not named and len(earlier) == 1:
+            # "He" can refer to the preceding clause's only named runner.
+            return earlier[0]
         movers = [m for m in safe if m.get('start') != m.get('end')]
         return movers[0] if len(movers) == 1 and base is None else None
 
+    previous = ''
     for match in re.finditer(r"[^.!?;]+", text):
-        clause, before = match.group(), text[:match.start()]
+        clause, before = match.group(), previous
+        previous = clause
         if DOUBLE_PLAY_THROW.search(clause):
             target = next((m for m in safe if m['name'] == batter), None)
             if target:

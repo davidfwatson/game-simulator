@@ -659,6 +659,31 @@ class TestThrowsAndSlides(unittest.TestCase):
                 self.assertEqual(throw_facts_from_words(text, [runner, batter], batter['name']),
                                  {'Nate Colbert': {'throw': 'none'}})
 
+    def test_two_runners_on_a_hit_need_an_unambiguous_preceding_clause(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runners = [{'name': 'Nate Colbert', 'start': '2B', 'end': 'score'},
+                   {'name': 'Bill Brown', 'start': '1B', 'end': '3B'},
+                   {'name': 'Rio Nunez', 'start': None, 'end': '1B'}]
+        for text, expected in (
+                ('Nunez singles. Colbert scores. Brown heads for third. He slides in safely.',
+                 {'Bill Brown': {'slide': True}}),
+                ('Nunez singles. Colbert scores. The throw goes to third. He slides in safely.', {}),
+                ('Nunez singles. Colbert scores and Brown heads for third. He slides in safely.', {}),
+                ('Nunez singles. Colbert scores. The ball gets away. There is no throw.', {}),
+                ('Nunez singles. Colbert scores and Brown heads for third. No throw to third.',
+                 {'Bill Brown': {'throw': 'none'}})):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, runners, 'Rio Nunez'), expected)
+
+    def test_pronoun_keeps_the_runner_in_the_last_clause_of_a_real_call(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runners = [{'name': 'Billy De Jesus', 'start': '2B', 'end': 'score'},
+                   {'name': 'JP Primero', 'start': None, 'end': '1B'}]
+        text = ('Primero safe at first, De Jesus racing for home. '
+                'And he will slide in safely ahead of the tag.')
+        self.assertEqual(throw_facts_from_words(text, runners, 'JP Primero'),
+                         {'Billy De Jesus': {'slide': 'ahead_of_tag'}})
+
     def test_no_throw_without_destination_needs_an_identifiable_runner(self):
         from annotate_transcript_facts import throw_facts_from_words
         runner = {'name': 'Nate Colbert', 'start': '1B', 'end': '2B'}
