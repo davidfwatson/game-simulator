@@ -8,7 +8,9 @@ import collections
 import re
 import statistics
 import unittest
+from unittest.mock import patch
 
+import fieldsim
 from baseball import BaseballSimulator
 from renderers import NarrativeRenderer, StatcastRenderer
 from teams import TEAMS
@@ -271,8 +273,31 @@ class TestOutsOnTheBases(SimulationBatch):
                 self.assertEqual(following['matchup']['splits']['menOnBase'], 'Empty')
 
     def test_narration_of_a_batter_out_stretching(self):
-        seed, index, play, runner = self._first('r_out_stretching', '2B', third_out=False)
-        text = self._rendered_play(seed, index)
+        # This rare play need not turn up before the third out in every batch.
+        # Make the throw deterministic while keeping the engine's feed and prose.
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+        field = fieldsim.BattedBall('Single', 'CF', 'line_drive', 'CF', 0.0, (0, 200), 200,
+                                   release=5.0, release_point=(0, 200), batter_out=2)
+        outcomes = iter(('Single', 'Strikeout', 'Strikeout'))
+
+        def at_bat(batter, pitcher):
+            outcome = next(outcomes)
+            event = {'index': 0, 'isPitch': True, 'count': {'balls': 0, 'strikes': 0},
+                     'details': {'code': 'X' if outcome == 'Single' else 'S',
+                                 'description': outcome, 'type': {'code': 'FF', 'description': 'Fastball'}},
+                     'pitchData': {'startSpeed': 94.0}}
+            if outcome == 'Single':
+                game._play_field = field
+                event['hitData'] = {'trajectory': field.trajectory, 'location': field.location}
+            return outcome, None, [event]
+
+        with patch.object(game, '_simulate_at_bat', side_effect=at_bat):
+            game._simulate_half_inning()
+        renderer = NarrativeRenderer(game.gameday_data, seed=0)
+        lines = renderer.render().splitlines()
+        start, end = renderer._play_line_map[0]
+        text = ' '.join(lines[start:end])
+        self.assertEqual(game.gameday_data['liveData']['plays']['allPlays'][0]['count']['outs'], 1)
         self.assertRegex(text, r"thinking double|stretch it into a double|trying for a double")
         self.assertNotRegex(text, r"\baboard\b|stand-up")
 

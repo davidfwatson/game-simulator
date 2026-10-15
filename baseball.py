@@ -50,14 +50,14 @@ AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk
 WILD_PITCH_FACTOR = 3.2        # x the pitcher's wild_pitch_rate, per ball with runners on
 LATE_TROUBLE_HOOK_RATE = 0.15  # per PA, innings 6+, close, runner in scoring position
 STARTER_STAMINA_BONUS = 14     # pitches added to a starter's stamina
-# Pitching changes, fit to 24 real 2026 feeds: 3.3 relievers per team-game,
-# starters 4.7 innings on 76 pitches (sd 24: some go eight, some are gone in
+# Pitching changes, fit to 136 real 2026 feeds: 3.4 relievers per team-game,
+# starters 4.9 innings on 82 pitches (sd 20: some go eight, some are gone in
 # the second), a third of all changes mid-inning, relievers mostly an inning.
 STARTER_PITCH_BUDGET = 24      # pitches past his stamina a starter is allowed, on average
 STARTER_BUDGET_SD = 9          # the two starters don't work to the same number
-SHORT_LEASH_RATE = 0.13        # starts on a pitch limit (an opener, a man back from injury)
+SHORT_LEASH_RATE = 0.08        # starts on a pitch limit (an opener, a man back from injury)
 SHORT_LEASH_RANGE = (20, 62)
-INNING_PITCHES = 14            # a starter this close to his budget doesn't start an inning
+INNING_PITCHES = 10            # pitches a starter needs left to start another inning
 BLOWOUT_MARGIN = 5             # runs ahead or behind at which a manager stops spending relievers
 FATIGUE_PENALTY_CAP = 0.12     # control lost to fatigue levels off (a team out of arms
                                # used to walk the lineup around twice)
@@ -93,6 +93,8 @@ class BaseballSimulator:
         # batters faced, runs given up, and when he came in.
         self._pitch_budget, self._batters_faced, self._runs_allowed = {}, {}, {}
         self._entered_inning, self._entered_mid_inning = {}, {}
+        self._half_pitcher_traffic, self._half_pitcher_homers = {}, {}
+        self._stolen_second_this_inning = set()
         self.commentary_seed = (game_seed if game_seed is not None
                                 else random.SystemRandom().randrange(2 ** 63))
         # Throw and slide details must not change the game's results.
@@ -913,19 +915,28 @@ class BaseballSimulator:
         elif (balls == 2 and strikes == 0) or (balls == 3 and strikes == 0) or (balls == 3 and strikes == 1):
             count_modifier = 0.8
         outs_modifier = 1.5 if self.outs == 2 else 1.0
-        if abs(self.team1_score - self.team2_score) >= 4:
-            # Down big the base doesn't matter; up big it's bad form.
-            return None
+        margin = -self._pitching_lead()
+        score_modifier = 1.0
+        if margin <= -2:
+            # When several runs are needed, protect the baserunner.
+            score_modifier = 0.3 if margin > -4 else 0.05
+            if self.inning >= 7:
+                score_modifier *= 0.5
+        elif margin >= 4:
+            score_modifier = 0.35 if margin < 6 else 0.05
 
         if self.bases[1] and not self.bases[2]:
             runner_name = self.bases[1]
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
-                # Multiplier adjusted to 1.4
-                # Third with two outs gains little (a single scores him from
-                # second anyway), so it's rarely tried.
-                third_modifier = 0.25 if self.outs == 2 else 1.0
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.4 * count_modifier * third_modifier
+                # Third is most useful with one out. Real runners still try
+                # it with two outs, but seldom risk it down several runs.
+                third_modifier = (0.7, 1.0, 0.55)[self.outs]
+                if self.outs == 0 and (margin <= -2 or self.bases[0]):
+                    third_modifier *= 0.25
+                if runner_name in self._stolen_second_this_inning:
+                    third_modifier *= 0.65
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 0.75 * count_modifier * third_modifier * score_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 3
 
@@ -933,8 +944,7 @@ class BaseballSimulator:
             runner_name = self.bases[0]
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
-                # Multiplier adjusted to 1.4
-                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.4 * count_modifier * outs_modifier
+                attempt_chance = runner_data['batting_profile']['stealing_tendency'] * 1.6 * count_modifier * outs_modifier * score_modifier
                 if self.game_rng.random() < attempt_chance:
                     return 2
 
@@ -1016,10 +1026,15 @@ class BaseballSimulator:
         self.current_time += timedelta(seconds=steal_duration)
         end_time = self.current_time.isoformat()
 
-        success_chance = runner_data['batting_profile']['stealing_success_rate'] - (defensive_catcher['catchers_arm'] * 0.1)
+        # Third gives the catcher a shorter throw; the same runner needs a
+        # better jump than he would stealing second.
+        base_bonus = 0.05 if base_to_steal == 2 else -0.02
+        success_chance = min(0.96, runner_data['batting_profile']['stealing_success_rate'] + base_bonus - (defensive_catcher['catchers_arm'] * 0.04))
         if self.game_rng.random() < success_chance:
             self.bases[base_to_steal - 1] = runner_name
             self.bases[base_from_idx] = None
+            if base_to_steal == 2:
+                self._stolen_second_this_inning.add(runner_name)
 
             self._update_batting_stat(self._batting_team_key, runner_data['id'], 'stolenBases')
             # Record Stolen Base Event
@@ -1072,8 +1087,9 @@ class BaseballSimulator:
         
         # HBP happens on a pitch outside the zone, mid at-bat, so the pitches
         # before it get narrated (it used to end the PA before the first pitch).
-        # ~1.9 out-of-zone pitches per PA keeps the per-PA rate as it was.
-        hbp_per_ball = batter['plate_discipline'].get('HBP', 0) * 2.5 / 1.2
+        # About two out-of-zone pitches per PA: the batter's HBP rating is
+        # a per-PA rate, scaled to the real feeds' 1.1% of plate appearances.
+        hbp_per_ball = batter['plate_discipline'].get('HBP', 0) * 1.65
 
         bunt_propensity = batter['batting_profile'].get('bunt_propensity', 0.0)
         # Sacrifice only when a single run matters: not down 9-4.
@@ -1417,33 +1433,41 @@ class BaseballSimulator:
         rng = self.game_rng
         pitches = self.pitch_counts[name]
         faced = self._batters_faced[name]
+        if faced < 3:
+            # The three-batter minimum applies to starters as well.
+            return
         runs = self._runs_allowed[name]
         batting_score = self.team2_score if self.top_of_inning else self.team1_score
         inning_runs = batting_score - self._half_pitcher_entry.get(name, batting_score)
+        traffic = self._half_pitcher_traffic.get(name, 0)
+        homers = self._half_pitcher_homers.get(name, 0)
         runners_on = any(self.bases)
         scoring_position = bool(self.bases[1] or self.bases[2])
         close = abs(self._pitching_lead()) <= 3
         if stats.get('type') == 'Starter':
-            budget = self._pitch_budget[name]
+            budget = self._pitch_budget[name] - min(16, max(0, runs - 3) * 4)
             change = (
                 # (a manager gives him a little longer early, to spare the bullpen)
                 inning_runs >= (5 if self.inning <= 2 else 4)
+                or homers >= 3
+                or (traffic >= 5 and inning_runs >= 2 and self.inning > 2)
                 or (inning_runs >= 3 and runners_on and self.inning > 2 and rng.random() < 0.5)
                 or (runs >= 6 and runners_on)
                 or pitches >= budget + 10
                 or (pitches >= budget and runners_on)
                 # Third time through the order with the game on the bases.
-                or (faced >= 18 and scoring_position and self.inning >= 5 and close and rng.random() < 0.2))
-        elif faced < 3:
-            # Three-batter minimum: he faces three or finishes the inning.
-            change = False
+                or (faced >= 18 and pitches >= budget - 20 and scoring_position
+                    and self.inning >= 5 and close and rng.random() < 0.2))
         elif self._saving_the_bullpen(stats):
-            change = inning_runs >= 5 or pitches >= stats['stamina'] + 25
+            change = inning_runs >= 5 or homers >= 3 or pitches >= stats['stamina'] + 25
         else:
             stamina = stats['stamina']
             second_inning = self._entered_inning.get(name, self.inning) < self.inning
             change = (
-                (inning_runs >= 3 and runners_on)
+                inning_runs >= 4
+                or (homers >= 2 and traffic >= 4)
+                or (traffic >= 5 and inning_runs >= 2)
+                or (inning_runs >= 3 and runners_on)
                 or (inning_runs >= 2 and runners_on and rng.random() < 0.5)
                 or pitches >= stamina + 20
                 or (pitches >= stamina + 4 and runners_on)
@@ -1468,8 +1492,12 @@ class BaseballSimulator:
         role = stats.get('type', '')
         lead = self._pitching_lead()
         if role == 'Starter':
+            budget = self._pitch_budget[name] - min(16, max(0, runs - 3) * 4)
+            reserve = 6 if runs <= 1 and faced < 24 else INNING_PITCHES
+            if runs >= 4:
+                reserve = 14
             change = (
-                pitches >= self._pitch_budget[name] - INNING_PITCHES
+                pitches >= budget - reserve
                 or (runs >= 5 and rng.random() < 0.6)
                 or (runs >= 4 and faced >= 18 and rng.random() < 0.35)
                 or (faced >= 27 and rng.random() < 0.5))
@@ -1488,7 +1516,12 @@ class BaseballSimulator:
             # He got the last out or two of the inning: often back out for the next.
             change = pitches > 20 or runs >= 2 or rng.random() < 0.15
         else:
-            change = pitches > 20 or runs >= 2 or rng.random() < 0.35
+            # A cheap, scoreless inning can earn him another, particularly
+            # early. Late in a close game the next rested arm is more likely.
+            hook_chance = 0.65 if self.inning >= 7 and abs(lead) <= 3 else 0.5
+            if pitches <= 12 and runs == 0:
+                hook_chance *= 0.5
+            change = pitches > 20 or runs >= 2 or rng.random() < hook_chance
         if change:
             self._bring_in(prefix, bullpen, mid_inning=False)
 
@@ -1791,6 +1824,8 @@ class BaseballSimulator:
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
         self._half_pitcher_entry = {}
+        self._half_pitcher_traffic, self._half_pitcher_homers = {}, {}
+        self._stolen_second_this_inning = set()
         self._manage_between_innings()
         self._free_pass_pitcher = None
         self._half_pitcher_entry[self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name] = (
@@ -1993,6 +2028,10 @@ class BaseballSimulator:
             if pa_complete:
                 self._batters_faced[pitcher_name] += 1
             self._runs_allowed[pitcher_name] += runs
+            if outcome in ("Single", "Double", "Triple", "Home Run", "Walk", "HBP", "Hit By Pitch"):
+                self._half_pitcher_traffic[pitcher_name] = self._half_pitcher_traffic.get(pitcher_name, 0) + 1
+            if outcome == "Home Run":
+                self._half_pitcher_homers[pitcher_name] = self._half_pitcher_homers.get(pitcher_name, 0) + 1
             # Pitching Runs
             if runs > 0:
                  self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'runs', runs)
