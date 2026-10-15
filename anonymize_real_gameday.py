@@ -124,9 +124,92 @@ def _extra_names(side, code, hand):
         yield f'{firsts[i % len(firsts)]} {lasts[i // len(firsts)]}'
 
 
+def _check_unique_player_names(names, label):
+    owners, surnames = {}, {}
+    for pid, name in names.items():
+        for value, seen in ((name, owners), (name.split()[-1], surnames)):
+            key = normalize_unicode(value).casefold()
+            if key in seen and seen[key] != pid:
+                raise ValueError(f'{label}: fictional name {value!r} belongs to players {seen[key]} and {pid}')
+            seen[key] = pid
+
+
+def validate_player_names(data, label='game'):
+    """Fail before rendering if two players share a name or a reference drifts."""
+    players = {}
+    for player in data.get('gameData', {}).get('players', {}).values():
+        pid, name = player['id'], player['fullName']
+        if pid in players and players[pid] != name:
+            raise ValueError(f'{label}: player {pid} has names {players[pid]!r} and {name!r}')
+        players[pid] = name
+    _check_unique_player_names(players, label)
+
+    def check(node):
+        if isinstance(node, dict):
+            if 'id' in node and ('fullName' in node or len(node) <= 3):
+                pid = node['id']
+                if pid not in players:
+                    raise ValueError(f'{label}: player {pid} is referenced but missing from gameData.players')
+                if node.get('fullName', players[pid]) != players[pid]:
+                    raise ValueError(f'{label}: player {pid} is named {node["fullName"]!r}, expected {players[pid]!r}')
+            for value in node.values():
+                check(value)
+        elif isinstance(node, list):
+            for value in node:
+                check(value)
+
+    check(data.get('liveData', {}).get('plays', {}).get('allPlays', []))
+
+
+def collect_players(data):
+    """Include substitutes and references that have no gameData roster entry."""
+    players = {p['id']: dict(p) for p in data.get('gameData', {}).get('players', {}).values()}
+
+    def collect(node):
+        if isinstance(node, dict):
+            if 'id' in node and ('fullName' in node or len(node) <= 3):
+                person = players.setdefault(node['id'], {'id': node['id']})
+                if node.get('fullName'):
+                    person.setdefault('fullName', node['fullName'])
+            for value in node.values():
+                collect(value)
+        elif isinstance(node, list):
+            for value in node:
+                collect(value)
+
+    plays = data.get('liveData', {}).get('plays', {}).get('allPlays', [])
+    collect(plays)
+    for play in plays:
+        for role, hand in (('batter', 'batSide'), ('pitcher', 'pitchHand')):
+            ref = play.get('matchup', {}).get(role)
+            if ref and ref['id'] in players and hand in play['matchup']:
+                players[ref['id']].setdefault(hand, play['matchup'][hand])
+    for team in data.get('liveData', {}).get('boxscore', {}).get('teams', {}).values():
+        for box_player in team.get('players', {}).values():
+            pid = box_player.get('person', {}).get('id')
+            if pid in players and box_player.get('position'):
+                position = dict(box_player['position'])
+                position['code'] = _position_code(position)
+                players[pid]['primaryPosition'] = position
+    for play in plays:
+        for runner in play.get('runners', []):
+            for credit in runner.get('credits', []):
+                pid = credit.get('player', {}).get('id')
+                if pid in players and credit.get('position'):
+                    players[pid].setdefault('primaryPosition', credit['position'])
+        for event in play.get('playEvents', []):
+            pid = event.get('player', {}).get('id')
+            if pid in players and event.get('position'):
+                players[pid].setdefault('primaryPosition', event['position'])
+    for person in players.values():
+        if person.get('primaryPosition'):
+            person['primaryPosition'] = {**person['primaryPosition'], 'code': _position_code(person['primaryPosition'])}
+    return players
+
+
 def assign_player_names(data, our_teams, rng):
     """Use a roster name only when its team, position and hand fit the player."""
-    players = {p['id']: p for p in data.get('gameData', {}).get('players', {}).values()}
+    players = collect_players(data)
     plays = data.get('liveData', {}).get('plays', {}).get('allPlays', [])
     order = list(dict.fromkeys([p['matchup'][role]['id'] for p in plays
                                 for role in ('batter', 'pitcher')] + sorted(players)))
@@ -166,6 +249,7 @@ def assign_player_names(data, our_teams, rng):
             names[pid] = name
             used.add(name)
             used_surnames.add(name.split()[-1])
+    _check_unique_player_names(names, 'player assignment')
     return names
 
 ACTION_TYPES = (('stolen_base', 'stolen_base'), ('pickoff_caught_stealing', 'caught_stealing'),
@@ -302,40 +386,11 @@ def get_our_schema_fields():
 
 def create_player_mapping(real_data, our_teams, rng=None):
     """Assign unique fictional identities while retaining the real roles and hands."""
-    players = {p['id']: dict(p) for p in real_data.get('gameData', {}).get('players', {}).values()}
-
-    def collect(node):
-        if isinstance(node, dict):
-            if 'id' in node and ('fullName' in node or len(node) <= 3):
-                person = players.setdefault(node['id'], {'id': node['id']})
-                if node.get('fullName'):
-                    person.setdefault('fullName', node['fullName'])
-            for value in node.values():
-                collect(value)
-        elif isinstance(node, list):
-            for value in node:
-                collect(value)
-
-    plays = real_data.get('liveData', {}).get('plays', {}).get('allPlays', [])
-    collect(plays)
-    for play in plays:
-        for role, hand in (('batter', 'batSide'), ('pitcher', 'pitchHand')):
-            ref = play.get('matchup', {}).get(role)
-            if ref and ref['id'] in players and hand in play['matchup']:
-                players[ref['id']].setdefault(hand, play['matchup'][hand])
-    for team in real_data.get('liveData', {}).get('boxscore', {}).get('teams', {}).values():
-        for box_player in team.get('players', {}).values():
-            pid = box_player.get('person', {}).get('id')
-            if pid in players and box_player.get('position'):
-                position = dict(box_player['position'])
-                position['code'] = _position_code(position)
-                players[pid]['primaryPosition'] = position
-    for person in players.values():
-        if person.get('primaryPosition'):
-            person['primaryPosition'] = {**person['primaryPosition'], 'code': _position_code(person['primaryPosition'])}
+    players = collect_players(real_data)
     context = {'gameData': {'players': {f'ID{pid}': p for pid, p in players.items()}},
                'liveData': real_data.get('liveData', {})}
     names = assign_player_names(context, our_teams, rng or random.Random(42))
+    _check_unique_player_names(names, 'player mapping')
     canonical = {p['legal_name']: p for team in our_teams.values() for p in team['players']}
     id_mapping, name_mapping = {}, {}
     for i, (real_id, person) in enumerate(sorted(players.items())):
@@ -355,6 +410,8 @@ def create_player_mapping(real_data, our_teams, rng=None):
                 for old, new in ((parts[0], name.split()[0]), (parts[-1], name.split()[-1])):
                     name_mapping[old] = new
                     name_mapping[normalize_unicode(old)] = new
+    if len({p['id'] for p in id_mapping.values()}) != len(id_mapping):
+        raise ValueError('player mapping: fictional player IDs must be unique')
     return id_mapping, name_mapping
 
 
@@ -814,6 +871,7 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                 if field in ls:
                     result['liveData']['linescore'][field] = ls[field]
 
+    validate_player_names(result, 'anonymized game')
     return result
 
 

@@ -535,6 +535,18 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
         # second": a fly ball an infielder catches is a pop-up.
         template_outcome, cat = 'Pop Out', 'default'
 
+    force_base, receiver_name, self_force = 'second', 'the covering infielder', False
+    if template_outcome == 'Forceout':
+        forced = next((r for r in final_batted_movements(play or {}) if r.get('movement', {}).get('isOut')), None)
+        if forced:
+            base = forced['movement'].get('outBase')
+            force_base = {**BASE_WORDS, '4B': 'the plate', 'score': 'the plate', 'home': 'the plate'}.get(base, 'second')
+            receiver = next((c for c in reversed(forced.get('credits', []))
+                             if c.get('credit') in ('putout', 'f_putout')), None)
+            if receiver:
+                receiver_name = _last_name(renderer, receiver.get('player', {}))
+                self_force = receiver_name == fielder_name
+
     specific_templates = []
     if 'narrative_templates' in GAME_CONTEXT:
         outcome_templates = GAME_CONTEXT['narrative_templates'].get(template_outcome, {})
@@ -547,6 +559,12 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
             # A transcript may omit who made the force. Keep its wording
             # rather than supply a fielding sequence the ledger lacks.
             specific_templates = outcome_templates['unrecorded']
+        if (template_outcome == 'Forceout' and self_force and not strict
+                and any('{receiver_name}' in t for t in specific_templates)):
+            # A lone putout credit supplies no throw to another fielder.
+            specific_templates = [
+                "Grounder {direction}. {fielder_name} gets the force at {force_base} {out_context_str}. {batter_name} reaches on a fielder's choice.",
+                "Bouncer {direction}. {fielder_name} makes the force at {force_base} {out_context_str}. {batter_name} reaches on a fielder's choice."]
 
         if ground_single and cat == 'grounder':
             # "Tough play ... the throw is not in time" is an infield hit.
@@ -792,17 +810,6 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     dp_notation = build_dp_notation(play) if play and template_outcome == "Double Play" else ""
 
     batter_last_name = batter_name.split()[-1] if batter_name else "the batter"
-    force_base, receiver_name = 'second', 'the covering infielder'
-    if template_outcome == 'Forceout':
-        forced = next((r for r in (play or {}).get('runners', []) if r.get('movement', {}).get('isOut')), None)
-        if forced:
-            base = forced['movement'].get('outBase')
-            force_base = {**BASE_WORDS, '4B': 'the plate', 'score': 'the plate', 'home': 'the plate'}.get(base, 'second')
-            receiver = next((c for c in reversed(forced.get('credits', []))
-                             if c.get('credit') in ('putout', 'f_putout')), None)
-            if receiver:
-                receiver_name = _last_name(renderer, receiver.get('player', {}))
-
     context = {
         'batter_name': batter_name,
         'batter_last_name': batter_last_name,

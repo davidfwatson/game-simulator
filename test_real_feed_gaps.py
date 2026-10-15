@@ -5,7 +5,9 @@ import random
 import unittest
 from unittest.mock import patch
 
-from anonymize_real_gameday import anonymize_description, anonymize_gameday_data
+from anonymize_real_gameday import (
+    anonymize_description, anonymize_gameday_data, create_player_mapping, validate_player_names,
+)
 import blind_judge
 from renderers import NarrativeRenderer
 from teams import TEAMS
@@ -62,6 +64,91 @@ def feed(event='Single', events=None, runners=None, outs=0):
 
 
 class TestRealIdentities(unittest.TestCase):
+    def test_credit_and_substitution_only_players_get_distinct_names(self):
+        raw = feed(runners=[runner(1, None, '1B', credits=[credit(6, '6'), credit(7, '4')])])
+        events = raw['liveData']['plays']['allPlays'][0]['playEvents']
+        events.insert(0, {'isPitch': False, 'index': -1, 'player': {'id': 8},
+                          'replacedPlayer': {'id': 9}, 'position': POSITIONS['9'],
+                          'details': {'eventType': 'defensive_substitution'}})
+        events.insert(0, {'isPitch': False, 'index': -2, 'player': {'id': 10},
+                          'replacedPlayer': {'id': 3}, 'position': {'code': '12'},
+                          'details': {'eventType': 'offensive_substitution'}})
+        before = copy.deepcopy(raw)
+        template = anonymize_gameday_data(feed(), TEAMS)['gameData']
+        for seed in range(12):
+            for data in (anonymize_gameday_data(raw, TEAMS, seed),
+                         blind_judge.remap_names(raw, template, seed)):
+                with self.subTest(seed=seed):
+                    validate_player_names(data)
+                    self.assertEqual(len(data['gameData']['players']), 10)
+                    self.assert_names_fit(data)
+                    self.assertNotIn('Real Player', json.dumps(data))
+        self.assertEqual(raw, before)
+
+    def test_overflow_names_are_unique_across_both_full_rosters(self):
+        raw = feed()
+        box = {side: {'players': {}} for side in ('home', 'away')}
+        for pid in range(6, 76):
+            raw['gameData']['players'][f'ID{pid}'] = person(pid, '6')
+            side = 'home' if pid % 2 else 'away'
+            box[side]['players'][f'ID{pid}'] = {'person': {'id': pid}}
+        raw['liveData']['boxscore'] = {'teams': box}
+        for seed in range(8):
+            with self.subTest(seed=seed):
+                data = anonymize_gameday_data(raw, TEAMS, seed)
+                validate_player_names(data)
+                self.assertEqual(len(data['gameData']['players']), 75)
+
+    def test_name_checks_reject_collisions_and_stale_or_missing_references(self):
+        data = anonymize_gameday_data(feed(), TEAMS)
+        players = list(data['gameData']['players'].values())
+        duplicate = copy.deepcopy(data)
+        duplicate['gameData']['players'][f'ID{players[1]["id"]}']['fullName'] = players[0]['fullName']
+        with self.assertRaisesRegex(ValueError, 'fictional name .* belongs to players'):
+            validate_player_names(duplicate)
+        surname = copy.deepcopy(data)
+        surname['gameData']['players'][f'ID{players[1]["id"]}']['fullName'] = 'Other ' + players[0]['lastName']
+        with self.assertRaisesRegex(ValueError, 'fictional name .* belongs to players'):
+            validate_player_names(surname)
+        stale = copy.deepcopy(data)
+        stale['liveData']['plays']['allPlays'][0]['matchup']['batter']['fullName'] = players[1]['fullName']
+        with self.assertRaisesRegex(ValueError, 'expected'):
+            validate_player_names(stale)
+        missing = copy.deepcopy(data)
+        missing['liveData']['plays']['allPlays'][0]['runners'][0]['credits'] = [credit(123456, '6')]
+        with self.assertRaisesRegex(ValueError, '123456.*missing from gameData.players'):
+            validate_player_names(missing)
+
+    def test_duplicate_mapping_fails_before_player_ids_can_be_collapsed(self):
+        with patch('anonymize_real_gameday.assign_player_names', return_value={
+                pid: 'Theo Vane' for pid in range(1, 6)}):
+            with self.assertRaisesRegex(ValueError, 'fictional name .* belongs to players'):
+                create_player_mapping(feed(), TEAMS)
+
+    def test_duplicate_fictional_ids_fail_before_the_roster_is_written(self):
+        teams = copy.deepcopy(TEAMS)
+        by_name = {p['legal_name']: p for team in teams.values() for p in team['players']}
+        hitter, pitcher = by_name['Omar Ramirez'], by_name['Joe Gibson']
+        hitter['id'] = pitcher['id']
+        raw = feed()
+        raw['gameData']['players']['ID1'] = person(1, hitter['position']['code'], bat=hitter['batSide']['code'])
+        raw['gameData']['players']['ID2'] = person(2, '1', throws=pitcher.get('pitchHand', {}).get('code', 'R'))
+        with self.assertRaisesRegex(ValueError, 'fictional player IDs must be unique'):
+            anonymize_gameday_data(raw, teams)
+
+    def test_remapping_duplicate_source_names_still_uses_distinct_ids(self):
+        raw = feed(runners=[runner(1, None, '1B', credits=[credit(3, '4')])])
+        for pid in (1, 3):
+            raw['gameData']['players'][f'ID{pid}']['fullName'] = 'Same Source Name'
+        data = blind_judge.remap_names(raw, anonymize_gameday_data(feed(), TEAMS)['gameData'], seed=17)
+        play = data['liveData']['plays']['allPlays'][0]
+        batter = play['matchup']['batter']
+        fielder = play['runners'][0]['credits'][0]['player']
+        self.assertNotEqual(batter['fullName'], fielder['fullName'])
+        self.assertEqual(batter['fullName'], data['gameData']['players']['ID1']['fullName'])
+        self.assertEqual(fielder['fullName'], data['gameData']['players']['ID3']['fullName'])
+        validate_player_names(data)
+
     def test_anonymization_is_seeded_and_keeps_real_hands_and_positions(self):
         raw = feed(runners=[runner(1, None, '1B', credits=[credit(4, '9', 'f_fielded_ball')])])
         before = copy.deepcopy(raw)
@@ -342,6 +429,76 @@ class TestRealFeedEvents(unittest.TestCase):
 
 
 class TestRealFeedRunnerAccounting(unittest.TestCase):
+    def test_two_separate_pickoff_throws_distinguish_the_later_out(self):
+        for result_kind in ('pickoff_1b', 'pickoff_caught_stealing_2b'):
+            for split_result in (False, True):
+                events = [{'index': i, 'isPitch': False, 'type': 'pickoff',
+                           'details': {'description': 'Pickoff Attempt 1B', 'code': '1'}} for i in (0, 1)]
+                if split_result:
+                    events.append({'index': 2, 'isPitch': False,
+                                   'details': {'eventType': result_kind, 'description': ''}})
+                raw = feed('Pickoff 1B' if result_kind == 'pickoff_1b' else 'Pickoff Caught Stealing 2B',
+                           events=events, outs=3, runners=[
+                               runner(3, '1B', '1B' if result_kind == 'pickoff_1b' else '2B',
+                                      index=2 if split_result else 1, kind=result_kind, out=True)])
+                data = anonymize_gameday_data(raw, TEAMS)
+                self.assertEqual(len(data['liveData']['plays']['allPlays'][0]['playEvents']), 2)
+                for seed in range(12):
+                    with self.subTest(kind=result_kind, split=split_result, seed=seed):
+                        text = NarrativeRenderer(data, seed=seed).render()
+                        self.assertEqual(text.count('gets back safely'), 1)
+                        self.assertIn('Another ', text)
+                        self.assertEqual(text.count('picked off' if result_kind == 'pickoff_1b' else 'caught stealing'), 1)
+                        self.assertNotIn('gets back safely. The throw', text)
+
+    def test_a_pitch_between_pickoff_throws_keeps_them_separate(self):
+        events = [{'index': 0, 'isPitch': False, 'type': 'pickoff',
+                   'details': {'description': 'Pickoff Attempt 1B', 'code': '1'}}, pitch(1, 'B'),
+                  {'index': 2, 'isPitch': False, 'details': {'eventType': 'pickoff_caught_stealing_2b'}}]
+        raw = feed('Pickoff Caught Stealing 2B', events=events, outs=3,
+                   runners=[runner(3, '1B', '2B', index=2, kind='pickoff_caught_stealing_2b', out=True)])
+        text = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=1).render()
+        self.assertIn('gets back safely', text)
+        self.assertIn('The throw to first catches', text)
+        self.assertNotIn('Another throw', text)
+
+    def test_a_force_with_one_fielder_does_not_invent_a_throw_to_himself(self):
+        for start, end, position in (('1B', '2B', '5'), ('2B', '3B', '5'), ('3B', 'home', '2')):
+            raw = feed('Forceout', outs=3, runners=[
+                runner(3, start, end, out=True, credits=[credit(4, position)]), runner(1, None, '1B')])
+            raw['liveData']['plays']['allPlays'][0]['playEvents'][0]['hitData']['trajectory'] = 'ground_ball'
+            data = anonymize_gameday_data(raw, TEAMS)
+            name = data['liveData']['plays']['allPlays'][0]['runners'][0]['credits'][0]['player']['fullName'].split()[-1]
+            for seed in range(24):
+                with self.subTest(base=end, seed=seed):
+                    text = NarrativeRenderer(data, seed=seed).render()
+                    self.assertIn(name, text)
+                    self.assertRegex(text, 'force[^.]*' + {'2B': 'second', '3B': 'third', 'home': 'the plate'}[end])
+                    self.assertNotRegex(text, rf'{name} (?:goes|throws|tosses) to {name}')
+
+    def test_a_known_unassisted_force_keeps_the_step_on_the_bag(self):
+        raw = feed('Forceout', outs=3, runners=[runner(3, '1B', '2B', out=True,
+                   credits=[credit(4, '4')]), runner(1, None, '1B')])
+        raw['liveData']['plays']['allPlays'][0]['playEvents'][0]['hitData']['trajectory'] = 'ground_ball'
+        data = anonymize_gameday_data(raw, TEAMS)
+        for seed in range(12):
+            with self.subTest(seed=seed):
+                text = NarrativeRenderer(data, seed=seed).render()
+                self.assertIn('steps on second to retire the runner', text)
+                self.assertNotIn('to the covering infielder', text)
+
+    def test_a_force_with_two_fielders_keeps_the_named_throw(self):
+        raw = feed('Forceout', outs=3, runners=[runner(3, '1B', '2B', out=True,
+                   credits=[credit(4, '5', 'f_assist'), credit(5, '4')]), runner(1, None, '1B')])
+        raw['liveData']['plays']['allPlays'][0]['playEvents'][0]['hitData']['trajectory'] = 'ground_ball'
+        data = anonymize_gameday_data(raw, TEAMS)
+        credits = data['liveData']['plays']['allPlays'][0]['runners'][0]['credits']
+        fielder, receiver = [c['player']['fullName'].split()[-1] for c in credits]
+        for seed in range(24):
+            with self.subTest(seed=seed):
+                text = NarrativeRenderer(data, seed=seed).render()
+                self.assertRegex(text, rf'{fielder} (?:goes|throws|[^.]*tosses) to {receiver}')
+
     def test_full_inning_summary_keeps_a_leadoff_single_or_walk_stranded(self):
         for leadoff, hits in (('Single', 1), ('Walk', 0)):
             raw = feed(leadoff, runners=[runner(3, None, '1B')])
@@ -495,6 +652,7 @@ class TestRealFeedRunnerAccounting(unittest.TestCase):
         self.assertNotIn('gets back safely', text)
         self.assertIn('throw to first', text)
         self.assertEqual(text.count('caught stealing second'), 1)
+        self.assertNotIn('Another ', text)
 
     def test_a_pickoff_caught_stealing_is_not_a_steal_on_the_previous_pitch(self):
         raw = feed('Pickoff Caught Stealing 2B', events=[pitch(0, 'B'),
