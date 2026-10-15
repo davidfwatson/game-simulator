@@ -101,6 +101,15 @@ class TestThirdOutScoring(unittest.TestCase):
         self.assertEqual(out['movement']['outBase'], '4B')
         self.assertFalse(out['details']['isScoringEvent'])
 
+    def test_two_out_double_runner_tagged_at_home_does_not_score(self):
+        game, play = self.half_inning(self.ball('Double', release=9.0), seed=0)
+        self.assert_score(game, play, 2)
+        out = next(r for r in play['runners'] if r['movement']['isOut'])
+        self.assertEqual(out['movement']['originBase'], '1B')
+        self.assertEqual(out['movement']['outBase'], '4B')
+        self.assertEqual(out['movement']['outNumber'], 3)
+        self.assertFalse(out['details']['isScoringEvent'])
+
     def test_two_out_batter_stretching_preserves_earlier_runs(self):
         for outcome, out_base, release, runs in (('Single', 2, 7.0, 1), ('Double', 3, 10.0, 2)):
             with self.subTest(outcome=outcome):
@@ -109,6 +118,7 @@ class TestThirdOutScoring(unittest.TestCase):
                 out = next(r for r in play['runners'] if r['movement']['isOut'])
                 self.assertEqual(out['details']['movementReason'], 'r_out_stretching')
                 self.assertEqual(out['movement']['outNumber'], 3)
+                self.assertEqual(out['movement']['outBase'], f'{out_base}B')
 
     def test_batter_out_stretching_has_one_movement_and_keeps_his_hit(self):
         for outcome, out_base, release in (('Single', 2, 7.0), ('Double', 3, 10.0)):
