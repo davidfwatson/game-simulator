@@ -362,6 +362,18 @@ class TestRealIdentities(unittest.TestCase):
         self.assertEqual(anonymize_description("Joe Gibson's throw to Ben Logan.", mapping),
                          "Ben Logan's throw to Joe Gibson.")
 
+    def test_a_lowercase_word_is_not_a_players_name(self):
+        mapping = {'Alex Call': 'Ben Logan', 'Call': 'Logan'}
+        self.assertEqual(anonymize_description('Challenged, call on the field was upheld: Alex Call walks.', mapping),
+                         'Challenged, call on the field was upheld: Ben Logan walks.')
+
+    def test_a_shared_first_or_last_name_is_not_mapped_alone(self):
+        # Every player in the feed is named "Real"; each surname is his own.
+        _, names = create_player_mapping(feed(), TEAMS, random.Random(1))
+        self.assertNotIn('Real', names)
+        self.assertIn('Player1', names)
+        self.assertIn('Real Player1', names)
+
     def test_harness_free_text_does_not_rename_a_replacement_again(self):
         raw = feed()
         raw['gameData']['players']['ID1']['fullName'] = 'Alex Chase'

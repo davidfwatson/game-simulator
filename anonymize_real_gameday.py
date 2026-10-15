@@ -11,6 +11,7 @@ Usage:
     python anonymize_real_gameday.py real_gameday.json -o anonymized_gameday.json
 """
 
+import collections
 import json
 import argparse
 import random
@@ -430,6 +431,12 @@ def create_player_mapping(real_data, our_teams, rng=None):
     _check_unique_player_names(names, 'player mapping')
     canonical = {p['legal_name']: p for team in our_teams.values() for p in team['players']}
     id_mapping, name_mapping = {}, {}
+    # A first or last name stands for a player only when no one else here has it.
+    part_counts = collections.Counter()
+    for person in players.values():
+        parts = person.get('fullName', '').split()
+        if len(parts) >= 2:
+            part_counts.update({parts[0], parts[-1]})
     for i, (real_id, person) in enumerate(sorted(players.items())):
         name = names[real_id]
         replacement = {'id': canonical[name]['id'] if name in canonical else 9000000 + i,
@@ -445,6 +452,8 @@ def create_player_mapping(real_data, our_teams, rng=None):
             parts = real_name.split()
             if len(parts) >= 2:
                 for old, new in ((parts[0], name.split()[0]), (parts[-1], name.split()[-1])):
+                    if part_counts[old] > 1:
+                        continue
                     name_mapping[old] = new
                     name_mapping[normalize_unicode(old)] = new
     if len({p['id'] for p in id_mapping.values()}) != len(id_mapping):
@@ -578,7 +587,9 @@ def anonymize_description(text: str, name_mapping: dict) -> str:
     pattern = re.compile(rf"(?<!\w)({names})(?!\w)(['’]s)?", re.IGNORECASE)
     mapping = {name.lower(): fake for name, fake in name_mapping.items()}
     # Replace once: a fictional surname can also be another real player's name.
-    return pattern.sub(lambda m: _case_like(m[1], mapping[m[1].lower()]) + (m[2] or ''), text)
+    # A lowercase word is never a name ("call on the field" with a player named Call).
+    return pattern.sub(lambda m: m[0] if m[1][0].islower() else
+                       _case_like(m[1], mapping[m[1].lower()]) + (m[2] or ''), text)
 
 
 def simplify_runner(r, id_mapping, schema):
