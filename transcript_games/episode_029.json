@@ -82,7 +82,20 @@
       }
     ],
     "away_pitcher": "Giorgio Mullins",
-    "home_pitcher": "Philip Jeffries"
+    "home_pitcher": "Philip Jeffries",
+    "pitcher_roles": {
+      "Chadwick": "closer"
+    },
+    "decisions": {
+      "winner": "Giorgio Mullins",
+      "loser": "Philip Jeffries"
+    },
+    "away_state": "Wisconsin",
+    "weather": {
+      "temp": "72",
+      "wind": "In From LCF"
+    },
+    "crew_chief": "Dave Walder"
   },
   "plays": [
     {
@@ -2634,7 +2647,8 @@
           "position": "2B"
         }
       ],
-      "notes": "Source says grounder to second baseman Martinez then calls5-4-3. Preserve location/player and two outs; do not invent a third-baseman involvement."
+      "notes": "Source says grounder to second baseman Martinez then calls5-4-3. Preserve location/player and two outs; do not invent a third-baseman involvement.",
+      "pitch_hand": "R"
     },
     {
       "inning": 7,
@@ -2803,7 +2817,8 @@
           "position": "2B"
         }
       ],
-      "notes": "Source calls right-field catch by Martinez, whose announced position is second base. Both location and named fielder retained; no defensive switch invented."
+      "notes": "Source calls right-field catch by Martinez, whose announced position is second base. Both location and named fielder retained; no defensive switch invented.",
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -2848,7 +2863,8 @@
           "end": "1B",
           "out": false
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -2892,7 +2908,8 @@
       "notes": "Pinch hitter in pitcher spot.",
       "substitution": {
         "type": "pinch_hitter"
-      }
+      },
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -2960,7 +2977,8 @@
           "position": "2B"
         }
       ],
-      "notes": "Source calls grounder to second baseman Martinez and an inning-ending5-4-3. Preserve named fielder/location and two outs, without inventing third-baseman involvement."
+      "notes": "Source calls grounder to second baseman Martinez and an inning-ending5-4-3. Preserve named fielder/location and two outs, without inventing third-baseman involvement.",
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -2999,7 +3017,8 @@
           "end": null,
           "out": true
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -3048,7 +3067,8 @@
           "name": "Von Kramer",
           "position": "2B"
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -3098,7 +3118,8 @@
           "name": "Shorty Bush",
           "position": "SS"
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 9,
@@ -3148,7 +3169,8 @@
           "name": "Badger Martinez",
           "position": "2B"
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 9,
@@ -3193,7 +3215,8 @@
           "end": null,
           "out": true
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 9,
@@ -3232,7 +3255,8 @@
           "end": null,
           "out": true
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 9,
@@ -3281,7 +3305,8 @@
       "notes": "Pinch hitter in pitcher spot; opposing closer is named only Chadwick in source.",
       "substitution": {
         "type": "pinch_hitter"
-      }
+      },
+      "pitch_hand": "R"
     },
     {
       "inning": 9,
@@ -3326,7 +3351,8 @@
           "end": "1B",
           "out": false
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 9,
@@ -3382,7 +3408,8 @@
           "name": "Shorty Bush",
           "position": "SS"
         }
-      ]
+      ],
+      "pitch_hand": "R"
     }
   ],
   "gaps": [],

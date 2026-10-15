@@ -33,7 +33,7 @@ detail. A complete broadcast is not evidence for unseen pitches.
 | Field | Meaning |
 |---|---|
 | `episode`, `source_file` | Episode number and unchanged source filename. |
-| `game` | Known teams, venue, starting lineups, pitchers, optional managers, and optional `season_stats`. Omit unknown handedness. |
+| `game` | Known teams, venue, starting lineups, pitchers, optional managers, and the optional facts below (`season_stats`, `pitcher_roles`, `decisions`, `away_state`/`home_state`, `weather`, `crew_chief`). Omit unknown handedness. |
 | `plays` | Ordered observed appearances, including partial appearances. |
 | `inning`, `top` | Inning number and whether the visiting team is batting. |
 | `batter`, `pitcher`, `outcome` | Identified participants and observed result; use `Incomplete` when the appearance does not finish. |
@@ -55,7 +55,8 @@ nonpitch action, with a factual `eventType` such as `caught_stealing`,
 Do not turn a pickoff attempt into an extra pitch or invent an omitted pitch to
 complete the count. Separate events can legitimately refer to the same line.
 
-A runner movement records `name`, `start`, `end`, and optional `out`. Use
+A runner movement records `name`, `start`, `end`, and optional `out`, and the
+`throw` and `slide` the hosts state (see below). Use
 `1B`, `2B`, `3B`, or `score` for known destinations. Preserve the order of outs
 on double plays and tags. Explicitly record discretionary advances and unusual
 safe arrivals; the compiler may derive forced advances from baseball rules.
@@ -108,6 +109,14 @@ named extension field when a feed implies them only through numbers:
 | `hit.lane` | `hitData.lane` (extension; a feed implies it by `coordinates`) | `left_line`, `left_center`, `middle`, `right_center`, `right_line`, `left_side`, `right_side` |
 | `game.season_stats` | `boxscore.teams.<side>.players.ID<n>.seasonStats` (StatsAPI) | `{"Name": {"pitching": {"wins": 7, "losses": 8, "era": "5.21"}}}` |
 | play `substitution` | an `Offensive Substitution` action (`eventType: offensive_substitution`, `isSubstitution`, `replacedPlayer`) at the start of the at-bat's `playEvents` (StatsAPI) | `{"type": "pinch_hitter", "replaces": "Name"}` |
+| movement `throw` | runner `details.throw`, or a steal's `details.runners[].throw` (extension; a feed has no throws) | `not_in_time`, `beaten` ("he will beat the throw"), `none` ("no play at second"), and for a runner caught stealing `in_time` |
+| movement `slide` | runner `details.slide`, or a steal's `details.runners[].slide` (extension) | `true`, `under_tag`, `ahead_of_tag` |
+| `game.pitcher_roles` | `gameData.players.ID<n>.pitcherRole` (extension; a feed has no roles) | `{"Name": "closer"}`; also `starter`, `reliever` |
+| `game.season_stats` for a reliever | `seasonStats.pitching` as above | `{"inningsPitched": "12.0", "era": "2.67"}` |
+| `game.decisions` | `liveData.decisions` (StatsAPI) | `{"winner": "Name", "loser": "Name", "save": "Name"}` |
+| `game.away_state`, `game.home_state` | `gameData.teams.<side>.state` | `"Wisconsin"`: said in "Tomah, Wisconsin" |
+| `game.weather` | `gameData.weather` (StatsAPI) | `{"temp": "74", "wind": "In From CF"}`; the wind is `In From` or `Out To` a field (`LF`, `CF`, `RF`, and the extensions `LCF`, `RCF`), or a bare `In` / `Out` |
+| `game.crew_chief` | `gameData.umpires[0]` (the list the simulator writes) | `"V.R. Montebianco"` |
 
 The runners who score or take third on a ball in play, and the runs a hit or a
 home run drove in, were already recorded (`runners`, `result.rbi`); the
@@ -135,7 +144,65 @@ ground-rule doubles from each ball's call, and starters' season records from
 the pregame, in the 17 ledgers and straight into the four reference fixtures.
 It keeps existing values and skips contradictory words. Pinch hitters were
 annotated by hand. Review its output (`--dry-run` prints every fact with the
-words it came from) against the source.
+words it came from) against the source. It also records the throws and slides
+below, a new pitcher's hand, role and season line from the words that bring him
+in, the decisions from the postgame, and the pregame's states, weather and
+crew chief.
+
+### The pitcher's game line, throws and slides, pitchers entering the game
+
+`python missed_words.py` put three more fact types among the unmatched words.
+Each is narrated in every kind of game, as an optional sentence built before
+its gate (see Optional sentences).
+
+**The pitcher's game line** needs no new field: the renderer counts it from
+the plays. "And that's the ninth strikeout of the evening for Butch Flores."
+after a strikeout (in a simulated game from a pitcher's third, or his third in
+a row), "Hiroki Nomo strikes out the side here in the bottom of the third."
+and "And that's 13 in a row set down by Scooter McKeever." at the break (from
+seven in a row, `RETIRED_IN_A_ROW_MINIMUM`), and "Zach Valentine pitches a
+complete game shutout." or "... throws a no-hitter." after the final line when
+the winners used one pitcher for every inning. The hosts never read a pitch
+count or a departing starter's line ("six innings, two runs on five hits"), so
+the renderer does not either. The decisions ("Ron Nancy gets the save for the
+Bombers.") are a feed fact, `liveData.decisions`; the simulator writes them
+(the win to the pitcher of record when his team went ahead for good, a starter
+needing five innings; a save for protecting a lead of three or fewer for an
+inning, or for the last three innings).
+
+**Throws and slides** are recorded on the runner's movement only where the
+hosts state them: "The throw to the plate is not in time.", "And he will slide
+in safely under the tag.", "No play at second.", and on a steal "Throw to
+second is not in time. Patterson steals second." The simulator records the
+catcher's throw and the slide on every steal and caught stealing, which now
+also name their runner (`details.runners`, as the anonymizer rebuilds them
+from a real feed), and a `not_in_time` throw with a slide when its field model
+has a runner take an extra base within `RUN_PARAMS['close_play']` seconds of
+being thrown out (`fieldsim.advance_on_hit(..., close=...)`).
+
+**A pitcher entering the game** is introduced once, by name, the way the hosts
+do it: the inning's or the batter's introduction describes him ("...will step
+in against Baraboo closer Buddy Malone", "...up against Ravens' right-handed
+reliever Dom Fuller"), and when neither names him a sentence of his own does
+("Ravens' closer Masaki Harrington takes the mound."). The old data-feed
+banner ("Pitching Change for X: A replaces B.") is gone. His hand is said when
+the feed has it and "closer" only for a recorded `pitcherRole`; anyone who
+follows the starter is a reliever. A simulated game always brings him in by
+name; a fixture can leave him unsaid, as the hosts did for 2 of 34.
+
+### The pregame and the postgame
+
+The pregame now follows the hosts' order: the station's line ("You're drifting
+off with WSLP AM, Big Rapids.", from `broadcast.station_city`), "The
+Northwoods Baseball Radio Network presents Sleep Baseball.", the opener
+("Tonight, from Kittamori Park in Tomah, Wisconsin, it's..."), the host, the
+weather ("74 degrees at game time, with a light breeze blowing in from center
+field."), the two lineups, the Fishbowl, and the crew chief ("And crew chief
+V.R. Montebianco hollers, play ball."). Every lineup slot has the hosts' two
+forms ("{position} {player_name} will bat sixth." and "Batting sixth,
+{position} {player_name}."). The postgame opens with the final score ("So the
+Tigers take this one at home by a score of five to nothing."), then the
+pitchers, the line score and the sign-off.
 
 `annotate_transcript_locations.py` is an optional authoring helper for explicit
 verbal locations. It edits ledgers, preserves existing annotations, and skips
@@ -174,7 +241,10 @@ source window, read with host asides removed:
 
 | Point | Window |
 |---|---|
-| `init` | Everything before the first appearance. |
+| `init` | The pregame up to the visitors' lineup. |
+| `lineup_away`, `lineup_home` | Each team's lineup, found by "Let's take a look at the starting nine" and "Those are the..." / "Here are the...". |
+| `first_pitch` | From the Fishbowl or the crew chief to the first appearance. When a broadcast's lineups cannot be found (five present the home team by position, not batting order) these four points all see the whole pregame. |
+| `postgame` | Everything after the last appearance. It was fitted against the last play's call before. |
 | `play_start` | From the line after the previous appearance to the line before the first pitch: the inning transition and the introduction. If the introduction shares the first pitch's line, only the words before `...`. |
 | `event` | The pitch's line, through the line before the next event. |
 | `play_outcome` | From the last pitch's line to the end of the appearance. |
@@ -186,6 +256,17 @@ gap that no n-gram spans. It used to be dropped, which made "The {count_str}
 pitch..." read as the bigram "the pitch", a miss in every window, and the
 fitter preferred slot-free templates: "The one-oh..." for the hosts' "The
 one-oh pitch...".
+
+Where the renderer knows what a template will be filled with it draws through
+`NarrativeRenderer._choose(rng, options, context)`, and the fitter scores each
+option as it will be said (`fit_transcript_games.filled`): "Those are the
+{away_short}." and "Those are the {away_team_name}." tie as templates, as do
+"...it's {away_short} {score_away}, ..." and its full-name form, and the fitter
+used to keep whichever the seeded draw gave ("Big Rapids Timbers nothing,
+Tomah Tigers two" for the hosts' "Tigers two, Timbers nothing"). Production
+rendering ignores the context. The lineups, the pregame's close and the
+postgame are reseed points of their own (`gameData.commentaryRng.lineup_away`,
+`lineup_home`, `first_pitch`, `postgame`), so each is fitted to its own lines.
 
 A `random()` gate decides whether an optional sentence is said, or which form
 it takes. Gates are fitted per point. The fitter first picks the best of six
@@ -236,6 +317,21 @@ measure again):
 | Naming a runner a ball in play brings home or to third ("Nomo will score.") | 66 of 82, 80.5% |
 | The runs a home run drove in ("And that's a two-run homer for Steve McDykel.") | 26 of 33, 78.8% |
 | A return from the break ("And welcome back with us from Kittamori Park.", "Wally McCarthy and producer Phil back with you.") | 163 of 326, 50.0% |
+| The strikeout tally ("And that's the ninth strikeout of the evening for Butch Flores."), after a pitcher's third or later strikeout or his third in a row | 13 of 164, 7.9% |
+| "Hiroki Nomo strikes out the side here in the bottom of the third." | 5 of 7, 71.4% (0.34 in use: simulated pitchers strike out the side twice as often) |
+| "And that's 13 in a row set down by Scooter McKeever.", at the break after a scoreless half with seven or more retired in a row | 2 of 28, 7.1% |
+| "Zach Valentine pitches a complete game shutout." | 5 of 9, 55.6% |
+| The decisions ("Ron Nancy gets the save for the Bombers.") | 11 of 19 finished broadcasts, 57.9% |
+| The sentence that brings in a pitcher no introduction named (a simulated game always says it) | 32 of 34, 94.1% |
+| A new pitcher's season ("Fuller has pitched 12 innings of work this season with an ERA of 2.67.") | 2 of 34, 5.9% |
+| The throw on a steal ("The throw to second is not in time.") | 3 of 11, 27.3% |
+| A recorded throw or slide on a ball in play | said whenever recorded (the simulator records about one in two games) |
+| "The Northwoods Baseball Radio Network presents Sleep Baseball." | 18 of 21, 85.7% |
+| "And now your host, Wally McCarthy." | 9 of 21, 42.9% |
+| "It's Wally McCarthy and producer Phil, back with you from beautiful Kittamori Park..." | 10 of 21, 47.6% |
+| "It is a perfect night for a ball game." | 21 of 21 (0.97 in use) |
+| "And crew chief V.R. Montebianco hollers, play ball." | 19 of 21, 90.5% |
+| "So the Tigers take this one at home by a score of five to nothing." | 15 of 19, 78.9% |
 
 The counts come from the 17 ledgers (each recorded pitch or play with its
 source lines) plus the four references scanned line by line, asides excluded;
@@ -375,7 +471,8 @@ The latest source-mining pass appended 366 templates: 188 pitch/delivery
 variants and 178 play/transition variants. The recorded-facts pass added 50
 more play rows to `transcript_play_additions.json` (pinch hitters, season
 records, runners who score or take third, RBI hits, home-run runs, ground-rule
-doubles). The source catalogs can also retain
+doubles), and the next 75 (the pitcher's game line, throws and slides, new
+pitchers, the lineup forms, the pregame and the postgame). The source catalogs can also retain
 entries that were already available; their row counts are not necessarily the
 number of newly inserted templates.
 

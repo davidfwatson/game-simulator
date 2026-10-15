@@ -89,8 +89,8 @@ class TestRealism(unittest.TestCase):
         """Test if essential game context like venue, and weather is present (Umpires not listed in radio script)."""
         # self.assertIn("Umpires:", self.log, "Umpire information is missing from the pre-game summary.")
         # Weather is embedded in sentence
-        self.assertRegex(self.log, r"perfect night for a ball game:.*", "Weather information is missing from the pre-game summary.")
-        self.assertIn("Tonight, from", self.log, "Venue information is missing from the pre-game summary.")
+        self.assertRegex(self.log, r"\d+ degrees at game time", "Weather information is missing from the pre-game summary.")
+        self.assertRegex(self.log, r"(Tonight|This evening), from", "Venue information is missing from the pre-game summary.")
 
     # test_bracketed_ui_flag removed as feature is deprecated in narrative mode
 

@@ -115,7 +115,14 @@
           "era": "4.56"
         }
       }
-    }
+    },
+    "away_state": "Michigan",
+    "home_state": "Michigan",
+    "weather": {
+      "temp": "67",
+      "wind": "Out To LCF"
+    },
+    "crew_chief": "V.R. Montebianco"
   },
   "plays": [
     {
@@ -1744,7 +1751,8 @@
         {
           "name": "Randy Chang",
           "start": null,
-          "end": "1B"
+          "end": "1B",
+          "throw": "not_in_time"
         },
         {
           "name": "Dutch Moon",
@@ -2154,7 +2162,8 @@
         {
           "name": "Javier Von Neumann",
           "start": null,
-          "end": "3B"
+          "end": "3B",
+          "throw": "beaten"
         }
       ],
       "hit": {
@@ -2400,7 +2409,8 @@
         {
           "name": "Blink Rudderson",
           "start": null,
-          "end": "3B"
+          "end": "3B",
+          "throw": "beaten"
         }
       ],
       "hit": {
@@ -2683,7 +2693,8 @@
         {
           "name": "Rio Nunez",
           "start": null,
-          "end": "1B"
+          "end": "1B",
+          "throw": "not_in_time"
         }
       ],
       "hit": {

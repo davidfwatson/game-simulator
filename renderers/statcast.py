@@ -10,10 +10,19 @@ class StatcastRenderer(GameRenderer):
         lines.append("=" * 20 + " GAME START " + "=" * 20)
         lines.append(f"{self.away_team['name']} vs. {self.home_team['name']}")
         if 'venue' in self.gameday_data['gameData']: lines.append(f"Venue: {self.gameday_data['gameData']['venue']}")
-        if 'weather' in self.gameday_data['gameData']: lines.append(f"Weather: {self.gameday_data['gameData']['weather']}")
-        if 'umpires' in self.gameday_data['gameData']:
-            u = self.gameday_data['gameData']['umpires']
+        weather = self.gameday_data['gameData'].get('weather')
+        if isinstance(weather, dict):
+            # A feed's weather: {"temp": "74", "wind": "In From CF"}.
+            weather = ', '.join(part for part in (
+                f"{weather['temp']}°F" if weather.get('temp') else '',
+                f"Wind {weather['wind']}" if weather.get('wind') else '') if part)
+        if weather: lines.append(f"Weather: {weather}")
+        u = self.gameday_data['gameData'].get('umpires') or []
+        if len(u) >= 4:
             lines.append(f"Umpires: HP: {u[0]}, 1B: {u[1]}, 2B: {u[2]}, 3B: {u[3]}")
+        elif u:
+            # A broadcast that names only its crew chief.
+            lines.append(f"Umpires: Crew chief: {u[0]}")
         lines.append("-" * 50)
 
         current_inning_state = (0, '')
@@ -158,6 +167,12 @@ class StatcastRenderer(GameRenderer):
 
             if batted_ball_str: result_line += batted_ball_str
             if rbis > 0 and not was_error: result_line += f" {batter_name} drives in {rbis}."
+            if not self.gameday_data['gameData'].get('broadcast', {}).get('strictFacts'):
+                # A runner cut down on the bases after the hit (or the batter, stretching it).
+                for r in play['runners']:
+                    if r['movement'].get('isOut') and r['details'].get('movementReason') in ('r_thrown_out', 'r_out_stretching'):
+                        base = {'2B': 'second', '3B': 'third'}.get(r['movement'].get('outBase'), 'home')
+                        result_line += f" {r['details']['runner']['fullName']} is thrown out at {base}."
 
             lines.append(f"Result: {result_line}")
 

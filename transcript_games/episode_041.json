@@ -110,7 +110,22 @@
           "era": "4.21"
         }
       }
-    }
+    },
+    "pitcher_roles": {
+      "Burgess Hepburn": "closer"
+    },
+    "decisions": {
+      "winner": "Blinky Malone",
+      "save": "Burgess Hepburn",
+      "loser": "Zach Valentine"
+    },
+    "away_state": "Wisconsin",
+    "home_state": "Michigan",
+    "weather": {
+      "temp": "72",
+      "wind": "In From LCF"
+    },
+    "crew_chief": "V.R. Montebianco"
   },
   "plays": [
     {
@@ -801,7 +816,8 @@
         {
           "name": "Pinky Slauson",
           "start": null,
-          "end": "1B"
+          "end": "1B",
+          "throw": "not_in_time"
         },
         {
           "name": "Philip Nakamura",
@@ -1340,7 +1356,8 @@
         {
           "name": "Ernesto Stern",
           "start": "1B",
-          "end": "2B"
+          "end": "2B",
+          "throw": "beaten"
         }
       ],
       "hit": {

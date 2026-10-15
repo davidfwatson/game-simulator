@@ -98,7 +98,18 @@
           "era": "3.23"
         }
       }
-    }
+    },
+    "decisions": {
+      "winner": "Hiroki Nomo",
+      "loser": "Frank Gibson"
+    },
+    "away_state": "Michigan",
+    "home_state": "Wisconsin",
+    "weather": {
+      "temp": "74",
+      "wind": "Out To LCF"
+    },
+    "crew_chief": "V.R. Montebianco"
   },
   "plays": [
     {
@@ -1224,7 +1235,8 @@
           "name": "Hector Pi\u00f1a",
           "start": null,
           "end": "2B",
-          "out": false
+          "out": false,
+          "throw": "beaten"
         }
       ],
       "fielders": [
@@ -1528,7 +1540,9 @@
           "name": "Prudence Jefferson",
           "start": "3B",
           "end": "score",
-          "out": false
+          "out": false,
+          "slide": "under_tag",
+          "throw": "not_in_time"
         }
       ],
       "fielders": [
@@ -2938,7 +2952,8 @@
           "name": "Sherman Hawkins",
           "position": "LF"
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -2989,7 +3004,8 @@
           "end": null,
           "out": true
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -3050,7 +3066,8 @@
           "end": "1B",
           "out": false
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 8,
@@ -3090,7 +3107,8 @@
           "name": "Steve McDykel",
           "position": "RF"
         }
-      ]
+      ],
+      "pitch_hand": "R"
     },
     {
       "inning": 9,
@@ -3211,7 +3229,8 @@
               "name": "Sherman Hawkins",
               "start": "1B",
               "end": "2B",
-              "out": true
+              "out": true,
+              "throw": "in_time"
             }
           ]
         }

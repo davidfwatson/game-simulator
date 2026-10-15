@@ -403,6 +403,10 @@ def get_play_rng_points(gameday_data, play_index):
     return points
 
 
+PREGAME_POINTS = {'lineup_away': 'lineup:away', 'lineup_home': 'lineup:home', 'first_pitch': 'first_pitch',
+                  'postgame': 'postgame'}
+
+
 def get_rng_point(gameday_data, play_index, point_type):
     if point_type == 'init':
         owner = gameday_data['gameData']
@@ -411,11 +415,17 @@ def get_rng_point(gameday_data, play_index, point_type):
             'timestamp': owner.get('datetime', {}).get('dateTime', ''),
             'json_path': 'gameData.commentaryRng.init',
         }
+    if point_type in PREGAME_POINTS:
+        # The lineups and the words that start the game: draws under
+        # gameData.commentaryRng, like init.
+        return {'point_type': point_type, 'point': point_type, 'owner': gameday_data['gameData'],
+                'key': PREGAME_POINTS[point_type], 'timestamp': '',
+                'json_path': f'gameData.commentaryRng.{point_type}'}
     points = get_play_rng_points(gameday_data, play_index)
     for point in points:
         if point['point_type'] == point_type:
             return point
-    raise ValueError(f"Unknown point {point_type!r}; choose init or one of "
+    raise ValueError(f"Unknown point {point_type!r}; choose init, {', '.join(PREGAME_POINTS)} or one of "
                      f"{[point['point_type'] for point in points]}")
 
 

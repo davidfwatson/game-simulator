@@ -12,6 +12,124 @@ shared five-word sequences over the entire broadcast. TTS markers are excluded
 from both. Exact lines require identical normalized content, not just shared
 vocabulary.
 
+## The pitcher's game line, throws, new pitchers, and the hosts' pregame
+
+`python missed_words.py` listed three fact types the hosts say and the
+fixtures did not carry: the pitcher's game line (558 unmatched words), throws
+and slides (501), and the pitcher entering the game (405, plus 315 of season
+statistics). They are narrated now, each as an optional sentence built before
+its gate (the [README](README.md) has the fields and the hosts' rates). The
+census also showed where the larger share still was, in the pregame (5,301
+words of wording), so the rest of the pass went there.
+
+**What the hosts actually say.** They never read a pitch count, and never a
+departing starter's line ("six innings, two runs on five hits"); nothing was
+added for either. What they do say is the strikeout tally (13 times), a side
+struck out (5), a run of batters retired (4), a complete game, shutout or
+no-hitter (5), and the decisions (11 of 19 finished broadcasts). A new pitcher
+is nearly always brought in by a description inside an introduction
+("...will step in against Baraboo closer Buddy Malone"), not a sentence of his
+own; the data-feed banner ("Pitching Change for X: A replaces B.") that the
+renderer printed instead is gone from every kind of game.
+
+**The pregame** was the largest single gap and mostly not wording at all:
+the fixtures had no state ("Tomah, Wisconsin"), no weather and no crew chief,
+the lineup pools lacked one of the hosts' two forms for most slots, both
+lineups were fitted against the whole pregame, and the postgame against the
+last play's call. Each of these is fixed at its cause: three recorded facts,
+the missing forms, and reseed points for each lineup, the pregame's close and
+the postgame.
+
+**The fitter** scored templates with their slots empty, so two that differ
+only in which name fills a slot tied and the seeded draw decided ("Big Rapids
+Timbers nothing, Tomah Tigers two" for the hosts' "Tigers two, Timbers
+nothing"). Where the renderer knows the values it now passes them
+(`NarrativeRenderer._choose`), and the fitter scores each option as it will be
+said.
+
+Nine more transition templates came from `wording_mining.py` through the
+weighted catalog (`transcript_wording_additions.json`, now 62): the score with
+the leader first ("And with three in the books, it's Tigers two, Timbers
+nothing."), "And after three and a half, it remains...", and a clean
+half-inning with the pitcher's full name ("Three up, three down for Zach
+Valentine here in the top of the fifth."). 75 rows in
+`transcript_play_additions.json` give the source line of each new fact and
+framing template.
+
+Mean over the 17 broadcasts (`python full_transcript_comparison.py --json`):
+
+| Step | Ordered words | Word overlap | 5-gram recall | Exact content lines | Unmatched source words (21 sources) |
+|---|---:|---:|---:|---:|---:|
+| Before | 81.0% | 68.3% | 45.3% | 22.3% | 31,796 (25.0%) |
+| The three fact types, refitted | 81.3% | 69.1% | 45.8% | 22.3% | 31,344 (24.7%) |
+| Pregame and postgame, transition wording, filled-template scoring | 82.0% | 73.5% | 51.4% | 25.6% | 28,455 (22.4%) |
+
+What each sentence type is worth, measured by turning it off in the final
+fixtures without refitting:
+
+| Turned off | Ordered words | Word overlap | 5-gram recall | Exact content lines | Unmatched words |
+|---|---:|---:|---:|---:|---:|
+| Nothing (final) | 81.95% | 73.52% | 51.39% | 25.58% | 28,453 |
+| The pitcher's game line | −0.14 | −0.15 | −0.21 | +0.01 | +158 |
+| The decisions | 0.00 | −0.14 | −0.09 | 0.00 | +71 |
+| Throws and slides | −0.12 | −0.20 | −0.10 | 0.00 | +161 |
+| New-pitcher descriptions and entrances | −0.13 | −0.55 | −0.20 | +0.02 | +166 |
+| The pregame and postgame sentences (network, host, weather, crew chief, final score) | 0.00 | −2.17 | −1.08 | −0.63 | +938 |
+
+The remainder of the gain (about +0.6 ordered words, +2.0 word overlap, +4.4
+5-gram recall, +2.7 exact lines) is the lineup forms, the states, the
+transition templates and the fitter's filled-template scoring, which cannot be
+turned off separately. Ordered words are counted inside appearances only, so
+the pregame and postgame do not move them.
+
+| Fact type (unmatched words) | Before | After |
+|---|---:|---:|
+| The pitcher's game line | 558 | 380 |
+| Throws and slides | 501 | 319 |
+| The pitcher's role | 405 | 308 |
+| Season statistics | 315 | 197 |
+| Pregame and postgame wording | 5,301 | 3,333 |
+| Inning transitions | 4,511 | 4,336 |
+| Batter introductions | 2,044 | 1,732 |
+| Rendered words the source lacks | 21,121 | 17,861 |
+
+What is left of the first two is mostly not narratable from the plays: a
+hitter "hitless in his last twelve at bats", "three outs away from a shutout",
+a rundown, an offline throw.
+
+| Episode | Word overlap | 5-gram recall | Ordered words per appearance | Exact content lines |
+|---|---:|---:|---:|---:|
+| [001](../examples/transcript_games/episode_001.txt) | 51.8% → 52.5% | 19.6% → 21.0% | 55.6% → 56.6% | 0.9% → 1.8% |
+| [005](../examples/transcript_games/episode_005.txt) | 66.9% → 72.3% | 36.1% → 40.9% | 76.8% → 77.8% | 18.0% → 20.0% |
+| [011](../examples/transcript_games/episode_011.txt) | 61.4% → 66.1% | 36.1% → 40.2% | 77.8% → 78.6% | 18.2% → 21.1% |
+| [013](../examples/transcript_games/episode_013.txt) | 64.1% → 69.8% | 39.3% → 43.4% | 79.8% → 81.5% | 22.2% → 24.5% |
+| [020](../examples/transcript_games/episode_020.txt) | 70.8% → 76.4% | 45.1% → 51.3% | 83.4% → 84.5% | 25.8% → 27.7% |
+| [029](../examples/transcript_games/episode_029.txt) | 64.0% → 68.3% | 42.0% → 47.9% | 77.5% → 78.1% | 27.5% → 30.4% |
+| [035](../examples/transcript_games/episode_035.txt) | 68.9% → 76.8% | 47.8% → 55.0% | 79.4% → 81.2% | 28.3% → 31.0% |
+| [037](../examples/transcript_games/episode_037.txt) | 74.7% → 79.3% | 52.9% → 60.7% | 86.9% → 88.2% | 33.7% → 37.1% |
+| [039](../examples/transcript_games/episode_039.txt) | 74.1% → 80.4% | 50.5% → 58.4% | 86.4% → 86.7% | 17.2% → 21.1% |
+| [041](../examples/transcript_games/episode_041.txt) | 71.2% → 79.6% | 55.4% → 63.6% | 87.0% → 88.1% | 29.4% → 32.8% |
+| [045](../examples/transcript_games/episode_045.txt) | 72.0% → 77.2% | 47.9% → 54.4% | 80.6% → 82.3% | 15.8% → 19.3% |
+| [046](../examples/transcript_games/episode_046.txt) | 70.8% → 74.8% | 52.8% → 58.9% | 86.0% → 86.1% | 18.7% → 21.7% |
+| [049](../examples/transcript_games/episode_049.txt) | 72.2% → 78.5% | 54.5% → 61.8% | 89.1% → 89.6% | 20.1% → 25.3% |
+| [050](../examples/transcript_games/episode_050.txt) | 72.6% → 77.6% | 49.4% → 57.0% | 83.1% → 83.6% | 23.3% → 27.4% |
+| [051](../examples/transcript_games/episode_051.txt) | 63.5% → 67.3% | 43.3% → 48.3% | 80.3% → 81.7% | 25.7% → 30.3% |
+| [052](../examples/transcript_games/episode_052.txt) | 69.7% → 76.1% | 48.2% → 55.7% | 82.7% → 83.7% | 27.4% → 31.1% |
+| [053](../examples/transcript_games/episode_053.txt) | 71.8% → 77.0% | 49.1% → 54.9% | 84.2% → 85.0% | 26.7% → 32.0% |
+| **Mean** | 68.3% → 73.5% | 45.3% → 51.4% | 81.0% → 82.0% | 22.3% → 25.6% |
+
+| Reference | Word Jaccard | 5-gram | Exact lines (all) | Exact lines (content) |
+|---|---:|---:|---:|---:|
+| `pbp_example_1.txt` | 70.4% → 73.4% | 41.5% → 46.8% | 60.0% → 60.2% | 32.5% → 32.9% |
+| `pbp_example_2.txt` | 70.9% → 75.0% | 49.1% → 53.2% | 63.5% → 63.5% | 31.8% → 31.8% |
+| `pbp_example_3.txt` | 71.7% → 72.6% | 43.4% → 44.8% | 49.5% → 49.9% | 10.4% → 11.1% |
+| `pbp_example_4.txt` | 68.3% → 71.5% | 41.0% → 46.8% | 61.5% → 62.0% | 25.9% → 26.9% |
+
+The references skip their pregame (`rendered_skip`), which grew by two or
+three lines; each skip was moved so the comparison starts where it did. The
+minimums in `pbp_comparison.py` were raised to three points below each new
+measurement wherever they were more than four below.
+
 ## The hosts' wording, by frequency
 
 The census below found that 84% of the remaining unmatched source words were

@@ -201,6 +201,7 @@ class TestTranscriptPlayAdditions(unittest.TestCase):
     }
     WALK_FIELDS = {'last_pitch_context', 'batter_name', 'outs_str'}
     INNING_FIELDS = {
+        'consecutive_retired_word', 'pitcher_full',
         'inning_ordinal', 'inning_count_word', 'away_team_name', 'home_team_name',
         'away_short', 'home_short', 'score_away', 'score_home', 'leading_team',
         'trailing_team', 'leading_short', 'trailing_short', 'score_lead',
@@ -215,6 +216,35 @@ class TestTranscriptPlayAdditions(unittest.TestCase):
         'half', 'half_lower', 'inning_ordinal', 'venue', 'location', 'location_with_state',
         'score_str', 'score_context', 'score_phrase', 'batting_team',
         'batting_team_short', 'due_up_desc', 'pitcher_name', 'weather_desc',
+    }
+
+    # What the renderer fills each pool of the pitcher's game line, throws and
+    # slides, new pitchers, the pregame and the postgame with.
+    PITCHER = {'pitcher', 'team_short'}
+    POSTGAME = {'win_team', 'win_runs', 'win_hits', 'win_errors', 'lose_team', 'lose_runs', 'lose_hits',
+                'lose_errors', 'win_short', 'lose_short', 'location', 'venue', 'final_score', 'network_name',
+                'station_call'}
+    OPENER = {'venue', 'venue_location', 'home_team_name', 'away_team_name', 'away_of', 'location',
+              'location_with_state'}
+    NEW_PITCHER = {'descriptor', 'plain_descriptor', 'pitcher', 'team_short', 'team_location', 'batter', 'previous',
+                   'role', 'half_lower', 'inning_ordinal'}
+    TALLY = {'pitcher', 'last_name', 'possessive', 'ordinal', 'in_a_row_ordinal', 'in_a_row_word'}
+    FACT_POOL_FIELDS = {
+        'strikeout_tally': TALLY, 'strikeout_tally_in_a_row': TALLY,
+        'strikes_out_the_side': {'pitcher', 'half_lower', 'inning_ordinal'},
+        'complete_game': PITCHER, 'complete_game_shutout': PITCHER, 'complete_game_no_hitter': PITCHER,
+        'decision_win': PITCHER, 'decision_loss': PITCHER, 'decision_save': PITCHER,
+        'throw_not_in_time': {'runner', 'base'}, 'throw_beaten': {'runner', 'base'}, 'no_throw': {'runner', 'base'},
+        'slide_safe': {'runner', 'base'}, 'slide_ahead_of_throw': {'runner', 'base'},
+        'slide_under_tag': {'runner', 'base'}, 'slide_ahead_of_tag': {'runner', 'base'},
+        'new_pitcher': NEW_PITCHER, 'new_pitcher_mid_inning': NEW_PITCHER, 'new_pitcher_faces': NEW_PITCHER,
+        'reliever_season': {'last_name', 'innings', 'innings_word', 'era'},
+        'network_presents': {'network_name', 'station_call', 'station_city'},
+        'station_intro_city': {'network_name', 'station_call', 'station_city'},
+        'pregame_opener': OPENER, 'host_intro': OPENER, 'host_back': OPENER, 'pregame_perfect_night': OPENER,
+        'pregame_weather': {'temp'}, 'pregame_weather_wind': {'temp', 'wind'},
+        'crew_chief_play_ball': {'umpire', 'venue'},
+        'final_score_home': POSTGAME, 'final_score_road': POSTGAME, 'game_summary_home_win': POSTGAME,
     }
 
     @classmethod
@@ -270,12 +300,19 @@ class TestTranscriptPlayAdditions(unittest.TestCase):
                 return {'batter_name'}
         if pool.startswith('lineup_strings.season_'):
             return {'last_name', 'wins', 'losses', 'era', 'wins_word', 'losses_word'}
+        if pool.startswith('lineup_strings.batting_'):
+            return {'team_name', 'team_short', 'player_name', 'position', 'position_place', 'at_place', 'pitch_hand'}
+        fields = self.FACT_POOL_FIELDS.get(pool.split('.')[-1])
+        if fields is not None:
+            return fields
         self.fail(f'No reviewed production formatting context for {pool}')
 
-    def test_all_231_play_entries_retain_exact_source_provenance_and_pool_membership(self):
+    def test_all_306_play_entries_retain_exact_source_provenance_and_pool_membership(self):
         # 178 from the source-mining pass, then 53 phrasings of newly recorded
-        # facts (pinch hitters, season records, runners who score, RBIs).
-        self.assertEqual(len(self.rows), 231)
+        # facts (pinch hitters, season records, runners who score, RBIs), then
+        # 75 for the pitcher's game line, throws and slides, new pitchers,
+        # lineups, the pregame and the postgame.
+        self.assertEqual(len(self.rows), 306)
         self.assertEqual({row['episode'] for row in self.rows}, set(self.sources))
         seen = set()
         for row in self.rows:

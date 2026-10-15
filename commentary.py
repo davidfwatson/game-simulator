@@ -562,7 +562,9 @@ GAME_CONTEXT = {
         "slider": "SL",
         "changeup": "CH",
         "curveball": "CU",
-        "knuckle curve": "KC"
+        "knuckle curve": "KC",
+        "splitter": "FS",
+        "sweeper": "ST"
     },
     "hit_directions": {
         "P": "back to the mound",
@@ -704,6 +706,25 @@ GAME_CONTEXT = {
             ],
             "infield_knockdown": [
                 "Hard grounder {direction}. {fielder_name} is able to knock it down, but he will not have a play."
+            ],
+            "infield_hit": [
+                "Slow roller {direction}. {fielder_name} charges, but the throw is not in time. An infield hit for {batter_name}.",
+                "Slow roller {direction}, and {batter_name} is going to beat it out for an infield single.",
+                "Dribbler {direction}. {fielder_name} barehands it, and the throw is late. {batter_name} beats it out.",
+                "Chopper {direction}. {fielder_name} has to wait on it, and {batter_name} beats it out for an infield hit.",
+                "Grounder {direction}. Tough play for {fielder_name}. The throw is not in time.",
+                "Ground ball {direction}. {fielder_name} has it, but there's no play. That's an infield single for {batter_name}.",
+                "Hit on the ground {direction}. {fielder_name} gets to it, but he has no play. An infield hit.",
+                "Bouncer {direction}. {fielder_name} fields it and throws to first, not in time. An infield single for {batter_name}.",
+                "Chopped {direction}. {fielder_name} comes up throwing, and {batter_name} beats the throw.",
+            ],
+            "infield_hit_1b": [
+                "Slow roller {direction}. {fielder_name} has it, but {batter_name} beats the pitcher to the bag.",
+                "Dribbler {direction}. {fielder_name} charges, and he has no play. An infield hit for {batter_name}.",
+                "Grounder {direction}. {fielder_name} gloves it, but nobody is covering the bag. An infield hit for {batter_name}.",
+                "Chopper {direction}. {fielder_name} flips to the pitcher covering, not in time. An infield single for {batter_name}.",
+                "Hit on the ground {direction}. {fielder_name} dives to stop it, and {batter_name} beats it out.",
+                "Ground ball {direction}. {fielder_name} ranges to his right for it, and the toss to the pitcher covering is late.",
             ],
             "throwing_error": [
                 "Grounder {direction}. The throw to first sails over the bag, and {batter_name} will scoot up to second base safely."
@@ -1312,6 +1333,27 @@ GAME_CONTEXT = {
             "{runner} advances to third on the play.",
             "{runner} is hustling to third."
         ],
+        # A runner cut down trying for an extra base on a hit (movementReason
+        # r_thrown_out), and a batter out stretching (r_out_stretching).
+        "runner_thrown_out_home": [
+            "{runner} is being waved around third. Here comes the throw from {fielder}... and he's out at the plate {out_context_str}!",
+            "{runner} tries to score from {origin}. The throw home from {fielder}... they got him, {out_context_str}!",
+            "They're sending {runner}. {fielder} comes up throwing... and {runner} is out at home {out_context_str}.",
+            "{runner} rounds third and heads for home. The throw from {fielder} is on the money, and he is out at the plate {out_context_str}."
+        ],
+        "runner_thrown_out_third": [
+            "{runner} tries to go from {origin} to third. The throw from {fielder}... and he's out at third {out_context_str}!",
+            "{runner} is going for third. The throw from {fielder} is there in time, and he is out {out_context_str}.",
+            "{runner} never stops at second, but {fielder} throws a strike to third, and he is out {out_context_str}."
+        ],
+        "runner_thrown_out": [
+            "{runner} tries to take {base} on the play, and the throw from {fielder} gets him {out_context_str}."
+        ],
+        "batter_thrown_out": [
+            "{runner} is thinking {stretch_hit} all the way. The throw from {fielder} to {base}... and he's out {out_context_str}!",
+            "{runner} tries to stretch it into a {stretch_hit}, but the throw from {fielder} beats him to {base}, and he is out {out_context_str}.",
+            "{runner} keeps on running. The throw to {base} from {fielder}, the tag, and he is out trying for a {stretch_hit}, {out_context_str}."
+        ],
         # A run-scoring hit's situation sentence, from its recorded RBI.
         "rbi_hit": [
             "And that's an RBI {hit} for {batter_name}.",
@@ -1372,6 +1414,116 @@ GAME_CONTEXT = {
             "And {batter_name} steps in to pinch-hit for {replaced} in the {slot} spot.",
             "And now {batter_name} will pinch hit for {replaced} in the {slot} spot.",
             "And {batter_name} will pinch hit for {replaced} in the {slot} spot."
+        ],
+        # The pitcher's game so far, counted from the plays (Sleep Baseball:
+        # "And that's the ninth strikeout of the evening for Butch Flores.").
+        "strikeout_tally": [
+            "And that's the {ordinal} strikeout of the evening for {pitcher}.",
+            "And that's the {ordinal} strikeout of the night for {pitcher}.",
+            "And that's the {ordinal} strikeout of the game for {pitcher}.",
+            "And that's the {ordinal} strikeout of the evening for {last_name}.",
+            "And that's {possessive} {ordinal} strikeout of the evening.",
+            "And that's {possessive} {ordinal} strikeout of the game so far.",
+            "That's {possessive} {ordinal} strikeout of the evening.",
+            "That was the {ordinal} strikeout of the game from {last_name}.",
+        ],
+        "strikeout_tally_in_a_row": [
+            "And that's the {in_a_row_ordinal} strikeout in a row for {pitcher}.",
+            "And that's his {in_a_row_ordinal} strikeout in a row.",
+            "{in_a_row_word} strikeouts in a row for {last_name}.",
+        ],
+        "strikes_out_the_side": [
+            "{pitcher} strikes out the side here in the {half_lower} of the {inning_ordinal}.",
+            "{pitcher} strikes out the side.",
+        ],
+        "complete_game": [
+            "{pitcher} pitches a complete game.",
+            "{pitcher} pitches a complete game for the {team_short}.",
+        ],
+        "complete_game_shutout": [
+            "{pitcher} pitches a complete game shutout.",
+            "{pitcher} pitches a shutout this evening.",
+        ],
+        "complete_game_no_hitter": [
+            "{pitcher} throws a no-hitter.",
+            "And that's a no-hitter for {pitcher}.",
+        ],
+        # The decisions a feed records (liveData.decisions).
+        "decision_win": [
+            "{pitcher} gets the win.",
+            "{pitcher} gets the win for the {team_short}.",
+        ],
+        "decision_loss": [
+            "{pitcher} takes the loss.",
+            "{pitcher} takes the loss for the {team_short}.",
+            "And {pitcher} takes the loss.",
+        ],
+        "decision_save": [
+            "{pitcher} gets the save.",
+            "{pitcher} gets the save for the {team_short}.",
+            "And {pitcher} gets the save for the {team_short}.",
+            "{pitcher} notches another save.",
+        ],
+        # A recorded throw that did not get the runner, and a recorded slide
+        # (runner details' throw / slide).
+        "throw_not_in_time": [
+            "The throw to {base} is not in time.",
+            "Throw to {base} is not in time.",
+            "The throw is not in time.",
+            "And the throw to {base} is not in time.",
+        ],
+        "throw_beaten": [
+            "And {runner} will beat the throw.",
+            "And he will beat the throw.",
+            "And he's going to beat the throw to {base}.",
+            "And {runner} beats the throw.",
+        ],
+        "no_throw": [
+            "No play at {base}.",
+            "No throw.",
+        ],
+        "slide_safe": [
+            "And he will slide in safely.",
+            "And {runner} slides in safely.",
+        ],
+        "slide_ahead_of_throw": [
+            "And he will slide in safely ahead of the throw.",
+            "He will slide in safely ahead of the throw.",
+        ],
+        "slide_under_tag": [
+            "And he will slide in safely under the tag.",
+            "{runner} slides in safely under the tag.",
+        ],
+        "slide_ahead_of_tag": [
+            "And he will slide in safely ahead of the tag.",
+            "He will slide in safely ahead of the tag.",
+        ],
+        # A pitcher entering the game, when no introduction has named him
+        # (Sleep Baseball: "Ravens' closer Masaki Harrington takes the mound.",
+        # "Stretch Parsons will take the mound for Baraboo in relief.").
+        "new_pitcher": [
+            "{descriptor} takes the mound.",
+            "{pitcher} will take the mound for {team_location} in relief.",
+            "There's a new pitcher on the mound for {team_location}, and that is {pitcher}.",
+            "On the mound for the {team_short} is {plain_descriptor}.",
+            "{plain_descriptor} will enter the game for the {team_short} here in the {half_lower} of the {inning_ordinal}.",
+            "{pitcher} is the new {team_short} pitcher.",
+            "And {descriptor} is on to pitch the {inning_ordinal}.",
+        ],
+        "new_pitcher_mid_inning": [
+            "And that's going to be it for {previous}. {pitcher} is the new {team_short} pitcher.",
+            "There's a new man on the mound for {team_location}, and that is {plain_descriptor}.",
+            "And the {team_short} are going to the bullpen. {descriptor} takes the mound.",
+        ],
+        "new_pitcher_faces": [
+            "{pitcher} is the new {team_short} pitcher, and he'll face {batter}.",
+            "And {role} {pitcher} will be on the mound for the {team_short} to face {batter}.",
+        ],
+        # A reliever's season, from the boxscore's seasonStats (Sleep Baseball:
+        # "Fuller has pitched 12 innings of work this season with an ERA of 2.67.").
+        "reliever_season": [
+            "{last_name} has pitched {innings} innings of work this season with an ERA of {era}.",
+            "{last_name} has pitched {innings_word} innings of work this season with an ERA of {era}.",
         ],
         "leadoff_single": [
             "{batter_name} starts things off with a leadoff single{inning_context}.",
@@ -2042,30 +2194,44 @@ GAME_CONTEXT = {
             "The {team_name} are managed by {manager_name}.",
             "And the {team_name} are managed by veteran skipper {manager_name}.",
         ],
+        # Every slot has the hosts' two forms ("{position} {player_name} will
+        # bat sixth." and "Batting sixth, {position} {player_name}."), counted
+        # over the 34 lineups of the 17 broadcasts.
         "batting_1": [
-            "{player_name} will lead off in {position_place}.",
-            "{position} {player_name} will lead off."
+            "{player_name} will lead off {at_place}.",
+            "{position} {player_name} will lead off.",
+            "Leading off and playing {position_place}, {player_name}.",
+            "Leading off, {position} {player_name}.",
+            "{player_name} leads off {at_place}.",
         ],
         "batting_2": [
             "Batting second and playing {position_place}, {player_name}.",
-            "Batting second, {position} {player_name}."
+            "Batting second, {position} {player_name}.",
+            "{position} {player_name} will bat second.",
         ],
         "batting_3": [
-            "{position} {player_name} will bat third."
+            "{position} {player_name} will bat third.",
+            "Batting third, {position} {player_name}.",
+            "Batting third and playing {position_place}, {player_name}.",
         ],
         "batting_4": [
             "{position} {player_name} will be in the cleanup spot this evening.",
             "{position} {player_name} will be in the cleanup spot this evening.",
-            "In the cleanup spot this evening, {position} {player_name}."
+            "In the cleanup spot this evening, {position} {player_name}.",
+            "{position} {player_name} will bat cleanup.",
+            "{position} {player_name} is in the cleanup spot this evening.",
+            "In the cleanup spot this evening for the {team_short}, {position} {player_name}.",
         ],
         "batting_5": [
             "Batting fifth, {position} {player_name}.",
-            "{position} {player_name} will bat fifth."
+            "{position} {player_name} will bat fifth.",
+            "Batting fifth and playing {position_place}, {player_name}.",
         ],
         "batting_6": [
             "Sixth, {position} {player_name}.",
             "{position} {player_name}.",
-            "Batting sixth, {position} {player_name}."
+            "Batting sixth, {position} {player_name}.",
+            "{position} {player_name} will bat sixth.",
         ],
         "batting_7": [
             "Batting seventh, {position} {player_name}.",
@@ -2074,34 +2240,12 @@ GAME_CONTEXT = {
         "batting_8": [
             "The big man, the {position} {player_name},",
             "{position} {player_name} will bat eighth.",
-            "{position} {player_name} will bat eighth."
+            "{position} {player_name} will bat eighth.",
+            "Batting eighth, {position} {player_name}.",
         ],
         "batting_9": [
             "And batting ninth, {pitch_hand}-handed starting pitcher {player_name}.",
             "And batting ninth, {position} {player_name}."
-        ],
-        "batting_2_home": [
-            "Batting second, {position} {player_name}."
-        ],
-        "batting_4_home": [
-            "In the cleanup spot this evening, {position} {player_name}.",
-            "{position} {player_name} will be in the cleanup spot this evening."
-        ],
-        "batting_5_home": [
-            "{position} {player_name} will bat fifth.",
-            "Batting fifth, {position} {player_name}."
-        ],
-        "batting_6_home": [
-            "Batting sixth, {position} {player_name}.",
-            "{position} {player_name}."
-        ],
-        "batting_7_home": [
-            "{position} {player_name} will bat seventh.",
-            "Batting seventh, {position} {player_name}."
-        ],
-        "batting_8_home": [
-            "{position} {player_name} will bat eighth.",
-            "The big man, the {position} {player_name},"
         ]
     },
         "radio_strings": {
@@ -2129,6 +2273,49 @@ GAME_CONTEXT = {
              "It's time for the greatest game on earth.",
             "Good evening, everybody.",
             "And a pleasant good evening once again, friends.",
+        ],
+        # The station's line when the broadcast records its city (Sleep
+        # Baseball: "You're drifting off with WSLP AM, Big Rapids.").
+        "station_intro_city": [
+            "You're drifting off with {station_call} AM, {station_city}.",
+        ],
+        "network_presents": [
+            "{network_name} presents Sleep Baseball.",
+        ],
+        "pregame_opener": [
+            "Tonight, from {venue_location}, it's the {home_team_name} hosting the {away_team_name}{away_of}.",
+            "This evening, from {venue_location}, it's the {home_team_name}, hosting the {away_team_name}{away_of}.",
+        ],
+        "host_intro": [
+            "And now your host, Wally McCarthy.",
+            "And now, the voice of the Quint Cities, Wally McCarthy.",
+        ],
+        "host_back": [
+            "It's Wally McCarthy and producer Phil, back with you from beautiful {venue} here in {location_with_state}.",
+            "It's Wally McCarthy and producer Phil, back with you.",
+            "It's Wally McCarthy and producer Phil back with you from {venue}.",
+        ],
+        "pregame_perfect_night": [
+            "It is a perfect night for a ball game.",
+            "And tonight is a perfect night for a ball game.",
+            "And it is a perfect night for a ball game here in {location}.",
+        ],
+        # From a feed's weather: temperature, and the wind when it has one.
+        "pregame_weather": [
+            "{temp} degrees at game time.",
+        ],
+        "pregame_weather_wind": [
+            "{temp} degrees at game time, with a light breeze blowing {wind}.",
+            "{temp} degrees at game time, with a gentle breeze blowing {wind}.",
+            "{temp} degrees at game time with a light breeze blowing {wind}.",
+            "{temp} degrees at game time, and just a gentle breeze blowing {wind}.",
+        ],
+        # The crew chief (the first of the feed's umpires) starts the game.
+        "crew_chief_play_ball": [
+            "And crew chief {umpire} has signaled that it's time to play ball.",
+            "And crew chief {umpire} hollers, play ball.",
+            "And crew chief {umpire} says, play ball.",
+            "And crew chief {umpire} signals play ball.",
         ],
         "inning_break_outro": [
              "We'll be back with the {next_inning_ordinal} inning in a moment here on {network_name}.",
@@ -2246,7 +2433,11 @@ GAME_CONTEXT = {
         "inning_outro_streak": [
              "And that's {consecutive_retired} in a row, sat down by {pitcher_name}.",
              "And that's {consecutive_retired} in a row set down by {pitcher_name}.",
-             "{pitcher_name} has now retired {consecutive_retired} straight."
+             "{pitcher_name} has now retired {consecutive_retired} straight.",
+             "And that's {consecutive_retired} in a row set down by {pitcher_full}.",
+             "And that's {consecutive_retired} in a row, sat down by {pitcher_full}.",
+             "And that's {consecutive_retired_word} in a row retired by {pitcher_full}.",
+             "{pitcher_full} has retired {consecutive_retired_word} in a row.",
         ],
         "score_update_lead": [
              "and the {team_name} take a {score_lead} lead",
@@ -2309,6 +2500,22 @@ GAME_CONTEXT = {
             "For the victorious {win_team}, {win_runs} runs on {win_hits} hits, {win_errors} errors. And for the {lose_team}, {lose_runs} runs on {lose_hits} hits and {lose_errors} errors.",
             "Final line score tonight: The {win_team} take it with {win_runs} runs, {win_hits} hits, and {win_errors} errors. The {lose_team} fall with {lose_runs} runs on {lose_hits} hits and {lose_errors} errors.",
             "The {win_team} win it, finishing with {win_runs} runs, {win_hits} hits, and {win_errors} errors. The {lose_team} manage {lose_runs} runs, {lose_hits} hits, and {lose_errors} errors."
+        ],
+        # The final score, said first after the last out.
+        "final_score_home": [
+            "So the {win_short} take this one at home by a score of {final_score}.",
+            "So the {win_short} take this one at home, {final_score}.",
+            "The {win_short} take this one at home by a score of {final_score}.",
+            "So the {win_team} take this one by a score of {final_score}.",
+        ],
+        "final_score_road": [
+            "So the {win_short} take this one on the road by a score of {final_score}.",
+            "So the {win_team} take this one on the road here in {location} by a score of {final_score}.",
+            "So the {win_team} take this one by a score of {final_score}.",
+        ],
+        # The line score when the visitors lost.
+        "game_summary_home_win": [
+            "For the victorious {win_team}, {win_runs} runs on {win_hits} hits, {win_errors} errors. And for the visiting {lose_team}, {lose_runs} runs on {lose_hits} hits, and {lose_errors} errors.",
         ],
         "outro": [
              "Producer Phil and I will be back with the post-game show in a moment here on {network_name}.",
@@ -2378,12 +2585,31 @@ WORDING_ADDITIONS = {
     "radio_strings.inning_summary_remains": [
         "We've played {innings_word} here at {venue}, and it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
         "And with {inning_count_word} in the books, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+        "And after {innings_word}, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
     ],
     "radio_strings.inning_summary_tied": [
         "And after {innings_word}, we are tied at {score}.",
     ],
     "radio_strings.inning_outro_scored_first": [
         "But the {batting_team_short} get on the board.",
+    ],
+    # The score at the break, leader first ("it's Tigers two, Timbers
+    # nothing"), and the scoreless forms.
+    "radio_strings.inning_summary_score": [
+        "And with {inning_count_word} in the books, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+        "And after {innings_word}, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.",
+    ],
+    "radio_strings.inning_summary_scoreless": [
+        "And with {inning_count_word} in the books, it's a scoreless contest here at {venue}.",
+    ],
+    "radio_strings.inning_break_outro": [
+        "We'll be back in a moment with the {next_inning_ordinal} inning here on {station_call} and {network_name}.",
+    ],
+    # A clean half-inning, with the pitcher's full name and the half.
+    "narrative_strings.inning_end_123": [
+        "And that's a one-two-three inning for {pitcher_full} here in the {half_lower} of the {inning_ordinal}.",
+        "Three up, three down for {pitcher_full} here in the {half_lower} of the {inning_ordinal}.",
+        "{pitcher_full} sets them down in order here in the {half_lower} of the {inning_ordinal}.",
     ],
     # Offered only at the break in the middle of the seventh, alongside the
     # pool of the same name without the suffix.
@@ -2513,14 +2739,22 @@ TEMPLATE_WEIGHTS = {
     "{score_lead} as we begin the bottom of the {inning_ordinal}.": 8.7262,
     "{score_lead} as we enter the bottom of the {inning_ordinal}.": 1.9996,
     "Bottom of the {inning_ordinal} inning here at {venue}. {score_lead}, and the {batting_team_short} will bring {due_up_desc} to the plate against {pitcher_name}.": 0.3638,
-    "We've played {innings_word} here at {venue}, and it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 0.2425,
-    "And with {inning_count_word} in the books, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 2.5815,
+    "We've played {innings_word} here at {venue}, and it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 0.2791,
+    "And with {inning_count_word} in the books, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 2.9715,
+    "And after {innings_word}, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 1.2085,
+    "And with {inning_count_word} in the books, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 1.4855,
+    "And after {innings_word}, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 0.2403,
+    "And with {inning_count_word} in the books, it's a scoreless contest here at {venue}.": 0.1877,
+    "We'll be back in a moment with the {next_inning_ordinal} inning here on {station_call} and {network_name}.": 0.6006,
+    "And that's a one-two-three inning for {pitcher_full} here in the {half_lower} of the {inning_ordinal}.": 0.2944,
+    "Three up, three down for {pitcher_full} here in the {half_lower} of the {inning_ordinal}.": 0.1467,
+    "{pitcher_full} sets them down in order here in the {half_lower} of the {inning_ordinal}.": 0.4036,
     "And after {innings_word}, we are tied at {score}.": 0.0453,
     "But the {batting_team_short} get on the board.": 3.5005,
-    "And as we head into the stretch, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 40.0,
-    "And as we head into the stretch, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 36.0,
+    "And as we head into the stretch, it remains {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 44.0,
+    "And as we head into the stretch, it's {leading_short} {leading_score_val}, {trailing_short} {score_trail}.": 44.0,
     "And as we head into the stretch, we are tied at {score}.": 20.0,
-    "And as we head into the stretch, it remains a scoreless contest.": 48.0,
+    "And as we head into the stretch, it remains a scoreless contest.": 52.0,
     "You're drifting off with {station_call} AM.": 40.0,
     "Producer Phil and I will be back with the postgame show in a moment here on {station_call} and {network_name}.": 2.6668,
     "And {batter_name} is due up against {pitcher_name}.": 1.5306,

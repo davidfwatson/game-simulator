@@ -118,7 +118,14 @@
           "era": "4.16"
         }
       }
-    }
+    },
+    "away_state": "Michigan",
+    "home_state": "Michigan",
+    "weather": {
+      "temp": "74",
+      "wind": "In From RF"
+    },
+    "crew_chief": "Cedric Weatherspoon"
   },
   "plays": [
     {
@@ -581,7 +588,16 @@
         "depth": "wall",
         "lane": "left_center"
       },
-      "pitch_hand": "R"
+      "pitch_hand": "R",
+      "runners": [
+        {
+          "name": "Joshua Gonzalez",
+          "start": null,
+          "end": "2B",
+          "slide": true,
+          "throw": "not_in_time"
+        }
+      ]
     },
     {
       "inning": 2,

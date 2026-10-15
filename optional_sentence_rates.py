@@ -131,6 +131,134 @@ def ledger_breaks(tally):
             previous = half
 
 
+STRIKEOUT_TALLY = re.compile(r"\b\w+ strikeout (?:of the (?:evening|night|game)|in a row)|strikeouts in a row", re.I)
+STRIKES_OUT_SIDE = re.compile(r"str(?:ikes?|uck) out the side", re.I)
+IN_A_ROW = re.compile(r"\b(?:\d+|\w+) (?:in a row|straight)\b", re.I)
+COMPLETE_GAME = re.compile(r"complete game|shutout|no-hitter", re.I)
+
+
+def game_line_opportunities(tally, data, play_text, break_text, postgame, origin):
+    """The pitcher's game line and the pitching changes of one game.
+    ``play_text(i)`` is play i's source through the next play's first pitch,
+    ``break_text(i)`` the source between play i (a half-inning's last) and
+    the next play's first pitch, ``postgame`` the words after the last play."""
+    from renderers import NarrativeRenderer
+    from renderers.narrative.renderer import RETIRED_IN_A_ROW_MINIMUM
+    renderer = NarrativeRenderer(data)
+    plays = data['liveData']['plays']['allPlays']
+    lines, current = {}, {}
+    half = []
+    for index, play in enumerate(plays):
+        pitcher, top = play['matchup']['pitcher'], play['about']['isTopInning']
+        if top in current and current[top] != pitcher['id']:
+            # A pitching change: is the new man named before his first pitch?
+            intro = break_text(index - 1) if index else ''
+            tally.add('new_pitcher_intro', pitcher['fullName'].split()[-1].casefold() in intro.casefold(), origin)
+            tally.add('new_pitcher_season', bool(re.search(r'innings of work this season', intro, re.I)), origin)
+        current[top] = pitcher['id']
+        line = lines.setdefault(pitcher['id'], {'strikeouts': 0, 'in_a_row': 0})
+        if play['result']['event'].startswith('Strikeout'):
+            line['strikeouts'] += 1
+            line['in_a_row'] += 1
+            if line['strikeouts'] >= 3 or line['in_a_row'] >= 3:
+                tally.add('strikeout_tally', bool(STRIKEOUT_TALLY.search(play_text(index))), origin)
+        elif play['result']['event'] != 'Incomplete':
+            line['in_a_row'] = 0
+        half.append(play)
+        following = plays[index + 1] if index + 1 < len(plays) else None
+        if following is None or (following['about']['inning'], following['about']['isTopInning']) != (
+                play['about']['inning'], top):
+            if following is not None and not following['about'].get('coverageGapBefore'):
+                said = break_text(index)
+                if renderer._struck_out_the_side(half):
+                    tally.add('strikes_out_side', bool(STRIKES_OUT_SIDE.search(said)), origin)
+                scored = half[0]['result'], play['result']
+                before = plays[index - len(half)]['result'] if index >= len(half) else {'awayScore': 0, 'homeScore': 0}
+                key = 'awayScore' if top else 'homeScore'
+                streak = renderer._get_consecutive_retired(upto=index + 1, pitcher_id=pitcher['id'])
+                if streak >= RETIRED_IN_A_ROW_MINIMUM and play['result'][key] == before[key]:
+                    tally.add('retired_in_a_row', bool(IN_A_ROW.search(said)), origin)
+            half = []
+    if data['gameData'].get('broadcast', {}).get('complete', True):
+        final = plays[-1]['result']
+        win_home = final['homeScore'] > final['awayScore']
+        winners = {p['matchup']['pitcher']['id'] for p in plays if p['about']['isTopInning'] == win_home}
+        halves = {(p['about']['inning'], p['about']['isTopInning']) for p in plays}
+        whole = all((inning, win_home) in halves for inning in range(1, max(i for i, _ in halves) + 1))
+        if len(winners) == 1 and whole:
+            tally.add('complete_game', bool(COMPLETE_GAME.search(postgame)), origin)
+        tally.add('pitching_decisions', bool(data['liveData'].get('decisions')), origin)
+    for play in plays:
+        for event in play['playEvents']:
+            if event.get('details', {}).get('eventType') in ('stolen_base', 'caught_stealing'):
+                for movement in event['details'].get('runners', []):
+                    tally.add('steal_throw', bool(movement.get('throw') or movement.get('slide')), origin)
+
+
+def ledger_game_lines(tally):
+    for path in sorted(LEDGER_DIR.glob('episode_*.json')):
+        ledger = json.loads(path.read_text())
+        lines = metric_source_text(SOURCE_DIR / ledger['source_file']).splitlines()
+        data = json.loads((OUTPUT_DIR / path.name).read_text())
+        records = ledger['plays']
+
+        def first_pitch(index):
+            record = records[index]
+            return min([pitch['line'] for pitch in record.get('pitches', []) if pitch.get('line')]
+                       or [record['source_end'] + 1])
+
+        def play_text(index):
+            record = records[index]
+            last = max([pitch['line'] for pitch in record.get('pitches', []) if pitch.get('line')]
+                       or [record['source_start']])
+            end = first_pitch(index + 1) - 1 if index + 1 < len(records) else record['source_end']
+            return ' '.join(lines[last - 1:max(end, record['source_end'])])
+
+        def break_text(index):
+            end = first_pitch(index + 1) if index + 1 < len(records) else len(lines)
+            # The out that ends the half may share its line with the sign-off.
+            return ' '.join(lines[records[index]['source_end'] - 1:end])
+
+        postgame = ' '.join(lines[records[-1]['source_end'] - 1:])
+        game_line_opportunities(tally, data, play_text, break_text, postgame, 'ledger')
+        framing_opportunities(tally, ' '.join(lines[:records[0]['source_start'] - 1]), postgame,
+                              ledger.get('complete'), 'ledger')
+
+
+def reference_game_lines(tally):
+    """The same for the four references, each play's words from the alignment."""
+    from missed_words import reference_units
+    from pbp_comparison import PBP_EXAMPLES, REPOSITORY_ROOT
+    for example in PBP_EXAMPLES:
+        data = json.loads((REPOSITORY_ROOT / example.fixture_file).read_text())
+        units = {unit.index: unit.text.replace('\n', ' ') for unit in reference_units(example)}
+
+        def play_text(index):
+            return units.get(index, '') + ' ' + units.get(index + 1, '')
+
+        game_line_opportunities(tally, data, play_text, play_text, units.get('postgame', ''), 'reference')
+        framing_opportunities(tally, units.get('pregame', ''), units.get('postgame', '') + units.get(len(units) - 3, ''),
+                              True, 'reference')
+
+
+PREGAME_SENTENCES = {
+    'network_presents': re.compile(r"presents (?:sleep )?baseball", re.I),
+    'host_intro': re.compile(r"and now,? (?:your host|the voice of)", re.I),
+    'host_back': re.compile(r"it's wally mccarthy and producer phil", re.I),
+    'perfect_night': re.compile(r"perfect night for", re.I),
+    'crew_chief': re.compile(r"crew chief", re.I),
+}
+FINAL_SCORE = re.compile(r"\btakes? this one\b|by a score of", re.I)
+
+
+def framing_opportunities(tally, pregame, postgame, complete, origin):
+    """The sentences that open and close a broadcast, once per game."""
+    for gate, pattern in PREGAME_SENTENCES.items():
+        tally.add(gate, bool(pattern.search(pregame)), origin)
+    if complete:
+        tally.add('final_score', bool(FINAL_SCORE.search(postgame)), origin)
+
+
 def reference_play_opportunities(tally):
     """Runner and home-run sentences need the fixture's facts: each play's call
     comes from the word alignment of the reference with its rendering."""
@@ -193,6 +321,8 @@ def measure():
     ledger_breaks(tally)
     reference_opportunities(tally)
     reference_play_opportunities(tally)
+    ledger_game_lines(tally)
+    reference_game_lines(tally)
     return tally.rows()
 
 

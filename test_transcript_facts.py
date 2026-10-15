@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 import re
 import unittest
+from unittest.mock import patch
 
 import fieldsim
 from annotate_transcript_facts import facts_from_words, season_pitching
@@ -294,6 +295,413 @@ class TestSimulatorFacts(unittest.TestCase):
 
 
 class TestAnnotation(unittest.TestCase):
+    def test_in_time_steal_throw_matches_its_runner_and_destination(self):
+        from annotate_transcript_facts import annotate_throws
+        from test_transcript_games import record
+        for text, expected in (
+                ('The throw to second is in time.', {'Nate Colbert': 'in_time'}),
+                ('The throw to third is in time to retire Brown.', {'Bill Brown': 'in_time'}),
+                ('Colbert is caught; the throw is in time.', {}),
+                ('The throw is in time.', {}),
+                ('The throw to first is in time.', {}),
+                ('The throw to third is in time to retire Colbert.', {}),
+                ('The throw to second is not in time.', {})):
+            with self.subTest(text=text):
+                runners = [{'name': 'Nate Colbert', 'start': '1B', 'end': '2B', 'out': True},
+                           {'name': 'Bill Brown', 'start': '2B', 'end': '3B', 'out': True}]
+                pitch = {'code': 'A', 'line': 1, 'eventType': 'caught_stealing', 'runners': runners}
+                play = record(end=1, pitches=[pitch])
+                annotate_throws(play, [text], [], 'synthetic')
+                self.assertEqual({m['name']: m['throw'] for m in runners if 'throw' in m}, expected)
+
+    def test_same_line_steals_do_not_each_claim_a_generic_throw(self):
+        from annotate_transcript_facts import annotate_throws
+        from test_transcript_games import record
+        for text, expected in (('The throw is in time.', {}),
+                               ('The throw to third is in time.', {'Bill Brown': 'in_time'})):
+            with self.subTest(text=text):
+                runners = [{'name': 'Nate Colbert', 'start': '1B', 'end': '2B', 'out': True},
+                           {'name': 'Bill Brown', 'start': '2B', 'end': '3B', 'out': True}]
+                pitches = [{'code': 'A', 'line': 1, 'eventType': 'caught_stealing', 'runners': [m]} for m in runners]
+                annotate_throws(record(pitches=pitches), [text], [], 'synthetic')
+                self.assertEqual({m['name']: m['throw'] for m in runners if 'throw' in m}, expected)
+
+    def test_a_steal_does_not_borrow_a_throw_from_a_ball_in_play_on_the_same_line(self):
+        from annotate_transcript_facts import annotate_throws
+        from test_transcript_games import record
+        runner = {'name': 'Nate Colbert', 'start': '1B', 'end': '2B'}
+        pitch = {'code': 'A', 'line': 1, 'eventType': 'stolen_base', 'runners': [runner]}
+        play = record(batter='Rio Nunez', outcome='Single', pitches=[pitch, {'code': 'X', 'line': 1}])
+        annotate_throws(play, ['Colbert steals second. The pitch... The throw to first is not in time.'], [], 'synthetic')
+        self.assertNotIn('throw', runner)
+        self.assertEqual(play['runners'], [{'name': 'Rio Nunez', 'start': None, 'end': '1B', 'throw': 'not_in_time'}])
+
+    def test_generic_throws_consider_out_runners_and_the_batter(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runner = {'name': 'Nate Colbert', 'start': '1B', 'end': '2B', 'out': True}
+        batter = {'name': 'Billy De Jesus', 'start': None, 'end': '1B'}
+        for text in ('The throw is not in time.', 'No throw.', 'He beats the throw.',
+                     'Colbert is out, and the throw is not in time.',
+                     'De Jesus reaches first. The throw is not in time.'):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, [runner, batter], batter['name']), {})
+        self.assertEqual(throw_facts_from_words('The throw is not in time.', [batter], batter['name']),
+                         {batter['name']: {'throw': 'not_in_time'}})
+        safe = dict(runner, out=False)
+        self.assertEqual(throw_facts_from_words('The throw is not in time.', [safe], batter['name']), {})
+        picked_off = dict(runner, end='1B')
+        self.assertEqual(throw_facts_from_words('The throw is not in time.', [picked_off, batter], batter['name']), {})
+
+    def test_runner_facts_are_resolved_separately_in_a_multi_runner_sentence(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runners = [{'name': 'Nate Colbert', 'start': '2B', 'end': 'score'},
+                   {'name': 'Bill Brown', 'start': '1B', 'end': '3B'},
+                   {'name': 'Rio Nunez', 'start': None, 'end': '1B'}]
+        for text, expected in (
+                ('Colbert slides in safely under the tag, and Brown beats the throw to third.',
+                 {'Nate Colbert': {'slide': 'under_tag'}, 'Bill Brown': {'throw': 'beaten'}}),
+                ('The throw to the plate is not in time, and Brown slides in safely at third.',
+                 {'Nate Colbert': {'throw': 'not_in_time'}, 'Bill Brown': {'slide': True}}),
+                ('Colbert beats the throw home and Brown slides in safely at third.',
+                 {'Nate Colbert': {'throw': 'beaten'}, 'Bill Brown': {'slide': True}}),
+                ('Colbert beats the throw to third.', {}),
+                ('Brown heads for third. He beats the throw home.', {}),
+                ('Colbert heads home. He slides in safely at third.', {}),
+                ('The throw to second is not in time.', {})):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, runners, 'Rio Nunez'), expected)
+
+    def test_shared_surnames_and_suffixes_need_a_unique_runner(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runners = [{'name': 'Nate Jones Jr.', 'start': '2B', 'end': 'score'},
+                   {'name': 'Bill Jones Jr.', 'start': '1B', 'end': '3B'}]
+        for text, expected in (('Jones slides in safely.', {}),
+                               ('Jr. slides in safely.', {}),
+                               ('Nate Jones Jr. slides in safely.', {'Nate Jones Jr.': {'slide': True}}),
+                               ('Bill Jones Jr. beats the throw.', {'Bill Jones Jr.': {'throw': 'beaten'}})):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, runners, None), expected)
+
+    def test_a_generic_double_play_throw_does_not_imply_the_batter(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runners = [{'name': 'Nate Colbert', 'start': '1B', 'end': '3B'},
+                   {'name': 'Rio Nunez', 'start': None, 'end': '2B'}]
+        self.assertEqual(throw_facts_from_words('The throw is not in time for the double play.', runners, 'Rio Nunez'), {})
+        runners = [dict(runners[0], end='2B', out=True), dict(runners[1], end='1B')]
+        self.assertEqual(throw_facts_from_words('The throw is not in time for the double play.', runners, 'Rio Nunez'), {})
+        self.assertEqual(throw_facts_from_words('The throw to first is not in time for the double play.', runners, 'Rio Nunez'),
+                         {'Rio Nunez': {'throw': 'not_in_time'}})
+
+    def test_an_aside_breaks_runner_antecedents_and_a_whole_removed_stats_line(self):
+        from annotate_transcript_facts import annotate_throws, throw_facts_from_words
+        from test_transcript_games import record
+        from transcript_asides import ASIDE_BREAK
+        runners = [{'name': 'Nate Colbert', 'start': '2B', 'end': 'score'},
+                   {'name': 'Bill Brown', 'start': '1B', 'end': '3B'}]
+        self.assertEqual(throw_facts_from_words(f'Colbert heads home. {ASIDE_BREAK} He slides in safely.', runners, None), {})
+        play = record(batter='Rio Nunez', outcome='Single', runners=runners, pitches=[{'code': 'X', 'line': 1}])
+        self.assertEqual(annotate_throws(play, [f'The pitch... Colbert heads home. {ASIDE_BREAK} '
+                                              'He slides in safely.'], [], 'synthetic'), 0)
+        self.assertEqual(season_pitching(['Alex Smith takes the mound.', ASIDE_BREAK,
+                                         'He has a record of 7 and 4.'], ['Alex Smith']), {})
+
+    def test_an_unrecognised_full_name_does_not_match_a_known_surname(self):
+        from annotate_transcript_facts import decisions_from_words, throw_facts_from_words
+        self.assertEqual(season_pitching(['Bob Nancy has a record of 7 and 4.'], ['Ron Nancy']), {})
+        self.assertEqual(decisions_from_words('Bob Nancy gets the win.', ['Ron Nancy']), {})
+        runners = [{'name': 'Ron Nancy', 'start': '2B', 'end': 'score'},
+                   {'name': 'Bill Brown', 'start': '1B', 'end': '3B'}]
+        self.assertEqual(throw_facts_from_words('Bob Nancy slides in safely.', runners, None), {})
+        self.assertEqual(throw_facts_from_words('Bob Nancy slides in safely.', runners[:1], None), {})
+
+    def test_pitcher_entry_stops_before_a_long_gap_with_another_pitchers_facts(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.', 'Left-handed reliever Ron Nancy takes the mound.']
+        lines += ['The visitors lead by two.'] * 30
+        lines += ['Right-handed closer Bob Nancy was here last year.',
+                  'Nancy has pitched twelve innings of work this season with an ERA of 2.67.',
+                  'Away Batter 2 steps in.', 'And the pitch... Ball one.']
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Ron Nancy', start=len(lines) - 1, end=len(lines),
+                        pitches=[{'code': 'B', 'line': len(lines)}])]
+        data, report = ledger_with(plays), []
+        self.assertEqual(annotate_pitchers(data, lines, report, 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'L')
+        self.assertNotIn('pitcher_roles', data['game'])
+        self.assertNotIn('season_stats', data['game'])
+        self.assertNotIn('Bob Nancy', report[0][-1])
+
+    def test_pitcher_entry_descriptors_belong_to_the_named_pitcher(self):
+        from annotate_transcript_facts import pitcher_entry_facts
+        for text, expected in (
+                ('Right-handed closer Bob Nancy gives way to Ron Nancy.', {}),
+                ('Right-handed closer Bob Nancy is replacing Ron Nancy.', {}),
+                ('Right-handed closer Bob Nancy gives way to left-handed reliever Ron Nancy.', {'pitch_hand': 'L'}),
+                ('Ron Nancy takes over; right-handed closer Bob Nancy has pitched twelve innings of work '
+                 'this season with an ERA of 2.67.', {}),
+                ('Reliever Ron Nancy takes over. Bob Nancy is a right-handed closer.', {})):
+            with self.subTest(text=text):
+                self.assertEqual(pitcher_entry_facts('Ron Nancy', text), expected)
+
+    def test_pitcher_entry_uses_the_latest_introduction_and_keeps_a_full_name_season_line(self):
+        from annotate_transcript_facts import pitcher_entry_facts
+        text = ('Right-handed starter Ron Nancy warmed up earlier. The visitors lead by two. '
+                'Left-handed reliever Ron Nancy takes over. '
+                'Ron Nancy has pitched twelve innings of work this season with an ERA of 2.67.')
+        self.assertEqual(pitcher_entry_facts('Ron Nancy', text),
+                         {'pitch_hand': 'L', 'season': {'inningsPitched': '12.0', 'era': '2.67'}})
+
+    def test_season_stats_are_attributed_per_fact_and_sentence(self):
+        for lines, expected in (
+                (['Smith has a record of 7 and 4. Jones has a 2.67 ERA.'],
+                 {'Alex Smith': {'wins': 7, 'losses': 4}, 'Pat Jones': {'era': '2.67'}}),
+                (['Smith has a record of 7 and 4, while Jones has a 2.67 ERA.'],
+                 {'Alex Smith': {'wins': 7, 'losses': 4}, 'Pat Jones': {'era': '2.67'}}),
+                (['Alex Smith takes the mound.', 'The visiting pitcher has a record of 7 and 4.'], {}),
+                (['Alex Smith takes the mound.', 'He has a record of 7 and 4 with a 2.67 ERA.'],
+                 {'Alex Smith': {'wins': 7, 'losses': 4, 'era': '2.67'}}),
+                (['Smith has a record of 7 and 4, Smith and Jones have a record of 9 and 2, with a 2.67 ERA.'],
+                 {'Alex Smith': {'wins': 7, 'losses': 4}}),
+                (['Smith has a record of 7 and 4, and Bob Nancy has a 2.67 ERA.'],
+                 {'Alex Smith': {'wins': 7, 'losses': 4}}),
+                (['Alex Smith takes the mound.', 'He remembers Bob Nancy with a record of 7 and 4.'], {})):
+            with self.subTest(lines=lines):
+                self.assertEqual(season_pitching(lines, ['Alex Smith', 'Pat Jones']), expected)
+        self.assertEqual(season_pitching(['Pat Jones has a record of 7 and 4 with a 2.67 ERA.'],
+                                         ['Pat Jones', 'Sam Jones']),
+                         {'Pat Jones': {'wins': 7, 'losses': 4, 'era': '2.67'}})
+
+    def test_decisions_do_not_guess_between_subjects_and_other_mentions(self):
+        from annotate_transcript_facts import decisions_from_words
+        for text in ('Smith, after speaking with Jones, gets the win.',
+                     'Smith and Jones watch as he gets the win.',
+                     "Smith's teammate gets the win."):
+            with self.subTest(text=text):
+                self.assertEqual(decisions_from_words(text, ['Alex Smith', 'Pat Jones']), {})
+        self.assertEqual(decisions_from_words('Pat Jones gets the win; Sam Jones takes the loss.',
+                                              ['Pat Jones', 'Sam Jones']),
+                         {'winner': 'Pat Jones', 'loser': 'Sam Jones'})
+
+    def test_real_calls_keep_linked_facts_with_their_player(self):
+        from annotate_transcript_facts import decisions_from_words, pitcher_entry_facts, throw_facts_from_words
+        self.assertEqual(season_pitching(['Javier Von Newman is taking the mound. '
+                                         'Von Newman has struggled but is, in general, a fine pitcher. '
+                                         "He's got a record of 4 and 4, with a 3.86 ERA."], ['Javier Von Newman']),
+                         {'Javier Von Newman': {'wins': 4, 'losses': 4, 'era': '3.86'}})
+        from transcript_asides import ASIDE_BREAK
+        self.assertEqual(season_pitching(['Starting pitcher Beans Sorensen will bat third.',
+                                         f"{ASIDE_BREAK} and he enters tonight's game with a record of 6 and 5 "
+                                         'with a 4.17 ERA.'], ['Beans Sorensen']),
+                         {'Beans Sorensen': {'wins': 6, 'losses': 5, 'era': '4.17'}})
+        self.assertEqual(pitcher_entry_facts('Miguel Rockford', 'Tigers reliever Miguel Rockford. '
+                                            'Rockford is a sturdy right-hander who mostly relies on his blazing fastball.'),
+                         {'pitch_hand': 'R'})
+        for text in ('Hiroki Nomo pitches a complete game, notches another win on the season.',
+                     'Hiroki Nomo goes the distance for the Tigers and notches another win.'):
+            with self.subTest(text=text):
+                self.assertEqual(decisions_from_words(text, ['Hiroki Nomo', 'Frank Gibson']), {'winner': 'Hiroki Nomo'})
+        runners = [{'name': 'Rodrigo Mary Hugh', 'start': '3B', 'end': 'score'},
+                   {'name': 'Ali Nunez', 'start': None, 'end': '1B'}]
+        self.assertEqual(throw_facts_from_words("He'll throw home, and the throw is not in time, "
+                                                'as Mary Hugh slides in safely under the tag.', runners, 'Ali Nunez'),
+                         {'Rodrigo Mary Hugh': {'throw': 'not_in_time', 'slide': 'under_tag'}})
+        runner = {'name': 'Fritz Ortega', 'start': None, 'end': '3B'}
+        self.assertEqual(throw_facts_from_words('Ortega digging for three. '
+                                                'And he will slide in safely, just ahead of the tag.', [runner], runner['name']),
+                         {'Fritz Ortega': {'slide': 'ahead_of_tag'}})
+        self.assertEqual(throw_facts_from_words('Throw to third base, not in time.', [runner], runner['name']),
+                         {'Fritz Ortega': {'throw': 'not_in_time'}})
+
+    def test_reannotation_preserves_reviewed_player_facts_in_all_real_ledgers(self):
+        from annotate_transcript_facts import annotate_pitchers, annotate_throws
+        from transcript_asides import metric_source_text
+
+        def check_runners(original, annotated):
+            for movement in original:
+                expected = {key: movement[key] for key in ('throw', 'slide') if key in movement}
+                if expected:
+                    actual = next(m for m in annotated if all(m.get(key) == movement.get(key)
+                                                              for key in ('name', 'start', 'end', 'out')))
+                    self.assertEqual({key: actual.get(key) for key in expected}, expected)
+
+        paths = sorted(LEDGER_DIR.glob('episode_*.json'))
+        self.assertGreaterEqual(len(paths), 17)
+        for path in paths:
+            with self.subTest(episode=path.stem):
+                original = json.loads(path.read_text())
+                annotated = copy.deepcopy(original)
+                game = annotated['game']
+                for key in ('season_stats', 'pitcher_roles', 'decisions'):
+                    game.pop(key, None)
+                for play in annotated['plays']:
+                    for movement in play.get('runners', []) + [m for p in play.get('pitches', []) for m in p.get('runners', [])]:
+                        for key in ('throw', 'slide'):
+                            movement.pop(key, None)
+                lines = metric_source_text(SOURCE_DIR / original['source_file']).splitlines()
+                pitchers = list(dict.fromkeys([game['away_pitcher'], game['home_pitcher']]
+                                              + [p['pitcher'] for p in annotated['plays']]))
+                game['season_stats'] = {name: {'pitching': stats} for name, stats in season_pitching(lines, pitchers).items()}
+                for play in annotated['plays']:
+                    annotate_throws(play, lines, [], path.stem)
+                annotate_pitchers(annotated, lines, [], path.stem)
+                for key in ('season_stats', 'pitcher_roles', 'decisions'):
+                    self.assertEqual(game.get(key, {}), original['game'].get(key, {}))
+                for old, new in zip(original['plays'], annotated['plays']):
+                    check_runners(old.get('runners', []), new.get('runners', []))
+                    for old_pitch, new_pitch in zip(old.get('pitches', []), new.get('pitches', [])):
+                        check_runners(old_pitch.get('runners', []), new_pitch.get('runners', []))
+
+    def test_pitcher_entry_ignores_earlier_commentary_with_same_surname(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.',
+                 'We remember right-handed closer Bob Nancy. Nancy has pitched twelve innings of work '
+                 'this season with an ERA of 2.67.',
+                 'Left-handed reliever Ron Nancy takes the mound.',
+                 'Away Batter 2 steps in.',
+                 'And the pitch... Ball one.']
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Ron Nancy', start=4, end=5,
+                        pitches=[{'code': 'B', 'line': 5}])]
+        data, report = ledger_with(plays), []
+        self.assertEqual(annotate_pitchers(data, lines, report, 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'L')
+        self.assertNotIn('pitcher_roles', data['game'])
+        self.assertNotIn('season_stats', data['game'])
+
+    def test_pitcher_entry_needs_the_incoming_pitchers_full_name(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.', 'Right-handed closer Bob Nancy was here last year.',
+                 'Away Batter 2 steps in.', "And Nancy's pitch... Ball one."]
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Ron Nancy', start=3, end=4,
+                        pitches=[{'code': 'B', 'line': 4}])]
+        data, report = ledger_with(plays), []
+        self.assertEqual(annotate_pitchers(data, lines, report, 'synthetic'), 0)
+        self.assertNotIn('pitch_hand', plays[1])
+        self.assertNotIn('pitcher_roles', data['game'])
+        self.assertEqual(report, [])
+
+    def test_pitcher_entry_keeps_abbreviations_and_initials_in_the_introduction(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        for name, introduction in (
+                ('Ron Nancy', 'Left-handed reliever from St. Paul, Ron Nancy takes over.'),
+                ('Ron Nancy', 'Left-handed reliever replacing J.T. King Jr., Ron Nancy takes over.'),
+                ('Ron Nancy', 'Left-handed closer Dr. Ron Nancy takes over.'),
+                ('J.T. Nancy Jr.', 'Left-handed closer J.T. Nancy Jr. takes over.')):
+            with self.subTest(name=name, introduction=introduction):
+                lines = ['The side is retired. Right-handed closer Bob Nancy leaves.', introduction,
+                         'Away Batter 2 steps in.', 'And the pitch... Ball one.']
+                plays = [record(outcome='Groundout', end=1),
+                         record(batter='Away Batter 2', pitcher=name, start=3, end=4,
+                                pitches=[{'code': 'B', 'line': 4}])]
+                data, report = ledger_with(plays), []
+                self.assertEqual(annotate_pitchers(data, lines, report, 'synthetic'), 1)
+                self.assertEqual(plays[1]['pitch_hand'], 'L')
+                self.assertIn(introduction, report[0][-1])
+                if 'closer' in introduction:
+                    self.assertEqual(data['game']['pitcher_roles'], {name: 'closer'})
+                else:
+                    self.assertNotIn('pitcher_roles', data['game'])
+
+    def test_pitcher_entry_before_the_play_keeps_its_season_line(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.',
+                 'Right-handed closer Dom Fuller takes the mound.',
+                 'Fuller has pitched twelve innings of work this season with an ERA of 2.67.',
+                 'Away Batter 2 steps in.', "And Fuller's pitch... Ball one."]
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Dom Fuller', start=4, end=5,
+                        pitches=[{'code': 'B', 'line': 5}])]
+        data = ledger_with(plays)
+        self.assertEqual(annotate_pitchers(data, lines, [], 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'R')
+        self.assertEqual(data['game']['pitcher_roles'], {'Dom Fuller': 'closer'})
+        self.assertEqual(data['game']['season_stats'],
+                         {'Dom Fuller': {'pitching': {'inningsPitched': '12.0', 'era': '2.67'}}})
+
+    def test_pitcher_entry_can_share_the_first_pitch_line(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.',
+                 'Left-handed reliever Ron Nancy takes over. And the pitch... Ball one.']
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Ron Nancy', start=2, end=2,
+                        pitches=[{'code': 'B', 'line': 2}])]
+        self.assertEqual(annotate_pitchers(ledger_with(plays), lines, [], 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'L')
+
+    def test_first_pitch_line_introduction_overrides_an_earlier_full_name_mention(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.', 'Right-handed closer Ron Nancy worked here last year.',
+                 "Left-handed reliever Ron Nancy takes over. And Ron Nancy's pitch... Ball one."]
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Ron Nancy', start=3, end=3,
+                        pitches=[{'code': 'B', 'line': 3}])]
+        data = ledger_with(plays)
+        self.assertEqual(annotate_pitchers(data, lines, [], 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'L')
+        self.assertNotIn('pitcher_roles', data['game'])
+
+    def test_pitcher_entry_with_single_name_keeps_the_first_sentence(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.',
+                 'Tigers closer Chadwick takes over. Chadwick is a tall, right-handed fireballer.',
+                 "And Chadwick's pitch... Ball one."]
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Chadwick', start=2, end=3,
+                        pitches=[{'code': 'B', 'line': 3}])]
+        data = ledger_with(plays)
+        self.assertEqual(annotate_pitchers(data, lines, [], 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'R')
+        self.assertEqual(data['game']['pitcher_roles'], {'Chadwick': 'closer'})
+
+    def test_throw_annotation_synthesizes_only_the_recognized_batter(self):
+        from annotate_transcript_facts import annotate_throws, record_movements
+        from test_transcript_games import record
+        runner = {'name': 'Nate Colbert', 'start': '2B', 'end': 'score'}
+        play = record(batter='Billy De Jesus', outcome='Single', end=1,
+                      pitches=[{'code': 'X', 'line': 1}], runners=[runner])
+        lines = ['And the pitch... No play at the plate as Colbert comes in to score. '
+                 'De Jesus slides in safely at first.']
+        self.assertEqual(annotate_throws(play, lines, [], 'synthetic'), 2)
+        self.assertEqual(play['runners'], [dict(runner, throw='none'),
+                                          {'name': 'Billy De Jesus', 'start': None, 'end': '1B', 'slide': True}])
+        self.assertEqual(record_movements(play), play['runners'])
+
+    def test_unknown_outcome_annotates_existing_runner_without_synthesizing(self):
+        from annotate_transcript_facts import annotate_throws, record_movements
+        from test_transcript_games import record
+        for outcome in ('Incomplete', 'Unrecognised Outcome'):
+            with self.subTest(outcome=outcome):
+                runner = {'name': 'Nate Colbert', 'start': '2B', 'end': 'score'}
+                play = record(batter='Billy De Jesus', outcome=outcome, end=1,
+                              pitches=[{'code': 'X', 'line': 1}], runners=[runner])
+                self.assertEqual(record_movements(play), [runner])
+                lines = ['And the pitch... No play at the plate as Colbert comes in to score.']
+                self.assertEqual(annotate_throws(play, lines, [], 'synthetic'), 1)
+                self.assertEqual(play['runners'], [dict(runner, throw='none')])
+
+    def test_throw_annotation_ignores_unexpected_fallback_subjects_and_outcomes(self):
+        from annotate_transcript_facts import annotate_throws
+        from test_transcript_games import record
+        batter = 'Billy De Jesus'
+        for name, outcome in (('Nate Colbert', 'Single'), (batter, 'Incomplete'),
+                              (batter, 'Unrecognised Outcome')):
+            with self.subTest(name=name, outcome=outcome):
+                play = record(batter=batter, outcome=outcome, end=1, pitches=[{'code': 'X', 'line': 1}])
+                before, report = copy.deepcopy(play), []
+                with patch('annotate_transcript_facts.throw_facts_from_words', return_value={name: {'throw': 'none'}}):
+                    self.assertEqual(annotate_throws(play, ['And the pitch... No throw.'], report, 'synthetic'), 0)
+                self.assertEqual(play, before)
+                self.assertEqual(report, [])
+
     def test_words_to_facts(self):
         self.assertEqual(facts_from_words('Hard grounder up the middle, and that one gets through.', 'Single', 'CF', 'ground_ball'),
                          {'lane': 'middle', 'hardness': 'hard'})
@@ -323,8 +731,470 @@ class TestAnnotation(unittest.TestCase):
         self.assertEqual(substitutions, 26)
         stats = sum(len(json.loads(path.read_text())['game'].get('season_stats', {}))
                     for path in LEDGER_DIR.glob('episode_*.json'))
-        self.assertEqual(stats, 26)
+        # 26 starters' records and two relievers' innings and ERA.
+        self.assertEqual(stats, 28)
 
 
 if __name__ == '__main__':
     unittest.main()
+
+
+# --- the pitcher's game line, throws and slides, pitchers entering the game ---
+
+def synthetic(records, complete=False, **game):
+    from test_transcript_games import ledger_with
+    ledger = ledger_with(records, complete=complete)
+    ledger['game'].update(game)
+    return compile_game(ledger, ('Source.\n' * 400).encode())
+
+
+def half(inning, top, outcomes, pitcher, first, score=(0, 0), start=1):
+    """Three (or more) appearances of one half-inning; outs counted from the outcomes."""
+    from test_transcript_games import record
+    side = 'Away' if top else 'Home'
+    records, outs = [], 0
+    for offset, outcome in enumerate(outcomes):
+        outs += outcome not in ('Single', 'Walk', 'Double')
+        records.append(record(batter=f'{side} Batter {(first + offset - 1) % 9 + 1}', outcome=outcome, inning=inning,
+                              top=top, pitcher=pitcher, outs=outs, score=list(score),
+                              start=start + offset, end=start + offset))
+    return records
+
+
+class TestPitcherGameLine(unittest.TestCase):
+    def game(self, home_outcomes=('Strikeout',) * 3):
+        records = half(1, True, home_outcomes, 'Home Pitcher', 1)
+        records += half(1, False, ['Groundout'] * 3, 'Away Pitcher', 1, start=10)
+        records += half(2, True, ['Strikeout', 'Flyout', 'Strikeout'], 'Home Pitcher', 4, start=20)
+        records += half(2, False, ['Groundout'], 'Away Pitcher', 4, start=30)
+        return synthetic(records)
+
+    def test_strikeouts_are_counted_from_the_plays(self):
+        renderer = SayEverything(self.game())
+        text = renderer.render()
+        third = play_text(renderer, text, 2)
+        self.assertRegex(third, r"third strikeout (of the (evening|night|game)|in a row)|three strikeouts in a row")
+        fifth = play_text(renderer, text, 8)
+        self.assertRegex(fifth, r"fifth strikeout of the (evening|night|game)")
+        # The strikeout after a fly ball is not "in a row".
+        self.assertNotIn('in a row', fifth)
+        # A groundout says nothing about strikeouts.
+        self.assertNotIn('strikeout', play_text(renderer, text, 4).split('\n')[-1])
+
+    def test_strikes_out_the_side_needs_three_strikeouts(self):
+        text = SayEverything(self.game()).render()
+        self.assertIn('Home Pitcher strikes out the side', text)
+        self.assertEqual(text.count('strikes out the side'), 1)
+        text = SayEverything(self.game(('Strikeout', 'Strikeout', 'Groundout'))).render()
+        self.assertNotIn('strikes out the side', text)
+
+    def test_retired_in_a_row_is_said_at_the_break_from_seven(self):
+        records = []
+        for inning in (1, 2, 3):
+            records += half(inning, True, ['Groundout'] * 3, 'Home Pitcher', 3 * inning - 2, start=20 * inning)
+            records += half(inning, False, ['Flyout'] * 3, 'Away Pitcher', 3 * inning - 2, start=20 * inning + 10)
+        records += half(4, True, ['Groundout'], 'Home Pitcher', 1, start=90)
+        text = SayEverything(synthetic(records)).render()
+        # Six in a row after two innings is not called; nine after three is.
+        self.assertNotRegex(text, r"\b(?:6|six) in a row|retired (?:6|six) straight")
+        self.assertRegex(text, r"(?:9|nine) in a row|retired (?:9|nine) straight")
+
+    def test_complete_game_and_decisions(self):
+        def nine_innings(first_inning):
+            records = []
+            for inning in range(1, 10):
+                outcomes = first_inning if inning == 1 else ['Groundout'] * 3
+                records += half(inning, True, outcomes, 'Home Pitcher', 1, start=10 * inning)
+                if inning < 9:
+                    records += half(inning, False, ['Flyout'] * 3, 'Away Pitcher', 1, start=10 * inning + 5)
+            for item in records[len(first_inning) + 3:]:
+                item['score'] = [0, 1]
+            return records
+
+        records = nine_innings(['Single', 'Groundout', 'Groundout', 'Groundout'])
+        data = synthetic(records, complete=True, decisions={'winner': 'Home Pitcher', 'loser': 'Away Pitcher'})
+        self.assertEqual(data['liveData']['decisions']['winner']['fullName'], 'Home Pitcher')
+        text = SayEverything(data).render()
+        self.assertRegex(text, r"Home Pitcher pitches a (complete game )?shutout")
+        self.assertNotIn('no-hitter', text)
+        self.assertIn('no-hitter', SayEverything(synthetic(nine_innings(['Groundout'] * 3), complete=True)).render())
+        # Two pitchers: nobody pitched a complete game.
+        relieved = copy.deepcopy(records)
+        for item in relieved[-3:]:
+            item['pitcher'] = 'Relief Pitcher'
+        self.assertNotRegex(SayEverything(synthetic(relieved, complete=True)).render(), r"complete game|shutout")
+        self.assertRegex(text, r"Home Pitcher gets the win")
+        self.assertRegex(text, r"Away Pitcher takes the loss")
+        # No decision is said that the feed does not record.
+        plain = SayEverything(synthetic(records, complete=True)).render()
+        self.assertNotIn('gets the win', plain)
+        self.assertNotIn('takes the loss', plain)
+        with self.assertRaises(ValueError):
+            synthetic(records, complete=True, decisions={'winner': 'Nobody Known'})
+
+    def test_hosts_rates_are_measured(self):
+        from optional_sentence_rates import measure
+        from renderers.narrative.renderer import OPTIONAL_SENTENCE_RATES
+        rows = {row['gate']: row for row in measure()}
+        # Scaled down for the simulator's strikeout-heavy half-innings.
+        self.assertLess(OPTIONAL_SENTENCE_RATES['strikes_out_side'], rows['strikes_out_side']['rate'])
+        for gate in ('strikeout_tally', 'retired_in_a_row', 'complete_game',
+                     'pitching_decisions', 'new_pitcher_intro', 'new_pitcher_season', 'steal_throw',
+                     'network_presents', 'host_intro', 'host_back', 'crew_chief', 'final_score'):
+            self.assertGreater(rows[gate]['opportunities'], 5, gate)
+            self.assertAlmostEqual(OPTIONAL_SENTENCE_RATES[gate], rows[gate]['rate'], delta=0.03, msg=gate)
+
+
+class TestThrowsAndSlides(unittest.TestCase):
+    def play(self, **facts):
+        from test_transcript_games import movement, record
+        runner = dict(movement('Away Batter 1', '2B', 'score'), **facts)
+        return [record(batter='Away Batter 1', outcome='Double', start=1, end=1, runners=[movement('Away Batter 1', None, '2B')]),
+                record(batter='Away Batter 2', outcome='Single', start=2, end=2, score=[1, 0],
+                       pitches=[{'code': 'X', 'line': 2}], hit={'location': 'RF', 'trajectory': 'line_drive'},
+                       runners=[runner])]
+
+    def test_compiled_onto_the_runner_and_narrated(self):
+        data = synthetic(self.play(throw='not_in_time'))
+        details = data['liveData']['plays']['allPlays'][1]['runners'][0]['details']
+        self.assertEqual(details['throw'], 'not_in_time')
+        renderer = SayEverything(data)
+        self.assertRegex(play_text(renderer, renderer.render(), 1), r"[Tt]hrow (to the plate )?is not in time")
+        data = synthetic(self.play(slide='under_tag'))
+        renderer = SayEverything(data)
+        self.assertIn('safely under the tag', play_text(renderer, renderer.render(), 1))
+
+    def test_nothing_is_said_of_an_unrecorded_throw(self):
+        renderer = SayEverything(synthetic(self.play()))
+        text = play_text(renderer, renderer.render(), 1)
+        for phrase in ('not in time', 'slide', 'beat the throw', 'No play'):
+            self.assertNotIn(phrase, text)
+
+    def test_unknown_values_are_rejected(self):
+        with self.assertRaises(ValueError):
+            synthetic(self.play(throw='wild'))
+        with self.assertRaises(ValueError):
+            synthetic(self.play(slide='feet_first'))
+
+    def test_steal_throw(self):
+        from test_transcript_games import record
+        steal = {'code': 'A', 'line': 2, 'eventType': 'stolen_base',
+                 'runners': [{'name': 'Away Batter 1', 'start': '1B', 'end': '2B', 'throw': 'not_in_time'}]}
+        records = [record(batter='Away Batter 1', outcome='Single', start=1, end=1),
+                   record(batter='Away Batter 2', outcome='Incomplete', start=2, end=2,
+                          pitches=[{'code': 'B', 'line': 2}, steal])]
+        data = synthetic(records)
+        self.assertEqual(data['liveData']['plays']['allPlays'][1]['playEvents'][1]['details']['runners'][0]['throw'],
+                         'not_in_time')
+        renderer = SayEverything(data)
+        text = play_text(renderer, renderer.render(), 1)
+        self.assertRegex(text, r"not in time|too late|is late|[Bb]eats the throw|Safe at second")
+        self.assertIn('Away Batter 1 steals second.', text)
+        del steal['runners'][0]['throw']
+        renderer = SayEverything(synthetic(records))
+        self.assertNotRegex(play_text(renderer, renderer.render(), 1), r"throw|Safe at")
+
+    def test_words_to_facts(self):
+        from annotate_transcript_facts import decisions_from_words, pitcher_entry_facts, throw_facts_from_words
+        runner = {'name': 'Nate Colbert', 'start': '2B', 'end': 'score'}
+        batter = {'name': 'Billy De Jesus', 'start': None, 'end': '2B'}
+        self.assertEqual(throw_facts_from_words('Colbert rounding third, the throw to the plate is not in time.',
+                                                [runner, batter], 'Billy De Jesus'),
+                         {'Nate Colbert': {'throw': 'not_in_time'}})
+        self.assertEqual(throw_facts_from_words('De Jesus heading for second. And he will slide in safely ahead of the tag.',
+                                                [runner, batter], 'Billy De Jesus'),
+                         {'Billy De Jesus': {'slide': 'ahead_of_tag'}})
+        self.assertEqual(throw_facts_from_words('No play at the plate as Colbert comes in to score.', [runner, batter], None),
+                         {'Nate Colbert': {'throw': 'none'}})
+        # An offline throw is not a late one, and a routine out is no fact.
+        self.assertEqual(throw_facts_from_words('The throw to the plate is offline, not in time.', [runner, batter], None), {})
+        self.assertEqual(throw_facts_from_words('Slauson fires to first in time to retire Bush.', [batter], None), {})
+        self.assertEqual(pitcher_entry_facts('Ron Nancy', "against the Bombers' right-handed closer, Ron Nancy."),
+                         {'pitch_hand': 'R', 'role': 'closer'})
+        self.assertEqual(pitcher_entry_facts('Dom Fuller', 'reliever Dom Fuller. Fuller has pitched 12 innings of work '
+                                                           'this season with an ERA of 2.67.'),
+                         {'season': {'inningsPitched': '12.0', 'era': '2.67'}})
+        self.assertEqual(decisions_from_words('Edgar Whitehouse notches another win, Billy Brello takes the loss, and '
+                                              'Ron Nancy gets the save for the Bombers.',
+                                              ['Edgar Whitehouse', 'Billy Brello', 'Ron Nancy']),
+                         {'winner': 'Edgar Whitehouse', 'loser': 'Billy Brello', 'save': 'Ron Nancy'})
+
+    def test_no_throw_steals_never_narrate_a_throw_or_tag(self):
+        from renderers.narrative.play_description import _throw_pool, render_steal_event
+        from renderers.randomness import ChoiceRNG
+        from test_transcript_games import record
+        for base in ('2B', '3B'):
+            for slide in (False, True):
+                calls = []
+                for draw in range(len(_throw_pool('none', slide))):
+                    renderer = SayEverything(synthetic([record()]))
+                    renderer.rng_play = ChoiceRNG([draw], 0)
+                    origin = '1B' if base == '2B' else '2B'
+                    renderer.runners_on_base = {'1B': None, '2B': None, '3B': None, origin: 'Otis Runner'}
+                    event = {'details': {'eventType': 'stolen_base', 'runners': [
+                        {'runner': {'fullName': 'Otis Runner'}, 'fromBase': origin, 'toBase': base,
+                         'isOut': False, 'throw': 'none', 'slide': slide}]}}
+                    text = render_steal_event(renderer, event)
+                    calls.append(text)
+                    self.assertIn(f'Otis Runner steals {"second" if base == "2B" else "third"}.', text)
+                    self.assertNotRegex(text, r'not in time|beat.*throw|ahead of the throw|tag')
+                    if not slide:
+                        self.assertNotIn('slide', text)
+                    self.assertIsNone(renderer.runners_on_base[origin])
+                    self.assertEqual(renderer.runners_on_base[base], 'Otis Runner')
+                self.assertTrue(any('No throw.' in text or 'No play at' in text for text in calls))
+
+    def test_no_throw_destination_selects_the_safe_runner(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runner = {'name': 'Nate Colbert', 'start': '1B', 'end': '2B'}
+        batter = {'name': 'Billy De Jesus', 'start': None, 'end': '1B'}
+        for text in ('No throw to second.', 'No throw at second.', 'No play to second.', 'No play at second.',
+                     'No time to get a throw to second.', 'No chance to get a throw at second.'):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, [runner, batter], batter['name']),
+                                 {'Nate Colbert': {'throw': 'none'}})
+
+    def test_two_runners_on_a_hit_need_an_unambiguous_preceding_clause(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runners = [{'name': 'Nate Colbert', 'start': '2B', 'end': 'score'},
+                   {'name': 'Bill Brown', 'start': '1B', 'end': '3B'},
+                   {'name': 'Rio Nunez', 'start': None, 'end': '1B'}]
+        for text, expected in (
+                ('Nunez singles. Colbert scores. Brown heads for third. He slides in safely.',
+                 {'Bill Brown': {'slide': True}}),
+                ('Nunez singles. Colbert scores. The throw goes to third. He slides in safely.', {}),
+                ('Nunez singles. Colbert scores and Brown heads for third. He slides in safely.', {}),
+                ('Nunez singles. Colbert scores. The ball gets away. There is no throw.', {}),
+                ('Nunez singles. Colbert scores and Brown heads for third. No throw to third.',
+                 {'Bill Brown': {'throw': 'none'}})):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, runners, 'Rio Nunez'), expected)
+
+    def test_pronoun_keeps_the_runner_in_the_last_clause_of_a_real_call(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runners = [{'name': 'Billy De Jesus', 'start': '2B', 'end': 'score'},
+                   {'name': 'JP Primero', 'start': None, 'end': '1B'}]
+        text = ('Primero safe at first, De Jesus racing for home. '
+                'And he will slide in safely ahead of the tag.')
+        self.assertEqual(throw_facts_from_words(text, runners, 'JP Primero'),
+                         {'Billy De Jesus': {'slide': 'ahead_of_tag'}})
+
+    def test_no_throw_without_destination_needs_an_identifiable_runner(self):
+        from annotate_transcript_facts import throw_facts_from_words
+        runner = {'name': 'Nate Colbert', 'start': '1B', 'end': '2B'}
+        batter = {'name': 'Billy De Jesus', 'start': None, 'end': '1B'}
+        for text in ('No throw.', 'No play.', 'No time to get a throw.', 'No chance to get him.'):
+            with self.subTest(text=text):
+                self.assertEqual(throw_facts_from_words(text, [runner], None), {'Nate Colbert': {'throw': 'none'}})
+                self.assertEqual(throw_facts_from_words(text, [runner, batter], batter['name']), {})
+        self.assertEqual(throw_facts_from_words('Colbert advances with no throw.', [runner, batter], batter['name']),
+                         {'Nate Colbert': {'throw': 'none'}})
+
+    def test_decisions_use_the_nearest_pitcher_before_each_verb(self):
+        from annotate_transcript_facts import decisions_from_words
+        pitchers = ['Alex Smith', 'Pat Jones', 'Sam Brown']
+        text = ('After a strong outing from Smith, Jones gets the win, while Jones watches Smith take the mound, '
+                'Smith takes the loss, and after a call from Smith, Brown earns a save.')
+        expected = {'winner': 'Pat Jones', 'loser': 'Alex Smith', 'save': 'Sam Brown'}
+        for names in (pitchers, list(reversed(pitchers))):
+            with self.subTest(pitchers=names):
+                self.assertEqual(decisions_from_words(text, names), expected)
+
+    def test_decisions_do_not_reuse_a_subject_from_an_earlier_clause(self):
+        from annotate_transcript_facts import decisions_from_words
+        pitchers = ['Alex Smith', 'Pat Jones']
+        for text in ('Smith leaves the mound. The bullpen gets the win.',
+                     'Smith leaves the mound; the bullpen gets the win.',
+                     'Jones gets the win and takes the loss.'):
+            with self.subTest(text=text):
+                self.assertEqual(decisions_from_words(text, pitchers),
+                                 {'winner': 'Pat Jones'} if text.startswith('Jones') else {})
+
+    def test_decisions_leave_a_shared_surname_unresolved(self):
+        from annotate_transcript_facts import decisions_from_words
+        self.assertEqual(decisions_from_words('Jones gets the win.', ['Pat Jones', 'Sam Jones']), {})
+
+    def test_ledgers_record_the_hosts_throws(self):
+        runner = next(r for r in episode(51)['liveData']['plays']['allPlays'][33]['runners']
+                      if r['details'].get('throw'))
+        self.assertEqual(runner['details']['throw'], 'not_in_time')
+        self.assertEqual(ledger(39)['game']['decisions']['save'], 'Ron Nancy')
+        self.assertEqual(ledger(39)['game']['pitcher_roles']['Ron Nancy'], 'closer')
+
+
+class TestNewPitcher(unittest.TestCase):
+    def game(self, strict=True, **game):
+        records = half(1, True, ['Groundout'] * 3, 'Home Pitcher', 1)
+        records += half(1, False, ['Groundout'] * 3, 'Away Pitcher', 1, start=10)
+        records += half(2, True, ['Groundout'] * 3, 'Relief Pitcher', 4, start=20)
+        for item in records[6:9]:
+            item['pitch_hand'] = 'L'
+        data = synthetic(records, **game)
+        if not strict:
+            del data['gameData']['broadcast']['strictFacts']
+        return data
+
+    def test_he_is_brought_in_by_name_once_and_never_by_a_banner(self):
+        for strict in (True, False):
+            renderer = SayEverything(self.game(strict))
+            text = renderer.render()
+            self.assertNotIn('Pitching Change', text)
+            self.assertNotIn('replaces', text)
+            entrance = play_text(renderer, text, 6)
+            self.assertIn('Relief Pitcher', entrance, strict)
+            self.assertRegex(entrance, r"(?i)reliever|relief|new pitcher|new \w+ pitcher|new man")
+            self.assertLessEqual(entrance.count('takes the mound') + entrance.count('new pitcher'), 1)
+            # The next batter does not bring him in again.
+            self.assertNotRegex(play_text(renderer, text, 7), r"takes the mound|new pitcher|in relief")
+
+    def test_hand_and_closer_only_when_recorded(self):
+        renderer = NarrativeRenderer(self.game())
+        team, person = renderer.home_team, {'id': 999024, 'fullName': 'Relief Pitcher'}
+        pid = next(p['id'] for p in renderer.gameday_data['gameData']['players'].values()
+                   if p['fullName'] == 'Relief Pitcher')
+        options = renderer._new_pitcher_descriptors(team, {'id': pid, 'fullName': 'Relief Pitcher'})
+        self.assertIn("Hosts' left-handed reliever Relief Pitcher", options)
+        self.assertIn('Example lefty reliever Relief Pitcher', options)
+        self.assertFalse(any('closer' in option for option in options))
+        closer = NarrativeRenderer(self.game(pitcher_roles={'Relief Pitcher': 'closer'}))
+        options = closer._new_pitcher_descriptors(team, {'id': pid, 'fullName': 'Relief Pitcher'})
+        self.assertTrue(all('closer' in option for option in options))
+        del closer.gameday_data['gameData']['players'][f'ID{pid}']['pitchHand']
+        self.assertFalse(any('handed' in option or 'lefty' in option
+                             for option in closer._new_pitcher_descriptors(team, {'id': pid, 'fullName': 'Relief Pitcher'})))
+        with self.assertRaises(ValueError):
+            self.game(pitcher_roles={'Relief Pitcher': 'fireman'})
+
+    def test_season_line_from_the_boxscore(self):
+        stats = {'Relief Pitcher': {'pitching': {'inningsPitched': '12.0', 'era': '2.67'}}}
+        text = SayEverything(self.game(season_stats=stats)).render()
+        self.assertRegex(text, r"Pitcher has pitched (12|twelve) innings of work this season with an ERA of 2\.67\.")
+        self.assertNotIn('innings of work', SayEverything(self.game()).render())
+
+    def test_a_fixture_may_leave_him_unsaid_but_a_simulated_game_may_not(self):
+        class SayNothing(NarrativeRenderer):
+            def _optional(self, name):
+                super()._optional(name)
+                return False
+        named = 0
+        for seed in range(12):
+            data = self.game(strict=False)
+            data['gameData']['commentarySeed'] = seed
+            renderer = SayNothing(data)
+            named += 'Relief Pitcher' in play_text(renderer, renderer.render(), 6)
+        self.assertEqual(named, 12)
+
+
+class TestPregameAndPostgame(unittest.TestCase):
+    FACTS = dict(home_state='Wisconsin', away_state='Michigan', weather={'temp': '74', 'wind': 'In From CF'},
+                 crew_chief='V.R. Montebianco')
+
+    def game(self, complete=False, **game):
+        records = half(1, True, ['Groundout'] * 3, 'Home Pitcher', 1)
+        records += half(1, False, ['Flyout'] * 3, 'Away Pitcher', 1, start=10)
+        if complete:
+            for inning in range(2, 10):
+                records += half(inning, True, ['Groundout'] * 3, 'Home Pitcher', 1, start=20 * inning)
+                if inning < 9:
+                    records += half(inning, False, ['Flyout'] * 3, 'Away Pitcher', 1, start=20 * inning + 10)
+            for item in records[9:]:
+                item['score'] = [0, 2]
+        return synthetic(records, complete=complete, **game)
+
+    def test_recorded_pregame_facts_are_compiled_where_a_feed_keeps_them(self):
+        data = self.game(**self.FACTS)
+        game = data['gameData']
+        self.assertEqual(game['teams']['home']['state'], 'Wisconsin')
+        self.assertEqual(game['weather'], {'temp': '74', 'wind': 'In From CF'})
+        self.assertEqual(game['umpires'], ['V.R. Montebianco'])
+        self.assertEqual(game['broadcast']['station_city'], 'Big Rapids')
+        with self.assertRaises(ValueError):
+            self.game(weather={'temp': 'warm'})
+
+    def test_they_are_said_only_when_recorded(self):
+        pregame = SayEverything(self.game(**self.FACTS)).render().split('[TTS')[0]
+        self.assertIn('from Example Field in Example, Wisconsin', pregame)
+        self.assertIn('of Sample, Michigan.', pregame)
+        self.assertRegex(pregame, r"74 degrees at game time,? (with a (light|gentle)|and just a gentle) breeze "
+                                  r"blowing in from center field\.")
+        self.assertRegex(pregame, r"And crew chief V\.R\. Montebianco (has signaled that it's time to play ball|"
+                                  r"hollers, play ball|says, play ball|signals play ball)\.")
+        self.assertIn('presents Sleep Baseball.', pregame)
+        bare = SayEverything(self.game()).render().split('[TTS')[0]
+        for phrase in ('Wisconsin', 'Michigan', 'degrees', 'breeze', 'crew chief', 'perfect night'):
+            self.assertNotIn(phrase, bare)
+
+    def test_each_lineup_and_the_postgame_have_their_own_draws(self):
+        data = self.game(complete=True)
+        batting_second = ['Batting second and playing second base, {}.', 'Batting second, second baseman {}.',
+                          'Second baseman {} will bat second.']
+        for away in range(3):
+            for home in range(3):
+                fixture = copy.deepcopy(data)
+                fixture['gameData']['commentaryRng'] = {'lineup_away': {'color': [0, 0, away]},
+                                                        'lineup_home': {'color': [0, 0, 0, home]}}
+                text = NarrativeRenderer(fixture).render()
+                self.assertIn(batting_second[away].format('Away Batter 2'), text)
+                self.assertIn(batting_second[home].format('Home Batter 2'), text)
+        fixture = copy.deepcopy(data)
+        fixture['gameData']['commentaryRng'] = {'postgame': {'color': [1], 'optional': [0]}}
+        closing = NarrativeRenderer(fixture).render().split('to end the ball game')[-1]
+        self.assertIn('So the Hosts take this one at home, two to nothing.', closing)
+        # The final score, then the line score, then the sign-off.
+        self.assertLess(closing.index('take this one'), closing.index('runs'))
+        fixture['gameData']['commentaryRng'] = {'postgame': {'optional': [99]}}
+        self.assertNotIn('take this one', NarrativeRenderer(fixture).render())
+
+    def test_the_fitter_scores_templates_as_they_will_be_said(self):
+        from fit_transcript_games import filled, option_score, pregame_windows, tokens
+        context = {'away_short': 'Timbers', 'away_team_name': 'Big Rapids Timbers'}
+        target = tokens('Those are the Timbers.')
+        short, full = (filled(t, context) for t in ('Those are the {away_short}.', 'Those are the {away_team_name}.'))
+        self.assertEqual(short, 'Those are the Timbers.')
+        self.assertGreater(option_score(short, target), option_score(full, target))
+        # Without the values the two templates tie, and an unknown slot stays a slot.
+        self.assertEqual(option_score('Those are the {away_short}.', target),
+                         option_score('Those are the {away_team_name}.', target))
+        self.assertEqual(filled('{batter_name} steps in against {pitcher_name}.', {'batter_name': 'Rio Nunez'}),
+                         'Rio Nunez steps in against {pitcher_name}.')
+        lines = (['Welcome.', "Let's take a look at the starting nine for the visiting Timbers."] + ['A hitter.'] * 9
+                 + ['Those are the Timbers.', 'Here are the Tigers.'] + ['A hitter.'] * 9
+                 + ['And crew chief Montebianco hollers, play ball.', 'So we are underway.'])
+        self.assertEqual(pregame_windows(lines),
+                         {'init': (0, 1), 'lineup:away': (1, 11), 'lineup:home': (11, 22), 'first_pitch': (22, 24)})
+        self.assertEqual(set(pregame_windows(['Welcome.', 'Play ball.']).values()), {(0, 2)})
+
+    def test_pregame_words_to_facts(self):
+        from annotate_transcript_facts import pregame_facts
+        game = {'away': 'Big Rapids Timbers', 'home': 'Tomah Tigers'}
+        lines = ['Tonight, from Kittamori Park in Tomah, Wisconsin, it\'s the Tomah Tigers, hosting the Big Rapids '
+                 'Timbers of Big Rapids, Michigan.',
+                 '74 degrees at game time with a gentle breeze blowing out to left center.',
+                 'And crew chief V.R. Montebianco hollers, play ball.']
+        self.assertEqual(pregame_facts(game, lines, lines),
+                         {'away_state': 'Michigan', 'home_state': 'Wisconsin',
+                          'weather': {'temp': '74', 'wind': 'Out To LCF'}, 'crew_chief': 'V.R. Montebianco'})
+        self.assertEqual(pregame_facts(game, ['A quiet night.'], ['A quiet night.']), {})
+
+    def test_pregame_wind_normalizes_directions_and_keeps_fields(self):
+        from annotate_transcript_facts import pregame_facts
+        game = {'away': 'Big Rapids Timbers', 'home': 'Tomah Tigers'}
+        for words, wind in (('in left field', 'In From LF'), ('in from left field', 'In From LF'),
+                            ('in from center field', 'In From CF'), ('in from right field', 'In From RF'),
+                            ('in from left center', 'In From LCF'), ('in right center', 'In From RCF'),
+                            ('out to left center', 'Out To LCF'), ('out to right center', 'Out To RCF'),
+                            ('out to center field', 'Out To CF'), ('out right field', 'Out To RF'),
+                            ('in from left', 'In From LF'), ('out to right', 'Out To RF'),
+                            ('IN FROM CENTER FIELD', 'In From CF')):
+            with self.subTest(words=words):
+                lines = [f'74 degrees at game time, with a light breeze blowing {words}.']
+                self.assertEqual(pregame_facts(game, lines, lines), {'weather': {'temp': '74', 'wind': wind}})
+
+    def test_pregame_wind_without_a_field_keeps_the_normalized_direction(self):
+        from annotate_transcript_facts import pregame_facts
+        game = {'away': 'Big Rapids Timbers', 'home': 'Tomah Tigers'}
+        for words, wind in (('in from', 'In From'), ('out to', 'Out To'),
+                            ('in', 'In From'), ('out', 'Out To'), ('IN FROM', 'In From')):
+            with self.subTest(words=words):
+                lines = [f'74 degrees at game time, with a light breeze blowing {words}.']
+                self.assertEqual(pregame_facts(game, lines, lines), {'weather': {'temp': '74', 'wind': wind}})

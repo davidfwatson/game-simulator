@@ -95,6 +95,22 @@ def option_score(option, target_tokens):
     return match_score(option_tokens, target_grams(target_tokens)) if option_tokens else 0
 
 
+class _KeepSlots(dict):
+    def __missing__(self, key):
+        return '{' + key + '}'
+
+
+def filled(option, context):
+    """The option with the slots ``context`` knows filled in; the rest stay
+    slots (gaps no n-gram spans)."""
+    if not context or '{' not in option:
+        return option
+    try:
+        return option.format_map(_KeepSlots(context))
+    except (ValueError, IndexError, KeyError, AttributeError):
+        return option
+
+
 # --- gate threshold discovery -------------------------------------------------
 
 class _Probe:
@@ -206,13 +222,16 @@ class FittingRNG:
         self.fit_choices = fit_choices
         self.calls = 0
 
-    def choice(self, options):
+    def choice(self, options, context=None):
         original_choice = self.original.choice(options)
         fallback_index = options.index(original_choice)
         if not self.fit_choices:
             self.draws.append(fallback_index)
             return original_choice
-        scores = [option_score(str(option), self.choice_target) for option in options]
+        # With the values a template will be filled with (NarrativeRenderer.
+        # _choose), an option is scored as it will be said: "Those are the
+        # {away_short}." and "Those are the {away_team_name}." no longer tie.
+        scores = [option_score(filled(str(option), context), self.choice_target) for option in options]
         best = max(scores)
         index = fallback_index if scores[fallback_index] == best else scores.index(best)
         self.draws.append(index)
@@ -317,6 +336,11 @@ class FittingRenderer(NarrativeRenderer):
             name: streams[name] for name in STREAM_NAMES if name in streams}
         self.rng = self.rng_play
 
+    def _choose(self, rng, options, context):
+        if isinstance(rng, FittingRNG):
+            return rng.choice(options, context)
+        return rng.choice(options)
+
     def _gate_lookup(self, point, key, stream):
         trial, plan = self._trial, self._plan
 
@@ -347,6 +371,27 @@ class FittingRenderer(NarrativeRenderer):
 
 # --- source windows for the full-broadcast ledgers -----------------------------
 
+LINEUP_START = re.compile(r"take a (?:look|gander|peek) at|starting (?:nine|9|lineup)", re.I)
+LINEUP_HOME = re.compile(r"\bthose are the\b|\bhere are the\b|\b(?:and|now) for the (?:home|host)|"
+                         r"\bthe starting pitcher for\b", re.I)
+PREGAME_CLOSE = re.compile(r"before (?:we|the game)|crew chief|underway|play ball|fishbowl|umpire", re.I)
+
+
+def pregame_windows(lines):
+    """Line ranges of the pregame's reseed points: the opening (``init``),
+    each lineup and the words that start the game (``first_pitch``). When a
+    broadcast's lineups cannot be found, every point sees the whole pregame."""
+    whole = (0, len(lines))
+    away = next((i for i, line in enumerate(lines) if LINEUP_START.search(line)), None)
+    home = next((i for i, line in enumerate(lines) if away is not None and i > away and LINEUP_HOME.search(line)), None)
+    close = next((i for i, line in enumerate(lines)
+                  if home is not None and i > home + 5 and PREGAME_CLOSE.search(line)), None)
+    if close is None:
+        return {'init': whole, 'lineup:away': whole, 'lineup:home': whole, 'first_pitch': whole}
+    return {'init': (0, away), 'lineup:away': (away, home), 'lineup:home': (home, close),
+            'first_pitch': (close, len(lines))}
+
+
 class LedgerWindows:
     """Source windows from ledger line references.
 
@@ -361,7 +406,8 @@ class LedgerWindows:
         self._choice, self._segment = {}, {}
         plays = data['liveData']['plays']['allPlays']
         first_start = plays[0]['source']['start']
-        self._choice['init'] = self._segment['init'] = self._text(0, first_start - 1)
+        for key, (low, high) in pregame_windows(source_lines[:first_start - 1]).items():
+            self._choice[key] = self._segment[key] = self._text(low, high)
         previous_end = None
         for index, play in enumerate(plays):
             start, end = play['source']['start'], play['source']['end']
@@ -395,6 +441,9 @@ class LedgerWindows:
             outcome = self._text(outcome_start - 1, end)
             self._choice[f'play:{index}:outcome'] = self._segment[f'play:{index}:outcome'] = outcome
             previous_end = end
+        # Everything after the last appearance: the final score and sign-off.
+        self._choice['postgame'] = self._segment['postgame'] = self._text(
+            max(play['source']['end'] for play in plays), len(source_lines))
 
     def _text(self, low, high):
         return tokens('\n'.join(self.lines[max(0, low):max(0, high)]))

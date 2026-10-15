@@ -31,9 +31,19 @@ ZONE_RATE_OFFSET = 0.085      # subtracted from pitcher control to get zone rate
 PICKOFF_THROW_RATE = 0.075    # per pitch, runner alone on first (real feeds: ~2.2 throws per team-game)
 AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk/HBP
 WILD_PITCH_FACTOR = 3.2        # x the pitcher's wild_pitch_rate, per ball with runners on
-LATE_TROUBLE_HOOK_RATE = 0.15   # per PA, innings 6+, close, runner in scoring position
-MID_INNING_FATIGUE_MARGIN = 12  # pitches past his limit before a bases-empty hook
+LATE_TROUBLE_HOOK_RATE = 0.15  # per PA, innings 6+, close, runner in scoring position
 STARTER_STAMINA_BONUS = 14     # pitches added to a starter's stamina
+# Pitching changes, fit to 24 real 2026 feeds: 3.3 relievers per team-game,
+# starters 4.7 innings on 76 pitches (sd 24: some go eight, some are gone in
+# the second), a third of all changes mid-inning, relievers mostly an inning.
+STARTER_PITCH_BUDGET = 24      # pitches past his stamina a starter is allowed, on average
+STARTER_BUDGET_SD = 9          # the two starters don't work to the same number
+SHORT_LEASH_RATE = 0.13        # starts on a pitch limit (an opener, a man back from injury)
+SHORT_LEASH_RANGE = (20, 62)
+INNING_PITCHES = 14            # a starter this close to his budget doesn't start an inning
+BLOWOUT_MARGIN = 5             # runs ahead or behind at which a manager stops spending relievers
+FATIGUE_PENALTY_CAP = 0.12     # control lost to fatigue levels off (a team out of arms
+                               # used to walk the lineup around twice)
 BUNT_RATE_FACTOR = 0.2        # sac bunts were ~1.5/game; MLB is ~0.3
 
 
@@ -54,8 +64,15 @@ class BaseballSimulator:
         self.team2_name = self.team2_data["name"]
         self.max_innings = max_innings
         self.game_rng = random.Random(game_seed)
+        # Per-pitcher game state the manager reads: pitches allowed today,
+        # batters faced, runs given up, and when he came in.
+        self._pitch_budget, self._batters_faced, self._runs_allowed = {}, {}, {}
+        self._entered_inning, self._entered_mid_inning = {}, {}
+        self._pitcher_entries, self._mound_earned_runs = {}, {}
         self.commentary_seed = (game_seed if game_seed is not None
                                 else random.SystemRandom().randrange(2 ** 63))
+        # Throw and slide details must not change the game's results.
+        self.steal_rng = random.Random(self.commentary_seed + 1)
 
         # Setup lineups and pitchers
         self.team1_lineup = [p for p in self.team1_data["players"] if p['position']['abbreviation'] != 'P']
@@ -73,6 +90,7 @@ class BaseballSimulator:
         self.team1_score, self.team2_score = 0, 0
         self.inning, self.top_of_inning = 1, True
         self.outs, self.bases = 0, [None, None, None] # Runners on base by name
+        self._runner_pitchers = {}
 
         # Time state
         # September 27th 2025, 7:05 PM EDT -> 23:05 UTC
@@ -163,6 +181,10 @@ class BaseballSimulator:
                     "mlbDebutDate": debut_date,
                     "batSide": p.get('batSide', {'code': 'R', 'description': 'Right'}),
                     "pitchHand": p.get('pitchHand', {'code': 'R', 'description': 'Right'}),
+                    # Extension field (a feed has no role): "closer" is said of
+                    # a pitcher only when this records it.
+                    **({"pitcherRole": {'Starter': 'starter', 'Closer': 'closer'}.get(p.get('type'), 'reliever')}
+                       if p['position']['abbreviation'] == 'P' else {}),
                     "strikeZoneTop": 3.5, # Default
                     "strikeZoneBottom": 1.5 # Default
                 }
@@ -395,6 +417,13 @@ class BaseballSimulator:
 
         if not hasattr(self, 'pitch_counts'): self.pitch_counts = {}
         self.pitch_counts.update({name: 0 for name in pitcher_stats.keys()})
+        self._batters_faced.update({name: 0 for name in pitcher_stats})
+        self._runs_allowed.update({name: 0 for name in pitcher_stats})
+        starter = pitcher_stats[current_pitcher_name]
+        budget = self.game_rng.gauss(starter['stamina'] + STARTER_PITCH_BUDGET, STARTER_BUDGET_SD)
+        if self.game_rng.random() < SHORT_LEASH_RATE:
+            budget = self.game_rng.uniform(*SHORT_LEASH_RANGE)
+        self._pitch_budget[current_pitcher_name] = budget
 
     def _setup_defense(self, team_prefix, team_data):
         defense = {p['position']['abbreviation']: p for p in team_data['players']}
@@ -418,7 +447,7 @@ class BaseballSimulator:
         14: Low (Ball)
         """
         stamina = pitcher['stamina'] + (STARTER_STAMINA_BONUS if pitcher.get('type') == 'Starter' else 0)
-        fatigue_penalty = (max(0, self.pitch_counts[pitcher['legal_name']] - stamina) / 15) * 0.1
+        fatigue_penalty = min(FATIGUE_PENALTY_CAP, (max(0, self.pitch_counts[pitcher['legal_name']] - stamina) / 15) * 0.1)
 
         # Determine "pitch around" penalty based on batter threat
         pitch_around_penalty = 0.0
@@ -772,7 +801,7 @@ class BaseballSimulator:
 
     def _build_runner_entry(self, runner_name, origin_base, end_base, is_out, out_number,
                        event, event_type, movement_reason, play_index, is_scoring,
-                       is_rbi, responsible_pitcher=None, credits=None):
+                       is_rbi, credits=None):
         """Build a complete runner entry for gameday JSON."""
 
         # Find the runner's player object
@@ -815,7 +844,7 @@ class BaseballSimulator:
                 },
                 "isScoringEvent": is_scoring,
                 "rbi": is_rbi,
-                "earned": is_scoring,  # Simplification: assume all runs are earned
+                "earned": is_scoring,
                 "teamUnearned": False,
                 "playIndex": play_index
             },
@@ -823,7 +852,8 @@ class BaseballSimulator:
         }
 
         # Add responsible pitcher if runner scored
-        if is_scoring and responsible_pitcher:
+        if is_scoring:
+            responsible_pitcher = self._responsible_pitcher(runner_name)
             runner_entry["details"]["responsiblePitcher"] = {
                 "id": responsible_pitcher['id'],
                 "link": f"/api/v1/people/{responsible_pitcher['id']}"
@@ -913,6 +943,21 @@ class BaseballSimulator:
         })
         self._pitch_event_seq += 1
 
+    def _steal_movement(self, runner, base_to_steal, is_out):
+        """Who ran, as a feed's runner movement for the steal names him. An
+        automatic runner caught stealing before the first play of an extra
+        inning ends is in no other record of that play."""
+        throw = 'in_time'
+        if not is_out:
+            # The catcher may hold the ball with no play, especially at third.
+            no_throw_chance = 0.30 if base_to_steal == 3 else 0.15
+            throw = 'none' if self.steal_rng.random() < no_throw_chance else 'not_in_time'
+        return {'runner': {'id': runner['id'], 'fullName': runner['legal_name']},
+                'fromBase': f'{base_to_steal - 1}B', 'toBase': f'{base_to_steal}B', 'isOut': is_out,
+                # Extension fields (a feed has neither): the catcher's throw
+                # and the slide, for the narration.
+                'throw': throw, 'slide': self.steal_rng.random() < (0.4 if throw == 'none' else 0.9)}
+
     def _resolve_steal_attempt(self, base_to_steal, play_events: list[PlayEvent], balls, strikes):
         is_home_team_batting = not self.top_of_inning
         batting_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
@@ -949,7 +994,8 @@ class BaseballSimulator:
                      'code': 'X', # In play/action?
                      'isStrike': False,
                      'type': {'code': 'AS', 'description': 'Action'},
-                     'eventType': 'stolen_base'
+                     'eventType': 'stolen_base',
+                     'runners': [self._steal_movement(runner_data, base_to_steal, False)],
                  }
              }
             play_events.append(event)
@@ -959,6 +1005,7 @@ class BaseballSimulator:
             self.outs += 1
             self.bases[base_from_idx] = None
 
+            self._update_pitching_stat(self._pitching_team_key, self._pitching_side()[2]['id'], 'outs')
             self._update_batting_stat(self._batting_team_key, runner_data['id'], 'caughtStealing')
             # Record Caught Stealing Event
             event: PlayEvent = {
@@ -972,7 +1019,8 @@ class BaseballSimulator:
                      'code': 'X',
                      'isStrike': False,
                      'type': {'code': 'AS', 'description': 'Action'},
-                     'eventType': 'caught_stealing'
+                     'eventType': 'caught_stealing',
+                     'runners': [self._steal_movement(runner_data, base_to_steal, True)],
                  }
              }
             play_events.append(event)
@@ -1163,6 +1211,10 @@ class BaseballSimulator:
                 if pitch_outcome_text == "foul" or balls == 4:
                     # On ball four the runner is waved down (or forced): no steal.
                     pass
+                elif strikes == 3 and self.outs >= 2:
+                    # Strike three is the third out: the inning is over, and
+                    # no steal or caught stealing is scored behind it.
+                    pass
                 else:
                     caught_stealing = self._resolve_steal_attempt(steal_attempt_base, play_events, balls, strikes)
                     if caught_stealing and self.outs >= 3:
@@ -1208,14 +1260,25 @@ class BaseballSimulator:
         if FIELD_SIM and field is not None and not was_error and hit_type in ('Single', 'Double'):
             # The field model says how far each runner gets before the throw.
             old_bases = self.bases[:]
-            dests = fieldsim.advance_on_hit(field, hit_type, self._runner_speeds(), self.outs, self.game_rng)
+            close = {}
+            dests, thrown_out = fieldsim.advance_on_hit(field, hit_type, self._runner_speeds(), self.outs,
+                                                        self.game_rng, close=close)
+            # Runners who took the extra base just ahead of the throw.
+            self._close_plays = {old_bases[base - 1] for base in close}
             runs = self._apply_runner_dests(dests)
             for base, dest in sorted(dests.items(), reverse=True):
                 name = old_bases[base - 1]
                 advances.append(f"{name} scores" if dest == 4 else f"{name} to {dest}B")
-            self.bases[{'Single': 0, 'Double': 1}[hit_type]] = batter_name
-            if include_batter_advance:
-                advances.append(f"{batter_name} to {'1B' if hit_type == 'Single' else '2B'}")
+            # Runners cut down on the bases (and a batter out stretching):
+            # (name, base he started the play on or None for the batter, base he was out at).
+            self._thrown_out = [(old_bases[base - 1], base, out_base) for base, out_base in thrown_out.items()]
+            if field.batter_out:
+                self._thrown_out.append((batter_name, None, field.batter_out))
+            else:
+                self.bases[{'Single': 0, 'Double': 1}[hit_type]] = batter_name
+                if include_batter_advance:
+                    advances.append(f"{batter_name} to {'1B' if hit_type == 'Single' else '2B'}")
+            self.outs += len(self._thrown_out)
             return {'runs': runs, 'rbis': runs, 'advances': advances}
 
         old_bases = self.bases[:]
@@ -1252,79 +1315,152 @@ class BaseballSimulator:
         if self.bases[0]: runners.append(f"1B: {self.bases[0]}")
         return ", ".join(runners) if runners else "Bases empty"
 
+    def _responsible_pitcher(self, runner_name):
+        """Who put this runner on base, or the pitcher on the mound if no one was
+        recorded for him (a runner who came on some other way)."""
+        return self._runner_pitchers.get(runner_name) or self._pitching_side()[2]
+
+    def _pitching_side(self):
+        """(prefix, current pitcher's name, his stats, the bullpen) for the team in the field."""
+        prefix = 'team1' if self.top_of_inning else 'team2'
+        name = getattr(self, f"{prefix}_current_pitcher_name")
+        return prefix, name, getattr(self, f"{prefix}_pitcher_stats")[name], getattr(self, f"{prefix}_available_bullpen")
+
+    def _pitching_lead(self):
+        """Runs the team in the field leads by (negative when it trails)."""
+        lead = self.team1_score - self.team2_score
+        return lead if self.top_of_inning else -lead
+
+    def _pick_reliever(self, prefix, bullpen):
+        """Who comes in: the closer to protect a late lead, the long man when
+        the starter is gone early or the game is out of hand, a setup man late
+        and close, otherwise the next middle reliever."""
+        stats = getattr(self, f"{prefix}_pitcher_stats")
+        lead = self._pitching_lead()
+
+        def first(*roles):
+            return next((name for name in bullpen if stats[name].get('type') in roles), None)
+
+        pick = None
+        if self.inning >= 9 and 0 <= lead <= 3:
+            pick = first('Closer')
+        elif self.inning <= 4 or abs(lead) >= BLOWOUT_MARGIN:
+            pick = first('Long Reliever')
+        elif self.inning >= 7 and 0 <= lead <= 3:
+            pick = first('Setup Reliever')
+        return (pick or first('Middle Reliever', 'Reliever') or first('Long Reliever')
+                or first('Setup Reliever') or bullpen[0])
+
+    def _saving_the_bullpen(self, stats):
+        """With the game out of hand nobody burns his best relievers: whoever
+        is in stays in while he has pitches left."""
+        return abs(self._pitching_lead()) >= BLOWOUT_MARGIN and stats.get('type') != 'Starter'
+
+    def _bring_in(self, prefix, bullpen, mid_inning):
+        name = self._pick_reliever(prefix, bullpen)
+        self._entered_inning[name] = self.inning
+        self._entered_mid_inning[name] = mid_inning
+        self._half_pitcher_entry[name] = self.team2_score if self.top_of_inning else self.team1_score
+        setattr(self, f"{prefix}_current_pitcher_name", name)
+        setattr(self, f"{prefix}_available_bullpen", [n for n in bullpen if n != name])
+        self._record_pitcher_entry()
+
+    def _record_pitcher_entry(self):
+        """Keep the actual entry state; a PA's matchup can predate a change."""
+        pitcher = self._pitching_side()[2]
+        if pitcher['id'] not in self._pitcher_entries:
+            self._pitcher_entries[pitcher['id']] = {
+                'team': self._pitching_team_key,
+                'playIndex': len(self.gameday_data['liveData']['plays']['allPlays']),
+                'inning': self.inning, 'outs': self.outs, 'bases': self.bases[:],
+                'homeScore': self.team1_score, 'awayScore': self.team2_score,
+            }
+
     def _manage_pitching_change(self):
-        is_home_team_pitching = self.top_of_inning
-        current_pitcher_name = self.team1_current_pitcher_name if is_home_team_pitching else self.team2_current_pitcher_name
-        pitcher_stats = self.team1_pitcher_stats if is_home_team_pitching else self.team2_pitcher_stats
-        available_bullpen = self.team1_available_bullpen if is_home_team_pitching else self.team2_available_bullpen
-        # At-bats now run ~3.9 pitches (they were ~3.3), so a starter's
-        # stamina in pitches stretches to keep him at MLB's ~88-pitch average.
-        stamina = pitcher_stats[current_pitcher_name]['stamina']
-        if pitcher_stats[current_pitcher_name].get('type') == 'Starter':
-            stamina += STARTER_STAMINA_BONUS
-        fatigue_factor = max(0, self.pitch_counts[current_pitcher_name] - stamina)
-        # A pitcher who has given up four in the inning gets the hook whatever
-        # his pitch count; leaving him in through a six-run inning read as a
-        # simulator with no manager.
+        """The mid-inning hook, before a batter. Mid-inning hooks are for
+        trouble: a starter out of pitches with men on, a pitcher being hit
+        hard this inning, a reliever who has faced his three batters and put
+        the tying run in scoring position."""
+        prefix, name, stats, bullpen = self._pitching_side()
+        if not bullpen:
+            return
+        rng = self.game_rng
+        pitches = self.pitch_counts[name]
+        faced = self._batters_faced[name]
+        runs = self._runs_allowed[name]
         batting_score = self.team2_score if self.top_of_inning else self.team1_score
-        entry_scores = getattr(self, '_half_pitcher_entry', {})
-        shelled = batting_score - entry_scores.get(current_pitcher_name, batting_score) >= 4
-        # Mid-inning hooks are for trouble: a pitcher well past his limit, or
-        # tiring with men on. Crossing his pitch count with two out and the
-        # bases empty used to pull him on the spot; real managers let him
-        # finish (most changes come between innings: 4.4 a game vs 2.2 mid).
+        inning_runs = batting_score - self._half_pitcher_entry.get(name, batting_score)
         runners_on = any(self.bases)
-        tired = fatigue_factor > MID_INNING_FATIGUE_MARGIN or (fatigue_factor > 0 and runners_on)
-        # Late and close with men in scoring position: go get a fresh arm.
-        margin = abs(self.team1_score - self.team2_score)
-        # Not a man who came in this inning: pulling a reliever after two
-        # batters, seven changes in three innings, read as churn.
-        fresh = self._entered_inning.get(current_pitcher_name) == self.inning
-        matchup_hook = (self.inning >= 6 and margin <= 3 and (self.bases[1] or self.bases[2])
-                        and available_bullpen and not fresh
-                        and not (pitcher_stats[available_bullpen[0]].get('type') == 'Closer' and self.inning < 9)
-                        and self.game_rng.random() < LATE_TROUBLE_HOOK_RATE)
-        if (tired or shelled or matchup_hook) and available_bullpen:
-            entry_scores[available_bullpen[0]] = batting_score
-            self._entered_inning[available_bullpen[0]] = self.inning
-            next_pitcher_name = available_bullpen[0]
-            if is_home_team_pitching:
-                if self.team1_current_pitcher_name != next_pitcher_name:
-                    self.team1_current_pitcher_name, self.team1_available_bullpen = next_pitcher_name, available_bullpen[1:]
-            else:
-                if self.team2_current_pitcher_name != next_pitcher_name:
-                    self.team2_current_pitcher_name, self.team2_available_bullpen = next_pitcher_name, available_bullpen[1:]
+        scoring_position = bool(self.bases[1] or self.bases[2])
+        close = abs(self._pitching_lead()) <= 3
+        if stats.get('type') == 'Starter':
+            budget = self._pitch_budget[name]
+            change = (
+                # (a manager gives him a little longer early, to spare the bullpen)
+                inning_runs >= (5 if self.inning <= 2 else 4)
+                or (inning_runs >= 3 and runners_on and self.inning > 2 and rng.random() < 0.5)
+                or (runs >= 6 and runners_on)
+                or pitches >= budget + 10
+                or (pitches >= budget and runners_on)
+                # Third time through the order with the game on the bases.
+                or (faced >= 18 and scoring_position and self.inning >= 5 and close and rng.random() < 0.2))
+        elif faced < 3:
+            # Three-batter minimum: he faces three or finishes the inning.
+            change = False
+        elif self._saving_the_bullpen(stats):
+            change = inning_runs >= 5 or pitches >= stats['stamina'] + 25
+        else:
+            stamina = stats['stamina']
+            second_inning = self._entered_inning.get(name, self.inning) < self.inning
+            change = (
+                (inning_runs >= 3 and runners_on)
+                or (inning_runs >= 2 and runners_on and rng.random() < 0.5)
+                or pitches >= stamina + 20
+                or (pitches >= stamina + 4 and runners_on)
+                # Sent back out for another inning, he's on a short leash.
+                or (second_inning and runners_on and rng.random() < 0.15)
+                or (self.inning >= 6 and close and scoring_position and stats.get('type') != 'Closer'
+                    and rng.random() < LATE_TROUBLE_HOOK_RATE))
+        if change:
+            self._bring_in(prefix, bullpen, mid_inning=True)
 
     def _manage_between_innings(self):
         """Change pitchers before the half starts, the way most changes happen:
         a starter near his limit doesn't start an inning he can't finish, and
-        relievers work an inning (two for the long man)."""
-        is_home_team_pitching = self.top_of_inning
-        current = self.team1_current_pitcher_name if is_home_team_pitching else self.team2_current_pitcher_name
-        stats = (self.team1_pitcher_stats if is_home_team_pitching else self.team2_pitcher_stats)[current]
-        bullpen = self.team1_available_bullpen if is_home_team_pitching else self.team2_available_bullpen
+        relievers work an inning (two or three for the long man)."""
+        prefix, name, stats, bullpen = self._pitching_side()
         if not bullpen:
             return
-        pitches = self.pitch_counts[current]
+        rng = self.game_rng
+        pitches = self.pitch_counts[name]
+        faced = self._batters_faced[name]
+        runs = self._runs_allowed[name]
         role = stats.get('type', '')
-        innings_done = self.inning - self._entered_inning.get(current, 1)
+        lead = self._pitching_lead()
         if role == 'Starter':
-            change = pitches >= stats['stamina'] + STARTER_STAMINA_BONUS - 10
+            change = (
+                pitches >= self._pitch_budget[name] - INNING_PITCHES
+                or (runs >= 5 and rng.random() < 0.6)
+                or (runs >= 4 and faced >= 18 and rng.random() < 0.35)
+                or (faced >= 27 and rng.random() < 0.5))
+        elif pitches == 0:
+            change = False   # he hasn't thrown a pitch yet
+        elif self.inning >= 9 and 0 <= lead <= 3 and any(
+                getattr(self, f"{prefix}_pitcher_stats")[n].get('type') == 'Closer' for n in bullpen):
+            change = True    # the closer's inning
+        elif self._saving_the_bullpen(stats):
+            change = pitches >= stats['stamina'] + 5
         elif role == 'Long Reliever':
-            change = innings_done >= 2 or pitches >= stats['stamina'] - 8
+            change = pitches >= stats['stamina'] - 8 or runs >= 3 or rng.random() < 0.1
+        elif role == 'Closer':
+            change = True
+        elif self._entered_mid_inning.get(name) and self._entered_inning.get(name) == self.inning - 1:
+            # He got the last out or two of the inning: often back out for the next.
+            change = pitches > 20 or runs >= 2 or rng.random() < 0.15
         else:
-            change = innings_done >= 1 or pitches >= stats['stamina'] - 5
-        # The closer is kept for the ninth unless he's all that's left.
-        nxt = bullpen[0]
-        nxt_role = (self.team1_pitcher_stats if is_home_team_pitching else self.team2_pitcher_stats)[nxt].get('type')
-        if change and nxt_role == 'Closer' and self.inning < 9 and role != 'Starter' and pitches < stats['stamina']:
-            change = False
+            change = pitches > 20 or runs >= 2 or rng.random() < 0.35
         if change:
-            self._entered_inning[nxt] = self.inning
-            if is_home_team_pitching:
-                self.team1_current_pitcher_name, self.team1_available_bullpen = nxt, bullpen[1:]
-            else:
-                self.team2_current_pitcher_name, self.team2_available_bullpen = nxt, bullpen[1:]
+            self._bring_in(prefix, bullpen, mid_inning=False)
 
     def _create_credit(self, player, credit_type):
         return {
@@ -1336,6 +1472,46 @@ class BaseballSimulator:
             'position': player['position'],
             'credit': credit_type
         }
+
+    def _thrown_out_credits(self, field, out_base):
+        """Who gets the assist and the putout on a runner thrown out at
+        `out_base` (2, 3, or 4 for home) after a hit: the outfielder who came
+        up with the ball, a relay man on a long throw, and whoever has the bag."""
+        defense = self._defense_positions()
+        thrower = defense.get(field.fielder)
+        left_side = field.spray < 0
+        receiver = {4: 'C', 3: '3B'}.get(out_base, '2B' if left_side else 'SS')
+        chain = [thrower]
+        origin = field.release_point or field.landing
+        if out_base == 4 and fieldsim.distance(origin, fieldsim.HOME) > 270:
+            chain.append(defense.get('SS' if left_side else '2B'))
+        credits = [self._create_credit(player, 'assist') for player in chain if player]
+        if defense.get(receiver):
+            credits.append(self._create_credit(defense[receiver], 'putout'))
+        return credits
+
+    def _thrown_out_description(self, batter, outcome, play_events, thrown_out):
+        """The feed's description of a hit with a runner thrown out: "Sam Decker
+        singles on a line drive to right fielder TJ Hawkins. Leo Vance out at
+        home on the throw, right fielder TJ Hawkins to catcher Hank Barrett."""
+        field = self._play_field
+        fielder = self._defense_positions().get(field.fielder)
+
+        def title(position):
+            name = position['name'].lower()
+            return name + ('er' if name.endswith('field') else 'man' if name.endswith('base') else '')
+
+        ball = {'ground_ball': 'ground ball', 'line_drive': 'line drive', 'fly_ball': 'fly ball',
+                'popup': 'pop up'}.get(field.trajectory, 'ball')
+        text = f"{batter['legal_name']} {outcome.lower()}s on a {ball}"
+        if fielder:
+            text += f" to {title(fielder['position'])} {fielder['legal_name']}"
+        text += "."
+        for name, out_base, credits in thrown_out:
+            where = {2: '2nd', 3: '3rd'}.get(out_base, 'home')
+            chain = " to ".join(f"{title(c['position'])} {c['player']['fullName']}" for c in credits)
+            text += f" {name} out at {where} on the throw, {chain}."
+        return text
 
     def _get_double_play_participants(self, fielder, defense):
         """Determine participants and credits for a double play."""
@@ -1384,6 +1560,12 @@ class BaseballSimulator:
             fielder = self._defense_positions().get(field.fielder)
         if fielder is not None:
             pass
+        elif out_type == 'Sacrifice Bunt':
+            # A bunt is fielded in front of the plate: by the pitcher, a
+            # charging corner infielder or the catcher, never "to short".
+            bunt_fielders = [(pitcher, 45), (defense.get('3B'), 30), (first_baseman, 15), (catcher, 10)]
+            bunt_fielders = [(p, w) for p, w in bunt_fielders if p]
+            fielder = self.game_rng.choices([p for p, _ in bunt_fielders], weights=[w for _, w in bunt_fielders], k=1)[0]
         elif out_type in ['Groundout', 'Sacrifice Bunt', 'Lineout', 'Pop Out', 'Forceout', 'Grounded Into DP', 'Double Play']:
             grounder_candidates = [(p, 6) for p in infielders] + [(pitcher, 1)] + ([(catcher, 0.25)] if catcher else [])
             fielder = self.game_rng.choices([c[0] for c in grounder_candidates], weights=[c[1] for c in grounder_candidates], k=1)[0]
@@ -1519,7 +1701,10 @@ class BaseballSimulator:
                 rbis = 0  # No RBI on a sacrifice
             specific_event = final_out_type
 
-        if fielder['position']['abbreviation'] == '1B' and first_baseman:
+        if out_type == 'Sacrifice Bunt' and fielder['position']['abbreviation'] == '1B' and defense.get('2B'):
+            # The first baseman charged the bunt; the second baseman covers first.
+            credits = [self._create_credit(fielder, 'assist'), self._create_credit(defense['2B'], 'putout')]
+        elif fielder['position']['abbreviation'] == '1B' and first_baseman:
             credits = [self._create_credit(first_baseman, 'putout')]
         elif first_baseman:
             credits = [self._create_credit(fielder, 'assist'), self._create_credit(first_baseman, 'putout')]
@@ -1549,7 +1734,8 @@ class BaseballSimulator:
                 cover = catcher
                 self._last_force = (forced, '3B', 'score')
             else:
-                cover = (defense.get('2B') if pos == 'SS' else defense.get('SS'))
+                # The second baseman covers on a ball to the left side.
+                cover = (defense.get('2B') if pos in ('SS', '3B') else defense.get('SS'))
                 self._last_force = (forced, '1B', '2B')
             if pos in ('2B', 'SS') and play == 'force_second' and fieldsim.distance(field.release_point, fieldsim.SECOND_BASE) < 30:
                 credits = [self._create_credit(fielder, 'putout')]
@@ -1560,7 +1746,11 @@ class BaseballSimulator:
             return runs, False, runs, credits, [], credits, False, "Forceout", forced
         self.outs += 1
         runs = self._apply_runner_dests(dests)
-        if pos == '1B' and first_baseman:
+        if pos == '1B' and first_baseman and field.pitcher_covers:
+            # 3-1: the toss to the pitcher covering first.
+            credits = [self._create_credit(first_baseman, 'assist'),
+                       self._create_credit(self._defense_positions()['P'], 'putout')]
+        elif pos == '1B' and first_baseman:
             credits = [self._create_credit(first_baseman, 'putout')]
         elif first_baseman:
             credits = [self._create_credit(fielder, 'assist'), self._create_credit(first_baseman, 'putout')]
@@ -1570,13 +1760,9 @@ class BaseballSimulator:
 
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
-        if not hasattr(self, '_entered_inning'):
-            self._entered_inning = {}
-        self._manage_between_innings()
+        self._runner_pitchers = {}
+        self._half_pitcher_entry = {}
         self._free_pass_pitcher = None
-        self._half_pitcher_entry = {
-            (self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name):
-                (self.team2_score if self.top_of_inning else self.team1_score)}
         is_home_team_batting = not self.top_of_inning
         batting_team_name, lineup, batter_idx_ref = (self.team1_name, self.team1_lineup, 'team1_batter_idx') if is_home_team_batting else (self.team2_name, self.team2_lineup, 'team2_batter_idx')
 
@@ -1586,7 +1772,14 @@ class BaseballSimulator:
             self.bases[1] = runner_name
             # Note: Renderer handles "Automatic runner" text
 
+        self._manage_between_innings()
+        self._record_pitcher_entry()
+        self._half_pitcher_entry[self._pitching_side()[1]] = self.team2_score if self.top_of_inning else self.team1_score
+        if self.inning >= 10:
+            self._runner_pitchers[runner_name] = self._pitching_side()[2]
+
         first_batter = True
+        self._half_plate_appearances = 0
         while self.outs < 3:
             if not first_batter:
                 # Time between at-bats (avg ~23.6s)
@@ -1595,8 +1788,9 @@ class BaseballSimulator:
 
             ab_start_time = self.current_time.isoformat()
 
-            old_outs = self.outs
-            self._manage_pitching_change()
+            if self.outs or any(self.bases) or self._half_plate_appearances:
+                self._manage_pitching_change()
+            self._half_plate_appearances += 1
             pitcher_name = self.team1_current_pitcher_name if self.top_of_inning else self.team2_current_pitcher_name
             pitcher = (self.team1_pitcher_stats if self.top_of_inning else self.team2_pitcher_stats)[pitcher_name]
             batter = lineup[getattr(self, batter_idx_ref)]
@@ -1605,7 +1799,11 @@ class BaseballSimulator:
             pre_play_bases = self.bases[:]
 
             self._play_field = None
+            self._thrown_out = []
+            self._close_plays = set()
             outcome, description, play_events = self._simulate_at_bat(batter, pitcher)
+            # Baserunning outs during the PA have already been credited.
+            old_outs = self.outs
             self._free_pass_pitcher = pitcher_name if outcome in ("Walk", "Hit By Pitch", "HBP") else None
 
             ab_end_time = self.current_time.isoformat()
@@ -1622,7 +1820,6 @@ class BaseballSimulator:
             old_bases = self.bases[:]
 
             if outcome == "Caught Stealing":
-                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
                 pass
             elif outcome in ["Groundout", "Flyout", "Sacrifice Bunt", "Lineout", "Pop Out", "Forceout", "Grounded Into DP", "Bunt Ground Out", "Double Play"]:
                 result = self._handle_batted_ball_out(outcome, batter, description)
@@ -1745,7 +1942,6 @@ class BaseballSimulator:
                 self.outs += 1
                 self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
             elif outcome == "Strikeout Double Play":
-                self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs') # CS out is separate?
                 pass # Outs handled
             elif outcome in ["Single", "Double", "Triple", "Home Run", "Walk", "HBP", "Hit By Pitch"]:
                 adv_info = self._advance_runners(outcome, batter)
@@ -1765,20 +1961,34 @@ class BaseballSimulator:
             if rbis > 0:
                  self._update_batting_stat(self._batting_team_key, batter['id'], 'rbi', rbis)
 
-            # Pitching Runs
-            if runs > 0:
-                 self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'runs', runs)
-                 # Earned runs? Simplifying to all earned for now
-                 if not was_error:
-                      self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'earnedRuns', runs)
+            self._batters_faced[pitcher_name] += 1
+            if batter['legal_name'] in self.bases or outcome == 'Home Run':
+                self._runner_pitchers[batter['legal_name']] = pitcher
 
             play_index = len(play_events) - 1 if play_events else 0
             base_map = {0: "1B", 1: "2B", 2: "3B"}
 
             # --- Runner tracking logic ---
 
+            thrown_out_text = []
             if outcome in ["Single", "Double", "Triple", "Home Run"]:
+                thrown_out = {name: (origin, out_base) for name, origin, out_base in self._thrown_out}
+                out_number = self.outs - len(thrown_out)
                 for base_idx, runner_name in enumerate(old_bases):
+                    if runner_name in thrown_out and runner_name != batter['legal_name']:
+                        # Cut down trying for the extra base, as real feeds
+                        # record it: a Runner Out with the fielders' credits.
+                        out_number += 1
+                        out_base = thrown_out[runner_name][1]
+                        out_credits = self._thrown_out_credits(self._play_field, out_base)
+                        runner_entry = self._build_runner_entry(
+                            runner_name=runner_name, origin_base=base_map[base_idx], end_base=f"{out_base}B",
+                            is_out=True, out_number=out_number, event="Runner Out", event_type="other_out",
+                            movement_reason="r_thrown_out", play_index=play_index,
+                            is_scoring=False, is_rbi=False, credits=out_credits)
+                        if runner_entry: runner_list.append(runner_entry)
+                        thrown_out_text.append((runner_name, out_base, out_credits))
+                        continue
                     if runner_name:
                         origin = base_map[base_idx]
                         scored = runner_name not in self.bases
@@ -1788,22 +1998,44 @@ class BaseballSimulator:
                             is_out=False, out_number=None, event=outcome,
                             event_type=self._get_event_type_code(outcome),
                             movement_reason="r_adv_play", play_index=play_index,
-                            is_scoring=scored, is_rbi=scored and not was_error,
-                            responsible_pitcher=pitcher if scored else None
+                            is_scoring=scored, is_rbi=scored and not was_error
                         )
+                        if runner_entry and runner_name in getattr(self, '_close_plays', ()):
+                            # Extension fields: the throw came and he slid in.
+                            runner_entry['details'].update(throw='not_in_time', slide=True)
                         if runner_entry: runner_list.append(runner_entry)
 
                 batter_end = {"Single": "1B", "Double": "2B", "Triple": "3B", "Home Run": "score"}[outcome]
                 batter_scored = outcome == "Home Run"
-                batter_entry = self._build_runner_entry(
-                    runner_name=batter['legal_name'], origin_base=None, end_base=batter_end,
-                    is_out=False, out_number=None, event=outcome,
-                    event_type=self._get_event_type_code(outcome),
-                    movement_reason=None, play_index=play_index,
-                    is_scoring=batter_scored, is_rbi=batter_scored,
-                    responsible_pitcher=pitcher if batter_scored else None
-                )
-                if batter_entry: runner_list.append(batter_entry)
+                if batter['legal_name'] in thrown_out:
+                    # The hit stands, but his only movement ends in an out.
+                    out_number += 1
+                    out_base = thrown_out[batter['legal_name']][1]
+                    out_credits = self._thrown_out_credits(self._play_field, out_base)
+                    stretch_entry = self._build_runner_entry(
+                        runner_name=batter['legal_name'], origin_base=None, end_base=f"{out_base}B",
+                        is_out=True, out_number=out_number, event="Runner Out", event_type="other_out",
+                        movement_reason="r_out_stretching", play_index=play_index,
+                        is_scoring=False, is_rbi=False, credits=out_credits)
+                    if stretch_entry:
+                        stretch_entry['movement']['start'] = batter_end
+                        runner_list.append(stretch_entry)
+                    thrown_out_text.append((batter['legal_name'], out_base, out_credits))
+                else:
+                    batter_entry = self._build_runner_entry(
+                        runner_name=batter['legal_name'], origin_base=None, end_base=batter_end,
+                        is_out=False, out_number=None, event=outcome,
+                        event_type=self._get_event_type_code(outcome),
+                        movement_reason=None, play_index=play_index,
+                        is_scoring=batter_scored, is_rbi=batter_scored
+                    )
+                    if batter_entry: runner_list.append(batter_entry)
+                for _, _, out_credits in thrown_out_text:
+                    for credit in out_credits:
+                        self._update_fielding_stat(self._pitching_team_key, credit['player']['id'],
+                                                   'putOuts' if credit['credit'] == 'putout' else 'assists')
+                if thrown_out_text:
+                    self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs', len(thrown_out_text))
 
             elif outcome in ["Walk", "HBP", "Hit By Pitch"]:
                 for base_idx, runner_name in enumerate(old_bases):
@@ -1818,8 +2050,7 @@ class BaseballSimulator:
                             event_type=self._get_event_type_code(outcome),
                             movement_reason="r_adv_force" if was_forced else "r_adv_play",
                             play_index=play_index,
-                            is_scoring=scored, is_rbi=scored,
-                            responsible_pitcher=pitcher if scored else None
+                            is_scoring=scored, is_rbi=scored
                         )
                         if runner_entry: runner_list.append(runner_entry)
 
@@ -1866,8 +2097,7 @@ class BaseballSimulator:
                             runner_name=runner_name, origin_base=base_map[base_idx], end_base=end,
                             is_out=False, out_number=None, event="Grounded Into DP",
                             event_type="grounded_into_double_play", movement_reason="r_adv_play",
-                            play_index=play_index, is_scoring=scored, is_rbi=False,
-                            responsible_pitcher=pitcher if scored else None)
+                            play_index=play_index, is_scoring=scored, is_rbi=False)
                         if runner_entry: runner_list.append(runner_entry)
                 else:
                     # Handle runners who advanced, scored, or were out on a force
@@ -1897,8 +2127,7 @@ class BaseballSimulator:
                                     is_out=False, out_number=None, event=outcome,
                                     event_type=self._get_event_type_code(outcome),
                                     movement_reason="r_sac_fly" if "Sac Fly" in outcome else "r_adv_play",
-                                    play_index=play_index, is_scoring=True, is_rbi=True and not was_error,
-                                    responsible_pitcher=pitcher
+                                    play_index=play_index, is_scoring=True, is_rbi=True and not was_error
                                 )
                                 if runner_entry: runner_list.append(runner_entry)
                             elif advanced:
@@ -1963,6 +2192,18 @@ class BaseballSimulator:
                 if runner_entry['details']['isScoringEvent']:
                      runner_id = runner_entry['details']['runner']['id']
                      self._update_batting_stat(self._batting_team_key, runner_id, 'runs')
+                     runner_name = runner_entry['details']['runner']['fullName']
+                     responsible_pitcher = self._responsible_pitcher(runner_name)
+                     self._runs_allowed[responsible_pitcher['legal_name']] += 1
+                     self._update_pitching_stat(self._pitching_team_key, responsible_pitcher['id'], 'runs')
+                     # Keep the feed and box score's simplified earned-run accounting together.
+                     runner_entry['details']['earned'] = not was_error
+                     runner_entry['details']['teamUnearned'] = was_error
+                     if not was_error:
+                          self._update_pitching_stat(self._pitching_team_key, responsible_pitcher['id'], 'earnedRuns')
+                          pid = self._pitching_side()[2]['id']
+                          self._mound_earned_runs[pid] = self._mound_earned_runs.get(pid, 0) + 1
+            self._runner_pitchers = {name: p for name, p in self._runner_pitchers.items() if name in self.bases}
 
             if runs > 0:
                 current_inning_idx = self.inning - 1
@@ -1974,6 +2215,8 @@ class BaseballSimulator:
             at_bat_index = len(self.gameday_data['liveData']['plays']['allPlays'])
 
             final_description = play_description_text if is_dp and play_description_text else ""
+            if thrown_out_text:
+                final_description = self._thrown_out_description(batter, outcome, play_events, thrown_out_text)
 
             play_result = PlayResult(type="atBat", event=outcome, eventType=self._get_event_type_code(outcome), description=final_description, rbi=rbis, awayScore=self.team2_score, homeScore=self.team1_score)
             play_about = PlayAbout(atBatIndex=at_bat_index, halfInning="bottom" if is_home_team_batting else "top", isTopInning=not is_home_team_batting, inning=self.inning, isScoringPlay=runs > 0, startTime=ab_start_time, endTime=ab_end_time)
@@ -2010,7 +2253,74 @@ class BaseballSimulator:
             if is_home_team_batting and self.team1_score > self.team2_score and self.inning >= 9:
                 return
 
+    def _record_decisions(self):
+        """Rule 9.17 wins/losses and 9.19 saves, with a deterministic
+        approximation for the official scorer's choice of effective reliever."""
+        plays = self.gameday_data['liveData']['plays']['allPlays']
+        if not plays or self.team1_score == self.team2_score:
+            return
+        home_won = self.team1_score > self.team2_score
+        ahead = lambda result: (result['homeScore'] > result['awayScore']) if home_won else (
+            result['awayScore'] > result['homeScore'])
+        go_ahead = len(plays) - 1
+        while go_ahead and ahead(plays[go_ahead - 1]['result']):
+            go_ahead -= 1
+        team = 'home' if home_won else 'away'
+        players = self.gameday_data['liveData']['boxscore']['teams'][team]['players']
+        names = {p['id']: p['fullName'] for p in self.gameday_data['gameData']['players'].values()}
+        order = [pid for pid, entry in self._pitcher_entries.items() if entry['team'] == team]
+        stats = {pid: players[f'ID{pid}']['stats']['pitching'] for pid in order}
+        # Use the out totals credited when each out happened, not PA snapshots.
+        outs = {pid: stats[pid]['outs'] for pid in order}
+        earlier = [pid for pid in order if self._pitcher_entries[pid]['playIndex'] <= go_ahead]
+        winner = earlier[-1] if earlier else order[0]
+
+        def effectiveness(pid):
+            # 9.17(b) needs judgment: prefer fewer runs, earned runs, then
+            # baserunners per out; then more outs. Ties go to the earlier man.
+            line = stats[pid]
+            runners = line['hits'] + line['baseOnBalls'] + line['hitByPitch']
+            return (line['runs'] / outs[pid], line['earnedRuns'] / outs[pid],
+                    runners / outs[pid], -outs[pid])
+
+        if stats[winner]['gamesStarted'] and outs[winner] < 15:
+            relievers = [pid for pid in order if not stats[pid]['gamesStarted'] and outs[pid]]
+            if relievers:
+                winner = min(relievers, key=effectiveness)
+        elif not stats[winner]['gamesStarted'] and outs[winner] <= 3 and self._mound_earned_runs.get(winner, 0) >= 2:
+            # 9.17(c) approximation: <=1 inning with >=2 earned runs scoring,
+            # including inherited runs, is brief and ineffective. A successor
+            # with an out and <=1 earned run scoring per inning is effective.
+            successors = [pid for pid in order[order.index(winner) + 1:]
+                          if outs[pid] and self._mound_earned_runs.get(pid, 0) * 3 <= outs[pid]]
+            if successors:
+                winner = min(successors, key=effectiveness)
+
+        play = plays[go_ahead]
+        before = plays[go_ahead - 1]['result'] if go_ahead else {'homeScore': 0, 'awayScore': 0}
+        needed = before['awayScore'] - before['homeScore'] + 1 if home_won else before['homeScore'] - before['awayScore'] + 1
+        # Runner records are stored first-to-third, not in scoring order.
+        scorers = sorted((r for r in play['runners'] if r['details']['isScoringEvent']),
+                         key=lambda r: {'3B': 0, '2B': 1, '1B': 2}.get(r['movement']['originBase'], 3))
+        loser = scorers[needed - 1]['details']['responsiblePitcher']['id']
+        decisions = {'winner': {'id': winner, 'fullName': names[winner]},
+                     'loser': {'id': loser, 'fullName': names[loser]}}
+        finisher = order[-1]
+        if finisher != winner and not stats[finisher]['gamesStarted'] and outs[finisher]:
+            entry = self._pitcher_entries[finisher]
+            lead = entry['homeScore'] - entry['awayScore'] if home_won else entry['awayScore'] - entry['homeScore']
+            runners = sum(bool(name) for name in entry['bases'])
+            if ((0 < lead <= 3 and outs[finisher] >= 3)
+                    or 0 < lead <= runners + 2 or outs[finisher] >= 9):
+                decisions['save'] = {'id': finisher, 'fullName': names[finisher]}
+        self.gameday_data['liveData']['decisions'] = decisions
+
     def play_game(self):
+        self._play_innings()
+        if self.max_innings is None:
+            self._record_decisions()
+
+    def _play_innings(self):
         should_continue = lambda: (self.inning <= 9 or self.team1_score == self.team2_score) if self.max_innings is None else self.inning <= self.max_innings
 
         while should_continue():
@@ -2035,7 +2345,11 @@ class BaseballSimulator:
             self.top_of_inning = False
             self._simulate_half_inning()
 
-            if self.inning >= 9 and not self.top_of_inning and self.team1_score > self.team2_score:
+            # Nine (or more) complete innings and somebody leads: the game is
+            # over. Checked before the next inning is opened, or a visitors'
+            # win in nine left a phantom 0-0 tenth in the linescore.
+            if self.inning >= 9 and (self.team1_score > self.team2_score or (
+                    self.max_innings is None and self.team1_score != self.team2_score)):
                 break
 
             if self.max_innings and self.inning >= self.max_innings:
