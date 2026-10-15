@@ -294,6 +294,106 @@ class TestSimulatorFacts(unittest.TestCase):
 
 
 class TestAnnotation(unittest.TestCase):
+    def test_pitcher_entry_ignores_earlier_commentary_with_same_surname(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.',
+                 'We remember right-handed closer Bob Nancy. Nancy has pitched twelve innings of work '
+                 'this season with an ERA of 2.67.',
+                 'Left-handed reliever Ron Nancy takes the mound.',
+                 'Away Batter 2 steps in.',
+                 'And the pitch... Ball one.']
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Ron Nancy', start=4, end=5,
+                        pitches=[{'code': 'B', 'line': 5}])]
+        data, report = ledger_with(plays), []
+        self.assertEqual(annotate_pitchers(data, lines, report, 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'L')
+        self.assertNotIn('pitcher_roles', data['game'])
+        self.assertNotIn('season_stats', data['game'])
+
+    def test_pitcher_entry_needs_the_incoming_pitchers_full_name(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.', 'Right-handed closer Bob Nancy was here last year.',
+                 'Away Batter 2 steps in.', "And Nancy's pitch... Ball one."]
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Ron Nancy', start=3, end=4,
+                        pitches=[{'code': 'B', 'line': 4}])]
+        data, report = ledger_with(plays), []
+        self.assertEqual(annotate_pitchers(data, lines, report, 'synthetic'), 0)
+        self.assertNotIn('pitch_hand', plays[1])
+        self.assertNotIn('pitcher_roles', data['game'])
+        self.assertEqual(report, [])
+
+    def test_pitcher_entry_before_the_play_keeps_its_season_line(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.',
+                 'Right-handed closer Dom Fuller takes the mound.',
+                 'Fuller has pitched twelve innings of work this season with an ERA of 2.67.',
+                 'Away Batter 2 steps in.', "And Fuller's pitch... Ball one."]
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Dom Fuller', start=4, end=5,
+                        pitches=[{'code': 'B', 'line': 5}])]
+        data = ledger_with(plays)
+        self.assertEqual(annotate_pitchers(data, lines, [], 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'R')
+        self.assertEqual(data['game']['pitcher_roles'], {'Dom Fuller': 'closer'})
+        self.assertEqual(data['game']['season_stats'],
+                         {'Dom Fuller': {'pitching': {'inningsPitched': '12.0', 'era': '2.67'}}})
+
+    def test_pitcher_entry_can_share_the_first_pitch_line(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.',
+                 'Left-handed reliever Ron Nancy takes over. And the pitch... Ball one.']
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Ron Nancy', start=2, end=2,
+                        pitches=[{'code': 'B', 'line': 2}])]
+        self.assertEqual(annotate_pitchers(ledger_with(plays), lines, [], 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'L')
+
+    def test_pitcher_entry_with_single_name_keeps_the_first_sentence(self):
+        from annotate_transcript_facts import annotate_pitchers
+        from test_transcript_games import ledger_with, record
+        lines = ['The side is retired.',
+                 'Tigers closer Chadwick takes over. Chadwick is a tall, right-handed fireballer.',
+                 "And Chadwick's pitch... Ball one."]
+        plays = [record(outcome='Groundout', end=1),
+                 record(batter='Away Batter 2', pitcher='Chadwick', start=2, end=3,
+                        pitches=[{'code': 'B', 'line': 3}])]
+        data = ledger_with(plays)
+        self.assertEqual(annotate_pitchers(data, lines, [], 'synthetic'), 1)
+        self.assertEqual(plays[1]['pitch_hand'], 'R')
+        self.assertEqual(data['game']['pitcher_roles'], {'Chadwick': 'closer'})
+
+    def test_throw_annotation_synthesizes_only_the_recognized_batter(self):
+        from annotate_transcript_facts import annotate_throws, record_movements
+        from test_transcript_games import record
+        runner = {'name': 'Nate Colbert', 'start': '2B', 'end': 'score'}
+        play = record(batter='Billy De Jesus', outcome='Single', end=1,
+                      pitches=[{'code': 'X', 'line': 1}], runners=[runner])
+        lines = ['And the pitch... No play at the plate as Colbert comes in to score. '
+                 'De Jesus slides in safely at first.']
+        self.assertEqual(annotate_throws(play, lines, [], 'synthetic'), 2)
+        self.assertEqual(play['runners'], [dict(runner, throw='none'),
+                                          {'name': 'Billy De Jesus', 'start': None, 'end': '1B', 'slide': True}])
+        self.assertEqual(record_movements(play), play['runners'])
+
+    def test_unknown_outcome_annotates_existing_runner_without_synthesizing(self):
+        from annotate_transcript_facts import annotate_throws, record_movements
+        from test_transcript_games import record
+        for outcome in ('Incomplete', 'Unrecognised Outcome'):
+            with self.subTest(outcome=outcome):
+                runner = {'name': 'Nate Colbert', 'start': '2B', 'end': 'score'}
+                play = record(batter='Billy De Jesus', outcome=outcome, end=1,
+                              pitches=[{'code': 'X', 'line': 1}], runners=[runner])
+                self.assertEqual(record_movements(play), [runner])
+                lines = ['And the pitch... No play at the plate as Colbert comes in to score.']
+                self.assertEqual(annotate_throws(play, lines, [], 'synthetic'), 1)
+                self.assertEqual(play['runners'], [dict(runner, throw='none')])
+
     def test_words_to_facts(self):
         self.assertEqual(facts_from_words('Hard grounder up the middle, and that one gets through.', 'Single', 'CF', 'ground_ball'),
                          {'lane': 'middle', 'hardness': 'hard'})

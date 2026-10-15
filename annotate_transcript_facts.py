@@ -298,8 +298,18 @@ def annotate_pitchers(ledger, lines, report, stem):
         if side not in seen and name not in starters:
             first = min([pitch['line'] for pitch in record.get('pitches', []) if pitch.get('line')]
                         or [record['source_end']])
-            text = ' '.join(lines[previous_end:max(first, record['source_start'])])
-            facts = pitcher_entry_facts(name, text)
+            text = ' '.join(lines[previous_end:max(first - 1, record['source_start'] - 1)])
+            full_name = rf"\b{re.escape(name)}\b"
+            named = list(re.finditer(full_name, text, re.I))
+            if not named:
+                # An introduction may share the first pitch's line.
+                text = lines[first - 1].split('...', 1)[0]
+                named = list(re.finditer(full_name, text, re.I))
+            if named:
+                # Begin at his introduction, not earlier surname matches.
+                start = max(text.rfind(mark, 0, named[0].start()) for mark in '.!?') + 1
+                text = text[start:]
+            facts = pitcher_entry_facts(name, text) if named else {}
             new = {}
             if 'pitch_hand' in facts and not any(r.get('pitch_hand') for r in plays if r['pitcher'] == name):
                 for other in plays:

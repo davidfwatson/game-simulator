@@ -552,6 +552,23 @@ def advance_on_hit(ball, outcome, runners, outs, rng, rp=RUN_PARAMS, close=None)
         while target < 4 and (target in dest.values() or target in occupied_after):
             target += 1
         dest[base] = target
+    if outs == 2 and (thrown_out or ball.batter_out):
+        # These are tags taking an extra base, not forces or outs at first.
+        # Freeze advancement at the third out: earlier runs still count.
+        out_base = ball.batter_out or next(iter(thrown_out.values()))
+        out_time = _throw_time(ball, out_base, rp=rp)
+        occupied = set()
+        for base in sorted(dest, reverse=True):
+            target = dest[base]
+            lead = rp['lead'][base] + rp['two_out_lead']
+            while target > base and (_run_time(base, target, runners[base], lead, delay, rp) >= out_time
+                                     or (target < 4 and target in occupied)):
+                target -= 1
+            dest[base] = target
+            if target < 4:
+                occupied.add(target)
+            if close is not None and close.get(base) != target:
+                close.pop(base, None)
     return dest, thrown_out
 
 

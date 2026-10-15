@@ -76,5 +76,20 @@ class TestBaseballRealism(unittest.TestCase):
         self.assertGreater(events["Error"], 0, "No errors were recorded in the simulations.")
         self.assertGreater(events["Double Play"], 0, "No double plays were recorded in the simulations.")
 
+class TestRelieverSelection(unittest.TestCase):
+    def test_closer_is_available_for_close_games_in_extra_innings(self):
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+        for inning in (9, 10, 12):
+            for top in (True, False):
+                for lead in (0, 1, 3):
+                    with self.subTest(inning=inning, top=top, lead=lead):
+                        game.inning, game.top_of_inning = inning, top
+                        game.team1_score = 4 + (lead if top else 0)
+                        game.team2_score = 4 + (0 if top else lead)
+                        prefix, _, stats, bullpen = game._pitching_side()
+                        chosen = game._pick_reliever(prefix, bullpen)
+                        self.assertEqual(getattr(game, f'{prefix}_pitcher_stats')[chosen]['type'], 'Closer')
+
+
 if __name__ == '__main__':
     unittest.main()
