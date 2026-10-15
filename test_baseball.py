@@ -4,6 +4,7 @@ import random
 import io
 from copy import deepcopy
 from contextlib import redirect_stdout
+from types import SimpleNamespace
 from unittest.mock import patch
 from baseball import BaseballSimulator
 from renderers import NarrativeRenderer
@@ -76,6 +77,28 @@ class TestBaseballRealism(unittest.TestCase):
         self.assertGreater(events["Walk"], 0, "No walks were recorded in the simulations.")
         self.assertGreater(events["Error"], 0, "No errors were recorded in the simulations.")
         self.assertGreater(events["Double Play"], 0, "No double plays were recorded in the simulations.")
+
+class TestThrownOutDescription(unittest.TestCase):
+    def test_every_position_name_in_the_fielder_and_throwing_chain(self):
+        from transcript_game_fixtures import POSITIONS, position
+        titles = {'P': 'pitcher', 'C': 'catcher', '1B': 'first baseman', '2B': 'second baseman',
+                  '3B': 'third baseman', 'SS': 'shortstop', 'LF': 'left fielder', 'CF': 'center fielder',
+                  'RF': 'right fielder', 'DH': 'designated hitter', 'PH': 'pinch hitter', '': 'player'}
+        positions = {p['position']['name']: p['position'] for team in TEAMS.values() for p in team['players']}
+        positions.update({name: position(abbreviation) for abbreviation, (_, name) in POSITIONS.items()})
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=42)
+        for name, pos in positions.items():
+            with self.subTest(position=name):
+                player = {'id': 1, 'legal_name': 'Field Player', 'position': pos}
+                game._play_field = SimpleNamespace(fielder=pos['abbreviation'], trajectory='line_drive')
+                credits = [game._create_credit(player, 'putout')]
+                with patch.object(game, '_defense_positions', return_value={pos['abbreviation']: player}):
+                    text = game._thrown_out_description({'legal_name': 'Sam Hitter'}, 'Single', [],
+                                                        [('Otis Runner', 4, credits)])
+                title = titles[pos['abbreviation']]
+                self.assertEqual(text, f'Sam Hitter singles on a line drive to {title} Field Player. '
+                                       f'Otis Runner out at home on the throw, {title} Field Player.')
+
 
 class TestStealMovements(unittest.TestCase):
     def test_safe_steals_vary_throws_and_slides_without_changing_game_draws(self):
