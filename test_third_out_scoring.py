@@ -120,6 +120,34 @@ class TestThirdOutScoring(unittest.TestCase):
                 self.assert_score(game, play, 0)
                 self.assertEqual(play['result']['event'], event)
 
+    def test_non_field_hits_cannot_make_a_third_out(self):
+        for outcome in ('Single', 'Double'):
+            with self.subTest(outcome=outcome), patch('baseball.FIELD_SIM', False):
+                game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+                game.outs, game.bases = 2, ['First Runner', 'Second Runner', 'Third Runner']
+                game._play_field = self.ball(outcome, batter_out=2 if outcome == 'Single' else 3)
+                game._thrown_out = []
+                batter = game.team2_lineup[0]
+                result = game._advance_runners(outcome, batter)
+                self.assertEqual(result['runs'], 1 if outcome == 'Single' else 2)
+                self.assertEqual(game.outs, 2)
+                self.assertEqual(game._thrown_out, [])
+                self.assertIn(batter['legal_name'], game.bases)
+
+    def test_non_field_third_out_at_first_or_on_force_prevents_all_runs(self):
+        for force in (False, True):
+            with self.subTest(force=force), patch('baseball.FIELD_SIM', False):
+                game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+                game.outs = 2
+                game.bases = ['First Runner', None, 'Third Runner']
+                with patch.object(game.game_rng, 'choices', return_value=[game.team1_defense['SS']]), \
+                        patch.object(game.game_rng, 'random', side_effect=[0.0, 0.0 if force else 1.0]):
+                    result = game._handle_batted_ball_out('Groundout', game.team2_lineup[0])
+                self.assertEqual(game.outs, 3)
+                self.assertEqual(result[0], 0)
+                self.assertEqual(result[2], 0)
+                self.assertEqual(result[7], 'Forceout' if force else 'Groundout')
+
     def test_advancement_continues_when_tag_is_only_the_second_out(self):
         dests, thrown_out = fieldsim.advance_on_hit(self.ball(release=6.5), 'Single',
                                                    {1: 1.0, 2: 1.0, 3: 1.0}, 1, random.Random(1))
