@@ -30,9 +30,50 @@ def _has(pattern, text):
     return re.search(pattern, text, re.I) is not None
 
 
+ABBREVIATION = re.compile(r"\b(?:Jr|Sr|St|Dr|Mr|Mrs|Ms|[A-Z])\.", re.I)
+SENTENCE = re.compile(r"[^.!?;]+")
+
+
+def _sentence_text(text):
+    """Mask abbreviation and decimal periods without changing offsets."""
+    text = ABBREVIATION.sub(lambda match: match.group()[:-1] + ' ', text)
+    return re.sub(r'(?<=\d)\.(?=\d)', ' ', text).replace(ASIDE_BREAK, ';')
+
+
+def _sentences(text):
+    for match in SENTENCE.finditer(_sentence_text(text)):
+        yield text[match.start():match.end()]
+
+
+def _surname(name):
+    words = name.split()
+    return words[-2] if len(words) > 1 and words[-1].casefold().rstrip('.') in ('jr', 'sr', 'ii', 'iii', 'iv') else words[-1]
+
+
+def _mentions(text, names):
+    """Name spans, preferring full names over overlapping surname matches."""
+    found = []
+    for name in dict.fromkeys(names):
+        words = name.split()
+        aliases = {name, _surname(name)}
+        if words[-1] != _surname(name):
+            words = words[:-1]
+        if len(words) > 2:
+            aliases.add(' '.join(words[1:]))
+        for alias in aliases:
+            for match in re.finditer(rf'(?<!\w){re.escape(alias)}(?!\w)', text, re.I):
+                if alias != name or len(words) == 1:
+                    before = re.search(r'\b([A-Z][\w.]*)\s+$', text[:match.start()])
+                    if before and before.group(1) not in ('And', 'But', 'As', 'While', 'Then', 'Now', 'So'):
+                        continue  # An unrecognised full name is not this player's surname.
+                found.append((name, match.start(), match.end()))
+    return [mention for mention in found if not any(
+        other[1] <= mention[1] and other[2] >= mention[2] and other[2] - other[1] > mention[2] - mention[1]
+        for other in found)]
+
+
 def ball_call(text):
     """The words about the ball in play: after the last delivery cue."""
-    text = text.replace(ASIDE_BREAK, ' ')
     if '...' in text:
         text = text.rsplit('...', 1)[1]
     # A foul earlier on the same line is not this ball.
@@ -108,22 +149,33 @@ def season_pitching(lines, pitchers):
     """{name: {'wins', 'losses', 'era'}} from "enters tonight's game with a
     record of 9 and 4 with a 3.86 ERA". The subject is the pitcher this line
     or the line before names (for "He enters...")."""
-    found = {}
-    for index, line in enumerate(lines):
-        record, era = RECORD.search(line), ERA.search(line)
-        if not record and not era:
-            continue
-        stats = {}
-        if record and _number(record.group(1)) is not None and _number(record.group(2)) is not None:
-            stats.update(wins=_number(record.group(1)), losses=_number(record.group(2)))
-        if era:
-            stats['era'] = era.group(1) or era.group(2)
-        clause = line[:(record or era).start()]
-        named = [name for name in pitchers if re.search(rf"\b{re.escape(name.split()[-1])}\b", clause)]
-        if not named and index:
-            named = [name for name in pitchers if re.search(rf"\b{re.escape(name.split()[-1])}\b", lines[index - 1])]
-        if len(named) == 1 and stats and named[0] not in found:
-            found[named[0]] = stats
+    found, previous = {}, ''
+    for line in lines:
+        sentences = [sentence for sentence in _sentences(line) if sentence.strip()]
+        for sentence in sentences:
+            subject = None
+            for match in sorted(list(RECORD.finditer(sentence)) + list(ERA.finditer(sentence)), key=lambda m: m.start()):
+                clause = re.split(r',|\b(?:but|while)\b', sentence[:match.start()], flags=re.I)[-1]
+                named = {name for name, _, _ in _mentions(clause, pitchers)}
+                pronoun = re.match(r"\s*(?:And )?He(?: (?:enters|has|comes|brings)\b|'s got\b)", clause, re.I)
+                if not named and (pronoun or re.fullmatch(r'\s*(?:And )?His\s*', clause, re.I)):
+                    named = {name for name, _, _ in _mentions(previous, pitchers)}
+                if not named and subject and re.fullmatch(r'\s*(?:with|and)\s+(?:an?\s+|his\s+)?', clause, re.I):
+                    named = {subject}
+                stats = {}
+                if match.re is RECORD and _number(match.group(1)) is not None and _number(match.group(2)) is not None:
+                    stats.update(wins=_number(match.group(1)), losses=_number(match.group(2)))
+                elif match.re is ERA:
+                    stats['era'] = match.group(1) or match.group(2)
+                if len(named) == 1 and stats:
+                    subject = named.pop()
+                    entry = found.setdefault(subject, {})
+                    entry.update({key: value for key, value in stats.items() if key not in entry})
+                else:
+                    subject = None
+            previous = sentence
+        if not sentences:
+            previous = ''
     return found
 
 
@@ -141,50 +193,74 @@ SLIDE = re.compile(r"\b(?:slides?|sliding|fl(?:y|ies)) in(?:to \w+)? safely(?:,?
                    r"\bslide in under the tag", re.I)
 THROW_IN_TIME = re.compile(r"\bthrow\b[^.;]{0,30}?\b(?<!not )in time\b", re.I)
 DOUBLE_PLAY_THROW = re.compile(r"not in time (?:for|to (?:complete|turn)) the double play", re.I)
+DESTINATION = re.compile(rf"\b(?:to|at|into) {_BASE}\b|\bthrow (home)\b", re.I)
+
+
+def _throw_clauses(text):
+    previous, end = '', 0
+    for match in SENTENCE.finditer(_sentence_text(text)):
+        if ASIDE_BREAK in text[end:match.start()] or ';' in text[end:match.start()]:
+            previous = ''
+        sentence = text[match.start():match.end()]
+        clauses = [sentence] if _has(r'\boffline\b', sentence) else re.split(
+            r",(?!\s*(?:(?:not )?in time|(?:just )?(?:under the tag|ahead of the (?:tag|throw)))\b)\s*|"
+            r"\b(?:and|but|while)\b", sentence, flags=re.I)
+        for clause in clauses:
+            if clause.strip():
+                yield clause, previous
+                previous = clause
+        # A pronoun in the next sentence needs one subject in the last comma clause.
+        previous, end = sentence.rsplit(',', 1)[-1], match.end()
+
+
+def _destination(clause):
+    bases = {BASE_OF[word.casefold()] for match in DESTINATION.finditer(clause) for word in match.groups() if word}
+    return next(iter(bases)) if len(bases) == 1 else None
+
+
+def _movement_subject(clause, before, base, movements, batter=None):
+    participants = list(movements)
+    if batter and not any(m['name'] == batter for m in participants):
+        participants.append({'name': batter, 'start': None, 'end': 'unknown'})
+    if base is None and DESTINATION.search(clause):
+        return None
+    named = {name for name, _, _ in _mentions(clause, [m['name'] for m in participants])}
+    if named:
+        matches = [m for m in participants if m['name'] in named and (base is None or m.get('end') == base)]
+        return matches[0] if len(named) == 1 and len(matches) == 1 else None
+    earlier = {name for name, _, _ in _mentions(before.rsplit(',', 1)[-1], [m['name'] for m in participants])}
+    if earlier and _has(r'\b(?:he|his|him)\b', clause):
+        matches = [m for m in participants if m['name'] in earlier and (base is None or m.get('end') == base)]
+        return matches[0] if len(earlier) == 1 and len(matches) == 1 else None
+    if base:
+        at_base = [m for m in participants if m.get('end') == base]
+        return at_base[0] if len(at_base) == 1 else None
+    movers = [m for m in participants if m.get('out') or m.get('start') != m.get('end')]
+    generic = re.match(r'\s*(?:the|no|he|his|there|throw|play|toss|slides?|sliding)\b', clause, re.I)
+    return movers[0] if len(movers) == 1 and generic else None
 
 
 def throw_facts_from_words(text, movements, batter):
     """{runner name: {'throw', 'slide'}} for the safe runners whose throw or
     slide the hosts state. ``movements`` are the play's ledger movements with
     the batter's (implicit when safe at first). A clause's subject is the
-    runner it names, else the one safe at the base it names, else the only
-    safe mover; an unresolved clause is left for manual review."""
-    text = text.replace(ASIDE_BREAK, ' ')
+    runner it names, else the one at the base it names, else the only
+    mover (including retired runners); an unresolved clause is left for review."""
     safe = [m for m in movements if not m.get('out')]
     found = {}
-
-    def subject(clause, before, base):
-        named = [m for m in safe if re.search(rf"\b{re.escape(m['name'].split()[-1])}\b", clause)]
-        if len(named) == 1:
-            return named[0]
-        at_base = [m for m in safe if base and m.get('end') == base]
-        if len(at_base) == 1:
-            return at_base[0]
-        before = before.rsplit(',', 1)[-1]
-        earlier = [m for m in safe if re.search(rf"\b{re.escape(m['name'].split()[-1])}\b", before)]
-        if base is None and not named and len(earlier) == 1:
-            # "He" can refer to the preceding clause's only named runner.
-            return earlier[0]
-        movers = [m for m in safe if m.get('start') != m.get('end')]
-        return movers[0] if len(movers) == 1 and base is None else None
-
-    previous = ''
-    for match in re.finditer(r"[^.!?;]+", text):
-        clause, before = match.group(), previous
-        previous = clause
-        if DOUBLE_PLAY_THROW.search(clause):
-            target = next((m for m in safe if m['name'] == batter), None)
-            if target:
-                found.setdefault(target['name'], {})['throw'] = 'not_in_time'
-            continue
+    for clause, before in _throw_clauses(text):
         late, beaten, none, slide = (rx.search(clause) for rx in (THROW_LATE, THROW_BEATEN, NO_THROW, SLIDE))
         if not (late or beaten or none or slide) or re.search(r'\boffline\b', clause, re.I):
             # An offline throw is its own fact, not a late one.
             continue
-        base_word = next((g for m in (late, none) if m for g in m.groups() if g), None)
-        base = BASE_OF.get(base_word.casefold()) if base_word else None
-        target = subject(clause, before, base)
-        if target is None:
+        base = _destination(clause)
+        if late and base is None and _has(r'\bthrow\b', before) and not _has(r'\bin time\b', before):
+            base = _destination(before)
+        if late and DOUBLE_PLAY_THROW.search(clause) and base is None and not _mentions(
+                clause, [m['name'] for m in movements]):
+            continue  # The attempted second out need not be the batter at first.
+        target = _movement_subject(clause, before, base, movements, batter)
+        if target is None or target not in safe:
             continue
         facts = found.setdefault(target['name'], {})
         if slide:
@@ -235,16 +311,24 @@ def annotate_throws(record, lines, report, stem):
     for index, pitch in enumerate(pitches):
         if pitch['code'] != 'A' or pitch.get('eventType') not in ('stolen_base', 'caught_stealing'):
             continue
+        if any(other['code'] == 'X' and other['line'] == pitch['line'] for other in pitches):
+            continue  # Without word offsets the steal and batted-ball throws cannot be separated.
         later = [other['line'] for other in pitches[index + 1:] if other['line'] > pitch['line']]
         text = '\n'.join(lines[pitch['line'] - 1:(min(later) - 1) if later else max(pitch['line'], record['source_end'])])
-        safe = [m for m in pitch.get('runners', []) if not m.get('out')]
-        found = throw_facts_from_words(text, safe, None)
-        for movement in pitch.get('runners', []):
+        movements = [m for other in pitches if other['line'] == pitch['line'] and other['code'] == 'A'
+                     for m in other.get('runners', [])]
+        found = throw_facts_from_words(text, movements, None)
+        for clause, before in _throw_clauses(text):
             # A runner caught stealing: "the throw to second is in time".
-            if movement.get('out') and THROW_IN_TIME.search(text.replace(ASIDE_BREAK, ' ')):
-                found[movement['name']] = {'throw': 'in_time'}
+            match = THROW_IN_TIME.search(clause)
+            if match and not _has(r'\bnot\b', match.group()):
+                target = _movement_subject(clause, before, _destination(clause), movements)
+                if target and target.get('out'):
+                    found.setdefault(target['name'], {})['throw'] = 'in_time'
         for name, facts in found.items():
-            movement = next(m for m in pitch['runners'] if m['name'] == name)
+            movement = next((m for m in pitch.get('runners', []) if m['name'] == name), None)
+            if movement is None:
+                continue
             new = {key: value for key, value in facts.items() if key not in movement}
             if new:
                 movement.update(new)
@@ -255,55 +339,92 @@ def annotate_throws(record, lines, report, stem):
 
 # --- pitchers entering the game, and the decisions ----------------------------
 
-ABBREVIATION = re.compile(r"\b(?:Jr|Sr|St|Dr|Mr|Mrs|Ms|[A-Z])\.", re.I)
-
-
-def _sentence_text(text):
-    """Mask abbreviation periods without changing character offsets."""
-    return ABBREVIATION.sub(lambda match: match.group()[:-1] + ' ', text)
+def pitcher_entry_text(name, text):
+    """The full-name introduction and immediately following facts about him."""
+    full_name = rf'(?<!\w){re.escape(name)}(?!\w)'
+    sentences = list(SENTENCE.finditer(_sentence_text(text)))
+    named = [i for i, match in enumerate(sentences) if any(
+        text[match.start() + begin:match.start() + end].casefold() == name.casefold()
+        for _, begin, end in _mentions(text[match.start():match.end()], [name]))]
+    if not named:
+        return ''
+    start = named[-1]
+    subject = rf"\s*(?:And )?(?:{full_name}|{re.escape(_surname(name))}|He)(?!\w) (?:is an? |has pitched )"
+    while start and re.match(subject, text[sentences[start].start():sentences[start].end()], re.I):
+        previous = sentences[start - 1]
+        gap = text[previous.end():sentences[start].start()]
+        if ASIDE_BREAK in gap or ';' in gap or not (start - 1 in named or re.match(
+                subject, text[previous.start():previous.end()], re.I)):
+            break
+        start -= 1
+    end = sentences[start].end()
+    for match in sentences[start + 1:]:
+        if ASIDE_BREAK in text[end:match.start()] or ';' in text[end:match.start()]:
+            break
+        if not re.match(subject, text[match.start():match.end()], re.I):
+            break
+        end = match.end()
+    return text[sentences[start].start():end + (end < len(text) and text[end] in '.!?')]
 
 
 def pitcher_entry_facts(name, text):
     """A reliever's hand, role and season line from the words that bring him in."""
-    words = name.split()
-    last = re.escape(words[-2] if words[-1].casefold() in ('jr.', 'sr.') else words[-1])
-    text = _sentence_text(text)
+    text = pitcher_entry_text(name, text)
+    full_name = rf'(?<!\w){re.escape(name)}(?!\w)'
+    last = re.escape(_surname(name))
     facts = {}
-    hand = re.search(rf"\b(right|left)[- ]hand(?:ed|er)\b[^.]{{0,40}}?\b{last}\b|\b(lefty|righty)\b[^.]{{0,25}}?\b{last}\b|"
-                     rf"\b{last} is a[^.]{{0,25}}?\b(right|left)[- ]hand", text, re.I)
-    if hand:
-        word = next(g for g in hand.groups() if g).casefold()
-        facts['pitch_hand'] = 'L' if word.startswith('left') else 'R'
-    if re.search(rf"\bcloser,? (?:\w+\s+){{0,2}}{last}\b", text, re.I):
+    hands = set()
+    for sentence in _sentences(text):
+        named = re.search(full_name, sentence, re.I)
+        if named:
+            prefix = sentence[:named.start()]
+            descriptors = list(re.finditer(r'\b(?:right|left)[- ]hand(?:ed|er)\b|\b(?:lefty|righty)\b', prefix, re.I))
+            if descriptors:
+                hand = descriptors[-1]
+                between = prefix[hand.end():]
+                if len(between) <= 70 and not _has(r'\b(?:is|was|will|has|replaces|replaced|gives|and|but|while|against|faces)\b', between):
+                    hands.add('L' if hand.group().casefold().startswith('left') else 'R')
+        hand = re.match(rf"\s*(?:And )?(?:{full_name}|{last}|He) is an? "
+                        r"(?:(?:tall|short|young|veteran|sturdy)[, ]+)*(right|left)[- ]hand", sentence, re.I)
+        if hand:
+            hands.add('L' if hand.group(1).casefold() == 'left' else 'R')
+    if len(hands) == 1:
+        facts['pitch_hand'] = hands.pop()
+    if re.search(rf"\bcloser,? (?:Dr\.\s+)?{full_name}", text, re.I):
         facts['role'] = 'closer'
-    elif re.search(rf"\bstarting pitcher,? (?:\w+\s+){{0,2}}{last}\b", text, re.I):
+    elif re.search(rf"\bstarting pitcher,? (?:Dr\.\s+)?{full_name}", text, re.I):
         facts['role'] = 'starter'
-    season = re.search(rf"\b{last} has pitched (\w+) innings of work this season with an ERA of (\d+\.\d\d)", text, re.I)
-    if season and _number(season.group(1)) is not None:
-        facts['season'] = {'inningsPitched': f'{_number(season.group(1))}.0', 'era': season.group(2)}
+    for sentence in _sentences(text):
+        season = re.match(rf"\s*(?:And )?(?:{full_name}|{last}|He) has pitched (\w+) innings of work "
+                          r"this season with an ERA of (\d+\.\d\d)", sentence, re.I)
+        if season and _number(season.group(1)) is not None:
+            facts['season'] = {'inningsPitched': f'{_number(season.group(1))}.0', 'era': season.group(2)}
     return facts
 
 
 DECISION = re.compile(r"(?:gets|takes|picks up|earns|notches) (?:the|another|a) (win|loss|save)\b", re.I)
-SENTENCE = re.compile(r"[^.!?;]+")
 
 
 def decisions_from_words(text, pitchers):
     """{'winner' | 'loser' | 'save': name} from "Ron Nancy gets the save"."""
     found = {}
-    for sentence in SENTENCE.findall(text.replace(ASIDE_BREAK, ' ')):
+    for sentence in _sentences(text):
         start = 0
         for match in DECISION.finditer(sentence):
             # "A notches another win, B takes the loss, and C gets the save."
             subject = sentence[start:match.start()]
             start = match.end()
-            mentions = {name: mention.start() for name in pitchers
-                        for mention in re.finditer(rf"\b{re.escape(name.split()[-1])}\b", subject)}
-            nearest = max(mentions.values(), default=-1)
-            named = [name for name, position in mentions.items() if position == nearest]
+            mentions = _mentions(subject, pitchers)
+            named = {name for name, _, end in mentions
+                     if re.fullmatch(r'\s*(?:(?:also|now|tonight)\s+)?', subject[end:], re.I)}
+            if not named and len({name for name, _, _ in mentions}) == 1:
+                named = {name for name, _, end in mentions if re.fullmatch(
+                    r"\s+(?:pitches a (?:complete game(?: shutout)?|shutout)|"
+                    r"goes the distance(?: for (?:the )?[\w'-]+(?: [\w'-]+)?)?),?\s*(?:and\s+)?",
+                    subject[end:], re.I)}
             role = {'win': 'winner', 'loss': 'loser', 'save': 'save'}[match.group(1).casefold()]
             if len(named) == 1 and role not in found:
-                found[role] = named[0]
+                found[role] = named.pop()
     return found
 
 
@@ -318,19 +439,14 @@ def annotate_pitchers(ledger, lines, report, stem):
         if side not in seen and name not in starters:
             first = min([pitch['line'] for pitch in record.get('pitches', []) if pitch.get('line')]
                         or [record['source_end']])
-            text = ' '.join(lines[previous_end:max(first - 1, record['source_start'] - 1)])
             full_name = rf"(?<!\w){re.escape(name)}(?!\w)"
-            named = list(re.finditer(full_name, text, re.I))
-            if not named:
-                # An introduction may share the first pitch's line.
-                text = lines[first - 1].split('...', 1)[0]
-                named = list(re.finditer(full_name, text, re.I))
-            if named:
-                # Begin at his introduction, not earlier surname matches.
-                boundary_text = _sentence_text(text)
-                start = max(boundary_text.rfind(mark, 0, named[0].start()) for mark in '.!?') + 1
-                text = text[start:]
-            facts = pitcher_entry_facts(name, text) if named else {}
+            # Keep an introduction on the first pitch's line, even after an earlier mention.
+            prefix = lines[first - 1].split('...', 1)[0]
+            prefix = re.split(rf"{full_name}(?:['’]s (?:pitch|delivery)| (?:deals|delivers|pitches|throws))\b",
+                              prefix, maxsplit=1, flags=re.I)[0]
+            text = ' '.join(lines[previous_end:max(first - 1, record['source_start'] - 1)] + [prefix])
+            text = pitcher_entry_text(name, text)
+            facts = pitcher_entry_facts(name, text)
             new = {}
             if 'pitch_hand' in facts and not any(r.get('pitch_hand') for r in plays if r['pitcher'] == name):
                 for other in plays:

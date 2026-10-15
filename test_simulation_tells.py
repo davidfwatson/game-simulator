@@ -209,13 +209,14 @@ class TestOutsOnTheBases(SimulationBatch):
             # The batter keeps his hit, and is on base unless he was the one thrown out.
             batter_id = play['matchup']['batter']['id']
             batter_moves = [r for r in play['runners'] if r['details']['runner']['id'] == batter_id]
-            self.assertEqual(batter_moves[0]['details']['eventType'], play['result']['eventType'], where)
-            self.assertFalse(batter_moves[0]['movement']['isOut'], where)
+            self.assertEqual(len(batter_moves), 1, where)
             if runner['details']['movementReason'] == 'r_out_stretching':
                 self.assertEqual(runner['details']['runner']['id'], batter_id, where)
-                self.assertEqual(len(batter_moves), 2, where)
+                self.assertTrue(batter_moves[0]['movement']['isOut'], where)
             else:
                 self.assertNotEqual(runner['details']['runner']['id'], batter_id, where)
+                self.assertEqual(batter_moves[0]['details']['eventType'], play['result']['eventType'], where)
+                self.assertFalse(batter_moves[0]['movement']['isOut'], where)
 
     def test_the_batter_is_credited_with_his_hit(self):
         seed, _, _ = self.plays[0]
