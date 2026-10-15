@@ -182,7 +182,11 @@ class TestGameTexture(unittest.TestCase):
             slots = {p['person']['id']: int(p['battingOrder']) // 100
                      for box in data['liveData']['boxscore']['teams'].values()
                      for p in box['players'].values() if p.get('battingOrder')}
+            previous_half, occupied = None, False
             for play in data['liveData']['plays']['allPlays']:
+                half = play['about']['inning'], play['about']['isTopInning']
+                if half != previous_half:
+                    occupied = half[0] >= 10
                 bunt = False
                 for event in play['playEvents']:
                     details = event['details']
@@ -203,8 +207,13 @@ class TestGameTexture(unittest.TestCase):
                     cls.counts['bunt_pa'] += 1
                     slot = slots[play['matchup']['batter']['id']]
                     cls.counts['bunt_bottom'] += slot >= 7
+                    if occupied:
+                        cls.counts['bunt_with_runners'] += 1
+                        cls.counts['bunt_with_runners_bottom'] += slot >= 7
                     cls.counts[f'bunt_slot_{slot}'] += 1
                 cls.counts['sac_bunts'] += play['result']['eventType'] == 'sac_bunt'
+                previous_half = half
+                occupied = any(play['matchup'].get('postOn' + base) for base in ('First', 'Second', 'Third'))
 
     def rate(self, key):
         return self.counts[key] / len(self.games)
@@ -222,13 +231,15 @@ class TestGameTexture(unittest.TestCase):
         self.assertTrue(0.08 < self.rate('pickoff_base_2') < 0.65, self.rate('pickoff_base_2'))
         self.assertTrue(0.01 < self.rate('pickoff_base_3') < 0.25, self.rate('pickoff_base_3'))
 
-    def test_bunts_include_base_hits_and_mostly_come_from_the_bottom(self):
+    def test_bunts_include_base_hits_and_runner_bunts_favor_the_bottom(self):
         # Real: 1.29 attempted PAs, 0.57 foul bunts, 0.31 sacrifices, 0.21 bunt hits.
         for key, low, high in [('bunt_pa', 0.8, 1.85), ('foul_bunts', 0.25, 1.0),
                                ('sac_bunts', 0.12, 0.55), ('bunt_hits', 0.06, 0.42)]:
             with self.subTest(kind=key):
                 self.assertTrue(low < self.rate(key) < high, self.rate(key))
-        self.assertGreater(self.counts['bunt_bottom'] / self.counts['bunt_pa'], 0.55)
+        # Hit bunts follow speed; attempts with runners on favor the bottom
+        # of the order (70% in the 136 real feeds).
+        self.assertGreater(self.counts['bunt_with_runners_bottom'] / self.counts['bunt_with_runners'], 0.55)
         self.assertGreater(self.rate('bunt_slot_9'), 0.15)
         self.assertLess((self.counts['bunt_slot_3'] + self.counts['bunt_slot_4']) / self.counts['bunt_pa'], 0.1)
 

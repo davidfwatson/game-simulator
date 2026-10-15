@@ -467,10 +467,19 @@ RUN_PARAMS = {
     'send_home': 0.0,       # s the throw must lose by, as the coach reads it, before the runner is sent home
     'double_send_home': 0.1,  # s more cushion for two turns from first on a double
     'double_no_out_send': 0.45,
-    'double_two_out_send': 1.5,
+    'double_two_out_send': 1.65,
+    'double_two_out_fly_send': 0.35,
+    'double_two_out_deep_send': -0.65,
     'send_third': -0.5,
     'two_out_third': 0.8,   # s more cushion before risking the third out at third
     'two_out_send': 0.1,    # s less a runner on second needs with two out: make them throw him out
+    # Rolling singles and balls in the air need different reads of the
+    # relay: a uniform margin held almost every runner at second on a
+    # two-out ground-ball single, yet sent him on most airborne singles.
+    'two_out_single_send': {'ground_ball': {3: -1.4, 4: -0.15},
+                           'air': {3: 1.3, 4: 0.8}},
+    'two_out_gap_third': 1.05,
+    'two_out_right_home': 0.2,
     'send_read': 0.3,       # s of error in the coach's read of the play
     'play_spread': 0.35,    # s of spread in the throw, the relay and the tag
     'out_home': -0.35,      # the throw still has to be caught and the tag applied
@@ -565,8 +574,24 @@ def advance_on_hit(ball, outcome, runners, outs, rng, rp=RUN_PARAMS, close=None,
                 throw = _throw_time(ball, extra)
                 need = rp['send_home'] if extra == 4 else rp['send_third']
                 if outcome == 'Double' and base == 1:
-                    need += (rp['double_two_out_send'] if outs == 2 else
-                             rp['double_send_home'] if outs == 1 else rp['double_no_out_send'])
+                    if outs == 2:
+                        # A long fly into the gap gives the runner time to
+                        # circle the bases; do not apply a short double's hold.
+                        if spot(ball).get('depth') == 'deep':
+                            need += rp['double_two_out_deep_send']
+                        elif ball.trajectory == 'fly_ball':
+                            need += rp['double_two_out_fly_send']
+                        else:
+                            need += rp['double_two_out_send']
+                    else:
+                        need += rp['double_send_home'] if outs == 1 else rp['double_no_out_send']
+                if outcome == 'Single' and outs == 2:
+                    kind = 'ground_ball' if ball.trajectory == 'ground_ball' else 'air'
+                    need += rp['two_out_single_send'][kind][extra]
+                    if extra == 3 and spot(ball).get('lane') in ('left_center', 'right_center'):
+                        need -= rp['two_out_gap_third']
+                    if extra == 4 and kind == 'ground_ball' and ball.fielder == 'RF':
+                        need -= rp['two_out_right_home']
                 if extra == 4 and base == 2 and outs == 2:
                     need -= rp['two_out_send']
                 if extra == 3 and outs == 2:
@@ -808,6 +833,10 @@ def ground_out_dests(ball, runners, outs, play, rng, rp=RUN_PARAMS):
             # Ball hit behind him (or slow, deep in the hole): he takes third.
             behind = ball.fielder in ('1B', '2B') or (ball.fielder == 'P' and ball.spray > 0)
             go = behind or ball.release > rp['r2_go_release'].get(ball.fielder, 3.0)
+            if ball.fielder == 'P' and 3 in runners and play == 'first':
+                # On a comebacker he waits for the throw past the runner at
+                # third. Both move only when the pitcher has a slow play.
+                go = ball.release > 1.8
             dest[base] = 3 if go and 3 not in dest.values() else 2
         else:
             dest[base] = base

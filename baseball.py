@@ -904,9 +904,18 @@ class BaseballSimulator:
                                              or not self.bases[0] or self.bases[1]
                                              or abs(margin) > 3))):
                 return False, False
+            # A drag bunt depends on the hitter's legs, not his lineup slot.
+            # Most real bases-empty attempts come from the faster runners.
+            propensity = profile.get('bunt_propensity', 0.0)
             rate = BUNT_FOR_HIT_FACTOR * (0.6 + min(0.2, profile['stealing_tendency']) * 8)
             if self.bases[2]:
-                rate *= 16
+                rate *= 16 * slot_factor
+            else:
+                rate *= 1.15 if profile['stealing_tendency'] >= 0.04 else 0.45
+                if abs(margin) >= 4:
+                    rate *= 0.2
+                if self.inning >= 7 and margin <= -3:
+                    rate *= 0.4
         if self.inning == 1:
             rate *= 0.2
         return self.strategy_rng.random() < min(0.65, propensity * rate), bool(sacrifice)
@@ -1203,6 +1212,13 @@ class BaseballSimulator:
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
                 attempt_chance = runner_data['batting_profile']['stealing_tendency'] * STEAL_SECOND_FACTOR * count_modifier * outs_modifier * score_modifier
+                if self.bases[2]:
+                    # First-and-third steals are commonest with two out,
+                    # but a poor runner should not strand the tying run.
+                    attempt_chance *= (0.6, 1.0, 1.5)[self.outs]
+                    if (self.outs == 2 and margin in (-1, 0)
+                            and runner_data['batting_profile']['stealing_success_rate'] < 0.75):
+                        attempt_chance *= 0.25
                 if self.inning == 1:
                     attempt_chance *= 0.45
                 if self.strategy_rng.random() < attempt_chance:
@@ -1220,11 +1236,13 @@ class BaseballSimulator:
         if self.bases[0] and not self.bases[1]:
             base, rate = 1, PICKOFF_THROW_RATE
         elif self.bases[1] and not self.bases[2]:
-            base, rate = 2, 0.005
+            base, rate = 2, 0.004
         elif self.bases[0]:
             base, rate = 1, PICKOFF_THROW_RATE * 0.05
         elif self.bases[2]:
-            base, rate = 3, 0.004
+            # Catchers throw behind a runner threatening a contact play;
+            # with two out, the runner at third is much less of a threat.
+            base, rate = 3, 0.004 * (1.0, 1.5, 0.65)[self.outs]
         else:
             return None
         runner = next(p for p in lineup if p['legal_name'] == self.bases[base - 1])
@@ -1347,6 +1365,8 @@ class BaseballSimulator:
         if not is_out:
             # The catcher may hold the ball with no play, especially at third.
             no_throw_chance = 0.30 if base_to_steal == 3 else 0.15
+            if base_to_steal == 2 and self.bases[2]:
+                no_throw_chance = 0.75
             throw = 'none' if self.steal_rng.random() < no_throw_chance else 'not_in_time'
         return {'runner': {'id': runner['id'], 'fullName': runner['legal_name']},
                 'fromBase': f'{base_to_steal - 1}B', 'toBase': f'{base_to_steal}B', 'isOut': is_out,
@@ -1376,6 +1396,10 @@ class BaseballSimulator:
         # better jump than he would stealing second.
         base_bonus = 0.05 if base_to_steal == 2 else -0.02
         success_chance = min(0.96, runner_data['batting_profile']['stealing_success_rate'] + base_bonus - (defensive_catcher['catchers_arm'] * 0.04))
+        if base_to_steal == 2 and self.bases[2]:
+            # The catcher has to protect home as well as second. The real
+            # first-and-third attempts succeeded 25 times out of 26.
+            success_chance = 1.0 - (1.0 - success_chance) * 0.25
         if self.game_rng.random() < success_chance:
             self.bases[base_to_steal - 1] = runner_name
             self.bases[base_from_idx] = None

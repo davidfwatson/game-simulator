@@ -2,6 +2,7 @@
 import random
 import re
 import unittest
+from contextlib import nullcontext
 from unittest.mock import patch
 
 import fieldsim
@@ -21,7 +22,7 @@ class TestThirdOutScoring(unittest.TestCase):
         return fieldsim.BattedBall(outcome, 'CF', 'line_drive', 'CF', 0.0, (0, 200), 200,
                                   release=release, release_point=(0, 200), batter_out=batter_out)
 
-    def half_inning(self, field, seed=1, outs=2, setup=None):
+    def half_inning(self, field, seed=1, outs=2, setup=None, read_errors=None):
         game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
         setup = ['Walk'] * 3 if setup is None else setup
         outcomes = iter(setup + ['Strikeout'] * outs + [field.outcome] + ['Strikeout'] * 3)
@@ -41,7 +42,9 @@ class TestThirdOutScoring(unittest.TestCase):
                 event['hitData'] = {'trajectory': field.trajectory, 'location': field.location}
             return outcome, context, [event]
 
-        with patch.object(game, '_simulate_at_bat', side_effect=at_bat), \
+        runner_reads = (patch.object(game.game_rng, 'gauss', side_effect=read_errors)
+                        if read_errors is not None else nullcontext())
+        with runner_reads, patch.object(game, '_simulate_at_bat', side_effect=at_bat), \
                 patch.object(game, '_manage_between_innings'), \
                 patch.object(game, '_manage_pitching_change'), \
                 patch.object(game, '_runner_speeds', side_effect=lambda: {
@@ -92,11 +95,12 @@ class TestThirdOutScoring(unittest.TestCase):
         self.assertIn(' out at ', play['result']['description'])
 
     def test_two_out_later_tag_allows_both_earlier_runs(self):
-        game, play = self.half_inning(self.ball(release=5.5), seed=5)
+        # Force the coach's bad read, independently of the calibrated send rate.
+        game, play = self.half_inning(self.ball(release=5.5), read_errors=(0, 0, 2, -2))
         self.assert_score(game, play, 2)
 
     def test_two_out_runner_tagged_at_home_does_not_score(self):
-        game, play = self.half_inning(self.ball(release=4.0), seed=0)
+        game, play = self.half_inning(self.ball(release=4.0), read_errors=(2, -2))
         self.assert_score(game, play, 1)
         out = next(r for r in play['runners'] if r['movement']['isOut'])
         self.assertEqual(out['movement']['originBase'], '2B')
