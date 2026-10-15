@@ -184,7 +184,8 @@ class TestOutsOnTheBases(SimulationBatch):
         for seed, index, play in self.plays:
             where = f"seed {seed} play {index}"
             self.assertIn(play['result']['eventType'], HITS, where)
-            out = [r for r in play['runners'] if r['movement']['isOut']]
+            all_outs = [r for r in play['runners'] if r['movement']['isOut']]
+            out = [r for r in all_outs if r['details']['movementReason'] in THROWN_OUT]
             self.assertEqual(len(out), 1, where)
             runner = out[0]
             self.assertEqual(runner['details']['eventType'], 'other_out', where)
@@ -200,7 +201,7 @@ class TestOutsOnTheBases(SimulationBatch):
             previous = self.all_plays[seed][index - 1] if index else None
             same_half = previous and previous['about']['inning'] == play['about']['inning'] \
                 and previous['about']['isTopInning'] == play['about']['isTopInning']
-            self.assertEqual(play['count']['outs'], (previous['count']['outs'] if same_half else 0) + 1, where)
+            self.assertEqual(play['count']['outs'], (previous['count']['outs'] if same_half else 0) + len(all_outs), where)
             if play['count']['outs'] == 3 and index + 1 < len(self.all_plays[seed]):
                 following = self.all_plays[seed][index + 1]['about']
                 self.assertNotEqual((following['inning'], following['isTopInning']),
@@ -241,7 +242,7 @@ class TestOutsOnTheBases(SimulationBatch):
 
     def _first(self, reason, base, third_out):
         for seed, index, play in self.plays:
-            runner = next(r for r in play['runners'] if r['movement']['isOut'])
+            runner = next(r for r in play['runners'] if r['details']['movementReason'] in THROWN_OUT)
             if (runner['details']['movementReason'] == reason and runner['movement']['outBase'] == base
                     and (play['count']['outs'] == 3) == third_out):
                 return seed, index, play, runner

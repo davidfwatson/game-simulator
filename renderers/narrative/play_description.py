@@ -839,13 +839,24 @@ def render_steal_event(renderer, event):
     """Render actions from structured movements, never from transcript prose."""
     details = event.get('details', {})
     event_type = details.get('eventType', '')
+    if event_type.startswith('pickoff_caught_stealing'):
+        event_type = 'caught_stealing'
+    elif event_type.startswith('pickoff_error') or event.get('type') == 'pickoff':
+        event_type = 'pickoff_attempt'
+    elif event_type.startswith('pickoff_') and event_type != 'pickoff_attempt':
+        event_type = 'pickoff'
     movements = details.get('runners')
     if movements is None and 'runner' in details:
         movements = [details]
     if movements is None:
+        if event_type == 'pickoff_attempt' and event.get('type') == 'pickoff':
+            base = details.get('code', '') + 'B'
+            movements = [{'fromBase': base, 'toBase': base, 'isOut': False}]
+    if movements is None:
         if renderer.gameday_data.get('gameData', {}).get('broadcast', {}).get('strictFacts'):
             return ''
-        return _render_legacy_steal_event(renderer, event)
+        normalized = {**event, 'details': {**details, 'eventType': event_type}}
+        return _render_legacy_steal_event(renderer, normalized)
     if not movements:
         return {'wild_pitch': 'A wild pitch.', 'passed_ball': 'A passed ball.',
                 'pickoff_attempt': 'A pickoff attempt.', 'pickoff': 'The runner is picked off.',

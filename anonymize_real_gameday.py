@@ -23,11 +23,13 @@ from commentary import GAME_CONTEXT
 
 # Top-level constants (module scope)
 IGNORED_EVENT_TYPES = {
-    'game_advisory', 'mound_visit', 'batter_timeout', 'manager_challenge',
-    'pitching_substitution', 'defensive_switch', 'umpire_review',
+    'game_advisory', 'batter_timeout', 'manager_challenge',
+    'pitching_substitution', 'umpire_review',
     'pickoff_attempt', 'stolen_base', 'caught_stealing', 'wild_pitch',
     'passed_ball', 'defensive_indiff', 'game_delayed', 'game_resumed'
 }
+
+POSITION_ACTIONS = {'offensive_substitution', 'defensive_substitution', 'defensive_switch', 'mound_visit'}
 
 # Keep a conservative pitch code list (adjust to match your generator’s behavior)
 PITCH_CODE_WHITELIST = {'B', 'C', 'S', 'X', 'F', 'D'}
@@ -529,7 +531,8 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
 
                 # Filter playEvents
                 if 'playEvents' in play:
-                    events = [e for e in play['playEvents'] if action_type(e) or is_pitch_like(e)]
+                    events = [e for e in play['playEvents'] if action_type(e) or is_pitch_like(e)
+                              or e.get('details', {}).get('eventType') in POSITION_ACTIONS]
                     # Optional: keep only terminal pitch to look even more generated:
                     # events = events[-1:]
                     anonymized_play['playEvents'] = []
@@ -537,6 +540,22 @@ def anonymize_gameday_data(real_data, our_teams, seed=42):
                     # renderer use the count the pitch was thrown in. Shift by one.
                     count_before = {'balls': 0, 'strikes': 0}
                     for event in events:
+                        kind = event.get('details', {}).get('eventType')
+                        if kind in POSITION_ACTIONS:
+                            filtered_event = {
+                                'isPitch': False, 'type': 'action', 'index': event.get('index'),
+                                'count': dict(count_before),
+                                'details': {'eventType': kind, 'code': '', 'isStrike': False,
+                                            'description': anonymize_description(event['details'].get('description', ''), name_mapping)},
+                            }
+                            for field in ('isSubstitution', 'position', 'battingOrder'):
+                                if field in event:
+                                    filtered_event[field] = event[field]
+                            for field in ('player', 'replacedPlayer'):
+                                if field in event:
+                                    filtered_event[field] = anonymize_player_reference(event[field], id_mapping)
+                            anonymized_play['playEvents'].append(filtered_event)
+                            continue
                         ours = action_type(event)
                         if ours:
                             movements = []

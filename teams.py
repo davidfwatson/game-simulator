@@ -1642,3 +1642,40 @@ TEAMS["BIG_RAPIDS_TIMBERS"] = {
     ],
     "fielding_prowess": 1.0,
 }
+
+
+def _bench_player(pid, name, position, side, contact, power, fielding, positions, speed):
+    codes = {'C': ('2', 'Catcher'), '1B': ('3', 'First Base'), '2B': ('4', 'Second Base'),
+             'SS': ('6', 'Shortstop'), 'CF': ('8', 'Center Field'), 'LF': ('7', 'Left Field')}
+    code, position_name = codes[position]
+    return {
+        'id': pid, 'legal_name': name, 'nickname': None,
+        'position': {'code': code, 'name': position_name, 'abbreviation': position},
+        'positions': positions, 'batSide': {'code': side, 'description': 'Left' if side == 'L' else 'Right'},
+        'fielding_ability': fielding, 'catchers_arm': 0.78, 'passed_ball_rate': 0.002,
+        'plate_discipline': {'Walk': 0.085, 'Strikeout': 0.20, 'HBP': 0.004},
+        'batting_profile': {'contact': contact, 'power': power, 'angle': 12.0,
+                            'bunt_propensity': 0.25 if power < 0.45 else 0.08,
+                            'stealing_tendency': speed, 'stealing_success_rate': 0.82},
+    }
+
+
+# A backup catcher, utility infielder, reserve outfielder and corner bat.
+# Bench players are separate from the nine starters in each team's players list.
+for _bench_index, (_team_key, _names) in enumerate({
+    'BAY_BOMBERS': ('Eli Mercer', 'Drew Salazar', 'Cody Bennett', 'Adrian Shaw'),
+    'PC_PILOTS': ('Ben Holloway', 'Luis Navarro', 'Tyler Boone', 'Dylan Cross'),
+    'COASTAL_VIPERS': ('Noah Keller', 'Rafael Luna', 'Chase Abbott', 'Logan Price'),
+    'DESERT_SCORPIONS': ('Isaac Molina', 'Andre Vega', 'Cole Ramsey', 'Travis Holt'),
+    'BARABOO_BOMBERS': ('Henry Barlow', 'Oscar Serrano', 'Cameron Pike', 'Graham Nash'),
+    'LAKE_CITY_LOONS': ('Theo Carlson', 'Marco Valdez', 'Jesse Lane', 'Austin Briggs'),
+    'CADILLAC_CARS': ('Wyatt Foster', 'Nico Sandoval', 'Spencer Dale', 'Silas Kent'),
+    'BIG_RAPIDS_TIMBERS': ('Adam Walsh', 'Emilio Rios', 'Parker Ellis', 'Brett Donovan'),
+}.items()):
+    _base_id = 9000000 + _bench_index * 10
+    TEAMS[_team_key]['bench'] = [
+        _bench_player(_base_id + 1, _names[0], 'C', 'L', 0.76, 0.40, 0.989, ['C'], 0.005),
+        _bench_player(_base_id + 2, _names[1], 'SS', 'R', 0.77, 0.38, 0.992, ['2B', '3B', 'SS'], 0.08),
+        _bench_player(_base_id + 3, _names[2], 'CF', 'L', 0.73, 0.36, 0.995, ['LF', 'CF', 'RF'], 0.25),
+        _bench_player(_base_id + 4, _names[3], '1B', 'L', 0.76, 0.60, 0.986, ['1B', 'LF', 'RF'], 0.01),
+    ]

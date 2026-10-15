@@ -302,7 +302,7 @@ class TestSimulatorFacts(unittest.TestCase):
         batter = copy.deepcopy(game.team2_lineup[3])
         batter['batting_profile'].update(power=0.3, bunt_propensity=1.0)
         _, _, pitcher, _ = game._pitching_side()
-        with patch('baseball.BUNT_RATE_FACTOR', 1.0), \
+        with patch.object(game, '_bunt_plan', return_value=(True, True)), \
                 patch.object(game, '_decide_steal_attempt', return_value=None), \
                 patch.object(game, '_simulate_pitch_trajectory', return_value=(True, 5)), \
                 patch.object(game.game_rng, 'random', return_value=0.9):

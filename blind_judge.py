@@ -195,13 +195,21 @@ def _fill_names(node, players):
 # ---------------------------------------------------------------- names
 
 def player_sides(data):
-    """Which team each player id played for, from who batted/pitched when."""
+    """Which team each player played for, including substitutes who never bat."""
     sides = {}
     for play in data["liveData"]["plays"]["allPlays"]:
         top = play["about"]["isTopInning"]
         batter, pitcher = play["matchup"]["batter"], play["matchup"]["pitcher"]
         sides.setdefault(batter["id"], "away" if top else "home")
         sides.setdefault(pitcher["id"], "home" if top else "away")
+        for event in play.get('playEvents', []):
+            kind = event.get('details', {}).get('eventType')
+            if kind not in ('offensive_substitution', 'defensive_substitution', 'defensive_switch'):
+                continue
+            side = ('away' if top else 'home') if kind == 'offensive_substitution' else ('home' if top else 'away')
+            for role in ('player', 'replacedPlayer'):
+                if event.get(role, {}).get('id') is not None:
+                    sides.setdefault(event[role]['id'], side)
     return sides
 
 

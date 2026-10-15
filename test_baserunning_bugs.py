@@ -72,12 +72,10 @@ class TestUnfinishedPlateAppearance(unittest.TestCase):
             event = {'index': 0, 'isPitch': outcome != 'Pickoff 1B',
                      'count': {'balls': 0, 'strikes': 0}, 'details': {'code': 'B'}}
             if outcome == 'Pickoff 1B':
-                game.outs += 1
-                runner = next(p for p in game.team2_lineup if p['legal_name'] == game.bases[0])
-                game.bases[0] = None
-                event['details'].update(eventType='pickoff', runners=[{
-                    'runner': {'id': runner['id'], 'fullName': runner['legal_name']},
-                    'fromBase': '1B', 'toBase': '1B', 'isOut': True}])
+                events = []
+                with patch.object(game.game_rng, 'random', side_effect=[0.01, 0.9]):
+                    game._record_pickoff_throw(events, 0, 0, pitcher)
+                return outcome, None, events
             return outcome, None, [event]
 
         with patch.object(game, '_simulate_at_bat', side_effect=at_bat), \
@@ -263,6 +261,10 @@ class TestFieldingCalibration(unittest.TestCase):
             announcer = NarrativeRenderer(data, seed=seed)
             lines = announcer.render().splitlines()
             boxscore = data['liveData']['boxscore']['teams']
+            starting_orders = {side: [p['person']['id'] for p in sorted(
+                (p for p in box['players'].values()
+                 if p.get('battingOrder') and int(p['battingOrder']) % 100 == 0),
+                key=lambda p: int(p['battingOrder']))] for side, box in boxscore.items()}
             for line in lines[:announcer._play_line_map[0][0]]:
                 match = re.search(r'\b(?:batting|bat) (' + '|'.join(ordinals) + r')\b', line.lower())
                 spot = ordinals.index(match.group(1)) if match else None
@@ -272,21 +274,21 @@ class TestFieldingCalibration(unittest.TestCase):
                     spot = 0
                 if spot is not None:
                     lineup_slots += 1
-                    names = [data['gameData']['players'][f"ID{boxscore[side]['battingOrder'][spot]}"]['fullName']
+                    names = [data['gameData']['players'][f"ID{starting_orders[side][spot]}"]['fullName']
                              for side in ('away', 'home')]
                     self.assertTrue(any(name in line for name in names), line)
             for index, play in enumerate(data['liveData']['plays']['allPlays']):
                 low, high = announcer._play_line_map[index]
                 text = ' '.join(lines[low:high]).split('...')[0]
                 side = 'away' if play['about']['isTopInning'] else 'home'
-                order = data['liveData']['boxscore']['teams'][side]['battingOrder']
                 batter = play['matchup']['batter']['id']
+                slot = int(boxscore[side]['players'][f'ID{batter}']['battingOrder']) // 100 - 1
                 if 'cleanup hitter' in text:
                     cleanup += 1
-                    self.assertEqual(batter, order[3])
+                    self.assertEqual(slot, 3)
                 if re.search(r'top of the .+ order|Batting first', text):
                     top += 1
-                    self.assertEqual(batter, order[0])
+                    self.assertEqual(slot, 0)
         self.assertGreater(cleanup, 15)
         self.assertGreater(top, 5)
         self.assertGreater(lineup_slots, 250)
