@@ -3,6 +3,7 @@ import copy
 import json
 import random
 import unittest
+from unittest.mock import patch
 
 from anonymize_real_gameday import anonymize_description, anonymize_gameday_data
 import blind_judge
@@ -145,6 +146,24 @@ class TestRealIdentities(unittest.TestCase):
 
 
 class TestRealFeedEvents(unittest.TestCase):
+    def test_simulated_pickoff_caught_stealing_keeps_the_throw_over(self):
+        # The simulator identifies this in eventType; the real-feed adapter
+        # also puts a pickoff flag on the movement. Both must keep the cause.
+        from baseball import BaseballSimulator
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+        runner = game.team2_lineup[0]
+        game.bases[0] = runner['legal_name']
+        events = []
+        with patch.object(game.strategy_rng, 'random', side_effect=[0.0, 0.0]):
+            game._record_pickoff_throw(events, 1, 0, game._pitching_side()[2])
+        renderer = NarrativeRenderer(game.gameday_data, seed=0)
+        renderer.runners_on_base = {'1B': runner['legal_name'], '2B': None, '3B': None}
+        text = renderer._render_steal_event(events[0])
+        self.assertIn('The throw to first catches', text)
+        self.assertIn(f"{runner['legal_name']} is caught stealing second.", text)
+        self.assertNotIn('gets back safely', text)
+        self.assertIsNone(renderer.runners_on_base['1B'])
+
     def test_credits_keep_the_position_and_use_the_renderers_credit_names(self):
         raw = feed(runners=[runner(1, None, '1B', credits=[credit(4, '9', 'f_fielded_ball')])])
         data = anonymize_gameday_data(raw, TEAMS)

@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 from baseball import BaseballSimulator
 from teams import TEAMS
-from test_simulation_tells import outs_recorded, pitcher_stints
+from test_simulation_tells import baserunning_rate_counts, outs_recorded, pitcher_stints
 
 
 def new_game(seed=0):
@@ -156,13 +156,6 @@ class TestBullpenAndRunningRates(unittest.TestCase):
                 ev = play['result']['eventType']
                 cls.counts['pa'] += ev != 'caught_stealing'
                 cls.counts['hbp'] += ev == 'hit_by_pitch'
-                for event in play['playEvents']:
-                    details = event['details']
-                    if details.get('eventType') in ('stolen_base', 'caught_stealing'):
-                        move = details['runners'][0]
-                        base = move['toBase']
-                        cls.counts[base] += 1
-                        cls.counts['cs_' + base] += move['isOut']
             for top in (True, False):
                 side, stints = pitcher_stints(plays, top)
                 cls.relievers.append(len(stints) - 1)
@@ -201,11 +194,14 @@ class TestBullpenAndRunningRates(unittest.TestCase):
 
     def test_steal_frequency_and_success_by_base(self):
         # Real: 1.34 attempts at second and 0.25 at third per game, with
-        # caught-stealing rates of 14% and 15%. Third has a smaller sample.
-        self.assertTrue(0.95 < self.counts['2B'] / 200 < 1.7)
-        self.assertTrue(0.12 < self.counts['3B'] / 200 < 0.4)
-        self.assertTrue(0.07 < self.counts['cs_2B'] / self.counts['2B'] < 0.23)
-        self.assertTrue(0.04 < self.counts['cs_3B'] / self.counts['3B'] < 0.3)
+        # caught-stealing rates of 14% and 15%, including pickoff CS.
+        # Fifty attempts at third in 200 games let a few throws determine
+        # the verdict. Keep the bands and use the larger calibration sample.
+        counts = baserunning_rate_counts()
+        self.assertTrue(0.95 < counts['2B'] / counts['games'] < 1.7, counts)
+        self.assertTrue(0.12 < counts['3B'] / counts['games'] < 0.4, counts)
+        self.assertTrue(0.07 < counts['cs_2B'] / counts['2B'] < 0.23, counts)
+        self.assertTrue(0.04 < counts['cs_3B'] / counts['3B'] < 0.3, counts)
 
 
 if __name__ == '__main__':

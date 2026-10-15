@@ -987,7 +987,8 @@ def render_steal_event(renderer, event):
     """Render actions from structured movements, never from transcript prose."""
     details = event.get('details', {})
     event_type = details.get('eventType', '')
-    if event_type.startswith('pickoff_caught_stealing'):
+    pickoff_caught_stealing = event_type.startswith('pickoff_caught_stealing')
+    if pickoff_caught_stealing:
         event_type = 'caught_stealing'
     elif event_type.startswith('pickoff_error') or not event_type and event.get('type') == 'pickoff':
         event_type = 'pickoff_attempt'
@@ -1048,7 +1049,7 @@ def render_steal_event(renderer, event):
                 throw_text = renderer.rng_play.choice(pool).format(base=base, runner=name.split()[-1])
                 if renderer._optional('steal_throw'):
                     lines.append(throw_text)
-            if movement.get('pickoff') and movement_type == 'caught_stealing':
+            if (movement.get('pickoff') or pickoff_caught_stealing) and movement_type == 'caught_stealing':
                 where = base_names.get(origin, 'first')
                 lines.append(f'The throw to {where} catches {name} off the bag.')
             if movement_type == 'stolen_base':

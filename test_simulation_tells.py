@@ -1,10 +1,11 @@
 """Simulation behaviour that gave simulated games away to blind judges, held
 to bands around what 24 real 2026 StatsAPI feeds show.
 
-One fixed batch of games (seeds 9000+) is simulated once and every test
-measures it, so the bands are deterministic.
+The prose and structural checks use 200 fixed games (seeds 9000+). Rare
+baserunning rates use a shared 2,400-game batch, with the same rate bands.
 """
 import collections
+import functools
 import re
 import statistics
 import unittest
@@ -24,6 +25,38 @@ def simulate(seed, home="BAY_BOMBERS", away="PC_PILOTS"):
     game = BaseballSimulator(TEAMS[home], TEAMS[away], game_seed=seed)
     game.play_game()
     return game
+
+
+@functools.lru_cache(maxsize=1)
+def baserunning_rate_counts():
+    """Rare-event rates need more opportunities than the prose audit batch.
+
+    Use the 2,400 judge-roster games from the integration calibration: the
+    advancement, count and strategy reports' seed ranges. Cache only counts,
+    so both rate tests share the sample without retaining thousands of feeds.
+    """
+    counts = collections.Counter()
+    for seeds in (range(12000, 12800), range(20000, 21000), range(21000, 21600)):
+        for seed in seeds:
+            game = simulate(seed)
+            counts['games'] += 1
+            for play in game.gameday_data['liveData']['plays']['allPlays']:
+                thrown_out = [r for r in play['runners']
+                              if r['movement']['isOut'] and r['details']['movementReason'] in THROWN_OUT]
+                counts['out_plays'] += bool(thrown_out)
+                for runner in thrown_out:
+                    counts[runner['details']['movementReason'], runner['movement']['outBase']] += 1
+                for event in play['playEvents']:
+                    details = event['details']
+                    kind = details.get('eventType', '')
+                    if kind in ('stolen_base', 'caught_stealing') or kind.startswith('pickoff_caught_stealing_'):
+                        # The real-feed target includes runners caught after
+                        # a pickoff throw, as does the strategy calibration.
+                        for move in details['runners']:
+                            base = move['toBase']
+                            counts[base] += 1
+                            counts['cs_' + base] += move['isOut']
+    return counts
 
 
 def pitcher_stints(plays, top):
@@ -143,9 +176,10 @@ class TestRunawayGames(SimulationBatch):
 
 
 class TestOutsOnTheBases(SimulationBatch):
-    """Real: 0.29 a game of runners thrown out taking an extra base on a hit
+    """Real: 29 in 136 games (0.213/game) with these two movement reasons
     (first to third, second to home, first to home on a double, the batter
-    stretching), with the advancement rates the field model was fit to."""
+    stretching). The old 0.29 also included rundowns, interference and steals
+    before contact; those are separate events from the extra-base races."""
 
     @classmethod
     def setUpClass(cls):
@@ -155,10 +189,10 @@ class TestOutsOnTheBases(SimulationBatch):
                      if any(r['details']['movementReason'] in THROWN_OUT for r in play['runners'])]
 
     def test_rate(self):
-        rate = len(self.plays) / len(self.games)
+        counts = baserunning_rate_counts()
+        rate = counts['out_plays'] / counts['games']
         self.assertTrue(0.15 <= rate <= 0.42, rate)
-        kinds = {(r['details']['movementReason'], r['movement']['outBase'])
-                 for _, _, play in self.plays for r in play['runners'] if r['movement']['isOut']}
+        kinds = {key for key in counts if isinstance(key, tuple)}
         self.assertLessEqual({('r_thrown_out', '3B'), ('r_thrown_out', '4B'), ('r_out_stretching', '2B')}, kinds)
 
     def test_advancement_rates_hold(self):
