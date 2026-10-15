@@ -294,7 +294,8 @@ class TestGameTexture(unittest.TestCase):
                                      for p in box['players'].values()), completed[side])
 
     def test_renderer_announces_changes_without_putting_substitutes_in_starting_lineups(self):
-        data = self.games[0]
+        data = next(d for d in self.games if any(e.get('position', {}).get('abbreviation') == 'PH'
+                    for p in d['liveData']['plays']['allPlays'] for e in p['playEvents']))
         renderer = NarrativeRenderer(data)
         text = renderer.render()
         lines = text.splitlines()

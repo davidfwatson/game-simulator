@@ -168,7 +168,9 @@ class TestThirdOutScoring(unittest.TestCase):
                 game._play_field = self.ball(outcome, batter_out=2 if outcome == 'Single' else 3)
                 game._thrown_out = []
                 batter = game.team2_lineup[0]
-                result = game._advance_runners(outcome, batter)
+                # Score the runner from second without depending on setup draws.
+                with patch.object(game.game_rng, 'random', return_value=0.75):
+                    result = game._advance_runners(outcome, batter)
                 # Running on contact with two out, the runner from second scores on the single too.
                 self.assertEqual(result['runs'], 2)
                 self.assertEqual(game.outs, 2)

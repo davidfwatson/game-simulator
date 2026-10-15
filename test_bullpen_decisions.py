@@ -114,6 +114,7 @@ class TestPerformanceHooks(unittest.TestCase):
 class TestSituationalSteals(unittest.TestCase):
     def attempt_rate(self, outs, margin=0, first_occupied=False, already_stole=False):
         game = new_game(512)
+        game.inning = 6
         runner = next(p for p in game.team2_lineup if p['legal_name'] == 'Kevin Webb')
         game.outs = outs
         game.team2_score, game.team1_score = max(margin, 0), max(-margin, 0)
@@ -127,8 +128,8 @@ class TestSituationalSteals(unittest.TestCase):
         one_out = self.attempt_rate(1)
         self.assertLess(self.attempt_rate(0), one_out)
         two_out = self.attempt_rate(2)
-        self.assertLess(two_out, one_out)
-        self.assertGreater(two_out, 0.025)
+        self.assertLess(two_out, one_out * 0.45)
+        self.assertGreater(two_out, 0.005)
 
     def test_protect_the_runner_on_second_with_nobody_out_and_several_runs_needed(self):
         self.assertLess(self.attempt_rate(0, margin=-2), self.attempt_rate(0) / 5)

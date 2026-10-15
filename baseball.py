@@ -45,14 +45,14 @@ COUNT_ZONE_ADJUSTMENTS = {
     (3, 0): 0.10, (3, 1): 0.04, (3, 2): 0.01,
 }
 ZONE_RATE_OFFSET = 0.085      # subtracted from pitcher control to get zone rate
-PICKOFF_THROW_RATE = 0.037    # per pitch with a runner on first; less often to second or third
+PICKOFF_THROW_RATE = 0.05     # weighted by the runner's threat and the open base ahead
 PICKOFF_OUT_RATE = 0.026     # includes runners caught stealing after the throw over
 PICKOFF_ERROR_RATE = 0.017
 # The combined count model and benches create more running opportunities.
 # 136 real feeds: 1.34/0.25 steal attempts at second/third and 6.22 visits/game.
-STEAL_SECOND_FACTOR = 1.4
-STEAL_THIRD_FACTOR = 0.55
-MOUND_VISIT_RATE = 0.177
+STEAL_SECOND_FACTOR = 1.7
+STEAL_THIRD_FACTOR = 0.8
+MOUND_VISIT_RATE = 0.1
 AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk/HBP
 WILD_PITCH_FACTOR = 3.2        # x the pitcher's wild_pitch_rate, per ball with runners on
 LATE_TROUBLE_HOOK_RATE = 0.15  # per PA, innings 6+, close, runner in scoring position
@@ -68,8 +68,8 @@ INNING_PITCHES = 10            # pitches a starter needs left to start another i
 BLOWOUT_MARGIN = 5             # runs ahead or behind at which a manager stops spending relievers
 FATIGUE_PENALTY_CAP = 0.12     # control lost to fatigue levels off (a team out of arms
                                # used to walk the lineup around twice)
-BUNT_RATE_FACTOR = 0.35       # sacrifice attempts, weighted toward the bottom of the order
-BUNT_FOR_HIT_FACTOR = 0.046
+BUNT_RATE_FACTOR = 1.0        # mostly nobody out, weighted toward the bottom of the order
+BUNT_FOR_HIT_FACTOR = 0.065
 # Real bunts make contact on 93% of attempts; 43% of that contact is foul.
 # A squared bat needs its own contact model rather than full-swing chase rates.
 BUNT_CONTACT_RATE = 0.93
@@ -107,6 +107,7 @@ class BaseballSimulator:
         self._entered_inning, self._entered_mid_inning = {}, {}
         self._half_pitcher_traffic, self._half_pitcher_homers = {}, {}
         self._stolen_second_this_inning = set()
+        self._last_mound_visit = {}
         self.commentary_seed = (game_seed if game_seed is not None
                                 else random.SystemRandom().randrange(2 ** 63))
         # Managerial choices must not consume the next pitch's random draws.
@@ -847,12 +848,42 @@ class BaseballSimulator:
         slot = next(i for i, p in enumerate(lineup) if p['id'] == batter['id'])
         slot_factor = (0.3, 0.3, 0.05, 0.05, 0.8, 0.5, 1.6, 1.1, 4.8)[slot]
         propensity = profile.get('bunt_propensity', 0.0) * slot_factor
-        sacrifice = (self.outs < 2 and any(self.bases) and not self.bases[2]
-                     and abs(self.team1_score - self.team2_score) <= 3 and self.inning >= 2)
-        rate = BUNT_RATE_FACTOR if sacrifice else BUNT_FOR_HIT_FACTOR
+        margin = -self._pitching_lead()
+        pinch_hitter = batter['position']['abbreviation'] == 'PH'
+        sacrifice = (self.outs == 0 and not self.bases[2] and abs(margin) <= 3
+                     and self.inning >= 2 and (self.bases[0] or
+                         (self.bases[1] and self.inning >= 4 and abs(margin) <= 2)))
+        if self.outs == 1 and self.bases[0] and not any(self.bases[1:]):
+            sacrifice = self.inning >= 3 and abs(margin) <= 2
+        if sacrifice and not (self.inning >= 7 and margin <= -2):
+            rate = BUNT_RATE_FACTOR
+            if self.bases[0] and self.bases[1]:
+                rate *= 1.8
+            elif self.bases[1]:
+                rate *= 2.5
+            if self.outs == 1:
+                rate *= 0.18
+            if margin <= -2:
+                rate *= 0.35
+            rate *= 0.75 if profile.get('contact', 0.7) >= 0.86 else 1.15
+            if pinch_hitter:
+                rate *= 0.08
+        else:
+            sacrifice = False
+            # A failed sacrifice situation is not a reason to try a drag bunt.
+            # Hit bunts need speed, and an occupied base needs room to advance.
+            if (profile.get('stealing_tendency', 0) < 0.015
+                    or profile.get('stealing_success_rate', 0) < 0.75 or pinch_hitter
+                    or (any(self.bases) and (self.outs == 2 or not self.bases[2]
+                                             or not self.bases[0] or self.bases[1]
+                                             or abs(margin) > 3))):
+                return False, False
+            rate = BUNT_FOR_HIT_FACTOR * (0.6 + min(0.2, profile['stealing_tendency']) * 8)
+            if self.bases[2]:
+                rate *= 16
         if self.inning == 1:
             rate *= 0.2
-        return self.strategy_rng.random() < min(0.45, propensity * rate), sacrifice
+        return self.strategy_rng.random() < min(0.65, propensity * rate), bool(sacrifice)
 
     def _determine_outcome_from_trajectory(self, ev, la):
         """Determines the outcome of a batted ball from its physics."""
@@ -1104,7 +1135,9 @@ class BaseballSimulator:
         batting_lineup = self.team1_lineup if is_home_team_batting else self.team2_lineup
 
         count_modifier = 1.0
-        if (balls == 0 and strikes == 1) or (balls == 0 and strikes == 2) or (balls == 1 and strikes == 2):
+        if balls == 0 and strikes == 0:
+            count_modifier = 0.55
+        elif (balls == 0 and strikes == 1) or (balls == 0 and strikes == 2) or (balls == 1 and strikes == 2):
             count_modifier = 1.2
         elif (balls == 2 and strikes == 0) or (balls == 3 and strikes == 0) or (balls == 3 and strikes == 1):
             count_modifier = 0.8
@@ -1125,8 +1158,13 @@ class BaseballSimulator:
             if runner_data:
                 # Third is most useful with one out. Real runners still try
                 # it with two outs, but seldom risk it down several runs.
-                third_modifier = (0.7, 1.0, 0.55)[self.outs]
-                if self.outs == 0 and (margin <= -2 or self.bases[0]):
+                third_modifier = (0.95, 1.0, 0.35)[self.outs]
+                if self.outs == 0:
+                    if margin <= -2:
+                        third_modifier *= 0.25
+                    if self.bases[0]:
+                        third_modifier *= 0.4
+                if self.inning == 1:
                     third_modifier *= 0.25
                 if runner_name in self._stolen_second_this_inning:
                     third_modifier *= 0.65
@@ -1139,10 +1177,40 @@ class BaseballSimulator:
             runner_data = next((p for p in batting_lineup if p['legal_name'] == runner_name), None)
             if runner_data:
                 attempt_chance = runner_data['batting_profile']['stealing_tendency'] * STEAL_SECOND_FACTOR * count_modifier * outs_modifier * score_modifier
+                if self.inning == 1:
+                    attempt_chance *= 0.45
                 if self.strategy_rng.random() < attempt_chance:
                     return 2
 
         return None
+
+    def _decide_pickoff_throw(self, throws_this_pa):
+        if throws_this_pa >= 2 or all(self.bases):
+            return None
+        margin = abs(self._pitching_lead())
+        if margin >= 8:
+            return None
+        lineup = self.team2_lineup if self.top_of_inning else self.team1_lineup
+        if self.bases[0] and not self.bases[1]:
+            base, rate = 1, PICKOFF_THROW_RATE
+        elif self.bases[1] and not self.bases[2]:
+            base, rate = 2, 0.005
+        elif self.bases[0]:
+            base, rate = 1, PICKOFF_THROW_RATE * 0.05
+        elif self.bases[2]:
+            base, rate = 3, 0.004
+        else:
+            return None
+        runner = next(p for p in lineup if p['legal_name'] == self.bases[base - 1])
+        threat = runner['batting_profile'].get('stealing_tendency', 0)
+        rate *= 0.1 + min(threat, 0.15) * 45
+        if base == 1 and self.bases[2]:
+            rate *= 0.5
+        if margin >= 4:
+            rate *= 0.55 if margin <= 5 else 0.08
+        if throws_this_pa:
+            rate *= 0.8
+        return base if self.strategy_rng.random() < min(0.35, rate) else None
 
     def _record_wild_pitch(self, play_events, balls, strikes):
         """A ball in the dirt gets away and the runners move up a base. (Only
@@ -1368,14 +1436,12 @@ class BaseballSimulator:
             # and a second throw over is rarer than the first.
             throws_this_pa = sum(1 for e in play_events if e.get('type') == 'pickoff'
                                  or e.get('details', {}).get('eventType', '').startswith('pickoff'))
-            base = next((i + 1 for i, name in enumerate(self.bases) if name), None)
-            if base and throws_this_pa < 2:
-                rate = {1: PICKOFF_THROW_RATE, 2: 0.011, 3: 0.008}[base]
-                if self.strategy_rng.random() < rate * (0.5 if throws_this_pa else 1):
-                    self._record_pickoff_throw(play_events, balls, strikes, pitcher, base)
-                    if self.outs >= 3:
-                        return play_events[-1]['details']['event'], None, play_events
-                    pitch_start_time = self.current_time.isoformat()
+            base = self._decide_pickoff_throw(throws_this_pa)
+            if base:
+                self._record_pickoff_throw(play_events, balls, strikes, pitcher, base)
+                if self.outs >= 3:
+                    return play_events[-1]['details']['event'], None, play_events
+                pitch_start_time = self.current_time.isoformat()
 
             # Advance time for the pitch (median ~20.4s)
             time_between_pitches = self.time_rng.uniform(18.0, 26.0)
@@ -1798,6 +1864,47 @@ class BaseballSimulator:
         if change:
             self._bring_in(prefix, bullpen, mid_inning=False)
 
+    def _should_visit_mound(self, pitcher):
+        name = pitcher['legal_name']
+        pitches, faced = self.pitch_counts[name], self._batters_faced[name]
+        runners = sum(bool(runner) for runner in self.bases)
+        if pitches == 0:
+            if pitcher.get('type') == 'Starter':
+                return False
+            # The catcher often goes over the signs with an incoming reliever.
+            rate = 0.08 if not runners else 0.8 if runners == 1 else 0.9
+        else:
+            if not runners:
+                rate = 0.015 if self.inning >= 5 else 0.002
+            else:
+                rate = MOUND_VISIT_RATE * (0.55 if self.bases[0] and runners == 1
+                                          else 2.3 if runners >= 2 else 1.0)
+            rate *= 0.45 if self.inning <= 3 else 0.8 if self.inning == 4 else 1.3
+            if self._half_pitcher_traffic.get(name, 0) >= 2 or pitches >= 70:
+                rate *= 1.25
+            batting_score = self.team2_score if self.top_of_inning else self.team1_score
+            if batting_score > self._half_pitcher_entry.get(name, batting_score):
+                rate *= 1.3
+            plays = self.gameday_data['liveData']['plays']['allPlays']
+            if plays and plays[-1]['about']['inning'] == self.inning and plays[-1]['about']['isTopInning'] == self.top_of_inning:
+                if plays[-1]['result'].get('rbi', 0):
+                    rate *= 1.4
+        if abs(self._pitching_lead()) >= 5:
+            rate *= 0.65
+        last_faced, last_pitches = self._last_mound_visit.get(name, (-100, -100))
+        if faced == last_faced:
+            return False
+        if faced - last_faced == 1:
+            rate *= 0.15
+        elif faced - last_faced == 2:
+            rate *= 0.55
+        if pitches - last_pitches < 4:
+            rate *= 0.5
+        if self.texture_rng.random() >= min(0.9, rate):
+            return False
+        self._last_mound_visit[name] = (faced, pitches)
+        return True
+
     def _create_credit(self, player, credit_type):
         return {
             'player': {
@@ -2134,7 +2241,7 @@ class BaseballSimulator:
             defensive_events = []
             # Most tracked visits are between batters. These are catcher
             # conversations; they neither spend a coach visit nor pull a pitcher.
-            if any(self.bases) and self.texture_rng.random() < MOUND_VISIT_RATE:
+            if self._should_visit_mound(pitcher):
                 pre_events.append({
                     'index': 0, 'startTime': self.current_time.isoformat(), 'endTime': self.current_time.isoformat(),
                     'isPitch': False, 'type': 'action', 'count': {'balls': 0, 'strikes': 0, 'outs': self.outs},
