@@ -915,8 +915,16 @@ class TestPregameAndPostgame(unittest.TestCase):
                             ('out to left center', 'Out To LCF'), ('out to right center', 'Out To RCF'),
                             ('out to center field', 'Out To CF'), ('out right field', 'Out To RF'),
                             ('in from left', 'In From LF'), ('out to right', 'Out To RF'),
-                            ('IN FROM CENTER FIELD', 'In From CF'), ('in', 'In'), ('out', 'Out'),
-                            ('in from', 'In'), ('out to', 'Out')):
+                            ('IN FROM CENTER FIELD', 'In From CF')):
+            with self.subTest(words=words):
+                lines = [f'74 degrees at game time, with a light breeze blowing {words}.']
+                self.assertEqual(pregame_facts(game, lines, lines), {'weather': {'temp': '74', 'wind': wind}})
+
+    def test_pregame_wind_without_a_field_keeps_the_normalized_direction(self):
+        from annotate_transcript_facts import pregame_facts
+        game = {'away': 'Big Rapids Timbers', 'home': 'Tomah Tigers'}
+        for words, wind in (('in from', 'In From'), ('out to', 'Out To'),
+                            ('in', 'In From'), ('out', 'Out To'), ('IN FROM', 'In From')):
             with self.subTest(words=words):
                 lines = [f'74 degrees at game time, with a light breeze blowing {words}.']
                 self.assertEqual(pregame_facts(game, lines, lines), {'weather': {'temp': '74', 'wind': wind}})

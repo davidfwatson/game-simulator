@@ -387,7 +387,7 @@ def pregame_facts(game, lines, pregame_lines):
         if wind:
             direction = WIND_DIRECTIONS[wind.group(1).casefold()]
             field = WIND_FIELDS.get((wind.group(2) or '').casefold())
-            weather['wind'] = f'{direction} {field}' if field else direction.split()[0]
+            weather['wind'] = f'{direction} {field}' if field else direction
         facts['weather'] = weather
     if chief:
         facts['crew_chief'] = chief.group(1).strip()
