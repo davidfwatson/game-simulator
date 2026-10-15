@@ -11,22 +11,39 @@ import os as _os
 with open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)), 'fieldsim_batted_balls.json')) as _f:
     _REAL_BATTED_BALLS = [tuple(b) for b in json.load(_f)['balls']]
 
-# Plate-discipline model, tuned so pitch outcomes match MLB rates (fouls ~18%
+# Plate-discipline model, tuned so pitch outcomes match MLB rates (fouls ~19%
 # of pitches, called strikes ~17%) while keeping K%, BB% and pitches per PA.
 # Play batted balls on a 2D field (fieldsim) instead of the EV/LA outcome table:
 # outcome, fielder, location and coordinates then come from one calculation.
 FIELD_SIM = True
 POWER_EV_SHIFT = 8.0          # mph of exit velocity per point of power, around the league's 0.54
-ZONE_SWING_RATE = 0.69        # swings at pitches in the zone
-CHASE_RATE = 0.30             # swings at pitches outside it, before discipline
-CONTACT_BOOST = 0.095         # added to each batter's contact rating
-CHASE_CONTACT_FACTOR = 0.75   # contact multiplier on pitches outside the zone
-FOUL_SHARE_OF_CONTACT = 0.48  # contact that goes foul rather than in play
-TWO_STRIKE_FOUL_BONUS = 0.28  # extra foul share with two strikes (protecting the plate)
-TWO_STRIKE_FOUL_DECAY = 0.14  # less each time he's already fouled one off with two strikes
-FIRST_PITCH_SWING_FACTOR = 0.6  # hitters take more on 0-0 (MLB swings ~30% of first pitches)
-TWO_STRIKE_ZONE_FACTOR = 1.3    # and protect the plate with two strikes
-TWO_STRIKE_CHASE_FACTOR = 1.5
+CONTACT_BOOST = 0.075         # added to each batter's contact rating
+CHASE_CONTACT_FACTOR = 0.65   # contact multiplier on pitches outside the zone
+COUNT_CONTACT_BOOST = 0.01   # more contact when protecting or ahead in the count
+TWO_STRIKE_CHASE_CONTACT_FACTOR = 0.72
+FOUL_SHARE_OF_CONTACT = 0.52  # about half of contact goes foul, at every count
+TWO_STRIKE_FOUL_BONUS = 0.01
+# 136 real 2026 feeds: hitters take on 0-0 and in hitter's counts, then
+# protect the plate with two strikes. Chase rates still vary by discipline.
+ZONE_SWING_RATES = {
+    (0, 0): 0.46, (0, 1): 0.75, (0, 2): 0.88,
+    (1, 0): 0.61, (1, 1): 0.78, (1, 2): 0.90,
+    (2, 0): 0.51, (2, 1): 0.76, (2, 2): 0.90,
+    (3, 0): 0.69, (3, 1): 0.72, (3, 2): 0.90,
+}
+CHASE_RATES = {
+    (0, 0): 0.19, (0, 1): 0.38, (0, 2): 0.43,
+    (1, 0): 0.28, (1, 1): 0.39, (1, 2): 0.46,
+    (2, 0): 0.30, (2, 1): 0.38, (2, 2): 0.53,
+    (3, 0): 0.30, (3, 1): 0.28, (3, 2): 0.53,
+}
+# Pitchers expand the zone when ahead and come back over it behind 3-0.
+COUNT_ZONE_ADJUSTMENTS = {
+    (0, 0): -0.01, (0, 1): -0.13, (0, 2): -0.27,
+    (1, 0): 0.015, (1, 1): -0.09, (1, 2): -0.21,
+    (2, 0): 0.035, (2, 1): -0.01, (2, 2): -0.12,
+    (3, 0): 0.10, (3, 1): 0.04, (3, 2): 0.01,
+}
 ZONE_RATE_OFFSET = 0.085      # subtracted from pitcher control to get zone rate
 PICKOFF_THROW_RATE = 0.075    # per pitch, runner alone on first (real feeds: ~2.2 throws per team-game)
 AFTER_FREE_PASS_ZONE_BOOST = 0.03  # zone rate added for the batter after a walk/HBP
@@ -463,9 +480,7 @@ class BaseballSimulator:
             # Cap the penalty to avoid breaking the game (max ~5% drop in strike rate)
             pitch_around_penalty = min(pitch_around_penalty, 0.06)
 
-        # Add a small penalty to control to increase walks slightly
-        # Behind 3-0 / 3-1 pitchers groove one rather than walk the man.
-        count_boost = {(3, 0): 0.22, (3, 1): 0.12, (2, 0): 0.05}.get((balls, strikes), 0.0)
+        count_boost = COUNT_ZONE_ADJUSTMENTS[(balls, strikes)]
         # Right after a walk or a hit batter, a pitcher attacks the next man
         # rather than staying just as wild (judges read walk-HBP-walk as dice).
         if getattr(self, '_free_pass_pitcher', None) == pitcher['legal_name']:
@@ -492,12 +507,8 @@ class BaseballSimulator:
     def _simulate_bat_swing(self, batter, is_strike_loc, balls=0, strikes=0, zone=None, pitch_type=None):
         """Determines if the batter swings at the pitch."""
         discipline_factor = max(0.1, batter['plate_discipline'].get('Walk', 0.09) / 0.08)
-        swing_at_ball_prob = CHASE_RATE / discipline_factor
-        prob = ZONE_SWING_RATE if is_strike_loc else swing_at_ball_prob
-        if balls == 0 and strikes == 0:
-            prob *= FIRST_PITCH_SWING_FACTOR
-        elif strikes == 2:
-            prob = min(0.97, prob * (TWO_STRIKE_ZONE_FACTOR if is_strike_loc else TWO_STRIKE_CHASE_FACTOR))
+        swing_at_ball_prob = CHASE_RATES[(balls, strikes)] / discipline_factor
+        prob = ZONE_SWING_RATES[(balls, strikes)] if is_strike_loc else min(0.97, swing_at_ball_prob)
         if balls == 3 and strikes == 0:
             prob *= self._three_oh_swing_factor(batter, is_strike_loc, zone, pitch_type)
         return self.game_rng.random() < prob
@@ -514,7 +525,7 @@ class BaseballSimulator:
         green = min(1.0, max(0.0, (power - 0.60) / 0.30))
         if not is_strike_loc:
             return 0.03 + 0.04 * green          # off the plate: almost never
-        factor = 0.08 + 0.50 * green
+        factor = 0.065 + 0.40 * green
         if zone == 5:
             factor *= 1.8                        # a cookie down the middle
         kind = (pitch_type or '').lower()
@@ -1080,10 +1091,11 @@ class BaseballSimulator:
             hit_result = None
 
             swing = self._simulate_bat_swing(batter, is_strike_loc, balls, strikes, pitch_zone, pitch_selection) or bunting_now
-            # Boost contact rate slightly to reduce strikeouts (adjusted to 0.063)
             contact_prob = batter['batting_profile']['contact'] + CONTACT_BOOST
+            if strikes == 2 or balls >= 2:
+                contact_prob += COUNT_CONTACT_BOOST
             if not is_strike_loc:
-                contact_prob *= CHASE_CONTACT_FACTOR
+                contact_prob *= TWO_STRIKE_CHASE_CONTACT_FACTOR if strikes == 2 else CHASE_CONTACT_FACTOR
             contact = self.game_rng.random() < contact_prob or (bunting_now and is_strike_loc)
 
             play_event: PlayEvent = {
@@ -1111,19 +1123,15 @@ class BaseballSimulator:
                     event_details = {'code': 'S', 'description': 'Swinging Strike', 'isStrike': True}
                     self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'strikes')
                 else: # Contact
-                    # Two-strike fouls: common once, rare five in a row. A flat
-                    # bonus gave a geometric tail (6+ straight fouls ~6x real).
-                    two_strike_fouls = 0
-                    for e in reversed(play_events):
-                        if not e.get('isPitch'):
-                            continue
-                        if e['details'].get('code') == 'F' and e['count']['strikes'] == 2:
-                            two_strike_fouls += 1
-                        else:
-                            break
+                    # Real two-strike foul rates stay near 24% of pitches,
+                    # including after a foul. A large foul bonus followed
+                    # by decay produced too many short battles and capped
+                    # the rare long ones.
                     foul_share = FOUL_SHARE_OF_CONTACT
                     if strikes == 2:
-                        foul_share += TWO_STRIKE_FOUL_BONUS - TWO_STRIKE_FOUL_DECAY * two_strike_fouls
+                        foul_share += TWO_STRIKE_FOUL_BONUS
+                    elif balls == 3 and strikes == 0:
+                        foul_share *= 0.65  # green lights are swings at pitches he can drive
                     is_foul = self.game_rng.random() < foul_share
                     if is_foul:
                         if strikes < 2 or bunting_now: strikes += 1
