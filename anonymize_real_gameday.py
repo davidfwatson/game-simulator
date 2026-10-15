@@ -239,8 +239,13 @@ def assign_player_names(data, our_teams, rng):
     for pid in players:
         if pid not in sides:
             raise ValueError(f'player assignment: player {pid} has no team side')
+    pitchers = {p['matchup']['pitcher']['id'] for p in plays}
     positions = {pid: {_position_code(p.get('primaryPosition'))} for pid, p in players.items()}
     for play in plays:
+        for event in play.get('playEvents', []):
+            if (event.get('details', {}).get('eventType') == 'pitching_substitution'
+                    and event.get('player', {}).get('id')):
+                pitchers.add(event['player']['id'])
         for runner in play.get('runners', []):
             for credit in runner.get('credits', []):
                 pid = credit.get('player', {}).get('id')
@@ -259,9 +264,12 @@ def assign_player_names(data, our_teams, rng):
                 continue
             person = players[pid]
             code = _position_code(person.get('primaryPosition'))
-            hand_key = 'pitchHand' if code == '1' else 'batSide'
+            # Game roles also catch position players who pitched. Keep unused
+            # roster pitchers in the pitching pool even without a matchup.
+            is_pitcher = pid in pitchers or code == '1'
+            hand_key = 'pitchHand' if is_pitcher else 'batSide'
             hand = person.get(hand_key, {}).get('code', 'U')
-            candidates = pitcher_order if code == '1' else roster
+            candidates = pitcher_order if is_pitcher else roster
             match = next((p for p in candidates if p['legal_name'] not in used
                           and p['legal_name'].split()[-1] not in used_surnames
                           and positions[pid] == {p['position']['code']}
@@ -552,7 +560,9 @@ def anonymize_player_reference(player_ref, id_mapping):
         return player_ref
     real_id = player_ref['id']
     mapped = id_mapping.get(real_id)
-    return {'id': mapped['id'], 'fullName': mapped['legal_name']} if mapped else {'id': real_id}
+    if mapped is None:
+        raise ValueError(f'player reference: player {real_id} is missing from the anonymization mapping')
+    return {'id': mapped['id'], 'fullName': mapped['legal_name']}
 
 
 def _case_like(src: str, repl: str) -> str:

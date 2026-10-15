@@ -6,8 +6,8 @@ import unittest
 from unittest.mock import patch
 
 from anonymize_real_gameday import (
-    anonymize_description, anonymize_gameday_data, assign_player_names, collect_players,
-    create_player_mapping, validate_player_names,
+    anonymize_description, anonymize_gameday_data, anonymize_player_reference, assign_player_names,
+    collect_players, create_player_mapping, validate_player_names,
 )
 import blind_judge
 from renderers import NarrativeRenderer
@@ -134,6 +134,71 @@ class TestRealIdentities(unittest.TestCase):
         raw['gameData']['players']['ID6'] = person(6, '6')
         with self.assertRaisesRegex(ValueError, 'player 6.*no team side'):
             assign_player_names(raw, TEAMS, random.Random(1))
+
+    def test_pitching_role_uses_throwing_hand_despite_boxscore_position(self):
+        roster_names = {p['legal_name'] for team in TEAMS.values() for p in team['players']}
+        for role in ('matchup', 'pitching_substitution'):
+            for pitching_credit in (False, True):
+                with self.subTest(role=role, pitching_credit=pitching_credit):
+                    credits = [credit(4, '9')]
+                    if pitching_credit:
+                        credits.append(credit(4, '1'))
+                    raw = feed(runners=[runner(1, None, '1B', credits=credits)])
+                    raw['liveData']['boxscore']['teams']['home']['players']['ID4']['position'] = POSITIONS['9']
+                    play = raw['liveData']['plays']['allPlays'][0]
+                    if role == 'matchup':
+                        relief = copy.deepcopy(play)
+                        relief['matchup']['pitcher'] = {'id': 4}
+                        raw['liveData']['plays']['allPlays'].append(relief)
+                    else:
+                        play['playEvents'].insert(0, {
+                            'isPitch': False, 'index': -1, 'player': {'id': 4},
+                            'replacedPlayer': {'id': 2}, 'position': POSITIONS['1'],
+                            'details': {'eventType': 'pitching_substitution'}})
+                    names = {}
+                    for bat, throws in (('R', 'R'), ('L', 'R'), ('R', 'L')):
+                        raw['gameData']['players']['ID4'] = person(4, '9', bat, throws)
+                        if role == 'matchup':
+                            relief['matchup']['pitchHand'] = raw['gameData']['players']['ID4']['pitchHand']
+                        mapping, _ = create_player_mapping(raw, TEAMS, random.Random(1))
+                        names[bat, throws] = mapping[4]['legal_name']
+                        self.assertNotIn(names[bat, throws], roster_names)
+                        validate_player_names(anonymize_gameday_data(raw, TEAMS))
+                    self.assertEqual(names['R', 'R'], names['L', 'R'])
+                    self.assertNotEqual(names['R', 'R'], names['R', 'L'])
+                    raw['gameData']['players']['ID4']['primaryPosition'] = POSITIONS['1']
+                    mapping, _ = create_player_mapping(raw, TEAMS, random.Random(1))
+                    self.assertEqual(mapping[4]['legal_name'], names['R', 'L'])
+
+    def test_pitching_substitution_does_not_change_the_replaced_hitters_role(self):
+        raw = feed()
+        raw['gameData']['players']['ID4'] = person(4, '9', bat='R', throws='L')
+        before, _ = create_player_mapping(raw, TEAMS)
+        raw['liveData']['plays']['allPlays'][0]['playEvents'].insert(0, {
+            'isPitch': False, 'index': -1, 'player': {'id': 2},
+            'replacedPlayer': {'id': 4}, 'position': POSITIONS['1'],
+            'details': {'eventType': 'pitching_substitution'}})
+        after, _ = create_player_mapping(raw, TEAMS)
+        self.assertEqual(before[4], after[4])
+
+    def test_multiple_positions_do_not_take_a_single_position_roster_name(self):
+        raw = feed(runners=[runner(1, None, '1B', credits=[credit(2, '1'), credit(2, '9')])])
+        mapping, _ = create_player_mapping(raw, TEAMS)
+        self.assertNotIn(mapping[2]['legal_name'],
+                         {p['legal_name'] for p in TEAMS['BAY_BOMBERS']['players']})
+
+    def test_unused_roster_pitcher_keeps_his_throwing_hand(self):
+        raw = feed()
+        raw['gameData']['players']['ID6'] = person(6, '1', bat='R', throws='L')
+        raw['liveData']['boxscore']['teams']['home']['players']['ID6'] = {
+            'person': {'id': 6}, 'position': POSITIONS['1']}
+        self.assert_names_fit(anonymize_gameday_data(raw, TEAMS))
+
+    def test_unmapped_player_reference_fails_before_returning_a_real_id(self):
+        for ref in ({'id': 123456}, {'id': 123456, 'fullName': 'Real Player'}):
+            with self.subTest(ref=ref):
+                with self.assertRaisesRegex(ValueError, 'player 123456.*missing from.*mapping'):
+                    anonymize_player_reference(ref, {})
 
     def test_unused_roster_players_keep_their_sides_when_remapped(self):
         raw = feed()
