@@ -19,14 +19,20 @@ FIELD_SIM = True
 POWER_EV_SHIFT = 8.0          # mph of exit velocity per point of power, around the league's 0.54
 CONTACT_BOOST = 0.075         # added to each batter's contact rating
 CHASE_CONTACT_FACTOR = 0.65   # contact multiplier on pitches outside the zone
-COUNT_CONTACT_BOOST = 0.01   # more contact when protecting or ahead in the count
+# First-pitch swings miss more often; with a full count hitters protect.
+COUNT_CONTACT_ADJUSTMENTS = {
+    (0, 0): -0.025, (0, 1): 0.0, (0, 2): 0.01,
+    (1, 0): 0.0, (1, 1): 0.0, (1, 2): 0.01,
+    (2, 0): 0.01, (2, 1): 0.05, (2, 2): 0.035,
+    (3, 0): 0.01, (3, 1): 0.05, (3, 2): 0.05,
+}
 TWO_STRIKE_CHASE_CONTACT_FACTOR = 0.72
 FOUL_SHARE_OF_CONTACT = 0.52  # about half of contact goes foul, at every count
 TWO_STRIKE_FOUL_BONUS = 0.01
 # 136 real 2026 feeds: hitters take on 0-0 and in hitter's counts, then
 # protect the plate with two strikes. Chase rates still vary by discipline.
 ZONE_SWING_RATES = {
-    (0, 0): 0.46, (0, 1): 0.75, (0, 2): 0.88,
+    (0, 0): 0.44, (0, 1): 0.75, (0, 2): 0.88,
     (1, 0): 0.61, (1, 1): 0.78, (1, 2): 0.90,
     (2, 0): 0.51, (2, 1): 0.76, (2, 2): 0.90,
     (3, 0): 0.69, (3, 1): 0.72, (3, 2): 0.90,
@@ -34,17 +40,19 @@ ZONE_SWING_RATES = {
 CHASE_RATES = {
     (0, 0): 0.19, (0, 1): 0.38, (0, 2): 0.43,
     (1, 0): 0.28, (1, 1): 0.39, (1, 2): 0.46,
-    (2, 0): 0.30, (2, 1): 0.38, (2, 2): 0.53,
-    (3, 0): 0.30, (3, 1): 0.28, (3, 2): 0.53,
+    (2, 0): 0.30, (2, 1): 0.38, (2, 2): 0.55,
+    (3, 0): 0.30, (3, 1): 0.28, (3, 2): 0.56,
 }
 # Pitchers expand the zone when ahead and come back over it behind 3-0.
 COUNT_ZONE_ADJUSTMENTS = {
     (0, 0): -0.01, (0, 1): -0.13, (0, 2): -0.27,
-    (1, 0): 0.015, (1, 1): -0.09, (1, 2): -0.21,
-    (2, 0): 0.035, (2, 1): -0.01, (2, 2): -0.12,
-    (3, 0): 0.10, (3, 1): 0.04, (3, 2): 0.01,
+    (1, 0): 0.015, (1, 1): -0.065, (1, 2): -0.21,
+    (2, 0): 0.035, (2, 1): 0.01, (2, 2): -0.11,
+    (3, 0): 0.135, (3, 1): 0.065, (3, 2): 0.01,
 }
-ZONE_RATE_OFFSET = 0.085      # subtracted from pitcher control to get zone rate
+ZONE_RATE_OFFSET = 0.088      # subtracted from pitcher control to get zone rate
+CONTROL_RATING_WEIGHT = 0.4  # command affects zone frequency less than the raw rating
+PITCHER_GAME_CONTROL_SD = 0.055
 PICKOFF_THROW_RATE = 0.05     # weighted by the runner's threat and the open base ahead
 PICKOFF_OUT_RATE = 0.026     # includes runners caught stealing after the throw over
 PICKOFF_ERROR_RATE = 0.017
@@ -104,6 +112,7 @@ class BaseballSimulator:
         # Per-pitcher game state the manager reads: pitches allowed today,
         # batters faced, runs given up, and when he came in.
         self._pitch_budget, self._batters_faced, self._runs_allowed = {}, {}, {}
+        self._pitcher_control = {}
         self._entered_inning, self._entered_mid_inning = {}, {}
         self._half_pitcher_traffic, self._half_pitcher_homers = {}, {}
         self._stolen_second_this_inning = set()
@@ -451,6 +460,14 @@ class BaseballSimulator:
     def _setup_pitchers(self, team_data, team_prefix):
         all_pitchers = [p for p in team_data["players"] if p['position']['abbreviation'] == 'P']
         pitcher_stats = {p['legal_name']: p.copy() for p in all_pitchers}
+        # A pitcher's command varies by outing, then persists across batters.
+        # Real starters walk 8.3% of batters, relievers 9.7%; using the raw
+        # roster ratings reverses that gap. Keep individual differences small.
+        control_rng = random.Random(self.commentary_seed + team_data['id'] + 17493)
+        for name, pitcher in pitcher_stats.items():
+            control = 0.68 if pitcher['type'] == 'Starter' else 0.63
+            self._pitcher_control[name] = (control + CONTROL_RATING_WEIGHT * (pitcher['control'] - 0.66)
+                                           + control_rng.gauss(0, PITCHER_GAME_CONTROL_SD))
         bullpen_candidates = [p['legal_name'] for p in all_pitchers if p['type'] != 'Starter']
         closers = [name for name in bullpen_candidates if pitcher_stats[name]['type'] == 'Closer']
         non_closers = [name for name in bullpen_candidates if pitcher_stats[name]['type'] != 'Closer']
@@ -698,7 +715,7 @@ class BaseballSimulator:
         # rather than staying just as wild (judges read walk-HBP-walk as dice).
         if getattr(self, '_free_pass_pitcher', None) == pitcher['legal_name']:
             count_boost += AFTER_FREE_PASS_ZONE_BOOST
-        is_strike = self.game_rng.random() < (pitcher['control'] - fatigue_penalty - 0.012 - pitch_around_penalty - ZONE_RATE_OFFSET + count_boost)
+        is_strike = self.game_rng.random() < (self._pitcher_control[pitcher['legal_name']] - fatigue_penalty - 0.012 - pitch_around_penalty - ZONE_RATE_OFFSET + count_boost)
 
         if is_strike:
             # Weighted distribution for strike zones (1-9)
@@ -726,26 +743,35 @@ class BaseballSimulator:
             prob *= self._three_oh_swing_factor(batter, is_strike_loc, zone, pitch_type)
         return self.game_rng.random() < prob
 
-    @staticmethod
-    def _three_oh_swing_factor(batter, is_strike_loc, zone, pitch_type):
+    def _three_oh_swing_factor(self, batter, is_strike_loc, zone, pitch_type):
         """How much of a hitter's normal swing rate survives a 3-0 count.
 
         Most hitters take 3-0, but sluggers get the green light and will swing
-        at a fastball down the middle. Green light strength scales with power:
-        none at 0.60 and below, full at 0.90 and above.
+        at a fastball down the middle. A big deficit makes the baserunner
+        more useful, and big leads also make the green light less common.
         """
         power = batter.get('batting_profile', {}).get('power', 0.5)
         green = min(1.0, max(0.0, (power - 0.60) / 0.30))
         if not is_strike_loc:
-            return 0.03 + 0.04 * green          # off the plate: almost never
-        factor = 0.065 + 0.40 * green
-        if zone == 5:
-            factor *= 1.8                        # a cookie down the middle
-        kind = (pitch_type or '').lower()
-        if 'fastball' in kind or 'sinker' in kind or 'heater' in kind:
-            factor *= 1.3
-        elif any(k in kind for k in ('curve', 'slider', 'sweeper', 'change', 'knuckle', 'split')):
-            factor *= 0.5                        # nobody's sitting on a 3-0 breaking ball
+            factor = 0.03 + 0.04 * green        # off the plate: almost never
+        else:
+            factor = 0.10 + 0.25 * green
+            if zone == 5:
+                factor *= 1.8                    # a cookie down the middle
+            kind = (pitch_type or '').lower()
+            if 'fastball' in kind or 'sinker' in kind or 'heater' in kind:
+                factor *= 1.3
+            elif any(k in kind for k in ('curve', 'slider', 'sweeper', 'change', 'knuckle', 'split')):
+                factor *= 0.5                    # nobody's sitting on a 3-0 breaking ball
+        factor *= 1.15 if any(self.bases) else 0.9
+        batting_lead = (self.team2_score - self.team1_score if self.top_of_inning
+                        else self.team1_score - self.team2_score)
+        if batting_lead <= -3:
+            factor *= 0.1
+        elif batting_lead >= 3:
+            factor *= 0.3
+        if self.inning >= 7 and abs(batting_lead) >= 3:
+            factor *= 0.5
         return min(factor, 1.0)
 
     def _simulate_batted_ball_physics(self, batter, pitcher=None):
@@ -1470,8 +1496,7 @@ class BaseballSimulator:
 
             swing = self._simulate_bat_swing(batter, is_strike_loc, balls, strikes, pitch_zone, pitch_selection) or bunting_now
             contact_prob = batter['batting_profile']['contact'] + CONTACT_BOOST
-            if strikes == 2 or balls >= 2:
-                contact_prob += COUNT_CONTACT_BOOST
+            contact_prob += COUNT_CONTACT_ADJUSTMENTS[(balls, strikes)]
             if not is_strike_loc:
                 contact_prob *= TWO_STRIKE_CHASE_CONTACT_FACTOR if strikes == 2 else CHASE_CONTACT_FACTOR
             contact = self.game_rng.random() < (BUNT_CONTACT_RATE if bunting_now else contact_prob)
