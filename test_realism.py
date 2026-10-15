@@ -115,7 +115,9 @@ class TestRealism(unittest.TestCase):
             total_walks += log.count("draws a walk")
             total_hbps += (log.count("Hit by Pitch") + log.count("hit by the pitch"))
             total_dps += log.lower().count("double play")
-            total_triples += log.count("a triple")
+            # Batter recaps can mention a triple again later in the game.
+            total_triples += sum(play['result']['eventType'] == 'triple'
+                                 for play in game.gameday_data['liveData']['plays']['allPlays'])
             groundout_2_3_count += len(re.findall(r'grounds out to Catcher', log, re.IGNORECASE))
             unassisted_3u_count += len(re.findall(r'(?:grounds out|grounder|roller|chopper|dribbler|bounced?) to first', log, re.IGNORECASE))
             flyouts += len(re.findall(r'(?:flies out|lines out|hit in the air|fly ball|line drive) to (?:left|center|right)', log, re.IGNORECASE))
