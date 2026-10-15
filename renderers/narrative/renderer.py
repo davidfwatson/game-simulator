@@ -487,13 +487,28 @@ class NarrativeRenderer(GameRenderer):
 
     def _batting_slot(self, team_key, player_id):
         box = self.gameday_data.get('liveData', {}).get('boxscore', {}).get('teams', {}).get(team_key, {})
-        slot = next((i for i, pid in enumerate(box.get('battingOrder', [])) if str(pid) == str(player_id)), None)
-        if slot is not None:
-            return slot
-        order = box.get('players', {}).get(f'ID{player_id}', {}).get('battingOrder')
-        if order:
-            return int(order) // 100 - 1
-        return None
+        slots = {str(pid).removeprefix('ID'): int(player['battingOrder']) // 100 - 1
+                 for pid, player in box.get('players', {}).items() if player.get('battingOrder')}
+        slots.update({str(pid): i for i, pid in enumerate(box.get('battingOrder', []))})
+        # Some transcript feeds give a bench player a placeholder battingOrder.
+        # His actual substitution inherits the outgoing player's slot, and
+        # subsequent replacements inherit that same slot in turn.
+        for play in self.gameday_data.get('liveData', {}).get('plays', {}).get('allPlays', []):
+            batting = 'away' if play['about']['isTopInning'] else 'home'
+            for event in play.get('playEvents', []):
+                kind = event.get('details', {}).get('eventType')
+                if kind not in ('offensive_substitution', 'defensive_substitution'):
+                    continue
+                side = batting if kind == 'offensive_substitution' else ('home' if batting == 'away' else 'away')
+                incoming = event.get('player', {}).get('id')
+                if side != team_key or incoming is None:
+                    continue
+                order = event.get('battingOrder')
+                slot = (int(order) // 100 - 1 if order else
+                        slots.get(str(event.get('replacedPlayer', {}).get('id'))))
+                if slot is not None:
+                    slots[str(incoming)] = slot
+        return slots.get(str(player_id))
 
     def _season_pitching(self, team_type, player_id):
         """A pitcher's season record from the boxscore's seasonStats (where a

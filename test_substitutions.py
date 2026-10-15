@@ -119,6 +119,18 @@ class TestSubstitutionState(unittest.TestCase):
         })
         self.assertEqual(player_sides(data)[987654], 'away')
 
+    def test_substitution_slot_overrides_a_bench_placeholder_order(self):
+        game = self.game
+        box = game.gameday_data['liveData']['boxscore']['teams']['away']
+        incoming, outgoing = game.team2_bench[0], game.team2_lineup[8]
+        box['players'][f"ID{incoming['id']}"]['battingOrder'] = '100'
+        event = {'player': {'id': incoming['id']}, 'replacedPlayer': {'id': outgoing['id']},
+                 'details': {'eventType': 'offensive_substitution'}}
+        game.gameday_data['liveData']['plays']['allPlays'] = [
+            {'about': {'isTopInning': True}, 'playEvents': [event]}]
+        renderer = NarrativeRenderer(game.gameday_data)
+        self.assertEqual(renderer._batting_slot('away', incoming['id']), 8)
+
     def test_a_pickoff_for_the_third_out_does_not_skip_the_batter(self):
         game = self.game
         outcomes = iter(('Walk', 'Strikeout', 'Strikeout', 'Pickoff 1B'))
