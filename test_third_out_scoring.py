@@ -21,9 +21,9 @@ class TestThirdOutScoring(unittest.TestCase):
         return fieldsim.BattedBall(outcome, 'CF', 'line_drive', 'CF', 0.0, (0, 200), 200,
                                   release=release, release_point=(0, 200), batter_out=batter_out)
 
-    def half_inning(self, field, seed=1):
+    def half_inning(self, field, seed=1, outs=2):
         game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
-        outcomes = iter(['Walk'] * 3 + ['Strikeout'] * 2 + [field.outcome])
+        outcomes = iter(['Walk'] * 3 + ['Strikeout'] * outs + [field.outcome] + ['Strikeout'] * 3)
 
         def at_bat(batter, pitcher):
             outcome = next(outcomes)
@@ -46,7 +46,7 @@ class TestThirdOutScoring(unittest.TestCase):
                 patch.object(game, '_runner_speeds', side_effect=lambda: {
                     i + 1: 1.0 for i, name in enumerate(game.bases) if name}):
             game._simulate_half_inning()
-        return game, game.gameday_data['liveData']['plays']['allPlays'][-1]
+        return game, game.gameday_data['liveData']['plays']['allPlays'][3 + outs]
 
     def assert_score(self, game, play, runs):
         self.assertEqual(game.outs, 3)
@@ -109,6 +109,46 @@ class TestThirdOutScoring(unittest.TestCase):
                 out = next(r for r in play['runners'] if r['movement']['isOut'])
                 self.assertEqual(out['details']['movementReason'], 'r_out_stretching')
                 self.assertEqual(out['movement']['outNumber'], 3)
+
+    def test_batter_out_stretching_has_one_movement_and_keeps_his_hit(self):
+        for outcome, out_base, release in (('Single', 2, 7.0), ('Double', 3, 10.0)):
+            for outs in (0, 2):
+                with self.subTest(outcome=outcome, outs=outs):
+                    game, play = self.half_inning(self.ball(outcome, release, out_base), outs=outs)
+                    batter = play['matchup']['batter']
+                    moves = [r for r in play['runners'] if r['details']['runner']['id'] == batter['id']]
+                    self.assertEqual(len(moves), 1)
+                    movement = moves[0]['movement']
+                    self.assertTrue(movement['isOut'])
+                    self.assertIsNone(movement['originBase'])
+                    self.assertIsNone(movement['end'])
+                    self.assertEqual(movement['outBase'], f'{out_base}B')
+                    self.assertEqual(movement['outNumber'], outs + 1)
+                    self.assertEqual(moves[0]['details']['movementReason'], 'r_out_stretching')
+                    self.assertNotIn(batter['fullName'], game.bases)
+                    for runner in play['runners']:
+                        name, move = runner['details']['runner']['fullName'], runner['movement']
+                        if move['isOut'] or move['end'] == 'score':
+                            self.assertNotIn(name, game.bases)
+                        else:
+                            self.assertEqual(game.bases[int(move['end'][0]) - 1], name)
+                    box = game.gameday_data['liveData']['boxscore']['teams']
+                    batting = box['away']['players'][f"ID{batter['id']}"]['stats']['batting']
+                    pitching = box['home']['players'][f"ID{play['matchup']['pitcher']['id']}"]['stats']['pitching']
+                    self.assertEqual((batting['hits'], batting['totalBases'], batting['doubles']),
+                                     (1, out_base - 1, int(outcome == 'Double')))
+                    self.assertEqual((pitching['hits'], pitching['doubles']), (1, int(outcome == 'Double')))
+                    self.assertEqual(box['away']['teamStats']['batting']['hits'], 1)
+                    self.assertEqual(game.gameday_data['liveData']['linescore']['teams']['away']['hits'], 1)
+
+                    renderer = SayRunners(game.gameday_data, seed=1)
+                    lines = renderer.render().splitlines()
+                    low, high = renderer._play_line_map[play['about']['atBatIndex']]
+                    text = ' '.join(lines[low:high])
+                    stretch_hit = 'double' if outcome == 'Single' else 'triple'
+                    self.assertRegex(text, rf'thinking {stretch_hit}|stretch it into a {stretch_hit}|trying for a {stretch_hit}')
+                    self.assertRegex(text, r'\bout\b')
+                    self.assertNotRegex(text, r'\baboard\b|stand-up')
 
     def test_third_out_at_first_or_on_force_prevents_all_runs(self):
         for pos, spot, event in (('1B', fieldsim.FIRST_BASE, 'Groundout'),

@@ -1989,18 +1989,8 @@ class BaseballSimulator:
 
                 batter_end = {"Single": "1B", "Double": "2B", "Triple": "3B", "Home Run": "score"}[outcome]
                 batter_scored = outcome == "Home Run"
-                batter_entry = self._build_runner_entry(
-                    runner_name=batter['legal_name'], origin_base=None, end_base=batter_end,
-                    is_out=False, out_number=None, event=outcome,
-                    event_type=self._get_event_type_code(outcome),
-                    movement_reason=None, play_index=play_index,
-                    is_scoring=batter_scored, is_rbi=batter_scored,
-                    responsible_pitcher=pitcher if batter_scored else None
-                )
-                if batter_entry: runner_list.append(batter_entry)
                 if batter['legal_name'] in thrown_out:
-                    # Out stretching: he has his hit, and a second movement
-                    # from the base he had to the base he was out at.
+                    # The hit stands, but his only movement ends in an out.
                     out_number += 1
                     out_base = thrown_out[batter['legal_name']][1]
                     out_credits = self._thrown_out_credits(self._play_field, out_base)
@@ -2013,6 +2003,16 @@ class BaseballSimulator:
                         stretch_entry['movement']['start'] = batter_end
                         runner_list.append(stretch_entry)
                     thrown_out_text.append((batter['legal_name'], out_base, out_credits))
+                else:
+                    batter_entry = self._build_runner_entry(
+                        runner_name=batter['legal_name'], origin_base=None, end_base=batter_end,
+                        is_out=False, out_number=None, event=outcome,
+                        event_type=self._get_event_type_code(outcome),
+                        movement_reason=None, play_index=play_index,
+                        is_scoring=batter_scored, is_rbi=batter_scored,
+                        responsible_pitcher=pitcher if batter_scored else None
+                    )
+                    if batter_entry: runner_list.append(batter_entry)
                 for _, _, out_credits in thrown_out_text:
                     for credit in out_credits:
                         self._update_fielding_stat(self._pitching_team_key, credit['player']['id'],
