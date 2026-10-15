@@ -1943,7 +1943,7 @@
           "fullName": "Felix Washington",
           "link": "/api/v1/people/625206"
         },
-        "postOnThird": {
+        "postOnSecond": {
           "id": 625205,
           "fullName": "Evan Reed",
           "link": "/api/v1/people/625205"
@@ -1994,7 +1994,7 @@
           "movement": {
             "originBase": "1B",
             "start": "1B",
-            "end": "3B",
+            "end": "2B",
             "outBase": null,
             "isOut": false,
             "outNumber": null
@@ -2012,9 +2012,7 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 0,
-            "throw": "not_in_time",
-            "slide": true
+            "playIndex": 0
           },
           "credits": []
         },
@@ -2925,8 +2923,8 @@
         "isTopInning": false,
         "inning": 1,
         "isScoringPlay": false,
-        "startTime": "2025-09-27T23:20:49.000563+00:00",
-        "endTime": "2025-09-27T23:21:37.428464+00:00"
+        "startTime": "2025-09-27T23:20:06.299601+00:00",
+        "endTime": "2025-09-27T23:21:37.358978+00:00"
       },
       "count": {
         "balls": 0,
@@ -2961,11 +2959,62 @@
       "playEvents": [
         {
           "index": 0,
-          "startTime": "2025-09-27T23:20:49.000563+00:00",
-          "endTime": "2025-09-27T23:21:12.145165+00:00",
+          "startTime": "2025-09-27T23:20:06.299601+00:00",
+          "endTime": "2025-09-27T23:20:25.082839+00:00",
           "isPitch": true,
           "count": {
             "balls": 0,
+            "strikes": 0
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "SI",
+              "description": "Sinker"
+            },
+            "zone": 12
+          },
+          "pitchData": {
+            "startSpeed": 90.3,
+            "zone": 12,
+            "breaks": {
+              "spinRate": 2156
+            }
+          }
+        },
+        {
+          "index": 1,
+          "startTime": "2025-09-27T23:20:25.082839+00:00",
+          "endTime": "2025-09-27T23:20:48.931077+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 1,
+            "strikes": 0
+          },
+          "details": {
+            "code": "B",
+            "description": "Ball",
+            "isStrike": false,
+            "type": {
+              "code": "FC",
+              "description": "Cutter"
+            },
+            "zone": 12
+          },
+          "pitchData": {
+            "startSpeed": 88.3,
+            "zone": 12
+          }
+        },
+        {
+          "index": 2,
+          "startTime": "2025-09-27T23:20:48.931077+00:00",
+          "endTime": "2025-09-27T23:21:12.075679+00:00",
+          "isPitch": true,
+          "count": {
+            "balls": 2,
             "strikes": 0
           },
           "details": {
@@ -2987,12 +3036,12 @@
           }
         },
         {
-          "index": 1,
-          "startTime": "2025-09-27T23:21:12.145165+00:00",
-          "endTime": "2025-09-27T23:21:37.428464+00:00",
+          "index": 3,
+          "startTime": "2025-09-27T23:21:12.075679+00:00",
+          "endTime": "2025-09-27T23:21:37.358978+00:00",
           "isPitch": true,
           "count": {
-            "balls": 0,
+            "balls": 2,
             "strikes": 1
           },
           "details": {
@@ -3000,16 +3049,16 @@
             "description": "In play, Groundout",
             "isStrike": true,
             "type": {
-              "code": "CH",
-              "description": "Changeup"
+              "code": "SL",
+              "description": "Slider"
             },
             "zone": 2
           },
           "pitchData": {
-            "startSpeed": 82.9,
+            "startSpeed": 84.9,
             "zone": 2,
             "breaks": {
-              "spinRate": 1750
+              "spinRate": 2500
             }
           },
           "hitData": {
@@ -3051,7 +3100,7 @@
             "rbi": false,
             "earned": false,
             "teamUnearned": false,
-            "playIndex": 1
+            "playIndex": 3
           },
           "credits": [
             {
@@ -3085,10 +3134,10 @@
       ]
     }
   ],
-  "playCount": 79,
+  "playCount": 71,
   "metadata": {
     "note": "This is a curated subset of plays for regression testing",
-    "totalPlaysInGame": 79,
+    "totalPlaysInGame": 71,
     "snapshotPlayCount": 6
   }
 }
