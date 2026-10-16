@@ -49,6 +49,7 @@ class TestPitcherResponsibility(unittest.TestCase):
                     pid = details['responsiblePitcher']['id']
                     recorded[pid] += 1
                     recorded_earned[pid] += details['earned']
+                    self.assertEqual(details['teamUnearned'], not details['earned'])
         self.assertEqual(recorded, collections.Counter(expected))
         self.assertEqual(recorded_earned, collections.Counter(earned))
         prefix, _, _, _ = game._pitching_side()
@@ -115,6 +116,93 @@ class TestPitcherResponsibility(unittest.TestCase):
         self.assert_charges(game, {starter: 1}, earned={})
         scorer = next(r for r in plays[1]['runners'] if r['details']['isScoringEvent'])
         self.assertTrue(scorer['details']['teamUnearned'])
+
+    def test_runner_from_an_earlier_error_is_unearned_after_a_pitching_change(self):
+        for top in (True, False):
+            with self.subTest(top=top):
+                game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+                defense = game.team1_defense if top else game.team2_defense
+                with patch.object(game.game_rng, 'choices', return_value=[defense['SS']]), \
+                        patch.object(game.game_rng, 'random', return_value=1.0):
+                    game, plays = self.half_inning(['Groundout', 'Home Run'] + ['Strikeout'] * 3,
+                                                   top=top, game=game)
+                starter, reliever = (p['matchup']['pitcher']['id'] for p in plays[:2])
+                self.assertEqual(plays[0]['result']['event'], 'Field Error')
+                self.assert_charges(game, {starter: 1, reliever: 1}, earned={reliever: 1})
+
+    def test_error_runner_scoring_on_an_out_or_a_forced_walk_is_unearned(self):
+        for outcome in ('Groundout', 'Flyout', 'Walk'):
+            with self.subTest(outcome=outcome):
+                game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+                original = game._handle_batted_ball_out
+                calls = 0
+
+                def field(out_type, batter, context):
+                    nonlocal calls
+                    calls += 1
+                    pos = 'SS' if calls == 1 or outcome == 'Groundout' else 'CF'
+                    with patch.object(game.game_rng, 'choices', return_value=[game.team1_defense[pos]]), \
+                            patch.object(game.game_rng, 'random', return_value=1.0 if calls == 1 else 0.5):
+                        return original(out_type, batter, context)
+
+                script = ['Groundout'] + (['Walk'] * 3 if outcome == 'Walk' else ['Double', outcome])
+                script += ['Strikeout'] * (3 if outcome == 'Walk' else 2)
+                with patch.object(game, '_handle_batted_ball_out', side_effect=field), \
+                        patch.object(game.game_rng, 'random', return_value=0.5):
+                    game, plays = self.half_inning(script, change_after=(), game=game)
+                self.assertEqual(plays[0]['result']['event'], 'Field Error')
+                self.assert_charges(game, {plays[0]['matchup']['pitcher']['id']: 1}, earned={})
+
+    def test_automatic_runner_is_unearned_after_a_pitching_change(self):
+        for top in (True, False):
+            with self.subTest(top=top):
+                game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+                with patch.object(game, '_manage_offensive_substitutions', return_value=[]):
+                    game, plays = self.half_inning(['Strikeout', 'Home Run'] + ['Strikeout'] * 2,
+                                                   top=top, inning=10, game=game)
+                starter, reliever = (p['matchup']['pitcher']['id'] for p in plays[:2])
+                self.assert_charges(game, {starter: 1, reliever: 1}, earned={reliever: 1})
+
+    def test_pinch_runner_keeps_error_or_automatic_runner_status_and_responsibility(self):
+        for automatic in (False, True):
+            for top in (True, False):
+                with self.subTest(automatic=automatic, top=top):
+                    game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+                    prefix = 'team2' if top else 'team1'
+                    setattr(game, f'{prefix}_batter_idx', 4 if automatic else 3)
+                    manage = game._manage_offensive_substitutions
+                    plays = game.gameday_data['liveData']['plays']['allPlays']
+
+                    def pinch_run(slot, pitcher):
+                        if len(plays) == (0 if automatic else 1):
+                            with patch.object(game.strategy_rng, 'random', return_value=0):
+                                return manage(slot, pitcher)
+                        return []
+
+                    defense = game.team1_defense if top else game.team2_defense
+                    with patch.object(game, '_manage_offensive_substitutions', side_effect=pinch_run), \
+                            patch.object(game.game_rng, 'choices', return_value=[defense['SS']]), \
+                            patch.object(game.game_rng, 'random', return_value=1.0):
+                        script = ['Strikeout' if automatic else 'Groundout', 'Home Run']
+                        script += ['Strikeout'] * (2 if automatic else 3)
+                        game, plays = self.half_inning(script, top=top, inning=10 if automatic else 8, game=game)
+                    substitution = next(e for p in plays for e in p['playEvents']
+                                        if e.get('position', {}).get('abbreviation') == 'PR')
+                    scorer = next(r for r in plays[1]['runners'] if r['movement']['originBase'])
+                    self.assertEqual(scorer['details']['runner']['id'], substitution['player']['id'])
+                    starter, reliever = (p['matchup']['pitcher']['id'] for p in plays[:2])
+                    self.assert_charges(game, {starter: 1, reliever: 1}, earned={reliever: 1})
+
+    def test_error_status_does_not_follow_a_runner_into_the_next_inning(self):
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+        with patch.object(game.game_rng, 'choices', return_value=[game.team1_defense['SS']]), \
+                patch.object(game.game_rng, 'random', return_value=1.0):
+            game, plays = self.half_inning(['Groundout'] + ['Strikeout'] * 3, change_after=(), game=game)
+        self.assertEqual(plays[0]['result']['event'], 'Field Error')
+        game.team2_batter_idx = 0
+        game, plays = self.half_inning(['Home Run'] + ['Strikeout'] * 3,
+                                      change_after=(), inning=2, game=game)
+        self.assert_charges(game, {plays[0]['matchup']['pitcher']['id']: 1})
 
     def test_runner_reaching_again_in_next_inning_belongs_to_new_pitcher(self):
         game, _ = self.half_inning(['Walk'] + ['Strikeout'] * 3)

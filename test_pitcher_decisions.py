@@ -83,6 +83,14 @@ class TestPitcherDecisions(unittest.TestCase):
         # The starter's runner ties it, home1's runner goes ahead, home2's HR adds insurance.
         self.decision(game, 'loser', 'home1')
 
+    def test_unearned_automatic_runner_still_charges_the_losing_pitcher(self):
+        game = self.simulate({(10, True): ['Strikeout', 'Home Run']}, {(10, True, 1): 'home1'})
+        self.decision(game, 'loser', 'home0')
+        self.decision(game, 'winner', 'away0')
+        self.assertEqual(self.pitching(game, 'home0')['runs'], 1)
+        self.assertEqual(self.pitching(game, 'home0')['earnedRuns'], 0)
+        self.assertEqual(self.pitching(game, 'home1')['earnedRuns'], 1)
+
     def test_later_tie_resets_pitchers_of_record(self):
         game = self.simulate({(1, False): ['Home Run'], (7, True): ['Home Run'], (7, False): ['Home Run']},
                              {(6, True, 0): 'home1', (7, True, 0): 'home2', (7, False, 0): 'away1'})

@@ -552,6 +552,57 @@ class TestRealFeedEvents(unittest.TestCase):
                          'Real Player4 comes in to run for Real Player3 at second.')
         self.assertEqual(renderer.runners_on_base['2B'], 'Real Player4')
 
+    def test_automatic_runner_is_announced_before_his_pinch_runner(self):
+        # The substitution can come before the first pitch or between pitches.
+        for moved, mid_at_bat in ((False, False), (True, False), (False, True), (True, True)):
+            with self.subTest(moved=moved, mid_at_bat=mid_at_bat):
+                substitution = {'index': 0, 'isPitch': False, 'player': {'id': 4},
+                                'replacedPlayer': {'id': 3}, 'position': {'code': '12'},
+                                'details': {'eventType': 'offensive_substitution', 'description': ''}}
+                last = 2 if mid_at_bat else 1
+                movements = [runner(1, None, None, index=last, out=True)]
+                if moved:
+                    movements.insert(0, runner(4, '2B', '3B', index=last))
+                events = [substitution, pitch(last, 'X' if moved else 'S')]
+                if mid_at_bat:
+                    substitution['index'] = 1
+                    events = [pitch(0, 'B')] + events
+                raw = feed('Groundout' if moved else 'Strikeout', events=events, runners=movements, outs=1)
+                play = raw['liveData']['plays']['allPlays'][0]
+                play['about']['inning'] = 10
+                if not moved:
+                    play['matchup']['postOnSecond'] = {'id': 4, 'fullName': 'Real Player4'}
+                data = anonymize_gameday_data(raw, TEAMS)
+                event = next(e for e in data['liveData']['plays']['allPlays'][0]['playEvents'] if 'player' in e)
+                players = data['gameData']['players']
+                incoming = players[f"ID{event['player']['id']}"]['fullName']
+                replaced = players[f"ID{event['replacedPlayer']['id']}"]['fullName']
+                text = NarrativeRenderer(data, seed=1).render()
+                automatic = f'Automatic runner on second: {replaced}'
+                pinch = f'{incoming} comes in to run for {replaced} at second.'
+                self.assertIn(automatic, text)
+                self.assertIn(pinch, text)
+                self.assertLess(text.index(automatic), text.index(pinch))
+                self.assertNotIn(f'Automatic runner on second: {incoming}', text)
+
+    def test_automatic_runner_is_found_through_a_pinch_runner_for_his_pinch_runner(self):
+        def pinch_run(index, incoming, replaced):
+            return {'index': index, 'isPitch': False, 'player': {'id': incoming},
+                    'replacedPlayer': {'id': replaced}, 'position': {'code': '12'},
+                    'details': {'eventType': 'offensive_substitution', 'description': ''}}
+        # Listed second-runner-first, so the first event is not the original.
+        events = [pinch_run(0, 5, 4), pinch_run(1, 4, 3), pitch(2, 'S')]
+        raw = feed('Strikeout', events=events, runners=[runner(1, None, None, index=2, out=True)], outs=1)
+        play = raw['liveData']['plays']['allPlays'][0]
+        play['about']['inning'] = 10
+        play['matchup']['postOnSecond'] = {'id': 5, 'fullName': 'Real Player5'}
+        data = anonymize_gameday_data(raw, TEAMS)
+        events = data['liveData']['plays']['allPlays'][0]['playEvents']
+        players = data['gameData']['players']
+        original = players[f"ID{events[1]['replacedPlayer']['id']}"]['fullName']
+        text = NarrativeRenderer(data, seed=1).render()
+        self.assertIn(f'Automatic runner on second: {original}', text)
+
     def test_double_play_notation_excludes_an_earlier_pickoff_out(self):
         from renderers.narrative.play_description import build_dp_notation
         action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}
@@ -565,6 +616,59 @@ class TestRealFeedEvents(unittest.TestCase):
         ]}
         self.assertEqual(build_dp_notation(play), '6-4-3')
 
+    def test_fielding_categories_exclude_an_earlier_runner_out(self):
+        from renderers.narrative.play_description import factual_play_category
+        cases = [
+            ('Forceout', '2B', [credit(4, '6')], 'second_base'),
+            ('Forceout', '2B', [credit(4, '6', 'f_assist'), credit(5, '4')], 'second_base_throw'),
+            ('Forceout', '3B', [credit(4, '5')], 'third_base'),
+            ('Forceout', '4B', [credit(4, '6', 'f_assist'), credit(5, '2')], 'home_force'),
+            ('Field Error', None, [], 'everybody_safe'),
+            ('Double Play', '2B', [credit(4, '6')], 'unassisted_force'),
+        ]
+        for outcome, base, credits, expected in cases:
+            with self.subTest(outcome=outcome, category=expected):
+                action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}
+                movements = [runner(5, '3B', '3B', index=1, kind='pickoff_3b', out=True)]
+                if base:
+                    movements.append(runner(3, '1B', base, index=2, out=True, credits=credits))
+                    movements[-1]['movement']['outNumber'] = 2
+                movements.append(runner(1, None, '1B', index=2, out=outcome == 'Double Play',
+                                        credits=[credit(4, '6', 'f_assist'), credit(5, '3')]
+                                        if outcome == 'Double Play' else []))
+                raw = feed(outcome, events=[action, pitch(2)], runners=movements)
+                play = raw['liveData']['plays']['allPlays'][0]
+                renderer = NarrativeRenderer(raw, seed=1)
+                self.assertEqual(factual_play_category(renderer, outcome, {'trajectory': 'ground_ball'},
+                                                       {}, 'SS', play), expected)
+
+    def test_fielders_choice_names_the_runner_retired_on_contact(self):
+        action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}
+        raw = feed('Fielders Choice', events=[action, pitch(2)], runners=[
+            runner(5, '3B', '3B', index=1, kind='pickoff_3b', out=True),
+            runner(3, '2B', '3B', index=2, out=True), runner(1, None, '1B', index=2)])
+        play = raw['liveData']['plays']['allPlays'][0]
+        renderer = NarrativeRenderer(raw, seed=1)
+        renderer._reset_render_state()
+        text = renderer._generate_play_description('Fielders Choice', {'trajectory': 'ground_ball'},
+                                                   {}, 'Player1', 'SS', 'Fielder', result_outs=2, play=play)
+        self.assertIn('Player3 is out', text)
+        self.assertNotIn('Player5', text)
+
+    def test_air_double_play_names_the_runner_doubled_off_on_contact(self):
+        action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}
+        raw = feed('Double Play', events=[action, pitch(2)], runners=[
+            runner(5, '3B', '3B', index=1, kind='pickoff_3b', out=True),
+            runner(3, '1B', '1B', index=2, out=True), runner(1, None, '1B', index=2, out=True)])
+        play = raw['liveData']['plays']['allPlays'][0]
+        play['runners'][1]['details']['movementReason'] = 'r_doubled_off'
+        renderer = NarrativeRenderer(raw, seed=1)
+        renderer._reset_render_state()
+        text = renderer._generate_play_description('Double Play', {'trajectory': 'line_drive'},
+                                                   {}, 'Player1', 'SS', 'Fielder', result_outs=3, play=play)
+        self.assertIn('Player3 is doubled off at first', text)
+        self.assertNotIn('Player5', text)
+
     def test_real_bunt_labels_get_a_complete_out(self):
         for label, trajectory in (('Sac Bunt', 'bunt_grounder'), ('Bunt Groundout', 'bunt_grounder'),
                                   ('Bunt Pop Out', 'bunt_popup'), ('Bunt Lineout', 'bunt_line_drive')):
@@ -575,6 +679,27 @@ class TestRealFeedEvents(unittest.TestCase):
                 with self.subTest(label=label, seed=seed):
                     text = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=seed).render()
                     self.assertRegex(text, r'(?i)retir|out|catch|caught|end the inning|end the frame')
+
+    def test_two_strike_bunts_keep_the_pitch_delivery_and_out_context(self):
+        for code in ('F', 'S'):
+            for outs in (1, 2, 3):
+                with self.subTest(code=code, outs=outs):
+                    events = [pitch(0, 'C'), pitch(1, 'S'), pitch(2, code)]
+                    for index, event in enumerate(events):
+                        event['count'] = {'balls': 0, 'strikes': index, 'outs': outs - 1}
+                    events[-1]['isBunt'] = True
+                    movements = [runner(1, None, None, index=2, kind='strikeout', out=True)]
+                    movements[0]['movement']['outNumber'] = outs
+                    raw = feed('Strikeout', events=events, runners=movements, outs=outs)
+                    renderer = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=1)
+                    context = {1: 'for out number one', 2: 'for out number two', 3: 'to end the inning'}[outs]
+                    with patch.object(renderer, '_get_pitch_connector', return_value='And the delivery...'), \
+                            patch.object(renderer, '_out_context', return_value=context):
+                        text = renderer.render()
+                    terminal = text.rsplit('[TTS SPLIT HERE DELAY:8.5s]', 1)[-1].split('\n\n', 1)[0].strip()
+                    self.assertTrue(terminal.startswith('And the delivery...'), terminal)
+                    self.assertIn('bunt', terminal.lower())
+                    self.assertIn(context, terminal)
 
     def test_fielders_choice_out_and_air_double_play_keep_the_outs(self):
         raw = feed('Fielders Choice Out', runners=[

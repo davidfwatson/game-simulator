@@ -1785,9 +1785,25 @@ class NarrativeRenderer(GameRenderer):
                 self._prev_matchup_key = None
 
                 if inning >= 10:
+                     # Until the first batter's plate appearance ends, the
+                     # only runner is the one placed at second, so a pinch
+                     # runner during it (before or between pitches) replaces
+                     # him, even though the feed's movements name the substitute.
+                     # He is the one replaced who is not himself a pinch runner.
+                     replaced_runner = None
+                     pinch_runs = [event for event in play['playEvents']
+                                   if event.get('details', {}).get('eventType') == 'offensive_substitution'
+                                   and (event.get('position', {}).get('abbreviation') == 'PR'
+                                        or event.get('position', {}).get('code') == '12')]
+                     incoming = {event.get('player', {}).get('id') for event in pinch_runs}
+                     ref = next((event.get('replacedPlayer', {}) for event in pinch_runs
+                                 if event.get('replacedPlayer', {}).get('id') not in incoming), None)
+                     if ref:
+                         replaced_runner = self.gameday_data['gameData'].get('players', {}).get(
+                             f"ID{ref.get('id')}", {}).get('fullName') or ref.get('fullName')
                      for r in play['runners']:
                          if r['movement']['start'] == '2B':
-                             runner_name = r['details']['runner']['fullName']
+                             runner_name = replaced_runner or r['details']['runner']['fullName']
                              self.runners_on_base['2B'] = runner_name
                              add_line(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
                              break
@@ -1804,13 +1820,15 @@ class NarrativeRenderer(GameRenderer):
                          if self.gameday_data['gameData'].get('broadcast', {}).get('strictFacts'):
                              pass
                          elif still_there and still_there.get('id') != matchup['batter'].get('id'):
-                             self.runners_on_base['2B'] = still_there['fullName']
-                             add_line(f"Automatic runner on second: {still_there['fullName']} jogs out to take his lead.")
+                             runner_name = replaced_runner or still_there['fullName']
+                             self.runners_on_base['2B'] = runner_name
+                             add_line(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
                          elif gone_from_second:
                              # Gone before the play ended (caught stealing
                              # third): the steal's own movement names him.
-                             self.runners_on_base['2B'] = gone_from_second
-                             add_line(f"Automatic runner on second: {gone_from_second} jogs out to take his lead.")
+                             runner_name = replaced_runner or gone_from_second
+                             self.runners_on_base['2B'] = runner_name
+                             add_line(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
                          elif matchup.get('splits', {}).get('menOnBase') == 'RISP':
                              # Gone before the play ended, in a feed whose
                              # steal names nobody.
@@ -2306,6 +2324,10 @@ class NarrativeRenderer(GameRenderer):
                         elif code in ['C', 'S', 'F'] or (code == 'U' and details.get('isStrike')):
                             if not (code == 'F' and s == 2 and not is_bunt_pitch): s += 1
 
+                        # A terminal count has no count-call suffix to close a comma.
+                        if (b >= 4 or s >= 3) and use_comma:
+                            pbp_line = pbp_line.rstrip(',') + '.'
+
                         if b < 4 and s < 3:
                             spoken_count = self._get_spoken_count(b, s, connector="and")
                             # If we used a comma, make count lowercase if it starts with number text,
@@ -2453,6 +2475,13 @@ class NarrativeRenderer(GameRenderer):
                 key = ('strikeout_bunt' if last_pitch_event['details']['code'] == 'F'
                        else 'strikeout_bunt_missed')
                 outcome_text = self._get_narrative_string(key, {'batter_name': batter_name})
+                batter_out = next((r for r in play.get('runners', [])
+                                   if r.get('details', {}).get('runner', {}).get('id') == batter_id
+                                   and r.get('movement', {}).get('isOut')), {})
+                result_outs = batter_out.get('movement', {}).get('outNumber') or play['count']['outs']
+                out_context_str = self._out_context(result_outs, play)
+                outcome_text = self._with_pitch_lead_in(
+                    last_pitch_context, outcome_text.rstrip('.!?') + f' {out_context_str}.')
             elif outcome == "Strikeout":
                 terminal_details = last_pitch_event.get('details', {})
                 k_type = {'C': 'looking', 'S': 'swinging'}.get(terminal_details.get('code'))
