@@ -132,6 +132,9 @@ class TestRelieverSelection(unittest.TestCase):
                 game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
                 game.inning, game.top_of_inning = 6, top
                 prefix, starter, _, _ = game._pitching_side()
+                # This is his sixth inning, so he has already satisfied the
+                # three-batter minimum before these two strikeouts.
+                game._batters_faced[starter] = 15
 
                 def at_bat(batter, pitcher):
                     name = pitcher['legal_name']
@@ -152,7 +155,7 @@ class TestRelieverSelection(unittest.TestCase):
                 self.assertTrue(game._entered_mid_inning[reliever])
 
                 game.inning, game.outs = 7, 0
-                with patch.object(game.game_rng, 'random', return_value=0.0):
+                with patch.object(game.strategy_rng, 'random', return_value=0.0):
                     game._manage_between_innings()
                 replacement = getattr(game, f'{prefix}_current_pitcher_name')
                 self.assertNotEqual(replacement, reliever)

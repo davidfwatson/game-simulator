@@ -39,11 +39,10 @@ TEAMS = {
                 'id': 605110, 'legal_name': 'Joe Gibson', 'nickname': 'Smokey', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Starter', 'stamina': 75, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
                     'four-seam fastball': {'prob': 0.44, 'velo_range': (94, 97), 'spin_range': (2200, 2550)},
-                    'slider': {'prob': 0.23, 'velo_range': (85, 89), 'spin_range': (2400, 2800)},
-                    'splitter': {'prob': 0.14, 'velo_range': (85, 88), 'spin_range': (1200, 1600)},
-                    'curveball': {'prob': 0.09, 'velo_range': (78, 81), 'spin_range': (2600, 2900)},
-                    'sinker': {'prob': 0.07, 'velo_range': (93, 96), 'spin_range': (2050, 2300)},
-                    'cutter': {'prob': 0.03, 'velo_range': (89, 92), 'spin_range': (2300, 2600)}
+                    'slider': {'prob': 0.24, 'velo_range': (85, 89), 'spin_range': (2400, 2800)},
+                    'splitter': {'prob': 0.18, 'velo_range': (85, 88), 'spin_range': (1200, 1600)},
+                    'curveball': {'prob': 0.10, 'velo_range': (78, 81), 'spin_range': (2600, 2900)},
+                    'sinker': {'prob': 0.04, 'velo_range': (93, 96), 'spin_range': (2050, 2300)}
                 }, 'control': 0.65, 'wild_pitch_rate': 0.003
             },
             {
@@ -92,8 +91,8 @@ TEAMS = {
             {
                 'id': 605117, 'legal_name': 'Hank Dabrowski', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Setup Reliever', 'stamina': 24, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.58, 'velo_range': (96, 99), 'spin_range': (2350, 2650)},
-                    'slider': {'prob': 0.42, 'velo_range': (87, 90), 'spin_range': (2500, 2850)}
+                    'four-seam fastball': {'prob': 0.55, 'velo_range': (96, 99), 'spin_range': (2350, 2650)},
+                    'slider': {'prob': 0.45, 'velo_range': (87, 90), 'spin_range': (2500, 2850)}
                 }, 'control': 0.72, 'wild_pitch_rate': 0.002
             },
             {
@@ -133,11 +132,11 @@ TEAMS = {
             {
                 'id': 645210, 'legal_name': 'Miguel Garcia', 'nickname': 'Lefty', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Starter', 'stamina': 70, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
-                    'sinker': {'prob': 0.37, 'velo_range': (90, 93), 'spin_range': (1950, 2200)},
-                    'curveball': {'prob': 0.27, 'velo_range': (78, 81), 'spin_range': (2700, 3000)},
-                    'slider': {'prob': 0.18, 'velo_range': (84, 87), 'spin_range': (2350, 2650)},
-                    'cutter': {'prob': 0.09, 'velo_range': (88, 92), 'spin_range': (2300, 2600)},
-                    'changeup': {'prob': 0.09, 'velo_range': (82, 85), 'spin_range': (1600, 1900)}
+                    'sinker': {'prob': 0.38, 'velo_range': (90, 93), 'spin_range': (1950, 2200)},
+                    'cutter': {'prob': 0.24, 'velo_range': (88, 92), 'spin_range': (2300, 2600)},
+                    'slider': {'prob': 0.19, 'velo_range': (84, 87), 'spin_range': (2350, 2650)},
+                    'changeup': {'prob': 0.14, 'velo_range': (82, 85), 'spin_range': (1600, 1900)},
+                    'curveball': {'prob': 0.05, 'velo_range': (78, 81), 'spin_range': (2700, 3000)}
                 }, 'control': 0.60, 'wild_pitch_rate': 0.006
             },
             {
@@ -194,8 +193,8 @@ TEAMS = {
             {
                 'id': 645213, 'legal_name': 'Dennis Thompson', 'nickname': 'Eck', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Closer', 'stamina': 22, 'fielding_ability': 0.965,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.58, 'velo_range': (97, 100), 'spin_range': (2300, 2600)},
-                    'splitter': {'prob': 0.2, 'velo_range': (88, 91), 'spin_range': (1100, 1500)},
+                    'four-seam fastball': {'prob': 0.55, 'velo_range': (97, 100), 'spin_range': (2300, 2600)},
+                    'splitter': {'prob': 0.23, 'velo_range': (88, 91), 'spin_range': (1100, 1500)},
                     'sweeper': {'prob': 0.17, 'velo_range': (81, 85), 'spin_range': (2500, 2900)},
                     'cutter': {'prob': 0.05, 'velo_range': (92, 95), 'spin_range': (2350, 2650)}
                 }, 'control': 0.80, 'wild_pitch_rate': 0.001
@@ -244,8 +243,8 @@ TEAMS = {
             {
                 'id': 665312, 'legal_name': 'Sean Doolittle', 'nickname': 'Doo', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'L', 'description': 'Left'}, 'type': 'Middle Reliever', 'stamina': 30, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.85, 'velo_range': (94, 97), 'spin_range': (2400, 2700)},
-                    'slider': {'prob': 0.15, 'velo_range': (85, 88), 'spin_range': (2300, 2600)}
+                    'four-seam fastball': {'prob': 0.55, 'velo_range': (94, 97), 'spin_range': (2400, 2700)},
+                    'slider': {'prob': 0.45, 'velo_range': (85, 88), 'spin_range': (2300, 2600)}
                 }, 'control': 0.80, 'wild_pitch_rate': 0.001
             },
             {
@@ -275,8 +274,8 @@ TEAMS = {
             {
                 'id': 665317, 'legal_name': 'Cal Whitmore', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Setup Reliever', 'stamina': 24, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.56, 'velo_range': (96, 99), 'spin_range': (2350, 2650)},
-                    'slider': {'prob': 0.3, 'velo_range': (87, 90), 'spin_range': (2500, 2850)},
+                    'four-seam fastball': {'prob': 0.55, 'velo_range': (96, 99), 'spin_range': (2350, 2650)},
+                    'slider': {'prob': 0.31, 'velo_range': (87, 90), 'spin_range': (2500, 2850)},
                     'cutter': {'prob': 0.14, 'velo_range': (91, 94), 'spin_range': (2350, 2650)}
                 }, 'control': 0.73, 'wild_pitch_rate': 0.002
             },
@@ -365,15 +364,15 @@ TEAMS = {
             {
                 'id': 685417, 'legal_name': 'Luke Farrier', 'nickname': None, 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Setup Reliever', 'stamina': 24, 'fielding_ability': 0.955,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.6, 'velo_range': (96, 99), 'spin_range': (2350, 2650)},
-                    'sweeper': {'prob': 0.4, 'velo_range': (83, 86), 'spin_range': (2550, 2900)}
+                    'four-seam fastball': {'prob': 0.55, 'velo_range': (96, 99), 'spin_range': (2350, 2650)},
+                    'sweeper': {'prob': 0.45, 'velo_range': (83, 86), 'spin_range': (2550, 2900)}
                 }, 'control': 0.72, 'wild_pitch_rate': 0.002
             },
             {
                 'id': 685413, 'legal_name': 'Paul Sewald', 'nickname': 'Waldo', 'position': {'code': '1', 'name': 'Pitcher', 'abbreviation': 'P'}, 'pitchHand': {'code': 'R', 'description': 'Right'}, 'type': 'Closer', 'stamina': 25, 'fielding_ability': 0.950,
                 'pitch_arsenal': {
-                    'four-seam fastball': {'prob': 0.6, 'velo_range': (91, 94), 'spin_range': (2400, 2700)},
-                    'slider': {'prob': 0.4, 'velo_range': (82, 85), 'spin_range': (2600, 2900)}
+                    'four-seam fastball': {'prob': 0.55, 'velo_range': (91, 94), 'spin_range': (2400, 2700)},
+                    'slider': {'prob': 0.45, 'velo_range': (82, 85), 'spin_range': (2600, 2900)}
                 }, 'control': 0.75, 'wild_pitch_rate': 0.002
             },
         ]
@@ -662,7 +661,7 @@ TEAMS["BARABOO_BOMBERS"] = {
             "type": "Starter",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -673,7 +672,7 @@ TEAMS["BARABOO_BOMBERS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -732,7 +731,7 @@ TEAMS["BARABOO_BOMBERS"] = {
             "type": "Reliever",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -743,7 +742,7 @@ TEAMS["BARABOO_BOMBERS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -802,7 +801,7 @@ TEAMS["BARABOO_BOMBERS"] = {
             "type": "Reliever",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -813,7 +812,7 @@ TEAMS["BARABOO_BOMBERS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -872,7 +871,7 @@ TEAMS["BARABOO_BOMBERS"] = {
             "type": "Reliever",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -883,7 +882,7 @@ TEAMS["BARABOO_BOMBERS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -943,7 +942,7 @@ TEAMS["BARABOO_BOMBERS"] = {
             "type": "Starter",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -954,7 +953,7 @@ TEAMS["BARABOO_BOMBERS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -1254,7 +1253,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
             "type": "Starter",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -1265,7 +1264,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -1352,7 +1351,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
             "type": "Reliever",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -1363,7 +1362,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -1422,7 +1421,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
             "type": "Reliever",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -1433,7 +1432,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -1492,7 +1491,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
             "type": "Reliever",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -1503,7 +1502,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -1563,7 +1562,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
             "type": "Starter",
             "pitch_arsenal": {
                 "four-seam fastball": {
-                    "prob": 0.6,
+                    "prob": 0.55,
                     "velo_range": [
                         92,
                         96
@@ -1574,7 +1573,7 @@ TEAMS["LAKE_CITY_LOONS"] = {
                     ]
                 },
                 "slider": {
-                    "prob": 0.4,
+                    "prob": 0.45,
                     "velo_range": [
                         84,
                         88
@@ -1637,9 +1636,46 @@ TEAMS["BIG_RAPIDS_TIMBERS"] = {
         {"id": 800108, "legal_name": "Henny Oldman", "nickname": None, "position": {"abbreviation": "C", "code": "2", "name": "Catcher"}, "batSide": {"code": "R", "description": "Right"}, "fielding_ability": 0.98, "catchers_arm": 0.78, "passed_ball_rate": 0.003, "plate_discipline": {"Walk": 0.08, "Strikeout": 0.18, "HBP": 0.005}, "batting_profile": {"contact": 0.65, "power": 0.40, "angle": 10.0, "bunt_propensity": 0.1, "stealing_tendency": 0.02, "stealing_success_rate": 0.6}},
         {"id": 800109, "legal_name": "Javier Von Neumann", "nickname": None, "position": {"abbreviation": "P", "code": "1", "name": "Pitcher"}, "batSide": {"code": "R", "description": "Right"}, "fielding_ability": 0.96, "plate_discipline": {"Walk": 0.05, "Strikeout": 0.25, "HBP": 0.005}, "batting_profile": {"contact": 0.22, "power": 0.10, "angle": 12.0, "bunt_propensity": 0.4, "stealing_tendency": 0.0, "stealing_success_rate": 0.0}, "pitchHand": {"code": "R", "description": "Right"}, "type": "Starter", "pitch_arsenal": {"four-seam fastball": {"prob": 0.4, "velo_range": [91, 94], "spin_range": [2100, 2400]}, "curveball": {"prob": 0.35, "velo_range": [77, 81], "spin_range": [2700, 3000]}, "slider": {"prob": 0.15, "velo_range": [84, 87], "spin_range": [2400, 2700]}, "changeup": {"prob": 0.10, "velo_range": [82, 85], "spin_range": [1600, 1900]}}, "control": 0.68, "wild_pitch_rate": 0.004, "stamina": 75},
         {"id": 800110, "legal_name": "Royce Babcock", "nickname": None, "position": {"code": "1", "name": "Pitcher", "abbreviation": "P"}, "batSide": {"code": "L", "description": "Left"}, "fielding_ability": 0.96, "plate_discipline": {"Walk": 0.05, "Strikeout": 0.20, "HBP": 0.005}, "batting_profile": {"contact": 0.30, "power": 0.15, "angle": 12.0, "bunt_propensity": 0.3, "stealing_tendency": 0.0, "stealing_success_rate": 0.0}, "pitchHand": {"code": "L", "description": "Left"}, "type": "Reliever", "pitch_arsenal": {"four-seam fastball": {"prob": 0.4, "velo_range": [90, 93], "spin_range": [2100, 2400]}, "slider": {"prob": 0.25, "velo_range": [83, 86], "spin_range": [2400, 2700]}, "curveball": {"prob": 0.20, "velo_range": [76, 80], "spin_range": [2600, 2900]}, "changeup": {"prob": 0.15, "velo_range": [81, 84], "spin_range": [1500, 1800]}}, "control": 0.72, "wild_pitch_rate": 0.003, "stamina": 35},
-        {"id": 800111, "legal_name": "Tim Reliever", "nickname": None, "position": {"code": "1", "name": "Pitcher", "abbreviation": "P"}, "batSide": {"code": "R", "description": "Right"}, "fielding_ability": 0.96, "plate_discipline": {"Walk": 0.05, "Strikeout": 0.20, "HBP": 0.005}, "batting_profile": {"contact": 0.15, "power": 0.10, "angle": 12.0, "bunt_propensity": 0.3, "stealing_tendency": 0.0, "stealing_success_rate": 0.0}, "pitchHand": {"code": "R", "description": "Right"}, "type": "Reliever", "pitch_arsenal": {"four-seam fastball": {"prob": 0.6, "velo_range": [93, 96], "spin_range": [2200, 2500]}, "slider": {"prob": 0.4, "velo_range": [85, 88], "spin_range": [2400, 2700]}}, "control": 0.70, "wild_pitch_rate": 0.005, "stamina": 30},
-        {"id": 800112, "legal_name": "Jake Closer", "nickname": None, "position": {"code": "1", "name": "Pitcher", "abbreviation": "P"}, "batSide": {"code": "R", "description": "Right"}, "fielding_ability": 0.96, "plate_discipline": {"Walk": 0.05, "Strikeout": 0.20, "HBP": 0.005}, "batting_profile": {"contact": 0.15, "power": 0.10, "angle": 12.0, "bunt_propensity": 0.3, "stealing_tendency": 0.0, "stealing_success_rate": 0.0}, "pitchHand": {"code": "R", "description": "Right"}, "type": "Closer", "pitch_arsenal": {"four-seam fastball": {"prob": 0.6, "velo_range": [96, 99], "spin_range": [2400, 2700]}, "slider": {"prob": 0.4, "velo_range": [87, 90], "spin_range": [2500, 2800]}}, "control": 0.78, "wild_pitch_rate": 0.002, "stamina": 25},
+        {"id": 800111, "legal_name": "Tim Reliever", "nickname": None, "position": {"code": "1", "name": "Pitcher", "abbreviation": "P"}, "batSide": {"code": "R", "description": "Right"}, "fielding_ability": 0.96, "plate_discipline": {"Walk": 0.05, "Strikeout": 0.20, "HBP": 0.005}, "batting_profile": {"contact": 0.15, "power": 0.10, "angle": 12.0, "bunt_propensity": 0.3, "stealing_tendency": 0.0, "stealing_success_rate": 0.0}, "pitchHand": {"code": "R", "description": "Right"}, "type": "Reliever", "pitch_arsenal": {"four-seam fastball": {"prob": 0.55, "velo_range": [93, 96], "spin_range": [2200, 2500]}, "slider": {"prob": 0.45, "velo_range": [85, 88], "spin_range": [2400, 2700]}}, "control": 0.70, "wild_pitch_rate": 0.005, "stamina": 30},
+        {"id": 800112, "legal_name": "Jake Closer", "nickname": None, "position": {"code": "1", "name": "Pitcher", "abbreviation": "P"}, "batSide": {"code": "R", "description": "Right"}, "fielding_ability": 0.96, "plate_discipline": {"Walk": 0.05, "Strikeout": 0.20, "HBP": 0.005}, "batting_profile": {"contact": 0.15, "power": 0.10, "angle": 12.0, "bunt_propensity": 0.3, "stealing_tendency": 0.0, "stealing_success_rate": 0.0}, "pitchHand": {"code": "R", "description": "Right"}, "type": "Closer", "pitch_arsenal": {"four-seam fastball": {"prob": 0.55, "velo_range": [96, 99], "spin_range": [2400, 2700]}, "slider": {"prob": 0.45, "velo_range": [87, 90], "spin_range": [2500, 2800]}}, "control": 0.78, "wild_pitch_rate": 0.002, "stamina": 25},
         {"id": 800209, "legal_name": "Javier Von Neumann", "nickname": None, "position": {"code": "D", "name": "Designated Hitter", "abbreviation": "DH"}, "batSide": {"code": "R", "description": "Right"}, "fielding_ability": 0.96, "plate_discipline": {"Walk": 0.05, "Strikeout": 0.25, "HBP": 0.005}, "batting_profile": {"contact": 0.22, "power": 0.10, "angle": 12.0, "bunt_propensity": 0.4, "stealing_tendency": 0.0, "stealing_success_rate": 0.0}, "pitchHand": {"code": "R", "description": "Right"}, "type": "Starter", "pitch_arsenal": {"four-seam fastball": {"prob": 0.4, "velo_range": [91, 94], "spin_range": [2100, 2400]}, "curveball": {"prob": 0.35, "velo_range": [77, 81], "spin_range": [2700, 3000]}, "slider": {"prob": 0.15, "velo_range": [84, 87], "spin_range": [2400, 2700]}, "changeup": {"prob": 0.10, "velo_range": [82, 85], "spin_range": [1600, 1900]}}, "control": 0.68, "wild_pitch_rate": 0.004, "stamina": 75},
     ],
     "fielding_prowess": 1.0,
 }
+
+
+def _bench_player(pid, name, position, side, contact, power, fielding, positions, speed):
+    codes = {'C': ('2', 'Catcher'), '1B': ('3', 'First Base'), '2B': ('4', 'Second Base'),
+             'SS': ('6', 'Shortstop'), 'CF': ('8', 'Center Field'), 'LF': ('7', 'Left Field')}
+    code, position_name = codes[position]
+    return {
+        'id': pid, 'legal_name': name, 'nickname': None,
+        'position': {'code': code, 'name': position_name, 'abbreviation': position},
+        'positions': positions, 'batSide': {'code': side, 'description': 'Left' if side == 'L' else 'Right'},
+        'fielding_ability': fielding, 'catchers_arm': 0.78, 'passed_ball_rate': 0.002,
+        'plate_discipline': {'Walk': 0.085, 'Strikeout': 0.20, 'HBP': 0.004},
+        'batting_profile': {'contact': contact, 'power': power, 'angle': 12.0,
+                            'bunt_propensity': 0.25 if power < 0.45 else 0.08,
+                            'stealing_tendency': speed, 'stealing_success_rate': 0.82},
+    }
+
+
+# A backup catcher, utility infielder, reserve outfielder and corner bat.
+# Bench players are separate from the nine starters in each team's players list.
+for _bench_index, (_team_key, _names) in enumerate({
+    'BAY_BOMBERS': ('Eli Mercer', 'Drew Salazar', 'Cody Bennett', 'Adrian Shaw'),
+    'PC_PILOTS': ('Ben Holloway', 'Luis Navarro', 'Tyler Boone', 'Dylan Cross'),
+    'COASTAL_VIPERS': ('Noah Keller', 'Rafael Luna', 'Chase Abbott', 'Logan Price'),
+    'DESERT_SCORPIONS': ('Isaac Molina', 'Andre Vega', 'Cole Ramsey', 'Travis Holt'),
+    'BARABOO_BOMBERS': ('Henry Barlow', 'Oscar Serrano', 'Cameron Pike', 'Graham Nash'),
+    'LAKE_CITY_LOONS': ('Theo Carlson', 'Marco Valdez', 'Jesse Lane', 'Austin Briggs'),
+    'CADILLAC_CARS': ('Wyatt Foster', 'Nico Sandoval', 'Spencer Dale', 'Silas Kent'),
+    'BIG_RAPIDS_TIMBERS': ('Adam Walsh', 'Emilio Rios', 'Parker Ellis', 'Brett Donovan'),
+}.items()):
+    _base_id = 9000000 + _bench_index * 10
+    TEAMS[_team_key]['bench'] = [
+        _bench_player(_base_id + 1, _names[0], 'C', 'L', 0.76, 0.40, 0.989, ['C'], 0.005),
+        _bench_player(_base_id + 2, _names[1], 'SS', 'R', 0.77, 0.38, 0.992, ['2B', '3B', 'SS'], 0.08),
+        _bench_player(_base_id + 3, _names[2], 'CF', 'L', 0.73, 0.36, 0.995, ['LF', 'CF', 'RF'], 0.25),
+        _bench_player(_base_id + 4, _names[3], '1B', 'L', 0.76, 0.60, 0.986, ['1B', 'LF', 'RF'], 0.01),
+    ]

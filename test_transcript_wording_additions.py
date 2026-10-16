@@ -202,7 +202,8 @@ class TestFitterSlots(unittest.TestCase):
 class TestSimulatedRepetition(unittest.TestCase):
     def test_added_templates_recur_no_more_than_the_hosts_said_them(self):
         import template_repetition
-        summary = template_repetition.summarize(template_repetition.record_games(30))
+        # The same 50 games as `template_repetition.py --check`; 30 sat on the limit by chance.
+        summary = template_repetition.summarize(template_repetition.record_games(50))
         self.assertEqual(template_repetition.check(summary), [])
 
 

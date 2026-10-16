@@ -788,7 +788,7 @@ GAME_CONTEXT = {
              "default": [
                  "Hit in the air {direction}! {fielder_name} racing after it... he will not get there, as that one sails over the wall for a long, lazy home run!",
                  "Sails over the wall for a long, lazy home run!",
-                 "Hit in the air {direction}! {fielder_name} racing after it... he will not get there!",
+                 "Hit in the air {direction}! {fielder_name} racing after it... and that one carries over the wall!",
                  "Deep fly ball {direction}... back, back... gone! A home run for {batter_name}!",
                  "High fly ball {direction}... and that one is gone!",
                  "Swung on, a high drive deep to {direction_noun}, and that one is going to sail over the wall.",
@@ -1170,16 +1170,20 @@ GAME_CONTEXT = {
             ],
         },
         "Forceout": {
-            "home_force": [
-                "Grounder {direction}. {fielder_name} comes home, and they get the force at the plate {out_context_str}.",
-                "On the ground {direction}. {fielder_name} throws home in time for the force {out_context_str}.",
-                "Bouncer {direction}. {fielder_name} goes to the plate, and the runner is forced out at home {out_context_str}."
-            ],
-            "default": [
+            "unrecorded": [
                 "They get the force {out_context_str}. {batter_name} reaches on a fielder's choice.",
                 "The defense records a forceout {out_context_str}, with {batter_name} reaching on a fielder's choice.",
                 "A force play {out_context_str}. That goes down as a fielder's choice for {batter_name}.",
                 "They take the force {out_context_str}, and it's a fielder's choice for {batter_name}."
+            ],
+            "home_force": [
+                "Grounder {direction}. {fielder_name} comes home to {receiver_name}, and they get the force at the plate {out_context_str}.",
+                "On the ground {direction}. {fielder_name} throws to {receiver_name} at the plate in time for the force {out_context_str}.",
+                "Bouncer {direction}. {fielder_name} goes to {receiver_name} at the plate, and the runner is forced out at home {out_context_str}."
+            ],
+            "default": [
+                "Grounder {direction}. {fielder_name} throws to {receiver_name} for the force at {force_base} {out_context_str}. {batter_name} reaches on a fielder's choice.",
+                "Bouncer {direction}. {fielder_name} goes to {receiver_name} at {force_base} for the force {out_context_str}. {batter_name} reaches on a fielder's choice."
             ],
             "second_base": [
                 "Grounder {direction}. {fielder_name} scoops it up and steps on second to retire the runner {out_context_str}."
@@ -1189,6 +1193,9 @@ GAME_CONTEXT = {
             ],
             "second_base_throw": [
                 "Grounder {direction}. {fielder_name} scoops it up and tosses to second to get the force {out_context_str}."
+            ],
+            "second_base_throw_named": [
+                "Grounder {direction}. {fielder_name} scoops it up and tosses to {receiver_name} at second to get the force {out_context_str}."
             ],
         },
         "Fielders Choice": {
@@ -1881,7 +1888,7 @@ GAME_CONTEXT = {
             "Lefty against the righty."
         ],
         "play_by_play_templates": [
-            "He {verb} {direction} on a {pitch_velo} mph {pitch_type_lower}.",
+            "He {verb} {direction}.",
             "He {verb} {direction} on a {pitch_type_lower}.",
             "{verb_capitalized} {direction}.",
             "{verb_capitalized} {direction} on a {pitch_type_lower}.",
@@ -2379,6 +2386,16 @@ GAME_CONTEXT = {
              "Wally McCarthy and Producer Phil back with you, from {location}.",
              "Wally McCarthy and Producer Phil back with you from {venue} here in {location}. {score_str}.",
              "Wally McCarthy and Producer Phil back with you here on this {weather_desc} in {location}. {score_str}. {batting_team} will bring {due_up_desc} up to face {pitcher_name}."
+        ],
+        # Appended to the combined return choices after the existing pools,
+        # so recorded fixture indices keep selecting the same phrases.
+        "inning_break_return_alternates": [
+             "Good to have you along as we continue from {venue}.",
+             "And we're back here in {location}.",
+             "Wally McCarthy and Producer Phil with you here at {venue}.",
+             "And there's more baseball ahead here at {venue}.",
+             "We're ready to go again at {venue}.",
+             "And back to the ballgame here on {station_call}.",
         ],
         "inning_outro_no_score": [
              "{batting_team} do not score.",

@@ -293,6 +293,24 @@ class TestSimulatorFacts(unittest.TestCase):
         self.assertTrue(any(hit.get('depth') for hit in hits))
         self.assertTrue(any(hit.get('lane') for hit in hits))
 
+    def test_bunts_carry_hardness_from_exit_velocity(self):
+        from baseball import BaseballSimulator
+        from teams import TEAMS
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+        game.inning = 6
+        game.bases[1] = game.team2_lineup[0]['legal_name']
+        batter = copy.deepcopy(game.team2_lineup[3])
+        batter['batting_profile'].update(power=0.3, bunt_propensity=1.0)
+        _, _, pitcher, _ = game._pitching_side()
+        with patch.object(game, '_bunt_plan', return_value=(True, True)), \
+                patch.object(game, '_decide_steal_attempt', return_value=None), \
+                patch.object(game, '_simulate_pitch_trajectory', return_value=(True, 5)), \
+                patch.object(game.game_rng, 'random', return_value=0.9):
+            outcome, _, events = game._simulate_at_bat(batter, pitcher)
+        self.assertEqual(outcome, 'Sacrifice Bunt')
+        hit = events[-1]['hitData']
+        self.assertEqual(hit['hardness'], fieldsim.hardness(hit['launchSpeed']))
+
 
 class TestAnnotation(unittest.TestCase):
     def test_in_time_steal_throw_matches_its_runner_and_destination(self):

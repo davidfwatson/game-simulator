@@ -1,14 +1,17 @@
 """Simulation behaviour that gave simulated games away to blind judges, held
 to bands around what 24 real 2026 StatsAPI feeds show.
 
-One fixed batch of games (seeds 9000+) is simulated once and every test
-measures it, so the bands are deterministic.
+The prose and structural checks use 200 fixed games (seeds 9000+). Rare
+baserunning rates use a shared 2,400-game batch, with the same rate bands.
 """
 import collections
+import functools
 import re
 import statistics
 import unittest
+from unittest.mock import patch
 
+import fieldsim
 from baseball import BaseballSimulator
 from renderers import NarrativeRenderer, StatcastRenderer
 from teams import TEAMS
@@ -22,6 +25,38 @@ def simulate(seed, home="BAY_BOMBERS", away="PC_PILOTS"):
     game = BaseballSimulator(TEAMS[home], TEAMS[away], game_seed=seed)
     game.play_game()
     return game
+
+
+@functools.lru_cache(maxsize=1)
+def baserunning_rate_counts():
+    """Rare-event rates need more opportunities than the prose audit batch.
+
+    Use the 2,400 judge-roster games from the integration calibration: the
+    advancement, count and strategy reports' seed ranges. Cache only counts,
+    so both rate tests share the sample without retaining thousands of feeds.
+    """
+    counts = collections.Counter()
+    for seeds in (range(12000, 12800), range(20000, 21000), range(21000, 21600)):
+        for seed in seeds:
+            game = simulate(seed)
+            counts['games'] += 1
+            for play in game.gameday_data['liveData']['plays']['allPlays']:
+                thrown_out = [r for r in play['runners']
+                              if r['movement']['isOut'] and r['details']['movementReason'] in THROWN_OUT]
+                counts['out_plays'] += bool(thrown_out)
+                for runner in thrown_out:
+                    counts[runner['details']['movementReason'], runner['movement']['outBase']] += 1
+                for event in play['playEvents']:
+                    details = event['details']
+                    kind = details.get('eventType', '')
+                    if kind in ('stolen_base', 'caught_stealing') or kind.startswith('pickoff_caught_stealing_'):
+                        # The real-feed target includes runners caught after
+                        # a pickoff throw, as does the strategy calibration.
+                        for move in details['runners']:
+                            base = move['toBase']
+                            counts[base] += 1
+                            counts['cs_' + base] += move['isOut']
+    return counts
 
 
 def pitcher_stints(plays, top):
@@ -141,9 +176,10 @@ class TestRunawayGames(SimulationBatch):
 
 
 class TestOutsOnTheBases(SimulationBatch):
-    """Real: 0.29 a game of runners thrown out taking an extra base on a hit
+    """Real: 29 in 136 games (0.213/game) with these two movement reasons
     (first to third, second to home, first to home on a double, the batter
-    stretching), with the advancement rates the field model was fit to."""
+    stretching). The old 0.29 also included rundowns, interference and steals
+    before contact; those are separate events from the extra-base races."""
 
     @classmethod
     def setUpClass(cls):
@@ -153,10 +189,10 @@ class TestOutsOnTheBases(SimulationBatch):
                      if any(r['details']['movementReason'] in THROWN_OUT for r in play['runners'])]
 
     def test_rate(self):
-        rate = len(self.plays) / len(self.games)
+        counts = baserunning_rate_counts()
+        rate = counts['out_plays'] / counts['games']
         self.assertTrue(0.15 <= rate <= 0.42, rate)
-        kinds = {(r['details']['movementReason'], r['movement']['outBase'])
-                 for _, _, play in self.plays for r in play['runners'] if r['movement']['isOut']}
+        kinds = {key for key in counts if isinstance(key, tuple)}
         self.assertLessEqual({('r_thrown_out', '3B'), ('r_thrown_out', '4B'), ('r_out_stretching', '2B')}, kinds)
 
     def test_advancement_rates_hold(self):
@@ -169,20 +205,25 @@ class TestOutsOnTheBases(SimulationBatch):
                 for runner in play['runners']:
                     movement = runner['movement']
                     safe_at = None if movement['isOut'] else movement['end']
-                    if movement['originBase'] == '2B' and outs_before < 2:
-                        second_home['n'] += 1
-                        second_home['scored'] += safe_at == 'score'
+                    if movement['originBase'] == '2B':
+                        second_home[outs_before, 'n'] += 1
+                        second_home[outs_before, 'scored'] += safe_at == 'score'
                     if movement['originBase'] == '1B':
                         first_third['n'] += 1
                         first_third['third'] += safe_at in ('3B', 'score')
-        self.assertTrue(0.2 <= second_home['scored'] / second_home['n'] <= 0.36, second_home)
+        # Join successive real-feed movements on one hit: a runner can be
+        # recorded first going to third, then scoring on the same single.
+        # The 136-feed rates are 34/60/78%, rather than the old pooled 30%.
+        for outs, low, high in ((0, 0.20, 0.45), (1, 0.43, 0.73), (2, 0.65, 0.90)):
+            self.assertTrue(low <= second_home[outs, 'scored'] / second_home[outs, 'n'] <= high, second_home)
         self.assertTrue(0.28 <= first_third['third'] / first_third['n'] <= 0.42, first_third)
 
     def test_the_feed_carries_the_out(self):
         for seed, index, play in self.plays:
             where = f"seed {seed} play {index}"
             self.assertIn(play['result']['eventType'], HITS, where)
-            out = [r for r in play['runners'] if r['movement']['isOut']]
+            all_outs = [r for r in play['runners'] if r['movement']['isOut']]
+            out = [r for r in all_outs if r['details']['movementReason'] in THROWN_OUT]
             self.assertEqual(len(out), 1, where)
             runner = out[0]
             self.assertEqual(runner['details']['eventType'], 'other_out', where)
@@ -198,7 +239,7 @@ class TestOutsOnTheBases(SimulationBatch):
             previous = self.all_plays[seed][index - 1] if index else None
             same_half = previous and previous['about']['inning'] == play['about']['inning'] \
                 and previous['about']['isTopInning'] == play['about']['isTopInning']
-            self.assertEqual(play['count']['outs'], (previous['count']['outs'] if same_half else 0) + 1, where)
+            self.assertEqual(play['count']['outs'], (previous['count']['outs'] if same_half else 0) + len(all_outs), where)
             if play['count']['outs'] == 3 and index + 1 < len(self.all_plays[seed]):
                 following = self.all_plays[seed][index + 1]['about']
                 self.assertNotEqual((following['inning'], following['isTopInning']),
@@ -240,7 +281,7 @@ class TestOutsOnTheBases(SimulationBatch):
 
     def _first(self, reason, base, third_out):
         for seed, index, play in self.plays:
-            runner = next(r for r in play['runners'] if r['movement']['isOut'])
+            runner = next(r for r in play['runners'] if r['details']['movementReason'] in THROWN_OUT)
             if (runner['details']['movementReason'] == reason and runner['movement']['outBase'] == base
                     and (play['count']['outs'] == 3) == third_out):
                 return seed, index, play, runner
@@ -272,8 +313,31 @@ class TestOutsOnTheBases(SimulationBatch):
                 self.assertEqual(following['matchup']['splits']['menOnBase'], 'Empty')
 
     def test_narration_of_a_batter_out_stretching(self):
-        seed, index, play, runner = self._first('r_out_stretching', '2B', third_out=False)
-        text = self._rendered_play(seed, index)
+        # This rare play need not turn up before the third out in every batch.
+        # Make the throw deterministic while keeping the engine's feed and prose.
+        game = BaseballSimulator(TEAMS['BAY_BOMBERS'], TEAMS['PC_PILOTS'], game_seed=0)
+        field = fieldsim.BattedBall('Single', 'CF', 'line_drive', 'CF', 0.0, (0, 200), 200,
+                                   release=5.0, release_point=(0, 200), batter_out=2)
+        outcomes = iter(('Single', 'Strikeout', 'Strikeout'))
+
+        def at_bat(batter, pitcher):
+            outcome = next(outcomes)
+            event = {'index': 0, 'isPitch': True, 'count': {'balls': 0, 'strikes': 0},
+                     'details': {'code': 'X' if outcome == 'Single' else 'S',
+                                 'description': outcome, 'type': {'code': 'FF', 'description': 'Fastball'}},
+                     'pitchData': {'startSpeed': 94.0}}
+            if outcome == 'Single':
+                game._play_field = field
+                event['hitData'] = {'trajectory': field.trajectory, 'location': field.location}
+            return outcome, None, [event]
+
+        with patch.object(game, '_simulate_at_bat', side_effect=at_bat):
+            game._simulate_half_inning()
+        renderer = NarrativeRenderer(game.gameday_data, seed=0)
+        lines = renderer.render().splitlines()
+        start, end = renderer._play_line_map[0]
+        text = ' '.join(lines[start:end])
+        self.assertEqual(game.gameday_data['liveData']['plays']['allPlays'][0]['count']['outs'], 1)
         self.assertRegex(text, r"thinking double|stretch it into a double|trying for a double")
         self.assertNotRegex(text, r"\baboard\b|stand-up")
 

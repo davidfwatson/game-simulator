@@ -162,7 +162,7 @@ class Linescore(TypedDict):
 class FielderCredit(TypedDict):
     player: "PlayerInfo"
     position: Position
-    credit: Literal["assist", "putout", "fielding_error"]
+    credit: Literal["assist", "putout", "fielding_error", "f_fielded_ball"]
 
 
 class RunnerMovement(TypedDict):
@@ -196,6 +196,7 @@ class Runner(TypedDict):
 class PitchEventCount(TypedDict):
     balls: int
     strikes: int
+    outs: NotRequired[int]
 
 
 class PitchType(TypedDict):
@@ -255,6 +256,12 @@ class PlayEvent(TypedDict):
     pitchData: NotRequired[PitchData]
     hitData: NotRequired[HitData]
     isBunt: NotRequired[bool]
+    isSubstitution: NotRequired[bool]
+    isBaseRunningPlay: NotRequired[bool]
+    player: NotRequired["PlayerInfo"]
+    replacedPlayer: NotRequired["PlayerInfo"]
+    position: NotRequired[Position]
+    battingOrder: NotRequired[str]
     startTime: str
     endTime: str
     isPitch: bool
