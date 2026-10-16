@@ -147,6 +147,7 @@ class BaseballSimulator:
         self.inning, self.top_of_inning = 1, True
         self.outs, self.bases = 0, [None, None, None] # Runners on base by name
         self._runner_pitchers = {}
+        self._unearned_runners = set()
 
         # Time state
         # September 27th 2025, 7:05 PM EDT -> 23:05 UTC
@@ -609,6 +610,9 @@ class BaseballSimulator:
                     # Whoever put the replaced runner on base answers for him.
                     if runner['legal_name'] in self._runner_pitchers:
                         self._runner_pitchers[incoming['legal_name']] = self._runner_pitchers.pop(runner['legal_name'])
+                    if runner['legal_name'] in self._unearned_runners:
+                        self._unearned_runners.remove(runner['legal_name'])
+                        self._unearned_runners.add(incoming['legal_name'])
                     break
         batter = lineup[slot]
         profile = batter['batting_profile']
@@ -2339,6 +2343,7 @@ class BaseballSimulator:
     def _simulate_half_inning(self):
         self.outs, self.bases = 0, [None, None, None]
         self._runner_pitchers = {}
+        self._unearned_runners = set()
         self._half_pitcher_entry = {}
         self._half_pitcher_traffic, self._half_pitcher_homers = {}, {}
         self._stolen_second_this_inning = set()
@@ -2350,6 +2355,7 @@ class BaseballSimulator:
             last_batter_idx = (getattr(self, batter_idx_ref) - 1 + 9) % 9
             runner_name = lineup[last_batter_idx]['legal_name']
             self.bases[1] = runner_name
+            self._unearned_runners.add(runner_name)
             # Note: Renderer handles "Automatic runner" text
 
         self._manage_between_innings()
@@ -2578,6 +2584,8 @@ class BaseballSimulator:
                 self._batters_faced[pitcher_name] += 1
             if batter['legal_name'] in self.bases or outcome == 'Home Run':
                 self._runner_pitchers[batter['legal_name']] = pitcher
+            if was_error:
+                self._unearned_runners.add(batter['legal_name'])
             if outcome in ("Single", "Double", "Triple", "Home Run", "Walk", "HBP", "Hit By Pitch"):
                 self._half_pitcher_traffic[pitcher_name] = self._half_pitcher_traffic.get(pitcher_name, 0) + 1
             if outcome == "Home Run":
@@ -2830,15 +2838,18 @@ class BaseballSimulator:
                      responsible_pitcher = self._responsible_pitcher(runner_name)
                      self._runs_allowed[responsible_pitcher['legal_name']] += 1
                      self._update_pitching_stat(self._pitching_team_key, responsible_pitcher['id'], 'runs')
-                     # Keep the feed and box score's simplified earned-run accounting together.
-                     on_error = was_error or runner_name in self._hit_error_runs
-                     runner_entry['details']['earned'] = not on_error
-                     runner_entry['details']['teamUnearned'] = on_error
-                     if not on_error:
+                     # Track runners who reached on an error or were placed in
+                     # extras; this does not reconstruct the errorless inning.
+                     unearned = (was_error or runner_name in self._hit_error_runs
+                                 or runner_name in self._unearned_runners)
+                     runner_entry['details']['earned'] = not unearned
+                     runner_entry['details']['teamUnearned'] = unearned
+                     if not unearned:
                           self._update_pitching_stat(self._pitching_team_key, responsible_pitcher['id'], 'earnedRuns')
                           pid = self._pitching_side()[2]['id']
                           self._mound_earned_runs[pid] = self._mound_earned_runs.get(pid, 0) + 1
             self._runner_pitchers = {name: p for name, p in self._runner_pitchers.items() if name in self.bases}
+            self._unearned_runners.intersection_update(self.bases)
 
             if runs > 0:
                 current_inning_idx = self.inning - 1
