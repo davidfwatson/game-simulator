@@ -382,7 +382,7 @@ def strikeout_templates(kind, details, batter_hand):
 def factual_play_category(renderer, outcome, hit_data, pitch_details, fielder_pos, play):
     """Select descriptions that assert a particular recorded fielding sequence."""
     play = play or {}
-    runners = play.get('runners', [])
+    runners = final_batted_movements(play)
     batter_id = play.get('matchup', {}).get('batter', {}).get('id')
     destination = renderer._batter_safe_destination(play) if play.get('matchup') else None
     outs = [r for r in runners if r.get('movement', {}).get('isOut')]
@@ -616,7 +616,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
                 specific_templates = outcome_templates.get('default', [])
 
     if template_outcome == 'Fielders Choice' and not specific_templates and not strict:
-        runner_out = next((r for r in (play or {}).get('runners', []) if r.get('movement', {}).get('isOut')), None)
+        runner_out = next((r for r in final_batted_movements(play or {}) if r.get('movement', {}).get('isOut')), None)
         if runner_out:
             base = BASE_WORDS.get(runner_out['movement'].get('outBase'), 'home')
             runner_name = _last_name(renderer, runner_out.get('details', {}).get('runner', {}))
@@ -628,7 +628,7 @@ def generate_play_description(renderer, outcome, hit_data, pitch_details, batter
     if (template_outcome == 'Double Play' and not strict
             and hit_data.get('trajectory') in ('line_drive', 'fly_ball', 'popup')
             and play):
-        runner_out = next((r for r in play.get('runners', []) if r.get('movement', {}).get('isOut')
+        runner_out = next((r for r in final_batted_movements(play) if r.get('movement', {}).get('isOut')
                            and r.get('details', {}).get('runner', {}).get('id') != play['matchup']['batter']['id']), None)
         if runner_out:
             contact = {'line_drive': 'Line drive', 'fly_ball': 'Fly ball', 'popup': 'Popped up'}[hit_data['trajectory']]

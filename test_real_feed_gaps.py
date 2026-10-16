@@ -565,6 +565,59 @@ class TestRealFeedEvents(unittest.TestCase):
         ]}
         self.assertEqual(build_dp_notation(play), '6-4-3')
 
+    def test_fielding_categories_exclude_an_earlier_runner_out(self):
+        from renderers.narrative.play_description import factual_play_category
+        cases = [
+            ('Forceout', '2B', [credit(4, '6')], 'second_base'),
+            ('Forceout', '2B', [credit(4, '6', 'f_assist'), credit(5, '4')], 'second_base_throw'),
+            ('Forceout', '3B', [credit(4, '5')], 'third_base'),
+            ('Forceout', '4B', [credit(4, '6', 'f_assist'), credit(5, '2')], 'home_force'),
+            ('Field Error', None, [], 'everybody_safe'),
+            ('Double Play', '2B', [credit(4, '6')], 'unassisted_force'),
+        ]
+        for outcome, base, credits, expected in cases:
+            with self.subTest(outcome=outcome, category=expected):
+                action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}
+                movements = [runner(5, '3B', '3B', index=1, kind='pickoff_3b', out=True)]
+                if base:
+                    movements.append(runner(3, '1B', base, index=2, out=True, credits=credits))
+                    movements[-1]['movement']['outNumber'] = 2
+                movements.append(runner(1, None, '1B', index=2, out=outcome == 'Double Play',
+                                        credits=[credit(4, '6', 'f_assist'), credit(5, '3')]
+                                        if outcome == 'Double Play' else []))
+                raw = feed(outcome, events=[action, pitch(2)], runners=movements)
+                play = raw['liveData']['plays']['allPlays'][0]
+                renderer = NarrativeRenderer(raw, seed=1)
+                self.assertEqual(factual_play_category(renderer, outcome, {'trajectory': 'ground_ball'},
+                                                       {}, 'SS', play), expected)
+
+    def test_fielders_choice_names_the_runner_retired_on_contact(self):
+        action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}
+        raw = feed('Fielders Choice', events=[action, pitch(2)], runners=[
+            runner(5, '3B', '3B', index=1, kind='pickoff_3b', out=True),
+            runner(3, '2B', '3B', index=2, out=True), runner(1, None, '1B', index=2)])
+        play = raw['liveData']['plays']['allPlays'][0]
+        renderer = NarrativeRenderer(raw, seed=1)
+        renderer._reset_render_state()
+        text = renderer._generate_play_description('Fielders Choice', {'trajectory': 'ground_ball'},
+                                                   {}, 'Player1', 'SS', 'Fielder', result_outs=2, play=play)
+        self.assertIn('Player3 is out', text)
+        self.assertNotIn('Player5', text)
+
+    def test_air_double_play_names_the_runner_doubled_off_on_contact(self):
+        action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}
+        raw = feed('Double Play', events=[action, pitch(2)], runners=[
+            runner(5, '3B', '3B', index=1, kind='pickoff_3b', out=True),
+            runner(3, '1B', '1B', index=2, out=True), runner(1, None, '1B', index=2, out=True)])
+        play = raw['liveData']['plays']['allPlays'][0]
+        play['runners'][1]['details']['movementReason'] = 'r_doubled_off'
+        renderer = NarrativeRenderer(raw, seed=1)
+        renderer._reset_render_state()
+        text = renderer._generate_play_description('Double Play', {'trajectory': 'line_drive'},
+                                                   {}, 'Player1', 'SS', 'Fielder', result_outs=3, play=play)
+        self.assertIn('Player3 is doubled off at first', text)
+        self.assertNotIn('Player5', text)
+
     def test_real_bunt_labels_get_a_complete_out(self):
         for label, trajectory in (('Sac Bunt', 'bunt_grounder'), ('Bunt Groundout', 'bunt_grounder'),
                                   ('Bunt Pop Out', 'bunt_popup'), ('Bunt Lineout', 'bunt_line_drive')):
