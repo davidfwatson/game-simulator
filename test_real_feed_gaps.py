@@ -657,6 +657,27 @@ class TestRealFeedEvents(unittest.TestCase):
                     text = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=seed).render()
                     self.assertRegex(text, r'(?i)retir|out|catch|caught|end the inning|end the frame')
 
+    def test_two_strike_bunts_keep_the_pitch_delivery_and_out_context(self):
+        for code in ('F', 'S'):
+            for outs in (1, 2, 3):
+                with self.subTest(code=code, outs=outs):
+                    events = [pitch(0, 'C'), pitch(1, 'S'), pitch(2, code)]
+                    for index, event in enumerate(events):
+                        event['count'] = {'balls': 0, 'strikes': index, 'outs': outs - 1}
+                    events[-1]['isBunt'] = True
+                    movements = [runner(1, None, None, index=2, kind='strikeout', out=True)]
+                    movements[0]['movement']['outNumber'] = outs
+                    raw = feed('Strikeout', events=events, runners=movements, outs=outs)
+                    renderer = NarrativeRenderer(anonymize_gameday_data(raw, TEAMS), seed=1)
+                    context = {1: 'for out number one', 2: 'for out number two', 3: 'to end the inning'}[outs]
+                    with patch.object(renderer, '_get_pitch_connector', return_value='And the delivery...'), \
+                            patch.object(renderer, '_out_context', return_value=context):
+                        text = renderer.render()
+                    terminal = text.rsplit('[TTS SPLIT HERE DELAY:8.5s]', 1)[-1].split('\n\n', 1)[0].strip()
+                    self.assertTrue(terminal.startswith('And the delivery...'), terminal)
+                    self.assertIn('bunt', terminal.lower())
+                    self.assertIn(context, terminal)
+
     def test_fielders_choice_out_and_air_double_play_keep_the_outs(self):
         raw = feed('Fielders Choice Out', runners=[
             runner(3, '1B', '2B', out=True, credits=[credit(4, '6', 'f_assist'), credit(5, '4')]),

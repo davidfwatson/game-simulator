@@ -2473,6 +2473,13 @@ class NarrativeRenderer(GameRenderer):
                 key = ('strikeout_bunt' if last_pitch_event['details']['code'] == 'F'
                        else 'strikeout_bunt_missed')
                 outcome_text = self._get_narrative_string(key, {'batter_name': batter_name})
+                batter_out = next((r for r in play.get('runners', [])
+                                   if r.get('details', {}).get('runner', {}).get('id') == batter_id
+                                   and r.get('movement', {}).get('isOut')), {})
+                result_outs = batter_out.get('movement', {}).get('outNumber') or play['count']['outs']
+                out_context_str = self._out_context(result_outs, play)
+                outcome_text = self._with_pitch_lead_in(
+                    last_pitch_context, outcome_text.rstrip('.!?') + f' {out_context_str}.')
             elif outcome == "Strikeout":
                 terminal_details = last_pitch_event.get('details', {})
                 k_type = {'C': 'looking', 'S': 'swinging'}.get(terminal_details.get('code'))
