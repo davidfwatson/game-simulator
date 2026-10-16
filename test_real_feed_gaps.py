@@ -585,6 +585,24 @@ class TestRealFeedEvents(unittest.TestCase):
                 self.assertLess(text.index(automatic), text.index(pinch))
                 self.assertNotIn(f'Automatic runner on second: {incoming}', text)
 
+    def test_automatic_runner_is_found_through_a_pinch_runner_for_his_pinch_runner(self):
+        def pinch_run(index, incoming, replaced):
+            return {'index': index, 'isPitch': False, 'player': {'id': incoming},
+                    'replacedPlayer': {'id': replaced}, 'position': {'code': '12'},
+                    'details': {'eventType': 'offensive_substitution', 'description': ''}}
+        # Listed second-runner-first, so the first event is not the original.
+        events = [pinch_run(0, 5, 4), pinch_run(1, 4, 3), pitch(2, 'S')]
+        raw = feed('Strikeout', events=events, runners=[runner(1, None, None, index=2, out=True)], outs=1)
+        play = raw['liveData']['plays']['allPlays'][0]
+        play['about']['inning'] = 10
+        play['matchup']['postOnSecond'] = {'id': 5, 'fullName': 'Real Player5'}
+        data = anonymize_gameday_data(raw, TEAMS)
+        events = data['liveData']['plays']['allPlays'][0]['playEvents']
+        players = data['gameData']['players']
+        original = players[f"ID{events[1]['replacedPlayer']['id']}"]['fullName']
+        text = NarrativeRenderer(data, seed=1).render()
+        self.assertIn(f'Automatic runner on second: {original}', text)
+
     def test_double_play_notation_excludes_an_earlier_pickoff_out(self):
         from renderers.narrative.play_description import build_dp_notation
         action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}

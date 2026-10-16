@@ -1789,15 +1789,18 @@ class NarrativeRenderer(GameRenderer):
                      # only runner is the one placed at second, so a pinch
                      # runner during it (before or between pitches) replaces
                      # him, even though the feed's movements name the substitute.
+                     # He is the one replaced who is not himself a pinch runner.
                      replaced_runner = None
-                     for event in play['playEvents']:
-                         if (event.get('details', {}).get('eventType') == 'offensive_substitution'
-                                 and (event.get('position', {}).get('abbreviation') == 'PR'
-                                      or event.get('position', {}).get('code') == '12')):
-                             ref = event.get('replacedPlayer', {})
-                             replaced_runner = self.gameday_data['gameData'].get('players', {}).get(
-                                 f"ID{ref.get('id')}", {}).get('fullName') or ref.get('fullName')
-                             break
+                     pinch_runs = [event for event in play['playEvents']
+                                   if event.get('details', {}).get('eventType') == 'offensive_substitution'
+                                   and (event.get('position', {}).get('abbreviation') == 'PR'
+                                        or event.get('position', {}).get('code') == '12')]
+                     incoming = {event.get('player', {}).get('id') for event in pinch_runs}
+                     ref = next((event.get('replacedPlayer', {}) for event in pinch_runs
+                                 if event.get('replacedPlayer', {}).get('id') not in incoming), None)
+                     if ref:
+                         replaced_runner = self.gameday_data['gameData'].get('players', {}).get(
+                             f"ID{ref.get('id')}", {}).get('fullName') or ref.get('fullName')
                      for r in play['runners']:
                          if r['movement']['start'] == '2B':
                              runner_name = replaced_runner or r['details']['runner']['fullName']
