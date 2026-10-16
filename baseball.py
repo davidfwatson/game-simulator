@@ -1658,6 +1658,8 @@ class BaseballSimulator:
                     elif caught_stealing and strikes == 3:
                         # "Strike 'em out, throw 'em out" double play
                         self.outs += 1
+                        # Strike three came before the tag.
+                        self._between_pitch_runners[-1]['movement']['outNumber'] = self.outs
                         self._update_pitching_stat(self._pitching_team_key, pitcher['id'], 'outs')
                         self._update_batting_stat(self._batting_team_key, batter['id'], 'strikeOuts')
                         self._update_batting_stat(self._batting_team_key, batter['id'], 'atBats')
@@ -2805,12 +2807,14 @@ class BaseballSimulator:
                         batter_entry['movement']['start'] = '1B'
                     if batter_entry: runner_list.append(batter_entry)
 
-            elif outcome == "Strikeout":
+            elif outcome in ("Strikeout", "Strikeout Double Play"):
+                strike_three_index = next((event['index'] for event in reversed(play_events)
+                                           if event.get('isPitch')), play_index)
                 batter_entry = self._build_runner_entry(
                     runner_name=batter['legal_name'], origin_base=None, end_base=None,
-                    is_out=True, out_number=self.outs, event=outcome,
+                    is_out=True, out_number=self.outs - int(outcome == "Strikeout Double Play"), event=outcome,
                     event_type=self._get_event_type_code(outcome),
-                    movement_reason=None, play_index=play_index,
+                    movement_reason=None, play_index=strike_three_index,
                     is_scoring=False, is_rbi=False, credits=credits
                 )
                 if batter_entry: runner_list.append(batter_entry)

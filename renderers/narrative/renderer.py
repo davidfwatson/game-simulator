@@ -2322,6 +2322,10 @@ class NarrativeRenderer(GameRenderer):
                         elif code in ['C', 'S', 'F'] or (code == 'U' and details.get('isStrike')):
                             if not (code == 'F' and s == 2 and not is_bunt_pitch): s += 1
 
+                        # A terminal count has no count-call suffix to close a comma.
+                        if (b >= 4 or s >= 3) and use_comma:
+                            pbp_line = pbp_line.rstrip(',') + '.'
+
                         if b < 4 and s < 3:
                             spoken_count = self._get_spoken_count(b, s, connector="and")
                             # If we used a comma, make count lowercase if it starts with number text,
