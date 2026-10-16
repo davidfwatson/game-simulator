@@ -553,22 +553,27 @@ class TestRealFeedEvents(unittest.TestCase):
         self.assertEqual(renderer.runners_on_base['2B'], 'Real Player4')
 
     def test_automatic_runner_is_announced_before_his_pinch_runner(self):
-        for moved in (False, True):
-            with self.subTest(moved=moved):
+        # The substitution can come before the first pitch or between pitches.
+        for moved, mid_at_bat in ((False, False), (True, False), (False, True), (True, True)):
+            with self.subTest(moved=moved, mid_at_bat=mid_at_bat):
                 substitution = {'index': 0, 'isPitch': False, 'player': {'id': 4},
                                 'replacedPlayer': {'id': 3}, 'position': {'code': '12'},
                                 'details': {'eventType': 'offensive_substitution', 'description': ''}}
-                movements = [runner(1, None, None, index=1, out=True)]
+                last = 2 if mid_at_bat else 1
+                movements = [runner(1, None, None, index=last, out=True)]
                 if moved:
-                    movements.insert(0, runner(4, '2B', '3B', index=1))
-                raw = feed('Groundout' if moved else 'Strikeout', events=[substitution, pitch(1, 'X' if moved else 'S')],
-                           runners=movements, outs=1)
+                    movements.insert(0, runner(4, '2B', '3B', index=last))
+                events = [substitution, pitch(last, 'X' if moved else 'S')]
+                if mid_at_bat:
+                    substitution['index'] = 1
+                    events = [pitch(0, 'B')] + events
+                raw = feed('Groundout' if moved else 'Strikeout', events=events, runners=movements, outs=1)
                 play = raw['liveData']['plays']['allPlays'][0]
                 play['about']['inning'] = 10
                 if not moved:
                     play['matchup']['postOnSecond'] = {'id': 4, 'fullName': 'Real Player4'}
                 data = anonymize_gameday_data(raw, TEAMS)
-                event = data['liveData']['plays']['allPlays'][0]['playEvents'][0]
+                event = next(e for e in data['liveData']['plays']['allPlays'][0]['playEvents'] if 'player' in e)
                 players = data['gameData']['players']
                 incoming = players[f"ID{event['player']['id']}"]['fullName']
                 replaced = players[f"ID{event['replacedPlayer']['id']}"]['fullName']

@@ -1785,13 +1785,12 @@ class NarrativeRenderer(GameRenderer):
                 self._prev_matchup_key = None
 
                 if inning >= 10:
-                     # Before the first pitch the only runner is the one
-                     # placed at second, even if a pinch runner already
-                     # owns his movements and post-play base in the feed.
+                     # Until the first batter's plate appearance ends, the
+                     # only runner is the one placed at second, so a pinch
+                     # runner during it (before or between pitches) replaces
+                     # him, even though the feed's movements name the substitute.
                      replaced_runner = None
                      for event in play['playEvents']:
-                         if event.get('isPitch'):
-                             break
                          if (event.get('details', {}).get('eventType') == 'offensive_substitution'
                                  and (event.get('position', {}).get('abbreviation') == 'PR'
                                       or event.get('position', {}).get('code') == '12')):
