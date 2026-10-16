@@ -1785,9 +1785,23 @@ class NarrativeRenderer(GameRenderer):
                 self._prev_matchup_key = None
 
                 if inning >= 10:
+                     # Before the first pitch the only runner is the one
+                     # placed at second, even if a pinch runner already
+                     # owns his movements and post-play base in the feed.
+                     replaced_runner = None
+                     for event in play['playEvents']:
+                         if event.get('isPitch'):
+                             break
+                         if (event.get('details', {}).get('eventType') == 'offensive_substitution'
+                                 and (event.get('position', {}).get('abbreviation') == 'PR'
+                                      or event.get('position', {}).get('code') == '12')):
+                             ref = event.get('replacedPlayer', {})
+                             replaced_runner = self.gameday_data['gameData'].get('players', {}).get(
+                                 f"ID{ref.get('id')}", {}).get('fullName') or ref.get('fullName')
+                             break
                      for r in play['runners']:
                          if r['movement']['start'] == '2B':
-                             runner_name = r['details']['runner']['fullName']
+                             runner_name = replaced_runner or r['details']['runner']['fullName']
                              self.runners_on_base['2B'] = runner_name
                              add_line(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
                              break
@@ -1804,13 +1818,15 @@ class NarrativeRenderer(GameRenderer):
                          if self.gameday_data['gameData'].get('broadcast', {}).get('strictFacts'):
                              pass
                          elif still_there and still_there.get('id') != matchup['batter'].get('id'):
-                             self.runners_on_base['2B'] = still_there['fullName']
-                             add_line(f"Automatic runner on second: {still_there['fullName']} jogs out to take his lead.")
+                             runner_name = replaced_runner or still_there['fullName']
+                             self.runners_on_base['2B'] = runner_name
+                             add_line(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
                          elif gone_from_second:
                              # Gone before the play ended (caught stealing
                              # third): the steal's own movement names him.
-                             self.runners_on_base['2B'] = gone_from_second
-                             add_line(f"Automatic runner on second: {gone_from_second} jogs out to take his lead.")
+                             runner_name = replaced_runner or gone_from_second
+                             self.runners_on_base['2B'] = runner_name
+                             add_line(f"Automatic runner on second: {runner_name} jogs out to take his lead.")
                          elif matchup.get('splits', {}).get('menOnBase') == 'RISP':
                              # Gone before the play ended, in a feed whose
                              # steal names nobody.

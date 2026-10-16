@@ -552,6 +552,34 @@ class TestRealFeedEvents(unittest.TestCase):
                          'Real Player4 comes in to run for Real Player3 at second.')
         self.assertEqual(renderer.runners_on_base['2B'], 'Real Player4')
 
+    def test_automatic_runner_is_announced_before_his_pinch_runner(self):
+        for moved in (False, True):
+            with self.subTest(moved=moved):
+                substitution = {'index': 0, 'isPitch': False, 'player': {'id': 4},
+                                'replacedPlayer': {'id': 3}, 'position': {'code': '12'},
+                                'details': {'eventType': 'offensive_substitution', 'description': ''}}
+                movements = [runner(1, None, None, index=1, out=True)]
+                if moved:
+                    movements.insert(0, runner(4, '2B', '3B', index=1))
+                raw = feed('Groundout' if moved else 'Strikeout', events=[substitution, pitch(1, 'X' if moved else 'S')],
+                           runners=movements, outs=1)
+                play = raw['liveData']['plays']['allPlays'][0]
+                play['about']['inning'] = 10
+                if not moved:
+                    play['matchup']['postOnSecond'] = {'id': 4, 'fullName': 'Real Player4'}
+                data = anonymize_gameday_data(raw, TEAMS)
+                event = data['liveData']['plays']['allPlays'][0]['playEvents'][0]
+                players = data['gameData']['players']
+                incoming = players[f"ID{event['player']['id']}"]['fullName']
+                replaced = players[f"ID{event['replacedPlayer']['id']}"]['fullName']
+                text = NarrativeRenderer(data, seed=1).render()
+                automatic = f'Automatic runner on second: {replaced}'
+                pinch = f'{incoming} comes in to run for {replaced} at second.'
+                self.assertIn(automatic, text)
+                self.assertIn(pinch, text)
+                self.assertLess(text.index(automatic), text.index(pinch))
+                self.assertNotIn(f'Automatic runner on second: {incoming}', text)
+
     def test_double_play_notation_excludes_an_earlier_pickoff_out(self):
         from renderers.narrative.play_description import build_dp_notation
         action = {'index': 1, 'isPitch': False, 'details': {'runners': [{'isOut': True}]}}
