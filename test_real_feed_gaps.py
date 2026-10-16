@@ -362,6 +362,20 @@ class TestRealIdentities(unittest.TestCase):
         self.assertEqual(anonymize_description("Joe Gibson's throw to Ben Logan.", mapping),
                          "Ben Logan's throw to Joe Gibson.")
 
+    def test_a_position_move_without_a_fielding_credit_rules_out_a_roster_name(self):
+        roster = {p['legal_name'] for team in TEAMS.values() for p in team['players']}
+        raw = feed()
+        self.assertIn(assign_player_names(raw, TEAMS, random.Random(1))[5], roster)
+        # The catcher also played first base, with no fielding credit there.
+        raw['liveData']['boxscore']['teams']['home']['players']['ID5']['allPositions'] = [
+            copy.deepcopy(POSITIONS['2']), copy.deepcopy(POSITIONS['3'])]
+        self.assertNotIn(assign_player_names(raw, TEAMS, random.Random(1))[5], roster)
+
+    def test_a_null_details_node_is_ignored(self):
+        raw = feed()
+        raw['liveData']['plays']['allPlays'][0]['playEvents'][0]['details'] = None
+        self.assertIn(1, collect_players(raw))
+
     def test_a_lowercase_word_is_not_a_players_name(self):
         mapping = {'Alex Call': 'Ben Logan', 'Call': 'Logan'}
         self.assertEqual(anonymize_description('Challenged, call on the field was upheld: Alex Call walks.', mapping),

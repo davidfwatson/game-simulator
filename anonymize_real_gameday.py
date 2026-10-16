@@ -156,7 +156,8 @@ def _player_references(data):
             pid = node.get('id')
             if pid and (pid in player_ids or player_role):
                 yield node
-            kind = node.get('details', {}).get('eventType', '')
+            details = node.get('details')
+            kind = details.get('eventType', '') if isinstance(details, dict) else ''
             for key, value in node.items():
                 if key == 'umpire':
                     continue
@@ -242,8 +243,18 @@ def assign_player_names(data, our_teams, rng):
             raise ValueError(f'player assignment: player {pid} has no team side')
     pitchers = {p['matchup']['pitcher']['id'] for p in plays}
     positions = {pid: {_position_code(p.get('primaryPosition'))} for pid, p in players.items()}
+    # Every position a player took today, including moves with no fielding credit.
+    for team in data.get('liveData', {}).get('boxscore', {}).get('teams', {}).values():
+        for box_player in team.get('players', {}).values():
+            pid = box_player.get('person', {}).get('id')
+            if pid in positions:
+                positions[pid].update(_position_code(pos) for pos in box_player.get('allPositions') or [])
     for play in plays:
         for event in play.get('playEvents', []):
+            pid = event.get('player', {}).get('id')
+            if pid in positions and event.get('position') and event.get('details', {}).get('eventType') in (
+                    'defensive_substitution', 'defensive_switch'):
+                positions[pid].add(_position_code(event['position']))
             if (event.get('details', {}).get('eventType') == 'pitching_substitution'
                     and event.get('player', {}).get('id')):
                 pitchers.add(event['player']['id'])
